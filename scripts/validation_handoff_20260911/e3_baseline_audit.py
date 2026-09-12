@@ -33,6 +33,27 @@ LAYOUT = {
     "AnomalyCLIP (zs)": {"mvtec": "anomalyclip_mvtec_official"},
 }
 
+# Cells whose primary directory is not usable and whose replacement is a
+# *reconstruction* rather than the original run. Every such substitution is
+# labelled `dir_kind = "reconstructed"` in the coverage matrix and must be
+# fidelity-gated against a surviving cell before it is trusted.
+FALLBACK = {
+    # primary `anomalydino_mvtec_full_s1_k2` is an empty directory; the
+    # replacement was rebuilt from the vendored official inference code and
+    # reproduces `anomalydino_mvtec_full_s1_k1` for all 15 MVTec categories to
+    # <=3.3e-07 (see E3/DECISION.md and logs/anomalydino_rerun.log).
+    ("AnomalyDINO", "mvtec", 1, 2): "anomalydino_mvtec_rerun_s1_k2",
+}
+
+# SubspaceAD was executed through its official main.py, so its metrics come from
+# its own evaluator at a different access path and under a different protocol
+# (fp16 via --smoke_half, native stride-8 pixel subsampling). It is therefore
+# carried in its own protocol column, never silently merged with the unified
+# stride-8 evaluator used by the reused outputs.
+SUBSPACEAD_MATRIX = "subspacead_full_matrix.csv"
+PROTO_UNIFIED = "unified_stride8_evaluator"
+PROTO_SUBSPACEAD = "subspacead_native_fp16"
+
 MODEL_CARDS = {
     "PatchCore": {
         "mechanism": "frozen pretrained features + greedy coreset subsampling memory bank (frozen normal modelling)",
@@ -98,8 +119,14 @@ MODEL_CARDS = {
         "backbone": "official default facebook/dinov2-with-registers-large; HF cache here holds dinov2-with-registers-giant only",
         "input": "official", "target_training": "none", "source_training": "none",
         "text_used_at_inference": False, "protocol_group": "frozen normal modelling (training-free)",
-        "project_source": "methods/SubspaceAD (vendored); no completed run found -> partially executed this round",
+        "has_local_runs": True,
+        "project_source": "methods/SubspaceAD (vendored) run through its official main.py; full matrix under "
+                          "outputs/validation_handoff_20260911/subspacead_official_full, summary in E3/subspacead_full_matrix.csv",
         "risk": "few-shot vs batched zero-shot differ (the latter fits the test set); replacing the backbone must be renamed",
+        "protocol_note": "controlled adaptation, not vendor-native exact: fp16 via --smoke_half (forced by the 6 GB "
+                         "laptop GPU) and the native evaluator computes P-AUROC/P-AP on its own stride-8 subsample of "
+                         "the 672x672 map while AU-PRO stays full resolution. Never merged into the unified stride-8 column.",
+        "unit_basis": "243 method-category units = 2 datasets x 9 (K 1/2/4 x seed 0/1/2) x 15 or 12 categories",
     },
     "UniVAD": {
         "mechanism": "component/structure-aware anomaly detection with graph/part modelling",
@@ -113,7 +140,38 @@ MODEL_CARDS = {
         "project_source": "methods/univad_official (source vendored this round at the pinned commit; per-file git blob SHA-1 verified against the GitHub tree API)",
         "source_manifest": "methods/univad_official/SOURCE.json",
         "has_local_runs": False,
-        "status": "source vendored; NOT run - upstream pretrained_ckpts/ ships only empty.txt, so the component checkpoints (GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM) are still missing and no UniVAD number is produced",
+        "status": "source vendored; NOT run - the component checkpoints are absent, and the models/dinov2 submodule directory is empty",
+        "missing_resources": [
+            {"item": "models/dinov2 (git submodule)",
+             "detail": "directory exists but is empty (0 entries); .gitmodules pins "
+                       "https://github.com/facebookresearch/dinov2.git; UniVAD.py:100 calls "
+                       "torch.hub.load('./models/dinov2','dinov2_vitg14',pretrained=True,source='local'), "
+                       "so the local source tree must be cloned before anything can run"},
+            {"item": "pretrained_ckpts/groundingdino_swint_ogc.pth",
+             "detail": "absent; needed by models/component_segmentaion.py:265; upstream GitHub release asset "
+                       "verified reachable this round, 693,997,677 bytes"},
+            {"item": "pretrained_ckpts/sam_hq_vit_h.pth",
+             "detail": "absent; loaded at models/component_segmentaion.py:266; upstream HuggingFace file is the "
+                       "standard HQ-SAM ViT-H checkpoint (~2.4 GB); exact size not confirmed this round because the "
+                       "proxy TLS handshake to HuggingFace was intermittent"},
+            {"item": "dinov2_vitg14_pretrain.pth",
+             "detail": "absent from the torch-hub cache (only vitb14 and vits14 are cached); upstream size "
+                       "4,546,108,579 bytes, verified reachable this round"},
+            {"item": "models/ram/pretrain_model/swin_large_patch4_window7_224_22k.pth",
+             "detail": "absent; required by the RAM configs (models/ram/configs/swin/config_swinL_224.json); "
+                       "not fetched this round"},
+            {"item": "per-class histogram / heat_masks features",
+             "detail": "UniVAD.py:816-820 reads heat_masks/<class>_heat/train_features_sampled.pth"},
+            {"item": "additional data bundle",
+             "detail": "README.md:69 points at a OneDrive share for extra data/ assets, which is not a "
+                       "CLI-friendly source"},
+        ],
+        "resource_total_estimate": ">= 7.6 GB of component checkpoints (4.55 GB DINOv2-g + 0.69 GB GroundingDINO "
+                                   "+ ~2.4 GB HQ-SAM) plus a dinov2 git clone and the RAM Swin-L weight",
+        "resource_verdict": "GroundingDINO SwinT + HQ-SAM ViT-H + DINOv2-g + RAM Swin-L cannot be co-resident on the "
+                            "6 GB laptop GPU. E3's two-complete-method requirement (486 units) is satisfied without "
+                            "UniVAD by PatchCore + SubspaceAD, so UniVAD is recorded as resource-blocked rather than "
+                            "run; no UniVAD number is produced and none is implied.",
     },
 }
 
@@ -163,17 +221,32 @@ def main() -> int:
         for dataset, tmpl in layout.items():
             for seed in (0, 1, 2):
                 for shot in (1, 2, 4):
-                    d = UNIFIED / tmpl.format(seed=seed, shot=shot)
                     if "{seed}" not in tmpl and seed != 0:
                         continue
-                    exists = d.exists()
-                    cats = read_categories(d) if exists else {}
-                    dm = dataset_macro(cats, dataset) if cats else None
+                    # a template without {shot} describes a single-K run (e.g. AnomalyCLIP
+                    # official zero-shot); without this guard the same directory is
+                    # reported once per K and its units are counted three times.
+                    if "{shot}" not in tmpl and shot != 1:
+                        continue
                     expect = len(CATS[dataset])
+                    d = UNIFIED / tmpl.format(seed=seed, shot=shot)
+                    dir_kind = "primary"
+                    cats = read_categories(d) if d.exists() else {}
+                    if len(cats) < expect:
+                        fb_name = FALLBACK.get((method, dataset, seed, shot))
+                        fb = UNIFIED / fb_name if fb_name else None
+                        if fb is not None and fb.exists():
+                            fb_cats = read_categories(fb)
+                            if len(fb_cats) >= expect:
+                                d, cats, dir_kind = fb, fb_cats, "reconstructed"
+                    exists = d.exists()
+                    dm = dataset_macro(cats, dataset) if cats else None
                     n_here = dm[1] if dm else 0
                     coverage.append({
                         "method": method, "dataset": dataset, "reference_seed": seed, "K": shot,
                         "dir": str(d.relative_to(C.ROOT)) if exists else None,
+                        "dir_kind": dir_kind,
+                        "protocol": PROTO_UNIFIED,
                         "exists": exists,
                         "categories_in_dir": len(cats),
                         "categories_for_dataset": n_here,
@@ -185,12 +258,52 @@ def main() -> int:
                         m, _ = dm
                         comparison.append({
                             "method": method, "dataset": dataset, "reference_seed": seed, "K": shot,
+                            "protocol": PROTO_UNIFIED,
                             "pixel_ap": m["pixel_ap"], "pixel_auroc": m["pixel_auroc"],
                             "pixel_aupro": m["aupro"],
                             "image_auroc": m["image_auroc"], "image_ap": m["image_ap"],
                             "image_f1_max": m["image_f1_max"],
-                            "source": "outputs/unified (reused qualified output)",
+                            "source": f"{d.relative_to(C.ROOT)} ({dir_kind})",
                         })
+
+    # ---- SubspaceAD full official matrix (own protocol, own metric names) ----
+    sub_path = E3 / SUBSPACEAD_MATRIX
+    if sub_path.exists():
+        per_cell: dict[tuple[str, int, int], dict[str, dict]] = {}
+        for r in csv.DictReader(sub_path.open(encoding="utf-8")):
+            per_cell.setdefault((r["dataset"], int(r["seed"]), int(r["K"])), {})[r["category"]] = r
+        for (dataset, seed, shot), rows in sorted(per_cell.items()):
+            expect = len(CATS[dataset])
+            present = {c: v for c, v in rows.items() if c in CATS[dataset]}
+            n_here = len(present)
+            coverage.append({
+                "method": "SubspaceAD", "dataset": dataset, "reference_seed": seed, "K": shot,
+                "dir": "outputs/validation_handoff_20260911/subspacead_official_full",
+                "dir_kind": "official_native_run",
+                "protocol": PROTO_SUBSPACEAD,
+                "exists": True,
+                "categories_in_dir": len(rows),
+                "categories_for_dataset": n_here,
+                "categories_expected": expect,
+                "status": "complete" if n_here == expect else "partial",
+            })
+            if n_here != expect:
+                continue
+
+            def _mean(key: str):
+                vals = [float(v[key]) for v in present.values() if v.get(key) not in (None, "")]
+                return float(np.mean(vals)) if vals else None
+
+            comparison.append({
+                "method": "SubspaceAD", "dataset": dataset, "reference_seed": seed, "K": shot,
+                "protocol": PROTO_SUBSPACEAD,
+                "pixel_ap": _mean("pixel_ap"), "pixel_auroc": _mean("pixel_auroc"),
+                "pixel_aupro": _mean("aupro"),
+                "image_auroc": _mean("image_auroc"), "image_ap": _mean("image_aupr"),
+                "image_f1_max": None,
+                "source": "outputs/validation_handoff_20260911/subspacead_official_full "
+                          "(official main.py, fp16, native evaluator)",
+            })
     with (E3 / "coverage_matrix.csv").open("w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(coverage[0].keys()))
         w.writeheader()
@@ -225,8 +338,9 @@ def main() -> int:
         summary_by_method.setdefault(key, []).append(row)
     agg = []
     for (method, dataset), rows in sorted(summary_by_method.items()):
-        def m(k):
-            return float(np.mean([r[k] for r in rows if r[k] is not None]))
+        def m(k, rows=rows):
+            vals = [r[k] for r in rows if r[k] is not None]
+            return float(np.mean(vals)) if vals else None
         agg.append({"method": method, "dataset": dataset, "n_configs": len(rows),
                     "pixel_ap_mean": m("pixel_ap"), "pixel_auroc_mean": m("pixel_auroc"),
                     "pixel_aupro_mean": m("pixel_aupro"), "image_auroc_mean": m("image_auroc"),
@@ -237,16 +351,33 @@ def main() -> int:
         w.writerows(agg)
 
     complete = sum(1 for c in coverage if c["status"] == "complete")
-    full = {}
+    # a method counts as "complete on both datasets" only when every one of its
+    # 9 (K x seed) rows per dataset is complete
+    rows_by_method: dict[str, list[dict]] = {}
     for c in coverage:
-        if c["status"] == "complete":
-            full.setdefault(c["method"], set()).add(c["dataset"])
-    full_27 = sorted(m for m, ds in full.items() if ds == {"mvtec", "visa"})
-    print(json.dumps({"configs": len(coverage), "complete": complete,
-                      "methods_complete_on_both_datasets": full_27,
-                      "coverage_status_counts": {
-                          s: sum(1 for c in coverage if c["status"] == s)
-                          for s in ("complete", "partial", "absent")}}, indent=1))
+        rows_by_method.setdefault(c["method"], []).append(c)
+    full_27 = sorted(
+        m for m, rows in rows_by_method.items()
+        if {r["dataset"] for r in rows} == {"mvtec", "visa"}
+        and all(r["status"] == "complete" for r in rows)
+    )
+    units_by_method = {
+        m: sum(r["categories_for_dataset"] for r in rows) for m, rows in rows_by_method.items()
+    }
+    # E3 minimum scope: two mechanism-different methods complete on both datasets
+    gate_units = sum(units_by_method[m] for m in full_27)
+    print(json.dumps({
+        "configs": len(coverage),
+        "complete_configs": complete,
+        "coverage_status_counts": {
+            s: sum(1 for c in coverage if c["status"] == s)
+            for s in ("complete", "partial", "absent")},
+        "methods_complete_on_both_datasets": full_27,
+        "units_by_method": units_by_method,
+        "methods_complete_units_total": gate_units,
+        "e3_minimum_486_satisfied": bool(len(full_27) >= 2 and gate_units >= 486),
+        "protocols_present": sorted({c["protocol"] for c in coverage}),
+    }, indent=1))
     print(json.dumps(agg, indent=1))
     return 0
 

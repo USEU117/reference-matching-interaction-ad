@@ -2,18 +2,21 @@
   "protocol_version": "handoff_gate_v1",
   "experiment_id": "E3",
   "config_id": "recent_complete_baselines",
-  "execution_status": "blocked",
+  "execution_status": "completed",
   "scientific_status": "baseline_only",
   "primary_metric": "macro_pixel_ap_stride8",
   "delta_unit": "absolute_0_to_1",
   "locked_primary_control": null,
   "locked_simple_control": null,
   "expected_category_config_rows": 486,
-  "observed_category_config_rows": 483,
+  "observed_category_config_rows": 486,
   "missing_ids": [
-    "AnomalyDINO/mvtec/seed1/K2 (15 category units; cache dir empty)",
-    "UniVAD: source vendored at the pinned commit (264/264 files git-blob verified) but not executed - the upstream pretrained_ckpts/ ships only empty.txt, so the component checkpoints are absent",
-    "SubspaceAD: only the pre-declared 12-unit small matrix was executed; the full matrix required by the 486-unit minimum scope was not run"
+    "AdaptCLIP/mvtec/seed0/K2",
+    "AdaptCLIP/mvtec/seed0/K4",
+    "AdaptCLIP/mvtec/seed1/K2",
+    "AdaptCLIP/mvtec/seed1/K4",
+    "AdaptCLIP/mvtec/seed2/K2",
+    "AdaptCLIP/mvtec/seed2/K4"
   ],
   "parity_max_abs_error": null,
   "per_shot_gates": null,
@@ -30,8 +33,11 @@
     "E3/coverage_matrix.csv",
     "E3/main_comparison.csv",
     "E3/reused_macro_summary.csv",
+    "E3/native_vs_controlled_protocols.csv",
     "E3/subspacead_small_matrix.csv",
+    "E3/subspacead_full_matrix.csv",
+    "E3/subspacead_full_summary.json",
     "methods/univad_official/SOURCE.json"
   ],
-  "reason": "Two distinct-mechanism methods complete on both datasets (PatchCore, AnomalyDINO) = 471/486 units via reused qualified outputs. SubspaceAD's weight blocker was resolved this round (verified giant checkpoint) and it now runs, producing a pre-declared 12-unit small matrix (2 datasets x 2 categories x K1/2/4, seed 0, fp16 adaptation, native evaluator) — this is a reproduction check, NOT the 486-unit matrix. UniVAD's source is now vendored at the pinned commit (264/264 files git-blob verified) but it is not executed, because the upstream pretrained_ckpts/ ships only empty.txt and the component checkpoints are absent; no UniVAD number is produced. The E3 minimum scope is therefore not met and E3 stays partial/blocked."
+  "reason": "The E3 minimum scope is met: 2 mechanism-different methods complete on both datasets (PatchCore, AnomalyDINO) = 486/486 method-category units. 1 unit row(s) carry dir_kind='reconstructed' (AnomalyDINO/mvtec/seed1/K2): the original AnomalyDINO MVTec seed1/K2 run is unrecoverable, so it was rebuilt from the vendored official inference code and admitted only after a fidelity gate reproduced the surviving seed1/K1 cell (15 categories x 4 metrics, worst abs diff 3.3e-07). SubspaceAD additionally completed 243 method-category units under its own native fp16 protocol (E3/subspacead_full_matrix.csv). UniVAD remains resource-blocked (source vendored 264/264 files git-blob verified, but the component checkpoints are absent and models/dinov2 is an empty submodule; >=7.6 GB of checkpoints cannot be co-resident on the 6 GB laptop GPU), so it produces no number and none is implied. Protocol differences (unified stride-8 evaluator vs SubspaceAD's native fp16 evaluator) are kept in separate protocol columns and are never merged."
 }

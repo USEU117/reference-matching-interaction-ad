@@ -15,14 +15,14 @@
 | E0 身份/环境/A1 重放 | 必做 | **completed** | **G0 gate_pass** | `E0/` |
 | E1 DINO B/S × 管线 2×2 | 必做 | **completed（含官方 native 单元）** | gate_fail（无候选过门） | `E1/` |
 | E2 B/S/C 单支+双支矩阵 | 必做 | **completed** | gate_fail（A1 仍最佳） | `E2/` |
-| E3 近期完整基线 | 必做 | **部分完成（SubspaceAD 小矩阵已补跑；UniVAD 源码已入库但未运行）** | baseline_only | `E3/` |
+| E3 近期完整基线 | 必做 | **completed（486/486 单元；另 SubspaceAD 全矩阵 243 单元；UniVAD 资源阻塞未运行）** | baseline_only | `E3/` |
 | E4 三支等权初筛 | E2 缓存就绪后必做一次 | **completed** | gate_fail（第三支不必要） | `E4/` |
 | E5 新文本增量 | 条件项 | **not_triggered**（原因见 `E5/DECISION.md`） | not_evaluated | `E5/` |
 | E6 新动态融合 | 条件项 | **not_triggered**（原因见 `E6/DECISION.md`） | not_evaluated | `E6/` |
 | E7 几何/部件机制 | 条件项 | **not_triggered**（原因见 `E7/DECISION.md`） | not_evaluated | `E7/` |
 | E8 论文/证据交接 | 必做 | **completed** | — | `E8/`、本文件 |
 
-**结论级别：** E0–E2/E4/E8 完整；E1 补跑官方 native 单元后完整；E3 部分完成（471/486 单元 + SubspaceAD 12 单元小矩阵；UniVAD 源码已入库但未运行、无数值）；E5–E7 均为有理由的未触发。**必做项没有被计划文件冒充为结果。**
+**结论级别：** E0–E4/E8 完整；E1 补跑官方 native 单元后完整；**E3 已完成（486/486 单元，另有 SubspaceAD 全矩阵 243 单元；UniVAD 为资源阻塞、未运行、无数值）**；E5–E7 均为有理由的未触发。**必做项没有被计划文件冒充为结果。**
 
 ---
 
@@ -122,14 +122,14 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 
 ---
 
-## 5. E3 — 近期完整基线（部分完成）
+## 5. E3 — 近期完整基线（已完成 486/486）
 
-覆盖：87 个 (method × dataset × seed × K) 行；**80 complete / 1 partial / 6 absent**。
-两个机制不同、覆盖 MVTec 15 类 + VisA 12 类的方法：**PatchCore**（冻结正常建模/coreset）与 **AnomalyDINO**（近期，冻结 DINOv2 ViT-S/14 1-NN），合计 **471/486 单元完整**（缺 AnomalyDINO MVTec seed1 K2 的 15 个单元；其目录为空）。
+覆盖：103 个 (method × dataset × seed × K) 行；**97 complete / 0 partial / 6 absent**（6 个 absent 全是 AdaptCLIP 官方只发布 1-shot 而本仓库未运行的 2/4-shot 单元）。本轮修正了一处口径错误：AnomalyCLIP 零样本这一**单配置**方法此前在模板循环里按 K 被重复计入 3 次，现已只取 K=1（`units_by_method` 由虚计 45 更正为 15）。
+两个机制不同、覆盖 MVTec 15 类 + VisA 12 类的方法：**PatchCore**（冻结正常建模/coreset）与 **AnomalyDINO**（近期，冻结 DINOv2 ViT-S/14 1-NN），各 27 类 × 9 配置，合计 **486/486 单元完整、0 partial**。
 
 | 方法 | 数据集 | 配置 | 宏 P-AP | 宏 P-AUROC |
 |---|---|---:|---:|---:|
-| AnomalyDINO | MVTec | 8 | **0.57105** | 0.96617 |
+| AnomalyDINO | MVTec | 9 | **0.57097** | 0.96644 |
 | AnomalyDINO | VisA | 9 | **0.41170** | 0.98235 |
 | PatchCore | MVTec | 9 | 0.39436 | 0.90227 |
 | PatchCore | VisA | 9 | 0.25533 | 0.89315 |
@@ -142,18 +142,18 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 | AnomalyCLIP (zs) | MVTec | 1 | 0.44544 | 0.94228 |
 
 对照 A1：MVTec 0.5546、VisA 0.3725、MPDD 0.3562、BTAD 0.6455。
-- **SubspaceAD（本轮由 blocked 变为部分执行）**：官方权重 `facebook/dinov2-with-registers-giant` 的 `model.safetensors` 已下载并校验（4,546,030,112 bytes，sha256 `c03832d4…a5051`，与 HF blob 哈希逐位一致）。按**预先声明**的 2+2 类（MVTec `bottle`, `grid`；VisA `chewinggum`, `pcb1`）× K ∈ {1,2,4} × seed 0 跑出 **12 个单元**（`E3/subspacead_small_matrix.csv`）：
+- **SubspaceAD（本轮由 blocked 变为全矩阵完成）**：官方权重 `facebook/dinov2-with-registers-giant` 的 `model.safetensors` 已下载并校验（4,546,030,112 bytes，sha256 `c03832d4…a5051`，与 HF blob 哈希逐位一致）。2026-09-12 用 `e3_subspacead_full.py` 跑满 2 数据集 × K{1,2,4} × seed{0,1,2} = **18 进程 / 243 个 method-category 单元**（`runs_ok = 18 = planned_runs`、`matrix_rows = 243 = expected`、`status_counts = {completed: 18}`，总耗时 7395 s）；产物 `E3/subspacead_full_matrix.csv` / `subspacead_full_runs.csv` / `subspacead_full_summary.json`。**原生口径宏指标**：
 
-| 数据集 | 类别 | K1 | K2 | K4 |
-|---|---|---:|---:|---:|
-| MVTec | bottle | 0.7260 | 0.7342 | 0.7339 |
-| MVTec | grid | 0.3216 | 0.3188 | 0.3077 |
-| VisA | chewinggum | 0.4571 | 0.5132 | 0.5502 |
-| VisA | pcb1 | 0.2618 | 0.2810 | 0.3065 |
+| 数据集 | 配置 | 宏 P-AP | 宏 P-AUROC | 宏 P-AUPRO | 宏 I-AUROC | 宏 I-AP |
+|---|---:|---:|---:|---:|---:|---:|
+| MVTec | 9 | **0.47851** | 0.96918 | 0.91643 | 0.93692 | 0.96657 |
+| VisA | 9 | **0.30582** | 0.98115 | 0.89575 | 0.90871 | 0.91327 |
 
-（P-AP，**SubspaceAD 原生 evaluator（全分辨率图）**。）必须随数值引用的受控偏差：(a) 本机 6 GiB 卡上 fp32 giant 约 8.25 s/图不可行，改用官方 `--smoke_half`（fp16 适配，官方代码自带该选项）；(b) VisA 用官方 `tools/prepare_visa.py --split-type 1cls` 转为 `data/visa_pytorch/1cls` 后运行；(c) K-shot 由方法自身 `random.shuffle(train_paths)[:k]` 采样，**不共用**项目冻结支持 ID；(d) 原生全分辨率口径，**不得**与 A1 的 stride-8 数值并列作等条件比较。**这 12 个单元是复现性检查，不是 E3 要求的 486 单元矩阵。**
-- **UniVAD：源码已入库、仍未运行**：官方 repo `FantasticGNU/UniVAD` 在 pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 264/264 文件已逐文件 git blob SHA-1 校验并写入 `methods/univad_official/`（溯源 `SOURCE.json`，脚本 `vendor_official_univad.py`）；子模块 `models/dinov2`（gitlink `e1277af2…`）已记录但未取。**但这不产生任何 UniVAD 数值**：上游 `pretrained_ckpts/` 只有 `empty.txt`，完整流程还需 GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM 组件检查点；去掉部件模块的简化版依然不算复现。故「源码缺失」已解决，「权重缺失 + 未运行」仍在。
-- 类别口径修正：AnomalyDINO 的 `*_mvtec_*` 运行实际把 MVTec+VisA 放同一次运行（27 类），本轮按数据集类别子集重算宏平均，得 0.57105 / 0.41170，与论文表一致。
+必须随数值引用的受控偏差：(a) 本机 6 GiB 卡上 fp32 giant 约 8.25 s/图不可行，全套用官方 `--smoke_half`（fp16 精度适配）；(b) **原生 evaluator（全分辨率图）**口径，其 P-AUROC/P-AP 内部 stride-8 子采样、AU-PRO 全分辨率，**不得**与 A1 的 stride-8 数值并列作等条件比较；(c) VisA 用官方 `tools/prepare_visa.py --split-type 1cls` 转为 `data/visa_pytorch/1cls` 后运行；(d) K-shot 由方法自身 `random.shuffle(train_paths)[:k]` 采样，**不共用**项目冻结支持 ID；(e) 每个 (dataset, seed, K) 必须**一个进程跑完全部类别**（否则 RNG 类别顺序不同会选到不同支持图），因此早期 12 单元小矩阵（`subspacead_small_matrix.csv`）**未被合并、仅作历史保留**。
+- **因此本轮共有 5 个方法在两数据集九配置全满**（PatchCore、AnomalyDINO、WinCLIP+、PromptAD、SubspaceAD），E3 的「≥2 个机制不同的完整方法」被超额满足；但**只有 PatchCore + AnomalyDINO 的 486 单元处于同一统一 stride-8 口径**，SubspaceAD 的 243 单元不能与之相加成等条件矩阵。
+- **UniVAD：源码已入库、仍为资源阻塞、未运行**：官方 repo `FantasticGNU/UniVAD` 在 pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 264/264 文件已逐文件 git blob SHA-1 校验并写入 `methods/univad_official/`（溯源 `SOURCE.json`，脚本 `vendor_official_univad.py`）；子模块 `models/dinov2`（gitlink `e1277af2…`）已记录但未取。**但这不产生任何 UniVAD 数值**：上游 `pretrained_ckpts/` 只有 `empty.txt`，完整流程还需 GroundingDINO SwinT（693,997,677 B，已验证可达）、DINOv2-g（4,546,108,579 B，已验证可达）、HQ-SAM ViT-H（约 2.4 GB）、RAM Swin-L、逐类 `heat_masks` 与一个仅 OneDrive 提供的数据包 —— 合计 **≥7.6 GB** 检查点，且这些模型**无法在 6 GiB 笔记本 GPU 上共存**。去掉部件模块的简化版依然不算复现。
+- 类别口径修正：AnomalyDINO 的 `*_mvtec_*` 运行实际把 MVTec+VisA 放同一次运行（27 类），本轮按数据集类别子集重算宏平均，得 0.57097 / 0.41170。
+- **AnomalyDINO MVTec seed1/K2 的 15 个单元**（原目录为空）已用通过保真度门（15 类 × 4 指标最大绝对差 3.3e-07）的**重建**补齐，`coverage_matrix.csv` 该行标 `dir_kind = "reconstructed"`；AnomalyDINO MVTec 宏 P-AP 由重建前 8 配置的 0.57105 变为 9 配置的 0.57097，无分布异常。详见 `E3/DECISION.md` §3。
 
 ---
 
@@ -171,7 +171,7 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 - [x] E1 单元完成或真实缺失被标记；**官方 native 单元已由 blocked 变为已执行且与 matched 数值等价**；未把 pipeline 差异归因于 backbone。
 - [x] E2 六组初筛矩阵完整（72 单元）；组成单支、best pair 选择规则与锁文件齐全；**§8 步骤 6 的正常图误报/缺陷响应已补做**。
 - [x] E4 三支初筛已完成；未仅凭 pair 失败宣称 triple 必失败。
-- [ ] E3 完整矩阵（486 单元）未完成 → **本轮部分完成**：已列明哪些完整（PatchCore+AnomalyDINO 471/486）、SubspaceAD 已补跑 12 单元小矩阵、**UniVAD 源码已入库（未运行，无数值）**及最小缺失资源。
+- [x] E3 完整矩阵（486 单元）**已完成**：PatchCore + AnomalyDINO 各 27 类 × 9 配置 = **486/486**（其中 15 个单元为通过保真度门 3.3e-07 的重建，标 `dir_kind = "reconstructed"`）；**SubspaceAD 另跑满 243 单元**（自有原生 fp16 协议，单列）。**UniVAD 源码已入库但为资源阻塞（≥7.6 GB 检查点无法在 6 GiB 显存共存）、未运行、无数值**，最小缺失资源已逐项列明。
 - [x] E5/E6/E7 逐项有触发/未触发判定与原因。
 - [x] 所有拟提升为主方法的候选均有 G1 结果；本**没有**候选过门，故 G2/G3 未触发（协议规定只有过开发门者才扩确认），未把开发正结果写成泛化成功。
 - [x] 指标、CI、类别退化与成本齐全；未按外部测试结果选配置。
@@ -185,12 +185,17 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 3. **端到端 p50/p95 与峰值 RAM/GPU** 已补做：`E8/end_to_end_cost_{encoders,per_unit,macro}.csv`（含预热次数、测试图数、psapi 进程峰值工作集、`torch.cuda.max_memory_allocated`；明确不以磁盘占用代替速度）。
 4. **机制证据消融**（E8-2）已组织成单一表 `E8/mechanism_evidence_ablation.csv`：12 行覆盖 R1 `MAP_mean`（+0.005517/+0.003942，未过 +0.01 门）、MAP min/max、E1 backbone/管线、E2 组合与冗余、E4 第三支、E2 正常图误报/缺陷响应、35 概念机制族（0/35 过门）、v8 TCRR（跨域失败）、E5–E7 未触发；每行都写明对照、协议、数值与证据级别，负结果不隐藏。
 5. **方法说明澄清**（E8-6，`E8/method_clarifications.md`）：`resize→Gaussian` 顺序在正文/公式/图注/Table 1 与代码一致（`dists2map` = 先 `INTER_LINEAR` 到 448 再 `sigma=4`）；官方 AnomalyCLIP 同时存在参数名 `DPAM_layer`（正文所用）与方法名 `DAPM_replace`，二者同一模块，建议只加脚注；`anomalyclip_text` 是历史目录名，导出的是 CLIP **视觉** patch，正文已声明 visual-only。**历史实现未改。**
-6. **图件版本绑定**（E8-7，`E8/figure_version_binding.md`）：四个图件目录的内容/变体/生成脚本链已记录，最新为 `figures_contour_notation_20260911`；正文实际为 **8 图 9 表**，而五张方法图只覆盖 Figure 1/2/3/S1/S2，**Figure 4/5/6 未绑定**；本轮只做结构 PASS，**未做**原生 Office/渲染 QA，因此不因文件名含 `final` 就自动替换论文绑定版本。
-7. **引用与投稿信息**（E8-8，`E8/reference_alignment.md`）：正文 33 条 vs 工作 `curated_references.bib` **30 条**；**实际缺 8 条**（[1][2][4][7][10][11][23][28]）而非 3 条，另有 5 条 bib 条目未被正文引用；缺的是 BibTeX 条目本身与作者全名/官方页面，**不伪造**；另记录 [14] 作者名正文与 bib 不一致（Bondarev vs Bondarau）待定稿核对。
+6. **图件版本绑定与原生渲染 QA**（E8-7，`E8/figure_version_binding.md` + `E8/figure_render_qa.json`，2026-09-12 补做）：四个图件目录的内容/变体/生成脚本链已记录，最新为 `figures_contour_notation_20260911`；正文实际为 **8 图 9 表**。本轮用**真实 Office 渲染器**（Microsoft PowerPoint COM，`POWERPNT.EXE`）把三个候选 PPTX 各 5 页导出 PNG（无渲染错误），0911 自己出的 PNG 与其 PPTX 渲染相关系数 r≥0.98、无空白页；**Figure 4/5/6 已绑定**（按正文图注文本匹配包内 source-data，而非文件名）：Figure 4 → `figures_20260830/png_600dpi/Fig03_configuration_level_pixel_ap_gains.*`（配置级 36 点，非包内 Fig04 的类别级图）、Figure 5 → `Fig08_qualitative_successes.png`、Figure 6 → `Fig09_qualitative_failures.png`；包内 30 个受校验文件 **30/30 SHA256 相符**。0911 相对 teacher(0910) 的逐页渲染相似度 r=0.83–0.98，且 0910 teacher 对 0910 redraw 的 Fig3/S1/S2 做了实质重绘（r≈0.24–0.30）→ 派生链由**渲染**而非文件名确认。**0911 不是纯换字体**：符号与标签确有改动（`ap`→`ap(x)`、`Nc=Σhᵢwᵢ`→`Nc=KP`、`PD`→`P`、`map`→`outline` 等），均为记法级且彼此自洽，并且 0911 把 `Resize + Gaussian σ = 4` 的顺序写明确了，正好消除 E8-6 记录的那处歧义；冻结实现未改。**未验证**：逐轮廓元素的像素级科学正确性、PDF 字体嵌入/preflight、以及交付 PNG 为 3360×1920（7:4）而幻灯片为 16:9 的导出路径。
+7. **引用与投稿信息**（E8-8，`E8/reference_alignment.md`，2026-09-12 闭合）：`curated_references.bib` 由 30 条增至 **38 条**，正文 33 条 **33/33 全部可解析**、缺失归零。原先实际缺的 8 条（[1][2][4][7][10][11][23][28]）已按 **Crossref REST API**（DOI 注册机构自身的元数据）补齐作者全名、卷/期、文章号或页码、DOI；未从仓库或用户处获得的字段一律不发明。[14] 作者名不一致已定论并修正：bib 的 `Bondarau, Egor` → `Bondarev, Egor`（正文已正确）。另有 5 条 bib 条目未被正文引用，属有意保留的备选。唯一无法溯源而**未写入**的是 [23] 的 `pt. C` 分册标记。
+9. **测试记录与版本化哈希漂移**（任务书 §14，`E8/test_scope_record.json`，2026-09-12 补做）：给出本轮**明确解释器 + 明确 tests 范围**的 CPU 记录——`.venv-patchcore\Scripts\python.exe`（CPython 3.10.11，pytest 9.1.1），`pytest tests -q --ignore=tests/innovation_v6_dgsafe` = **253 passed / 0 failed**（另有 13 个 A1 自有测试文件在两个环境下各 154/154）。历史上 81/122/123/141 的差异按**日期 + 范围**解释：81 是 2026-08-26 的 5 文件子集；122 是 2026-08-27 `pytest tests/`（当时 `tests/` 尚无 innovation_* 子目录）；**123 是同一次 2026-08-27 运行在另一文档里的重复且冲突的记录**，权威验收记录写 122，此差异无法再复原（那棵树已不存在）；141 是 2026-09-02 更大的树。另发现**当前 `pytest tests -q` 无范围运行会在 `tests/innovation_v6_dgsafe/test_wave2a_probes.py` 处 collection 失败**（两个环境都失败，需 `transformers` 且递归运行时 `src.subspacead` 被根 `src` 影子化）——该缺陷**只记录、未修复**。`VERSIONED_EVIDENCE.sha256` 15 项中 **13 项相符、2 项漂移**（`docs/CURRENT_DYNAMIC_FUSION_STATUS.md`、`docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md`），与 2026-09-10 审计一致、两天内未增长；漂移按纪律**报告而不静默刷新冻结索引**。
 8. **复现包**（E8-9，`REPRODUCE.md`）：补上第三方来源（官方 AnomalyDINO 源码 commit + 逐文件校验、SubspaceAD 权重哈希 + VisA 转换工具）、依赖与实测命令；`artifact_sha256.json` 记录本轮新产物实际哈希，**未静默刷新任何冻结哈希**。
 
 **仍然明确未做 / 未闭合（不静默省略）：**
-- E3 的 486 单元完整矩阵（SubspaceAD 仅 12 单元；UniVAD 源码已入库但**未运行**，组件检查点缺失）；官方 AnomalyDINO **端到端** evaluator 无法读取 MPDD GT（`.JPG` 硬编码）；E8-7 的原生 Office/渲染 QA 未做（结构 PASS ≠ 渲染 PASS）；引用对齐中 8 条缺失 BibTeX 条目缺作者全名/官方页面，需用户或出版方信息，不伪造。
+- **UniVAD 为资源阻塞而非仅源码阻塞**：源码已入库（pinned commit，264/264 逐文件 git-blob 校验）且已保留全部部件模块，但部件检查点缺失、`models/dinov2` 子模块目录为空。已记录的最小缺失资源：dinov2 源码 clone；`groundingdino_swint_ogc.pth`（693,997,677 字节，本轮验证可达）；`sam_hq_vit_h.pth`（约 2.4 GB）；`dinov2_vitg14_pretrain.pth`（4,546,108,579 字节，本轮验证可达）；RAM Swin-L 权重；逐类 `heat_masks` 特征；以及一个仅 OneDrive 提供的数据包 —— 合计 ≥7.6 GB 检查点，且 GroundingDINO+HQ-SAM ViT-H+DINOv2-g+RAM 在 6 GB 笔记本 GPU 上无法共存。**不产生、也不暗示任何 UniVAD 数值。**
+- 官方 AnomalyDINO **端到端** evaluator 仍无法读取 MPDD GT（`src/post_eval.parse_dataset_files` 硬编码 `.JPG`）。
+- `VERSIONED_EVIDENCE.sha256` 的 2 项漂移按纪律保留未刷新（正式 release 时统一重生成）。
+- 历史 123 计数无法与 122 调和（原树已不存在），本轮以新的带日期记录代替，不冒充历史值。
+- E8-7 中三项已明确标注的未验证项（逐轮廓像素级科学正确性、PDF 字体嵌入/preflight、交付 PNG 的导出路径）。
 
 ### 7.1 全 448（stride=1）敏感性结论（E8-3）
 
@@ -229,8 +234,8 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 - 这两条**不等于**“所有文本/动态融合都无效”；v8 TCRR 在 MPDD 的正增益仍是未解释的真实线索。
 
 **Q5. A1 和新候选相对近期完整方法的竞争力如何？哪些协议差异限制比较？**
-- **A1 不是最强。** 同评测口径下，AnomalyDINO 在 MVTec（0.5711 vs 0.5546）与 VisA（0.4117 vs 0.3725）的宏 P-AP 均高于 A1；ReMP-AD 的 MVTec 更高（0.5790，但仅 3 组、无 seed）；PatchCore 低于 A1。
-- 限制比较的协议差异：(1) A1 是 training-free，PromptAD 用目标正常图调优，ReMP-AD/AdaptCLIP/AnomalyCLIP 含源域训练，不能混称等条件；(2) 像素口径：本项目统一 stride-8（448 图），官方方法多为全分辨率图（SubspaceAD 小矩阵同样是原生全分辨率口径，不可与 A1 的 stride-8 并列）；(3) 参考采样：本项目用 project split manifest，官方 AnomalyDINO 原脚本按文件名切片，SubspaceAD 用自身 `random.shuffle` 采样；(4) 图像分数聚合不同（max vs `mean_top1p` vs 官方口径）；(5) AnomalyDINO MVTec 少 1 个配置（15 单元缺失）；(6) SubspaceAD 为 fp16 适配且仅 12 个预先声明单元。
+- **A1 不是最强。** 同评测口径下，AnomalyDINO 在 MVTec（0.5710 vs 0.5546）与 VisA（0.4117 vs 0.3725）的宏 P-AP 均高于 A1；ReMP-AD 的 MVTec 更高（0.5790，但仅 3 组、无 seed）；PatchCore 低于 A1。
+- 限制比较的协议差异：(1) A1 是 training-free，PromptAD 用目标正常图调优，ReMP-AD/AdaptCLIP/AnomalyCLIP 含源域训练，不能混称等条件；(2) 像素口径：本项目统一 stride-8（448 图），官方方法多为全分辨率图（**SubspaceAD 的 243 单元同样是其官方原生全分辨率 evaluator 口径，在覆盖矩阵里以 `subspacead_native_fp16` 单列，不可与 A1 的 stride-8 并列**）；(3) 参考采样：本项目用 project split manifest，官方 AnomalyDINO 原脚本按文件名切片，SubspaceAD 用自身 `random.shuffle` 采样；(4) 图像分数聚合不同（max vs `mean_top1p` vs 官方口径）；(5) AnomalyDINO MVTec 的 9 个配置里 1 个来自通过保真度门（3.3e-07）的重建，已在覆盖矩阵标 `dir_kind = "reconstructed"`；(6) SubspaceAD 全矩阵为 fp16（`--smoke_half`）精度适配，且**不共用**项目冻结支持 ID；因此它不能与 486 单元相加成等条件矩阵。
 - 本轮新候选（B+S、S+C、B+S+C、M_S、N_*_pcv、official_native_*）**没有一个超过 A1**；official_native_* 与 M_* 数值等价，故它们不改变竞争力结论。
 
 **Q6. 哪些内容可以写成算法贡献，哪些只是受控实证、负结果或工程成果？**
@@ -240,11 +245,13 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 - **工程成果：** 新的可重放评估器与 harness（E0–E4 全部走同一代码路径）、ViT-S 的约一半特征维度/建库与评分时间、E3 的协议隔离表与复用矩阵、E0 发现并修正的 CLIP 518 掩码口径问题。
 
 **Q7. 用户接下来只需要处理什么真实未决项？**
-1. **UniVAD 组件检查点与运行**：源码已入库（pinned commit，逐文件校验，保留部件模块）；若论文需要部件/结构方法的对照，仍须取得 GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM 检查点并跑官方流程，否则不产生数值。SubspaceAD 的权重阻塞已解除，若要写成「486 单元完整 E3」，只需按 K1/2/4 × seed 0/1/2 × MVTec 15 / VisA 12 类把 SubspaceAD 跑满。
-2. **AnomalyDINO MVTec 缺失的 1 个配置**（seed1 K2，15 单元）：补齐即可让两个方法都 9/9；官方**端到端**评测器要用于 MPDD 还需改 `src/post_eval.parse_dataset_files` 的 GT 扩展名硬编码（工程适配，非算法结论）。
+1. **UniVAD 组件检查点与运行**：源码已入库（pinned commit，264/264 逐文件校验，保留部件模块）；若论文需要部件/结构方法的对照，仍须取得 GroundingDINO SwinT / DINOv2-g / RAM Swin-L / CLIP / HQ-SAM 检查点（≥7.6 GB）与逐类 `heat_masks`、OneDrive 数据包并跑官方流程，否则不产生数值。该阻塞是**资源**：这些模型无法在 6 GiB 笔记本 GPU 上共存，且 E3 的两方法要求已由 PatchCore + SubspaceAD 满足，故本轮不据此产生也不暗示任何 UniVAD 数值。
+2. **论文准备**：把 `E8/paper_claim_evidence_map.csv`（12 条主张）写进 limitation 与 ablation；不要把本轮工作写成算法创新。
 3. **v8 TCRR 文本线索**：若要复活文本路线，需要一个与 S1/v7/v8 不同的新语义来源或新的区域对应机制（E5 触发条件）。
 4. **MPDD 上的动态 gate**：若要复活动态融合，需要一个推理时可得、机制上新的可靠性信号，或另立带隔离数据的 source-supervised 协议。
-5. **论文准备**：把 `E8/paper_claim_evidence_map.csv`（12 条主张）写进 limitation 与 ablation；**补齐 `curated_references.bib` 相对正文 33 条的 8 条缺失条目**（缺作者全名/官方页面，需用户或出版方提供，见 `E8/reference_alignment.md`）；**把 Figure 4/5/6 纳入图件版本绑定并做原生 Office/渲染 QA**（见 `E8/figure_version_binding.md`）；不要把本轮工作写成算法创新。
+5. **工程收尾（不影响结论）**：正式 release 时用 `git add -f` 纳入两份 `methods/**/SOURCE.json`（`.gitignore:15` 忽略整个 `methods/`，当前 `git ls-files methods` 为空）；重生成 `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256`（2/15 项文档漂移，按纪律本轮只报告未刷新）；若要恢复无范围 `pytest tests -q`，需处理 `tests/innovation_v6_dgsafe/test_wave2a_probes.py` 的 collection 依赖（`transformers` + `src.subspacead` 命名被根 `src` 遮蔽），本轮只记录未改。
+
+**本轮已关闭的原未决项**：SubspaceAD 全矩阵（243 单元）已完成；AnomalyDINO MVTec seed1/K2 的 15 个单元已用通过保真度门的重建补齐，E3 = 486/486；`curated_references.bib` 8 条缺失条目已按 Crossref 补齐（33/33）、[14] 作者名已更正；Figure 4/5/6 已绑定并完成原生 Office 渲染 QA；§14 的测试解释器/范围记录与哈希漂移已写入 `E8/test_scope_record.json`。
 
 **不建议**以“继续探索更多方法”替代以上具体项——每一项都已写明触发条件与最小缺失资源。
 
@@ -258,12 +265,16 @@ experiments/dynamic_fusion/validation_handoff_20260911/
   E0/ … E8/   各含 PROTOCOL.json / DECISION.md / acceptance.json / metrics / logs
   E1/  official_native_{metrics_per_category,macro,effects}.csv / official_native_summary.json
   E2/  normal_false_positive.csv / defect_response.csv / small_defect_response.csv / false_positive_summary.json
-  E3/  subspacead_small_matrix.csv
+  E3/  coverage_matrix.csv / main_comparison.csv / reused_macro_summary.csv / baseline_registry.json
+       native_vs_controlled_protocols.csv / acceptance.json
+       subspacead_full_matrix.csv / subspacead_full_runs.csv / subspacead_full_summary.json
+       subspacead_small_matrix.csv（历史保留，已被全矩阵取代、未合并）
   E8/  mechanism_evidence_ablation.csv
        full448_sensitivity_{per_category,macro}.csv / full448_sensitivity_summary.json
        sample_defect_stats_per_category.csv / sample_defect_stats_summary.json / prediction_coverage_check.csv
        end_to_end_cost_{encoders,per_unit,macro}.csv / end_to_end_cost_summary.json
        method_clarifications.md / figure_version_binding.md / reference_alignment.md
+       figure_render_qa.json / test_scope_record.json
   FINAL_REPORT_CN.md / REPRODUCE.md / artifact_sha256.json
 methods/anomalydino_official/         官方 AnomalyDINO 源码（SOURCE.json 逐文件 git blob 校验）
 methods/univad_official/              官方 UniVAD 源码（pinned commit，264/264 文件 git blob 校验；仅源码，未运行）
@@ -271,10 +282,14 @@ methods/SubspaceAD/checkpoints/dinov2-with-registers-giant/model.safetensors   �
 data/visa_pytorch/1cls/               官方 prepare_visa.py 生成的 VisA 派生布局（未改动原数据）
 outputs/validation_handoff_20260911/
   DINO_S/s0_k{2,4}/                   新增 DINOv2 ViT-S/14 原始特征缓存
-  subspacead_official_{mvtec,visa}_half/  SubspaceAD 原生口径小矩阵原始输出
+  anomalydino_rerun/                  AnomalyDINO MVTec seed1 K1/K2 重建的异常图与支持图清单
+  subspacead_official_full/           SubspaceAD 正式矩阵原始输出（18 个 (dataset,seed,K) 目录）
+  subspacead_official_{mvtec,visa}_half/  SubspaceAD 12 单元小矩阵原始输出（历史保留）
 scripts/validation_handoff_20260911/  common.py, e0_preflight.py, finalize_e0.py,
                                       run_controlled_matrix.py, finalize_e1e2e4.py,
                                       bootstrap_primary.py, e3_baseline_audit.py,
+                                      e3_subspacead_full.py, anomalydino_mvtec_rerun.py,
+                                      verify_anomalydino_rerun.py,
                                       vendor_official_anomalydino.py, vendor_official_univad.py,
                                       e1_native_official.py,
                                       e8_fullres_sensitivity.py, e8_sample_defect_stats.py,

@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "record_id": "e8_7_figure_native_render_qa_20260912",
+  "executed_at_local": "2026-09-12",
+  "git_head": "ed26caad714486c3bf9577f9b5860ed9ce3f9446",
+  "purpose": "Task book section 14 E8-7: bind manuscript Figures 4/5/6 to real sources and perform the native Office/render QA that the 2026-09-11 round explicitly did not do.",
+  "renderer": {
+    "engine": "Microsoft PowerPoint (native, via COM automation)",
+    "executable": "C:/Program Files/Microsoft Office/root/Office16/POWERPNT.EXE",
+    "method": "Presentation.Export(dir, 'PNG', 2000, 1125) plus shape-level text extraction",
+    "output_dir": "outputs/validation_handoff_20260911/figure_render_qa/",
+    "honest_note": "This is the real Office renderer, not a Python re-implementation. It is still not a commercial print/preflight check."
+  },
+  "figure_binding": {
+    "manuscript_figures_referenced": 8,
+    "method_figures": [
+      {"manuscript": "Figure 1", "source": "docs/figures_contour_notation_20260911/Fig1_Main.png", "generator": ".tmp_contour_notation_20260911/ (build.mjs -> finalize.mjs -> revise.py -> apply_notation.py)"},
+      {"manuscript": "Figure 2", "source": "docs/figures_contour_notation_20260911/Fig2_Fusion.png", "generator": ".tmp_contour_notation_20260911/"},
+      {"manuscript": "Figure 3", "source": "docs/figures_contour_notation_20260911/Fig3_Memory.png", "generator": ".tmp_contour_notation_20260911/"},
+      {"manuscript": "Figure S1", "source": "docs/figures_contour_notation_20260911/FigS1_Encoders.png", "generator": ".tmp_contour_notation_20260911/"},
+      {"manuscript": "Figure S2", "source": "docs/figures_contour_notation_20260911/FigS2_Control.png", "generator": ".tmp_contour_notation_20260911/"}
+    ],
+    "empirical_and_qualitative_figures_now_bound": [
+      {"manuscript": "Figure 4",
+       "manuscript_caption_check": "English_content.md:258 'P-AP differences between DCFnet (A1) and matched DINO-only for every seed/shot configuration. All 36 dataset-level point estimates are positive.'",
+       "source_png": "docs/paper_writing_preparation_20260830/figures_20260830/png_600dpi/Fig03_configuration_level_pixel_ap_gains.png",
+       "also": ["docs/paper_writing_preparation_20260830/figures_20260830/svg_editable/Fig03_configuration_level_pixel_ap_gains.svg",
+                "docs/paper_writing_preparation_20260830/figures_20260830/pdf_vector/Fig03_configuration_level_pixel_ap_gains.pdf"],
+       "generator": "scripts/build_manuscript_figure_package.py",
+       "source_data": "docs/paper_writing_preparation_20260830/figures_20260830/source_data/Fig03_configuration_gains.csv",
+       "binding_note": "Package index Fig03, not package Fig04. The manuscript caption is explicitly configuration-level and 36-point, which is what the package's Fig03 plots; the package's Fig04 is category-level gain/loss extremes and corresponds to manuscript Table 7, not to manuscript Figure 4."},
+      {"manuscript": "Figure 5",
+       "manuscript_caption_check": "English_content.md:314 'Selected success cases at seed 0 and one shot: VisA cashew 085 and MVTec toothbrush 004.'",
+       "source_png": "docs/paper_writing_preparation_20260830/figures_20260830/qualitative_local_only/Fig08_qualitative_successes.png",
+       "generator": "scripts/build_a1_qualitative_figures.py",
+       "source_data": "docs/paper_writing_preparation_20260830/figures_20260830/source_data/Fig08_Fig09_qualitative_cases.csv",
+       "distribution": "local manuscript use only; contains dataset images"},
+      {"manuscript": "Figure 6",
+       "manuscript_caption_check": "English_content.md:316 'Selected negative-transfer cases at seed 0 and one shot: VisA chewinggum 037 and MVTec leather poke 016.'",
+       "source_png": "docs/paper_writing_preparation_20260830/figures_20260830/qualitative_local_only/Fig09_qualitative_failures.png",
+       "generator": "scripts/build_a1_qualitative_figures.py",
+       "source_data": "docs/paper_writing_preparation_20260830/figures_20260830/source_data/Fig08_Fig09_qualitative_cases.csv",
+       "distribution": "local manuscript use only; contains dataset images"}
+    ],
+    "unbound_package_figures": {
+      "note": "Package Fig04, Fig05, Fig06, Fig07 and FigS01/FigS02 are NOT the manuscript's Figures 4/5/6. They are quantitatively sourced but the manuscript references only 8 figures in total, so these are candidate supplementary/table-replacing material. Recorded as available-not-bound rather than silently assigned.",
+      "list": ["Fig04_category_gain_loss_extremes", "Fig05_complete_metric_delta_heatmap",
+               "Fig06_three_way_clip_dino_a1_pixel_ap", "Fig07_efficiency_and_memory_cost",
+               "FigS01_all_category_gain_loss", "FigS02_shot_wise_gain_stability"]
+    },
+    "collision_warning": "The package's own Fig04/Fig05/Fig06 numbering collides with the manuscript's Figure 4/5/6 numbering while denoting different content. Any build script must use the explicit file paths above, never the bare indices."
+  },
+  "quantitative_package_integrity": {
+    "manifest": "docs/paper_writing_preparation_20260830/figures_20260830/FIGURE_MANIFEST.json",
+    "entries": 30, "sha256_matched": 30, "sha256_drift": 0, "missing": 0,
+    "conclusion": "the 2026-08-30 manuscript figure package is byte-intact"
+  },
+  "native_render_results": {
+    "pptx_rendered": [
+      {"dir": "docs/figures_contour_notation_20260911", "file": "DCFnet_Figures_Contour_Notation_20260911_final.pptx", "slides": 5, "shapes_per_slide": [282, 241, 246, 153, 161], "status": "rendered without error"},
+      {"dir": "docs/figures_teacher_revision_20260910", "file": "DCFnet_Figures_Expanded_20260910.pptx", "slides": 5, "status": "rendered without error"},
+      {"dir": "docs/figures_redraw_20260910", "file": "DCFnet_All_Figures_Editable_20260910_v2.pptx", "slides": 5, "status": "rendered without error"}
+    ],
+    "shipped_png_vs_native_render_of_the_same_pptx": [
+      {"figure": "Fig1_Main", "mad_gray_0_255": 2.07, "pearson_r": 0.9874, "shipped_px": [3360, 1920], "render_px": [2000, 1125]},
+      {"figure": "Fig2_Fusion", "mad_gray_0_255": 1.55, "pearson_r": 0.9818, "shipped_px": [3360, 1920], "render_px": [2000, 1125]},
+      {"figure": "Fig3_Memory", "mad_gray_0_255": 2.31, "pearson_r": 0.9835, "shipped_px": [3360, 1920], "render_px": [2000, 1125]},
+      {"figure": "FigS1_Encoders", "mad_gray_0_255": 2.05, "pearson_r": 0.9820, "shipped_px": [3360, 1920], "render_px": [2000, 1125]},
+      {"figure": "FigS2_Control", "mad_gray_0_255": 2.67, "pearson_r": 0.9809, "shipped_px": [3360, 1920], "render_px": [2000, 1125]}
+    ],
+    "blank_slide_check_0911": [
+      {"figure": "Fig1_Main", "gray_std": 43.55, "ink_fraction": 0.3007},
+      {"figure": "Fig2_Fusion", "gray_std": 32.51, "ink_fraction": 0.2084},
+      {"figure": "Fig3_Memory", "gray_std": 41.87, "ink_fraction": 0.2790},
+      {"figure": "FigS1_Encoders", "gray_std": 37.66, "ink_fraction": 0.2671},
+      {"figure": "FigS2_Control", "gray_std": 43.97, "ink_fraction": 0.2786}
+    ],
+    "cross_version_render_similarity": {
+      "0911_vs_teacher_0910": [{"figure": "Fig1_Main", "r": 0.8686}, {"figure": "Fig2_Fusion", "r": 0.9561},
+                               {"figure": "Fig3_Memory", "r": 0.8341}, {"figure": "FigS1_Encoders", "r": 0.9780},
+                               {"figure": "FigS2_Control", "r": 0.8293}],
+      "teacher_0910_vs_redraw_0910": [{"figure": "Fig1_Main", "r": 0.9682}, {"figure": "Fig2_Fusion", "r": 1.0},
+                                      {"figure": "Fig3_Memory", "r": 0.2369}, {"figure": "FigS1_Encoders", "r": 0.2973},
+                                      {"figure": "FigS2_Control", "r": 0.2775}],
+      "reading": "0911 and teacher_0910 keep the same layout (r >= 0.83 on all five); the 0910 teacher revision changed three of five figures substantially relative to the 0910 redraw (r ~ 0.24-0.30). This supports the recorded derivation chain by rendering rather than by filename."
+    }
+  },
+  "scientific_qa_of_the_0911_notation_revision": {
+    "scope": "shape-level text of the 0911 and teacher_0910 PPTX was extracted with the native Office text engine and compared slide by slide",
+    "is_pure_font_swap": false,
+    "text_differences_found": [
+      "Fig1: 'Bilinear resize Gaussian sigma = 4' -> 'Resize + Gaussian sigma = 4 Threshold + contour'; 'ap' -> 'ap(x)'; added 'Illustrative threshold' and 'Predicted outline'; 'Anomaly map' label dropped",
+      "Fig3: 'ap = 0.5 min_q d_pq' -> 'ap(x) = 0.5 min_m ||f_A,p(x) - m||^2'; 'd_pq = 0.5||gD..|| + 0.5||gC..||' restated as '||f_A,p - f_A,q||^2 = 0.5||gD..|| + 0.5||gC..||'; 'Nc = sum_i h_i w_i' -> 'Nc = K P'; 'Nearest squared l2 x 0.5' -> 'Squared l2 / 2'",
+      "FigS1: 'PD = hDwD' -> 'P = hDwD'; 'Blocks 6-24 v-v attention' -> 'Blocks 6-24 Value-value attention'; 'q <- v, k <- v' dropped",
+      "FigS2: 'Bilinear resize to 448x448, Gaussian sigma=4, Spatial max for image score' -> '448x448 maps, Gaussian sigma=4, Image score = spatial max, Threshold + contour display'; 'Maps: MPDD, seed 0, K = 1' dropped; 'DCFnet map'/'DINO-only map' -> 'DCFnet outline'/'DINO-only outline'; 'N_c' subscript glyph -> 'Nc'; 'Common post-processing' -> 'Post-processing Contour display'"
+    ],
+    "equivalence_check": [
+      "'ap' vs 'ap(x)' and 'd_pq' vs the explicit squared norm are the same quantity with an explicit argument; no numeric value changes.",
+      "'Nc = sum_i h_i w_i' is the general bank size; 'Nc = K P' is its value under the common-grid protocol the same figure states ('Aspect ratio determines the grid; shorter grid dimension = 32'). Both are consistent with the frozen bank of K x 32 x 32 unit vectors; the 0911 form matches FigS1's new 'P = hDwD'.",
+      "The 0911 Fig1 label 'Resize + Gaussian sigma = 4' states the order explicitly, which resolves the resize-then-Gaussian ambiguity that E8-6 recorded in the frozen METHOD_SPEC_V2 prose. The figure revision is therefore consistent with the code, and the code was not changed."
+    ],
+    "not_verified": [
+      "Pixel-level scientific correctness of every contour/annotation element was NOT re-derived from the frozen numeric tables by this round; the comparison above is a structural/textual and render-level check.",
+      "Glyph metrics and font embedding in the delivered PDF were not inspected with a PDF/preflight tool.",
+      "The 0911 shipped PNGs are 3360x1920 (7:4) while the PPTX slide is 16:9; the render comparison shows r >= 0.98, so they depict the same figure, but the PNG is not a direct slide export and the exact export path was not reconstructed."
+    ],
+    "verdict": "No contradiction with the frozen method was found, and the revision is not a pure font swap. It is safe to keep 0911 as the bound method-figure candidate; the three items under not_verified remain open and are recorded rather than claimed."
+  },
+  "not_modified": "No figure file, PPTX, PDF, generator or manuscript file was edited, renamed or overwritten by this round. Render outputs and text dumps are new files under outputs/validation_handoff_20260911/figure_render_qa/."
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "record_id": "e8_repro_test_scope_and_hash_record_20260912",
+  "executed_at_local": "2026-09-12",
+  "git_head": "ed26caad714486c3bf9577f9b5860ed9ce3f9446",
+  "git_dirty_at_run": true,
+  "purpose": "Task book section 14: give one authoritative CPU test record with an explicit interpreter and an explicit tests scope, explain the 81/122/123/141 counts, and explain (not silently refresh) the VERSIONED_EVIDENCE.sha256 drift. No GPU work is involved.",
+  "interpreters": {
+    ".venv-patchcore/Scripts/python.exe": {"python": "3.10.11", "pytest": "9.1.1"},
+    ".venv-anomalyclip/Scripts/python.exe": {"python": "3.10.11", "pytest": "9.1.1"}
+  },
+  "repo_pytest_config": "none found at repo root (no pytest.ini / setup.cfg / pyproject.toml / tox.ini / conftest.py), so scope is controlled entirely by the command line",
+  "authoritative_recommended": {
+    "interpreter": ".venv-patchcore/Scripts/python.exe",
+    "command": ".\\.venv-patchcore\\Scripts\\python.exe -m pytest tests -q --ignore=tests/innovation_v6_dgsafe",
+    "passed": 253,
+    "failed": 0,
+    "errors": 0,
+    "duration_seconds": 36.91,
+    "exit_code": 0,
+    "scope": "tests/ recursive, excluding tests/innovation_v6_dgsafe (see v6_dgsafe_is_env_gated below)"
+  },
+  "scopes_measured_this_round": [
+    {"name": "A1/submission-owned regression (13 top-level tests/test_*.py)",
+     "files": ["tests/test_dynamic_fusion.py", "tests/test_dynamic_fusion_v2.py", "tests/test_dynamic_fusion_v3.py",
+               "tests/test_evaluate_unified.py", "tests/test_freeze_a1_mpdd.py", "tests/test_p1_efficiency.py",
+               "tests/test_rcec.py", "tests/test_scaif_correction.py", "tests/test_v2_data_protocol.py",
+               "tests/test_v3_3_clean.py", "tests/test_v3_3_rescue.py", "tests/test_v3_adaptclip_mpdd.py",
+               "tests/test_v4_contracts.py"],
+     "venv_patchcore": {"passed": 154, "failed": 0, "duration_seconds": 35.07, "exit_code": 0},
+     "venv_anomalyclip": {"passed": 154, "failed": 0, "duration_seconds": 33.53, "exit_code": 0}},
+    {"name": "innovation_* subdirectories excluding v6_dgsafe",
+     "dirs": ["tests/innovation_v2", "tests/innovation_v4_diagnostics", "tests/innovation_v5_casf",
+              "tests/innovation_v7_global_text", "tests/innovation_v8_tcrr_probe", "tests/innovation_v10_portfolio"],
+     "venv_patchcore": {"passed": 99, "failed": 0, "duration_seconds": 10.67, "exit_code": 0}},
+    {"name": "tests/innovation_v6_dgsafe/test_maps.py only",
+     "venv_patchcore": {"passed": 7, "failed": 0, "duration_seconds": 5.34, "exit_code": 0}},
+    {"name": "tests/innovation_v6_dgsafe/test_wave2a_probes.py only (single-file invocation)",
+     "venv_anomalyclip": {"passed": 6, "failed": 0, "duration_seconds": 7.32, "exit_code": 0},
+     "venv_patchcore": {"status": "collection error", "error": "ModuleNotFoundError: No module named 'transformers'", "exit_code": 2}},
+    {"name": "tests/ (unscoped recursive) - FAILS",
+     "command": ".\\.venv-patchcore\\Scripts\\python.exe -m pytest tests -q",
+     "venv_patchcore": {"status": "collection error", "errors": 1, "exit_code": 2,
+                        "error_module": "tests/innovation_v6_dgsafe/test_wave2a_probes.py",
+                        "error": "ModuleNotFoundError: No module named 'src.subspacead'"},
+     "venv_anomalyclip": {"status": "collection error", "errors": 1, "exit_code": 2,
+                          "error_module": "tests/innovation_v6_dgsafe/test_wave2a_probes.py",
+                          "error": "ModuleNotFoundError: No module named 'src.subspacead'"}}
+  ],
+  "v6_dgsafe_is_env_gated": {
+    "finding": "tests/innovation_v6_dgsafe/test_wave2a_probes.py imports scripts/innovation_v6_dgsafe/run_wave2a_build_reliability.py, which at import time (a) requires the third-party 'transformers' package and (b) does 'from src.subspacead...' after inserting methods/SubspaceAD into sys.path.",
+    "why_it_fails_in_a_full_run": "In a recursive run the top-level 'src' package (repo-root src/, which holds only industrial_ad and utils.py) is already imported and bound before this module executes, so the later sys.path insert of methods/SubspaceAD can no longer make src.subspacead resolvable. Invoked alone, nothing has claimed the name 'src' yet and the file imports; it then still needs 'transformers'.",
+    "consequence": "The previously canonical command 'pytest tests -q' (recorded 2026-09-02) now aborts at collection in both environments. The runnable scope is either the explicit 13-file A1 set, or tests/ with --ignore=tests/innovation_v6_dgsafe.",
+    "action_taken": "recorded only; the v6_dgsafe test/script and the SubspaceAD vendor were NOT modified in this round"
+  },
+  "historical_counts_explained": {
+    "81": {"date": "2026-08-26", "interpreter": ".venv-anomalyclip", "scope": "explicit 5-file subset (test_freeze_a1_mpdd, test_v4_contracts, test_dynamic_fusion, test_dynamic_fusion_v2, test_dynamic_fusion_v3)", "duration_seconds": 6.46, "source": "submission_repro_20260827/evidence/CPU_REGRESSION_20260826.json", "why_different": "narrowest scope of the four; a 5-file subset, not tests/"},
+    "122": {"date": "2026-08-27", "interpreter": ".venv-anomalyclip", "scope": "tests/ recursive", "source": "docs/submission_reproducibility_20260826/P0_ACCEPTANCE_REVIEW_20260827.md:15-24", "why_different": "at that date tests/ contained only the A1/submission suites; the innovation_v2..v10 subdirectories did not exist yet"},
+    "123": {"date": "2026-08-27", "interpreter": ".venv-anomalyclip", "scope": "tests/ recursive", "source": "docs/submission_reproducibility_20260826/README.md:13", "status": "CONFLICT with 122", "why_different": "this is the same 2026-08-27 run recorded a second time; the authoritative acceptance record (P0_ACCEPTANCE_REVIEW) says 122 passed and this README says 123. The two documents disagree and no third run is documented, so 123 must be treated as a stale/duplicate transcription of the 122 run, not as a separate execution. It is not possible to reconstruct which is numerically exact without re-running the 2026-08-27 tree, which no longer exists."},
+    "141": {"date": "2026-09-02", "interpreter": ".venv-patchcore", "scope": "tests/ recursive", "source": "docs/CURRENT_DYNAMIC_FUSION_STATUS.md:159,166", "why_different": "larger than 122 because more project-owned tests existed by then (RCEC + innovation suites); smaller than today's 253/260 because innovation_v6/v7/v8/v10 and the SubspaceAD-gated file were added afterwards"},
+    "today": {"date": "2026-09-12", "values": {"tests_minus_v6": 253, "tests_minus_v6_plus_v6_maps": 260, "a1_owned_only": 154}, "note": "all counts above are this round's actual executions; no historical number is reused as a current result"}
+  },
+  "versioned_evidence_check": {
+    "index": "docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256",
+    "index_mtime_snapshot": "2026-08-27",
+    "entries_total": 15,
+    "entries_matching": 13,
+    "entries_drifting": 2,
+    "drift": [
+      {"path": "docs/CURRENT_DYNAMIC_FUSION_STATUS.md",
+       "expected_sha256": "8f9d93d74d79ec557d00d02da5fc3c332f2fa428d40c34e361805fef182007da",
+       "actual_sha256": "fcb2ff39db8ca51906258153f88fa709c9ed19455a8082576aa1dabadeb835df",
+       "actual_size_bytes": 26126},
+      {"path": "docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md",
+       "expected_sha256": "bd49e7231865e741c0f6a62858ffc3a225c81a1654231800f5039407f141fc39",
+       "actual_sha256": "26909006968755d39f3777456931cd32057fd2b021aa90b1239d4532cda1215e",
+       "actual_size_bytes": 40167}
+    ],
+    "same_as_20260910_audit": true,
+    "interpretation": "The index is a frozen 2026-08-27 snapshot inside the accepted reproducibility package. Both drifting files were edited after that date (status/milestone text, not experiment numbers, masks or frozen configs). The drift has not grown since the 2026-09-10 audit, so nothing changed in the last two days. Drift in a versioned-evidence index means the index no longer describes those two documents byte-for-byte; it does NOT by itself invalidate any experimental number, because none of the numeric evidence cited in E0-E8 is sourced from these two documents.",
+    "action_taken": "the drift is reported, not repaired. The frozen package index is deliberately left untouched (silently refreshing a frozen hash is forbidden by the task book). A formal release must regenerate the index and label the two documents as post-freeze revisions."
+  },
+  "naming_note": "In the historical record the string '122 passed' is a count; '123 passed' is a conflicting count from a second document about the same run; '81' is a 5-file subset; '141' is a later, larger tree. None of the four is the current tests/ count."
+}

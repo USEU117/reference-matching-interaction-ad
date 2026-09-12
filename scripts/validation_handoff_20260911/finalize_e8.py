@@ -57,9 +57,23 @@ ENTRY_INDEX = [
     {"kind": "figure_version_binding", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/figure_version_binding.md",
      "role": "E8-7 figure versions, generators, and the binding gap for Figures 4-6"},
     {"kind": "reference_alignment", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/reference_alignment.md",
-     "role": "E8-8 manuscript 33 references vs working BibTeX 30"},
-    {"kind": "subspacead_matrix", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E3/subspacead_small_matrix.csv",
-     "role": "E3 SubspaceAD pre-declared small matrix (12 units) after the weight blocker was resolved"},
+     "role": "E8-8 manuscript 33 references vs working BibTeX; closed 2026-09-12 (33/33 mapped, 8 entries added, [14] author corrected)"},
+    {"kind": "figure_render_qa", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/figure_render_qa.json",
+     "role": "E8-7 native PowerPoint render QA and Figures 4/5/6 binding (2026-09-12)"},
+    {"kind": "test_scope_record", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/test_scope_record.json",
+     "role": "task book section 14: explicit interpreter plus tests-scope record, the 81/122/123/141 explanation, and the VERSIONED_EVIDENCE.sha256 drift"},
+    {"kind": "anomalydino_rerun_script", "path": "scripts/validation_handoff_20260911/anomalydino_mvtec_rerun.py",
+     "role": "reconstructs the AnomalyDINO MVTec protocol for the empty seed1/K2 cell from the vendored official "
+             "inference code; the evaluated metrics land in E3/main_comparison.csv"},
+    {"kind": "anomalydino_rerun_gate", "path": "scripts/validation_handoff_20260911/verify_anomalydino_rerun.py",
+     "role": "fidelity gate for the reconstruction: reproduces the surviving seed1/K1 cell, worst abs diff 3.3e-07"},
+    {"kind": "subspacead_matrix", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E3/subspacead_full_matrix.csv",
+     "role": "E3 SubspaceAD full official matrix: 243 method-category units (2 datasets x K1/2/4 x seed 0/1/2 x "
+             "15 or 12 categories) under the native fp16 protocol"},
+    {"kind": "subspacead_matrix_superseded", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E3/subspacead_small_matrix.csv",
+     "role": "SUPERSEDED - the pre-declared 12-unit SubspaceAD small matrix (2 categories per dataset, seed 0). It ran "
+             "2 categories per process, so its K-shot shuffle saw a different category order than the full matrix; it is "
+             "kept as history and is NOT merged into the 243-unit matrix"},
     {"kind": "official_native_unit", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E1/official_native_summary.json",
      "role": "E1 unit run with the vendored official AnomalyDINO inference code; equivalent to M_B/M_S to <=1e-6"},
     {"kind": "false_positive_supplement", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E2/false_positive_summary.json",
@@ -116,12 +130,12 @@ CLAIMS = [
      "protocol": "official inference code at commit b9d1c264; frozen reference IDs; rotation=off; unified stride-8 evaluator",
      "supports": "closes the E1 pipeline-attribution question; the earlier 'blocked' status is resolved",
      "limits": "MPDD only; reference IDs and rotation are project-controlled; the official end-to-end evaluator cannot read MPDD GT (hardcoded .JPG)"},
-    {"claim_id": "C12", "claim": "SubspaceAD reproduces locally and scores in the same range as the strongest baselines on the two pre-declared categories",
-     "evidence": "E3/subspacead_small_matrix.csv; outputs/validation_handoff_20260911/subspacead_official_*",
+    {"claim_id": "C12", "claim": "SubspaceAD reproduces locally over its full official matrix (MVTec 15 + VisA 12 classes x K1/2/4 x seed 0/1/2) and is the second mechanism-different complete method required by E3",
+     "evidence": "E3/subspacead_full_matrix.csv; E3/subspacead_full_runs.csv; E3/subspacead_full_summary.json; outputs/validation_handoff_20260911/subspacead_official_full",
      "evidence_level": "baseline_reproduction_only",
-     "protocol": "SubspaceAD native evaluator (full-resolution); fp16 adaptation; VisA prepared with the official tool",
-     "supports": "resolves the E3 weight blocker; gives a native-protocol magnitude reference",
-     "limits": "only 12 units (2 categories per dataset, K1/2/4, seed 0); not the 486-unit matrix; K-shot uses the method's own random sampling, not the frozen supports"},
+     "protocol": "SubspaceAD official main.py + native evaluator (full-resolution figure), one process per (dataset,seed,K) so the upstream random.shuffle K-shot sampling sees a fixed category order; fp16 adaptation via --smoke_half; VisA prepared with the official tools/prepare_visa.py",
+     "supports": "resolves the E3 weight blocker and completes the 486-unit minimum scope; gives a native-protocol magnitude reference",
+     "limits": "243 method-category units under a DIFFERENT protocol from the unified stride-8 evaluator, so the numbers are never merged into that column; K-shot uses the method's own random shuffle, not the frozen project supports; fp16 is an accuracy adaptation; the 12-unit small matrix is superseded and not merged"},
 ]
 
 REPRO_NOTES = """# REPRODUCE — validation_handoff_20260911
@@ -162,7 +176,7 @@ foreach ($k in 2,4) {
 & '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\bootstrap_primary.py' --shots 2,4 --B 2000
 ```
 
-## 3. E3 — 基线审计、复用与 SubspaceAD 小矩阵
+## 3. E3 — 基线审计、复用与 SubspaceAD 全矩阵
 ```powershell
 & '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\e3_baseline_audit.py'
 
@@ -176,13 +190,19 @@ Set-Location -LiteralPath '.\\methods\\SubspaceAD'
 & '..\\..\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 'tools\\prepare_visa.py' --split-type 1cls `
   --data-folder '..\\..\\data\\visa_raw' --save-folder '..\\..\\data\\visa_pytorch' `
   --split-file '..\\..\\data\\visa_raw\\split_csv\\1cls.csv'
-
-# 预先声明的小矩阵：MVTec {bottle, grid} + VisA {chewinggum, pcb1}，K=1/2/4，seed 0
-foreach ($k in 1,2,4) { & '..\\..\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 'main.py' --dataset_name mvtec_ad --dataset_path '..\\..\\data\\mvtec' --model_ckpt 'checkpoints\\dinov2-with-registers-giant' --seed 0 --k_shot $k --categories bottle grid --smoke_half --no_log_file --outdir '..\\..\\outputs\\validation_handoff_20260911\\subspacead_official_mvtec_half' }
-foreach ($k in 1,2,4) { & '..\\..\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 'main.py' --dataset_name visa --dataset_path '..\\..\\data\\visa_pytorch\\1cls' --model_ckpt 'checkpoints\\dinov2-with-registers-giant' --seed 0 --k_shot $k --categories chewinggum pcb1 --smoke_half --no_log_file --outdir '..\\..\\outputs\\validation_handoff_20260911\\subspacead_official_visa_half' }
 Set-Location -LiteralPath 'D:\\STUDY\\My_github\\sci_project'
+
+# 正式矩阵：2 数据集 × K{1,2,4} × seed{0,1,2}，每个 (dataset,seed,K) 一个进程跑完全部类别
+& '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\e3_subspacead_full.py'
 ```
-说明：fp32 giant 在本机 6 GiB 卡上约 8.25 s/图（不可行），故用官方 `--smoke_half`（fp16 适配）；这不改变官方骨干与流程，但属精度适配，引用数值时必须同时说明。逐单元数值见 `E3/subspacead_small_matrix.csv`。
+说明：fp32 giant 在本机 6 GiB 卡上约 8.25 s/图（不可行），故用官方 `--smoke_half`（fp16 适配）；这不改变官方骨干与流程，但属精度适配，引用数值时必须同时说明。正式结果为 `E3/subspacead_full_matrix.csv`（243 个 method-category 单元）、`subspacead_full_runs.csv`（18 个进程状态）、`subspacead_full_summary.json`。
+
+**为什么每个 (dataset,seed,K) 必须一个进程跑完全部类别。** 上游 K-shot 采样是
+`random.shuffle(train_paths)[:k]`（进程启动时固定一次 seed），RNG 状态依赖类别顺序；把类别拆成
+多个进程会选中不同的支持图。因此**早期 12 单元小矩阵**（每个进程 2 类，seed 0）
+`E3/subspacead_small_matrix.csv` 与正式矩阵**不可比、也不合并**，仅作历史保留（该文件里的
+`subspacead_official_mvtec_half/`、`subspacead_official_visa_half/` 输出同理）。
+
 
 UniVAD 官方源码入库（仅源码，未运行）：
 ```powershell
@@ -220,6 +240,63 @@ UniVAD 官方源码入库（仅源码，未运行）：
   `experiments/dynamic_fusion/validation_handoff_20260911/` 与 `outputs/validation_handoff_20260911/`。
 - 本轮**没有**静默刷新任何冻结哈希。`artifact_sha256.json` 记录本轮新产物与新缓存的实际哈希。
 - 第三方依赖补充：SubspaceAD 需 `transformers`/`safetensors`（已在 `.venv-anomalyclip`）；官方 AnomalyDINO 推理需 `torch` + DINOv2 torch-hub 缓存；VisA 需先经官方 `prepare_visa.py` 转换。
+
+## 8. 2026-09-12 追加：SubspaceAD 全矩阵、AnomalyDINO 重建、测试与图件 QA
+
+```powershell
+# (a) SubspaceAD 全矩阵：见 §3（2 数据集 × K{1,2,4} × seed{0,1,2}，每个 (dataset,seed,K) 一个进程跑完全部类别）
+
+# (b) AnomalyDINO MVTec 重建：先跑 seed1/K1 作为保真度门，再跑 seed1/K2 作为交付
+& '.\\.venv-patchcore\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\anomalydino_mvtec_rerun.py' `
+    --out-dir 'outputs\\validation_handoff_20260911\\anomalydino_rerun' --seed 1 --shot 1 `
+    --categories bottle cable capsule carpet grid hazelnut leather metal_nut pill screw tile toothbrush transistor wood zipper
+# 逐类转换 + 统一评估（与原始管线相同的两个脚本；--category 对 15 类循环）
+& '.\\.venv-patchcore\\Scripts\\python.exe' -X utf8 '.\\scripts\\convert_anomalydino_predictions.py' `
+    --data-root 'data\\mvtec' --anomaly-dir 'outputs\\validation_handoff_20260911\\anomalydino_rerun\\anomaly_maps\\seed=1' `
+    --category bottle --output 'outputs\\anomalydino\\mvtec_rerun\\seed_1_shot_1\\predictions\\bottle.npz'
+& '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\evaluate_unified.py' `
+    --cache-dir 'outputs\\anomalydino\\mvtec_rerun\\seed_1_shot_1\\predictions' `
+    --output-dir 'outputs\\unified\\anomalydino_mvtec_rerun_s1_k1' --apro-steps 200 --workers 4
+# 保真度门（必须 exit 0 才可使用重建结果）
+& '.\\.venv-patchcore\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\verify_anomalydino_rerun.py' `
+    --stored 'outputs\\unified\\anomalydino_mvtec_full_s1_k1' --rerun 'outputs\\unified\\anomalydino_mvtec_rerun_s1_k1'
+
+# (c) 任务书 §14 的 CPU 测试记录（明确解释器 + 明确范围）
+& '.\\.venv-patchcore\\Scripts\\python.exe' -m pytest tests -q --ignore=tests/innovation_v6_dgsafe
+# 注意：无范围的 `pytest tests -q` 当前会在 tests/innovation_v6_dgsafe/test_wave2a_probes.py 处 collection 失败。
+
+# (d) E8-7 原生 Office 渲染 QA：用真实 PowerPoint（COM）把 PPTX 导成 PNG，并抽取形状文本
+#     输出在 outputs/validation_handoff_20260911/figure_render_qa/，机器记录见 E8/figure_render_qa.json
+```
+
+**为什么需要重建 AnomalyDINO MVTec seed1/K2。** 原始预测缓存
+`outputs/anomalydino/unified_matrix/seed_1_shot_2/predictions` 已被删除，产出它的项目侧
+包装脚本 `methods/anomalydino/run_anomalydino.py` 从未提交且已不在磁盘上，只剩
+`outputs/unified/anomalydino_mvtec_full_s1_k2/` 这个空目录。重建脚本按
+`scripts/run_anomalydino_mvtec_gate.ps1` 记录的调用面，用**已入库的官方推理代码**
+（`methods/anomalydino_official`）+ 项目 `data/splits/mvtec/manifest.json` 的支持图清单
++ `map_max_edge=448` 重写；官方实现未被改动。
+
+**保真度门（先过再用）。** 用同一脚本重建 `seed1/K1`，与仍然存在的
+`outputs/unified/anomalydino_mvtec_full_s1_k1` 逐类比对：15 个 MVTec 类别 × 4 项指标
+（image_auroc / pixel_auroc / pixel_ap / aupro）**最大绝对差 3.3e-07**（float32 噪声量级），
+`verify_anomalydino_rerun.py` exit 0。只有在该门通过后，`seed1/K2` 的结果才作为
+`dir_kind = "reconstructed"` 写入覆盖矩阵，绝不与原始运行混为一谈。
+
+**已知的路径碰撞（记录，不隐藏）。** 重建脚本把原始异常图写在
+`anomaly_maps/seed={seed}/`（**不含 shot**，与原项目管线布局一致），因此同一 seed 的
+K1 与 K2 会写到同一批 `.npy/.tiff` 路径、后写覆盖先写。对本轮交付无影响（管线顺序是
+「推理 → 逐类转换 → 统一评估」，每个 shot 的 `.npz` 都在下一个 shot 覆盖前落盘，评估只读
+`.npz`），但**不要**在两次重建之后再用 `anomaly_maps/seed=1` 重新转换 K1。逐 shot 的支持图
+清单在 `outputs/validation_handoff_20260911/anomalydino_rerun/rerun_manifest_seed1_shot{K}.json`。
+
+**`methods/` 的版本化缺口（本轮发现，未修复）。** `.gitignore:15` 忽略整个 `methods/`，
+因此 `methods/univad_official/SOURCE.json` 与 `methods/anomalydino_official/SOURCE.json`
+**不在 git 里**（`git ls-files methods` 为空）。磁盘上有、哈希记在 `artifact_sha256.json`，
+但换机器/克隆仓库后无法从 git 取得。可复现的替代路径是
+`scripts/validation_handoff_20260911/vendor_official_{anomalydino,univad}.py`（**已被跟踪**），
+它们按 pinned commit 重新下载并逐文件校验。正式 release 应用 `git add -f` 显式纳入这两份
+`SOURCE.json`。
 """
 
 
@@ -358,40 +435,73 @@ def main() -> int:
                          "failure_reason": reason, "reusable": "false"},
                         replace_keys=("experiment_id", "config_id"))
 
-    # ---- E3 acceptance (still partial: minimum scope not met) ----
+    # ---- E3 acceptance (derived from the coverage matrix, not hardcoded) ----
+    cov_path = C.OUT_ROOT / "E3" / "coverage_matrix.csv"
+    coverage = list(csv.DictReader(cov_path.open(encoding="utf-8"))) if cov_path.exists() else []
+    by_method: dict[str, list[dict]] = {}
+    for row in coverage:
+        by_method.setdefault(row["method"], []).append(row)
+
+    def complete_on_both(method: str) -> bool:
+        rows = by_method.get(method, [])
+        return bool(rows) and {r["dataset"] for r in rows} == {"mvtec", "visa"} \
+            and all(r["status"] == "complete" for r in rows)
+
+    units = {m: sum(int(r["categories_for_dataset"]) for r in rows)
+             for m, rows in by_method.items()}
+    required = [m for m in ("PatchCore", "AnomalyDINO") if complete_on_both(m)]
+    required_units = sum(units[m] for m in required)
+    gate_ok = len(required) >= 2 and required_units >= 486
+    recon = [f"{r['method']}/{r['dataset']}/seed{r['reference_seed']}/K{r['K']}"
+             for r in coverage if r.get("dir_kind") == "reconstructed"]
+    partial = [f"{r['method']}/{r['dataset']}/seed{r['reference_seed']}/K{r['K']}"
+               for r in coverage if r["status"] != "complete"]
+    sub_units = units.get("SubspaceAD", 0)
+    sub_note = (f"SubspaceAD additionally completed {sub_units} method-category units under its own "
+                f"native fp16 protocol (E3/subspacead_full_matrix.csv)") if sub_units else \
+               ("SubspaceAD's full matrix is not present in E3/subspacead_full_matrix.csv, so no SubspaceAD "
+                "unit is counted")
+
     acc3 = C.default_acceptance("E3", "recent_complete_baselines")
-    acc3.update({"execution_status": "blocked", "scientific_status": "baseline_only",
-                 "observed_category_config_rows": 483, "expected_category_config_rows": 486,
-                 "missing_ids": ["AnomalyDINO/mvtec/seed1/K2 (15 category units; cache dir empty)",
-                                 "UniVAD: source vendored at the pinned commit (264/264 files git-blob "
-                                 "verified) but not executed - the upstream pretrained_ckpts/ ships only "
-                                 "empty.txt, so the component checkpoints are absent",
-                                 "SubspaceAD: only the pre-declared 12-unit small matrix was executed; "
-                                 "the full matrix required by the 486-unit minimum scope was not run"],
-                 "protocol_sha256": proto_sha,
-                 "evidence_paths": ["E3/baseline_registry.json", "E3/coverage_matrix.csv",
-                                    "E3/main_comparison.csv", "E3/reused_macro_summary.csv",
-                                    "E3/subspacead_small_matrix.csv",
-                                    "methods/univad_official/SOURCE.json"],
-                 "reason": "Two distinct-mechanism methods complete on both datasets (PatchCore, AnomalyDINO) "
-                           "= 471/486 units via reused qualified outputs. SubspaceAD's weight blocker was resolved "
-                           "this round (verified giant checkpoint) and it now runs, producing a pre-declared 12-unit "
-                           "small matrix (2 datasets x 2 categories x K1/2/4, seed 0, fp16 adaptation, native "
-                           "evaluator) — this is a reproduction check, NOT the 486-unit matrix. UniVAD's source "
-                           "is now vendored at the pinned commit (264/264 files git-blob verified) but it is not "
-                           "executed, because the upstream pretrained_ckpts/ ships only empty.txt and the component "
-                           "checkpoints are absent; no UniVAD number is produced. The E3 minimum scope is therefore "
-                           "not met and E3 stays partial/blocked.",
-                 "costs": "E3 logs; SubspaceAD native per-image time ~0.09 s/image (fp16) at 256 resolution"})
+    acc3.update({
+        "execution_status": "completed" if gate_ok else "blocked",
+        "scientific_status": "baseline_only",
+        "observed_category_config_rows": required_units,
+        "expected_category_config_rows": 486,
+        "missing_ids": partial if partial else None,
+        "protocol_sha256": proto_sha,
+        "evidence_paths": ["E3/baseline_registry.json", "E3/coverage_matrix.csv",
+                           "E3/main_comparison.csv", "E3/reused_macro_summary.csv",
+                           "E3/native_vs_controlled_protocols.csv",
+                           "E3/subspacead_small_matrix.csv", "E3/subspacead_full_matrix.csv",
+                           "E3/subspacead_full_summary.json",
+                           "methods/univad_official/SOURCE.json"],
+        "reason": (
+            f"The E3 minimum scope is met: {len(required)} mechanism-different methods complete on both datasets "
+            f"({', '.join(required)}) = {required_units}/486 method-category units. "
+            + (f"{len(recon)} unit row(s) carry dir_kind='reconstructed' ({', '.join(recon)}): the original "
+               f"AnomalyDINO MVTec seed1/K2 run is unrecoverable, so it was rebuilt from the vendored official "
+               f"inference code and admitted only after a fidelity gate reproduced the surviving seed1/K1 cell "
+               f"(15 categories x 4 metrics, worst abs diff 3.3e-07). " if recon else "")
+            + f"{sub_note}. UniVAD remains resource-blocked (source vendored 264/264 files git-blob verified, but "
+              f"the component checkpoints are absent and models/dinov2 is an empty submodule; >=7.6 GB of "
+              f"checkpoints cannot be co-resident on the 6 GB laptop GPU), so it produces no number and none is "
+              f"implied. Protocol differences (unified stride-8 evaluator vs SubspaceAD's native fp16 evaluator) "
+              f"are kept in separate protocol columns and are never merged."),
+        "costs": "E3 logs; SubspaceAD native per-image time ~0.09 s/image (fp16) at 256 resolution",
+    })
     C.write_json(C.OUT_ROOT / "E3" / "acceptance.json", acc3)
     C.append_ledger({"experiment_id": "E3", "config_id": "recent_complete_baselines",
                      "protocol_version": C.PROTOCOL_VERSION, "dataset": "mvtec;visa",
                      "dataset_role": "historical_external_frozen_validation", "K": "1;2;4",
-                     "method_id": "PatchCore;AnomalyDINO;PromptAD;WinCLIP+;ReMP-AD;AdaptCLIP;AnomalyCLIP;SubspaceAD(partial,12 units);UniVAD(source vendored,not run)",
+                     "method_id": "PatchCore;AnomalyDINO;PromptAD;WinCLIP+;ReMP-AD;AdaptCLIP;AnomalyCLIP;"
+                                  f"SubspaceAD({sub_units} units,native fp16 protocol);UniVAD(source vendored,not run)",
                      "output_paths": "experiments/dynamic_fusion/validation_handoff_20260911/E3",
                      "started_utc": "", "finished_utc": C.utcnow(), "exit_code": 0,
-                     "execution_status": "blocked", "scientific_status": "baseline_only",
-                     "failure_reason": "minimum 486-unit scope not met: 15 AnomalyDINO units missing; SubspaceAD covers only a pre-declared 12-unit small matrix; UniVAD source is vendored but not executed (component checkpoints absent)",
+                     "execution_status": "completed" if gate_ok else "blocked",
+                     "scientific_status": "baseline_only",
+                     "failure_reason": ("" if gate_ok else
+                                        f"minimum 486-unit scope not met: {required_units} of 486 units complete"),
                      "reusable": "true"},
                     replace_keys=("experiment_id", "config_id"))
 
@@ -471,7 +581,9 @@ def main() -> int:
                 "E2/small_defect_response.csv", "E2/false_positive_summary.json",
                 "E4/triple_vs_locked_controls.csv", "E4/cost_delta.csv",
                 "E3/coverage_matrix.csv", "E3/main_comparison.csv", "E3/baseline_registry.json",
-                "E3/subspacead_small_matrix.csv",
+                "E3/subspacead_small_matrix.csv", "E3/subspacead_full_matrix.csv",
+                "E3/subspacead_full_summary.json", "E3/subspacead_full_runs.csv",
+                "E3/native_vs_controlled_protocols.csv", "E3/reused_macro_summary.csv",
                 "MASTER_PROTOCOL.json", "RUN_LEDGER.csv", "selected_controls_lock.json",
                 "FINAL_REPORT_CN.md", "REPRODUCE.md",
                 "E0/DECISION.md", "E1/DECISION.md", "E2/DECISION.md", "E3/DECISION.md",
@@ -486,7 +598,8 @@ def main() -> int:
                 "E8/end_to_end_cost_encoders.csv", "E8/end_to_end_cost_per_unit.csv",
                 "E8/end_to_end_cost_macro.csv", "E8/end_to_end_cost_summary.json",
                 "E8/method_clarifications.md", "E8/figure_version_binding.md",
-                "E8/reference_alignment.md"):
+                "E8/reference_alignment.md", "E8/figure_render_qa.json",
+                "E8/test_scope_record.json"):
         p = C.OUT_ROOT / rel
         if p.exists():
             targets.append(p)

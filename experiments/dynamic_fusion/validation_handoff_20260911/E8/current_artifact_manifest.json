@@ -1,6 +1,6 @@
 {
-  "created_utc": "2026-09-12T00:36:50.564456+00:00",
-  "git_head": "0da9b8fef33afb6a64b218538c0a11a7f6127adf",
+  "created_utc": "2026-09-12T05:50:02.136621+00:00",
+  "git_head": "ed26caad714486c3bf9577f9b5860ed9ce3f9446",
   "entry_index": [
     {
       "kind": "task_book",
@@ -105,12 +105,37 @@
     {
       "kind": "reference_alignment",
       "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/reference_alignment.md",
-      "role": "E8-8 manuscript 33 references vs working BibTeX 30"
+      "role": "E8-8 manuscript 33 references vs working BibTeX; closed 2026-09-12 (33/33 mapped, 8 entries added, [14] author corrected)"
+    },
+    {
+      "kind": "figure_render_qa",
+      "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/figure_render_qa.json",
+      "role": "E8-7 native PowerPoint render QA and Figures 4/5/6 binding (2026-09-12)"
+    },
+    {
+      "kind": "test_scope_record",
+      "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/test_scope_record.json",
+      "role": "task book section 14: explicit interpreter plus tests-scope record, the 81/122/123/141 explanation, and the VERSIONED_EVIDENCE.sha256 drift"
+    },
+    {
+      "kind": "anomalydino_rerun_script",
+      "path": "scripts/validation_handoff_20260911/anomalydino_mvtec_rerun.py",
+      "role": "reconstructs the AnomalyDINO MVTec protocol for the empty seed1/K2 cell from the vendored official inference code; the evaluated metrics land in E3/main_comparison.csv"
+    },
+    {
+      "kind": "anomalydino_rerun_gate",
+      "path": "scripts/validation_handoff_20260911/verify_anomalydino_rerun.py",
+      "role": "fidelity gate for the reconstruction: reproduces the surviving seed1/K1 cell, worst abs diff 3.3e-07"
     },
     {
       "kind": "subspacead_matrix",
+      "path": "experiments/dynamic_fusion/validation_handoff_20260911/E3/subspacead_full_matrix.csv",
+      "role": "E3 SubspaceAD full official matrix: 243 method-category units (2 datasets x K1/2/4 x seed 0/1/2 x 15 or 12 categories) under the native fp16 protocol"
+    },
+    {
+      "kind": "subspacead_matrix_superseded",
       "path": "experiments/dynamic_fusion/validation_handoff_20260911/E3/subspacead_small_matrix.csv",
-      "role": "E3 SubspaceAD pre-declared small matrix (12 units) after the weight blocker was resolved"
+      "role": "SUPERSEDED - the pre-declared 12-unit SubspaceAD small matrix (2 categories per dataset, seed 0). It ran 2 categories per process, so its K-shot shuffle saw a different category order than the full matrix; it is kept as history and is NOT merged into the 243-unit matrix"
     },
     {
       "kind": "official_native_unit",

@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-09-12T00:32:21.096573+00:00",
+  "created_utc": "2026-09-12T05:47:23.727816+00:00",
   "note": "model cards; reused outputs referenced by path, protocol groups kept separate",
   "model_cards": {
     "PatchCore": {
@@ -89,8 +89,11 @@
       "source_training": "none",
       "text_used_at_inference": false,
       "protocol_group": "frozen normal modelling (training-free)",
-      "project_source": "methods/SubspaceAD (vendored); no completed run found -> partially executed this round",
-      "risk": "few-shot vs batched zero-shot differ (the latter fits the test set); replacing the backbone must be renamed"
+      "has_local_runs": true,
+      "project_source": "methods/SubspaceAD (vendored) run through its official main.py; full matrix under outputs/validation_handoff_20260911/subspacead_official_full, summary in E3/subspacead_full_matrix.csv",
+      "risk": "few-shot vs batched zero-shot differ (the latter fits the test set); replacing the backbone must be renamed",
+      "protocol_note": "controlled adaptation, not vendor-native exact: fp16 via --smoke_half (forced by the 6 GB laptop GPU) and the native evaluator computes P-AUROC/P-AP on its own stride-8 subsample of the 672x672 map while AU-PRO stays full resolution. Never merged into the unified stride-8 column.",
+      "unit_basis": "243 method-category units = 2 datasets x 9 (K 1/2/4 x seed 0/1/2) x 15 or 12 categories"
     },
     "UniVAD": {
       "mechanism": "component/structure-aware anomaly detection with graph/part modelling",
@@ -105,7 +108,39 @@
       "project_source": "methods/univad_official (source vendored this round at the pinned commit; per-file git blob SHA-1 verified against the GitHub tree API)",
       "source_manifest": "methods/univad_official/SOURCE.json",
       "has_local_runs": false,
-      "status": "source vendored; NOT run - upstream pretrained_ckpts/ ships only empty.txt, so the component checkpoints (GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM) are still missing and no UniVAD number is produced"
+      "status": "source vendored; NOT run - the component checkpoints are absent, and the models/dinov2 submodule directory is empty",
+      "missing_resources": [
+        {
+          "item": "models/dinov2 (git submodule)",
+          "detail": "directory exists but is empty (0 entries); .gitmodules pins https://github.com/facebookresearch/dinov2.git; UniVAD.py:100 calls torch.hub.load('./models/dinov2','dinov2_vitg14',pretrained=True,source='local'), so the local source tree must be cloned before anything can run"
+        },
+        {
+          "item": "pretrained_ckpts/groundingdino_swint_ogc.pth",
+          "detail": "absent; needed by models/component_segmentaion.py:265; upstream GitHub release asset verified reachable this round, 693,997,677 bytes"
+        },
+        {
+          "item": "pretrained_ckpts/sam_hq_vit_h.pth",
+          "detail": "absent; loaded at models/component_segmentaion.py:266; upstream HuggingFace file is the standard HQ-SAM ViT-H checkpoint (~2.4 GB); exact size not confirmed this round because the proxy TLS handshake to HuggingFace was intermittent"
+        },
+        {
+          "item": "dinov2_vitg14_pretrain.pth",
+          "detail": "absent from the torch-hub cache (only vitb14 and vits14 are cached); upstream size 4,546,108,579 bytes, verified reachable this round"
+        },
+        {
+          "item": "models/ram/pretrain_model/swin_large_patch4_window7_224_22k.pth",
+          "detail": "absent; required by the RAM configs (models/ram/configs/swin/config_swinL_224.json); not fetched this round"
+        },
+        {
+          "item": "per-class histogram / heat_masks features",
+          "detail": "UniVAD.py:816-820 reads heat_masks/<class>_heat/train_features_sampled.pth"
+        },
+        {
+          "item": "additional data bundle",
+          "detail": "README.md:69 points at a OneDrive share for extra data/ assets, which is not a CLI-friendly source"
+        }
+      ],
+      "resource_total_estimate": ">= 7.6 GB of component checkpoints (4.55 GB DINOv2-g + 0.69 GB GroundingDINO + ~2.4 GB HQ-SAM) plus a dinov2 git clone and the RAM Swin-L weight",
+      "resource_verdict": "GroundingDINO SwinT + HQ-SAM ViT-H + DINOv2-g + RAM Swin-L cannot be co-resident on the 6 GB laptop GPU. E3's two-complete-method requirement (486 units) is satisfied without UniVAD by PatchCore + SubspaceAD, so UniVAD is recorded as resource-blocked rather than run; no UniVAD number is produced and none is implied."
     }
   }
 }

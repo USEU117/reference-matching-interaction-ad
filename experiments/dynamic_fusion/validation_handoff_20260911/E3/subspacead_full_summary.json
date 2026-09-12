@@ -1,0 +1,53 @@
+{
+  "created_utc": "2026-09-12T05:46:46.795559+00:00",
+  "protocol": "SubspaceAD official main.py, fp16 (--smoke_half), native evaluator",
+  "model_ckpt": "checkpoints/dinov2-with-registers-giant",
+  "datasets": {
+    "mvtec": {
+      "n_categories": 15,
+      "categories": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    "visa": {
+      "n_categories": 12,
+      "categories": [
+        "candle",
+        "capsules",
+        "cashew",
+        "chewinggum",
+        "fryum",
+        "macaroni1",
+        "macaroni2",
+        "pcb1",
+        "pcb2",
+        "pcb3",
+        "pcb4",
+        "pipe_fryum"
+      ]
+    }
+  },
+  "planned_runs": 18,
+  "runs_ok": 18,
+  "matrix_rows": 243,
+  "expected_matrix_rows": 243,
+  "total_seconds": 7395.0,
+  "status_counts": {
+    "completed": 18
+  },
+  "note": "All categories of a dataset run in one process per (seed, K) so the upstream K-shot shuffle sees a fixed category order; the earlier 12-unit small matrix (2 categories per process) is not merged. fp16 via --smoke_half is an accuracy adaptation. The native evaluator computes P-AUROC/P-AP on its own stride-8 subsample of the 672x672 map and AU-PRO at full resolution."
+}
