@@ -1,0 +1,856 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-12T14:47:13.313337+00:00",
+  "category": "bracket_brown",
+  "shot": 2,
+  "seed": 0,
+  "n_images": 77,
+  "configurations": 89,
+  "canonical_source_shot": 4,
+  "selected_reference_images": 2,
+  "timing": {
+    "load_s": 4.42200000000048,
+    "score_s": 9.5,
+    "metric_s": 54.96900000000005,
+    "total_s": 70.92200000000048
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_vitb14_s0_k4\\anomalydino_visual\\bracket_brown.npz",
+    "S": "D:\\STUDY\\My_github\\sci_project\\outputs\\validation_handoff_20260911\\DINO_S\\s0_k4\\bracket_brown.npz",
+    "C": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_s0_k4\\anomalyclip_text\\bracket_brown.npz"
+  },
+  "engine": {
+    "requested_device": "cuda",
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 77,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 78848,
+    "reference_rows": 2048,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_C_within_p00",
+      "INV_SINGLE_S_within_p00",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "INV_SINGLE_C_cross_p00",
+      "INV_SINGLE_S_cross_p00",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "INV_SINGLE_C_within_p01",
+      "INV_SINGLE_S_within_p01",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "INV_SINGLE_C_within_p02",
+      "INV_SINGLE_S_within_p02",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02",
+      "INV_SINGLE_C_within_p03",
+      "INV_SINGLE_S_within_p03",
+      "A1_J__perm_C_within_p03",
+      "TRI_J__perm_C_within_p03",
+      "TRI_J__perm_S_within_p03",
+      "BAL_J__perm_C_within_p03",
+      "BAL_J__perm_S_within_p03",
+      "INV_SINGLE_C_within_p04",
+      "INV_SINGLE_S_within_p04",
+      "A1_J__perm_C_within_p04",
+      "TRI_J__perm_C_within_p04",
+      "TRI_J__perm_S_within_p04",
+      "BAL_J__perm_C_within_p04",
+      "BAL_J__perm_S_within_p04",
+      "INV_SINGLE_C_within_p05",
+      "INV_SINGLE_S_within_p05",
+      "A1_J__perm_C_within_p05",
+      "TRI_J__perm_C_within_p05",
+      "TRI_J__perm_S_within_p05",
+      "BAL_J__perm_C_within_p05",
+      "BAL_J__perm_S_within_p05",
+      "INV_SINGLE_C_within_p06",
+      "INV_SINGLE_S_within_p06",
+      "A1_J__perm_C_within_p06",
+      "TRI_J__perm_C_within_p06",
+      "TRI_J__perm_S_within_p06",
+      "BAL_J__perm_C_within_p06",
+      "BAL_J__perm_S_within_p06",
+      "INV_SINGLE_C_within_p07",
+      "INV_SINGLE_S_within_p07",
+      "A1_J__perm_C_within_p07",
+      "TRI_J__perm_C_within_p07",
+      "TRI_J__perm_S_within_p07",
+      "BAL_J__perm_C_within_p07",
+      "BAL_J__perm_S_within_p07",
+      "INV_SINGLE_C_within_p08",
+      "INV_SINGLE_S_within_p08",
+      "A1_J__perm_C_within_p08",
+      "TRI_J__perm_C_within_p08",
+      "TRI_J__perm_S_within_p08",
+      "BAL_J__perm_C_within_p08",
+      "BAL_J__perm_S_within_p08",
+      "INV_SINGLE_C_within_p09",
+      "INV_SINGLE_S_within_p09",
+      "A1_J__perm_C_within_p09",
+      "TRI_J__perm_C_within_p09",
+      "TRI_J__perm_S_within_p09",
+      "BAL_J__perm_C_within_p09",
+      "BAL_J__perm_S_within_p09"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02",
+      "A1_J__perm_C_within_p03",
+      "TRI_J__perm_C_within_p03",
+      "TRI_J__perm_S_within_p03",
+      "BAL_J__perm_C_within_p03",
+      "BAL_J__perm_S_within_p03",
+      "A1_J__perm_C_within_p04",
+      "TRI_J__perm_C_within_p04",
+      "TRI_J__perm_S_within_p04",
+      "BAL_J__perm_C_within_p04",
+      "BAL_J__perm_S_within_p04",
+      "A1_J__perm_C_within_p05",
+      "TRI_J__perm_C_within_p05",
+      "TRI_J__perm_S_within_p05",
+      "BAL_J__perm_C_within_p05",
+      "BAL_J__perm_S_within_p05",
+      "A1_J__perm_C_within_p06",
+      "TRI_J__perm_C_within_p06",
+      "TRI_J__perm_S_within_p06",
+      "BAL_J__perm_C_within_p06",
+      "BAL_J__perm_S_within_p06",
+      "A1_J__perm_C_within_p07",
+      "TRI_J__perm_C_within_p07",
+      "TRI_J__perm_S_within_p07",
+      "BAL_J__perm_C_within_p07",
+      "BAL_J__perm_S_within_p07",
+      "A1_J__perm_C_within_p08",
+      "TRI_J__perm_C_within_p08",
+      "TRI_J__perm_S_within_p08",
+      "BAL_J__perm_C_within_p08",
+      "BAL_J__perm_S_within_p08",
+      "A1_J__perm_C_within_p09",
+      "TRI_J__perm_C_within_p09",
+      "TRI_J__perm_S_within_p09",
+      "BAL_J__perm_C_within_p09",
+      "BAL_J__perm_S_within_p09",
+      "A1_L",
+      "TRI_L",
+      "BAL_L",
+      "A1_lambda_0.25",
+      "A1_lambda_0.50",
+      "A1_lambda_0.75",
+      "TRI_lambda_0.25",
+      "TRI_lambda_0.50",
+      "TRI_lambda_0.75",
+      "BAL_lambda_0.25",
+      "BAL_lambda_0.50",
+      "BAL_lambda_0.75"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "TRI_G",
+      "BAL_G",
+      "DELTA_TRI_G",
+      "DELTA_BAL_G"
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.8817220715124212,
+        "pixel_ap": 0.037683947000412124,
+        "pixel_aupro": 0.7502920842089608,
+        "image_auroc": 0.45248868778280543,
+        "image_ap": 0.6526055952335706,
+        "image_f1_max": 0.8095238095238095
+      },
+      "S": {
+        "pixel_auroc": 0.9268723573188242,
+        "pixel_ap": 0.04330864981732668,
+        "pixel_aupro": 0.7912353356051693,
+        "image_auroc": 0.4660633484162896,
+        "image_ap": 0.6793357099056567,
+        "image_f1_max": 0.8095238095238095
+      },
+      "C": {
+        "pixel_auroc": 0.9249674471291033,
+        "pixel_ap": 0.02872429392249899,
+        "pixel_aupro": 0.7869469630754049,
+        "image_auroc": 0.6176470588235294,
+        "image_ap": 0.7313922613207775,
+        "image_f1_max": 0.8095238095238095
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9039260470367483,
+        "pixel_ap": 0.03336958319325254,
+        "pixel_aupro": 0.7832890986845835,
+        "image_auroc": 0.5708898944193062,
+        "image_ap": 0.7598400574200707,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9152140793935396,
+        "pixel_ap": 0.03730236593058412,
+        "pixel_aupro": 0.795007802196152,
+        "image_auroc": 0.5407239819004525,
+        "image_ap": 0.7379669213664904,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9188949912164149,
+        "pixel_ap": 0.03529768097625927,
+        "pixel_aupro": 0.8008618371883619,
+        "image_auroc": 0.5761689291101055,
+        "image_ap": 0.7542956958361293,
+        "image_f1_max": 0.8160000000000001
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.8951119726215568,
+        "pixel_ap": 0.03532162403908852,
+        "pixel_aupro": 0.7730745533307944,
+        "image_auroc": 0.5150829562594268,
+        "image_ap": 0.7149788611545356,
+        "image_f1_max": 0.8160000000000001
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9039260470367483,
+        "pixel_ap": 0.03336958319325254,
+        "pixel_aupro": 0.7832890986845835,
+        "image_auroc": 0.5708898944193062,
+        "image_ap": 0.7598400574200707,
+        "image_f1_max": 0.8160000000000001
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.8951119726215568,
+        "pixel_ap": 0.03532162403908852,
+        "pixel_aupro": 0.7730745533307944,
+        "image_auroc": 0.5150829562594268,
+        "image_ap": 0.7149788611545356,
+        "image_f1_max": 0.8160000000000001
+      },
+      "A1_J__perm_C_within_p00": {
+        "pixel_auroc": 0.9422015682551246,
+        "pixel_ap": 0.04682942921907654,
+        "pixel_aupro": 0.8567444476067786,
+        "image_auroc": 0.5784313725490196,
+        "image_ap": 0.7517479637001806,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_C_within_p00": {
+        "pixel_auroc": 0.9459224792130424,
+        "pixel_ap": 0.04985612261546675,
+        "pixel_aupro": 0.8598246477669582,
+        "image_auroc": 0.5233785822021116,
+        "image_ap": 0.7252929011709612,
+        "image_f1_max": 0.8031496062992126
+      },
+      "TRI_J__perm_S_within_p00": {
+        "pixel_auroc": 0.9505506860898348,
+        "pixel_ap": 0.061391324154204834,
+        "pixel_aupro": 0.8878979243271046,
+        "image_auroc": 0.40874811463046756,
+        "image_ap": 0.6472073938170521,
+        "image_f1_max": 0.8031496062992126
+      },
+      "BAL_J__perm_C_within_p00": {
+        "pixel_auroc": 0.9472344680012657,
+        "pixel_ap": 0.04810095174281191,
+        "pixel_aupro": 0.8621556059220161,
+        "image_auroc": 0.5188536953242836,
+        "image_ap": 0.7255629202120363,
+        "image_f1_max": 0.8064516129032259
+      },
+      "BAL_J__perm_S_within_p00": {
+        "pixel_auroc": 0.9493304093317394,
+        "pixel_ap": 0.05476655664131216,
+        "pixel_aupro": 0.8877592081338328,
+        "image_auroc": 0.4132730015082956,
+        "image_ap": 0.6655668937482132,
+        "image_f1_max": 0.8031496062992126
+      },
+      "A1_J__perm_C_cross_p00": {
+        "pixel_auroc": 0.9190087980976397,
+        "pixel_ap": 0.03733716307439813,
+        "pixel_aupro": 0.8009163518600246,
+        "image_auroc": 0.5904977375565611,
+        "image_ap": 0.7591347241741205,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_C_cross_p00": {
+        "pixel_auroc": 0.9277912221009703,
+        "pixel_ap": 0.041213403728087676,
+        "pixel_aupro": 0.8160789165795003,
+        "image_auroc": 0.548265460030166,
+        "image_ap": 0.7427267447889466,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_S_cross_p00": {
+        "pixel_auroc": 0.9305499098244476,
+        "pixel_ap": 0.040991473555874916,
+        "pixel_aupro": 0.8303974412654199,
+        "image_auroc": 0.5429864253393665,
+        "image_ap": 0.7549120048749354,
+        "image_f1_max": 0.8064516129032259
+      },
+      "BAL_J__perm_C_cross_p00": {
+        "pixel_auroc": 0.9315334252581329,
+        "pixel_ap": 0.03925186087183906,
+        "pixel_aupro": 0.8222225712023357,
+        "image_auroc": 0.5867269984917043,
+        "image_ap": 0.7666999621566565,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_J__perm_S_cross_p00": {
+        "pixel_auroc": 0.9303673627709657,
+        "pixel_ap": 0.03809448995282097,
+        "pixel_aupro": 0.8280645822356613,
+        "image_auroc": 0.5723981900452488,
+        "image_ap": 0.7635126073760473,
+        "image_f1_max": 0.8130081300813009
+      },
+      "A1_J__perm_C_within_p01": {
+        "pixel_auroc": 0.9411122724587335,
+        "pixel_ap": 0.044392182822659755,
+        "pixel_aupro": 0.8512785150536174,
+        "image_auroc": 0.5723981900452488,
+        "image_ap": 0.7296770962851774,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_C_within_p01": {
+        "pixel_auroc": 0.9429732636744392,
+        "pixel_ap": 0.046522425223452346,
+        "pixel_aupro": 0.8578435463169678,
+        "image_auroc": 0.530920060331825,
+        "image_ap": 0.7243964934399786,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_S_within_p01": {
+        "pixel_auroc": 0.9440121315813224,
+        "pixel_ap": 0.052184232426207004,
+        "pixel_aupro": 0.8746642086220885,
+        "image_auroc": 0.526395173453997,
+        "image_ap": 0.6630642652103838,
+        "image_f1_max": 0.8130081300813009
+      },
+      "BAL_J__perm_C_within_p01": {
+        "pixel_auroc": 0.9440530058166026,
+        "pixel_ap": 0.04460577283948063,
+        "pixel_aupro": 0.8517299786607322,
+        "image_auroc": 0.555052790346908,
+        "image_ap": 0.7297187795605513,
+        "image_f1_max": 0.8095238095238095
+      },
+      "BAL_J__perm_S_within_p01": {
+        "pixel_auroc": 0.9456960417835922,
+        "pixel_ap": 0.04919165251591549,
+        "pixel_aupro": 0.8728009216629815,
+        "image_auroc": 0.5671191553544495,
+        "image_ap": 0.7100967982525545,
+        "image_f1_max": 0.8130081300813009
+      },
+      "A1_J__perm_C_within_p02": {
+        "pixel_auroc": 0.9398604806528664,
+        "pixel_ap": 0.046604378155053555,
+        "pixel_aupro": 0.836984874938196,
+        "image_auroc": 0.5912518853695324,
+        "image_ap": 0.740499541136365,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_C_within_p02": {
+        "pixel_auroc": 0.94072185954751,
+        "pixel_ap": 0.0487335600998961,
+        "pixel_aupro": 0.8427579020445011,
+        "image_auroc": 0.5429864253393666,
+        "image_ap": 0.7388494218472389,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_S_within_p02": {
+        "pixel_auroc": 0.9447789596130411,
+        "pixel_ap": 0.04577785761792424,
+        "pixel_aupro": 0.8305442287467311,
+        "image_auroc": 0.5015082956259427,
+        "image_ap": 0.6813169012290489,
+        "image_f1_max": 0.8031496062992126
+      },
+      "BAL_J__perm_C_within_p02": {
+        "pixel_auroc": 0.943508800234867,
+        "pixel_ap": 0.04763509030789434,
+        "pixel_aupro": 0.8430995147025026,
+        "image_auroc": 0.5520361990950227,
+        "image_ap": 0.748453714904418,
+        "image_f1_max": 0.8095238095238095
+      },
+      "BAL_J__perm_S_within_p02": {
+        "pixel_auroc": 0.9430038140147596,
+        "pixel_ap": 0.042252496683928116,
+        "pixel_aupro": 0.8360526056009995,
+        "image_auroc": 0.5060331825037707,
+        "image_ap": 0.7168479572707329,
+        "image_f1_max": 0.8031496062992126
+      },
+      "A1_J__perm_C_within_p03": {
+        "pixel_auroc": 0.925062968419089,
+        "pixel_ap": 0.03142092548482699,
+        "pixel_aupro": 0.8174091106828452,
+        "image_auroc": 0.557315233785822,
+        "image_ap": 0.7417079115610254,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_C_within_p03": {
+        "pixel_auroc": 0.930042578564488,
+        "pixel_ap": 0.036136639194192986,
+        "pixel_aupro": 0.8104561661541841,
+        "image_auroc": 0.524132730015083,
+        "image_ap": 0.7363708347188691,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_S_within_p03": {
+        "pixel_auroc": 0.9376586007171606,
+        "pixel_ap": 0.03953967503507857,
+        "pixel_aupro": 0.8512684844632763,
+        "image_auroc": 0.5007541478129713,
+        "image_ap": 0.7060296075006397,
+        "image_f1_max": 0.8
+      },
+      "BAL_J__perm_C_within_p03": {
+        "pixel_auroc": 0.9289404860953416,
+        "pixel_ap": 0.03300570802206674,
+        "pixel_aupro": 0.8186159197831172,
+        "image_auroc": 0.528657616892911,
+        "image_ap": 0.7197386897192659,
+        "image_f1_max": 0.8095238095238095
+      },
+      "BAL_J__perm_S_within_p03": {
+        "pixel_auroc": 0.9367324968160556,
+        "pixel_ap": 0.037147401982662864,
+        "pixel_aupro": 0.8475076012310327,
+        "image_auroc": 0.5776772247360483,
+        "image_ap": 0.7437239511788881,
+        "image_f1_max": 0.796875
+      },
+      "A1_J__perm_C_within_p04": {
+        "pixel_auroc": 0.9347707127370375,
+        "pixel_ap": 0.03811371239286205,
+        "pixel_aupro": 0.8279218731380672,
+        "image_auroc": 0.521870286576169,
+        "image_ap": 0.7110882674687294,
+        "image_f1_max": 0.796875
+      },
+      "TRI_J__perm_C_within_p04": {
+        "pixel_auroc": 0.9375412476781102,
+        "pixel_ap": 0.04092535377991566,
+        "pixel_aupro": 0.8340143035960823,
+        "image_auroc": 0.5467571644042233,
+        "image_ap": 0.7342766263235543,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_S_within_p04": {
+        "pixel_auroc": 0.9460446882004698,
+        "pixel_ap": 0.04482776461689276,
+        "pixel_aupro": 0.8501508603179728,
+        "image_auroc": 0.5361990950226244,
+        "image_ap": 0.7130874806325797,
+        "image_f1_max": 0.8067226890756304
+      },
+      "BAL_J__perm_C_within_p04": {
+        "pixel_auroc": 0.9402973501381406,
+        "pixel_ap": 0.04006262326957283,
+        "pixel_aupro": 0.8387950766460982,
+        "image_auroc": 0.5542986425339367,
+        "image_ap": 0.7462700897455029,
+        "image_f1_max": 0.8064516129032259
+      },
+      "BAL_J__perm_S_within_p04": {
+        "pixel_auroc": 0.9472643777453338,
+        "pixel_ap": 0.04506227928369966,
+        "pixel_aupro": 0.8566283307344894,
+        "image_auroc": 0.61236802413273,
+        "image_ap": 0.7571383107436421,
+        "image_f1_max": 0.8099173553719008
+      },
+      "A1_J__perm_C_within_p05": {
+        "pixel_auroc": 0.9340468237195907,
+        "pixel_ap": 0.03996040276082274,
+        "pixel_aupro": 0.8417187901987124,
+        "image_auroc": 0.5965309200603318,
+        "image_ap": 0.7673902121553672,
+        "image_f1_max": 0.8031496062992126
+      },
+      "TRI_J__perm_C_within_p05": {
+        "pixel_auroc": 0.9355930095406784,
+        "pixel_ap": 0.04192924315888853,
+        "pixel_aupro": 0.844240018529383,
+        "image_auroc": 0.5535444947209653,
+        "image_ap": 0.7509522759291115,
+        "image_f1_max": 0.796875
+      },
+      "TRI_J__perm_S_within_p05": {
+        "pixel_auroc": 0.9465451063592062,
+        "pixel_ap": 0.05864695465785502,
+        "pixel_aupro": 0.8513409500111412,
+        "image_auroc": 0.4751131221719457,
+        "image_ap": 0.673303372979722,
+        "image_f1_max": 0.8
+      },
+      "BAL_J__perm_C_within_p05": {
+        "pixel_auroc": 0.9380340091864019,
+        "pixel_ap": 0.041424876286226736,
+        "pixel_aupro": 0.8497163040999929,
+        "image_auroc": 0.5746606334841629,
+        "image_ap": 0.7493576228433286,
+        "image_f1_max": 0.8099173553719008
+      },
+      "BAL_J__perm_S_within_p05": {
+        "pixel_auroc": 0.9450499470800766,
+        "pixel_ap": 0.051706893668190104,
+        "pixel_aupro": 0.8509679422570546,
+        "image_auroc": 0.5248868778280543,
+        "image_ap": 0.7045057391694406,
+        "image_f1_max": 0.8064516129032259
+      },
+      "A1_J__perm_C_within_p06": {
+        "pixel_auroc": 0.9390324146698815,
+        "pixel_ap": 0.043347227889419866,
+        "pixel_aupro": 0.868097025299186,
+        "image_auroc": 0.5897435897435898,
+        "image_ap": 0.7441137097562944,
+        "image_f1_max": 0.8031496062992126
+      },
+      "TRI_J__perm_C_within_p06": {
+        "pixel_auroc": 0.9436132021717083,
+        "pixel_ap": 0.04670938367427629,
+        "pixel_aupro": 0.8643895413572645,
+        "image_auroc": 0.5580693815987934,
+        "image_ap": 0.733351028455154,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_S_within_p06": {
+        "pixel_auroc": 0.9421267290727147,
+        "pixel_ap": 0.04611723087009681,
+        "pixel_aupro": 0.8732506504419354,
+        "image_auroc": 0.5520361990950227,
+        "image_ap": 0.710163219086726,
+        "image_f1_max": 0.8
+      },
+      "BAL_J__perm_C_within_p06": {
+        "pixel_auroc": 0.9448476826264702,
+        "pixel_ap": 0.04473438030938417,
+        "pixel_aupro": 0.8710329346499546,
+        "image_auroc": 0.5731523378582203,
+        "image_ap": 0.7553713843391083,
+        "image_f1_max": 0.8031496062992126
+      },
+      "BAL_J__perm_S_within_p06": {
+        "pixel_auroc": 0.9419783013958161,
+        "pixel_ap": 0.044988067485777196,
+        "pixel_aupro": 0.8670575390378122,
+        "image_auroc": 0.5633484162895928,
+        "image_ap": 0.7394213143350095,
+        "image_f1_max": 0.8
+      },
+      "A1_J__perm_C_within_p07": {
+        "pixel_auroc": 0.937370208478733,
+        "pixel_ap": 0.04329748154628695,
+        "pixel_aupro": 0.8181424525232524,
+        "image_auroc": 0.5716440422322776,
+        "image_ap": 0.7450295451707324,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_C_within_p07": {
+        "pixel_auroc": 0.9390698342610865,
+        "pixel_ap": 0.043986888770936136,
+        "pixel_aupro": 0.8353518035262603,
+        "image_auroc": 0.5490196078431373,
+        "image_ap": 0.7387454954546716,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_J__perm_S_within_p07": {
+        "pixel_auroc": 0.9322958148729604,
+        "pixel_ap": 0.03938406436788219,
+        "pixel_aupro": 0.8212414749417468,
+        "image_auroc": 0.44645550527903466,
+        "image_ap": 0.6683563327137022,
+        "image_f1_max": 0.796875
+      },
+      "BAL_J__perm_C_within_p07": {
+        "pixel_auroc": 0.9415701557889286,
+        "pixel_ap": 0.04482725482930761,
+        "pixel_aupro": 0.8341235441575678,
+        "image_auroc": 0.5392156862745098,
+        "image_ap": 0.7260772773700708,
+        "image_f1_max": 0.8031496062992126
+      },
+      "BAL_J__perm_S_within_p07": {
+        "pixel_auroc": 0.9355817361905587,
+        "pixel_ap": 0.040442183344417286,
+        "pixel_aupro": 0.8214181262911193,
+        "image_auroc": 0.4660633484162896,
+        "image_ap": 0.7049029680528294,
+        "image_f1_max": 0.8031496062992126
+      },
+      "A1_J__perm_C_within_p08": {
+        "pixel_auroc": 0.9376603661699273,
+        "pixel_ap": 0.0420150805804403,
+        "pixel_aupro": 0.8569363985385503,
+        "image_auroc": 0.5686274509803921,
+        "image_ap": 0.7444045033627248,
+        "image_f1_max": 0.8064516129032259
+      },
+      "TRI_J__perm_C_within_p08": {
+        "pixel_auroc": 0.9429016713236298,
+        "pixel_ap": 0.04720524116092786,
+        "pixel_aupro": 0.8523144135540247,
+        "image_auroc": 0.5467571644042233,
+        "image_ap": 0.7354448561800464,
+        "image_f1_max": 0.8064516129032259
+      },
+      "TRI_J__perm_S_within_p08": {
+        "pixel_auroc": 0.9492633011546965,
+        "pixel_ap": 0.05580013828435127,
+        "pixel_aupro": 0.873892607435693,
+        "image_auroc": 0.43288084464555054,
+        "image_ap": 0.6468738613993092,
+        "image_f1_max": 0.796875
+      },
+      "BAL_J__perm_C_within_p08": {
+        "pixel_auroc": 0.9448783873962443,
+        "pixel_ap": 0.044998005196906096,
+        "pixel_aupro": 0.8594462076571363,
+        "image_auroc": 0.5444947209653093,
+        "image_ap": 0.7414792116765584,
+        "image_f1_max": 0.8196721311475409
+      },
+      "BAL_J__perm_S_within_p08": {
+        "pixel_auroc": 0.9472006822685638,
+        "pixel_ap": 0.051053344803972237,
+        "pixel_aupro": 0.873591318905114,
+        "image_auroc": 0.5143288084464555,
+        "image_ap": 0.7122083728742913,
+        "image_f1_max": 0.8
+      },
+      "A1_J__perm_C_within_p09": {
+        "pixel_auroc": 0.9387121718332643,
+        "pixel_ap": 0.04438427781821881,
+        "pixel_aupro": 0.8346969491052704,
+        "image_auroc": 0.5980392156862746,
+        "image_ap": 0.7659519259385988,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_C_within_p09": {
+        "pixel_auroc": 0.9407385817788474,
+        "pixel_ap": 0.04643972031272266,
+        "pixel_aupro": 0.8382411404418578,
+        "image_auroc": 0.5399698340874812,
+        "image_ap": 0.7344182556312088,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_J__perm_S_within_p09": {
+        "pixel_auroc": 0.9381791671532624,
+        "pixel_ap": 0.04824189338572165,
+        "pixel_aupro": 0.8770183820731451,
+        "image_auroc": 0.4555052790346908,
+        "image_ap": 0.6478485524050664,
+        "image_f1_max": 0.8031496062992126
+      },
+      "BAL_J__perm_C_within_p09": {
+        "pixel_auroc": 0.9429228643829783,
+        "pixel_ap": 0.046849277947797294,
+        "pixel_aupro": 0.8453221700414576,
+        "image_auroc": 0.5656108597285068,
+        "image_ap": 0.7277715382310513,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_J__perm_S_within_p09": {
+        "pixel_auroc": 0.9376414781131653,
+        "pixel_ap": 0.04682317263686441,
+        "pixel_aupro": 0.8748863083757433,
+        "image_auroc": 0.4457013574660634,
+        "image_ap": 0.6667912263253971,
+        "image_f1_max": 0.8031496062992126
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9123518896184327,
+        "pixel_ap": 0.0390990868766131,
+        "pixel_aupro": 0.797008514288901,
+        "image_auroc": 0.552790346907994,
+        "image_ap": 0.7371496498349854,
+        "image_f1_max": 0.8095238095238095
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9233213473580139,
+        "pixel_ap": 0.04145489763783313,
+        "pixel_aupro": 0.8097495284493953,
+        "image_auroc": 0.5444947209653092,
+        "image_ap": 0.747203874411268,
+        "image_f1_max": 0.8095238095238095
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9279971070673245,
+        "pixel_ap": 0.04017309650456525,
+        "pixel_aupro": 0.8209287136052982,
+        "image_auroc": 0.5716440422322775,
+        "image_ap": 0.7586885658644605,
+        "image_f1_max": 0.8160000000000001
+      },
+      "A1_lambda_0.25": {
+        "pixel_auroc": 0.9109132553324272,
+        "pixel_ap": 0.03789041584402391,
+        "pixel_aupro": 0.8006358461337472,
+        "image_auroc": 0.5542986425339367,
+        "image_ap": 0.7438579069972087,
+        "image_f1_max": 0.8095238095238095
+      },
+      "A1_lambda_0.50": {
+        "pixel_auroc": 0.9090028333457849,
+        "pixel_ap": 0.035769725553942824,
+        "pixel_aupro": 0.7921099391231128,
+        "image_auroc": 0.5588235294117647,
+        "image_ap": 0.7476646339492844,
+        "image_f1_max": 0.8095238095238095
+      },
+      "A1_lambda_0.75": {
+        "pixel_auroc": 0.9066630803190524,
+        "pixel_ap": 0.034484175786638094,
+        "pixel_aupro": 0.7874625595444912,
+        "image_auroc": 0.5648567119155354,
+        "image_ap": 0.7529326700023794,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_lambda_0.25": {
+        "pixel_auroc": 0.9219425725974102,
+        "pixel_ap": 0.04053712512314202,
+        "pixel_aupro": 0.8047554783839338,
+        "image_auroc": 0.5429864253393666,
+        "image_ap": 0.7450782432813515,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_lambda_0.50": {
+        "pixel_auroc": 0.9201107895203532,
+        "pixel_ap": 0.03943613916444115,
+        "pixel_aupro": 0.8093335264138869,
+        "image_auroc": 0.5437405731523378,
+        "image_ap": 0.7446292959716713,
+        "image_f1_max": 0.8160000000000001
+      },
+      "TRI_lambda_0.75": {
+        "pixel_auroc": 0.9178569068960191,
+        "pixel_ap": 0.038354150744752034,
+        "pixel_aupro": 0.8026765896317467,
+        "image_auroc": 0.5422322775263952,
+        "image_ap": 0.7401848574800435,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_lambda_0.25": {
+        "pixel_auroc": 0.9265460326308825,
+        "pixel_ap": 0.03904479606149581,
+        "pixel_aupro": 0.8219440606858703,
+        "image_auroc": 0.5716440422322775,
+        "image_ap": 0.7621624544995006,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_lambda_0.50": {
+        "pixel_auroc": 0.9245057164083212,
+        "pixel_ap": 0.03730201223101655,
+        "pixel_aupro": 0.8166843591340475,
+        "image_auroc": 0.5701357466063348,
+        "image_ap": 0.7584486188565832,
+        "image_f1_max": 0.8160000000000001
+      },
+      "BAL_lambda_0.75": {
+        "pixel_auroc": 0.9219401226980521,
+        "pixel_ap": 0.036323053455333695,
+        "pixel_aupro": 0.810564638405045,
+        "image_auroc": 0.5716440422322775,
+        "image_ap": 0.7523393796613613,
+        "image_f1_max": 0.8160000000000001
+      }
+    },
+    "region_note": "32x32 patch diagnostic from pooled 448x448 masks; not a full-pixel measurement",
+    "pair_seed": 20260912,
+    "pair_methods": [
+      "A1",
+      "TRI",
+      "BAL"
+    ],
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\per_image.csv",
+      "region_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\sample_pairs.npz",
+      "evaluation_scores": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units\\s0_k2\\bracket_brown\\evaluation_scores.npz"
+    }
+  },
+  "invariants_pass": true,
+  "protocol_hash": "956ad2740b65df076e09c7633fb828888363a6d02da940ea2c9cb79bca078b3e"
+}

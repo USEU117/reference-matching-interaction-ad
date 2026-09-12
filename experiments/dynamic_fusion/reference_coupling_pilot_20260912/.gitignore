@@ -1,0 +1,9 @@
+# Scratch per-image diagnostic cache written by the interrupted trial under
+# `main/`; the accepted run keeps only the CSV summaries.
+*.f32
+
+# The repository-wide rule drops every *.npz.  These two records are small and
+# are the only way to rebuild the reference-row interventions and the paired
+# bootstrap, so they stay under version control.
+!**/reference_permutations.npz
+!**/ANALYSIS_bootstrap_k*.npz
