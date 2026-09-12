@@ -140,7 +140,7 @@
         }
       ],
       "resource_total_estimate": ">= 7.6 GB of component checkpoints (4.55 GB DINOv2-g + 0.69 GB GroundingDINO + ~2.4 GB HQ-SAM) plus a dinov2 git clone and the RAM Swin-L weight",
-      "resource_verdict": "GroundingDINO SwinT + HQ-SAM ViT-H + DINOv2-g + RAM Swin-L cannot be co-resident on the 6 GB laptop GPU. E3's two-complete-method requirement (486 units) is satisfied without UniVAD by PatchCore + SubspaceAD, so UniVAD is recorded as resource-blocked rather than run; no UniVAD number is produced and none is implied."
+      "resource_verdict": "SUPERSEDED 2026-09-12. This audit concluded that GroundingDINO SwinT + HQ-SAM ViT-H + DINOv2-g cannot be co-resident on the 6 GB laptop GPU, and that UniVAD was therefore resource-blocked rather than run. The co-residency measurement is still correct, but 'cannot be run' was wrong: all four component checkpoints were downloaded (693,997,677 + 2,570,940,653 + 4,546,108,579 + 86,728,949 = 7,897,775,858 bytes), and with the HQ-SAM image encoder in fp16 (peak 2.83 GiB instead of 5.67 GiB), a chunked F.cosine_similarity (bit-identical to the stock op) and the GroundingDINO MultiScaleDeformableAttention on the upstream PyTorch reference implementation, the official pipeline ran locally. Stage 1 segmentation completed for all 15 MVTec classes (1725/1725 test masks + 15/15 k-shot train masks); stage 2 evaluation at k=1/round=0 completed bottle (83 images, image-AUROC 0.99365 / pixel-AUROC 0.96199). No 15-class macro exists yet (14 categories pending) and none is implied. See E3/DECISION.md 5.2."
     }
   }
 }

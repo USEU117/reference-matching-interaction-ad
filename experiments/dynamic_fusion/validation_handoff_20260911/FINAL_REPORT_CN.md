@@ -15,14 +15,14 @@
 | E0 身份/环境/A1 重放 | 必做 | **completed** | **G0 gate_pass** | `E0/` |
 | E1 DINO B/S × 管线 2×2 | 必做 | **completed（含官方 native 单元）** | gate_fail（无候选过门） | `E1/` |
 | E2 B/S/C 单支+双支矩阵 | 必做 | **completed** | gate_fail（A1 仍最佳） | `E2/` |
-| E3 近期完整基线 | 必做 | **completed（486/486 单元；另 SubspaceAD 全矩阵 243 单元；UniVAD 资源阻塞未运行）** | baseline_only | `E3/` |
+| E3 近期完整基线 | 必做 | **completed（486/486 单元；另 SubspaceAD 全矩阵 243 单元；UniVAD 已本机运行，但只跑完阶段 1 全 15 类 + 阶段 2 `bottle` 一类，15 类 macro 未出）** | baseline_only | `E3/` |
 | E4 三支等权初筛 | E2 缓存就绪后必做一次 | **completed** | gate_fail（第三支不必要） | `E4/` |
 | E5 新文本增量 | 条件项 | **not_triggered**（原因见 `E5/DECISION.md`） | not_evaluated | `E5/` |
 | E6 新动态融合 | 条件项 | **not_triggered**（原因见 `E6/DECISION.md`） | not_evaluated | `E6/` |
 | E7 几何/部件机制 | 条件项 | **not_triggered**（原因见 `E7/DECISION.md`） | not_evaluated | `E7/` |
 | E8 论文/证据交接 | 必做 | **completed** | — | `E8/`、本文件 |
 
-**结论级别：** E0–E4/E8 完整；E1 补跑官方 native 单元后完整；**E3 已完成（486/486 单元，另有 SubspaceAD 全矩阵 243 单元；UniVAD 为资源阻塞、未运行、无数值）**；E5–E7 均为有理由的未触发。**必做项没有被计划文件冒充为结果。**
+**结论级别：** E0–E4/E8 完整；E1 补跑官方 native 单元后完整；**E3 已完成（486/486 单元，另有 SubspaceAD 全矩阵 243 单元；UniVAD 的「资源阻塞」结论已被本机运行推翻——阶段 1 部件分割 15/15 类跑通，阶段 2 只跑完 `bottle` 一类，15 类 macro 未出、也不声称）**；E5–E7 均为有理由的未触发。**必做项没有被计划文件冒充为结果。**
 
 ---
 
@@ -151,7 +151,7 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 
 必须随数值引用的受控偏差：(a) 本机 6 GiB 卡上 fp32 giant 约 8.25 s/图不可行，全套用官方 `--smoke_half`（fp16 精度适配）；(b) **原生 evaluator（全分辨率图）**口径，其 P-AUROC/P-AP 内部 stride-8 子采样、AU-PRO 全分辨率，**不得**与 A1 的 stride-8 数值并列作等条件比较；(c) VisA 用官方 `tools/prepare_visa.py --split-type 1cls` 转为 `data/visa_pytorch/1cls` 后运行；(d) K-shot 由方法自身 `random.shuffle(train_paths)[:k]` 采样，**不共用**项目冻结支持 ID；(e) 每个 (dataset, seed, K) 必须**一个进程跑完全部类别**（否则 RNG 类别顺序不同会选到不同支持图），因此早期 12 单元小矩阵（`subspacead_small_matrix.csv`）**未被合并、仅作历史保留**。
 - **因此本轮共有 5 个方法在两数据集九配置全满**（PatchCore、AnomalyDINO、WinCLIP+、PromptAD、SubspaceAD），E3 的「≥2 个机制不同的完整方法」被超额满足；但**只有 PatchCore + AnomalyDINO 的 486 单元处于同一统一 stride-8 口径**，SubspaceAD 的 243 单元不能与之相加成等条件矩阵。
-- **UniVAD：源码已入库、仍为资源阻塞、未运行**：官方 repo `FantasticGNU/UniVAD` 在 pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 264/264 文件已逐文件 git blob SHA-1 校验并写入 `methods/univad_official/`（溯源 `SOURCE.json`，脚本 `vendor_official_univad.py`）；子模块 `models/dinov2`（gitlink `e1277af2…`）已记录但未取。**但这不产生任何 UniVAD 数值**：上游 `pretrained_ckpts/` 只有 `empty.txt`，完整流程还需 GroundingDINO SwinT（693,997,677 B，已验证可达）、DINOv2-g（4,546,108,579 B，已验证可达）、HQ-SAM ViT-H（约 2.4 GB）、RAM Swin-L、逐类 `heat_masks` 与一个仅 OneDrive 提供的数据包 —— 合计 **≥7.6 GB** 检查点，且这些模型**无法在 6 GiB 笔记本 GPU 上共存**。去掉部件模块的简化版依然不算复现。
+- **UniVAD：源码已入库，且已在本机真实运行（阶段 1 全 15 类；阶段 2 只跑完 `bottle`）**：官方 repo `FantasticGNU/UniVAD` 在 pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 264/264 文件已逐文件 git blob SHA-1 校验并写入 `methods/univad_official/`（溯源 `SOURCE.json`，脚本 `vendor_official_univad.py`）。此前记为「资源阻塞、无法在 6 GiB 卡运行」的结论**已被实测推翻**：四个组件检查点（GroundingDINO SwinT 693,997,677 B、HQ-SAM ViT-H 2,570,940,653 B、DINOv2-g 4,546,108,579 B、DINO ViT-S/8 86,728,949 B，合计 7,897,775,858 B）已全部落盘，「装不下」依然成立，但通过 HQ-SAM image encoder fp16、DINOv2 backbone fp16、`F.cosine_similarity` 分块（与原版逐位相同）与 GroundingDINO MSDA 走上游 PyTorch 参考实现，官方链路在 6 GiB 卡上跑通了。产出：阶段 1 部件分割 **15/15 类**（1725/1725 test 掩码 + 15/15 k-shot train 掩码）；阶段 2 评测在 MVTec k=1/round=0 下**只跑完 `bottle`**（83 图，**I-AUROC 0.99365 / P-AUROC 0.96199**，两种调用形态复现同一数值）。**15 类 macro 尚未产出**（余 14 类、1642 张待跑），**故不得引用任何 UniVAD 宏指标**；引用上述两个单类数值时必须同时声明 §5.2 列出的全部精度适配。未跑：VisA、k≠1/round≠0、多 seed。去掉部件模块的简化版依然不算复现。
 - 类别口径修正：AnomalyDINO 的 `*_mvtec_*` 运行实际把 MVTec+VisA 放同一次运行（27 类），本轮按数据集类别子集重算宏平均，得 0.57097 / 0.41170。
 - **AnomalyDINO MVTec seed1/K2 的 15 个单元**（原目录为空）已用通过保真度门（15 类 × 4 指标最大绝对差 3.3e-07）的**重建**补齐，`coverage_matrix.csv` 该行标 `dir_kind = "reconstructed"`；AnomalyDINO MVTec 宏 P-AP 由重建前 8 配置的 0.57105 变为 9 配置的 0.57097，无分布异常。详见 `E3/DECISION.md` §3。
 
@@ -171,7 +171,7 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 - [x] E1 单元完成或真实缺失被标记；**官方 native 单元已由 blocked 变为已执行且与 matched 数值等价**；未把 pipeline 差异归因于 backbone。
 - [x] E2 六组初筛矩阵完整（72 单元）；组成单支、best pair 选择规则与锁文件齐全；**§8 步骤 6 的正常图误报/缺陷响应已补做**。
 - [x] E4 三支初筛已完成；未仅凭 pair 失败宣称 triple 必失败。
-- [x] E3 完整矩阵（486 单元）**已完成**：PatchCore + AnomalyDINO 各 27 类 × 9 配置 = **486/486**（其中 15 个单元为通过保真度门 3.3e-07 的重建，标 `dir_kind = "reconstructed"`）；**SubspaceAD 另跑满 243 单元**（自有原生 fp16 协议，单列）。**UniVAD 源码已入库但为资源阻塞（≥7.6 GB 检查点无法在 6 GiB 显存共存）、未运行、无数值**，最小缺失资源已逐项列明。
+- [x] E3 完整矩阵（486 单元）**已完成**：PatchCore + AnomalyDINO 各 27 类 × 9 配置 = **486/486**（其中 15 个单元为通过保真度门 3.3e-07 的重建，标 `dir_kind = "reconstructed"`）；**SubspaceAD 另跑满 243 单元**（自有原生 fp16 协议，单列）。**UniVAD 的「资源阻塞、未运行」结论已被本机运行推翻**：四个组件检查点全部落盘，阶段 1 部件分割 **15/15 类跑通**（1725/1725 test 掩码 + 15/15 k-shot train 掩码），阶段 2 在 MVTec k=1/round=0 下**只跑完 `bottle`**（83 图，I-AUROC 0.99365 / P-AUROC 0.96199）；**15 类 macro 未出**（余 14 类、1642 张待跑），故不引用任何 UniVAD 宏指标，并按 `E3/DECISION.md` §5.2 声明全部精度适配。
 - [x] E5/E6/E7 逐项有触发/未触发判定与原因。
 - [x] 所有拟提升为主方法的候选均有 G1 结果；本**没有**候选过门，故 G2/G3 未触发（协议规定只有过开发门者才扩确认），未把开发正结果写成泛化成功。
 - [x] 指标、CI、类别退化与成本齐全；未按外部测试结果选配置。
@@ -191,7 +191,7 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 8. **复现包**（E8-9，`REPRODUCE.md`）：补上第三方来源（官方 AnomalyDINO 源码 commit + 逐文件校验、SubspaceAD 权重哈希 + VisA 转换工具）、依赖与实测命令；`artifact_sha256.json` 记录本轮新产物实际哈希，**未静默刷新任何冻结哈希**。
 
 **仍然明确未做 / 未闭合（不静默省略）：**
-- **UniVAD 为资源阻塞而非仅源码阻塞**：源码已入库（pinned commit，264/264 逐文件 git-blob 校验）且已保留全部部件模块，但部件检查点缺失、`models/dinov2` 子模块目录为空。已记录的最小缺失资源：dinov2 源码 clone；`groundingdino_swint_ogc.pth`（693,997,677 字节，本轮验证可达）；`sam_hq_vit_h.pth`（约 2.4 GB）；`dinov2_vitg14_pretrain.pth`（4,546,108,579 字节，本轮验证可达）；RAM Swin-L 权重；逐类 `heat_masks` 特征；以及一个仅 OneDrive 提供的数据包 —— 合计 ≥7.6 GB 检查点，且 GroundingDINO+HQ-SAM ViT-H+DINOv2-g+RAM 在 6 GB 笔记本 GPU 上无法共存。**不产生、也不暗示任何 UniVAD 数值。**
+- **UniVAD 的「资源阻塞」结论已被推翻，但仍只跑完一部分**：四个组件检查点（`groundingdino_swint_ogc.pth` 693,997,677 B、`sam_hq_vit_h.pth` 2,570,940,653 B、`dinov2_vitg14_pretrain.pth` 4,546,108,579 B、`dino_deitsmall8_300ep_pretrain.pth` 86,728,949 B，合计 7,897,775,858 B）已全部落盘，官方链路在 6 GiB 卡上跑通（含显式 fp16 精度适配）。**已完成**：阶段 1 部件分割 15/15 类（1725/1725 test 掩码 + 15/15 k-shot train 掩码）。**未完成**：阶段 2 余 14 类（1642 张）待续跑，VisA / k≠1 / 多 seed 未跑。当前可用数值只有 `bottle` 单类（I-AUROC 0.99365 / P-AUROC 0.96199），**没有 15 类 macro，也不声称任何宏指标**。
 - 官方 AnomalyDINO **端到端** evaluator 仍无法读取 MPDD GT（`src/post_eval.parse_dataset_files` 硬编码 `.JPG`）。
 - `VERSIONED_EVIDENCE.sha256` 的 2 项漂移按纪律保留未刷新（正式 release 时统一重生成）。
 - 历史 123 计数无法与 122 调和（原树已不存在），本轮以新的带日期记录代替，不冒充历史值。
@@ -245,7 +245,7 @@ B+S 的两 shot 区间**完全在 0 以下**（显著劣于 A1）；B+S+C 的区
 - **工程成果：** 新的可重放评估器与 harness（E0–E4 全部走同一代码路径）、ViT-S 的约一半特征维度/建库与评分时间、E3 的协议隔离表与复用矩阵、E0 发现并修正的 CLIP 518 掩码口径问题。
 
 **Q7. 用户接下来只需要处理什么真实未决项？**
-1. **UniVAD 组件检查点与运行**：源码已入库（pinned commit，264/264 逐文件校验，保留部件模块）；若论文需要部件/结构方法的对照，仍须取得 GroundingDINO SwinT / DINOv2-g / RAM Swin-L / CLIP / HQ-SAM 检查点（≥7.6 GB）与逐类 `heat_masks`、OneDrive 数据包并跑官方流程，否则不产生数值。该阻塞是**资源**：这些模型无法在 6 GiB 笔记本 GPU 上共存，且 E3 的两方法要求已由 PatchCore + SubspaceAD 满足，故本轮不据此产生也不暗示任何 UniVAD 数值。
+1. **UniVAD 阶段 2 续跑**：检查点已全部到位、链路已跑通（见 `E3/DECISION.md` §5.2），**不再需要补充资源**；只需要在机器内存不被其它程序挤占时把余 14 类跑完（逐类独立进程），再用 `--aggregate-inputs` 汇总出 15 类 macro。在此之前，论文若需要部件/结构方法对照，只能引用 `bottle` 单类数值（并带精度适配声明），**不得**当作宏指标；阶段 1 的 15 类掩码已可直接用于结构对照。
 2. **论文准备**：把 `E8/paper_claim_evidence_map.csv`（12 条主张）写进 limitation 与 ablation；不要把本轮工作写成算法创新。
 3. **v8 TCRR 文本线索**：若要复活文本路线，需要一个与 S1/v7/v8 不同的新语义来源或新的区域对应机制（E5 触发条件）。
 4. **MPDD 上的动态 gate**：若要复活动态融合，需要一个推理时可得、机制上新的可靠性信号，或另立带隔离数据的 source-supervised 协议。
@@ -277,7 +277,7 @@ experiments/dynamic_fusion/validation_handoff_20260911/
        figure_render_qa.json / test_scope_record.json
   FINAL_REPORT_CN.md / REPRODUCE.md / artifact_sha256.json
 methods/anomalydino_official/         官方 AnomalyDINO 源码（SOURCE.json 逐文件 git blob 校验）
-methods/univad_official/              官方 UniVAD 源码（pinned commit，264/264 文件 git blob 校验；仅源码，未运行）
+methods/univad_official/              官方 UniVAD 源码（pinned commit，264/264 文件 git blob 校验；已本机运行：阶段 1 全 15 类、阶段 2 bottle，15 类 macro 未出）
 methods/SubspaceAD/checkpoints/dinov2-with-registers-giant/model.safetensors   官方权重（sha256 c03832d4…a5051）
 data/visa_pytorch/1cls/               官方 prepare_visa.py 生成的 VisA 派生布局（未改动原数据）
 outputs/validation_handoff_20260911/

@@ -88,10 +88,20 @@
   4. **参考采样**：SubspaceAD 用自身 `random.shuffle` 自采 K-shot，**不共用**项目冻结 manifest 的支持 ID，不能与 A1/DCFnet 的支持身份一对一比较。
 - **不得据此声称**：SubspaceAD 的 243 个单元**不与** PatchCore/AnomalyDINO 的 486 个统一口径单元相加成「等条件完整」。E3 最小范围的 486 单元由 PatchCore + AnomalyDINO 满足；SubspaceAD 是**额外的第三个完整方法**，其数值只在本节的协议列内可比。
 
-### 5.2 UniVAD — 资源阻塞、无运行、无数值
+### 5.2 UniVAD — 已在本机真实运行（阶段1 全 15 类；阶段2 部分类别），含精度适配
 
-- **源码已入库**：`methods/univad_official/`（官方 repo `FantasticGNU/UniVAD`，pinned commit `64d32873dda44fad69786834ea5ee1394ef81975`，264/264 文件逐文件 git blob SHA-1 与 GitHub tree API 校验一致，见 `methods/univad_official/SOURCE.json`）；子模块 `models/dinov2`（gitlink `e1277af2…`）已记录但未取。
-- **不产生任何数值**：上游 `pretrained_ckpts/` 只有 `empty.txt`；完整流程还需 GroundingDINO SwinT（693,997,677 B，已验证可达）、DINOv2-g（4,546,108,579 B，已验证可达）、HQ-SAM ViT-H（约 2.4 GB）、RAM Swin-L、逐类 `heat_masks/*.pth` 以及一个仅 OneDrive 提供的数据包 —— 合计 **≥7.6 GB** 组件检查点，且这些模型**无法在 6 GiB 笔记本 GPU 上共存**。故「源码缺失」阻塞已解除，**「资源缺失 + 未运行」阻塞仍在**；去掉部件模块的简化版依然不算复现。
+- **源码已入库**：`methods/univad_official/`（官方 repo `FantasticGNU/UniVAD`，pinned commit `64d32873dda44fad69786834ea5ee1394ef81975`，264/264 文件逐文件 git blob SHA-1 与 GitHub tree API 校验一致，见 `methods/univad_official/SOURCE.json`）；子模块 `models/dinov2` 的源码本轮已取到，供 `torch.hub.load(..., source="local")` 使用。
+- **原先的「资源阻塞」判断被实测推翻**：上游 `pretrained_ckpts/` 只有 `empty.txt`，四个组件检查点（GroundingDINO SwinT 693,997,677 B、HQ-SAM ViT-H 2,570,940,653 B、DINOv2-g 4,546,108,579 B、DINO ViT-S/8 86,728,949 B，合计 7,897,775,858 B）确实**无法在 6 GiB 卡上同时常驻**；但把大图编码器做 fp16 适配、并让显存峰值错峰之后，官方链路在本机跑通了 —— 「装不下」是对的，**「因此不能运行」是错的**。
+- **阶段 1（部件分割：`segment_components.py` → `grounding_segmentation()`）：15/15 类全部跑通**，产出 `masks/mvtec/<cls>/{train,test}/.../grounding_mask.png`（同期另含 `grounding_background.png`、`grounding_mask_color.png`），即 **1725/1725 test 掩码 + 15/15 k-shot `train/good/000` 掩码**。
+- **阶段 2（评测：`test_univad.py` → `UniVAD`）：已有真实数值，但只覆盖 MVTec k=1/round=0 的 `bottle`** —— 83 张 test 图，**I-AUROC 0.99365、P-AUROC 0.96199**（`E3/univad_stage2_bottle_k1.json`）；逐类独立进程版 `E3/univad_stage2_mvtec_k1_per_class/bottle.json` 复现同一数值。**15 类 macro 尚不存在**（余 14 类、1642 张待跑），故**不得**把 bottle 单类数值写成 UniVAD 的 MVTec 宏指标。
+- **必须随数值一起引用的精度/工程适配（均非官方 fp32 默认口径）**：
+  1. **HQ-SAM image encoder 转 fp16**（`prompt_encoder` / `mask_decoder` / `postprocess_masks` 仍 fp32）：fp32 时 1024² `set_image` 峰值 5.67 GiB 不可行，fp16 峰值 2.83 GiB。
+  2. **DINOv2 ViT-g/14 backbone 转 fp16**（阶段 2）。
+  3. **`F.cosine_similarity` 分块**：上游写法会materialise (1024,1024,1024) fp32 ≈ 4 GiB 瞬时张量，是本卡 OOM 的直接原因；分块替换与原版实测**逐位相同**（`max_abs_diff = 0.000e+00`）。
+  4. **GroundingDINO `MultiScaleDeformableAttention` 走上游自带的 PyTorch 参考实现**（`multi_scale_deformable_attn_pytorch`）：本机无 CUDA toolkit（`nvcc` 缺失），无法编译 `groundingdino._C`；只换执行路径，算术仍是上游的，只慢不准。
+  5. 顺带修掉 3 个真实缺陷（非精度）：HQ-SAM `encoder.forward = closure` 的引用环导致每次重建泄漏 1.22 GiB（改用 `weakref`）；输出路径 `split("/")[-3:]` 与 `filter_algorithm.filter_bg_noise` 的 `int(x.split("/")[-1])` 两处 POSIX 分隔符假设在 Windows 下失效。
+- **未跑**：VisA、k≠1 / round≠0、多 seed。去掉部件模块的简化版依然**不算**复现，不得计入官方矩阵。
+- **可重跑性限制（工程，不影响数值本身）**：本机 6 GiB 卡与桌面程序共享显存与提交内存，长进程会被 WDDM 换出、吞吐崩到数分钟/图；实测同一进程内 `alloc=3.86 GiB / reserved=4.98 GiB` 恒定不涨（**无泄漏**），吞吐波动来自机器资源占用而非代码。故阶段 2 改为**逐类独立进程**（`--class-name <cls>`）并以 `--aggregate-inputs` 汇总；吞吐健康时约 0.77–1.4 s/图，被换出时实测 250 s/图。阶段 1 同样受益于「一类一进程」。
 
 ## 6. 协议差异（限制比较的地方）
 1. **A1 是 training-free 双视觉等权拼接 + 1-NN**；PromptAD 使用目标正常图调优；ReMP-AD/AdaptCLIP/AnomalyCLIP 含源域训练；这些不能与 training-free 方法混称等条件。
@@ -106,20 +116,25 @@
 E3 不做 G1 门判定（`scientific_status = baseline_only`）。合格运行无论高于或低于 A1 都保留。
 
 ## 8. 能得出 / 不能得出的结论
-- **能**：E3 的**完整最小范围已达成**。两个机制不同、覆盖两数据集的方法（PatchCore 冻结正常建模/coreset、AnomalyDINO 近期冻结 DINOv2 ViT-S/14 1-NN）各 27 类 × 9 配置，合计 **486/486 method-category 单元、0 partial**；其中 15 个单元（AnomalyDINO MVTec seed1/K2）来自**通过保真度门（15 类 × 4 指标最大绝对差 3.3e-07）的重建**，并在覆盖矩阵中标 `dir_kind = "reconstructed"`。此外 **SubspaceAD 也在两数据集上 9/9 完成（243 单元，自有原生 fp16 协议）**，本轮因此有 5 个方法九配置全满。**UniVAD 仍为资源阻塞、无运行、无数值**。
+- **能**：E3 的**完整最小范围已达成**。两个机制不同、覆盖两数据集的方法（PatchCore 冻结正常建模/coreset、AnomalyDINO 近期冻结 DINOv2 ViT-S/14 1-NN）各 27 类 × 9 配置，合计 **486/486 method-category 单元、0 partial**；其中 15 个单元（AnomalyDINO MVTec seed1/K2）来自**通过保真度门（15 类 × 4 指标最大绝对差 3.3e-07）的重建**，并在覆盖矩阵中标 `dir_kind = "reconstructed"`。此外 **SubspaceAD 也在两数据集上 9/9 完成（243 单元，自有原生 fp16 协议）**，本轮因此有 5 个方法九配置全满。**UniVAD 已在本机真实运行并给出部分数值：阶段 1 全 15 类跑通、阶段 2 跑完 `bottle` 一类（I-AUROC 0.99365 / P-AUROC 0.96199），15 类 macro 尚未产出**（详见 §5.2）。
 - **能**：A1 的竞争力定位是「训练-free 双视觉融合在 VisA/MVTec 像素 P-AP 上接近但仍低于最强冻结单编码器基线（AnomalyDINO）」。**不得**把 A1 写成 SOTA。
 - **能**：SubspaceAD 在本机可复现且给出完整量级参照——**原生口径** MVTec 宏 P-AP 0.47851 / VisA 0.30582（各 9 配置，fp16）。该数值**只在自有协议列内可比**。
-- **不能**：不能给出 UniVAD 的本地数值（源码已入库，但组件检查点缺失、未运行）。也**不能**把 SubspaceAD 的原生全分辨率数字与 §4 统一 stride-8 表的数字并列成等条件比较，更不能把两者相加成「等条件 486+243」。
-- **最小缺失资源**：UniVAD 源码已入库（264/264 逐文件校验）；仍需其组件检查点（GroundingDINO SwinT / DINOv2-g / RAM Swin-L / CLIP / HQ-SAM，合计 ≥7.6 GB）与逐类 `heat_masks`、OneDrive 数据包才能运行，且这些模型无法在 6 GiB 笔记本 GPU 上共存 —— 该阻塞是**资源**，不是分数或可复现性。
+- **不能**：不能给出 UniVAD 的 MVTec 宏指标 —— 阶段 2 只跑完 `bottle` 一类、余 14 类待跑，现有数值只是单类（且必须带 §5.2 的精度适配声明），**不得**当作宏指标引用。也**不能**把 SubspaceAD 的原生全分辨率数字与 §4 统一 stride-8 表的数字并列成等条件比较，更不能把两者相加成「等条件 486+243」。
+- **未跑完的部分**：UniVAD 阶段 2 余 14 类（1642 张图）待续跑；VisA、k≠1/round≠0、多 seed 未跑。原有「≥7.6 GB 组件检查点无法在 6 GiB 显存共存」的**资源阻塞已被实测解除**（见 §5.2：检查点已全部落盘、官方链路已跑通），剩下的不是「不可行」，而是**机器内存被其它程序挤占时的进度问题**（实测吞吐可从 0.77 s/图 恶化到 250 s/图）。
 
 ## 9. 是否扩展及唯一原因
-E3 的最小范围与自定的扩展目标**均已完成，故不再扩展**：486 单元（PatchCore + AnomalyDINO，统一 stride-8 口径）与 SubspaceAD 的 243 单元（原生 fp16 口径）都已跑满。唯一仍阻塞的是 **UniVAD**，且阻塞原因是资源（≥7.6 GB 组件检查点无法在 6 GiB 显存共存），不是分数或可复现性；替换 backbone 或去掉部件模块的版本必须另命名，不得计入官方矩阵。
+E3 的最小范围与自定的扩展目标**均已完成，故不再扩展**：486 单元（PatchCore + AnomalyDINO，统一 stride-8 口径）与 SubspaceAD 的 243 单元（原生 fp16 口径）都已跑满。**UniVAD 已不再是「不可运行」的阻塞**：阶段 1 全 15 类跑通、阶段 2 已跑完 `bottle` 一类（见 §5.2），余 14 类待续跑；续跑不需要新算法或新资源，只需要机器内存不被其它程序挤占。替换 backbone 或去掉部件模块的版本必须另命名，不得计入官方矩阵。
 
 ## 10. 结果与命令路径
-- 产物：`E3/baseline_registry.json`、`coverage_matrix.csv`、`native_vs_controlled_protocols.csv`、`main_comparison.csv`、`reused_macro_summary.csv`、`acceptance.json`、`subspacead_full_matrix.csv`、`subspacead_full_runs.csv`、`subspacead_full_summary.json`；历史保留：`subspacead_small_matrix.csv`、`logs/subspacead_smoke.log`、`logs/subspacead_official_smoke.log`、`logs/subspacead_official_mvtec_half.log`
+- 产物：`E3/baseline_registry.json`、`coverage_matrix.csv`、`native_vs_controlled_protocols.csv`、`main_comparison.csv`、`reused_macro_summary.csv`、`acceptance.json`、`subspacead_full_matrix.csv`、`subspacead_full_runs.csv`、`subspacead_full_summary.json`；UniVAD：`univad_stage1_bottle.json`、`univad_stage1_mvtec_rest.json`、`univad_stage1_mvtec_screw.json`、`univad_stage2_bottle_k1.json`、`univad_stage2_mvtec_k1_per_class/<cls>.json`（当前只有 `bottle.json`）、掩码树 `methods/univad_official/masks/mvtec/<cls>/{train,test}/...`；历史保留：`subspacead_small_matrix.csv`、`logs/subspacead_smoke.log`、`logs/subspacead_official_smoke.log`、`logs/subspacead_official_mvtec_half.log`
 - 复用来源：`outputs/unified/`、`submission_repro_20260827/evidence/p1/p1_r3_baseline_comparison.csv`、`p1_d_fairness_table.md`
 - 权重：`methods/SubspaceAD/checkpoints/dinov2-with-registers-giant/model.safetensors`（sha256 `c03832d4…a5051`）
 - UniVAD 源码：`methods/univad_official/`（pinned commit `64d3287…`，逐文件 git blob 校验，溯源见 `methods/univad_official/SOURCE.json`）；获取脚本 `scripts/validation_handoff_20260911/vendor_official_univad.py`
+- UniVAD 运行（本机实测可重跑）：
+  - 阶段 1 部件分割：`scripts/validation_handoff_20260911/univad_stage1_segment.py`（复刻 `segment_components.py` 调用形态，支持 `--categories/--splits/--k-shot-train/--report`；内含 HQ-SAM image encoder fp16 与 weakref 泄漏修复）
+  - 阶段 2 评测：`scripts/validation_handoff_20260911/univad_stage2_eval.py`（`--class-name <cls>` 逐类独立进程；`--dinov2-dtype float16 --memory-safe-cosine --cosine-rows 4`；`--aggregate-inputs a.json,b.json,...` 汇总 per-category + macro）
+  - 运行环境垫片：`scripts/validation_handoff_20260911/univad_bootstrap/`（把 `groundingdino._C` 指到上游 PyTorch 参考实现，经 `PYTHONPATH` 注入）；探针与下载脚本见 `scripts/validation_handoff_20260911/univad_local_run/`
+  - 复现性交叉验证：同一 `bottle` 用两种调用形态（整轮 `--class-name bottle` 与逐类独立进程）得到**完全相同的** `0.99365 / 0.96199`
 - 数据准备：`methods/SubspaceAD/tools/prepare_visa.py --split-type 1cls` → `data/visa_pytorch/1cls`（新目录，未改动原数据）
 - 命令：审计 `scripts/validation_handoff_20260911/e3_baseline_audit.py`；SubspaceAD 正式矩阵 `scripts/validation_handoff_20260911/e3_subspacead_full.py`（内部调用 `methods/SubspaceAD/main.py --dataset_name {mvtec_ad,visa} --seed {0,1,2} --k_shot {1,2,4} --categories <全部类别> --smoke_half --no_log_file`，每个 (dataset,seed,K) 一个进程）；逐进程日志 `logs/{mvtec,visa}_s{seed}_k{K}.log`
 - 已废弃的尝试（保留说明，不当作结果）：`outputs/validation_handoff_20260911/subspacead_official_mvtec/` 是 fp32 尝试，因该卡上约 8.25 s/图而被中止；`subspacead_official_{mvtec,visa}_half/` 是 12 单元小矩阵（**已被正式矩阵取代、未合并**）。

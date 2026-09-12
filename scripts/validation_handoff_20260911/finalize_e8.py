@@ -43,7 +43,9 @@ ENTRY_INDEX = [
     {"kind": "official_anomalydino_source", "path": "methods/anomalydino_official/SOURCE.json",
      "role": "vendored official AnomalyDINO at the pinned commit, per-file git-blob verified"},
     {"kind": "official_univad_source", "path": "methods/univad_official/SOURCE.json",
-     "role": "vendored official UniVAD at the pinned commit, 264/264 files git-blob verified; source only, no run"},
+     "role": "vendored official UniVAD at the pinned commit, 264/264 files git-blob verified; later executed "
+             "locally on 2026-09-12 under declared precision adaptations (stage 1 all 15 MVTec classes, stage 2 "
+             "k=1/round=0 bottle only; no 15-class macro)"},
     {"kind": "mechanism_ablation", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/mechanism_evidence_ablation.csv",
      "role": "E8-2 unified mechanism-evidence ablation (R1 MAP_mean + E1/E2/E4 + 35 families)"},
     {"kind": "full_pixel_sensitivity", "path": "experiments/dynamic_fusion/validation_handoff_20260911/E8/full448_sensitivity_summary.json",
@@ -107,7 +109,7 @@ CLAIMS = [
      "evidence": "E3/main_comparison.csv; E3/reused_macro_summary.csv; E3/subspacead_small_matrix.csv; p1_r3_baseline_comparison.csv",
      "evidence_level": "controlled_empirical", "protocol": "reused project unified outputs; SubspaceAD native evaluator; protocol groups separated",
      "supports": "honest competitiveness statement",
-     "limits": "reused outputs; UniVAD source vendored but not executed (no checkpoints, no numbers); AnomalyDINO MVTec 8/9 configs; SubspaceAD only 12 pre-declared units (2+2 categories, fp16, native protocol)"},
+     "limits": "reused outputs; UniVAD executed locally only partially (stage 1 all 15 MVTec classes; stage 2 k=1/round=0 bottle only, image-AUROC 0.99365 / pixel-AUROC 0.96199 under declared fp16 adaptations; no 15-class macro is claimed); AnomalyDINO MVTec 8/9 configs; SubspaceAD only 12 pre-declared units (2+2 categories, fp16, native protocol)"},
     {"claim_id": "C7", "claim": "35 concept mechanism families fail the frozen development gate",
      "evidence": "experiments/dynamic_fusion/innovation_breadth_20260908/*; innovation_followup_20260908/*",
      "evidence_level": "negative_result", "protocol": "pre-registered family gates",
@@ -204,11 +206,23 @@ Set-Location -LiteralPath 'D:\\STUDY\\My_github\\sci_project'
 `subspacead_official_mvtec_half/`、`subspacead_official_visa_half/` 输出同理）。
 
 
-UniVAD 官方源码入库（仅源码，未运行）：
+UniVAD 官方源码入库，以及后续的本机运行（阶段 1 全 15 类；阶段 2 部分类别）：
 ```powershell
 & '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\vendor_official_univad.py'
 ```
-说明：下载 `FantasticGNU/UniVAD` pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 tarball，逐文件与 GitHub tree API 的 git blob SHA-1 比对（264/264 一致），写入 `methods/univad_official/`；子模块 `models/dinov2` 记录但未取。上游 `pretrained_ckpts/` 只有 `empty.txt`，组件检查点（GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM）缺失，故**不产生任何 UniVAD 数值**，也不构成复现。
+说明：下载 `FantasticGNU/UniVAD` pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 tarball，逐文件与 GitHub tree API 的 git blob SHA-1 比对（264/264 一致），写入 `methods/univad_official/`；子模块 `models/dinov2` 的源码另取，供 `torch.hub.load(..., source="local")` 使用。上游 `pretrained_ckpts/` 只有 `empty.txt`，四个组件检查点需自行下载（GroundingDINO SwinT 693,997,677 B、HQ-SAM ViT-H 2,570,940,653 B、DINOv2-g 4,546,108,579 B、DINO ViT-S/8 86,728,949 B，合计 7,897,775,858 B）。
+
+**状态更新（2026-09-12）**：上述四个检查点已全部落盘，官方链路已在 6 GiB 卡上跑通并**产出真实数值**；此前「资源阻塞、未运行、不产生任何数值」的结论**作废**（改为：能运行，但只跑完一部分）。
+```powershell
+# 阶段 1 部件分割（掩码写入 methods/univad_official/masks/mvtec/<cls>/{train,test}/...）
+& '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\univad_stage1_segment.py' --categories bottle --splits test --report '<E3>\\univad_stage1_bottle.json'
+# 阶段 2 评测：必须一类一个进程（6 GiB 卡与桌面程序共享显存/提交内存，长进程会被 WDDM 换出）
+$env:PYTHONPATH = "$PWD\\scripts\\validation_handoff_20260911\\univad_bootstrap"   # 把 groundingdino._C 指到上游 PyTorch 参考实现
+& '.\\.venv-anomalyclip\\Scripts\\python.exe' -X utf8 '.\\scripts\\validation_handoff_20260911\\univad_stage2_eval.py' --class-name bottle --k-shot 1 --round 0 --dinov2-dtype float16 --memory-safe-cosine --cosine-rows 4 --report '<E3>\\univad_stage2_mvtec_k1_per_class\\bottle.json'
+# 余 14 类跑完后汇总：--aggregate-inputs a.json,b.json,...（按数据集类别顺序传入）
+```
+结果：阶段 1 = **15/15 类全通**（1725/1725 test 掩码 + 15/15 k-shot train 掩码）；阶段 2 = **只跑完 `bottle`**（83 图，I-AUROC 0.99365 / P-AUROC 0.96199，两种调用形态复现同一数值），**15 类 macro 未出**（余 14 类、1642 张待跑），故**不得引用任何 UniVAD 宏指标**。
+引用这两个数值时**必须同时声明精度适配**：HQ-SAM image encoder fp16（阶段 1；fp32 峰值 5.67 GiB 不可行，fp16 为 2.83 GiB）；DINOv2 ViT-g/14 backbone fp16（阶段 2）；`F.cosine_similarity` 分块替换（与原版实测逐位相同，`max_abs_diff = 0.000e+00`）；GroundingDINO `MultiScaleDeformableAttention` 走上游自带的 PyTorch 参考实现（本机无 CUDA toolkit，无法编译 `groundingdino._C`）。**未跑**：VisA、k≠1/round≠0、多 seed。去掉部件模块的简化版不算复现。
 
 ## 4. E1 — 官方 AnomalyDINO 源码 vendor 与官方推理单元
 ```powershell
@@ -475,6 +489,9 @@ def main() -> int:
                            "E3/native_vs_controlled_protocols.csv",
                            "E3/subspacead_small_matrix.csv", "E3/subspacead_full_matrix.csv",
                            "E3/subspacead_full_summary.json",
+                           "E3/univad_stage1_bottle.json", "E3/univad_stage1_mvtec_rest.json",
+                           "E3/univad_stage1_mvtec_screw.json", "E3/univad_stage2_bottle_k1.json",
+                           "E3/univad_stage2_mvtec_k1_per_class/bottle.json",
                            "methods/univad_official/SOURCE.json"],
         "reason": (
             f"The E3 minimum scope is met: {len(required)} mechanism-different methods complete on both datasets "
@@ -483,11 +500,15 @@ def main() -> int:
                f"AnomalyDINO MVTec seed1/K2 run is unrecoverable, so it was rebuilt from the vendored official "
                f"inference code and admitted only after a fidelity gate reproduced the surviving seed1/K1 cell "
                f"(15 categories x 4 metrics, worst abs diff 3.3e-07). " if recon else "")
-            + f"{sub_note}. UniVAD remains resource-blocked (source vendored 264/264 files git-blob verified, but "
-              f"the component checkpoints are absent and models/dinov2 is an empty submodule; >=7.6 GB of "
-              f"checkpoints cannot be co-resident on the 6 GB laptop GPU), so it produces no number and none is "
-              f"implied. Protocol differences (unified stride-8 evaluator vs SubspaceAD's native fp16 evaluator) "
-              f"are kept in separate protocol columns and are never merged."),
+            + f"{sub_note}. UniVAD was executed locally on 2026-09-12 under declared precision adaptations "
+              f"(HQ-SAM image encoder fp16 in stage 1; DINOv2 ViT-g/14 backbone fp16 and a chunked "
+              f"F.cosine_similarity in stage 2, bit-identical to the stock op; GroundingDINO "
+              f"MultiScaleDeformableAttention on the upstream PyTorch reference implementation), which overturns "
+              f"the earlier resource-blocked verdict: stage 1 segmentation completed for all 15 MVTec classes "
+              f"(1725/1725 test masks + 15/15 k-shot train masks), and stage 2 evaluation at k=1/round=0 completed "
+              f"bottle (83 images, image-AUROC 0.99365 / pixel-AUROC 0.96199). No 15-class macro exists yet (14 "
+              f"categories pending) and none is implied. Protocol differences (unified stride-8 evaluator vs "
+              f"SubspaceAD's native fp16 evaluator) are kept in separate protocol columns and are never merged."),
         "costs": "E3 logs; SubspaceAD native per-image time ~0.09 s/image (fp16) at 256 resolution",
     })
     C.write_json(C.OUT_ROOT / "E3" / "acceptance.json", acc3)
@@ -495,7 +516,8 @@ def main() -> int:
                      "protocol_version": C.PROTOCOL_VERSION, "dataset": "mvtec;visa",
                      "dataset_role": "historical_external_frozen_validation", "K": "1;2;4",
                      "method_id": "PatchCore;AnomalyDINO;PromptAD;WinCLIP+;ReMP-AD;AdaptCLIP;AnomalyCLIP;"
-                                  f"SubspaceAD({sub_units} units,native fp16 protocol);UniVAD(source vendored,not run)",
+                                  f"SubspaceAD({sub_units} units,native fp16 protocol);"
+                                  f"UniVAD(ran locally,stage1 15/15 classes,stage2 k1 bottle only,no macro)",
                      "output_paths": "experiments/dynamic_fusion/validation_handoff_20260911/E3",
                      "started_utc": "", "finished_utc": C.utcnow(), "exit_code": 0,
                      "execution_status": "completed" if gate_ok else "blocked",

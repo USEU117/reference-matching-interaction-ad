@@ -64,11 +64,23 @@ Set-Location -LiteralPath 'D:\STUDY\My_github\sci_project'
 `subspacead_official_mvtec_half/`、`subspacead_official_visa_half/` 输出同理）。
 
 
-UniVAD 官方源码入库（仅源码，未运行）：
+UniVAD 官方源码入库，以及后续的本机运行（阶段 1 全 15 类；阶段 2 部分类别）：
 ```powershell
 & '.\.venv-anomalyclip\Scripts\python.exe' -X utf8 '.\scripts\validation_handoff_20260911\vendor_official_univad.py'
 ```
-说明：下载 `FantasticGNU/UniVAD` pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 tarball，逐文件与 GitHub tree API 的 git blob SHA-1 比对（264/264 一致），写入 `methods/univad_official/`；子模块 `models/dinov2` 记录但未取。上游 `pretrained_ckpts/` 只有 `empty.txt`，组件检查点（GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM）缺失，故**不产生任何 UniVAD 数值**，也不构成复现。
+说明：下载 `FantasticGNU/UniVAD` pinned commit `64d32873dda44fad69786834ea5ee1394ef81975` 的 tarball，逐文件与 GitHub tree API 的 git blob SHA-1 比对（264/264 一致），写入 `methods/univad_official/`；子模块 `models/dinov2` 的源码另取，供 `torch.hub.load(..., source="local")` 使用。上游 `pretrained_ckpts/` 只有 `empty.txt`，四个组件检查点需自行下载（GroundingDINO SwinT 693,997,677 B、HQ-SAM ViT-H 2,570,940,653 B、DINOv2-g 4,546,108,579 B、DINO ViT-S/8 86,728,949 B，合计 7,897,775,858 B）。
+
+**状态更新（2026-09-12）**：上述四个检查点已全部落盘，官方链路已在 6 GiB 卡上跑通并**产出真实数值**；此前「资源阻塞、未运行、不产生任何数值」的结论**作废**（改为：能运行，但只跑完一部分）。
+```powershell
+# 阶段 1 部件分割（掩码写入 methods/univad_official/masks/mvtec/<cls>/{train,test}/...）
+& '.\.venv-anomalyclip\Scripts\python.exe' -X utf8 '.\scripts\validation_handoff_20260911\univad_stage1_segment.py' --categories bottle --splits test --report '<E3>\univad_stage1_bottle.json'
+# 阶段 2 评测：必须一类一个进程（6 GiB 卡与桌面程序共享显存/提交内存，长进程会被 WDDM 换出）
+$env:PYTHONPATH = "$PWD\scripts\validation_handoff_20260911\univad_bootstrap"   # 把 groundingdino._C 指到上游 PyTorch 参考实现
+& '.\.venv-anomalyclip\Scripts\python.exe' -X utf8 '.\scripts\validation_handoff_20260911\univad_stage2_eval.py' --class-name bottle --k-shot 1 --round 0 --dinov2-dtype float16 --memory-safe-cosine --cosine-rows 4 --report '<E3>\univad_stage2_mvtec_k1_per_class\bottle.json'
+# 余 14 类跑完后汇总：--aggregate-inputs a.json,b.json,...（按数据集类别顺序传入）
+```
+结果：阶段 1 = **15/15 类全通**（1725/1725 test 掩码 + 15/15 k-shot train 掩码）；阶段 2 = **只跑完 `bottle`**（83 图，I-AUROC 0.99365 / P-AUROC 0.96199，两种调用形态复现同一数值），**15 类 macro 未出**（余 14 类、1642 张待跑），故**不得引用任何 UniVAD 宏指标**。
+引用这两个数值时**必须同时声明精度适配**：HQ-SAM image encoder fp16（阶段 1；fp32 峰值 5.67 GiB 不可行，fp16 为 2.83 GiB）；DINOv2 ViT-g/14 backbone fp16（阶段 2）；`F.cosine_similarity` 分块替换（与原版实测逐位相同，`max_abs_diff = 0.000e+00`）；GroundingDINO `MultiScaleDeformableAttention` 走上游自带的 PyTorch 参考实现（本机无 CUDA toolkit，无法编译 `groundingdino._C`）。**未跑**：VisA、k≠1/round≠0、多 seed。去掉部件模块的简化版不算复现。
 
 ## 4. E1 — 官方 AnomalyDINO 源码 vendor 与官方推理单元
 ```powershell

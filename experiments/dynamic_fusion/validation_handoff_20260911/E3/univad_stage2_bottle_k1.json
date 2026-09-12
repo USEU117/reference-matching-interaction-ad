@@ -1,0 +1,38 @@
+{
+  "run": [
+    {
+      "dataset": "mvtec",
+      "category": "bottle",
+      "k_shot": 1,
+      "round": 0,
+      "image_size": 448,
+      "dinov2_dtype": "float16",
+      "gate": "object_type.SINGLE",
+      "test_images": 83,
+      "shot": 1,
+      "normal_images": [
+        "./data/mvtec/bottle/train/good/000.png"
+      ],
+      "image_auroc": 0.99365,
+      "pixel_auroc": 0.96199,
+      "seconds": 65.8,
+      "s_per_image": 0.793,
+      "peak_vram_gib": 4.64
+    }
+  ],
+  "argv": [
+    "--class-name",
+    "bottle",
+    "--k-shot",
+    "1",
+    "--round",
+    "0",
+    "--dinov2-dtype",
+    "float16",
+    "--memory-safe-cosine",
+    "--cosine-rows",
+    "16",
+    "--report",
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\validation_handoff_20260911\\E3\\univad_stage2_bottle_k1.json"
+  ]
+}

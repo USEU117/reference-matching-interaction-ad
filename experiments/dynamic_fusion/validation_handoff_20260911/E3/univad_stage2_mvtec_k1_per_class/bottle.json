@@ -1,0 +1,47 @@
+{
+  "run": [
+    {
+      "category": "bottle",
+      "test_images": 83,
+      "image_auroc": 0.99365,
+      "pixel_auroc": 0.96199
+    }
+  ],
+  "macro": {
+    "categories": 1,
+    "macro_image_auroc": 0.99365,
+    "macro_pixel_auroc": 0.96199
+  },
+  "settings": {
+    "dataset": "mvtec",
+    "k_shot": 1,
+    "round": 0,
+    "image_size": 448,
+    "dinov2_dtype": "float16",
+    "memory_safe_cosine": true,
+    "cosine_rows": 4,
+    "empty_cache_every": 0,
+    "limit": 0,
+    "class_filter": "bottle",
+    "argv": [
+      "--class-name",
+      "bottle",
+      "--k-shot",
+      "1",
+      "--round",
+      "0",
+      "--dinov2-dtype",
+      "float16",
+      "--memory-safe-cosine",
+      "--cosine-rows",
+      "4",
+      "--report",
+      "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\validation_handoff_20260911\\E3\\univad_stage2_mvtec_k1_per_class\\bottle.json"
+    ]
+  },
+  "timing": {
+    "seconds": 4041.7,
+    "s_per_image": 48.696,
+    "peak_vram_gib": 4.64
+  }
+}
