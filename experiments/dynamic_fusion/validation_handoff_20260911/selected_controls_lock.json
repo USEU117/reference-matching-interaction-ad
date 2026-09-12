@@ -1,0 +1,143 @@
+{
+  "created_utc": "2026-09-11T13:09:17.860886+00:00",
+  "best_single_M": {
+    "scope": "best_single_M",
+    "candidates": [
+      {
+        "config_id": "M_B",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+      },
+      {
+        "config_id": "M_S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+      },
+      {
+        "config_id": "C_aligned",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+      }
+    ],
+    "selected": "M_B",
+    "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+    "near_ties": [
+      "M_B"
+    ]
+  },
+  "best_pair_M": {
+    "scope": "best_pair_M",
+    "candidates": [
+      {
+        "config_id": "B+S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.34363845178020413
+      },
+      {
+        "config_id": "B+C",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3660170293894397
+      },
+      {
+        "config_id": "S+C",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3332070029874241
+      }
+    ],
+    "selected": "B+C",
+    "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+    "near_ties": [
+      "B+C"
+    ]
+  },
+  "constituent_single": {
+    "B+S": {
+      "scope": "constituent_single[B+S]",
+      "candidates": [
+        {
+          "config_id": "M_B",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+        },
+        {
+          "config_id": "M_S",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+        }
+      ],
+      "selected": "M_B",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_B"
+      ]
+    },
+    "B+C": {
+      "scope": "constituent_single[B+C]",
+      "candidates": [
+        {
+          "config_id": "M_B",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+        },
+        {
+          "config_id": "C_aligned",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+        }
+      ],
+      "selected": "M_B",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_B"
+      ]
+    },
+    "S+C": {
+      "scope": "constituent_single[S+C]",
+      "candidates": [
+        {
+          "config_id": "M_S",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+        },
+        {
+          "config_id": "C_aligned",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+        }
+      ],
+      "selected": "M_S",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_S"
+      ]
+    }
+  },
+  "best_matched_single_M_only": {
+    "scope": "best_matched_single",
+    "candidates": [
+      {
+        "config_id": "M_B",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+      },
+      {
+        "config_id": "M_S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+      }
+    ],
+    "selected": "M_B",
+    "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+    "near_ties": [
+      "M_B"
+    ]
+  },
+  "best_observed_single": {
+    "scope": "M_B, M_S, N_B_pcv, N_S_pcv (completed, same input protocol)",
+    "note": "official native N_S/N_B are blocked (run_anomalydino.py absent); C_aligned covered by best_single_M",
+    "candidates": [
+      {
+        "config_id": "M_B",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+      },
+      {
+        "config_id": "M_S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+      },
+      {
+        "config_id": "N_B_pcv",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.31343468215369097
+      },
+      {
+        "config_id": "N_S_pcv",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3222063303130962
+      }
+    ]
+  }
+}

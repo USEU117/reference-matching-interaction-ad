@@ -1,0 +1,72 @@
+{
+  "created_utc": "2026-09-11T00:00:00+00:00",
+  "purpose": "source-level comparison of the project matched DINO pipeline (M) and the official AnomalyDINO pipeline (N) before running the factor units",
+  "official_reference": {
+    "repo": "https://github.com/dammsi/AnomalyDINO",
+    "commit": "b9d1c2648e3a5247437d4d953d907a8f3d994457",
+    "files_inspected": ["src/backbones.py", "src/detection.py", "src/utils.py", "src/post_eval.py", "run_anomalydino.py"]
+  },
+  "project_local_state": {
+    "methods/anomalydino": "only src/backbones.py and src/utils.py present",
+    "missing": ["run_anomalydino.py", "src/detection.py", "src/post_eval.py", "src/visualize.py"],
+    "referenced_by": "scripts/run_anomalydino_unified.ps1 (calls methods/anomalydino/run_anomalydino.py, which does not exist)",
+    "verdict": "AT THE TIME OF WRITING the official native pipeline could not be executed; N_S/N_B were blocked. THIS IS NOW SUPERSEDED: the official source at the pinned commit was vendored to methods/anomalydino_official/ with per-file git-blob verification (SOURCE.json), and the official inference path was executed as the unit `official_native_{B,S}` (scripts/validation_handoff_20260911/e1_native_official.py, results in E1/official_native_*). Only the official *end-to-end evaluator* remains unusable on MPDD because src/post_eval.parse_dataset_files hardcodes the non-MVTec GT mask extension as '.JPG'."
+  },
+  "byte_level_verification": {
+    "checked_utc": "2026-09-11T14:38:14+00:00",
+    "method": "vendored the official files at the pinned commit and compared git blob sha1 per file (methods/anomalydino_official/SOURCE.json)",
+    "official_src_backbones_py_git_blob": "64834893e5c022633fa02250b7cc39c4da9a509a",
+    "local_methods_anomalydino_src_backbones_py_git_blob": "8d7aa26505f6503a5b7515d4eea4c5a075fddde6",
+    "official_src_utils_py_git_blob": "dd16e9486d747d708641b650c1bc994297fa3a21",
+    "local_methods_anomalydino_src_utils_py_git_blob": "7b2b23ec136a61d603c77c6ee43e45155f84d73d",
+    "verdict": [
+      "backbones.py: the local file differs from upstream ONLY by blank lines and a missing trailing newline; no code difference.",
+      "utils.py: the local file is a project-trimmed module that keeps only `dists2map` (plus `from __future__ import annotations`); it is NOT the upstream file, and upstream has additional helpers (augment_image, rotate_image, resize_mask_img, plot_ref_images, get_dataset_info) that the local copy omits.",
+      "the load-bearing function `dists2map` is computed identically in both (cv2 INTER_LINEAR resize then scipy gaussian_filter sigma=4)."
+    ],
+    "supersedes": "the earlier `identical: true / byte-identical to the vendored copy` wording below, which was wrong at the byte level"
+  },
+  "stage_by_stage": [
+    {"stage": "feature extractor class", "matched_M": "methods/anomalydino/src/backbones.py::DINOv2Wrapper",
+     "native_official": "src/backbones.py::DINOv2Wrapper", "identical": true,
+     "evidence": "downloaded official file; code-identical (differs only by blank lines / trailing newline) per byte_level_verification"},
+    {"stage": "preprocessing", "matched_M": "transforms.Resize(smaller_edge=448, BICUBIC, antialias=True) + ToTensor + ImageNet Normalize + crop to patch multiple",
+     "native_official": "same", "identical": true},
+    {"stage": "feature tap", "matched_M": "model.get_intermediate_layers(x)[0] (last block, no CLS)",
+     "native_official": "same", "identical": true},
+    {"stage": "patch normalization", "matched_M": "faiss.normalize_L2 per patch row",
+     "native_official": "faiss.normalize_L2(features_ref) and faiss.normalize_L2(features2)", "identical": true},
+    {"stage": "memory bank", "matched_M": "concatenate K reference images' patches, exact IndexFlatL2",
+     "native_official": "same; augmentation (rotation) off by default; background masking optional", "identical": true},
+    {"stage": "distance", "matched_M": "1-NN L2 / 2 (== 1 - cos for unit rows), k=1",
+     "native_official": "knn_metric='L2_normalized', k_neighbors=1, distances/2", "identical": true},
+    {"stage": "map post-processing", "matched_M": "cv2.resize(..., INTER_LINEAR) to 448 then scipy gaussian_filter(sigma=4)",
+     "native_official": "src/utils.py::dists2map = cv2.resize(..., INTER_LINEAR) then gaussian_filter(sigma=4)", "identical": true},
+    {"stage": "map target size", "matched_M": "448x448", "native_official": "original image shape; project unified run caps at --map_max_edge 448",
+     "identical": "equal only because the project run capped to 448"},
+    {"stage": "image score", "matched_M": "max of the 448 anomaly map", "native_official": "mean_top1p = mean of top 1% patch distances",
+     "identical": false},
+    {"stage": "background masking", "matched_M": "none", "native_official": "optional; compute_background_mask(threshold=10, kernel=3, border=0.2); enabled per object by --preprocess",
+     "identical": false},
+    {"stage": "reference sampling", "matched_M": "project manifest categories[cat][seed][shot]",
+     "native_official": "sorted(os.listdir(train/good))[seed*n:(seed+1)*n]; the project's modified run script overrode this with --split_manifest",
+     "identical": "project-modified; original differs"},
+    {"stage": "pixel metric protocol", "matched_M": "stride-8 sampling on the 448 map",
+     "native_official": "full-resolution map metrics in the official evaluator", "identical": false}
+  ],
+  "consequences": [
+    "On the confirmable aspects the M and N pixel pipelines are identical; only the image aggregation and optional masking differ.",
+    "Therefore a pixel-level M_B vs N_B difference cannot be attributed to a different pixel pipeline in these two implementations.",
+    "SUPERSEDED: official N_S/N_B are no longer blocked. The official source is vendored and verified, and the official inference path was run as `official_native_{B,S}` with project-controlled reference IDs. A project-controlled native variant (N_*_pcv) was also run earlier and is explicitly labelled as non-official.",
+    "REMAINING GAP: the official end-to-end evaluator (run_anomalydino.py -> src/post_eval.eval_finished_run) still cannot score MPDD unmodified, because parse_dataset_files selects the GT mask extension as '.png' only for dataset=='MVTec' and '.JPG' otherwise, while MPDD masks are '*_mask.png'."
+  ],
+  "project_controlled_variant": {
+    "id": "N_B_pcv / N_S_pcv",
+    "definition": "official compute_background_mask (threshold=10, kernel_size=3, border=0.2, PCA random_state pinned to 0) + official mean_top1p image score; everything else identical to M",
+    "not_official_because": [
+      "the official run script is absent; masking enablement for MPDD is unknown",
+      "random_state was pinned for reproducibility while the official code leaves it None",
+      "the official project run used --preprocess agnostic whose per-object masking map is unavailable"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+method,protocol_group,target_training,source_training,text_used_at_inference,backbone,project_source
+PatchCore,frozen normal modelling (training-free),none,none,False,"WideResNet-50 (layer2/3), ImageNet-pretrained",outputs/unified/patchcore_* (reused qualified outputs)
+AnomalyDINO,frozen normal modelling (training-free),none,none,False,DINOv2 ViT-S/14,"outputs/unified/anomalydino_{mvtec_full,visa}_* (reused qualified outputs)"
+WinCLIP+,vision-language zero/few-shot,none,none,True,OpenCLIP ViT-B/16-plus-240 (project env),outputs/unified/winclip_*
+PromptAD,target-normal tuning (NOT comparable as training-free),True,none,True,CLIP ViT-L/14@336,outputs/unified/promptad_*
+ReMP-AD,source-supervised (official image score),"train once, official",True,True,CLIP ViT-L/14@336,"outputs/unified/remp_ad_mvtec_k{1,2,4} (3 configs only, no seeds)"
+AdaptCLIP,source-supervised,False,True,True,"CLIP ViT-L/14@336 + adapters (layers 6/12/18/24), features 518","outputs/unified/adaptclip_mvtec_seed_{0,1,2}_shot_1 (MVTec 1-shot only)"
+AnomalyCLIP (zs),zero-shot vision-language,none,True,True,CLIP ViT-L/14@336,"outputs/unified/anomalyclip_mvtec_official (1 config, no seeds)"
+SubspaceAD,frozen normal modelling (training-free),none,none,False,official default facebook/dinov2-with-registers-large; HF cache here holds dinov2-with-registers-giant only,methods/SubspaceAD (vendored); no completed run found -> partially executed this round

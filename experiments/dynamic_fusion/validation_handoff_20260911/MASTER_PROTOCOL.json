@@ -1,0 +1,77 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "created_utc": "2026-09-11T00:00:00+00:00",
+  "source_task_book": "docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md",
+  "source_task_book_sha256": "5e62c297bb99d8370a2de63f35868f1a20ffd4b7562197ea9aebd093df265e3e",
+  "frozen_reference_method": "A1 = DINOv2 ViT-B/14 + AnomalyCLIP ViT-L/14@336px visual, per-branch L2, equal-weight concat, joint L2, exact 1-NN, dist/2, dists2map(bilinear->448 then Gaussian sigma=4), stride=8 pixel metrics, image score = max of 448 map",
+  "frozen_a1_macro_pixel_ap": {
+    "s0_k2": 0.343706218,
+    "s0_k4": 0.388327846
+  },
+  "primary_metric": "macro_pixel_ap_stride8",
+  "delta_unit": "absolute_0_to_1",
+  "datasets": {
+    "mpdd": {
+      "role": "development"
+    },
+    "btad": {
+      "role": "historical_external_frozen_validation"
+    },
+    "visa": {
+      "role": "in_domain_frozen_validation"
+    },
+    "mvtec": {
+      "role": "historical_external_frozen_validation"
+    }
+  },
+  "gates": {
+    "G0_comparability": "IDs/support budget/model identity/geometry/metrics complete; frozen A1 replay per-category and macro P-AP abs error <= 0.0005; no missing category, NaN or misalignment",
+    "G1A_development_gain": "MPDD s0 K2/K4 each: macro dP-AP vs frozen A1 >= +0.01; worst-category dP-AP >= -0.03; macro dP-AUROC >= -0.005",
+    "G1B_fusion_necessity": "G1A plus: each shot macro dP-AP vs the locked simple control >= +0.005 with same worst/AUROC protection. E2 control = locked strongest constituent single; E4 = best pair; E6 = best fixed-weight fusion",
+    "G2_reference_sampling": "MPDD s1/s2 x K1/2/4: six-config mean dP-AP vs A1 >= +0.01, >=5/6 positive; per-shot two-seed mean non-negative; worst-category six-config mean >= -0.03; six-config mean dP-AUROC >= -0.005; fusion routes also >= +0.005 vs locked simple control",
+    "G3_frozen_transfer": "BTAD and MVTec, nine configs each: mean dP-AP vs A1 >= +0.005, >=7/9 positive; worst-category nine-config mean >= -0.03; mean dP-AUROC >= -0.005; mean dP-AP vs locked simple control >= 0; both datasets must satisfy"
+  },
+  "locked_controls": {
+    "best_single_M": "M_B, M_S, C_aligned",
+    "constituent_single[pair_id]": "the two constituent singles of that pair, within M only",
+    "best_pair_M": "B+S, B+C, S+C (all in M)",
+    "best_fixed[same_branches]": "pre-registered fixed weights of the same branches and budget",
+    "best_observed_single": "completed M_B, M_S, N_B, N_S, C_aligned under the same input protocol"
+  },
+  "lock_rule": "Within each lock's own candidate scope, choose once by the mean of s0 K2/K4 macro P-AP; never reselect on test category, shot or later dataset. Ties within <=0.001 resolved by (1) lower measured same-condition cost, (2) fewer branches, (3) lexicographically smaller config_id",
+  "stability_flags": {
+    "seed_stable_v1": "each reference seed cross-shot mean dP-AP vs A1 > 0; each seed worst-category cross-shot mean >= -0.03; each seed mean dP-AUROC >= -0.005",
+    "shot_stable_v1": "each shot cross-seed mean dP-AP > 0",
+    "all_config_positive": "all expected config deltas > 0"
+  },
+  "bootstrap": {
+    "paired": true,
+    "B": 2000,
+    "rng_seed": 20260911,
+    "stratification": "within category by normal/anomalous image; whole-image resampling; shared index across candidate and all controls",
+    "forbidden": "pixels as independent bootstrap units; treating nine reference configs as nine independent datasets"
+  },
+  "preregistered_configs": {
+    "E1": [
+      "M_B",
+      "M_S",
+      "N_B_pcv",
+      "N_S_pcv"
+    ],
+    "E2": [
+      "M_B",
+      "M_S",
+      "C_aligned",
+      "C_native37",
+      "B+S",
+      "B+C",
+      "S+C"
+    ],
+    "E4": [
+      "B+S+C"
+    ]
+  },
+  "stopping_rules": "E1 four factor units; E2 three singles + three pairs; E4 one equal-weight triple. No post-hoc addition of backbones/layers after seeing a category result. Gates are point-estimate screens; CIs reported alongside.",
+  "test_label_discipline": "GT masks/labels only in evaluator and post-hoc diagnosis; never in the predictor, gate, or test-time parameter fit. No test-set statistics used for calibration.",
+  "status": "frozen_before_first_new_candidate_result"
+}

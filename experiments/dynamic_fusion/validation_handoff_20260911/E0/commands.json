@@ -1,0 +1,24 @@
+{
+  "compact_verify": {
+    "cmd": [
+      ".venv-anomalyclip/Scripts/python.exe",
+      "submission_repro_20260827/recompute_tables.py",
+      "--verify-only",
+      "--output-dir",
+      "experiments/dynamic_fusion/validation_handoff_20260911/E0/compact_verify"
+    ],
+    "exit_code": 0
+  },
+  "replay": {
+    "cmd": [
+      ".venv-anomalyclip/Scripts/python.exe",
+      "-X",
+      "utf8",
+      "scripts/validation_handoff_20260911/e0_preflight.py",
+      "--shots",
+      "2,4"
+    ],
+    "exit_code": 0,
+    "note": "replay recomputes A1 (B+C concat w=0.5) and matched DINO-only from the frozen raw caches"
+  }
+}

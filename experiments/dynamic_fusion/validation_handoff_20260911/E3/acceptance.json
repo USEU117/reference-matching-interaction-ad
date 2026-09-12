@@ -1,0 +1,37 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "experiment_id": "E3",
+  "config_id": "recent_complete_baselines",
+  "execution_status": "blocked",
+  "scientific_status": "baseline_only",
+  "primary_metric": "macro_pixel_ap_stride8",
+  "delta_unit": "absolute_0_to_1",
+  "locked_primary_control": null,
+  "locked_simple_control": null,
+  "expected_category_config_rows": 486,
+  "observed_category_config_rows": 483,
+  "missing_ids": [
+    "AnomalyDINO/mvtec/seed1/K2 (15 category units; cache dir empty)",
+    "UniVAD: source vendored at the pinned commit (264/264 files git-blob verified) but not executed - the upstream pretrained_ckpts/ ships only empty.txt, so the component checkpoints are absent",
+    "SubspaceAD: only the pre-declared 12-unit small matrix was executed; the full matrix required by the 486-unit minimum scope was not run"
+  ],
+  "parity_max_abs_error": null,
+  "per_shot_gates": null,
+  "confirmation_gates": null,
+  "transfer_gates": null,
+  "seed_stable_v1": null,
+  "shot_stable_v1": null,
+  "all_config_positive": null,
+  "confidence_intervals": null,
+  "costs": "E3 logs; SubspaceAD native per-image time ~0.09 s/image (fp16) at 256 resolution",
+  "protocol_sha256": "0ae5945380cdc0245d55f170e4be425b9f8a239e532045a943c1ba649ee091aa",
+  "evidence_paths": [
+    "E3/baseline_registry.json",
+    "E3/coverage_matrix.csv",
+    "E3/main_comparison.csv",
+    "E3/reused_macro_summary.csv",
+    "E3/subspacead_small_matrix.csv",
+    "methods/univad_official/SOURCE.json"
+  ],
+  "reason": "Two distinct-mechanism methods complete on both datasets (PatchCore, AnomalyDINO) = 471/486 units via reused qualified outputs. SubspaceAD's weight blocker was resolved this round (verified giant checkpoint) and it now runs, producing a pre-declared 12-unit small matrix (2 datasets x 2 categories x K1/2/4, seed 0, fp16 adaptation, native evaluator) — this is a reproduction check, NOT the 486-unit matrix. UniVAD's source is now vendored at the pinned commit (264/264 files git-blob verified) but it is not executed, because the upstream pretrained_ckpts/ ships only empty.txt and the component checkpoints are absent; no UniVAD number is produced. The E3 minimum scope is therefore not met and E3 stays partial/blocked."
+}

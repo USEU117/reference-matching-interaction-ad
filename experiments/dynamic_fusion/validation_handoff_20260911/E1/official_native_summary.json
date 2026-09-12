@@ -1,0 +1,99 @@
+{
+  "created_utc": "2026-09-11T14:44:11.045434+00:00",
+  "protocol": "handoff_gate_v1",
+  "unit_name": "official_native_{B,S} (project-controlled reference IDs)",
+  "official_source": "D:\\STUDY\\My_github\\sci_project\\methods\\anomalydino_official\\SOURCE.json",
+  "official_commit": "b9d1c2648e3a5247437d4d953d907a8f3d994457",
+  "device": "cuda",
+  "rotation": false,
+  "masking": false,
+  "macro": [
+    {
+      "unit": "official_native_B",
+      "shot": 2,
+      "n_categories": 6,
+      "macro_pixel_ap": 0.3156103229917389,
+      "macro_pixel_auroc": 0.9524145928421608,
+      "macro_pixel_aupro": 0.8767489488257488,
+      "macro_image_ap_official_mean_top1p": 0.7554457867568259,
+      "macro_image_auroc_official_mean_top1p": 0.7457302453841267,
+      "mean_t_memory_bank_s": 0.21509680000053777,
+      "mean_s_per_image": 0.10725253430208943
+    },
+    {
+      "unit": "official_native_B",
+      "shot": 4,
+      "n_categories": 6,
+      "macro_pixel_ap": 0.3619827699718394,
+      "macro_pixel_auroc": 0.9613691816298983,
+      "macro_pixel_aupro": 0.9049612321984629,
+      "macro_image_ap_official_mean_top1p": 0.8090358740903919,
+      "macro_image_auroc_official_mean_top1p": 0.7982803767711534,
+      "mean_t_memory_bank_s": 0.39110530000107246,
+      "mean_s_per_image": 0.1197977099168056
+    },
+    {
+      "unit": "official_native_S",
+      "shot": 2,
+      "n_categories": 6,
+      "macro_pixel_ap": 0.302728579754017,
+      "macro_pixel_auroc": 0.961200648363504,
+      "macro_pixel_aupro": 0.8820115358821753,
+      "macro_image_ap_official_mean_top1p": 0.7327046013811263,
+      "macro_image_auroc_official_mean_top1p": 0.7272175115551026,
+      "mean_t_memory_bank_s": 0.14048778333259784,
+      "mean_s_per_image": 0.07722820015073904
+    },
+    {
+      "unit": "official_native_S",
+      "shot": 4,
+      "n_categories": 6,
+      "macro_pixel_ap": 0.3287058312370624,
+      "macro_pixel_auroc": 0.9703460303552509,
+      "macro_pixel_aupro": 0.903333937911417,
+      "macro_image_ap_official_mean_top1p": 0.7788087147012489,
+      "macro_image_auroc_official_mean_top1p": 0.7663360724912529,
+      "mean_t_memory_bank_s": 0.25699891666651337,
+      "mean_s_per_image": 0.08175267511051898
+    }
+  ],
+  "effects_vs_matched": [
+    {
+      "unit": "official_native_B",
+      "matched_unit": "M_B",
+      "shot": 2,
+      "official_native_macro_pixel_ap": 0.3156103229917389,
+      "matched_macro_pixel_ap": 0.3156113023642888,
+      "delta_official_native_minus_matched": -9.793725498918882e-07,
+      "note": "official inference code; project-controlled reference IDs and rotation=off"
+    },
+    {
+      "unit": "official_native_B",
+      "matched_unit": "M_B",
+      "shot": 4,
+      "official_native_macro_pixel_ap": 0.3619827699718394,
+      "matched_macro_pixel_ap": 0.3619836360275915,
+      "delta_official_native_minus_matched": -8.660557520578926e-07,
+      "note": "official inference code; project-controlled reference IDs and rotation=off"
+    },
+    {
+      "unit": "official_native_S",
+      "matched_unit": "M_S",
+      "shot": 2,
+      "official_native_macro_pixel_ap": 0.302728579754017,
+      "matched_macro_pixel_ap": 0.30272860478780117,
+      "delta_official_native_minus_matched": -2.5033784156747174e-08,
+      "note": "official inference code; project-controlled reference IDs and rotation=off"
+    },
+    {
+      "unit": "official_native_S",
+      "matched_unit": "M_S",
+      "shot": 4,
+      "official_native_macro_pixel_ap": 0.3287058312370624,
+      "matched_macro_pixel_ap": 0.3287058888531562,
+      "delta_official_native_minus_matched": -5.761609384036248e-08,
+      "note": "official inference code; project-controlled reference IDs and rotation=off"
+    }
+  ],
+  "official_end_to_end_blocked_because": "src/post_eval.parse_dataset_files hardcodes the GT mask extension to '.JPG' for every dataset other than MVTec, so the official evaluator cannot read MPDD '*_mask.png' masks; the official inference path is used instead and evaluated with the project unified evaluator."
+}

@@ -1,0 +1,18 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "experiment_id": "E1",
+  "purpose": "separate backbone (DINO ViT-B vs ViT-S) from pipeline (matched M vs official AnomalyDINO) on MPDD s0 K2/K4",
+  "preregistered_configs": [
+    "M_B",
+    "M_S",
+    "N_B_pcv",
+    "N_S_pcv",
+    "official_native_B",
+    "official_native_S"
+  ],
+  "primary_metric": "macro_pixel_ap_stride8",
+  "delta_unit": "absolute_0_to_1",
+  "gates": "G1-A vs frozen A1; G1-B vs locked simple control (E2 pairs / E4 best pair)",
+  "protocol_sha256": "0ae5945380cdc0245d55f170e4be425b9f8a239e532045a943c1ba649ee091aa",
+  "note": "executed via the vendored official inference code (official_native_B/S); pixel metrics equal the matched M_B/M_S units to <=1e-6. The official end-to-end evaluator still cannot read MPDD GT (hardcoded .JPG in src/post_eval.parse_dataset_files)."
+}

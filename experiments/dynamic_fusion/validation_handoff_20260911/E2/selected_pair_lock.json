@@ -1,0 +1,109 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "best_single_M": {
+    "scope": "best_single_M",
+    "candidates": [
+      {
+        "config_id": "M_B",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+      },
+      {
+        "config_id": "M_S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+      },
+      {
+        "config_id": "C_aligned",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+      }
+    ],
+    "selected": "M_B",
+    "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+    "near_ties": [
+      "M_B"
+    ]
+  },
+  "best_pair_M": {
+    "scope": "best_pair_M",
+    "candidates": [
+      {
+        "config_id": "B+S",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.34363845178020413
+      },
+      {
+        "config_id": "B+C",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3660170293894397
+      },
+      {
+        "config_id": "S+C",
+        "s0_k2_k4_mean_macro_pixel_ap": 0.3332070029874241
+      }
+    ],
+    "selected": "B+C",
+    "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+    "near_ties": [
+      "B+C"
+    ]
+  },
+  "constituent_single": {
+    "B+S": {
+      "scope": "constituent_single[B+S]",
+      "candidates": [
+        {
+          "config_id": "M_B",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+        },
+        {
+          "config_id": "M_S",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+        }
+      ],
+      "selected": "M_B",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_B"
+      ]
+    },
+    "B+C": {
+      "scope": "constituent_single[B+C]",
+      "candidates": [
+        {
+          "config_id": "M_B",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3387974691959401
+        },
+        {
+          "config_id": "C_aligned",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+        }
+      ],
+      "selected": "M_B",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_B"
+      ]
+    },
+    "S+C": {
+      "scope": "constituent_single[S+C]",
+      "candidates": [
+        {
+          "config_id": "M_S",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.3157172468204787
+        },
+        {
+          "config_id": "C_aligned",
+          "s0_k2_k4_mean_macro_pixel_ap": 0.27850681631404123
+        }
+      ],
+      "selected": "M_S",
+      "selection_rule": "max s0 K2/K4 mean macro pixel-AP; ties within 0.001 -> fewer branches -> lexicographic",
+      "near_ties": [
+        "M_S"
+      ]
+    }
+  },
+  "gate1b_control_for_pairs": {
+    "B+S": "M_B",
+    "B+C": "M_B",
+    "S+C": "M_S"
+  },
+  "gate1b_control_for_E4": "B+C"
+}

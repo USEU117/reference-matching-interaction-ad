@@ -1,0 +1,49 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "experiment_id": "E2",
+  "config_id": "combination_matrix",
+  "execution_status": "completed",
+  "scientific_status": "gate_fail",
+  "primary_metric": "macro_pixel_ap_stride8",
+  "delta_unit": "absolute_0_to_1",
+  "locked_primary_control": null,
+  "locked_simple_control": null,
+  "expected_category_config_rows": 12,
+  "observed_category_config_rows": 12,
+  "missing_ids": [],
+  "parity_max_abs_error": null,
+  "per_shot_gates": null,
+  "confirmation_gates": null,
+  "transfer_gates": null,
+  "seed_stable_v1": null,
+  "shot_stable_v1": null,
+  "all_config_positive": null,
+  "confidence_intervals": null,
+  "costs": "E2 draws on E1/costs_per_config.csv (same harness and caches; no new scoring)",
+  "protocol_sha256": "0ae5945380cdc0245d55f170e4be425b9f8a239e532045a943c1ba649ee091aa",
+  "evidence_paths": [
+    "E2/combination_matrix.csv",
+    "E2/constituent_comparisons.csv",
+    "E2/error_overlap.csv",
+    "E2/bootstrap_primary.json",
+    "E2/selected_pair_lock.json",
+    "E2/normal_false_positive.csv",
+    "E2/defect_response.csv",
+    "E2/small_defect_response.csv",
+    "E2/false_positive_summary.json"
+  ],
+  "reason": "six-group matrix complete; locks saved",
+  "supplements": [
+    {
+      "name": "normal-image false positives and defect response (task book section 8 step 6)",
+      "status": "executed",
+      "evidence": [
+        "E2/normal_false_positive.csv",
+        "E2/defect_response.csv",
+        "E2/small_defect_response.csv",
+        "E2/false_positive_summary.json"
+      ],
+      "note": "derived from the frozen E2 stride-8 maps without new scoring; the TPR-matched thresholds are post-hoc diagnostics only and never enter configuration selection, weighting or the gate. Macro FPR@TPR90 is ~0.41-0.46 for every configuration."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "created_utc": "2026-09-12T00:32:21.096573+00:00",
+  "note": "model cards; reused outputs referenced by path, protocol groups kept separate",
+  "model_cards": {
+    "PatchCore": {
+      "mechanism": "frozen pretrained features + greedy coreset subsampling memory bank (frozen normal modelling)",
+      "official": "https://github.com/amazon-science/patchcore-inspection",
+      "backbone": "WideResNet-50 (layer2/3), ImageNet-pretrained",
+      "input": "official resize/imagesize",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used_at_inference": false,
+      "protocol_group": "frozen normal modelling (training-free)",
+      "project_source": "outputs/unified/patchcore_* (reused qualified outputs)"
+    },
+    "AnomalyDINO": {
+      "mechanism": "frozen DINOv2 ViT-S/14 patch nearest-neighbour memory bank (training-free, recent)",
+      "official": "https://github.com/dammsi/AnomalyDINO (WACV 2025), commit b9d1c2648e3a5247437d4d953d907a8f3d994457",
+      "backbone": "DINOv2 ViT-S/14",
+      "input": "smaller edge 448 (project run)",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used_at_inference": false,
+      "protocol_group": "frozen normal modelling (training-free)",
+      "project_source": "outputs/unified/anomalydino_{mvtec_full,visa}_* (reused qualified outputs)",
+      "note": "project modified run_anomalydino.py with --split_manifest/--map_max_edge; the modified script is no longer in the repo"
+    },
+    "WinCLIP+": {
+      "mechanism": "frozen OpenCLIP text/image features + few-shot normal reference enrichment",
+      "official": "https://github.com/mala-lab/WinCLIP",
+      "backbone": "OpenCLIP ViT-B/16-plus-240 (project env)",
+      "input": "official",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used_at_inference": true,
+      "protocol_group": "vision-language zero/few-shot",
+      "project_source": "outputs/unified/winclip_*"
+    },
+    "PromptAD": {
+      "mechanism": "prompt learning with only-normal target images",
+      "official": "https://github.com/Fu-Yong/PromptAD",
+      "backbone": "CLIP ViT-L/14@336",
+      "input": "official (336)",
+      "target_training": true,
+      "source_training": "none",
+      "text_used_at_inference": true,
+      "protocol_group": "target-normal tuning (NOT comparable as training-free)",
+      "project_source": "outputs/unified/promptad_*"
+    },
+    "ReMP-AD": {
+      "mechanism": "retrieval of text descriptions + few-shot normal bank",
+      "official": "https://github.com/cshcma/ReMP-AD",
+      "backbone": "CLIP ViT-L/14@336",
+      "input": "official (518)",
+      "target_training": "train once, official",
+      "source_training": true,
+      "text_used_at_inference": true,
+      "protocol_group": "source-supervised (official image score)",
+      "project_source": "outputs/unified/remp_ad_mvtec_k{1,2,4} (3 configs only, no seeds)"
+    },
+    "AdaptCLIP": {
+      "mechanism": "source-domain trained adapters + textual adapter",
+      "official": "https://github.com/gaobb/AdaptCLIP",
+      "backbone": "CLIP ViT-L/14@336 + adapters (layers 6/12/18/24), features 518",
+      "input": "official",
+      "target_training": false,
+      "source_training": true,
+      "text_used_at_inference": true,
+      "protocol_group": "source-supervised",
+      "project_source": "outputs/unified/adaptclip_mvtec_seed_{0,1,2}_shot_1 (MVTec 1-shot only)"
+    },
+    "AnomalyCLIP (zs)": {
+      "mechanism": "zero-shot text-image anomaly prompt learning (official zero-shot)",
+      "official": "https://github.com/zqhang/AnomalyCLIP",
+      "backbone": "CLIP ViT-L/14@336",
+      "input": "official",
+      "target_training": "none",
+      "source_training": true,
+      "text_used_at_inference": true,
+      "protocol_group": "zero-shot vision-language",
+      "project_source": "outputs/unified/anomalyclip_mvtec_official (1 config, no seeds)"
+    },
+    "SubspaceAD": {
+      "mechanism": "frozen DINOv2 features + PCA subspace reconstruction on normal patches (training-free)",
+      "official": "https://github.com/CLendering/SubspaceAD",
+      "backbone": "official default facebook/dinov2-with-registers-large; HF cache here holds dinov2-with-registers-giant only",
+      "input": "official",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used_at_inference": false,
+      "protocol_group": "frozen normal modelling (training-free)",
+      "project_source": "methods/SubspaceAD (vendored); no completed run found -> partially executed this round",
+      "risk": "few-shot vs batched zero-shot differ (the latter fits the test set); replacing the backbone must be renamed"
+    },
+    "UniVAD": {
+      "mechanism": "component/structure-aware anomaly detection with graph/part modelling",
+      "official": "https://github.com/FantasticGNU/UniVAD",
+      "official_commit": "64d32873dda44fad69786834ea5ee1394ef81975",
+      "backbone": "component stack: GroundingDINO + DINOv2 + RAM + CLIP + (HQ-)SAM (models/ in the vendored tree)",
+      "input": "official (per-class histogram configs under configs/class_histogram)",
+      "target_training": "none (training-free per the official description; not independently verified by a local run)",
+      "source_training": "unknown",
+      "text_used_at_inference": "unknown",
+      "protocol_group": "component/structure",
+      "project_source": "methods/univad_official (source vendored this round at the pinned commit; per-file git blob SHA-1 verified against the GitHub tree API)",
+      "source_manifest": "methods/univad_official/SOURCE.json",
+      "has_local_runs": false,
+      "status": "source vendored; NOT run - upstream pretrained_ckpts/ ships only empty.txt, so the component checkpoints (GroundingDINO / DINOv2 / RAM / CLIP / HQ-SAM) are still missing and no UniVAD number is produced"
+    }
+  }
+}

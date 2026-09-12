@@ -1,0 +1,110 @@
+{
+  "created_utc": "2026-09-11T16:45:44.589613+00:00",
+  "protocol": "handoff_gate_v1",
+  "device": "cuda",
+  "categories": [
+    "bracket_black",
+    "metal_plate"
+  ],
+  "configs": [
+    "B+C",
+    "B+S",
+    "B+S+C",
+    "M_B",
+    "M_S",
+    "C_aligned"
+  ],
+  "warmup_images": 5,
+  "encoders": [
+    {
+      "encoder": "dinov2_vitb14",
+      "init_s": 11.078051099999357,
+      "forward_p50_ms": 80.48490000055608,
+      "forward_p95_ms": 83.9326749997781,
+      "forward_mean_ms": 80.62367000005301,
+      "n_forward_samples": 30,
+      "warmup_iters": 5,
+      "gpu_peak_allocated_mb_encoder_stage": 374.5791015625,
+      "device": "cuda"
+    },
+    {
+      "encoder": "dinov2_vits14",
+      "init_s": 6.020650299999943,
+      "forward_p50_ms": 48.58799999965413,
+      "forward_p95_ms": 56.002994999971634,
+      "forward_mean_ms": 48.29478666664121,
+      "n_forward_samples": 30,
+      "warmup_iters": 5,
+      "gpu_peak_allocated_mb_encoder_stage": 111.6484375,
+      "device": "cuda"
+    }
+  ],
+  "macro": [
+    {
+      "config_id": "B+C",
+      "n_units": 4,
+      "feature_dim": 1536,
+      "mean_memory_bank_build_s": 2.103251024999963,
+      "mean_query_p50_ms": 102.03684999987672,
+      "mean_query_p95_ms": 111.82254500013185,
+      "max_query_p95_ms": 147.96761000006882,
+      "mean_ram_peak_working_set_mb": 4584.62890625
+    },
+    {
+      "config_id": "B+S",
+      "n_units": 4,
+      "feature_dim": 1152,
+      "mean_memory_bank_build_s": 1.516659625000102,
+      "mean_query_p50_ms": 80.40702500034058,
+      "mean_query_p95_ms": 87.44623750008031,
+      "max_query_p95_ms": 112.29338999974061,
+      "mean_ram_peak_working_set_mb": 4584.62890625
+    },
+    {
+      "config_id": "B+S+C",
+      "n_units": 4,
+      "feature_dim": 1920,
+      "mean_memory_bank_build_s": 2.90476137499968,
+      "mean_query_p50_ms": 122.64259999983551,
+      "mean_query_p95_ms": 133.1137049998233,
+      "max_query_p95_ms": 171.36303999977827,
+      "mean_ram_peak_working_set_mb": 5022.0712890625
+    },
+    {
+      "config_id": "M_B",
+      "n_units": 4,
+      "feature_dim": 768,
+      "mean_memory_bank_build_s": 1.1161701750002067,
+      "mean_query_p50_ms": 59.808750000001965,
+      "mean_query_p95_ms": 64.89535000025624,
+      "max_query_p95_ms": 81.79608000009465,
+      "mean_ram_peak_working_set_mb": 5022.0712890625
+    },
+    {
+      "config_id": "M_S",
+      "n_units": 4,
+      "feature_dim": 384,
+      "mean_memory_bank_build_s": 0.5671841749999658,
+      "mean_query_p50_ms": 38.55427500002406,
+      "mean_query_p95_ms": 43.04100999981982,
+      "max_query_p95_ms": 54.50780000010125,
+      "mean_ram_peak_working_set_mb": 5022.0712890625
+    },
+    {
+      "config_id": "C_aligned",
+      "n_units": 4,
+      "feature_dim": 768,
+      "mean_memory_bank_build_s": 1.1262842000001,
+      "mean_query_p50_ms": 58.721749999904205,
+      "mean_query_p95_ms": 63.490727500106914,
+      "max_query_p95_ms": 80.25263999988964,
+      "mean_ram_peak_working_set_mb": 5022.0712890625
+    }
+  ],
+  "method": {
+    "ram": "Windows psapi GetProcessMemoryInfo (no psutil in this venv)",
+    "gpu": "torch.cuda.max_memory_allocated per stage after reset_peak_memory_stats",
+    "steady_state_stage": "1-NN search + bilinear resize to 448 + Gaussian sigma=4 per image",
+    "not_used": "disk size / compression ratio are not reported as speed"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "protocol_version": "handoff_gate_v1",
+  "experiment_id": "E1",
+  "config_id": "single_vs_A1_all_units",
+  "execution_status": "completed",
+  "scientific_status": "gate_fail",
+  "primary_metric": "macro_pixel_ap_stride8",
+  "delta_unit": "absolute_0_to_1",
+  "locked_primary_control": null,
+  "locked_simple_control": null,
+  "expected_category_config_rows": 12,
+  "observed_category_config_rows": 12,
+  "missing_ids": [],
+  "parity_max_abs_error": null,
+  "per_shot_gates": null,
+  "confirmation_gates": null,
+  "transfer_gates": null,
+  "seed_stable_v1": null,
+  "shot_stable_v1": null,
+  "all_config_positive": null,
+  "confidence_intervals": null,
+  "costs": "E1/costs_per_config.csv (project harness, metal_plate K4); E1/official_native_macro.csv (official inference unit, per-category build/score)",
+  "protocol_sha256": "0ae5945380cdc0245d55f170e4be425b9f8a239e532045a943c1ba649ee091aa",
+  "evidence_paths": [
+    "E1/gate1a.json",
+    "E1/factorial_matrix.csv",
+    "E1/effects.csv",
+    "E1/pipeline_diff.json",
+    "E1/official_native_metrics_per_category.csv",
+    "E1/official_native_macro.csv",
+    "E1/official_native_effects.csv",
+    "E1/official_native_summary.json"
+  ],
+  "reason": "G1-A evaluated for every E1 unit; see gate1a.json",
+  "supplements": [
+    {
+      "name": "official_native_B/S",
+      "status": "executed",
+      "evidence": [
+        "E1/official_native_metrics_per_category.csv",
+        "E1/official_native_macro.csv",
+        "E1/official_native_effects.csv",
+        "E1/official_native_summary.json",
+        "methods/anomalydino_official/SOURCE.json"
+      ],
+      "note": "vendored official AnomalyDINO inference code at the pinned commit; masking/rotation off; pixel metrics equal the matched M_B/M_S units to <=1e-6, so the earlier 'blocked' status is resolved. The official end-to-end evaluator still cannot read MPDD GT (src/post_eval.parse_dataset_files hardcodes '.JPG'), so the unified stride-8 evaluator was used for scoring."
+    }
+  ]
+}

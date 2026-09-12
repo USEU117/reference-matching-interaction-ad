@@ -1,0 +1,75 @@
+{
+  "commands": [
+    {
+      "cmd": [
+        ".venv-patchcore/Scripts/python.exe",
+        "scripts/export_anomalydino_mpdd_features.py",
+        "--manifest",
+        "data/splits/mpdd/manifest.json",
+        "--dataset",
+        "mpdd",
+        "--dataset-role",
+        "development",
+        "--data-root",
+        "data/mpdd_raw/MPDD",
+        "--output-dir",
+        "outputs/validation_handoff_20260911/DINO_S/s0_k{2,4}",
+        "--seed",
+        "0",
+        "--shot",
+        "{2,4}",
+        "--model-name",
+        "dinov2_vits14",
+        "--resolution",
+        "448",
+        "--map-size",
+        "448"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cmd": [
+        ".venv-anomalyclip/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "scripts/validation_handoff_20260911/run_controlled_matrix.py",
+        "--shots",
+        "2,4",
+        "--seeds",
+        "0"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cmd": [
+        ".venv-anomalyclip/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "scripts/validation_handoff_20260911/finalize_e1e2e4.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cmd": [
+        ".venv-anomalyclip/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "scripts/validation_handoff_20260911/vendor_official_anomalydino.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "cmd": [
+        ".venv-anomalyclip/Scripts/python.exe",
+        "-X",
+        "utf8",
+        "scripts/validation_handoff_20260911/e1_native_official.py",
+        "--shots",
+        "2,4",
+        "--models",
+        "dinov2_vitb14,dinov2_vits14"
+      ],
+      "exit_code": 0
+    }
+  ]
+}
