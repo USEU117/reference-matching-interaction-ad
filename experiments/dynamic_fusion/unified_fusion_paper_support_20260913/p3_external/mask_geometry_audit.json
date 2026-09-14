@@ -1,0 +1,54 @@
+{
+  "category": "03",
+  "units": [
+    {
+      "seed": 0,
+      "status": "repaired",
+      "grid": [
+        32,
+        42
+      ],
+      "old_mask_shape": [
+        441,
+        448,
+        448
+      ],
+      "new_mask_shape": [
+        441,
+        448,
+        588
+      ],
+      "n_images": 441,
+      "old_defect_fraction": 0.002066727387170855,
+      "new_defect_fraction": 0.002066721469118908,
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\unified_fusion_paper_support_20260913\\canonical\\B\\btad_s0_k8\\03.npz"
+    },
+    {
+      "seed": 1,
+      "status": "repaired",
+      "grid": [
+        32,
+        42
+      ],
+      "old_mask_shape": [
+        441,
+        448,
+        448
+      ],
+      "new_mask_shape": [
+        441,
+        448,
+        588
+      ],
+      "n_images": 441,
+      "old_defect_fraction": 0.002066727387170855,
+      "new_defect_fraction": 0.002066721469118908,
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\unified_fusion_paper_support_20260913\\canonical\\B\\btad_s1_k8\\03.npz"
+    }
+  ],
+  "encoder_view": {
+    "B/S": "DINOv2 patch 14, smaller edge 448 -> the image is scaled with its aspect ratio preserved, so BTAD-03 gives a 32x42 patch grid over a 448x588 canvas",
+    "C": "AnomalyCLIP image_size 518 -> the image is squashed to a square 518x518, giving a 37x37 grid in normalised coordinates; it is bilinearly re-gridded onto B's 32x42 grid at scoring time (aspect ratio is lost, the normalised coordinates are not)"
+  },
+  "mask_fix": "ground-truth masks are resized with INTER_NEAREST to grid*14 = 448x588 so that each patch owns an exact 14x14 mask block"
+}

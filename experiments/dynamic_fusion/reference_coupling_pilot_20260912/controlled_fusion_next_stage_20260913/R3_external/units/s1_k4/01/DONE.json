@@ -1,0 +1,73 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-13T13:24:59+0800",
+  "category": "01",
+  "shot": 4,
+  "seed": 1,
+  "dataset": "btad",
+  "dataset_role": "holdout_frozen_recheck",
+  "n_images": 70,
+  "configurations": 7,
+  "canonical_source_shot": 4,
+  "selected_reference_images": 4,
+  "timing": {
+    "load_s": 3.389999999999418,
+    "score_s": 1.25,
+    "metric_s": 7.953000000001339,
+    "total_s": 13.0
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_vitb14_btad_s1_k4\\anomalydino_visual\\01.npz",
+    "C": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_btad_s1_k4\\anomalyclip_text\\01.npz"
+  },
+  "engine": {
+    "requested_device": "cuda",
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 70,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 71680,
+    "reference_rows": 4096,
+    "branches": [
+      "B",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "C"
+    ],
+    "distance_blocks": 2,
+    "configs": [
+      "B",
+      "C",
+      "A1_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "detector_methods": [
+    "B",
+    "C",
+    "A1_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "A1_L",
+    "DUP_L",
+    "DUP_BAL_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75"
+  ]
+}

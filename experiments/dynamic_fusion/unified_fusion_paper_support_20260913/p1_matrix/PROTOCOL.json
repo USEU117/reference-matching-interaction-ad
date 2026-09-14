@@ -1,0 +1,176 @@
+{
+  "protocol": "unified_fusion_paper_support_v1_matrix",
+  "datasets": [
+    "mpdd"
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "shots": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "categories": {
+    "mpdd": [
+      "bracket_black",
+      "bracket_brown",
+      "bracket_white",
+      "connector",
+      "metal_plate",
+      "tubes"
+    ]
+  },
+  "branches": [
+    "B",
+    "S",
+    "C"
+  ],
+  "core_methods": [
+    "B",
+    "S",
+    "C",
+    "A1_J",
+    "A1_L",
+    "DUP_J",
+    "DUP_L",
+    "TRI_J",
+    "TRI_L",
+    "BAL_J",
+    "BAL_L"
+  ],
+  "distance_weights": {
+    "B": {
+      "B": 1.0
+    },
+    "S": {
+      "S": 1.0
+    },
+    "C": {
+      "C": 1.0
+    },
+    "A1_J": {
+      "B": 0.5,
+      "C": 0.5
+    },
+    "TRI_J": {
+      "B": 0.3333333333333333,
+      "S": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "BAL_J": {
+      "B": 0.25,
+      "S": 0.25,
+      "C": 0.5
+    },
+    "DUP_J": {
+      "B": 0.3333333333333333,
+      "Bcopy": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "DUP_BAL_J": {
+      "B": 0.25,
+      "Bcopy": 0.25,
+      "C": 0.5
+    },
+    "DUP_EXPECTED_J": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    }
+  },
+  "L_definition": {
+    "A1_L": "0.5*B+0.5*C",
+    "DUP_L": "(2/3)*B+(1/3)*C",
+    "TRI_L": "(B+S+C)/3",
+    "BAL_L": ".25*B+.25*S+.5*C"
+  },
+  "cache": "canonical K=8 cache; every K is a prefix of the same reference block",
+  "pixel_stride": 8,
+  "tolerances": {
+    "invariants": 1e-06
+  },
+  "permutation_controls": 3,
+  "device": "cuda",
+  "chunk": 256,
+  "dependency_versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.9.1",
+    "torch": "2.0.0+cu118",
+    "scikit-learn": "1.2.2",
+    "scikit-image": "0.20.0",
+    "faiss-cpu": "1.15.0"
+  },
+  "created_utc": "2026-09-13T12:35:06.221580+00:00",
+  "source_hashes": {
+    "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+    "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+    "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+  },
+  "invocation": [
+    "scripts/unified_fusion_paper_support_v1/run_matrix.py",
+    "--datasets",
+    "mpdd",
+    "--seeds",
+    "0",
+    "1",
+    "--shots",
+    "1",
+    "2",
+    "4",
+    "8",
+    "--max-hours",
+    "20"
+  ],
+  "python": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+  "code_amendments": [
+    {
+      "recorded_utc": "2026-09-13T12:54:38.781415+00:00",
+      "previous_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "1790dccb1b2f26f503377333bacccddd00a8d9e050555baa573829c4bebb17ce"
+      },
+      "current_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+      },
+      "reason": "resume bookkeeping for the pre-registered P1-B batch (seed 2); no change to scoring, metrics or statistics",
+      "scope": "resume bookkeeping only; units already completed keep their own protocol_hash and are not recomputed"
+    }
+  ],
+  "scope_history": [
+    {
+      "seeds": [
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "categories": {
+        "mpdd": [
+          "bracket_black",
+          "bracket_brown",
+          "bracket_white",
+          "connector",
+          "metal_plate",
+          "tubes"
+        ]
+      }
+    }
+  ],
+  "seeds_observed": [
+    2
+  ],
+  "shots_observed": [
+    1,
+    2,
+    4,
+    8
+  ]
+}

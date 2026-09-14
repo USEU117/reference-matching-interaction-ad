@@ -1,0 +1,45 @@
+{
+  "protocol": "representation_matching_interaction_v1",
+  "created_utc": "2026-09-14T03:52:39.813049+00:00",
+  "question": "Do the benefits of an added visual representation depend on the reference matching mode, i.e. does forcing branches to share the reference row limit the new representation?",
+  "hypothesis_status": "post-hoc exploratory: the interaction hypothesis was formed after seeing the existing point differences; it is not a previously pre-registered confirmatory finding",
+  "estimands": {
+    "E_TRI_J": "P(TRI_J) - P(DUP_J)",
+    "E_TRI_L": "P(TRI_L) - P(DUP_L)",
+    "E_BAL_J": "P(BAL_J) - P(A1_J)",
+    "E_BAL_L": "P(BAL_L) - P(A1_L)",
+    "I_TRI": "E_TRI_L - E_TRI_J",
+    "I_BAL": "E_BAL_L - E_BAL_J",
+    "note": "I > 0 means independent matching makes the representation swap better or less harmful; it does not mean the third branch has a positive absolute benefit"
+  },
+  "conditions": {
+    "mpdd": "seeds 0,1,2 x K in {1,2,4,8} = 12",
+    "btad": "seeds 0,1 x K in {1,2,4,8} = 8"
+  },
+  "primary_metric": "macro pooled pixel AP (stride 8)",
+  "secondary_metric": "pixel AUROC",
+  "statistics": {
+    "resampling": "image-level paired bootstrap, 1000 replicates, unchanged stream",
+    "rng": "numpy.random.default_rng([20260913, dataset_id, category_id, replicate])",
+    "family": "the four interaction summaries (datasets x contrasts) form one family",
+    "interval_1": "95% exploratory percentile interval",
+    "interval_2": "Bonferroni-adjusted 98.75% approximate interval for the family",
+    "inherited": "the two original A1 main inferences keep their own Bonferroni-adjusted 97.5% family and must not be mixed with the new family",
+    "effect_scale": 0.005
+  },
+  "geometry": {
+    "policy": "all performance numbers used for the interaction analysis are computed on the geometry-consistent GT version; the study's original GT is kept as a historical sensitivity variant",
+    "btad03": "image: 600x800 -> 448x597 -> top-left crop 448x588; GT must follow the same transform"
+  },
+  "reuse_policy": {
+    "mpdd": "reuse R feature caches and bootstrap arrays unchanged",
+    "btad_01_02": "reuse R arrays (square images, canvas covers the whole image)",
+    "btad_03": "recomputed with the geometry-consistent GT and the corrected C->canvas map"
+  },
+  "not_run_by_default": [
+    "new network training",
+    "large backbone/lambda/K16 sweeps",
+    "text branches",
+    "dynamic fusion"
+  ]
+}

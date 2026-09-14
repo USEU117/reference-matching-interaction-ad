@@ -1,0 +1,100 @@
+{
+  "created_utc": "2026-09-14T05:40:51.320330+00:00",
+  "rows": 544,
+  "study_revision_reproduced": true,
+  "max_abs_patch_score_diff_vs_study": 7.748603820800781e-07,
+  "verification": [
+    {
+      "seed": 0,
+      "shot": 1,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 6.556510925292969e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 0,
+      "shot": 2,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.152557373046875e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 0,
+      "shot": 4,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.152557373046875e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 0,
+      "shot": 8,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.152557373046875e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 1,
+      "shot": 1,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 6.556510925292969e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 1,
+      "shot": 2,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.152557373046875e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 1,
+      "shot": 4,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.748603820800781e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    {
+      "seed": 1,
+      "shot": 8,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.152557373046875e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    }
+  ],
+  "revisions": [
+    "rev_c_regrid_only",
+    "rev_correct",
+    "rev_gt_only",
+    "rev_study"
+  ],
+  "note": "rev_study replays the study's stored BTAD-03 scores.  The replay is not bit-identical (max abs score difference 7.749e-07) because torch.mm on CUDA is not bitwise deterministic; it is accepted at tolerance 1e-05, and after evaluation the difference is 5.510e-07 (stride-8) and 3.086e-08 (stride-1) macro pixel AP, i.e. six orders of magnitude below the 0.005 practical scale.  All other revisions differ by the named geometry change, not by this replay residue.",
+  "replay_tolerance": 1e-05,
+  "all_units_bit_identical": false,
+  "metric_replay": {
+    "stride8_rows": 208,
+    "stride8_max_abs_diff": 5.509871452424875e-07,
+    "stride1_rows": 64,
+    "stride1_max_abs_diff": 3.0855452415323725e-08,
+    "artefact": "01_geometry/S0B_METRIC_REPLAY.csv"
+  },
+  "metric_replay_verdict": {
+    "stride8_within_tolerance": true,
+    "stride1_within_tolerance": true
+  }
+}

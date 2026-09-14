@@ -1,0 +1,150 @@
+{
+  "output": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_statistics",
+  "run_roots": [
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix",
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p3_external"
+  ],
+  "replicates": 1000,
+  "conditions": [
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 1,
+      "seconds": 2714.3,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 2,
+      "seconds": 2716.2,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 4,
+      "seconds": 2716.3,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 8,
+      "seconds": 2716.2,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 1,
+      "seconds": 3569.7,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 2,
+      "seconds": 3567.9,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 4,
+      "seconds": 3569.6,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 8,
+      "seconds": 3570.8,
+      "n_images": {
+        "01": 70,
+        "02": 230,
+        "03": 441
+      }
+    }
+  ],
+  "main_inferences": [
+    {
+      "mean_delta": 0.008437430790634071,
+      "ci_low": 0.006416827350285459,
+      "ci_high": 0.011225033257708211,
+      "n_replicates": 1000,
+      "dataset": "btad",
+      "inference": "A1_average_matching_effect",
+      "metric": "pixel_ap",
+      "contrast": "A1_L - A1_J",
+      "kind": "average_over_seeds_and_K",
+      "n_cells": 8,
+      "cells": "s0k1;s0k2;s0k4;s0k8;s1k1;s1k2;s1k4;s1k8",
+      "point_delta": 0.008297535026019251,
+      "ci_level": 0.975,
+      "bonferroni_note": "two pre-registered inferences use a Bonferroni-adjusted 97.5% interval; intervals are approximate"
+    },
+    {
+      "mean_delta": 0.007657145599880237,
+      "ci_low": 0.005674014186904276,
+      "ci_high": 0.010197297726099992,
+      "n_replicates": 1000,
+      "dataset": "btad",
+      "inference": "A1_matching_effect_K8_minus_K1",
+      "metric": "pixel_ap",
+      "contrast": "A1_L - A1_J",
+      "kind": "K_difference",
+      "n_cells": 4,
+      "cells": "s0k1;s0k8;s1k1;s1k8",
+      "point_delta": 0.007541904633553809,
+      "ci_level": 0.975,
+      "bonferroni_note": "two pre-registered inferences use a Bonferroni-adjusted 97.5% interval; intervals are approximate"
+    },
+    {
+      "mean_delta": -0.002188214893856721,
+      "ci_low": -0.004417107982270157,
+      "ci_high": -1.872102720194974e-05,
+      "n_replicates": 1000,
+      "dataset": "btad",
+      "inference": "A1_matching_effect_K8_minus_K1__K_minus_K",
+      "metric": "pixel_ap",
+      "contrast": "A1_L - A1_J",
+      "kind": "K_difference_of_differences",
+      "n_cells": 2,
+      "cells": "s0;s1",
+      "point_delta": null,
+      "ci_level": 0.975,
+      "bonferroni_note": "same pre-registered inference, K-difference form"
+    }
+  ],
+  "created_utc": "2026-09-13T15:51:16.492601+00:00",
+  "total_seconds": 6289.7
+}

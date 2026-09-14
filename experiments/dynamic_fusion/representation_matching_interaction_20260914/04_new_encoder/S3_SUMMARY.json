@@ -1,0 +1,124 @@
+{
+  "created_utc": "2026-09-14T07:25:13.938840+00:00",
+  "scope_units": 36,
+  "units_recorded": 48,
+  "new_d_method_conditions": 240,
+  "control_conditions": 192,
+  "datasets_with_results": [
+    "btad",
+    "mpdd"
+  ],
+  "interactions": 6,
+  "interaction_lookup": {
+    "mpdd|study|I_TRI_D": {
+      "point": 0.009736654303729997,
+      "mean": 0.01020447401959265,
+      "ci95": [
+        0.006015345919860121,
+        0.014717621006207427
+      ],
+      "ci9875": [
+        0.005136088501626534,
+        0.016887566757780373
+      ],
+      "conditions": 4
+    },
+    "mpdd|study|I_BAL_D": {
+      "point": 0.006284159533464229,
+      "mean": 0.0068585612151054855,
+      "ci95": [
+        0.0027875161330798647,
+        0.012182193036272257
+      ],
+      "ci9875": [
+        0.001623819026713348,
+        0.013944361088120893
+      ],
+      "conditions": 4
+    },
+    "btad|corrected|I_TRI_D": {
+      "point": 0.0062192514187020265,
+      "mean": 0.006314626223621986,
+      "ci95": [
+        0.003733548562649305,
+        0.009174510029621111
+      ],
+      "ci9875": [
+        0.0029813446669314804,
+        0.01002763316638257
+      ],
+      "conditions": 4
+    },
+    "btad|corrected|I_BAL_D": {
+      "point": 0.005012147241435255,
+      "mean": 0.005238034469989172,
+      "ci95": [
+        0.0023877728208764877,
+        0.008827992083292229
+      ],
+      "ci9875": [
+        0.0018828184352207371,
+        0.009948754123030312
+      ],
+      "conditions": 4
+    },
+    "btad|study|I_TRI_D": {
+      "point": 0.006042209414347438,
+      "mean": 0.006143214383027379,
+      "ci95": [
+        0.0035150760097699845,
+        0.009108388081327214
+      ],
+      "ci9875": [
+        0.00278004507518117,
+        0.009849167288628386
+      ],
+      "conditions": 4
+    },
+    "btad|study|I_BAL_D": {
+      "point": 0.004511515937853761,
+      "mean": 0.004704138243089523,
+      "ci95": [
+        0.001939351124227453,
+        0.007907603806526642
+      ],
+      "ci9875": [
+        0.0013848293600345256,
+        0.009210358051763448
+      ],
+      "conditions": 4
+    }
+  },
+  "feature_reuse_vs_encode": {
+    "query_encoded": 8,
+    "ref_encoded": 17,
+    "reused_units": 1
+  },
+  "resource": {
+    "device": "cuda",
+    "peak_gpu_mb_encoding": 417.7,
+    "peak_gpu_mb_scoring": 417.7,
+    "total_query_seconds": 55.4,
+    "total_ref_seconds": 8.3,
+    "total_score_seconds": 266.3
+  },
+  "caveats": [
+    "the test data has been used before; this is an encoder-transfer check, not a held-out confirmation",
+    "only seed 0/1 and K 1/4 are in scope",
+    "D features are stored as float16 and cast back to float32 before normalisation"
+  ],
+  "point_delta_rebuild": {
+    "created_utc": "2026-09-14T07:34:34.338813+00:00",
+    "reason": "the original run's point lookup used a seven-part key against a six-part table, so point_delta was left empty; the bootstrap columns were not affected and were not recomputed",
+    "definition": "condition average of the category-macro point metrics, differenced",
+    "interaction_rows_rebuilt": 6,
+    "effect_rows_rebuilt": 12,
+    "still_missing": []
+  },
+  "scope_note": {
+    "in_scope_units": 36,
+    "scored_rows": 48,
+    "explanation": "36 in-scope units (9 categories x seed 0/1 x K 1/4) plus 12 extra BTAD rows scored against the study ground truth purely as a geometry sensitivity check, so the recorded row count exceeds the scope count"
+  },
+  "cross_encoder_scope_caveat": "in cross_encoder_comparison.csv the S rows are restricted to seed 0/1 and K 1/4 to match the D scope, but they use the study ground truth for BTAD while the primary D rows use the corrected revision; the two BTAD revisions differ by about 1e-5, three orders of magnitude below the reported effects"
+}

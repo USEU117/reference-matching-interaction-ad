@@ -1,0 +1,1023 @@
+{
+  "dataset": "btad",
+  "dataset_role_from_protocol": "holdout",
+  "protocol_evidence": {
+    "yaml": "configs/dynamic_fusion_v2_data_protocol.yaml",
+    "declaration": "holdout: dataset btad, purpose one_time_validation_after_freeze, labels_visible_before_freeze: false",
+    "development_guard": "src/industrial_ad/innovation_v2/common.py registers MPDD as development and exposes btad through the frozen-validation guard; parameter development on BTAD is refused by that guard"
+  },
+  "units": [
+    {
+      "seed": 0,
+      "shot": 2,
+      "category": "01",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 0,
+            "shot": 2,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 2
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 0,
+            "shot": 2,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 2
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 70,
+            "n_c": 70
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              70,
+              448,
+              448
+            ],
+            "values": null
+          }
+        }
+      },
+      "n_images": 70,
+      "n_references_canonical": 2
+    },
+    {
+      "seed": 0,
+      "shot": 2,
+      "category": "02",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 0,
+            "shot": 2,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 2
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 0,
+            "shot": 2,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 2
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 230,
+            "n_c": 230
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              230,
+              448,
+              448
+            ],
+            "values": null
+          }
+        }
+      },
+      "n_images": 230,
+      "n_references_canonical": 2
+    },
+    {
+      "seed": 0,
+      "shot": 4,
+      "category": "01",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 0,
+            "shot": 4,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 4
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 0,
+            "shot": 4,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 4
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 70,
+            "n_c": 70
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              70,
+              448,
+              448
+            ],
+            "values": [
+              0,
+              1
+            ]
+          }
+        }
+      },
+      "n_images": 70,
+      "n_references_canonical": 4
+    },
+    {
+      "seed": 0,
+      "shot": 4,
+      "category": "02",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 0,
+            "shot": 4,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 4
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 0,
+            "shot": 4,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 4
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 230,
+            "n_c": 230
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              230,
+              448,
+              448
+            ],
+            "values": [
+              0,
+              1
+            ]
+          }
+        }
+      },
+      "n_images": 230,
+      "n_references_canonical": 4
+    },
+    {
+      "seed": 1,
+      "shot": 2,
+      "category": "01",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 1,
+            "shot": 2,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 2
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 1,
+            "shot": 2,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 2
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 70,
+            "n_c": 70
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              70,
+              448,
+              448
+            ],
+            "values": null
+          }
+        }
+      },
+      "n_images": 70,
+      "n_references_canonical": 2
+    },
+    {
+      "seed": 1,
+      "shot": 2,
+      "category": "02",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 1,
+            "shot": 2,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 2
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 1,
+            "shot": 2,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 2
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 230,
+            "n_c": 230
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              230,
+              448,
+              448
+            ],
+            "values": null
+          }
+        }
+      },
+      "n_images": 230,
+      "n_references_canonical": 2
+    },
+    {
+      "seed": 1,
+      "shot": 4,
+      "category": "01",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 1,
+            "shot": 4,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 4
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 1,
+            "shot": 4,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 70,
+            "n_ref": 4
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 70,
+            "n_c": 70
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              70,
+              448,
+              448
+            ],
+            "values": [
+              0,
+              1
+            ]
+          }
+        }
+      },
+      "n_images": 70,
+      "n_references_canonical": 4
+    },
+    {
+      "seed": 1,
+      "shot": 4,
+      "category": "02",
+      "checks": {
+        "B_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalydino_visual",
+            "seed": 1,
+            "shot": 4,
+            "grid_size": [
+              32,
+              32
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 4
+          }
+        },
+        "B_branch_field_present": {
+          "pass": true,
+          "detail": "anomalydino_visual"
+        },
+        "C_internal_metadata": {
+          "pass": true,
+          "detail": {
+            "dataset": "btad",
+            "dataset_role": "holdout",
+            "branch": "anomalyclip_text",
+            "seed": 1,
+            "shot": 4,
+            "grid_size": [
+              37,
+              37
+            ],
+            "score_direction": "higher_is_more_anomalous",
+            "n_query": 230,
+            "n_ref": 4
+          }
+        },
+        "C_branch_field_present": {
+          "pass": true,
+          "detail": "anomalyclip_text"
+        },
+        "cross_branch_sample_ids": {
+          "pass": true,
+          "detail": {
+            "n": 230,
+            "n_c": 230
+          }
+        },
+        "cross_branch_labels": {
+          "pass": true,
+          "detail": {
+            "label_set": [
+              0,
+              1
+            ]
+          }
+        },
+        "canonical_masks": {
+          "pass": true,
+          "detail": {
+            "shape": [
+              230,
+              448,
+              448
+            ],
+            "values": [
+              0,
+              1
+            ]
+          }
+        }
+      },
+      "n_images": 230,
+      "n_references_canonical": 4
+    }
+  ],
+  "nesting": {
+    "s0/01": {
+      "manifest_nested": true,
+      "k2": {
+        "n_ref": 2,
+        "expected_n_ref": 2,
+        "ref_prefix_max_abs_diff": 0.0010363608598709106,
+        "ref_prefix_cosine_min": 0.9999536275863647,
+        "sample_ids_match_canonical": true
+      },
+      "k4": {
+        "n_ref": 4,
+        "expected_n_ref": 4,
+        "sample_ids_match_canonical": true
+      },
+      "manifest_support_counts": {
+        "k1": 1,
+        "k2": 2,
+        "k4": 4
+      },
+      "manifest_k2_is_prefix_of_k4": true,
+      "manifest_selected_is_subset_of_k4": true
+    },
+    "s0/02": {
+      "manifest_nested": true,
+      "k2": {
+        "n_ref": 2,
+        "expected_n_ref": 2,
+        "ref_prefix_max_abs_diff": 0.00020510703325271606,
+        "ref_prefix_cosine_min": 0.9999525547027588,
+        "sample_ids_match_canonical": true
+      },
+      "k4": {
+        "n_ref": 4,
+        "expected_n_ref": 4,
+        "sample_ids_match_canonical": true
+      },
+      "manifest_support_counts": {
+        "k1": 1,
+        "k2": 2,
+        "k4": 4
+      },
+      "manifest_k2_is_prefix_of_k4": true,
+      "manifest_selected_is_subset_of_k4": true
+    },
+    "s1/01": {
+      "manifest_nested": true,
+      "k2": {
+        "n_ref": 2,
+        "expected_n_ref": 2,
+        "ref_prefix_max_abs_diff": 0.0007216930389404297,
+        "ref_prefix_cosine_min": 0.9999510049819946,
+        "sample_ids_match_canonical": true
+      },
+      "k4": {
+        "n_ref": 4,
+        "expected_n_ref": 4,
+        "sample_ids_match_canonical": true
+      },
+      "manifest_support_counts": {
+        "k1": 1,
+        "k2": 2,
+        "k4": 4
+      },
+      "manifest_k2_is_prefix_of_k4": true,
+      "manifest_selected_is_subset_of_k4": true
+    },
+    "s1/02": {
+      "manifest_nested": true,
+      "k2": {
+        "n_ref": 2,
+        "expected_n_ref": 2,
+        "ref_prefix_max_abs_diff": 0.0003191828727722168,
+        "ref_prefix_cosine_min": 0.9999505877494812,
+        "sample_ids_match_canonical": true
+      },
+      "k4": {
+        "n_ref": 4,
+        "expected_n_ref": 4,
+        "sample_ids_match_canonical": true
+      },
+      "manifest_support_counts": {
+        "k1": 1,
+        "k2": 2,
+        "k4": 4
+      },
+      "manifest_k2_is_prefix_of_k4": true,
+      "manifest_selected_is_subset_of_k4": true
+    }
+  },
+  "excluded_categories": {
+    "03": "BTAD 03 stores a 32x42 DINOv2-B patch grid; the frozen engine only accepts the 32x32 canonical grid, and adapting it would change the frozen protocol"
+  },
+  "support_image_hashes": {
+    "01/train/ok/0004.bmp": {
+      "path": "01/train/ok/0004.bmp",
+      "manifest_sha256": "5fdfc0f889409792f6d768d2640987dac8be016fa9df960782ff99a7af9690a2",
+      "exists": true,
+      "disk_sha256": "5fdfc0f889409792f6d768d2640987dac8be016fa9df960782ff99a7af9690a2",
+      "matches": true
+    },
+    "01/train/ok/0006.bmp": {
+      "path": "01/train/ok/0006.bmp",
+      "manifest_sha256": "75feae57269904c910146c66fe7ab47c18f73fdbf5f28d40f19cd86de64ad912",
+      "exists": true,
+      "disk_sha256": "75feae57269904c910146c66fe7ab47c18f73fdbf5f28d40f19cd86de64ad912",
+      "matches": true
+    },
+    "01/train/ok/0150.bmp": {
+      "path": "01/train/ok/0150.bmp",
+      "manifest_sha256": "3a012e642b1ced526ddb1983003392da8daacae2bd05ae9868641383289323dc",
+      "exists": true,
+      "disk_sha256": "3a012e642b1ced526ddb1983003392da8daacae2bd05ae9868641383289323dc",
+      "matches": true
+    },
+    "01/train/ok/0152.bmp": {
+      "path": "01/train/ok/0152.bmp",
+      "manifest_sha256": "230939f982c24e02e211c4a96c83d8f89218b3dde1996e58f03ce5a41117d9a6",
+      "exists": true,
+      "disk_sha256": "230939f982c24e02e211c4a96c83d8f89218b3dde1996e58f03ce5a41117d9a6",
+      "matches": true
+    },
+    "01/train/ok/0188.bmp": {
+      "path": "01/train/ok/0188.bmp",
+      "manifest_sha256": "96cf872b730d380103f0776774c17688cd8d692df21c606266c974f4e5878ad9",
+      "exists": true,
+      "disk_sha256": "96cf872b730d380103f0776774c17688cd8d692df21c606266c974f4e5878ad9",
+      "matches": true
+    },
+    "01/train/ok/0202.bmp": {
+      "path": "01/train/ok/0202.bmp",
+      "manifest_sha256": "34e56c9ffcc7c6a7ead1ba0a7da5b14f6366362fbd35514909ad5f65bd5126dc",
+      "exists": true,
+      "disk_sha256": "34e56c9ffcc7c6a7ead1ba0a7da5b14f6366362fbd35514909ad5f65bd5126dc",
+      "matches": true
+    },
+    "01/train/ok/0210.bmp": {
+      "path": "01/train/ok/0210.bmp",
+      "manifest_sha256": "222ea08db2fa488d02acf172fb9110ee2af0d19ef4517a06068d60f0183c4647",
+      "exists": true,
+      "disk_sha256": "222ea08db2fa488d02acf172fb9110ee2af0d19ef4517a06068d60f0183c4647",
+      "matches": true
+    },
+    "01/train/ok/0264.bmp": {
+      "path": "01/train/ok/0264.bmp",
+      "manifest_sha256": "e11039ac61b53a607005ced2cfcc3e69763ae96b434f96cb929fa69331bc4074",
+      "exists": true,
+      "disk_sha256": "e11039ac61b53a607005ced2cfcc3e69763ae96b434f96cb929fa69331bc4074",
+      "matches": true
+    },
+    "01/train/ok/0274.bmp": {
+      "path": "01/train/ok/0274.bmp",
+      "manifest_sha256": "8d904d0bbe66254abc0f5bdcd0a866de8cf91b78e865c47a0e92b07818c246ae",
+      "exists": true,
+      "disk_sha256": "8d904d0bbe66254abc0f5bdcd0a866de8cf91b78e865c47a0e92b07818c246ae",
+      "matches": true
+    },
+    "01/train/ok/0336.bmp": {
+      "path": "01/train/ok/0336.bmp",
+      "manifest_sha256": "e3ae364c22d7657d0e10de72e8d885d7b4633132b1e822176ccdbf22b891c5ea",
+      "exists": true,
+      "disk_sha256": "e3ae364c22d7657d0e10de72e8d885d7b4633132b1e822176ccdbf22b891c5ea",
+      "matches": true
+    },
+    "01/train/ok/0381.bmp": {
+      "path": "01/train/ok/0381.bmp",
+      "manifest_sha256": "ca4dd3a1dfc816c6b95c97a7b6182dc625d4039b08f4efc14ad7b513f12358f0",
+      "exists": true,
+      "disk_sha256": "ca4dd3a1dfc816c6b95c97a7b6182dc625d4039b08f4efc14ad7b513f12358f0",
+      "matches": true
+    },
+    "02/train/ok/0004.png": {
+      "path": "02/train/ok/0004.png",
+      "manifest_sha256": "f95ec5c28a897790c8a4673ea6b6be159a395cb58b53effaaa248f43911f6e21",
+      "exists": true,
+      "disk_sha256": "f95ec5c28a897790c8a4673ea6b6be159a395cb58b53effaaa248f43911f6e21",
+      "matches": true
+    },
+    "02/train/ok/0006.png": {
+      "path": "02/train/ok/0006.png",
+      "manifest_sha256": "302f650311d81e79416aa9156353935807c12c2d242498f5b55577611981f167",
+      "exists": true,
+      "disk_sha256": "302f650311d81e79416aa9156353935807c12c2d242498f5b55577611981f167",
+      "matches": true
+    },
+    "02/train/ok/0090.png": {
+      "path": "02/train/ok/0090.png",
+      "manifest_sha256": "b3c7ec4a29779a9a8f8b229371628bb8ecda35ac988aa38361e99c4b0e53b90b",
+      "exists": true,
+      "disk_sha256": "b3c7ec4a29779a9a8f8b229371628bb8ecda35ac988aa38361e99c4b0e53b90b",
+      "matches": true
+    },
+    "02/train/ok/0121.png": {
+      "path": "02/train/ok/0121.png",
+      "manifest_sha256": "30871e64706b2527f2a55eb1acce49a4a4ab7fc38fe570582ba54b704d5e8b44",
+      "exists": true,
+      "disk_sha256": "30871e64706b2527f2a55eb1acce49a4a4ab7fc38fe570582ba54b704d5e8b44",
+      "matches": true
+    },
+    "02/train/ok/0151.png": {
+      "path": "02/train/ok/0151.png",
+      "manifest_sha256": "5df4ddcd2f0058b0ea6c227a69646fcce4c506a1e6da7d143332812d7670f1d1",
+      "exists": true,
+      "disk_sha256": "5df4ddcd2f0058b0ea6c227a69646fcce4c506a1e6da7d143332812d7670f1d1",
+      "matches": true
+    },
+    "02/train/ok/0168.png": {
+      "path": "02/train/ok/0168.png",
+      "manifest_sha256": "c9d2e7c6a6064e02a2d56504d13a3884c878dbf52924d49eb1a27592dad12e38",
+      "exists": true,
+      "disk_sha256": "c9d2e7c6a6064e02a2d56504d13a3884c878dbf52924d49eb1a27592dad12e38",
+      "matches": true
+    },
+    "02/train/ok/0182.png": {
+      "path": "02/train/ok/0182.png",
+      "manifest_sha256": "6a97f9c84e5d26d9b86b791f112331ba59a1d5057ea53e99a38cf3b0dadb62bd",
+      "exists": true,
+      "disk_sha256": "6a97f9c84e5d26d9b86b791f112331ba59a1d5057ea53e99a38cf3b0dadb62bd",
+      "matches": true
+    },
+    "02/train/ok/0222.png": {
+      "path": "02/train/ok/0222.png",
+      "manifest_sha256": "62bd9ebceb0ca545828e4523ce481981f4f9d1979032ce8b5e3f51e3367fef24",
+      "exists": true,
+      "disk_sha256": "62bd9ebceb0ca545828e4523ce481981f4f9d1979032ce8b5e3f51e3367fef24",
+      "matches": true
+    },
+    "02/train/ok/0274.png": {
+      "path": "02/train/ok/0274.png",
+      "manifest_sha256": "d7d70d2248fdb9a6e60501451e737a943ac016a1947569af58fcf22e2a5d630b",
+      "exists": true,
+      "disk_sha256": "d7d70d2248fdb9a6e60501451e737a943ac016a1947569af58fcf22e2a5d630b",
+      "matches": true
+    },
+    "02/train/ok/0301.png": {
+      "path": "02/train/ok/0301.png",
+      "manifest_sha256": "26732335d480eedc4677d886be24f59f24ce2ca68a56620a1d174a81262090ff",
+      "exists": true,
+      "disk_sha256": "26732335d480eedc4677d886be24f59f24ce2ca68a56620a1d174a81262090ff",
+      "matches": true
+    },
+    "02/train/ok/0303.png": {
+      "path": "02/train/ok/0303.png",
+      "manifest_sha256": "6d8175c76d64976cde3db42ff346cbf19f89166250f1f5f57c3edb134ccf1b5d",
+      "exists": true,
+      "disk_sha256": "6d8175c76d64976cde3db42ff346cbf19f89166250f1f5f57c3edb134ccf1b5d",
+      "matches": true
+    },
+    "02/train/ok/0381.png": {
+      "path": "02/train/ok/0381.png",
+      "manifest_sha256": "8be3935ec307f0e2ba0d9bb3d98cef2d62ecfa49d5bb6dbee052885db01ceecd",
+      "exists": true,
+      "disk_sha256": "8be3935ec307f0e2ba0d9bb3d98cef2d62ecfa49d5bb6dbee052885db01ceecd",
+      "matches": true
+    },
+    "03/train/ok/0112.bmp": {
+      "path": "03/train/ok/0112.bmp",
+      "manifest_sha256": "3eb2ee1b39e4aa373d9ec0b5dd5940bd426331235840bc3b89edd0eb3df33cce",
+      "exists": true,
+      "disk_sha256": "3eb2ee1b39e4aa373d9ec0b5dd5940bd426331235840bc3b89edd0eb3df33cce",
+      "matches": true
+    },
+    "03/train/ok/0160.bmp": {
+      "path": "03/train/ok/0160.bmp",
+      "manifest_sha256": "3bead7ac02fa93be4b511edd0c3f45b9dfe836a94b181c5bcf5ef1d40cd99b1e",
+      "exists": true,
+      "disk_sha256": "3bead7ac02fa93be4b511edd0c3f45b9dfe836a94b181c5bcf5ef1d40cd99b1e",
+      "matches": true
+    },
+    "03/train/ok/0214.bmp": {
+      "path": "03/train/ok/0214.bmp",
+      "manifest_sha256": "1ca789dd7256786b80dab49487e16b29edec984393a39422a6e61998b45853b9",
+      "exists": true,
+      "disk_sha256": "1ca789dd7256786b80dab49487e16b29edec984393a39422a6e61998b45853b9",
+      "matches": true
+    },
+    "03/train/ok/0280.bmp": {
+      "path": "03/train/ok/0280.bmp",
+      "manifest_sha256": "019e00b90f470810243489ac0f7bd3c03b453e5da9d19cd7367fb00bc9ad0ffe",
+      "exists": true,
+      "disk_sha256": "019e00b90f470810243489ac0f7bd3c03b453e5da9d19cd7367fb00bc9ad0ffe",
+      "matches": true
+    },
+    "03/train/ok/0290.bmp": {
+      "path": "03/train/ok/0290.bmp",
+      "manifest_sha256": "70cf0663f911d8ec4d2a0374e6668bf2f59c2ac8247e057b287a36992094ae14",
+      "exists": true,
+      "disk_sha256": "70cf0663f911d8ec4d2a0374e6668bf2f59c2ac8247e057b287a36992094ae14",
+      "matches": true
+    },
+    "03/train/ok/0439.bmp": {
+      "path": "03/train/ok/0439.bmp",
+      "manifest_sha256": "4802494e647e23547c9ad43f2ee60d7e7e3f0fef4dbd958e979baa74b44e4618",
+      "exists": true,
+      "disk_sha256": "4802494e647e23547c9ad43f2ee60d7e7e3f0fef4dbd958e979baa74b44e4618",
+      "matches": true
+    },
+    "03/train/ok/0544.bmp": {
+      "path": "03/train/ok/0544.bmp",
+      "manifest_sha256": "3fd654bb4d08c6e7e8e5c8a9c55396ed32da7b38b1eeaefe0a8209d0623d8db3",
+      "exists": true,
+      "disk_sha256": "3fd654bb4d08c6e7e8e5c8a9c55396ed32da7b38b1eeaefe0a8209d0623d8db3",
+      "matches": true
+    },
+    "03/train/ok/0549.bmp": {
+      "path": "03/train/ok/0549.bmp",
+      "manifest_sha256": "ab6624f89a79209aa1a8a6001da78fdfccea0f39480e7875ab5f14505bb7c223",
+      "exists": true,
+      "disk_sha256": "ab6624f89a79209aa1a8a6001da78fdfccea0f39480e7875ab5f14505bb7c223",
+      "matches": true
+    },
+    "03/train/ok/0575.bmp": {
+      "path": "03/train/ok/0575.bmp",
+      "manifest_sha256": "2e195bd002e11fc60648517255ec7b20b68e3631d2a39fb11af9e7536cf1be03",
+      "exists": true,
+      "disk_sha256": "2e195bd002e11fc60648517255ec7b20b68e3631d2a39fb11af9e7536cf1be03",
+      "matches": true
+    },
+    "03/train/ok/0621.bmp": {
+      "path": "03/train/ok/0621.bmp",
+      "manifest_sha256": "ca332228c66eb40944bc5062cc4c076e2f7826bb4415f3b67d2c3848e8e7e2cf",
+      "exists": true,
+      "disk_sha256": "ca332228c66eb40944bc5062cc4c076e2f7826bb4415f3b67d2c3848e8e7e2cf",
+      "matches": true
+    },
+    "03/train/ok/0836.bmp": {
+      "path": "03/train/ok/0836.bmp",
+      "manifest_sha256": "24177fd8c2df8f403249ef16b9fdd7aa141c3dc87734cc0a43033cf68c925d2a",
+      "exists": true,
+      "disk_sha256": "24177fd8c2df8f403249ef16b9fdd7aa141c3dc87734cc0a43033cf68c925d2a",
+      "matches": true
+    },
+    "03/train/ok/0852.bmp": {
+      "path": "03/train/ok/0852.bmp",
+      "manifest_sha256": "ebc70c34a101a2ab03191bc21727159ee128f2c2d03ad867b040c7ff1cc7b9c6",
+      "exists": true,
+      "disk_sha256": "ebc70c34a101a2ab03191bc21727159ee128f2c2d03ad867b040c7ff1cc7b9c6",
+      "matches": true
+    }
+  },
+  "support_hash_failures": [],
+  "prior_access": {
+    "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\v3_3\\btad_holdout\\report.json",
+    "exists": true,
+    "role": "btad_holdout_validation",
+    "note": "Frozen config only; no candidate search on BTAD. Image-level score = max(fused map). z-score calibration uses each category's normal test images (same protocol as MPDD V3.3).",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "categories": [
+      "01",
+      "02",
+      "03"
+    ],
+    "interpretation": "BTAD was already evaluated by an earlier frozen pipeline (v3_3 weighted ensemble with per-category z-score calibration). This stage is therefore a known-dataset frozen re-check, not a first-time unseen-data validation."
+  },
+  "limitations": [
+    "the audit proves count/manifest/hash consistency; it cannot re-prove the per-row image identity inside ref_patch_features from stored features alone",
+    "the npz files do not store the reference relative paths or per-image hashes, so reference identity is provenance-level (manifest + export_report + counts), matching the level the MPDD audit reached",
+    "no DINO-S cache exists for BTAD; the three-branch mechanism is out of scope here",
+    "BTAD category 03 is excluded before any scoring: BTAD 03 stores a 32x42 DINOv2-B patch grid; the frozen engine only accepts the 32x32 canonical grid, and adapting it would change the frozen protocol",
+    "the stored K2 reference rows are not bit-identical to the K4 prefix (separate export runs, cosine min 0.99995059); the run itself uses the canonical K4 prefix, exactly like the frozen MPDD protocol"
+  ],
+  "checks": {
+    "all_units_present": true,
+    "units_audited": 8,
+    "expected_units": 8,
+    "support_image_hashes_match": true,
+    "support_images_hashed": 35,
+    "manifest_k2_prefix_of_k4": true,
+    "stored_k2_reference_matches_k4_prefix": true,
+    "stored_k2_reference_cosine_min": 0.9999505877494812
+  },
+  "all_pass": true
+}

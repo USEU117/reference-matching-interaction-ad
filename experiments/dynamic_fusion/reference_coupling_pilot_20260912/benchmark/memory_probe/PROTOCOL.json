@@ -1,0 +1,108 @@
+{
+  "protocol": "reference_coupling_pilot_v1",
+  "dataset": "mpdd",
+  "seed": 0,
+  "categories": [
+    "connector"
+  ],
+  "shots": [
+    2
+  ],
+  "permutation_seeds": [
+    0,
+    1
+  ],
+  "config_names_example": [
+    "B",
+    "S",
+    "C",
+    "A1_J",
+    "TRI_J",
+    "BAL_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "INV_COMMON_A1_J",
+    "INV_COMMON_TRI_J",
+    "INV_COMMON_BAL_J",
+    "INV_SINGLE_C_within_p00",
+    "INV_SINGLE_S_within_p00",
+    "A1_J__perm_C_within_p00",
+    "TRI_J__perm_C_within_p00",
+    "TRI_J__perm_S_within_p00",
+    "BAL_J__perm_C_within_p00",
+    "BAL_J__perm_S_within_p00",
+    "INV_SINGLE_C_cross_p00",
+    "INV_SINGLE_S_cross_p00",
+    "A1_J__perm_C_cross_p00",
+    "TRI_J__perm_C_cross_p00",
+    "TRI_J__perm_S_cross_p00",
+    "BAL_J__perm_C_cross_p00",
+    "BAL_J__perm_S_cross_p00",
+    "INV_SINGLE_C_within_p01",
+    "INV_SINGLE_S_within_p01",
+    "A1_J__perm_C_within_p01",
+    "TRI_J__perm_C_within_p01",
+    "TRI_J__perm_S_within_p01",
+    "BAL_J__perm_C_within_p01",
+    "BAL_J__perm_S_within_p01"
+  ],
+  "distance_tolerance": 1e-06,
+  "historical_AP_tolerance": 0.0005,
+  "within_permutation": "independent full spatial permutation within each support image",
+  "cross_permutation": "distinct non-identity image permutations, same spatial position; up to min(requested,K!-1)",
+  "permutation_replicates_note": "K2 has only one non-identity image permutation; evaluated once, not treated as repeated evidence",
+  "lambda": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "pixel_stride": 8,
+  "raw_grid": [
+    32,
+    32
+  ],
+  "cache_policy": "canonical K4 query and reference features for both shots; K2 uses first two manifest references",
+  "postprocess": "448 bilinear then gaussian sigma4; image max",
+  "acceptance": "implementation invariants then exploratory effects; no winner-only filtering",
+  "created_utc": "2026-09-13T01:59:20.066178+00:00",
+  "deadline_utc": "2026-09-13T02:29:19.904267+00:00",
+  "audit_path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\audit\\identity_audit.json",
+  "audit_hash": "5494a90da458fee03b81e2ed3d2dfbb58e5f30ef6facca5f62caeb8b71afcc2d",
+  "source_hashes": {
+    "run.py": "a035c209802fd0330c00b37c3282c67172b7eb1a12ef4bcbe76da046c9f6ef01",
+    "engine.py": "f12b6a03185dd1d4a3f423b69aefc22e994ca9c8682a12e988785a86526f175e",
+    "diagnostics.py": "b7c104f0d1ffcc08a56632774ea0dce4a126b5e5e91e74aba7c06ed1f467ada0"
+  },
+  "legacy_common_sha256": "ed30936593d77a806a8a037ac202f539e7df6617d2f3b671be92b35472dc8657",
+  "dependency_versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.9.1",
+    "torch": "2.0.0+cu118",
+    "scikit-learn": "1.2.2",
+    "scikit-image": "0.20.0",
+    "faiss-cpu": "1.15.0"
+  },
+  "invocation": [
+    "D:\\STUDY\\My_github\\sci_project\\scripts\\reference_coupling_pilot_v1\\run.py",
+    "--output",
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\benchmark\\memory_probe",
+    "--audit-file",
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\audit\\identity_audit.json",
+    "--categories",
+    "connector",
+    "--shots",
+    "2",
+    "--permutations",
+    "2",
+    "--max-hours",
+    "0.5",
+    "--deadline",
+    "2026-09-13T15:59:19.733664+08:00"
+  ],
+  "python": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+  "device": "cuda",
+  "chunk": 256
+}

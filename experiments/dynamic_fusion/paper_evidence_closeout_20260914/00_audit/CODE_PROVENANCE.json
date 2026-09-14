@@ -1,0 +1,155 @@
+{
+  "created_utc": "2026-09-14T02:39:56.909574+00:00",
+  "frozen_protocol": "experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\PROTOCOL.json",
+  "n_scripts_frozen": 7,
+  "n_scripts_changed": 5,
+  "scripts": [
+    {
+      "script": "audit_identity.py",
+      "protocol_frozen_sha256": "79f2c0f2d1a48a9dd8012b87f1cea3d07ba33e00c20f2d30d0908f90c6db5650",
+      "current_sha256": "79f2c0f2d1a48a9dd8012b87f1cea3d07ba33e00c20f2d30d0908f90c6db5650",
+      "matches_frozen": true,
+      "frozen_code_snapshot_sha256": "79f2c0f2d1a48a9dd8012b87f1cea3d07ba33e00c20f2d30d0908f90c6db5650",
+      "snapshot_matches_current": true,
+      "reason_for_change": "unchanged since freeze",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "hash equal to the frozen protocol",
+      "replay_available": true
+    },
+    {
+      "script": "build_support_manifest.py",
+      "protocol_frozen_sha256": "79610f26fc8f8b90ed24d9c6453ec8f10280fec13879f704ff453a4fe7cf6f57",
+      "current_sha256": "79610f26fc8f8b90ed24d9c6453ec8f10280fec13879f704ff453a4fe7cf6f57",
+      "matches_frozen": true,
+      "frozen_code_snapshot_sha256": "79610f26fc8f8b90ed24d9c6453ec8f10280fec13879f704ff453a4fe7cf6f57",
+      "snapshot_matches_current": true,
+      "reason_for_change": "unchanged since freeze",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "hash equal to the frozen protocol",
+      "replay_available": true
+    },
+    {
+      "script": "diagnostics_v2.py",
+      "protocol_frozen_sha256": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+      "current_sha256": "ca7e65d539b6b93d92f9f57487750b52f6c91754ef32279254ec9f6d0ac4d7ab",
+      "matches_frozen": false,
+      "frozen_code_snapshot_sha256": "ca7e65d539b6b93d92f9f57487750b52f6c91754ef32279254ec9f6d0ac4d7ab",
+      "snapshot_matches_current": true,
+      "reason_for_change": "ceil instead of floor for the stride subsample on a non-square canvas (448x588 -> 74 columns). For the square 448x448 canvas the two agree, so MPDD and BTAD-01/02 are unaffected; only the BTAD-03 units are affected, and they were produced after the fix",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "the affected BTAD-03 units are the only ones written after the change; their invariants all pass and their replay is not applicable (no frozen BTAD-03 baseline exists)",
+      "replay_available": true
+    },
+    {
+      "script": "engine_v2.py",
+      "protocol_frozen_sha256": "fc42a8431fd8c107aa7b026c16acdce4386742178700f57ef121e50876396eec",
+      "current_sha256": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+      "matches_frozen": false,
+      "frozen_code_snapshot_sha256": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+      "snapshot_matches_current": true,
+      "reason_for_change": "bug fix in the array-cache lookup (numpy truthiness) before any unit ran",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "the first successful unit already used the fixed code path",
+      "replay_available": true
+    },
+    {
+      "script": "export_k8_cache.py",
+      "protocol_frozen_sha256": "b1f0235ff7706ee5f18dad188c10069d955ac986c181465f85dd7cbd7e823727",
+      "current_sha256": "f4610a2e5c8e97d6cb356544e20c7dfa51f15b232d1bd295170ebd96bb1aeb16",
+      "matches_frozen": false,
+      "frozen_code_snapshot_sha256": "f4610a2e5c8e97d6cb356544e20c7dfa51f15b232d1bd295170ebd96bb1aeb16",
+      "snapshot_matches_current": true,
+      "reason_for_change": "index_dataset must receive a Path rather than a string, and the CLIP module path must be added before import; both were fixed before the affected caches (DINO-S seed 2, DINO-S BTAD) were produced",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "the affected caches did not exist before the fix, so nothing was overwritten",
+      "replay_available": true
+    },
+    {
+      "script": "run_matrix.py",
+      "protocol_frozen_sha256": "9b059046bd984e6d4ac7d8b6cfd2d00618e4bf71252103f0ae9f699668bc0cc0",
+      "current_sha256": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6",
+      "matches_frozen": false,
+      "frozen_code_snapshot_sha256": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6",
+      "snapshot_matches_current": true,
+      "reason_for_change": "resume/scope bookkeeping (batch union, code-amendment recording) and a protocol-hash guard; the metric functions were untouched",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "every unit's DONE.json stores the protocol hash it ran under, and the historical replay re-computed all overlapping conditions from the same feature cache (max abs diff 6.7e-16)",
+      "replay_available": true
+    },
+    {
+      "script": "stats_v2.py",
+      "protocol_frozen_sha256": "92842dfac21bc76565c436d90a3cfc3cb0262f8fba012b02c5cc7b2656ea5e9a",
+      "current_sha256": "b70c30b531346d0b0e326d64732fd6fc7f59ecfe9cbe3b2438385d002be469ed",
+      "matches_frozen": false,
+      "frozen_code_snapshot_sha256": "b70c30b531346d0b0e326d64732fd6fc7f59ecfe9cbe3b2438385d002be469ed",
+      "snapshot_matches_current": true,
+      "reason_for_change": "multi-root unit discovery (MPDD in p1_matrix, BTAD in p3_external), merge writing for batch fills, and the corrected pre-registered K inference",
+      "affects_scores": false,
+      "affected_units": "MPDD 72 units + BTAD 24 units belong to the study, but the changed lines do not enter the score/metric path",
+      "evidence": "the bootstrap arrays themselves are unaffected; the corrected inference is recomputed from the stored samples and reproduced to 1e-10",
+      "replay_available": true
+    }
+  ],
+  "recorded_code_amendments": [
+    {
+      "stage": "p1_matrix",
+      "recorded_utc": "2026-09-13T12:54:38.781415+00:00",
+      "previous_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "1790dccb1b2f26f503377333bacccddd00a8d9e050555baa573829c4bebb17ce"
+      },
+      "current_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+      },
+      "reason": "resume bookkeeping for the pre-registered P1-B batch (seed 2); no change to scoring, metrics or statistics",
+      "scope": "resume bookkeeping only; units already completed keep their own protocol_hash and are not recomputed"
+    },
+    {
+      "stage": "p3_external",
+      "recorded_utc": "2026-09-13T13:03:15.546637+00:00",
+      "previous_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "1790dccb1b2f26f503377333bacccddd00a8d9e050555baa573829c4bebb17ce"
+      },
+      "current_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+      },
+      "reason": "resume after repairing the BTAD-03 mask geometry (mask now 448x588, matching the 32x42 patch grid); no change to scoring or statistics",
+      "scope": "resume bookkeeping only; units already completed keep their own protocol_hash and are not recomputed"
+    },
+    {
+      "stage": "p3_external",
+      "recorded_utc": "2026-09-13T13:05:19.773898+00:00",
+      "previous_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+        "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+      },
+      "current_source_hashes": {
+        "engine_v2.py": "6f7ef511af89a6c3f671cb30aaca22520064229dd71e5d92bae331eb130772c6",
+        "diagnostics_v2.py": "ca7e65d539b6b93d92f9f57487750b52f6c91754ef32279254ec9f6d0ac4d7ab",
+        "run_matrix.py": "8a1d28d0d744633e3e7da5b1276e3f7d9da7bcbd891f7203e1398ddd7d2492a6"
+      },
+      "reason": "fix ceil stride sampling for the non-square BTAD-03 canvas (448x588 with stride 8 yields 74 samples per row, not 73)",
+      "scope": "resume bookkeeping only; units already completed keep their own protocol_hash and are not recomputed"
+    }
+  ],
+  "policy": "the frozen protocol is never rewritten to make its hashes match; changes are recorded here and in the stage protocols",
+  "still_missing": [
+    "the study-level PROTOCOL.json lists 7 script hashes frozen at 2026-09-13; the current scripts differ in 5 of them, and the reason/impact is recorded per script in this file",
+    "P1 stage protocol records the initially frozen seeds as 0/1 while seed 2 was added in a second pre-registered batch (P1-B); the batch history is in scope_history",
+    "peak RAM/VRAM of the new matrix and the wall-clock of the full-pixel stage were not recorded; only retrieval/evaluation/encoder-export seconds exist"
+  ]
+}

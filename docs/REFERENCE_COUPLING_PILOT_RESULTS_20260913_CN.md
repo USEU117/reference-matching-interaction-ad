@@ -6,7 +6,7 @@
 
 ## 0. 一句话结论
 
-P0–P4 全部执行完成（12/12 单元、516/516 实现不变量、K2 与 K4 各 1000 次配对 bootstrap）。本轮**没有**出现"融合导致原始数据明显退化"的证据：A1_J 在 K2/K4 都是所报方法中最高的宏 P-AP；真正稳定可测的是**权重分配本身**（纯权重改动、不引入任何新分支，即让宏 P-AP 掉约 0.008，区间不含零）与**共同匹配项在原始数据上的小代价**（去掉该约束略升）。所有效应量都在预注册尺度 0.005 附近或更小，且只来自单一参考 seed，因此按 §9 判为"不确定"，不得升级为机制结论。
+P0–P3 的主矩阵已执行完成（12/12 单元、516/516 实现不变量）。原 P4 已完成九个主要方法在 K2 与 K4 各 1000 次配对 bootstrap；原始分析尚未提供 L/固定 λ 对比的配对区间，因此不能据此宣布全部统计验收完成。A1_J 在表 2.1 的原始联合匹配组合中最高，但并非所有设置最高：表中的 A1_L 在两个 K 上均有更高点估计。纯权重改动、不引入新信息，可使宏 P-AP 下降约 0.008，当前条件区间不含零；真实三支及家族平衡的点估计差异也超过 0.005，但区间跨零。去掉共同匹配约束有小幅改善的点估计，尚需补齐其配对不确定性。必须区分本矩阵内的权重敏感性证据与尚未完成的跨参考 seed、跨数据集机制验证，不能将全部结果笼统归为无信号或已证实机制。
 
 ## 1. 任务书完成对照
 
@@ -14,11 +14,21 @@ P0–P4 全部执行完成（12/12 单元、516/516 实现不变量、K2 与 K4 
 |---|---|---|---|
 | P0 | 支持身份审计、引擎/诊断检查 | 完成 | `main_v2/audit/identity_audit.json`：`all_pass=true`，36/36 单元状态 `verified_by_provenance_and_canonical_prefix_policy`；`canonical_k4_prefix_policy_valid=true`；旧 K2/K4 原始前缀差异 18 处、`4.530e-05..6.566e-04`（已如实标为**不**严格数值嵌套） |
 | P0 独立重跑 | 审计必须可独立复现 | 完成 | 共享审计 `audit/identity_audit.json` 与独立重跑 `main_v2/audit/identity_audit.json` **逐字段一致**，仅 `created_at_local` 与 `runtime.duration_seconds`（6.24 s / 5.156 s）不同；`PROTOCOL.json.audit_hash` 与 `main_v2` 审计 sha256 前缀 `3cb669a6db5b8f5c` 相符 |
-| P1 | connector、s0/K2、2 个图内置换全流程基准 | 完成 | `benchmark/` 单元（21 s，36 配置）；`pytest scripts/reference_coupling_pilot_v1` = **21 passed** |
+| P1 | connector、s0/K2、2 个图内置换全流程基准 | 完成 | `benchmark/`：connector K2、33 个配置、20.98 s（load 2.69 / score 2.55 / metric 14.30 s）；内存补测见 `benchmark/memory_probe/MEMORY_PROBE.json`（峰值进程树工作集 **1.289 GiB**，其中最大单进程 1.241 GiB，22.1 s）；`pytest scripts/reference_coupling_pilot_v1` = **21 passed** |
 | P2/P3 | 六类×K2/K4、五组权重控制、J/L/G、固定 λ、最多 10 个图内/跨图置换 | 完成 | `main_v2`：12/12 单元、1030.6 s、缺失 0、失败 0；`configurations.json` K2 每单元 89 个、K4 152 个配置，其中进入 `evaluation_scores.npz` 的方法为 76 / 121 个；置换 K2 每个基线-分支组 11 个（10 图内 + 1 跨图）、K4 20 个（10 + 10） |
-| P4 | 汇总、配对不确定性、关键方向解释、未完成清单 | 完成 | `main_v2/ANALYSIS.json`、`ANALYSIS_CN.md` 与 8 个 CSV（见 §4） |
+| P4 | 汇总、配对不确定性、关键方向解释、未完成清单 | 主要方法统计完成；原分析缺 L/固定 λ 配对区间 | `main_v2/ANALYSIS.json`、`ANALYSIS_CN.md` 与 8 个 CSV（见 §4）；后续补齐应另存结果，不覆盖原分析 |
 
 实现验收（任务书 §3/§4）：12 单元共 **516 项**检查全部 `pass`，最坏相对余量 0.715（`legacy_A1_faiss_real_patch_parity` 7.153e-07 / 1e-06）。关键精确项：DUP 等价性、DUP_BAL_J≡A1_J、共同置换、单支置换下 C/S 的 L 不变性**误差恰为 0**；`TRI_nonnegative_G` ≤ 2.980e-08；`TRI_score_decomposition` ≤ 7.451e-09；`historical_A1_pixel_AP` 重放最差 5.700e-06 ≪ 5e-4。
+
+细项逐条复核（2026-09-13 追加核对，均为对已落盘产物的只读检查）：
+
+- 新产物身份标注：12/12 单元的 `DONE.json` 均含 `"canonical_source_shot": 4`，`RUN_SUMMARY.json` 同样带该字段，未冒充原 K2 缓存的逐字节重放。
+- 主 runner 放行条件：`run.py` 要求顶层 `all_pass=true`，并显式检查审计是否覆盖 `六类 × K4 × {B,S,C}`（缺失即报错），计划单元与"缺失清单"都写进 `RUN_SUMMARY.json`。
+- 干预抽样位置：每个单元另有 `sample_pairs.npz`，保存 `selected_image_index` / `selected_normal_patch`(N×64) / `selected_defect_patch`(N×64) 以及全部配对索引，`seed=20260912`、`max_patches=64` 一并落盘（K2/connector 存 25,088 对）。
+- 逐图指标：`per_image.csv` 头部为 `method,image_index,sample_id,label,image_max,pixel_ap`，即任务书要求的"逐异常图像内 P-AP 与 image max"。
+- 区域分类：`analysis_region_macro.csv` 覆盖 `normal_image`、`abnormal_normal`、`defect`、`clean_defect`（缺陷覆盖率≥0.5）、`boundary`（混合边界）五类，与任务书 §6 一致。
+- AUPRO 口径：`pixel_aupro` 由历史实现 `scripts/validation_handoff_20260911/common.py:aupro_fast` 给出，其累加上限为 `fprs < 0.30`，即历史 AUPRO@0.3。
+- 负例拒绝：`test_engine.py::test_invalid_rows_weights_and_permutations_are_rejected` 覆盖零范数特征、非有限特征、权重和≠1、非法权重、非双射置换五类拒绝路径。
 
 ## 2. 结果
 
@@ -135,6 +145,7 @@ K2 与 K4 各 1000 次复制（`[seed, shot, 复制序号]` 独立播种，逐�
 - `main_v2/ANALYSIS.json`、`ANALYSIS_CN.md`
 - `main_v2/analysis_point_by_k.csv`、`analysis_per_category.csv`、`analysis_perm_seed_variation.csv`、`analysis_perm_seed_summary.csv`、`analysis_g_tails.csv`（108 行）、`analysis_region_macro.csv`（13,040 行）、`analysis_flip_macro.csv`（2,784 行）、`analysis_paired_deltas.csv`
 - `main_v2/ANALYSIS_bootstrap_k{2,4}.npz`：bootstrap 检查点（复制级样本 + 累计耗时），可用于复算任意配对对照
+- `benchmark/units/s0_k2/connector/`（时间基准）与 `benchmark/memory_probe/`（同一命令、同一代码的重复试跑，仅补采峰值内存）：`MEMORY_PROBE.json` 记录采样方法、峰值 1.289 GiB、耗时 22.1 s 与采样前后系统内存；两者 `metrics.csv`、`per_image.csv`、`region_stats.csv`、`flip_stats.csv`、`configurations.json`、`invariants.json` **逐字节相同**（`run.py`/`engine.py`/`diagnostics.py` 哈希一致，未改任何计算代码）
 
 复现命令（仓库根目录 PowerShell）：
 
@@ -153,13 +164,15 @@ K2 与 K4 各 1000 次复制（`[seed, shot, 复制序号]` 独立播种，逐�
 3. **抗中断**：bootstrap 每个复制由 `[seed, shot, 复制序号]` 独立播种；每 25 个复制写一次检查点（含复制级样本与累计耗时）；重启时校验方法列表/seed/shot/请求复制数后从检查点续跑；`MemoryError` 有 6 次退避重试。以上只影响 IO、内存与调度，**不改变**重采样单位（图像）、配对方式（同索引用于所有方法）、分数定义、统计口径或效应判读。
 4. **K4 复制数**：首次运行按预热实测速率估计的上限截断在 771/1000；随后在同一检查点上续跑到 1000（K2 直接跳过已存 1000 次）。最终 K2/K4 各 1000 次；`ANALYSIS.json.bootstrap.budget_seconds=7200` 是这次续跑的上限，前一次为 2700。`seconds` 字段是**累计** bootstrap 计算时间（K2 3320.6 s、K4 3843.3 s）。
 5. **一处诚实标注**：预算上限是"按预热速率外推"的软估计。K2 实际用时 3228.3 s > 2700 s，原因是运行中机器负载上升、单复制耗时从约 1.7 s 升到约 3.2 s。
+6. **P1 的内存要求单独补测**：原基准只落了耗时（load/score/metric/total），未落内存。为此用**完全相同的命令与代码**在 `benchmark/memory_probe/` 重跑一次，并以 0.5 s 间隔采样 `run.py` 进程树的工作集：峰值 1.289 GiB，其中最大单进程 1.241 GiB（单元子进程），峰时 5 个进程，墙钟 22.1 s；采样前后系统可用物理内存 8.05 GiB、可用提交约 17 GiB。该次重跑与 `benchmark/` 的 6 份计算产物逐字节相同，证明补测没有改变任何数值。
+7. **命令中的日期参数**：交接文档 §8 的 `--deadline 2026-09-13T07:00:00+08:00` 只是示例；跨日复用时按文档要求换成运行时确定的新截止时间（`benchmark/memory_probe/PROTOCOL.json.invocation` 记录了实际使用的值）。`benchmark/` 与 `main_v2/` 的既有运行记录未做任何修改。
 
 ## 6. 当前论文允许 / 不允许写的结论
 
 **允许**
 
 - 报告本表所列 K2/K4 宏点估计、逐类方向、配对差值区间与置换种子分布，并明确"stride-8 像素评价、单参考 seed 0、MPDD 六类、K2/K4 不合并"。
-- 写"在本矩阵上，纯权重重分配（不引入新分支）即可造成约 0.008 的宏 P-AP 变化；这属于不确定范围内的权重敏感性"。
+- 写"在本矩阵上，纯权重重分配（不引入新信息）即可造成约 0.008 的宏 P-AP 变化，当前图像配对 bootstrap 区间不含零；这是固定参考 seed 条件下的权重敏感性证据，尚需独立参考 seed 复核"。
 - 写"在本矩阵上，减弱共同匹配项（λ→0）在原始数据上小幅不降反升（+0.004～+0.011），且独立排序诊断显示共同匹配项引入的排序错误约为修好的两倍"——作为**机制诊断**。
 - 写"参考行置换会显著改变评分（最差 −0.195），因此评分依赖经验对应关系；但方向既有恶化也有改善"。
 
@@ -174,7 +187,7 @@ K2 与 K4 各 1000 次复制（`[seed, shot, 复制序号]` 独立播种，逐�
 ## 7. 限制与未做项
 
 - 只有参考 seed 0，区间不含参考 seed 不确定度；K2/K4 非独立。
-- 6/15 类之外的 MPDD 类别、其他数据集、K8/16、跨域均未做。
+- 已覆盖 MPDD 六类；本轮未覆盖其他数据集、K8/16 或跨域，不能把 MPDD 写成 15 类。
 - 像素结论基于 stride-8 评价；关键小缺陷结论需后续全像素复核。
 - 未做部署阈值/FPR 校准（未用测试标签拟合阈值）。
 - `main/`、`benchmark/` 下的早期误启动产物未清理、未使用；`STOPPED_BY_USER.json` 保留。

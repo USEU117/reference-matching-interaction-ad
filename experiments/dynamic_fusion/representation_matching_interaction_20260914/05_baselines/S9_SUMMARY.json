@@ -1,0 +1,40 @@
+{
+  "created_utc": "2026-09-14T09:56:08.134522+00:00",
+  "rows": 59,
+  "rows_by_measurement": {
+    "instrumented": 25,
+    "partial": 34
+  },
+  "fully_instrumented_methods": [
+    "AnomalyDINO_native_canvas_norotation",
+    "AnomalyDINO_native_canvas_rotation",
+    "PatchCore_native_official224",
+    "stride-1 evaluation of the D scope"
+  ],
+  "peak_gpu_available_for": [
+    "AnomalyDINO_native_canvas_norotation",
+    "AnomalyDINO_native_canvas_rotation",
+    "controlled + D branch (feature encoding)",
+    "controlled + D branch (multi-branch scoring)"
+  ],
+  "peak_ram_available_for": [
+    "AnomalyDINO_native_canvas_norotation",
+    "AnomalyDINO_native_canvas_rotation",
+    "PatchCore_native_official224"
+  ],
+  "gaps": [
+    "PatchCore peak GPU memory: nvidia-smi --query-compute-apps returns N/A on this driver, so no per-process VRAM is reported rather than a device-wide proxy",
+    "the 2026-09-13 controlled matrix run recorded no per-unit timings; only the later BTAD-03 re-score and the S3/S6 stages have them, and those rows are marked partial",
+    "the vendored PatchCore CLI does not expose bank and scoring separately, so its run is reported as one combined stage instead of being split by assumption",
+    "AnomalyDINO's stages are synchronised internally, but the pipeline still has no CUDA-graph level attribution"
+  ],
+  "retained_from_closeout": {
+    "rows": 16,
+    "path": "CLOSE/02_baselines/resource_cost.csv",
+    "note": "kept as executed history; resource_comparison_v2.csv supersedes it for new claims because it separates stages and states how each number was measured"
+  },
+  "supersedes": {
+    "path": "NEW/05_baselines/resource_comparison.csv",
+    "note": "the earlier table mixed whole-run wall clocks with per-image estimates and left the peaks empty; keep it only as history, use resource_comparison_v2.csv for any comparison"
+  }
+}

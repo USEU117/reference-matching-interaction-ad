@@ -1,0 +1,648 @@
+{
+  "stage": "unified_p1_statistics",
+  "run_root": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix",
+  "replicates": 1000,
+  "rng": "numpy.random.default_rng([20260913, dataset_id, category_id, replicate])",
+  "resampling_unit": "image; a drawn image carries all its stride-8 pixels, mask and label",
+  "shared_index": "the drawn image indices do not depend on method, reference seed or K, so cross-K and cross-seed contrasts are paired",
+  "metric": "pooled pixel AP/AUROC and image AP/AUROC per category, macro mean over categories",
+  "undefined_policy": "a category replicate with a single class yields NaN and is excluded",
+  "effect_scale_macro_pixel_ap": 0.005,
+  "main_inferences": [
+    {
+      "name": "A1_average_matching_effect",
+      "kind": "average_over_seeds_and_K",
+      "contrast": "A1_L - A1_J",
+      "ci_level": 0.975
+    },
+    {
+      "name": "A1_matching_effect_K8_minus_K1",
+      "kind": "K_difference",
+      "contrast": "A1_L - A1_J",
+      "k_high": 8,
+      "k_low": 1,
+      "ci_level": 0.975
+    }
+  ],
+  "exploratory_contrasts": [
+    [
+      "A1_L",
+      "A1_J"
+    ],
+    [
+      "TRI_L",
+      "TRI_J"
+    ],
+    [
+      "BAL_L",
+      "BAL_J"
+    ],
+    [
+      "DUP_L",
+      "DUP_J"
+    ],
+    [
+      "DUP_J",
+      "A1_J"
+    ],
+    [
+      "B",
+      "A1_J"
+    ],
+    [
+      "S",
+      "A1_J"
+    ],
+    [
+      "C",
+      "A1_J"
+    ],
+    [
+      "TRI_J",
+      "DUP_J"
+    ],
+    [
+      "TRI_L",
+      "DUP_L"
+    ],
+    [
+      "BAL_J",
+      "A1_J"
+    ],
+    [
+      "BAL_L",
+      "A1_L"
+    ]
+  ],
+  "conditions": [
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    {
+      "dataset": "btad",
+      "seed": 1,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "01",
+        "02",
+        "03"
+      ]
+    }
+  ],
+  "created_utc": "2026-09-13T13:03:31.552765+00:00",
+  "source_hashes": {
+    "stats_v2.py": "92842dfac21bc76565c436d90a3cfc3cb0262f8fba012b02c5cc7b2656ea5e9a"
+  },
+  "scope_history": [
+    {
+      "datasets": [
+        "mpdd"
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "conditions": [
+        {
+          "dataset": "mpdd",
+          "seed": 0,
+          "shot": 1,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 0,
+          "shot": 2,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 0,
+          "shot": 4,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 0,
+          "shot": 8,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 1,
+          "shot": 1,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 1,
+          "shot": 2,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 1,
+          "shot": 4,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 1,
+          "shot": 8,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 2,
+          "shot": 1,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 2,
+          "shot": 2,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 2,
+          "shot": 4,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        },
+        {
+          "dataset": "mpdd",
+          "seed": 2,
+          "shot": 8,
+          "replicates": 1000,
+          "categories": [
+            "bracket_black",
+            "bracket_brown",
+            "bracket_white",
+            "connector",
+            "metal_plate",
+            "tubes"
+          ]
+        }
+      ]
+    },
+    {
+      "datasets": [
+        "btad"
+      ],
+      "seeds": [
+        0,
+        1
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "conditions": []
+    },
+    {
+      "datasets": [
+        "btad"
+      ],
+      "seeds": [
+        0,
+        1
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "conditions": [
+        {
+          "dataset": "btad",
+          "seed": 0,
+          "shot": 1,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 0,
+          "shot": 2,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 0,
+          "shot": 4,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 0,
+          "shot": 8,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 1,
+          "shot": 1,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 1,
+          "shot": 2,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 1,
+          "shot": 4,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        },
+        {
+          "dataset": "btad",
+          "seed": 1,
+          "shot": 8,
+          "replicates": 1000,
+          "categories": [
+            "01",
+            "02",
+            "03"
+          ]
+        }
+      ]
+    }
+  ]
+}

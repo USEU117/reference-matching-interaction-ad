@@ -1,0 +1,233 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-13T13:00:41.983814+00:00",
+  "dataset": "mpdd",
+  "seed": 2,
+  "shot": 4,
+  "category": "tubes",
+  "grid": [
+    32,
+    32
+  ],
+  "n_images": 101,
+  "configurations": 45,
+  "reference_images": 4,
+  "timing": {
+    "load_s": 5.233999999998559,
+    "score_s": 7.813000000000102,
+    "metric_s": 9.171999999998661,
+    "total_s": 23.10899999999856
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\unified_fusion_paper_support_20260913\\canonical\\B\\mpdd_s2_k8\\tubes.npz",
+    "S": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\unified_fusion_paper_support_20260913\\canonical\\S\\mpdd_s2_k8\\tubes.npz",
+    "C": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\unified_fusion_paper_support_20260913\\canonical\\C\\mpdd_s2_k8\\tubes.npz"
+  },
+  "engine": {
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 101,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 103424,
+    "reference_rows": 4096,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_cross_p01",
+      "TRI_J__perm_C_cross_p01",
+      "TRI_J__perm_S_cross_p01",
+      "BAL_J__perm_C_cross_p01",
+      "BAL_J__perm_S_cross_p01",
+      "A1_J__perm_C_cross_p02",
+      "TRI_J__perm_C_cross_p02",
+      "TRI_J__perm_S_cross_p02",
+      "BAL_J__perm_C_cross_p02",
+      "BAL_J__perm_S_cross_p02",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      32
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.9887302972309999,
+        "pixel_ap": 0.7476672167336611,
+        "image_auroc": 0.9628623188405798,
+        "image_ap": 0.984637022279318,
+        "image_f1_max": 0.9302325581395349
+      },
+      "S": {
+        "pixel_auroc": 0.9766918533989621,
+        "pixel_ap": 0.5974696405757802,
+        "image_auroc": 0.9556159420289855,
+        "image_ap": 0.9807130863058205,
+        "image_f1_max": 0.9154929577464788
+      },
+      "C": {
+        "pixel_auroc": 0.9732286387651538,
+        "pixel_ap": 0.49339757330604045,
+        "image_auroc": 0.8759057971014492,
+        "image_ap": 0.9434126979043228,
+        "image_f1_max": 0.8740740740740741
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9901972660130971,
+        "pixel_ap": 0.7731577311984411,
+        "image_auroc": 0.9646739130434783,
+        "image_ap": 0.9856928924356553,
+        "image_f1_max": 0.9384615384615386
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9872033042149704,
+        "pixel_ap": 0.7267316696541312,
+        "image_auroc": 0.9615036231884058,
+        "image_ap": 0.9847477922483375,
+        "image_f1_max": 0.935251798561151
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9877224092613941,
+        "pixel_ap": 0.7337221648214345,
+        "image_auroc": 0.965126811594203,
+        "image_ap": 0.9867039594974304,
+        "image_f1_max": 0.9552238805970149
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9899236188252237,
+        "pixel_ap": 0.7662194988240747,
+        "image_auroc": 0.9633152173913043,
+        "image_ap": 0.9850385466027533,
+        "image_f1_max": 0.9384615384615386
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9901972660130971,
+        "pixel_ap": 0.7731577311984411,
+        "image_auroc": 0.9646739130434783,
+        "image_ap": 0.9856928924356553,
+        "image_f1_max": 0.9384615384615386
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9899236188252237,
+        "pixel_ap": 0.7662194988240747,
+        "image_auroc": 0.9633152173913043,
+        "image_ap": 0.9850385466027533,
+        "image_f1_max": 0.9384615384615386
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9919469112621722,
+        "pixel_ap": 0.7801251468524001,
+        "image_auroc": 0.9682971014492754,
+        "image_ap": 0.9870499307356003,
+        "image_f1_max": 0.9411764705882353
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.991032249906655,
+        "pixel_ap": 0.7687846455650085,
+        "image_auroc": 0.9655797101449275,
+        "image_ap": 0.9858786907297926,
+        "image_f1_max": 0.9384615384615386
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9895284522558966,
+        "pixel_ap": 0.7386362301101811,
+        "image_auroc": 0.9741847826086957,
+        "image_ap": 0.989129501674468,
+        "image_f1_max": 0.9489051094890512
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9904173064355758,
+        "pixel_ap": 0.7493859717751524,
+        "image_auroc": 0.9764492753623188,
+        "image_ap": 0.9904674724804866,
+        "image_f1_max": 0.9552238805970149
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_matrix\\units\\mpdd_s2_k4\\tubes\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "f9165a3a32f8a9f749f594b004bfec82a6e7f6bdb61520aff0c0046c7bc49923"
+}

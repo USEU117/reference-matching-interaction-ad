@@ -1,0 +1,18 @@
+{
+  "units": 24,
+  "planned_units": 24,
+  "all_replay_pass": true,
+  "replay_tolerance": 0.0005,
+  "max_replay_abs_diff": 4.440892098500626e-16,
+  "grouped_vs_sklearn_max_abs_diff": {
+    "pixel_auroc": 3.3306690738754696e-16,
+    "pixel_ap": 1.942890293094024e-16
+  },
+  "sample_ids_verified": true,
+  "image_metrics_stride_invariant_note": "the image score is the max of the 448x448 map, so image AUROC/AP do not depend on the evaluation stride; identical values in the stride-1 and stride-8 rows of per_category.csv are the expected invariance, not a copy",
+  "limitations": [
+    "stride-1 rows are point estimates only; no bootstrap intervals are registered for them",
+    "the same frozen patch distances and masks are reused, so this is a robustness check of the evaluation stride, not an independent replication",
+    "TRI/BAL rows reuse the seed-1 three-branch units of R1 and the frozen seed-0 units"
+  ]
+}

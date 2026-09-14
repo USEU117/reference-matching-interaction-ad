@@ -1,0 +1,8 @@
+﻿script,affects_scores,affects_metrics,affects_diagnostics,what_changed,evidence
+scripts/unified_fusion_paper_support_v1/run_matrix.py,False,False,False,"resume/scope bookkeeping, protocol-hash guard, code-amendment record",unit DONE.json carries the protocol hash; overlapping conditions replay to 6.7e-16
+scripts/unified_fusion_paper_support_v1/engine_v2.py,False,False,False,array-cache lookup fix before any unit ran,no unit exists from before the fix
+scripts/unified_fusion_paper_support_v1/diagnostics_v2.py,False,True,True,ceil instead of floor for the stride subsample on a non-square canvas,"MPDD 448x448 is unaffected (56 both ways); BTAD-01/02 are square too; only the 8 BTAD-03 units were produced after the fix, and no frozen BTAD-03 baseline exists, so no stored number mixes the two conventions"
+scripts/unified_fusion_paper_support_v1/export_k8_cache.py,False,False,False,Path instead of str for index_dataset; CLIP module path before import,the affected caches did not exist before the fix
+scripts/unified_fusion_paper_support_v1/stats_v2.py,False,True,True,"multi-root discovery, merge writing, corrected pre-registered K inference; the 2026-09-14 interaction stage adds nothing to this file",the corrected inference is recomputed from the stored samples to 1e-10
+scripts/paper_evidence_closeout_20260914/btad03_geometry_recheck.py,False,True,True,new script; rebuilds BTAD-03 GT with the image's own transform,reproduces the study's stored point metrics for variant A (<=1e-12) and reports variant B differences
+scripts/representation_matching_interaction_20260914/freeze_s0.py,False,True,True,"new script; freezes inputs, writes the geometry-consistent GT version",GT transform parameters and hashes are stored per image

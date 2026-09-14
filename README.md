@@ -1,5 +1,11 @@
 # Few-shot Industrial Anomaly Detection — Dual-Encoder Patch Fusion
 
+> **最新入口（2026-09-14）**：`docs/` 的阅读索引与当前状态请看 [docs/README.md](docs/README.md)。
+> 当前论文主线已更新为**固定融合下「正常参考匹配方式 × 新增视觉表征分支」的交互研究**，
+> 最新结果与六问回答见 [experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md](experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md)。
+> 本文件下方"当前状态 (2026-08-27)"与 HANDOFF.md 记录的是 **2026-08 的旧主线**（A1 双编码器固定融合 +
+> 四数据集 9/9 全正），保留作历史参考，**不代表当前结论**。
+
 > 投稿收尾入口（2026-08-26）：[SCI 四区投稿与复现总交接](docs/PAPER_SUBMISSION_HANDOFF_AND_REPRODUCIBILITY_PLAN_20260826.md)；[投稿复现包审计入口](docs/submission_reproducibility_20260826/README.md)。论文详细中文初稿：[PAPER_DETAILED_CHINESE_DRAFT_20260827.md](docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md)。
 
 本仓库当前论文主线是**双编码器视觉 patch 固定融合 + 正常记忆库**，用于少样本工业异常检测。早期视觉—语言动态路由是已关闭的探索路线，仅作为负结果与研究边界保留。

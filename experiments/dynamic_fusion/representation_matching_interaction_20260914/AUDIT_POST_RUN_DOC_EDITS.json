@@ -1,0 +1,66 @@
+{
+  "created_utc": "2026-09-14T16:05:00+00:00",
+  "stage": "post-run documentation verification (2026-09-14)",
+  "scope": "documentation-only edits performed after the S0-S9 run finished; no machine table, no PROTOCOL.json, no INPUT_FREEZE.json and no per-unit JSON was modified",
+  "why": "the delivered REPORT_CN.md was cross-checked number-by-number against the frozen machine tables and five figures/labels did not match their source tables",
+  "edited_artefacts": [
+    {
+      "path": "REPORT_CN.md",
+      "role": "human-facing delivery report",
+      "old_sha256": "a976609b84d5a71702ea5e1742f059b2c36c9ea65d1783ba3a13d2fcd0ac4da5",
+      "old_bytes": 18526,
+      "new_sha256": "ce674890c4a665b1855b708a2d2d4d619d7fa1292e538e40ec08a57ea512a352",
+      "new_bytes": 20389,
+      "changes": [
+        {"where": "Q4 S-vs-D difference table, stride-1 column, MPDD I_TRI", "was": "+0.00246", "now": "+0.00264", "source_table": "04_new_encoder/encoder_difference.csv:stride1_difference_point"},
+        {"where": "Q4 S-vs-D difference table, stride-1 column, MPDD I_BAL", "was": "+0.00093", "now": "+0.00075", "source_table": "04_new_encoder/encoder_difference.csv:stride1_difference_point"},
+        {"where": "Q4 S-vs-D difference table, stride-1 column, BTAD I_TRI", "was": "+0.00672", "now": "+0.00616", "source_table": "04_new_encoder/encoder_difference.csv:stride1_difference_point"},
+        {"where": "Q4 S-vs-D difference table, stride-1 column, BTAD I_BAL", "was": "+0.00621", "now": "+0.00575", "source_table": "04_new_encoder/encoder_difference.csv:stride1_difference_point"},
+        {"where": "Q3 stride row, BTAD", "was": "difference +0.00005 / +0.00003 (study and corrected revisions mixed)", "now": "difference +0.00005 / +0.00002 (corrected revision)", "source_table": "03_robustness/interaction_stride_sensitivity.csv"},
+        {"where": "Q4 full-pixel point estimates, MPDD I_BAL_D", "was": "+0.00695", "now": "+0.00694", "source_table": "04_new_encoder/interaction_fullpixel_new_encoder.csv:point_delta"},
+        {"where": "Q4 S-vs-D difference table, column header", "was": "point difference (stride-8 / stride-1)", "now": "difference (stride-8 paired replicate mean / stride-1 point-vs-point)", "source_table": "encoder_difference.csv:difference_mean vs cross_encoder_comparison_v2.csv:stride8_point"},
+        {"where": "Q2 table, BTAD S row", "was": "revision not stated", "now": "labelled 'corrected revision'", "source_table": "02_interaction/representation_effects.csv:evaluation_revision"},
+        {"where": "section 0", "was": "-", "now": "added an explicit 'verification corrections' table listing every change and its source table", "source_table": "self-documenting"}
+      ]
+    },
+    {
+      "path": "06_paper/claim_to_evidence.csv",
+      "role": "claim-to-evidence ledger",
+      "old_sha256": "80ccea86249c7eecd46b008c4cf445e42b2bd52c8461206e61a4015c1eed999e",
+      "old_bytes": 9751,
+      "new_sha256": "38cfd6100f010edcee50af0e199be51c9d9b2267f110862abcd7e22f88c2ec2c",
+      "new_bytes": 10191,
+      "changes": [
+        {"claim": "B1", "was": "evidence_artifact=baseline_common_region.csv, statistic common_region_rows=48", "now": "both CSVs cited; statistic records 216 data rows and 48 summary rows with the reason", "why": "the cited file has 216 rows; the 48 belonged to baseline_common_region_summary.csv"},
+        {"claim": "L3", "was": "Sea-CLIP / M3DM / CIF all fuse multiple encoders", "now": "Sea-CLIP (CLIP + DINOv2, both RGB) and CIF (DINO + PointMAE) cited; M3DM explicitly noted as two modalities rather than two RGB encoders", "why": "the M3DM row of literature_verification_20260914.csv states 'no multiple RGB encoders', so it could not support the refutation as written"}
+      ]
+    }
+  ],
+  "not_changed": [
+    "00_protocol/PROTOCOL.json",
+    "00_protocol/INPUT_FREEZE.json",
+    "00_protocol/CODE_VERSION_LEDGER.csv",
+    "02_interaction/*.csv",
+    "03_robustness/*.csv",
+    "04_new_encoder/*.csv",
+    "05_baselines/*.csv",
+    "all per-unit JSON records"
+  ],
+  "manifest_note": "ARTIFACT_MANIFEST.json was refreshed for exactly the two edited files above; every other entry keeps its original hash",
+  "verification_scope": {
+    "checked": ["Q1 interaction table (4 rows x 8 columns)", "Q2 representation-effect table", "Q3 per-category / leave-one-out / K curve / stride / BTAD-03 rows", "Q4 new-encoder table, full-pixel point estimates and S-vs-D difference table", "Q5 common-region baseline table and region fractions", "S6 A1 replication check 2.3e-07", "baseline_common_region row counts"],
+    "result": "all values matched their source tables after the corrections listed above; no result direction or significance verdict changed"
+  },
+  "known_remaining_items_not_executed": [
+    {
+      "item": "stride-1 (full-pixel) bootstrap intervals",
+      "status": "not executed; cost probe run on 2026-09-14",
+      "cost_probe": "one unit (s0/K2/bracket_black, 8 methods, 79 images) took 45.9 s wall clock for the stride-1 point estimates alone",
+      "reason": "the stride-8 bootstrap resamples images and recomputes pooled pixel AP; at stride 1 the pixel count per replicate grows by 8x8=64, so the same 1000-replicate protocol is not reachable in the current budget. The frozen R2 protocol already requires a separate protocol and a measured cost before registering stride-1 intervals, so this stays unregistered rather than being approximated",
+      "consequence": "the paper may report stride-1 as a direction/order-of-magnitude robustness check only, and must not claim significance at stride 1"
+    },
+    {"item": "D branch extended to K2/K8 and seed 2", "status": "not executed", "reason": "expanding the condition grid after seeing the K curve would be a post-hoc search; the frozen scope is seed {0,1} x K {1,4}"},
+    {"item": "PatchCore per-process VRAM", "status": "technically blocked", "reason": "nvidia-smi --query-compute-apps returns N/A on this machine"},
+    {"item": "per-unit wall clock for the 2026-09-13 controlled matrix", "status": "unreconstructable", "reason": "the frozen DONE.json records carry no timing field"}
+  ]
+}

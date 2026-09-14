@@ -1,0 +1,84 @@
+{
+  "created_utc": "2026-09-14T02:40:00.794945+00:00",
+  "purpose": "record what B/S and C really see so the paper does not call the alignment exact original-pixel co-registration",
+  "b_s_convention": {
+    "source": "methods/anomalydino/src/backbones.py:98-109 (prepare_image)",
+    "resize": "torchvision Resize(448, BICUBIC, antialias=True) preserves the aspect ratio and maps the smaller edge to 448",
+    "crop": "image_tensor[:, :cropped_height, :cropped_width] -> top-left crop to a multiple of patch size 14",
+    "consequence": "the scoring canvas is the cropped tensor, so at most 13 px per axis of the resized image are discarded before patchification"
+  },
+  "c_convention": {
+    "source": "scripts/export_anomalyclip_mpdd_features.py:96-106 (project C export)",
+    "resize": "the whole image is squashed to a square 518x518 (aspect ratio is lost)",
+    "grid": "37x37 patch grid in the squashed coordinates",
+    "regrid": "bilinear F.interpolate to B's canvas grid at scoring time, i.e. an approximate normalised alignment, not an exact original-pixel map"
+  },
+  "mask_convention": {
+    "rule": "ground-truth masks are resized to the same canvas (grid x 14) with NEAREST",
+    "consequence": "mask-to-patch alignment is exact *on the cropped canvas*; it is not exact with respect to the uncropped original image"
+  },
+  "measured_cases": [
+    {
+      "dataset": "mpdd",
+      "category": "bracket_black",
+      "path": "data\\mpdd_raw\\MPDD\\bracket_black\\train\\good\\000.png",
+      "original_hw": [
+        1024,
+        1024
+      ],
+      "resized_hw": [
+        448,
+        448
+      ],
+      "canvas_hw": [
+        448,
+        448
+      ],
+      "dropped_px": [
+        0,
+        0
+      ],
+      "grid": [
+        32,
+        32
+      ],
+      "crop_convention": "top-left crop to a multiple of patch size 14 (torchvision Resize preserves the aspect ratio; smallest edge -> 448)",
+      "canvas_equals_grid_times_14": [
+        true,
+        true
+      ]
+    },
+    {
+      "dataset": "btad",
+      "category": "03",
+      "path": "data\\btad_raw\\BTech_Dataset_transformed\\03\\train\\ok\\0112.bmp",
+      "original_hw": [
+        600,
+        800
+      ],
+      "resized_hw": [
+        448,
+        597
+      ],
+      "canvas_hw": [
+        448,
+        588
+      ],
+      "dropped_px": [
+        0,
+        9
+      ],
+      "grid": [
+        32,
+        42
+      ],
+      "crop_convention": "top-left crop to a multiple of patch size 14 (torchvision Resize preserves the aspect ratio; smallest edge -> 448)",
+      "canvas_equals_grid_times_14": [
+        true,
+        true
+      ]
+    }
+  ],
+  "required_wording": "写「在共同裁剪画布上按归一化坐标对齐」；不得写「原图逐像素严格同位」。C 分支因方形化输入而损失长宽比，只能称近似归一化对齐。",
+  "verdict": "B/S are exact on the cropped canvas (top-left crop, at most 13 px discarded); C is an approximate normalised alignment because its input is squashed to a square before patchification"
+}

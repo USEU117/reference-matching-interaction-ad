@@ -1,0 +1,108 @@
+{
+  "stage": "R2_fullpixel",
+  "dataset": "mpdd",
+  "dataset_role": "development",
+  "seeds": [
+    0,
+    1
+  ],
+  "shots": [
+    2,
+    4
+  ],
+  "categories": [
+    "bracket_black",
+    "bracket_brown",
+    "bracket_white",
+    "connector",
+    "metal_plate",
+    "tubes"
+  ],
+  "methods": [
+    "A1_J",
+    "A1_L",
+    "DUP_J",
+    "DUP_L",
+    "TRI_J",
+    "TRI_L",
+    "BAL_J",
+    "BAL_L"
+  ],
+  "methods_note": "A1_J/A1_L/DUP_J are the frozen R2 core; DUP_L is the endpoint the R1 fair matrix needs and is reconstructed as (2/3) d_B^min + (1/3) d_C^min when a run never saved it; TRI_J/TRI_L/BAL_J/BAL_L are the pre-declared fair contrasts appended after the real three-branch units existed",
+  "metric_keys": [
+    "pixel_auroc",
+    "pixel_ap",
+    "image_auroc",
+    "image_ap"
+  ],
+  "primary_metric": "macro pixel_ap",
+  "pixel_strides": [
+    1,
+    8
+  ],
+  "raw_grid": [
+    32,
+    32
+  ],
+  "map_size": [
+    448,
+    448
+  ],
+  "postprocess": "unchanged: 448 bilinear then gaussian sigma4; image score = max of the 448 map",
+  "resampling_unit": "image; no bootstrap intervals are computed at stride 1 in this stage",
+  "replay_tolerance": 0.0005,
+  "effect_scale": 0.005,
+  "comparisons": [
+    {
+      "contrast": "A1_L - A1_J",
+      "group": "matching"
+    },
+    {
+      "contrast": "DUP_J - A1_J",
+      "group": "weight"
+    },
+    {
+      "contrast": "DUP_L - DUP_J",
+      "group": "matching"
+    },
+    {
+      "contrast": "TRI_J - DUP_J",
+      "group": "representation"
+    },
+    {
+      "contrast": "TRI_L - DUP_L",
+      "group": "representation"
+    },
+    {
+      "contrast": "BAL_J - A1_J",
+      "group": "representation"
+    },
+    {
+      "contrast": "BAL_L - A1_L",
+      "group": "representation"
+    },
+    {
+      "contrast": "TRI_L - TRI_J",
+      "group": "matching"
+    },
+    {
+      "contrast": "BAL_L - BAL_J",
+      "group": "matching"
+    }
+  ],
+  "stop_rules": [
+    "stop the affected unit when sample_ids disagree with the canonical masks",
+    "stop the affected unit when the stride-8 replay exceeds the frozen tolerance"
+  ],
+  "sources": {
+    "seed0": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2\\units",
+    "seed1": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\controlled_fusion_next_stage_20260913\\R1_seed1_triple\\units"
+  },
+  "code_hashes": {
+    "engine.py": "f12b6a03185dd1d4a3f423b69aefc22e994ca9c8682a12e988785a86526f175e",
+    "diagnostics.py": "b7c104f0d1ffcc08a56632774ea0dce4a126b5e5e91e74aba7c06ed1f467ada0",
+    "complete_statistics.py": "17ed0d275b00e8ac1a9bc39202929e1cfe80b9b88757ee40ebf012ecf9a1bdac",
+    "run_fullpixel_key_results.py": "6ff4558684c04c1153afdb45facd2a9b06dfa4ad6dfd2098d98167b70061592d"
+  },
+  "created_utc": "2026-09-13T13:12:06+0800"
+}

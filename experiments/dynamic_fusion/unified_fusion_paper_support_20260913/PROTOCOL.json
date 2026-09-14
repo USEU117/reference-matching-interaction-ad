@@ -1,0 +1,90 @@
+{
+  "protocol": "unified_fusion_paper_support_v1",
+  "title_en": "Understanding Fixed Multi-Encoder Fusion for Few-Shot Industrial Anomaly Detection: Weighting, Reference Matching, and Support Budget",
+  "title_cn": "少样本工业异常检测中固定多编码器融合的收益与局限：权重、参考匹配和支持预算的受控研究",
+  "research_question": "How are the benefits of multi-encoder fusion for few-shot industrial anomaly detection affected by effective branch weight, representation replacement and joint-vs-independent reference matching, and how do those effects vary with the support budget K and sample conditions?",
+  "variables": {
+    "B": "DINOv2-B (dinov2_vitb14, 448 px smaller edge, 32x32 patches, 768-d)",
+    "S": "DINOv2-S (dinov2_vits14, 448 px smaller edge, 32x32 patches, 384-d)",
+    "C": "AnomalyCLIP visual tokens (ViT-L/14@336px, 37x37 patches, 768-d; the checkpoint was trained on VisA)",
+    "constructions": {
+      "A1": {
+        "B": 0.5,
+        "C": 0.5
+      },
+      "DUP": {
+        "B": "1/3",
+        "Bcopy": "1/3",
+        "C": "1/3"
+      },
+      "TRI": {
+        "B": "1/3",
+        "S": "1/3",
+        "C": "1/3"
+      },
+      "BAL": {
+        "B": 0.25,
+        "S": 0.25,
+        "C": 0.5
+      }
+    },
+    "endpoints": "each construction contributes a joint J and an independent L endpoint",
+    "definitions": {
+      "J": "min_r sum_b w_b d_b(q, r)",
+      "L": "sum_b w_b min_r d_b(q, r)",
+      "G": "J - L >= 0"
+    },
+    "grid": "common grid is B's native grid; other branches are bilinearly aligned to it",
+    "postprocess": "patch map -> bilinear to (H*14, W*14) -> Gaussian sigma=4; image score = max",
+    "pixel_stride_mechanism": 8,
+    "pixel_stride_performance": 1
+  },
+  "data_roles": {
+    "mpdd": "development (all method/weight/lambda/support choices were made on MPDD)",
+    "btad": "holdout in the protocol file, but already evaluated by an earlier frozen pipeline; therefore a frozen re-check on a known dataset, not first-time unseen-data validation",
+    "mvtec_visa": "retrospective only; the C checkpoint was trained on VisA"
+  },
+  "support": {
+    "manifest": "p0_support/support_manifest_{mpdd,btad}.json (K=1,2,4,8, seeds 0,1,2)",
+    "nested": "K=1,2,4 are strict prefixes of K=8; prefix invariance is asserted",
+    "cache": "canonical/<branch>/<dataset>_s<seed>_k8/<category>.npz; queries reused from the seed's own historical cache when it exists, references 1-4 reused verbatim from the historical K=4 block, references 5-8 newly encoded"
+  },
+  "statistics": {
+    "resampling_unit": "image-level paired bootstrap, 1000 replicates",
+    "rng": "numpy.random.default_rng([20260913, dataset_id, category_id, replicate])",
+    "cross_k_pairing": "the drawn image indices do not depend on method, reference seed or K, so cross-K contrasts are genuinely paired; the frozen pilot stream ([20260912, shot, replicate]) must not be used for cross-K",
+    "aggregation": "pooled AP/AUROC per category, then macro mean over categories",
+    "main_inferences": [
+      "A1 average matching effect over pre-specified seeds and K",
+      "A1 matching effect at K=8 minus K=1"
+    ],
+    "main_ci": "Bonferroni-adjusted 97.5% bootstrap interval (approximate)",
+    "exploratory_ci": "95% bootstrap interval",
+    "effect_scale_macro_pixel_ap": 0.005
+  },
+  "frozen_scope": {
+    "k_values": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "k16": "optional later extension, not a completion condition of this study",
+    "lambda": "the fixed lambda=.25/.50/.75 values remain a secondary diagnostic only"
+  },
+  "source_hashes": {
+    "build_support_manifest.py": "79610f26fc8f8b90ed24d9c6453ec8f10280fec13879f704ff453a4fe7cf6f57",
+    "audit_identity.py": "79f2c0f2d1a48a9dd8012b87f1cea3d07ba33e00c20f2d30d0908f90c6db5650",
+    "export_k8_cache.py": "b1f0235ff7706ee5f18dad188c10069d955ac986c181465f85dd7cbd7e823727",
+    "engine_v2.py": "fc42a8431fd8c107aa7b026c16acdce4386742178700f57ef121e50876396eec",
+    "diagnostics_v2.py": "1b9a55d19b76f0bd3eac5142e3ebcff666cca281857d4eddbbfc0a914aae529e",
+    "run_matrix.py": "9b059046bd984e6d4ac7d8b6cfd2d00618e4bf71252103f0ae9f699668bc0cc0",
+    "stats_v2.py": "92842dfac21bc76565c436d90a3cfc3cb0262f8fba012b02c5cc7b2656ea5e9a"
+  },
+  "frozen_writers_untouched": [
+    "scripts/reference_coupling_pilot_v1/run.py",
+    "scripts/reference_coupling_pilot_v1/engine.py",
+    "scripts/reference_coupling_pilot_v1/diagnostics.py",
+    "experiments/dynamic_fusion/reference_coupling_pilot_20260912/**"
+  ]
+}

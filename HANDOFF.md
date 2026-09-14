@@ -1,5 +1,13 @@
 # 项目交接文档 — 少样本工业异常检测动态融合研究
 
+> **最新入口（2026-09-14）**：本文件是 **2026-08-19** 的历史交接，记录 V3/V3.3/V3.5 时代的旧主线。
+> 当前论文主线为**固定融合下「正常参考匹配方式 × 新增视觉表征分支」的交互研究**，请先看：
+> - [docs/README.md](docs/README.md) —— `docs/` 的阅读索引与状态标注（current / historical / superseded）
+> - [docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md](docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md) —— 项目现状与创新验证
+> - [experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md](experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md) —— 最新结果与六问回答
+>
+> 本文件与 [docs/CURRENT_DYNAMIC_FUSION_STATUS.md](docs/CURRENT_DYNAMIC_FUSION_STATUS.md) 仍可作历史参考，但**不得据其判断当前状态**。
+
 > 日期: 2026-08-19  
 > 目标平台: SLE.Work克  
 > 当前状态: A1 双视觉固定融合（concat+KNN）为论文主结果；V4 视觉—文本动态融合扩展已按决策 D 关闭

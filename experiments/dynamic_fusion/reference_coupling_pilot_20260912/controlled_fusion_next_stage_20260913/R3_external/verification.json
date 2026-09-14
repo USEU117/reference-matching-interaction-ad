@@ -1,0 +1,77 @@
+{
+  "acceptance": {
+    "units_completed": 8,
+    "expected_units": 8,
+    "unit_invariants_all_pass": true,
+    "replicates_used": {
+      "s0_k2": 1000,
+      "s0_k4": 1000,
+      "s1_k2": 1000,
+      "s1_k4": 1000
+    },
+    "identity_gate_all_pass": true,
+    "effect_scale": 0.005,
+    "pass": true
+  },
+  "unit_invariants": {
+    "s0/k2/01": true,
+    "s0/k2/02": true,
+    "s0/k4/01": true,
+    "s0/k4/02": true,
+    "s1/k2/01": true,
+    "s1/k2/02": true,
+    "s1/k4/01": true,
+    "s1/k4/02": true
+  },
+  "audit_all_pass": true,
+  "audit_checks": {
+    "all_units_present": true,
+    "units_audited": 8,
+    "expected_units": 8,
+    "support_image_hashes_match": true,
+    "support_images_hashed": 35,
+    "manifest_k2_prefix_of_k4": true,
+    "stored_k2_reference_matches_k4_prefix": true,
+    "stored_k2_reference_cosine_min": 0.9999505877494812
+  },
+  "excluded_categories": {
+    "03": "BTAD 03 stores a 32x42 DINOv2-B patch grid; the frozen engine only accepts the 32x32 canonical grid, and adapting it would change the frozen protocol"
+  },
+  "prior_access": {
+    "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\v3_3\\btad_holdout\\report.json",
+    "exists": true,
+    "role": "btad_holdout_validation",
+    "note": "Frozen config only; no candidate search on BTAD. Image-level score = max(fused map). z-score calibration uses each category's normal test images (same protocol as MPDD V3.3).",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "categories": [
+      "01",
+      "02",
+      "03"
+    ],
+    "interpretation": "BTAD was already evaluated by an earlier frozen pipeline (v3_3 weighted ensemble with per-category z-score calibration). This stage is therefore a known-dataset frozen re-check, not a first-time unseen-data validation."
+  },
+  "not_run": [
+    {
+      "contrast": "TRI_J - DUP_J",
+      "group": "representation",
+      "reason": "no DINO-S cache exists for BTAD, so the third branch cannot be scored"
+    },
+    {
+      "contrast": "BAL_J - A1_J",
+      "group": "representation",
+      "reason": "no DINO-S cache exists for BTAD, so the third branch cannot be scored"
+    }
+  ],
+  "limitations": [
+    "the audit proves count/manifest/hash consistency; it cannot re-prove the per-row image identity inside ref_patch_features from stored features alone",
+    "the npz files do not store the reference relative paths or per-image hashes, so reference identity is provenance-level (manifest + export_report + counts), matching the level the MPDD audit reached",
+    "no DINO-S cache exists for BTAD; the three-branch mechanism is out of scope here",
+    "BTAD category 03 is excluded before any scoring: BTAD 03 stores a 32x42 DINOv2-B patch grid; the frozen engine only accepts the 32x32 canonical grid, and adapting it would change the frozen protocol",
+    "the stored K2 reference rows are not bit-identical to the K4 prefix (separate export runs, cosine min 0.99995059); the run itself uses the canonical K4 prefix, exactly like the frozen MPDD protocol",
+    "BTAD has already been evaluated before, so these intervals describe a known dataset; they cannot be presented as a first-time held-out result"
+  ]
+}

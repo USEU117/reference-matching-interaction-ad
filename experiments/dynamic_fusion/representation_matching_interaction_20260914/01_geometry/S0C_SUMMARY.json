@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-09-14T07:24:29.453377+00:00",
+  "revision": "rev_correct",
+  "replicates": 1000,
+  "conditions": 8,
+  "workers": 6,
+  "category_order_assumed": [
+    "01",
+    "02",
+    "03"
+  ],
+  "category_order_evidence": "R stored the per-category arrays with the category order of CATS['btad'] = ['01','02','03'] from scripts/unified_fusion_paper_support_v1/stats_v2.py",
+  "rng_stream": "default_rng([20260913, 2, 2, replicate]) for category 03, as in stats_v2",
+  "verification": {
+    "condition": "s0k4",
+    "revision": "rev_study",
+    "comparison": "recomputed category-03 column vs the study's stored column",
+    "max_abs_diff": 1.793497603241878e-05,
+    "per_method_max_abs_diff": {
+      "A1_J": 4.91825009496516e-07,
+      "DUP_J": 1.50948745247792e-06,
+      "TRI_J": 2.7867690977068094e-07,
+      "BAL_J": 1.4808250549114277e-06,
+      "A1_L": 6.35375487445522e-07,
+      "DUP_L": 5.170465423587345e-07,
+      "TRI_L": 1.5888776494499268e-07,
+      "BAL_L": 1.793497603241878e-05
+    },
+    "tolerance": 0.0001,
+    "reproduced_within_tolerance": true,
+    "all_replicates_bit_identical": false,
+    "explanation": "an exact-zero agreement is not achievable: the replayed patch scores differ from the stored ones by up to 7.7e-07 because torch.mm on CUDA is not bitwise deterministic, and the bootstrap AP is a rank statistic, which amplifies that residue to about 1.79e-05 in the replicate arrays.  The residue is more than an order of magnitude below the 0.005 macro pixel AP practical scale and does not affect any reported conclusion; the corrected revision additionally differs by the named geometry change, not by this residue.",
+    "minimum_detectable_note": "the interaction is reported at the 0.005 scale; the replay residue is 0.36% of that scale"
+  },
+  "timings": [
+    {
+      "seed": 0,
+      "shot": 1,
+      "revision": "rev_correct",
+      "total_s": 1845.3
+    },
+    {
+      "seed": 0,
+      "shot": 2,
+      "revision": "rev_correct",
+      "total_s": 1851.0
+    },
+    {
+      "seed": 0,
+      "shot": 4,
+      "revision": "rev_correct",
+      "total_s": 1849.5
+    },
+    {
+      "seed": 0,
+      "shot": 8,
+      "revision": "rev_correct",
+      "total_s": 1852.4
+    },
+    {
+      "seed": 1,
+      "shot": 1,
+      "revision": "rev_correct",
+      "total_s": 1843.8
+    },
+    {
+      "seed": 1,
+      "shot": 2,
+      "revision": "rev_correct",
+      "total_s": 1844.4
+    },
+    {
+      "seed": 1,
+      "shot": 4,
+      "revision": "rev_correct",
+      "total_s": 1088.6
+    },
+    {
+      "seed": 1,
+      "shot": 8,
+      "revision": "rev_correct",
+      "total_s": 1091.3
+    },
+    {
+      "seed": 0,
+      "shot": 4,
+      "revision": "rev_study",
+      "total_s": 1091.6
+    }
+  ],
+  "note": "only column 2 (category 03) is replaced; 01 and 02 come from the study arrays unchanged, so the composed macro is a genuine per-replicate paired mean",
+  "verification_tolerance": 0.0001
+}

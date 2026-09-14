@@ -159,6 +159,18 @@ UIP-AD 的 PDF 由搜索索引读取到方法及动机正文，直接访问遇�
 
 本轮使用的定向检索包括 fixed/ensemble fusion、few-shot normal memory coverage、joint/marginal normality、reference pairing/permutation、branch redundancy 等。**目前尚未找到直接覆盖“家族权重控制 + 保持每支参考边际不变的配对干预 + K×分支数的正常误报分析”的对应研究。** 这是具体协议的候选空白，不等于组成想法都新，也不保证组合后自然成为强贡献。
 
+> **2026-09-14 收紧（必须与本文件一起读）**：本文件之后的全文核实发现，
+> **Sea-CLIP（WACV 2026）在同一切片内并存 J 型（用 DINOv2 选参考行、CLIP 在该行打分）与
+> L 型（CLIP 独立最近邻）两种匹配，且明确使用 CLIP + DINOv2 两个视觉编码器**；
+> 多视图异常检测方向（SCoNE AAAI-26、MUVAD AAAI-19、NC-Nets AAAI-21、ECMOD DASFAA-23）
+> 也已把「各视图独立邻域」与「跨视图一致邻域」的取舍作为核心问题。
+> 因此本文件任何可被读成"J/L 匹配模式本身是新操作"或"首次融合多个视觉编码器"的说法一律作废；
+> 剩余可主张的增量只能限定为：**冻结编码器 + 少样本工业定位下，把有效权重与新增表征分离，
+> 并对「参考匹配模式 × 新增/替换视觉表征分支」给出带重复种子与区间估计的直接交互，
+> 再用第二个编码器检验其是否只属于原组合**。证据与逐篇出处见
+> [`experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv`](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv)
+> 与同目录 `multi_view_neighborhood_prior_art.csv`。
+
 正式写稿前须对上述近邻工作全文逐项核查，并记录任务、训练监督、分支定义、是否控制权重、参考配对干预、K 交互和失败分析；若发现重合，应调整贡献范围。
 
 ## 7. 两个可作为补充的方向

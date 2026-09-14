@@ -1,0 +1,35 @@
+{
+  "stage": "R3_external",
+  "state": "completed",
+  "finished_utc": "2026-09-13T15:21:59+0800",
+  "dataset": "btad",
+  "dataset_role": "holdout_frozen_recheck",
+  "acceptance": {
+    "units_completed": 8,
+    "expected_units": 8,
+    "unit_invariants_all_pass": true,
+    "replicates_used": {
+      "s0_k2": 1000,
+      "s0_k4": 1000,
+      "s1_k2": 1000,
+      "s1_k4": 1000
+    },
+    "identity_gate_all_pass": true,
+    "effect_scale": 0.005,
+    "pass": true
+  },
+  "contrasts": [
+    "DUP_J - A1_J",
+    "A1_L - DUP_L",
+    "A1_L - A1_J",
+    "DUP_L - DUP_J",
+    "DUP_BAL_J - A1_J",
+    "DUP_BAL_L - A1_L",
+    "DUP_EXPECTED_J - DUP_J"
+  ],
+  "not_run": [
+    "TRI_J - DUP_J",
+    "BAL_J - A1_J"
+  ],
+  "effect_scale": 0.005
+}

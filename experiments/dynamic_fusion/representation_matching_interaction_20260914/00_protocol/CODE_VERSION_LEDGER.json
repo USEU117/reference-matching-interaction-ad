@@ -1,0 +1,65 @@
+{
+  "created_utc": "2026-09-14T03:52:39.811542+00:00",
+  "policy": "the frozen protocols are never rewritten to make their hashes match; each change is classified by whether it can move scores, metrics or diagnostics",
+  "entries": [
+    {
+      "script": "scripts/unified_fusion_paper_support_v1/run_matrix.py",
+      "affects_scores": false,
+      "affects_metrics": false,
+      "affects_diagnostics": false,
+      "what_changed": "resume/scope bookkeeping, protocol-hash guard, code-amendment record",
+      "evidence": "unit DONE.json carries the protocol hash; overlapping conditions replay to 6.7e-16"
+    },
+    {
+      "script": "scripts/unified_fusion_paper_support_v1/engine_v2.py",
+      "affects_scores": false,
+      "affects_metrics": false,
+      "affects_diagnostics": false,
+      "what_changed": "array-cache lookup fix before any unit ran",
+      "evidence": "no unit exists from before the fix"
+    },
+    {
+      "script": "scripts/unified_fusion_paper_support_v1/diagnostics_v2.py",
+      "affects_scores": false,
+      "affects_metrics": true,
+      "affects_diagnostics": true,
+      "what_changed": "ceil instead of floor for the stride subsample on a non-square canvas",
+      "evidence": "MPDD 448x448 is unaffected (56 both ways); BTAD-01/02 are square too; only the 8 BTAD-03 units were produced after the fix, and no frozen BTAD-03 baseline exists, so no stored number mixes the two conventions"
+    },
+    {
+      "script": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+      "affects_scores": false,
+      "affects_metrics": false,
+      "affects_diagnostics": false,
+      "what_changed": "Path instead of str for index_dataset; CLIP module path before import",
+      "evidence": "the affected caches did not exist before the fix"
+    },
+    {
+      "script": "scripts/unified_fusion_paper_support_v1/stats_v2.py",
+      "affects_scores": false,
+      "affects_metrics": true,
+      "affects_diagnostics": true,
+      "what_changed": "multi-root discovery, merge writing, corrected pre-registered K inference; the 2026-09-14 interaction stage adds nothing to this file",
+      "evidence": "the corrected inference is recomputed from the stored samples to 1e-10"
+    },
+    {
+      "script": "scripts/paper_evidence_closeout_20260914/btad03_geometry_recheck.py",
+      "affects_scores": false,
+      "affects_metrics": true,
+      "affects_diagnostics": true,
+      "what_changed": "new script; rebuilds BTAD-03 GT with the image's own transform",
+      "evidence": "reproduces the study's stored point metrics for variant A (<=1e-12) and reports variant B differences"
+    },
+    {
+      "script": "scripts/representation_matching_interaction_20260914/freeze_s0.py",
+      "affects_scores": false,
+      "affects_metrics": true,
+      "affects_diagnostics": true,
+      "what_changed": "new script; freezes inputs, writes the geometry-consistent GT version",
+      "evidence": "GT transform parameters and hashes are stored per image"
+    }
+  ],
+  "not_replayable": [
+    "the exact bytes of the study scripts at the moment each unit ran are recorded only through per-unit protocol hashes; a byte-level replay of every historical revision is not possible from the repository"
+  ]
+}

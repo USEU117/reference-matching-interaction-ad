@@ -1,0 +1,16 @@
+{
+  "kind": "explanatory_illustration_selection_rules",
+  "pre_declared": true,
+  "rules": [
+    "for each of the six categories pick the test image whose A1_L - A1_J pixel AP is the median and one whose difference is the most negative and one the most positive, by a rule fixed before looking at the maps",
+    "show the same sample_id across methods (B, C, A1_J, A1_L, DUP_J) so the panels are comparable; never mix sample ids between methods in one figure",
+    "if a category has fewer than three abnormal images, show all of them and state the count",
+    "include at least one counter-example figure: a category where A1_L - A1_J is negative (bracket_black seed0/K4) and one where it is positive (connector)",
+    "every figure must be reproducible from per_image.csv plus patch_scores.npz; the caption must state seed, K, stride and that the selection is explanatory, not confirmatory",
+    "do not select figures by which method looks best, and do not present a selected figure as independent statistical evidence"
+  ],
+  "forbidden": [
+    "choosing lambda or support images after seeing these figures",
+    "dropping a category because its illustrative example is unfavourable"
+  ]
+}

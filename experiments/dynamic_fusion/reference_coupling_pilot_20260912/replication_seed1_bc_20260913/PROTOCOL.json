@@ -1,0 +1,81 @@
+{
+  "stage": "B1",
+  "seed": 1,
+  "branches": [
+    "B",
+    "C"
+  ],
+  "dataset": "mpdd",
+  "categories": [
+    "bracket_black",
+    "bracket_brown",
+    "bracket_white",
+    "connector",
+    "metal_plate",
+    "tubes"
+  ],
+  "shots": [
+    2,
+    4
+  ],
+  "methods": [
+    "B",
+    "C",
+    "A1_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "A1_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75"
+  ],
+  "reference_method": "A1_J",
+  "weights": {
+    "B": {
+      "B": 1.0
+    },
+    "C": {
+      "C": 1.0
+    },
+    "A1_J": {
+      "B": 0.5,
+      "C": 0.5
+    },
+    "DUP_J": {
+      "B": 0.3333333333333333,
+      "Bcopy": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "DUP_BAL_J": {
+      "B": 0.25,
+      "Bcopy": 0.25,
+      "C": 0.5
+    },
+    "DUP_EXPECTED_J": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    }
+  },
+  "lambda": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "cache_policy": "canonical K4 query and reference; K2 uses the first two K4 references",
+  "postprocess": "448 bilinear then gaussian sigma4; image max; stride-8 evaluation",
+  "bootstrap_seed": 20260912,
+  "replicates": 1000,
+  "uncertainty": "paired image-level bootstrap under reference seed 1 only; K2 and K4 are reported separately and are not independent seeds",
+  "no_three_branch_claim": "no seed-1 DINO-S cache exists, so TRI/BAL cannot be replicated",
+  "audit_hash": "bc8a2cf546fbff8f8b995144849d088bf9c00ebabec2349b142f9070be95307e",
+  "source_hashes": {
+    "engine.py": "f12b6a03185dd1d4a3f423b69aefc22e994ca9c8682a12e988785a86526f175e",
+    "diagnostics.py": "b7c104f0d1ffcc08a56632774ea0dce4a126b5e5e91e74aba7c06ed1f467ada0",
+    "complete_statistics.py": "17ed0d275b00e8ac1a9bc39202929e1cfe80b9b88757ee40ebf012ecf9a1bdac",
+    "replicate_seed1_bc.py": "5d7669379b24120b60986d791e876141c0060d9b84299f39eb47c4f486e0b0fa"
+  },
+  "created_utc": "2026-09-13T12:10:14+0800"
+}

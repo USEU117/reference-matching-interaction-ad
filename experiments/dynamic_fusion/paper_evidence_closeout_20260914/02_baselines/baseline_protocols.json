@@ -1,0 +1,43 @@
+{
+  "created_utc": "2026-09-14T03:05:16.041887+00:00",
+  "groups": {
+    "AnomalyDINO_native": {
+      "code": "methods/anomalydino_official @ b9d1c2648e3a5247437d4d953d907a8f3d994457",
+      "inference": "official DINOv2Wrapper preprocessing (smaller edge 448), official dists2map post-processing, official mean_top1p image score",
+      "backbone": "dinov2_vits14 (AnomalyDINO default)",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used": false,
+      "map_resolution": "448x448 (square, official)",
+      "deviations": [
+        "reference IDs from the frozen project manifest",
+        "rotation augmentation off",
+        "pixel metrics computed by the project evaluator because the official evaluator hardcodes the MVTec mask extension"
+      ],
+      "support_budget": "exactly the K manifest images"
+    },
+    "PatchCore_native": {
+      "code": "methods/patchcore/patchcore-inspection-main (vendored official)",
+      "backbone": "wide_resnet50_2 (ImageNet), layer2+layer3",
+      "target_training": "none",
+      "source_training": "none",
+      "text_used": false,
+      "map_resolution": "128x128 (resize 144 + centercrop 128)",
+      "coreset": "approx_greedy_coreset, percentage 0.1",
+      "deviations": [
+        "128 px input instead of the official 224 px",
+        "target_embed_dimension 256 instead of 1024",
+        "CPU FAISS (no --faiss_on_gpu)",
+        "BTAD mirrored into the MVTec layout by hard links"
+      ],
+      "support_budget": "exactly the K manifest images (the memory-bank directory contains only those K files) "
+    },
+    "controlled": {
+      "code": "scripts/unified_fusion_paper_support_v1",
+      "inference": "frozen encoders, exact 1-NN on the shared canvas",
+      "map_resolution": "grid x 14 (448x448 for MPDD/BTAD-01/02, 448x588 for BTAD-03)",
+      "protocol_note": "the reference for causal statements; the native rows are performance context only"
+    }
+  },
+  "comparability_warning": "the three groups differ in map resolution, post-processing and backbone; their metrics may be listed side by side but must not be merged into one causal comparison, and stride-8 numbers must never be ranked against these full-resolution numbers"
+}

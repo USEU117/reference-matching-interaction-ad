@@ -1,0 +1,70 @@
+{
+  "all_pass": true,
+  "checks": {
+    "duplicate_matches_weighted_pair": {
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "balanced_duplicate_matches_A1": {
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "common_permutation_A1_J": {
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "legacy_A1_faiss_real_patch_parity": {
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "A1_nonnegative_G": {
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    },
+    "balanced_duplicate_L_matches_A1_L": {
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06,
+      "pass": true
+    }
+  },
+  "engine": {
+    "requested_device": "cuda",
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 230,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 235520,
+    "reference_rows": 2048,
+    "branches": [
+      "B",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "C"
+    ],
+    "distance_blocks": 2,
+    "configs": [
+      "B",
+      "C",
+      "A1_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "cut": "no stride-8 historical AP baseline exists for BTAD in this repository; the independent legacy FAISS parity is used instead"
+}

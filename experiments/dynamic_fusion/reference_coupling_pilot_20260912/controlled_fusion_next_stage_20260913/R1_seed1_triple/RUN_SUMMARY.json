@@ -1,0 +1,57 @@
+{
+  "stage": "R1_seed1_triple",
+  "state": "completed",
+  "finished_utc": "2026-09-13T15:34:37+0800",
+  "acceptance": {
+    "seed1_units": 12,
+    "expected_units": 12,
+    "unit_invariants_all_pass": true,
+    "replicates_used_seed1": {
+      "2": 1000,
+      "4": 1000
+    },
+    "replicates_used_seed0": {
+      "2": 1000,
+      "4": 1000
+    },
+    "identity_gate_all_pass": true,
+    "pass": true
+  },
+  "detectors": [
+    "B",
+    "C",
+    "S",
+    "A1_J",
+    "TRI_J",
+    "BAL_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "A1_L",
+    "DUP_L",
+    "DUP_BAL_L",
+    "TRI_L",
+    "BAL_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75",
+    "TRI_lambda_0.25",
+    "TRI_lambda_0.50",
+    "TRI_lambda_0.75",
+    "BAL_lambda_0.25",
+    "BAL_lambda_0.50",
+    "BAL_lambda_0.75"
+  ],
+  "fair_contrasts": [
+    "TRI_J - DUP_J",
+    "TRI_L - DUP_L",
+    "BAL_J - A1_J",
+    "BAL_L - A1_L",
+    "A1_L - A1_J",
+    "DUP_L - DUP_J",
+    "TRI_L - TRI_J",
+    "BAL_L - BAL_J"
+  ],
+  "effect_scale": 0.005,
+  "note": "representation = family weight held fixed, copied B replaced by real S; matching = L minus J within one construction; interaction = AP-level controlled difference of differences, not the patch-level J=L+G decomposition"
+}

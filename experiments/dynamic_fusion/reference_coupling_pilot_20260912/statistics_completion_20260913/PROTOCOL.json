@@ -1,0 +1,116 @@
+{
+  "stage": "A",
+  "purpose": "complete seed-0 L/lambda paired statistics and independently verify the implementation",
+  "run_root": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\main_v2",
+  "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\statistics_completion_20260913",
+  "methods": [
+    "B",
+    "S",
+    "C",
+    "A1_J",
+    "TRI_J",
+    "BAL_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "A1_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75",
+    "TRI_L",
+    "TRI_lambda_0.25",
+    "TRI_lambda_0.50",
+    "TRI_lambda_0.75",
+    "BAL_L",
+    "BAL_lambda_0.25",
+    "BAL_lambda_0.50",
+    "BAL_lambda_0.75"
+  ],
+  "primary_methods": [
+    "B",
+    "S",
+    "C",
+    "A1_J",
+    "TRI_J",
+    "BAL_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J"
+  ],
+  "additional_methods": [
+    "A1_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75",
+    "TRI_L",
+    "TRI_lambda_0.25",
+    "TRI_lambda_0.50",
+    "TRI_lambda_0.75",
+    "BAL_L",
+    "BAL_lambda_0.25",
+    "BAL_lambda_0.50",
+    "BAL_lambda_0.75"
+  ],
+  "reference_method": "A1_J",
+  "uncertainty": "paired image-level bootstrap, reference seed 0 only; K2/K4 reported separately and never pooled as independent seeds",
+  "bootstrap_seed": 20260912,
+  "replicates": 1000,
+  "categories": [
+    "bracket_black",
+    "bracket_brown",
+    "bracket_white",
+    "connector",
+    "metal_plate",
+    "tubes"
+  ],
+  "shots": [
+    2,
+    4
+  ],
+  "category_order_for_sampling": [
+    "bracket_black",
+    "bracket_brown",
+    "bracket_white",
+    "connector",
+    "metal_plate",
+    "tubes"
+  ],
+  "rng": "numpy.random.default_rng([bootstrap_seed, shot, replicate_index])",
+  "resampling_unit": "image; a drawn image carries all of its stride-8 pixels, mask and label",
+  "metric": "pooled pixel AP/AUROC and image AP/AUROC per category, macro mean over the six categories",
+  "undefined_policy": "a category replicate with a single class yields NaN and is excluded from that metric's macro mean; the effective count is recorded, never zero-filled",
+  "effect_scale_macro_pixel_ap": 0.005,
+  "tolerances": {
+    "sklearn_and_explicit": 1e-12,
+    "point_estimate": 5e-06,
+    "old_checkpoint": 1e-10
+  },
+  "implementation_hashes": {
+    "analyze.py": "2897892eaf8f0ff2a08792a8d9d5a8200db807238ae9f945d383f1cec5f8742c",
+    "complete_statistics.py": "17ed0d275b00e8ac1a9bc39202929e1cfe80b9b88757ee40ebf012ecf9a1bdac"
+  },
+  "frozen_writers_untouched": [
+    "run.py",
+    "engine.py",
+    "diagnostics.py"
+  ],
+  "stop_conditions": [
+    "missing DONE.json or invariants_pass=false in any unit",
+    "checkpoint identity mismatch (refused, not merged)",
+    "replicate crash that is not a transient MemoryError"
+  ],
+  "source_files": {
+    "units\\s0_k2\\bracket_black\\DONE.json": "d4fea1f5eb5836a2beb4ec6392cb73561732e6b789b77ec40a47302e8778e4a0",
+    "units\\s0_k2\\bracket_brown\\DONE.json": "d02fe285db6701791a347813d9f0c54b8c7b7ca1245580c668bf62d314e9f47f",
+    "units\\s0_k2\\bracket_white\\DONE.json": "ae00b188d593ced25bbf759331bf01a389452d02f6760d25604f46f230b93079",
+    "units\\s0_k2\\connector\\DONE.json": "4f6e7d7fe37631e1e6e85ff06e958ea160ff3d79ae38a2e1a936f6aec6bf3f29",
+    "units\\s0_k2\\metal_plate\\DONE.json": "0fad7324badbde557cd45dba4ea7e00424d5ed33df3bd40f0e7011ec9823d28c",
+    "units\\s0_k2\\tubes\\DONE.json": "dfc8f5dc0fa60f307ae90dec96293a0281d41916cb79adb5f01fddd03e2b36d1",
+    "units\\s0_k4\\bracket_black\\DONE.json": "8fed4ff771043f30ff41f76f26560f3156c7587df125016359cfe95e6494780e",
+    "units\\s0_k4\\bracket_brown\\DONE.json": "f2f70c6b2798ac73f7b4c136f145a7954a58842cf54d8b1ff12aa37944c687dd",
+    "units\\s0_k4\\bracket_white\\DONE.json": "dbcea5c228ac7b2e0204297729a82352479330d80bd57b9b58a4e2de93a346ff",
+    "units\\s0_k4\\connector\\DONE.json": "0431c6aab352f39e45e7408f9fc122f8106c42a3e43bdfeedd51ae52e253b213",
+    "units\\s0_k4\\metal_plate\\DONE.json": "1f19fd34b5c6404a05b7bf6cf97fa92ce305f2cc4325b1f38b801ed8cc5f1580",
+    "units\\s0_k4\\tubes\\DONE.json": "9f0ecf44f8fd21bb96eb382c66599e1e6400343bdfc23642773faf0d347ca402"
+  }
+}

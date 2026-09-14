@@ -1,0 +1,67 @@
+﻿[S0c] s0 K1 rev_correct: 8 methods, 1845.3s
+[S0c] s0 K2 rev_correct: 8 methods, 1851.0s
+[S0c] s0 K4 rev_correct: 8 methods, 1849.5s
+[S0c] s0 K8 rev_correct: 8 methods, 1852.4s
+[S0c] s1 K1 rev_correct: 8 methods, 1843.8s
+[S0c] s1 K2 rev_correct: 8 methods, 1844.4s
+[S0c] s1 K4 rev_correct: 8 methods, 1088.6s
+[S0c] s1 K8 rev_correct: 8 methods, 1091.3s
+[S0c] s0 K4 rev_study: 8 methods, 1091.6s
+[S0c] verification s0k4: max abs diff 1.793497603241878e-05
+{
+  "conditions": 8,
+  "verification": {
+    "condition": "s0k4",
+    "revision": "rev_study",
+    "comparison": "recomputed category-03 column vs the study's stored column",
+    "max_abs_diff": 1.793497603241878e-05,
+    "per_method_max_abs_diff": {
+      "A1_J": 4.91825009496516e-07,
+      "DUP_J": 1.50948745247792e-06,
+      "TRI_J": 2.7867690977068094e-07,
+      "BAL_J": 1.4808250549114277e-06,
+      "A1_L": 6.35375487445522e-07,
+      "DUP_L": 5.170465423587345e-07,
+      "TRI_L": 1.5888776494499268e-07,
+      "BAL_L": 1.793497603241878e-05
+    },
+    "tolerance": 1e-10,
+    "reproduced": false
+  }
+}
+[S1] mpdd/study I_TRI pixel_ap: point=0.007721134215031747 mean=0.007624 ci95=[0.004255, 0.011182]
+[S1] mpdd/study I_BAL pixel_ap: point=0.005954790261502886 mean=0.006154 ci95=[0.003216, 0.009271]
+[S1] mpdd/study I_TRI pixel_auroc: point=0.0019567842944636185 mean=0.001951 ci95=[0.001624, 0.002323]
+[S1] mpdd/study I_BAL pixel_auroc: point=0.0012218352168910191 mean=0.001215 ci95=[0.000918, 0.001524]
+[S1] btad/study I_TRI pixel_ap: point=-0.00047796160378309194 mean=-0.000197 ci95=[-0.001923, 0.001922]
+[S1] btad/study I_BAL pixel_ap: point=-0.0011688266450667617 mean=-0.000873 ci95=[-0.002578, 0.001095]
+[S1] btad/study I_TRI pixel_auroc: point=6.175276569519994e-05 mean=0.000072 ci95=[-0.000155, 0.000296]
+[S1] btad/study I_BAL pixel_auroc: point=-5.865102757837692e-06 mean=0.000003 ci95=[-0.000197, 0.000199]
+[S1] btad/corrected I_TRI pixel_ap: point=-0.0004962528649813114 mean=-0.000207 ci95=[-0.001923, 0.001861]
+[S1] btad/corrected I_BAL pixel_ap: point=-0.0011939279267075692 mean=-0.000895 ci95=[-0.002647, 0.001098]
+[S1] btad/corrected I_TRI pixel_auroc: point=None mean=0.000066 ci95=[-0.000161, 0.000291]
+[S1] btad/corrected I_BAL pixel_auroc: point=None mean=-0.000001 ci95=[-0.000202, 0.000197]
+{
+  "created_utc": "2026-09-14T07:24:30.351101+00:00",
+  "rows": 60,
+  "interactions": 6,
+  "max_form_abs_difference": 0.0,
+  "close_reconciliation_rows": 16,
+  "close_max_abs_diff": 0.0,
+  "effect_scale": 0.005,
+  "family_ci": 0.9875
+}
+python.exe : Traceback (most recent call last):
+At line:15 char:3318
++ ... TCODE ==="; & ".\.venv-anomalyclip\Scripts\python.exe" scripts\repres ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s2_robustness.py", line 462
+, in <module>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s2_robustness.py", line 337
+, in main
+    "difference": s1["point_delta"] - (s8["mean_delta"] or 0.0),
+TypeError: unsupported operand type(s) for -: 'float' and 'str'

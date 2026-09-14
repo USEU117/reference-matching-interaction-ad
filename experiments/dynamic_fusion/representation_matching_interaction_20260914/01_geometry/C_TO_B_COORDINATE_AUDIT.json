@@ -1,0 +1,156 @@
+{
+  "created_utc": "2026-09-14T03:53:06.212712+00:00",
+  "current_implementation": {
+    "where": "engine_v2._align_patches -> F.interpolate(bilinear, align_corners=False)",
+    "assumption": "the CLIP 37x37 grid and B's canvas cover the same normalised extent, which is the approximate normalised alignment",
+    "variant_name": "c_regrid_approx"
+  },
+  "corrected_implementation": {
+    "rule": "canvas column c covers original x in [c/grid_w, (c+1)/grid_w] * ratio of the image width, so the CLIP grid coordinate of a canvas column centre is ((c+0.5)/grid_w) * ratio * 37 - 0.5",
+    "variant_name": "c_regrid_coordinate_correct"
+  },
+  "records": [
+    {
+      "dataset": "btad",
+      "category": "03",
+      "grid": [
+        32,
+        42
+      ],
+      "c_side": 37,
+      "x_extent_ratio": 0.9849246231155779,
+      "canvas_covers_full_width": false,
+      "max_shift_original_px": 11.916726489590701,
+      "samples": [
+        {
+          "canvas_col": 0,
+          "c_grid_coord_approx": -0.059523809523809534,
+          "c_grid_coord_corrected": -0.06616415410385262,
+          "shift_in_c_cells": -0.006640344580043089,
+          "shift_in_original_px": -0.1435750179468776
+        },
+        {
+          "canvas_col": 21,
+          "c_grid_coord_approx": 18.44047619047619,
+          "c_grid_coord_corrected": 18.15494137353434,
+          "shift_in_c_cells": -0.28553481694185123,
+          "shift_in_original_px": -6.173725771715702
+        },
+        {
+          "canvas_col": 41,
+          "c_grid_coord_approx": 36.05952380952381,
+          "c_grid_coord_corrected": 35.50837520938024,
+          "shift_in_c_cells": -0.5511486001435699,
+          "shift_in_original_px": -11.916726489590701
+        }
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "category": "bracket_black",
+      "grid": [
+        32,
+        32
+      ],
+      "c_side": 37,
+      "x_extent_ratio": 1.0,
+      "canvas_covers_full_width": true,
+      "max_shift_original_px": 0.0,
+      "samples": [
+        {
+          "canvas_col": 0,
+          "c_grid_coord_approx": 0.078125,
+          "c_grid_coord_corrected": 0.078125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 16,
+          "c_grid_coord_approx": 18.578125,
+          "c_grid_coord_corrected": 18.578125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 31,
+          "c_grid_coord_approx": 35.921875,
+          "c_grid_coord_corrected": 35.921875,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "btad",
+      "category": "01",
+      "grid": [
+        32,
+        32
+      ],
+      "c_side": 37,
+      "x_extent_ratio": 1.0,
+      "canvas_covers_full_width": true,
+      "max_shift_original_px": 0.0,
+      "samples": [
+        {
+          "canvas_col": 0,
+          "c_grid_coord_approx": 0.078125,
+          "c_grid_coord_corrected": 0.078125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 16,
+          "c_grid_coord_approx": 18.578125,
+          "c_grid_coord_corrected": 18.578125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 31,
+          "c_grid_coord_approx": 35.921875,
+          "c_grid_coord_corrected": 35.921875,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "mpdd",
+      "category": "tubes",
+      "grid": [
+        32,
+        32
+      ],
+      "c_side": 37,
+      "x_extent_ratio": 1.0,
+      "canvas_covers_full_width": true,
+      "max_shift_original_px": 0.0,
+      "samples": [
+        {
+          "canvas_col": 0,
+          "c_grid_coord_approx": 0.078125,
+          "c_grid_coord_corrected": 0.078125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 16,
+          "c_grid_coord_approx": 18.578125,
+          "c_grid_coord_corrected": 18.578125,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        },
+        {
+          "canvas_col": 31,
+          "c_grid_coord_approx": 35.921875,
+          "c_grid_coord_corrected": 35.921875,
+          "shift_in_c_cells": 0.0,
+          "shift_in_original_px": 0.0
+        }
+      ]
+    }
+  ],
+  "verdict": "for the square datasets the ratio is 1 and both variants coincide; for BTAD-03 the ratio is 588/597, so the approximate variant is shifted by up to about 0.55 CLIP cells (~12 original px) at the right edge",
+  "policy": "both variants are produced for BTAD-03 and both are kept; the coordinate-correct variant is the primary one for the interaction analysis"
+}

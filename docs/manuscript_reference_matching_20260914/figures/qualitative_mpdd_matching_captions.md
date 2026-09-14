@@ -1,0 +1,9 @@
+# Qualitative A1 matching captions
+
+**Figure X.** Qualitative MPDD examples comparing the shared-reference-row construction A1_J with the independent-reference-row construction A1_L. Cases were selected from the frozen seed 0, K = 4 closeout performance rows by the extreme stored per-image Pixel-AP change (A1_L minus A1_J), with three improvements and two degradations. Each row shows the query, the ground-truth mask for visual reference, the two continuous anomaly heatmaps on one shared per-case min–max color range, an L contour obtained only for visualization by 256-bin Otsu thresholding, and the same GT-defined local crop enlarged below. AP values are stored stride-8 per-image Pixel-AP values; the selected examples illustrate conditional behavior and are not a universal category-level rule.
+
+ROI rule: resize the GT mask to the 448 × 448 evaluation canvas, take its bounding box, form a square with side clamp(1.8 × max(width, height), 96, 260), clip to the canvas, and apply that identical rectangle to all five full-view panels. The GT is used for this visualization crop and for the stored AP evaluation only; it is never used to create the predicted L contour.
+
+Contour note: for each case, J and L are normalized with the same min–max range computed over the full continuous 448 × 448 maps after bilinear resize and Gaussian smoothing (sigma = 4). L is quantized to 256 bins, Otsu's between-class variance chooses the smallest maximizing bin, and the displayed cyan line traces L_norm ≥ threshold. This line is visualization-only and is not a calibrated detector output.
+
+Source and selection audit: `experiments/dynamic_fusion/paper_evidence_closeout_20260914/03_paper/fig5_selection.csv`, `fig5_selection_candidates.csv`, and the 2026-09-14 `04_new_encoder/units/mpdd_s0_k4/*__study/` caches. The raster figures contain local benchmark images and should remain local-only.

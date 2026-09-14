@@ -1,0 +1,109 @@
+{
+  "stage": "R1_seed1_triple",
+  "seed": 1,
+  "branches": [
+    "B",
+    "C",
+    "S"
+  ],
+  "dataset": "mpdd",
+  "dataset_role": "development",
+  "categories": [
+    "bracket_black",
+    "bracket_brown",
+    "bracket_white",
+    "connector",
+    "metal_plate",
+    "tubes"
+  ],
+  "shots": [
+    2,
+    4
+  ],
+  "detectors": [
+    "B",
+    "C",
+    "S",
+    "A1_J",
+    "TRI_J",
+    "BAL_J",
+    "DUP_J",
+    "DUP_BAL_J",
+    "DUP_EXPECTED_J",
+    "A1_L",
+    "DUP_L",
+    "DUP_BAL_L",
+    "TRI_L",
+    "BAL_L",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75",
+    "TRI_lambda_0.25",
+    "TRI_lambda_0.50",
+    "TRI_lambda_0.75",
+    "BAL_lambda_0.25",
+    "BAL_lambda_0.50",
+    "BAL_lambda_0.75"
+  ],
+  "weights": {
+    "A1_J": {
+      "B": 0.5,
+      "C": 0.5
+    },
+    "TRI_J": {
+      "B": 0.3333333333333333,
+      "S": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "BAL_J": {
+      "B": 0.25,
+      "S": 0.25,
+      "C": 0.5
+    },
+    "DUP_J": {
+      "B": 0.3333333333333333,
+      "Bcopy": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "DUP_BAL_J": {
+      "B": 0.25,
+      "Bcopy": 0.25,
+      "C": 0.5
+    },
+    "DUP_EXPECTED_J": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    },
+    "DUP_L": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    },
+    "TRI_L": {
+      "B": 0.3333333333333333,
+      "S": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "BAL_L": {
+      "B": 0.25,
+      "S": 0.25,
+      "C": 0.5
+    }
+  },
+  "cache_policy": "canonical K4 query and reference; K2 uses the first two K4 references",
+  "postprocess": "448 bilinear then gaussian sigma4; image max; stride-8 evaluation",
+  "sources": {
+    "B": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_vitb14_s1_k4\\anomalydino_visual",
+    "C": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\features_s1_k4\\anomalyclip_text",
+    "S": "D:\\STUDY\\My_github\\sci_project\\outputs\\validation_handoff_20260911\\DINO_S\\s1_k4",
+    "gate": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\controlled_fusion_next_stage_20260913\\R0_diagnostics\\AUDIT_IDENTITY_GATE.json",
+    "gate_sha256": "ead4e707b9c1865324dd7e207380e0e9b3ce163119663f33142c193113359dc4"
+  },
+  "code_hashes": {
+    "engine.py": "f12b6a03185dd1d4a3f423b69aefc22e994ca9c8682a12e988785a86526f175e",
+    "diagnostics.py": "b7c104f0d1ffcc08a56632774ea0dce4a126b5e5e91e74aba7c06ed1f467ada0",
+    "complete_statistics.py": "17ed0d275b00e8ac1a9bc39202929e1cfe80b9b88757ee40ebf012ecf9a1bdac",
+    "replicate_seed1_bc.py": "5d7669379b24120b60986d791e876141c0060d9b84299f39eb47c4f486e0b0fa",
+    "run_seed1_triple.py": "a644d1420a285a96ff83145d569b29ba436c3264bbb77e15c3c9348fd3598cd0"
+  },
+  "created_utc": "2026-09-13T13:01:40+0800"
+}

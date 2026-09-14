@@ -1,0 +1,19 @@
+{
+  "stage": "R0_diagnostics",
+  "template_files_never_written": [
+    "PROTOCOL.json",
+    "STATUS.json",
+    "RUN_SUMMARY.json",
+    "FAILURES.json",
+    "ARTIFACT_MANIFEST.json"
+  ],
+  "reason": "R0 was produced by the previous round's diagnostics entry point before the hand-over artifact template was introduced; those files were not written at run time and are not retro-fitted here.",
+  "where_the_state_lives": [
+    "AUDIT_IDENTITY_GATE.json (identity gate, all_pass=true)",
+    "verification.json (cross-checks against the frozen review records)",
+    "REPORT_CN.md (interpretation and limitations)",
+    "class_mechanism*.csv / leave_one_category_out.csv / image_flip.csv / g_region_*.csv / fair_contrasts.csv / visualization_selection_rules.json"
+  ],
+  "companion_entry_point": "scripts/reference_coupling_pilot_v1/next_stage_diagnostics.py",
+  "written_utc": "2026-09-13T15:37:55+0800"
+}

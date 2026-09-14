@@ -1,0 +1,106 @@
+{
+  "source": "R/p4_fullpixel/stride1_vs_stride8.csv",
+  "n_contrasts": 180,
+  "n_sign_reversals": 9,
+  "n_reversals_above_effect_scale": 1,
+  "effect_scale": 0.005,
+  "reversals": [
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "contrast": "TRI_L - DUP_L",
+      "stride8_point_delta": 0.0025267508434269614,
+      "stride1_point_delta": -0.002599857130626604,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 2,
+      "contrast": "TRI_L - DUP_L",
+      "stride8_point_delta": 0.00010993411602500114,
+      "stride1_point_delta": -0.0012035607728587694,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 4,
+      "contrast": "BAL_L - A1_L",
+      "stride8_point_delta": 0.002473668352970748,
+      "stride1_point_delta": -0.001314834742893789,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 1,
+      "shot": 8,
+      "contrast": "TRI_J - DUP_J",
+      "stride8_point_delta": 0.0012642491806015843,
+      "stride1_point_delta": -0.006446326701943728,
+      "both_below_effect_scale": false,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 1,
+      "contrast": "BAL_L - A1_L",
+      "stride8_point_delta": 0.00018808054578856037,
+      "stride1_point_delta": -0.0013431010493402673,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 2,
+      "contrast": "TRI_L - DUP_L",
+      "stride8_point_delta": 0.0018319624125870404,
+      "stride1_point_delta": -0.0010433409743392241,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 2,
+      "contrast": "BAL_L - A1_L",
+      "stride8_point_delta": 0.00192662404803301,
+      "stride1_point_delta": -0.002613366564709285,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 4,
+      "contrast": "TRI_J - DUP_J",
+      "stride8_point_delta": 0.0026179320637526593,
+      "stride1_point_delta": -0.0048217264426604345,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 2,
+      "shot": 4,
+      "contrast": "BAL_L - A1_L",
+      "stride8_point_delta": 0.0019084941797135602,
+      "stride1_point_delta": -0.0019932827822228827,
+      "both_below_effect_scale": true,
+      "restricted_to": "secondary_contrast"
+    }
+  ],
+  "main_conclusion_contrasts": [
+    "A1_L - A1_J",
+    "DUP_J - A1_J"
+  ],
+  "main_conclusion_reversals": [],
+  "required_wording": "全像素只支持主结论的方向（A1 匹配效应与权重控制在 stride-1 上同号且同量级）。表示替换家族中存在一处达到实用尺度的方向反转（MPDD seed1 K8 的 TRI_J−DUP_J），因此不能写「所有方向完全一致」；该反例必须写入正文。",
+  "note": "stride-8 carries the inferential statistics; stride-1 is a point-estimate robustness check with no intervals"
+}

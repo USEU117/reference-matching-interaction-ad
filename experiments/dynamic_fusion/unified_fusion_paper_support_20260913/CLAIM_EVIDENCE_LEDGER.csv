@@ -1,0 +1,10 @@
+﻿claim_id,topic,planned_claim,existing_evidence,development_or_posthoc,missing_experiment,allowed_wording,observed_result
+C1,weight_control,把 B 家族权重从 1/2 提到 2/3（DUP_J）在 MPDD 六类上为负效应,MPDD doc 已有 seed0/1 K2/K4；新 K1/K8 与 seed2 待补,development,P1 主矩阵 + 跨K统计,可写：在所测条件下方向为负且区间多数不含零；不可写：等于「融合分支越多越差」,"MPDD DUP_J−A1_J 平均 -0.00752，区间 [-0.01337, -0.00147]"
+C2,representation_swap,在相同家族权重下用真实 S 替换复制的 B（TRI−DUP、BAL−A1）的效应,MPDD doc 已有 seed0/1 K2/K4 区间多数跨零,development,P1 主矩阵 + 跨K统计,可写：不确定/条件性；不可写：第三分支无用或必然有益,MPDD 四个端点点估计 |Δ|≤0.005 且平均区间均含零（不确定）；BTAD 四个端点全为正、多数区间不含零 → 数据集条件性结论
+C3,matching_effect,同权重同参考库下 M(L)−M(J) 为正（独立选参考优于共同选参考）,MPDD/BTAD doc 已有部分条件不含零,development/holdout,P1 主矩阵 + 跨K统计（正确配对）,可写：在所测条件平均为正；不可写：普遍成立或首次提出,MPDD A1_L−A1_J 平均 0.00637；BTAD 0.00844（两侧平均区间均不含零）
+C4,support_budget,匹配效应随 K 变化,无：K 只有 2/4,development,P1 的 K1/K2/K4/K8 曲线,可写：报告曲线；只有稳定单调或多seed一致时才写预算规律,"K=1,2,4,8 完整曲线已报告；无稳定单调规律。预注册的 K8−K1 匹配效应差：MPDD 区间含零，BTAD 略为负 → 不宣称预算规律"
+C5,category_condition,效应大小依赖类别组成（connector 等），需要留一类别与逐类报告,R0 已有类别差值与留一；需在完整K曲线与正确配对上重做,development,P2,可写：适用条件；不可写：各类别普遍获益,逐类与留一类别表见 p2_conditions
+C6,defect_condition,按缺陷面积分组（≤0.1%、0.1%-1%、>1%）描述效应与排序变化,无,development,P2,可写：描述性分组结论，少于10张异常图的组不作稳定结论,缺陷面积分组见 p2_conditions/defect_size_contrasts.csv
+C7,full_pixel,关键效应在 stride=1 全像素点估计上方向保持,R2 已有 seed0/1 K2/K4,development,P4（新 seed/K + BTAD 补点估计）,可写：方向保持/反转；不可写：全像素显著（未做全像素区间）,"全像素点估计 96 单元 x 13 方法已完成，与 stride-8 方向大体一致；仅 1 项对照（MPDD seed1 K8, TRI_J−DUP_J）在实用尺度上反向，已单列；全像素无配对区间"
+C8,external,结论不止在 MPDD：BTAD 01/02/03 三类完整复核,R3 只有 01/02 且无 S,holdout(已知数据集),P3,可写：已知数据集上的冻结复核；不可写：首次未见数据验证,BTAD 三类完整复核见 p3_external
+C9,native_reference,原生 AnomalyDINO 与标准记忆库基线的实际性能参照,validation_handoff E1/E3 已有来源,development,P4 复用 + 受控对照分表,可写：实际性能上下文；不可写：同条件因果对照混淆原生与匹配管线,原生/基线参照见 p5_paper/table2_main_performance.csv

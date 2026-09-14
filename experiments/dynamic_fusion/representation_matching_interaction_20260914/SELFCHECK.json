@@ -1,0 +1,362 @@
+{
+  "checks": 71,
+  "passed": 71,
+  "failed": [],
+  "results": [
+    {
+      "check": "all required artefacts exist",
+      "passed": true,
+      "detail": "41 present"
+    },
+    {
+      "check": "FAILURES.json is an empty array (no hidden failures)",
+      "passed": true,
+      "detail": "value=[]"
+    },
+    {
+      "check": "only BTAD-03 differs from the canonical ground truth",
+      "passed": true,
+      "detail": "differing units=[('s0', '03'), ('s1', '03')]"
+    },
+    {
+      "check": "every square-geometry unit is bit-identical to the canonical ground truth",
+      "passed": true,
+      "detail": "checked=6"
+    },
+    {
+      "check": "the GT audit covers every image and only normal images lack a mask",
+      "passed": true,
+      "detail": "rows=1482/1482 no-mask=902/902"
+    },
+    {
+      "check": "BTAD-03 canvas is 448x588 and the x extent ratio is recorded",
+      "passed": true,
+      "detail": "ratio = 588/597"
+    },
+    {
+      "check": "S0b: the study revision replays within tolerance",
+      "passed": true,
+      "detail": "max score diff=7.748603820800781e-07"
+    },
+    {
+      "check": "S0b: stride-8 metric replay agrees to <=1e-5",
+      "passed": true,
+      "detail": "rows=208 max=5.51e-07"
+    },
+    {
+      "check": "S0b: stride-1 metric replay agrees to <=1e-5",
+      "passed": true,
+      "detail": "rows=64 max=3.09e-08"
+    },
+    {
+      "check": "S0b: four geometry revisions x 8 BTAD-03 units x 13 methods",
+      "passed": true,
+      "detail": "revisions=4 rows=544 methods=13"
+    },
+    {
+      "check": "S0c: category-03 column reproduces within the documented tolerance",
+      "passed": true,
+      "detail": "max=1.793497603241878e-05 tol=0.0001"
+    },
+    {
+      "check": "S0c: the replay residue is far below the practical scale",
+      "passed": true,
+      "detail": "residue/scale=0.36%"
+    },
+    {
+      "check": "S1: six interaction rows (2 datasets x 2 contrasts, BTAD twice)",
+      "passed": true,
+      "detail": "rows=6"
+    },
+    {
+      "check": "S1: both algebraic forms agree exactly",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: the family interval contains the exploratory interval",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: the point estimate lies inside the exploratory interval",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: MPDD uses 12 conditions and BTAD 8",
+      "passed": true,
+      "detail": "{('mpdd', 'study'): 12, ('btad', 'study'): 8, ('btad', 'corrected'): 8}"
+    },
+    {
+      "check": "S1: MPDD interactions are positive and exclude zero",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: BTAD interactions include zero",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: MPDD reaches the practical scale, BTAD does not",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S1: unchanged-revision contrasts reproduce the CLOSE aggregates",
+      "passed": true,
+      "detail": "rows=16 max=0.00e+00"
+    },
+    {
+      "check": "S2: no sign flip between stride-1 and stride-8",
+      "passed": true,
+      "detail": "rows=6"
+    },
+    {
+      "check": "S2: mpdd per-category I_TRI averages to the macro interaction",
+      "passed": true,
+      "detail": "percat mean=0.007624 macro=0.007624"
+    },
+    {
+      "check": "S2: btad per-category I_TRI averages to the macro interaction",
+      "passed": true,
+      "detail": "percat mean=-0.000207 macro=-0.000207"
+    },
+    {
+      "check": "S2: the leave-one-out flip is confined to BTAD (MPDD has none)",
+      "passed": true,
+      "detail": "[('btad', 'I_TRI')]"
+    },
+    {
+      "check": "S2: mpdd seed-averaged K curve averages to the macro interaction",
+      "passed": true,
+      "detail": "K mean=0.007624 macro=0.007624"
+    },
+    {
+      "check": "S2: btad seed-averaged K curve averages to the macro interaction",
+      "passed": true,
+      "detail": "K mean=-0.000207 macro=-0.000207"
+    },
+    {
+      "check": "S2: the BTAD K curve changes sign (K1/K2 positive, K4/K8 negative)",
+      "passed": true,
+      "detail": "[0.00199, 0.00092, -0.00142, -0.00232]"
+    },
+    {
+      "check": "S2: the pre-fixed case rule yields 8 cases (2 datasets x 2 interactions x 2 roles)",
+      "passed": true,
+      "detail": "rows=8"
+    },
+    {
+      "check": "S3: six new-encoder interaction rows",
+      "passed": true,
+      "detail": "rows=6"
+    },
+    {
+      "check": "S3: every primary new-encoder interaction is positive and excludes zero",
+      "passed": true,
+      "detail": "{\"mpdd|study|I_TRI_D\": 0.0102, \"mpdd|study|I_BAL_D\": 0.00686, \"btad|corrected|I_TRI_D\": 0.00631, \"btad|corrected|I_BAL_D\": 0.00524}"
+    },
+    {
+      "check": "S3: the point estimates were rebuilt (no nulls left)",
+      "passed": true,
+      "detail": "{\"mpdd|study|I_TRI_D\": 0.009736654303729997, \"mpdd|study|I_BAL_D\": 0.006284159533464229, \"btad|corrected|I_TRI_D\": 0.0062192514187020265, \"btad|corrected|I_BAL_D\": 0.005012147241435255, \"btad|study|I_TRI_D\": 0.006042209414347438, \"btad|study|I_BAL_D\": 0.004511515937853761}"
+    },
+    {
+      "check": "S3: 36 in-scope units recorded plus 12 sensitivity rows, none failed",
+      "passed": true,
+      "detail": "rows=48"
+    },
+    {
+      "check": "S3: 240 new D method conditions",
+      "passed": true,
+      "detail": "rows=240"
+    },
+    {
+      "check": "S4: 72 baseline conditions with no duplicates, no gaps",
+      "passed": true,
+      "detail": "{\"target_conditions\": \"72\", \"duplicate_keys\": \"0\", \"missing_keys\": \"0\", \"baseline_rows_matched\": \"72\"}"
+    },
+    {
+      "check": "S4: category-level metrics reproduce every macro",
+      "passed": true,
+      "detail": "16/16"
+    },
+    {
+      "check": "S4: the common frame carries PatchCore (two configs), AnomalyDINO canvas and controls",
+      "passed": true,
+      "detail": "methods=['AnomalyDINO_native_canvas', 'PatchCore_native_local128', 'PatchCore_native_official224', 'controlled_A1_J', 'controlled_A1_L']"
+    },
+    {
+      "check": "S4: BTAD-03 common-frame rows use the 448x588 canvas",
+      "passed": true,
+      "detail": "rows=12"
+    },
+    {
+      "check": "S4: the official PatchCore configuration completed every unit",
+      "passed": true,
+      "detail": "units=8"
+    },
+    {
+      "check": "S5: five sources verified, none left at abstract level",
+      "passed": true,
+      "detail": "rows=5"
+    },
+    {
+      "check": "S5: the Sea-CLIP correction is recorded as refuted, with a quote",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S5: every claim separates run status from hypothesis support",
+      "passed": true,
+      "detail": "rows=15"
+    },
+    {
+      "check": "S5: fig2_effects_and_interaction.png rendered",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "S5: fig3_interaction_conditioned.png rendered",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "read-only inputs were not written during this delivery",
+      "passed": true,
+      "detail": "0 files under R/CLOSE/canonical"
+    },
+    {
+      "check": "closure/statistics: the per-K stride-8 column is a seed average, not the last seed",
+      "passed": true,
+      "detail": "rows=24"
+    },
+    {
+      "check": "closure/statistics: MPDD per-K rows declare all three seeds",
+      "passed": true,
+      "detail": "seed counts={'3'}"
+    },
+    {
+      "check": "closure/statistics: the stride comparison is point versus point",
+      "passed": true,
+      "detail": "rows=6"
+    },
+    {
+      "check": "closure/fullpixel-new-branch: every unit evaluated at stride 1",
+      "passed": true,
+      "detail": "units=48"
+    },
+    {
+      "check": "closure/fullpixel-new-branch: the A1 controls reproduce the study full-pixel table",
+      "passed": true,
+      "detail": "max diff=2.31e-07"
+    },
+    {
+      "check": "closure/fullpixel-new-branch: all four D interactions stay positive at stride 1",
+      "passed": true,
+      "detail": "{\"mpdd/study/I_TRI_D\": 0.01033, \"mpdd/study/I_BAL_D\": 0.00694, \"btad/corrected/I_TRI_D\": 0.00624, \"btad/corrected/I_BAL_D\": 0.00496, \"btad/study/I_TRI_D\": 0.00598, \"btad/study/I_BAL_D\": 0.00437}"
+    },
+    {
+      "check": "closure/encoder-difference: the S-vs-D interaction difference is tested, paired",
+      "passed": true,
+      "detail": "rows=4"
+    },
+    {
+      "check": "closure/encoder-difference: the reportable direction matches the intervals",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "closure/baseline-region: anomalydino_canvas completed with no failures",
+      "passed": true,
+      "detail": "failures=0 maps=36"
+    },
+    {
+      "check": "closure/baseline-region: anomalydino_canvas_rotation completed with no failures",
+      "passed": true,
+      "detail": "failures=0 maps=36"
+    },
+    {
+      "check": "closure/baseline-region: the instrumented canvas run has synchronised stage timings",
+      "passed": true,
+      "detail": "rows=36"
+    },
+    {
+      "check": "closure/baseline-cost: PatchCore re-run carries a measured peak RAM per unit",
+      "passed": true,
+      "detail": "units=8"
+    },
+    {
+      "check": "closure/baseline-cost: the instrumented re-run reproduces the recorded metrics",
+      "passed": true,
+      "detail": "{\"created_utc\": \"2026-09-14T09:53:10.489157+00:00\", \"units_compared\": 8, \"identical\": true, \"per_unit\": {\"btad_s0_k1\": {\"before_md5\": \"8e9f50c9b401e0cd82311f009"
+    },
+    {
+      "check": "closure/common-region: every unit evaluated on the shared region",
+      "passed": true,
+      "detail": "units=36"
+    },
+    {
+      "check": "closure/common-region: PatchCore is no longer stretched across the canvas",
+      "passed": true,
+      "detail": "{\"btad\": {\"mean\": 0.7049425708699902, \"min\": 0.5835777126099707, \"max\": 0.765625}, \"mpdd\": {\"mean\": 0.765625, \"min\": 0.765625, \"max\": 0.765625}}"
+    },
+    {
+      "check": "closure/common-region: the rotation-enabled AnomalyDINO is in the same coordinate system",
+      "passed": true,
+      "detail": "['PatchCore_native_local128', 'PatchCore_native_official224', 'anomalydino_canvas', 'anomalydino_canvas_rotation', 'controlled_A1_J', 'controlled_A1_L']"
+    },
+    {
+      "check": "closure/common-region: the rectangle rules are recorded per unit",
+      "passed": true,
+      "detail": "units=36"
+    },
+    {
+      "check": "closure/cost: every row states how it was measured",
+      "passed": true,
+      "detail": "rows=59"
+    },
+    {
+      "check": "closure/cost: the remaining gaps are written down, not hidden",
+      "passed": true,
+      "detail": "gaps=4"
+    },
+    {
+      "check": "closure/claims: the new closure results have their own claims",
+      "passed": true,
+      "detail": "ids=['B1', 'B2', 'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9', 'L1', 'L2', 'L3', 'L4']"
+    },
+    {
+      "check": "manuscript: the multi-view neighbourhood line is in the delivery as its own table",
+      "passed": true,
+      "detail": "sources=['SCoNE (AAAI-26 / arXiv)', 'MUVAD (AAAI-19)', 'Neighborhood Consensus Networks (AAAI-21)', 'ECMOD (DASFAA-23)']"
+    },
+    {
+      "check": "manuscript: encoder comparison is revision- and scope-matched",
+      "passed": true,
+      "detail": "rows=8"
+    },
+    {
+      "check": "manuscript: the encoder difference table carries its own point estimates",
+      "passed": true,
+      "detail": "{\"mpdd|I_TRI_D - I_TRI\": 0.00264, \"mpdd|I_BAL_D - I_BAL\": 0.00075, \"btad|I_TRI_D - I_TRI\": 0.00616, \"btad|I_BAL_D - I_BAL\": 0.00575}"
+    },
+    {
+      "check": "manuscript: the updated outline exists",
+      "passed": true,
+      "detail": "新主题论文详细提纲_导师审阅版_20260914_更新版.docx 64732 bytes"
+    },
+    {
+      "check": "manuscript: the updated outline replaces the pending wording with results",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "manuscript: the teacher-reviewed original was not overwritten",
+      "passed": true,
+      "detail": "original document.xml 110213 chars, updated 125831 chars"
+    }
+  ]
+}

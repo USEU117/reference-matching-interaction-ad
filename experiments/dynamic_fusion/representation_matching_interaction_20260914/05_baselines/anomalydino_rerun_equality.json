@@ -1,0 +1,72 @@
+{
+  "created_utc": "2026-09-14T09:34:17.529251+00:00",
+  "variants": {
+    "anomalydino_canvas": {
+      "status": "compared",
+      "rows": 36,
+      "identical_rows": 0,
+      "metric_columns_compared": [
+        "pixel_ap",
+        "pixel_auroc",
+        "pixel_ap_stride8",
+        "pixel_auroc_stride8",
+        "image_image_auroc",
+        "image_image_ap"
+      ],
+      "timing_columns_excluded": [
+        "memory_bank_s",
+        "scoring_s",
+        "s_per_image",
+        "evaluation_s",
+        "wall_clock_s",
+        "peak_gpu_mb",
+        "peak_ram_mb"
+      ],
+      "max_abs_diff_by_metric": {
+        "pixel_ap": 8.855369779958711e-07,
+        "pixel_auroc": 6.742773828172233e-08,
+        "pixel_ap_stride8": 1.5944020094194045e-06,
+        "pixel_auroc_stride8": 9.538700806999145e-08
+      },
+      "text_mismatches": [],
+      "exactly_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    },
+    "anomalydino_canvas_rotation": {
+      "status": "compared",
+      "rows": 36,
+      "identical_rows": 0,
+      "metric_columns_compared": [
+        "pixel_ap",
+        "pixel_auroc",
+        "pixel_ap_stride8",
+        "pixel_auroc_stride8",
+        "image_image_auroc",
+        "image_image_ap"
+      ],
+      "timing_columns_excluded": [
+        "memory_bank_s",
+        "scoring_s",
+        "s_per_image",
+        "evaluation_s",
+        "wall_clock_s",
+        "peak_gpu_mb",
+        "peak_ram_mb"
+      ],
+      "max_abs_diff_by_metric": {
+        "pixel_ap": 5.023075329568805e-07,
+        "pixel_auroc": 6.752170522705825e-08,
+        "pixel_ap_stride8": 4.2639619851625454e-07,
+        "pixel_auroc_stride8": 1.2362420176437183e-07
+      },
+      "text_mismatches": [],
+      "exactly_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    }
+  },
+  "tolerance": 1e-05,
+  "identical": true,
+  "note": "the second pass exists only to populate the host peak-RAM column.  Every metric column that existed in the first pass is compared: the DINOv2 forward pass on CUDA is not bitwise reproducible, so agreement is at float32 round-off (tolerance 1e-05) rather than exactly zero, and the measured difference is recorded per metric"
+}

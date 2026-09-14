@@ -1,0 +1,124 @@
+{
+  "stage": "R3_external",
+  "dataset": "btad",
+  "dataset_role": "holdout",
+  "label": "known-dataset frozen re-check: BTAD has already been evaluated by the earlier frozen v3_3 holdout pipeline, so this is not a first-time unseen-data validation",
+  "seeds": [
+    0,
+    1
+  ],
+  "shots": [
+    2,
+    4
+  ],
+  "categories": [
+    "01",
+    "02"
+  ],
+  "excluded_categories": {
+    "03": "BTAD 03 stores a 32x42 DINOv2-B patch grid; the frozen engine only accepts the 32x32 canonical grid, and adapting it would change the frozen protocol"
+  },
+  "methods": [
+    "B",
+    "C",
+    "A1_J",
+    "A1_L",
+    "DUP_J",
+    "DUP_L",
+    "DUP_BAL_J",
+    "DUP_BAL_L",
+    "DUP_EXPECTED_J",
+    "A1_lambda_0.25",
+    "A1_lambda_0.50",
+    "A1_lambda_0.75"
+  ],
+  "weights": {
+    "A1_J": {
+      "B": 0.5,
+      "C": 0.5
+    },
+    "DUP_J": {
+      "B": 0.3333333333333333,
+      "Bcopy": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "DUP_L": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    },
+    "A1_L": {
+      "B": 0.5,
+      "C": 0.5
+    }
+  },
+  "cache_policy": "canonical K4 query and reference; K2 uses the first two K4 references",
+  "postprocess": "448 bilinear then gaussian sigma4; image max; stride-8 evaluation",
+  "metric_keys": [
+    "pixel_auroc",
+    "pixel_ap",
+    "image_auroc",
+    "image_ap"
+  ],
+  "primary_metric": "macro pixel_ap",
+  "comparisons": [
+    {
+      "contrast": "DUP_J - A1_J",
+      "group": "weight"
+    },
+    {
+      "contrast": "A1_L - DUP_L",
+      "group": "weight"
+    },
+    {
+      "contrast": "A1_L - A1_J",
+      "group": "matching"
+    },
+    {
+      "contrast": "DUP_L - DUP_J",
+      "group": "matching"
+    },
+    {
+      "contrast": "DUP_BAL_J - A1_J",
+      "group": "equivalence_control"
+    },
+    {
+      "contrast": "DUP_BAL_L - A1_L",
+      "group": "equivalence_control"
+    },
+    {
+      "contrast": "DUP_EXPECTED_J - DUP_J",
+      "group": "equivalence_control"
+    }
+  ],
+  "not_run": [
+    {
+      "contrast": "TRI_J - DUP_J",
+      "group": "representation",
+      "reason": "no DINO-S cache exists for BTAD, so the third branch cannot be scored"
+    },
+    {
+      "contrast": "BAL_J - A1_J",
+      "group": "representation",
+      "reason": "no DINO-S cache exists for BTAD, so the third branch cannot be scored"
+    }
+  ],
+  "resampling_unit": "image; paired across methods; 1000 replicates per K and reference seed",
+  "bootstrap_seed": 20260912,
+  "effect_scale": 0.005,
+  "replay_tolerance": 1e-06,
+  "parameter_selection_forbidden": true,
+  "stop_rules": [
+    "stop a unit when an implementation invariant fails",
+    "stop when the identity gate fails"
+  ],
+  "gate": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\reference_coupling_pilot_20260912\\controlled_fusion_next_stage_20260913\\R3_external\\audit\\R3_IDENTITY_GATE.json",
+  "gate_sha256": "767d4cdc4c744f81e9bd628b389eacd18320465dfbf98d37fa7949498f2f30b7",
+  "code_hashes": {
+    "engine.py": "f12b6a03185dd1d4a3f423b69aefc22e994ca9c8682a12e988785a86526f175e",
+    "diagnostics.py": "b7c104f0d1ffcc08a56632774ea0dce4a126b5e5e91e74aba7c06ed1f467ada0",
+    "complete_statistics.py": "17ed0d275b00e8ac1a9bc39202929e1cfe80b9b88757ee40ebf012ecf9a1bdac",
+    "replicate_seed1_bc.py": "5d7669379b24120b60986d791e876141c0060d9b84299f39eb47c4f486e0b0fa",
+    "run_external_btad_bc.py": "1a353c3971b7d7d6e16759788e238b5c8353dd1fda231aa7888555b357b8b7d0"
+  },
+  "created_utc": "2026-09-13T13:22:01+0800"
+}
