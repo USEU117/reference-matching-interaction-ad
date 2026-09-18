@@ -1,0 +1,241 @@
+# 图件绑定表（正文图号 ↔ 图源 ↔ 生成脚本 ↔ 冻结数据 ↔ 版本日期）
+
+本文件落实老师 2026-09-12 课堂要求「建正文图号 ↔ 图源 ↔ PPT 页 ↔ 脚本 ↔ 版本日期清单」，
+并已按 2026-09-15 合并后的正式图集更新。**表内每一行都能在仓库里按路径找到实体**；
+找不到的图列在文末「未产出」一节并写明原因与阻塞条件。
+
+> 2026-09-18 修订：绘图脚本已从本地临时目录 `.tmp_paper_figures_20260914/` **迁入受版本控制的
+> `scripts/figures_reference_matching_20260914/`**，输入产物一律显式传参或从固定产物路径读取，
+> 不再依赖任何 `.tmp_*` 目录；图 6/图 7 已重排布并加入字号自检（脚本在字号不达标时直接失败）；
+> 新增图 S2（真模块消融）与图 S3（额外案例）。
+>
+> 2026-09-18 补：图 S3 的图片面板问题已解决——`freeze_s0.py` 与 `s2_robustness.py` 里那三张
+> 11 in / 7—9 pt 的光栅图改为按稿件宽度 17 cm 绘制并接上字号门禁（实测均为 11.50 pt），
+> `build_figS3_extra_cases.py --embed-panels` 可把它们以原尺寸放到续页（默认不开，见第四节）；
+> 新增正文插图同步脚本 `sync_to_manuscript.py`（默认 dry-run，见第五节末）。
+
+- 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（27 页，8 张正文图 + 1 张补充图）
+- 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/figures)
+- 可编辑母版：[figures_reference_matching_20260914.pptx](file:///d:/STUDY/My_github/sci_project/docs/figures_reference_matching_20260914/figures_reference_matching_20260914.pptx)（7 页）
+- 数据根目录：`experiments/dynamic_fusion/representation_matching_interaction_20260914/`
+- 绘图脚本目录：`scripts/figures_reference_matching_20260914/`
+- 本轮合并日期：**2026-09-15**（图集重建 2026-09-18）
+
+## 一、正文图号与图源
+
+| 正文图号 | 论文位置 | 图源 PNG | 生成脚本 | 冻结数据来源 | 版本日期 |
+|---|---|---|---|---|---|
+| 图 1 | §3.2 Overview | `fig1_framework.png` | `scripts/figures_reference_matching_20260914/fig1.mjs`（+ `make_assets.py` 生成光栅素材） | MPDD `metal_plate` train/good 000/001/029 与 test/scratches/026.png；分数图回放自 `submission_repro_20260827/predictions_compact/maps/mpdd/s0_k1/metal_plate.npz`，轮廓见 `assets/contours.json`（Otsu 可视化规则，不用 GT） | 2026-09-18 |
+| 图 2 | §3.3 Matching rules | `fig2_matching.png` | `figs_methods.mjs` → `drawFigure2` | 结构示意图；格位明示「ordering only」，不含测量数值 | 2026-09-18 |
+| 图 3 | §3.4 Constructions | `fig3_constructions.png` | `figs_methods.mjs` → `drawFigure3` | `00_protocol/PROTOCOL.json` 的 A1/DUP/TRI/BAL 固定权重；X 槽由五个冻结编码器实例化（S、D、E1、E2、E3，维度取自 `s4_extra_encoders.py` 的 `feature_dim`） | 2026-09-18 |
+| 图 4 | §4.2.3—4.2.4 | `fig4_effects_interaction.png` | `figs_data.mjs` → `drawFigure4` | `02_interaction/representation_effects.csv`（S）、`04_new_encoder/representation_effects_new_encoder.csv`（D）、`05_extra_encoders/encoder_comparison_three.csv`（S、D、E1、E2、E3）；区间为源文件的未校正 95%；MVTec/VisA 行待 `generalization_mvtec_visa_20260915/interaction_generalization.csv` | 2026-09-18 |
+| 图 5 | §4.2.5 | `fig5_budget_category.png` | `figs_data.mjs` → `drawFigure5` | `03_robustness/interaction_K_curve.csv`（seed = −1 种子平均行）、`03_robustness/interaction_per_category.csv`、`seeds_extension_20260917/interaction_by_seed.csv`（8 seeds；0—2 自持 query，3—7 共享 query 块） | 2026-09-18 |
+| 图 6 | §4.2.6 | `qualitative_improvements_part1.png` + `part2.png`（另有矢量 `.pdf`；同源清单 `qualitative_mpdd_matching_manifest.json`、`qualitative_mpdd_matching_manifest.csv` 与图注 `qualitative_mpdd_matching_captions.md`） | `build_qualitative_figures.py` | 5 例细节案例来自 `04_new_encoder/units/mpdd_s0_k4/*__study/` 存储预测（seed 0、K = 4）；案例选择规则见 `paper_evidence_closeout_20260914/03_paper/fig5_selection.csv` | 2026-09-18 |
+| 图 7 | §4.2.6 | `qualitative_mpdd_matching_degradations.png`（另有矢量 `.pdf`）；**新增多方法逐样本对比**：`fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png`（+`.pdf`，见第六节） | `build_qualitative_figures.py`（同图 6）；**新增 `build_fig7_multimethod_samples.py`**（多方法逐样本/逐区域，输入与命令见第六节） | 同上（退化案例）；多方法图另加 S8 共同区域表 `05_baselines/baseline_common_region.csv` + `common_region_geometry.json` | 2026-09-18 |
+| 图 8 | §4.2.7 | `fig8_resources.png` | `figs_data.mjs` → `drawFigure8` | `05_baselines/resource_comparison_v2.csv`（单机 RTX 3060 Laptop 6 GB） | 2026-09-18 |
+| 图 S1 | Supplementary Method Figures | `figS1_encoders.png` | `figs_methods.mjs` → `drawFigureS1` | 分支维度与网格来自 `00_protocol/INPUT_FREEZE.json`、`01_geometry/*`；D 支见 `04_new_encoder/D_BRANCH_SPEC.json`，E1/E2/E3 见 `s4_extra_encoders.py` | 2026-09-18 |
+| 图 S2 | Supplementary Results | `figS2_shared_op_ablation.png`（+`.pdf`、`figS2_shared_op_ablation.json`） | `build_figS2_ablation.py` | `limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics.csv` + `ablation_metrics_abl_s_L.csv`；**scope 仅 seed 0、K = 1**，图上与图注均标注为探索性 | 2026-09-18 |
+| 图 S3 | Supplementary Results | `figS3_extra_cases.png`（+`.pdf`、`figS3_extra_cases.json`） | `build_figS3_extra_cases.py` | `01_geometry/C_TO_B_COORDINATE_AUDIT.json`（坐标位移）与 `03_robustness/interaction_case_selection.csv`（8 个逐图案例） | 2026-09-18 |
+| 图 S3（图片面板） | Supplementary Results | `figS3_extra_cases_panels.png`（+`.pdf`；三张面板 `panel_c_to_b_shift.png`、`panel_canvas_coverage.png`、`panel_interaction_cases.png`，各含 `.pdf`） | `build_figS3_extra_cases.py --embed-panels`；面板本身由 `scripts/representation_matching_interaction_20260914/freeze_s0.py`（`render_c_to_b_figure`、`boundary_figure`）与 `s2_robustness.py`（`render_cases`）绘制 | 同图 S3；复现见第三节（`freeze_s0.py --figures-only`、`s2_robustness.py --render-cases-only`） | 2026-09-18 |
+
+## 二、版式契约（本图集的硬约束）
+
+- 正文契约：`docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx` 的 `Normal` = **Times New Roman 11 pt**；图宽 **17 cm**。
+- 老师口径（F09 / N01 主口径）：图内承载信息的文字，在实际嵌入尺寸下必须**≥ 正文**。
+- 图 1—5、图 8、图 S1 的画布为 1280 × 900 单位，置于 17 cm 时 1 单位 = **0.3765 pt**，
+  故最小信息字号取 **30 单位 ≈ 11.29 pt**；全图 Times New Roman。
+- 图 S2/S3 与图 6/7 由 matplotlib 以**稿件实际宽度 17 cm** 建立，因此脚本里写的字号即印刷字号；
+  最小信息字号取 **11.5 pt**。
+- 校验脚本：
+  - `qa_layout.py`：几何/溢出/重叠/字号下限（字号下限按 pt 计，退出码即门禁）。最近一次：**TOTAL PROBLEMS: 0**（7 张，最小字号 11.29 pt）。
+  - `figure_font_gate.py`：遍历 matplotlib 图内**所有** text artist 的 fontsize，任一低于下限即报错退出；同时检查标签是否压在图像面板上。python 图最近一次：图 6/7 最小 **11.50 pt**、图 S2 **11.50 pt**、图 S3 **11.50 pt**、图 7 的多方法逐样本图（9 张，见第六节）**11.50 pt**，无标签压图；
+    图 S3 的续页 `figS3_extra_cases_panels` **11.50 pt**；三张图片面板（`figS1_c_to_b_shift` 62 个 text artist、`figS2_canvas_coverage` 33 个、`figS3_interaction_cases` 433 个）最小字号均为 **11.50 pt**。
+
+### 图 6/图 7 字号问题（2026-09-18 已修复）
+
+2026-09-15 版把 1770 px 画布放到 17 cm 栏宽，26—34 px 的标签实际只有 **7.1—9.3 pt**，
+是本图集唯一未满足 F09 的部位（原因：每行 5 列全幅面板 + 5 列 210 px 放大面板，标签已到宽度上限）。
+本轮改为 **matplotlib 在 17 cm 实际宽度上重排**：每列面板等宽、放大面板按 0.70 倍居中，
+标题分两行；所有文字 ≥ 11.5 pt，并由 `figure_font_gate.py` 自动断言，不达标即构建失败。
+案例选择、存储分数、AP 数值与 ROI/轮廓规则**均未改动**。
+
+
+## 三、复现命令
+
+从仓库根目录执行（脚本自身也能从任意工作目录运行，全部路径可显式传参）：
+
+```
+# 图 1—5、8、S1：重建 7 页 PPTX 母版 + 7 张 PNG + 布局 JSON，然后跑几何/字号门禁
+node scripts/figures_reference_matching_20260914/build.mjs
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/qa_layout.py
+
+# 图 6/7（>= 11.5 pt 自检 + PNG/PDF + 清单）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_qualitative_figures.py
+
+# 图 7 的多方法逐样本/逐区域对比（S8 共同区域；>= 11.5 pt 自检 + 列宽/文字互压自检 + PNG/PDF + JSON 摘要）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset mpdd --seed 0 --shot 4 --samples-per-category 3
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset btad --seed 0 --shot 4 --samples-per-category 3
+
+# 图 S2（真模块消融，探索性）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS2_ablation.py
+
+# 图 S3（额外案例）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS3_extra_cases.py
+
+# 图 S3 的图片面板（几何冻结 + 稳健性两张面板的 17 cm / >= 11.5 pt 版本，见第四节）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS3_extra_cases.py --embed-panels
+# 只重渲染管线里的那三张面板（写回实验目录，不重算任何表）
+.venv-anomalyclip/Scripts/python.exe scripts/representation_matching_interaction_20260914/freeze_s0.py --figures-only
+.venv-anomalyclip/Scripts/python.exe scripts/representation_matching_interaction_20260914/s2_robustness.py --render-cases-only
+
+# 把最终图同步到正文插图目录（默认 dry-run，只列清单；加 --apply 才真复制）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/sync_to_manuscript.py
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/sync_to_manuscript.py --apply
+
+# 图 1 的光栅素材（只在素材缺失时需要；输出到 scripts/figures_reference_matching_20260914/assets/）
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/make_assets.py
+
+# 正文 docx（未改动，仍用原构建脚本）
+.venv-anomalyclip/Scripts/python.exe .tmp_english_manuscript_20260914/build.py
+```
+
+`build.mjs` 的可用参数：`--root --out-dir --layout-dir --assets-dir --contours --data-dir --artifact-tool`。
+`qa_layout.py` 的可用参数：`--layout-dir --figures-dir --min-pt`。
+三个 python 图脚本的可用参数：`--out-dir --min-pt`（图 S2/S3 另有 `--out-dir`）。
+`build_fig7_multimethod_samples.py` 的可用参数：`--root --region-table --geometry --dataset --seed --shot --categories --samples-per-category --methods --out-dir --min-pt`（默认 `--region-table` 指向 S8 的 `05_baselines/baseline_common_region.csv`，`--geometry` 默认取其同目录的 `common_region_geometry.json`，见第六节）。
+`build_figS3_extra_cases.py` 另有 `--embed-panels --panel-dir`（见第四节）。
+`sync_to_manuscript.py` 的可用参数：`--src --dst --binding --apply`（默认 dry-run）。
+
+## 四、未产出及原因（不得用替代物冒充）
+
+| 建议图号 | 状态 | 原因 |
+|---|---|---|
+| 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类只覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；AnomalyDINO 的 mvtec/visa dump 与 PatchCore 的 6 个夜间单元尚未落盘时，相应列按「n/a」降级并记入 JSON，不中断构建。 |
+| 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。老师口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
+| 四数据集（MVTec/VisA）交互行 | 未产出 | 工作流 C 的 `generalization_mvtec_visa_20260915/` 只有逐单元 `p4_fullpixel/**` 与探针日志，**没有** `p1_statistics/bootstrap_samples.npz`、也没有 `interaction_generalization.csv`（`seeds_extension_20260917/ANALYSIS_CHAIN.json` 记录 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0）。图 4 的 (b) 面板已按该表的列名预留，一旦表落盘，重跑 `build.mjs` 即自动补上四数据集行（脚本会打印行数变化）。 |
+| loss–epoch 收敛曲线 | 不适用 | 冻结检索方法没有目标域训练，不能为该曲线编造数据。已用图 5（K 曲线）与图 8（资源）替代，属需向老师说明的替代方案。 |
+
+### 图 S3 的图片面板（2026-09-18 已可嵌入，见 `figS3_extra_cases.json` 的 `picture_panels`）
+
+`01_geometry/figS1_c_to_b_shift.png`、`01_geometry/figS2_canvas_coverage.png`、
+`03_robustness/figS3_interaction_cases.png` 三张都是几何冻结与稳健性脚本产出的**光栅图**，
+其内部字号原来是 **7—9 pt（11 in 画布）**，放到 17 cm 栏宽后只剩 **4.3—5.5 pt**，不满足
+F09（≥ 11 pt）。本轮把三个源脚本的画布改成稿件宽度 **17 cm（6.69 in）**、字号改为
+**11.5 pt**，并接上 `figure_font_gate.assert_min_font_pt` 自动断言（不达标即失败），
+重渲染为 PNG+PDF：
+
+- `freeze_s0.py` → `render_c_to_b_figure`（`figS1_c_to_b_shift`）、`boundary_figure`（`figS2_canvas_coverage`）
+- `s2_robustness.py` → `render_cases`（`figS3_interaction_cases`）
+
+三张重渲染后实测最小字号均为 **11.50 pt**，已无 F09 问题。图 S3 的 (a)(b) 两块仍用同源数据在
+17 cm / ≥ 11.5 pt 契约下重绘；图片面板由 `build_figS3_extra_cases.py --embed-panels` 以
+**原尺寸（每张满 17 cm 宽）**放到续页 `figS3_extra_cases_panels.png/.pdf`，默认不开该开关，
+因此 (a)(b) 版输出不变。注意逐图案例面板是 6 列 × 8 行，满宽排出后为整页高度
+（6.69 × 20.3 in），不适合与 (a)(b) 挤在同一页。
+
+## 五、本轮被替换的旧图源
+
+以下文件已移入 `figures/superseded/`，保留可追溯性但**不再被论文引用**：
+
+- `main_figure_final_20260915.png/.pptx`、`main_figure_reviewed_20260915.png/.pptx`、
+  `main_figure_fixed_support_matching_20260914.png/.pptx` —— 由 `fig1_framework.png` 取代
+  （旧主图标签为 9.4—11 pt，不满足「图内文字 ≥ 正文」）。
+- `interaction_intervals.png` —— 由 `fig4_effects_interaction.png` 取代（同一数据，新增 E 面板）。
+- `interaction_by_budget.png` —— 由 `fig5_budget_category.png` 取代（新增逐类面板）。
+- `qualitative_mpdd_matching_improvements.png` —— 未拆分的三案例长图，由 `part1/part2` 取代。
+
+**注意（2026-09-18）**：`docs/manuscript_reference_matching_20260914/figures/` 下的
+`qualitative_improvements_part1.png`、`qualitative_improvements_part2.png`、
+`qualitative_mpdd_matching_degradations.png` 仍是 2026-09-15 的 7.1—9.3 pt 版本，
+新版本已按本文第一节写入 `docs/figures_reference_matching_20260914/`（并附 `.pdf`）。
+本轮新增同步脚本 `scripts/figures_reference_matching_20260914/sync_to_manuscript.py`：
+默认 dry-run 只列「要复制哪些文件 + 新旧 mtime + 每图来源脚本」，加 `--apply` 才真正复制到
+`docs/manuscript_reference_matching_20260914/figures/`（从不删除目标目录里多出来的文件）。
+本轮只跑了 dry-run，未动正文构建管线。
+
+## 六、图 7 的多方法逐样本/逐区域对比（2026-09-18 新增）
+
+这一块补上了本图集原先唯一缺的「≥3 样本 × 多方法 + GT」对比图（原记在第四节「未产出」）。
+它不新造几何、不新算指标：每个方法都被重采样到 **S8 已经冻结的共同有效区域**，
+逐样本数值只是把同一口径下沉到单张图，类别级数字仍然只以 S8 表为准。
+
+### 生成器与参数
+
+`scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py`
+
+| 参数 | 默认 | 说明 |
+|---|---|---|
+| `--region-table` | `…/05_baselines/baseline_common_region.csv` | S8 逐方法共同区域结果表（唯一权威，含每个方法的来源文件路径） |
+| `--geometry` | `--region-table` 同目录 `common_region_geometry.json` | 共同区域矩形/网格与每个方法的覆盖矩形 |
+| `--dataset` / `--seed` / `--shot` | `mpdd` / `0` / `4` | 单元；表里目前只有 mpdd、btad（各 2 seed × 2 K） |
+| `--categories` | 表内该数据集的全部类别 | 逗号分隔；每类出一张图 |
+| `--samples-per-category` | `3` | 每类行数（= 样本数）；按「方法间差异最大的样本」选，规则见下 |
+| `--methods` | 表内该单元出现的全部方法 | 逗号分隔；显式指定的方法即使**没有**逐样本数据也保留该列并显示 `n/a` |
+| `--out-dir` | `docs/figures_reference_matching_20260914` | PNG（350 dpi）+ PDF + JSON 摘要的落盘目录 |
+| `--min-pt` | `11.5` | 字号下限，`figure_font_gate.assert_min_font_pt` 低于此值即失败 |
+
+### 输入产物（全部只读）
+
+- 共同区域：`experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines/`
+  的 `baseline_common_region.csv`、`common_region_geometry.json`（生成器
+  `scripts/representation_matching_interaction_20260914/s8_common_region.py`，口径见其文档字符串）。
+- 逐样本分数（三处，按 `common_region_geometry.json` 记录的每条 `source` 读取）：
+  - A1_J/A1_L：`unified_fusion_paper_support_20260913/{p1_matrix|p3_external}/units/<unit>/<cat>/patch_scores.npz`
+    （BTAD-03 走 `representation_matching_interaction_20260914/01_geometry/units/btad_s<seed>_k<shot>/03__rev_correct/`）；
+  - AnomalyDINO：`05_baselines/region_maps/anomalydino_canvas{,_rotation}/<dataset>_s<seed>_k<shot>_<cat>.npz`；
+  - PatchCore：`outputs/patchcore/closeout{,_official224}/<project>/<dataset>_s<seed>_k<shot>/predictions/mvtec_<cat>.npz`。
+- 原图与 GT：`data/mpdd_raw/MPDD/**`、`data/btad_raw/BTech_Dataset_transformed/**`；GT 取 canonical
+  `outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical/B/<dataset>_s<seed>_k8/<cat>.npz`
+  的 `imgs_masks`（与 S8 完全同源，含 BTAD-03 的 faithful 修订）。
+
+### 输出
+
+- 每类一张 `fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png` + `.pdf`；
+- 每次运行一份 `fig7_multimethod_<dataset>_s<seed>_k<shot>.json`：用了哪些样本（含每方法逐样本
+  Pixel-AP 与共享色标范围）、哪些方法列、哪些方法缺（方法名 + 原因 + 应有来源路径）、
+  每个来源文件的路径/mtime/字节数、选择规则与限制。
+
+### 复现命令与两次实测（2026-09-18）
+
+```
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset mpdd --seed 0 --shot 4 --samples-per-category 3
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset btad --seed 0 --shot 4 --samples-per-category 3
+```
+
+| 运行 | 产物 | 方法列 | 样本数 | 实测最小字号 | 耗时 |
+|---|---|---|---|---|---|
+| MPDD s0 k4 | `fig7_multimethod_mpdd_s0_k4_{bracket_black,bracket_brown,bracket_white,connector,metal_plate,tubes}.png/.pdf` + `fig7_multimethod_mpdd_s0_k4.json` | 6（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224） | 6 类 × 3 = 18 | 11.50 pt | 30 s |
+| BTAD s0 k4 | `fig7_multimethod_btad_s0_k4_{01,02,03}.png/.pdf` + `fig7_multimethod_btad_s0_k4.json` | 6（同上） | 3 类 × 3 = 9 | 11.50 pt | 25 s |
+
+### 选择规则与降级行为（同时写在图上与 JSON 里）
+
+- 每张图一行一个样本：Query（原图裁剪到共同区域）+ GT 掩码 + 每个方法的异常图；
+  所有面板都在**同一区域网格**上（本包 392 × 392），方法图按自身几何线性重采样、
+  GT 用最近邻（复用 `s8_common_region.remap_to_region`），色标 magma 且逐行共享
+  min—max（色条画在该行方法列下方并标出实际数值区间）。
+- 选择：每类在「GT 覆盖 ≥ max(16, 0.05% × 区域像素)」的测试图中，取**逐样本 Pixel-AP
+  极差（max − min）**最大的 3 张（并列时按样本 id 排序）。这是**展示用**选择规则，
+  不是随机抽样，也不改变任何类别级结论。
+- 降级：某方法在某单元没有逐样本数据时，该列仍然保留（保证各行对齐），面板画成灰底
+  `n/a`，原因写进 JSON 的 `missing`（如「not in the region table for this unit」、
+  「source file absent」、「sample id unmatched」、「key 'patch_maps' missing」），
+  **不报错退出**。`--methods` 显式点名的方法也会这样出现，便于夜间补跑后重跑同一命令补齐列。
+  实测该路径（`anomalydino_rotation` 不在 S8 表内；写临时目录以免覆盖正式产物）：
+   `.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset mpdd --seed 0 --shot 4 --categories tubes --methods controlled_A1_J,anomalydino_rotation,PatchCore_native_official224 --out-dir .tmp_fig7_na_test`
+  → 3 列、1 个 `n/a` 面板、`missing[0].reason = "not in the region table for this unit"`、退出码 0，字号门禁仍为 11.50 pt。
+  未知方法键的列标题按 11 字符自动折行（不会因标签过长而失败）。
+- 本包当前 6 个方法列在 mpdd/btad 全类别都有数据（`missing` 为空）；mvtec/visa 目前
+  不在 S8 表内，请求这两个数据集时脚本写出 JSON（`units_missing_from_region_table`）
+  并以 0 退出，不出图。
+
+### 校验
+
+- **数值复算**：把脚本读出的逐样本图按同一条重采样路径池化后重算 P-AP，与
+  `baseline_common_region.csv` 的冻结值在 mpdd/metal_plate、btad/01、btad/03 的 18 个
+  方法×类别组合上**完全相同**（diff = 0.0e+00），说明读取顺序、重采样与 GT 对齐与 S8 一致。
+- **字号**：`figure_font_gate.assert_min_font_pt` 实测 11.50 pt（9 张图，每张 54 个
+  text artist）；`assert_no_text_axes_overlap` 无标签压图；另有脚本内自查「列标题不宽于
+  本列」「标签不互相压」「标签不出页面」（本图 8 列、11.5 pt 时这三项是真实风险，共用门禁
+  不覆盖）。行标题与图题自带折行（按实际字体/字重测量后折行并复验），因此长样本路径不会
+  溢出 17 cm。
+- 未改任何数值/评测/案例选择逻辑，未重算或改写 S8 的任何产物。

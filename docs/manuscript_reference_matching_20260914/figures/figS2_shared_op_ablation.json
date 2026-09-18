@@ -1,0 +1,54 @@
+{
+  "figure": "figS2_shared_op_ablation",
+  "scope": {
+    "seed": 0,
+    "K": 1,
+    "replicates": 1,
+    "exploratory": true,
+    "categories": {
+      "mpdd": 6,
+      "btad": 3
+    }
+  },
+  "sources": [
+    "experiments/dynamic_fusion/limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics.csv",
+    "experiments/dynamic_fusion/limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics_abl_s_L.csv"
+  ],
+  "interaction_percentage_points": {
+    "btad|I_BAL|ABL_C": -0.0672,
+    "btad|I_TRI|ABL_C": 0.1098,
+    "mpdd|I_BAL|ABL_C": 0.4072,
+    "mpdd|I_TRI|ABL_C": 0.4006,
+    "btad|I_BAL|ABL_N": 0.1908,
+    "btad|I_TRI|ABL_N": 0.2283,
+    "mpdd|I_BAL|ABL_N": 0.3902,
+    "mpdd|I_TRI|ABL_N": 0.4744,
+    "btad|I_BAL|ABL_S": 0.1577,
+    "btad|I_TRI|ABL_S": 0.2929,
+    "mpdd|I_BAL|ABL_S": 0.1827,
+    "mpdd|I_TRI|ABL_S": 0.4603,
+    "btad|I_BAL|baseline": -0.0134,
+    "btad|I_TRI|baseline": 0.1098,
+    "mpdd|I_BAL|baseline": 0.346,
+    "mpdd|I_TRI|baseline": 0.4006
+  },
+  "level_pixel_ap_J": {
+    "btad|ABL_C": 0.61685,
+    "mpdd|ABL_C": 0.30702,
+    "btad|ABL_N": 0.57148,
+    "mpdd|ABL_N": 0.27799,
+    "btad|ABL_S": 0.60939,
+    "mpdd|ABL_S": 0.29921,
+    "btad|baseline": 0.62385,
+    "mpdd|baseline": 0.30557
+  },
+  "ablation_definitions": {
+    "ABL-S": "no Gaussian smoothing",
+    "ABL-C": "naive concatenation",
+    "ABL-N": "no per-branch normalisation"
+  },
+  "outputs": [
+    "docs/figures_reference_matching_20260914/figS2_shared_op_ablation.png",
+    "docs/figures_reference_matching_20260914/figS2_shared_op_ablation.pdf"
+  ]
+}
