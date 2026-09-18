@@ -44,9 +44,26 @@
                 "branch":  "main",
                 "status_lines":  115,
                 "commits":  [
-
+                                {
+                                    "group":  "pipeline",
+                                    "sha":  "b965bfb",
+                                    "subject":  "night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
+                                    "files":  227
+                                },
+                                {
+                                    "group":  "confirmation",
+                                    "sha":  "7175e53",
+                                    "subject":  "night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
+                                    "files":  241
+                                },
+                                {
+                                    "group":  "figures",
+                                    "sha":  "dc30a31",
+                                    "subject":  "night 2: rebuilt figure set and manuscript sync",
+                                    "files":  118
+                                }
                             ],
-                "tag":  null,
+                "tag":  "night-20260918 (planned)",
                 "skipped":  null
             },
     "phases":  {
@@ -469,7 +486,78 @@
 
                                                             ],
                                               "steps":  [
-
+                                                            {
+                                                                "id":  "git_add_pipeline",
+                                                                "exe":  "git",
+                                                                "args":  "add -- scripts",
+                                                                "exit_code":  0,
+                                                                "seconds":  2,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_commit_pipeline",
+                                                                "exe":  "git",
+                                                                "args":  "commit -m night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
+                                                                "exit_code":  0,
+                                                                "seconds":  2,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_add_confirmation",
+                                                                "exe":  "git",
+                                                                "args":  "add -- experiments/dynamic_fusion/confirmation_ksdd2_20260918",
+                                                                "exit_code":  0,
+                                                                "seconds":  2,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_commit_confirmation",
+                                                                "exe":  "git",
+                                                                "args":  "commit -m night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
+                                                                "exit_code":  0,
+                                                                "seconds":  4,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_add_figures",
+                                                                "exe":  "git",
+                                                                "args":  "add -- docs/figures_reference_matching_20260914 docs/manuscript_reference_matching_20260914",
+                                                                "exit_code":  0,
+                                                                "seconds":  3,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_commit_figures",
+                                                                "exe":  "git",
+                                                                "args":  "commit -m night 2: rebuilt figure set and manuscript sync",
+                                                                "exit_code":  0,
+                                                                "seconds":  1,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "git_add_docs",
+                                                                "exe":  "git",
+                                                                "args":  "add -- docs",
+                                                                "exit_code":  0,
+                                                                "seconds":  0,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            },
+                                                            {
+                                                                "id":  "validation_report",
+                                                                "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+                                                                "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --report --status D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\STATUS.json --out-json D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json --out-md D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.md",
+                                                                "exit_code":  0,
+                                                                "seconds":  0,
+                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+                                                            }
                                                         ],
                                               "gate":  null
                                           }
