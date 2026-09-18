@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -46,16 +47,44 @@ SPLITS = ROOT / "data" / "splits"
 DATA_ROOT = {
     "mpdd": ROOT / "data" / "mpdd_raw" / "MPDD",
     "btad": ROOT / "data" / "btad_raw" / "BTech_Dataset_transformed",
+    # appended 2026-09-18 for the multi-dataset per-region figure.  mvtec is already in the
+    # layout the indexer expects; visa must be the raw tree (data/visa_raw + meta.json),
+    # because the canonical caches and the frozen manifest both use the raw paths
+    # (<cat>/Data/Images/{Normal,Anomaly}/<file>.JPG), not the patchcore adapter view.
+    "mvtec": ROOT / "data" / "mvtec",
+    "visa": ROOT / "data" / "visa_raw",
 }
 CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # appended 2026-09-18 (same lists as run_fullpixel.py)
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor", "wood",
+              "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
 }
 MAP_SIZE = (448, 448)
 MASKING = False
 ROTATION = False
-CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
+# Honour the same override the matrix engine uses (engine_v2.CANONICAL_ROOT): the MVTec/VisA
+# canonical caches live under experiments/.../generalization_mvtec_visa_20260915/canonical, the
+# mpdd/btad caches keep the hard-coded study path.  Default unchanged.  The two roots are
+# disjoint (the study root carries no mvtec/visa category), so without the environment variable
+# each dataset is resolved to the root that actually holds it.
+CANONICAL = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"))
+GENERALIZATION_CANONICAL = (ROOT / "experiments/dynamic_fusion"
+                            / "generalization_mvtec_visa_20260915/canonical")
+CANONICAL_ROOTS = {"mvtec": GENERALIZATION_CANONICAL, "visa": GENERALIZATION_CANONICAL}
+
+
+def canonical_root(dataset: str) -> Path:
+    if os.environ.get("FUSION_CANONICAL_ROOT"):
+        return CANONICAL
+    return CANONICAL_ROOTS.get(dataset, CANONICAL)
 NEW = (ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
        ).resolve()
 MAP_STRIDE = 14
@@ -192,8 +221,8 @@ def canvas_geometry(dataset: str, seed: int, category: str) -> dict:
     square and no mask re-squaring.  BTAD ground truth comes from the S0
     image-faithful revision, which equals the canonical masks for BTAD-01/02.
     """
-    with np.load(CANONICAL / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
-                 allow_pickle=False) as z:
+    with np.load(canonical_root(dataset) / "B" / f"{dataset}_s{seed}_k8" /
+                 f"{category}.npz", allow_pickle=False) as z:
         grid = tuple(int(v) for v in np.asarray(z["grid_size"]).reshape(-1))
         masks = np.asarray(z["imgs_masks"], dtype=np.uint8)
         labels = np.asarray(z["gt_sp"], dtype=np.int32).reshape(-1)

@@ -1,4 +1,4 @@
-﻿"""S2: is the interaction driven by one category, one K, the evaluation stride, or nothing?
+"""S2: is the interaction driven by one category, one K, the evaluation stride, or nothing?
 
 Four analyses, all about I_TRI / I_BAL only (handoff section 6):
 
@@ -11,7 +11,10 @@ Four analyses, all about I_TRI / I_BAL only (handoff section 6):
 3. `interaction_K_curve.csv` - the interaction per K, per seed and seed-averaged.
 4. `figS3_interaction_cases.png` + a selection manifest - pre-fixed qualitative cases:
    abnormal images ranked by the per-image localisation change attributable to the
-   representation swap, one top and one bottom per dataset and interaction.
+   representation swap, one top and one bottom per dataset and interaction.  The panel is
+   drawn at the manuscript's printed width (17 cm) with the >= 11.5 pt floor asserted by
+   `figure_font_gate`, so it can be embedded in the paper; `--render-cases-only` redraws it
+   from the frozen selection CSV without recomputing any table.
 
 Per-category values are point metrics; per-category intervals exist only where the
 shared replicate arrays do.  Nothing here reuses "the old A1 leave-one-out is stable"
@@ -23,19 +26,38 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
+# The panel contract lives with the figure set it belongs to: 17 cm printed width, 11.5 pt floor.
+sys.path.insert(0, str(ROOT / "scripts/figures_reference_matching_20260914"))
+from figure_font_gate import (  # noqa: E402
+    DEFAULT_PT,
+    MANUSCRIPT_WIDTH_CM,
+    assert_min_font_pt,
+)
+
 R = (ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913").resolve()
 NEW = (ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
        ).resolve()
 OUT = NEW / "03_robustness"
 CATS = {"mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
-                 "metal_plate", "tubes"], "btad": ["01", "02", "03"]}
-SEEDS = {"mpdd": [0, 1, 2], "btad": [0, 1]}
+                 "metal_plate", "tubes"], "btad": ["01", "02", "03"],
+        # appended 2026-09-18: the KSDD2 confirmation set (single class, whole test split)
+        "ksdd2": ["ksdd2"]}
+SEEDS = {"mpdd": [0, 1, 2], "btad": [0, 1], "ksdd2": [0, 1, 2]}
+# Which root holds a dataset's units and full-pixel table.  Appended 2026-09-18: KSDD2's
+# units live in `p1_matrix` exactly like MPDD's; the historical mpdd/btad mapping is
+# unchanged.
+MATRIX_DIR = {"mpdd": "p1_matrix", "btad": "p3_external", "ksdd2": "p1_matrix"}
+# Datasets this report covers, in the historical order (ksdd2 appended 2026-09-18).
+# A dataset whose inputs are absent contributes no rows, so existing scopes are unaffected.
+DATASETS = ("mpdd", "btad", "ksdd2")
 SHOTS = [1, 2, 4, 8]
 METRIC = "pixel_ap"
 EFFECT_SCALE = 0.005
@@ -43,6 +65,13 @@ INTERACTIONS = {"I_TRI": ("TRI_L", "DUP_L", "TRI_J", "DUP_J"),
                 "I_BAL": ("BAL_L", "A1_L", "BAL_J", "A1_J")}
 CASE_SEED, CASE_SHOT = 0, 4
 CASES_PER_GROUP = 1
+
+# The case panel is drawn at the manuscript's printed width, so a font size written here is
+# the size printed in the paper; the font gate fails the run below 11.5 pt.
+FIG_WIDTH_IN = MANUSCRIPT_WIDTH_CM / 2.54
+MIN_FONT_PT = DEFAULT_PT
+FIG_DPI = 350
+CASES_STEM = OUT / "figS3_interaction_cases"
 
 
 def utcnow() -> str:
@@ -148,9 +177,33 @@ def interaction_by_condition(inputs, dataset, revision, metric, spec, category=N
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--output", type=Path, default=OUT)
+    # Appended 2026-09-18: point the inputs (p1_statistics, p4_fullpixel, the matrix units of
+    # `MATRIX_DIR`) at another run's directory - the confirmation run has its own.  The
+    # default is the study directory, so existing invocations read exactly what they read
+    # before.
+    ap.add_argument("--study-root", type=Path, default=None,
+                    help="root holding p1_statistics / p4_fullpixel / the matrix dirs")
+    ap.add_argument("--interaction-root", type=Path, default=NEW,
+                    help="root holding 02_interaction (the S1 tables used as stride-8 "
+                         "references); default the study's interaction directory")
+    ap.add_argument("--render-cases-only", action="store_true",
+                    help="re-render figS3_interaction_cases from the frozen selection CSV and "
+                         "write no other file (no robustness table is recomputed or rewritten)")
     args = ap.parse_args()
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
+    if args.study_root is not None:
+        global R
+        R = Path(args.study_root).resolve()
+
+    if args.render_cases_only:
+        selection = out / "interaction_case_selection.csv"
+        cases = read_case_selection(selection) if selection.is_file() else []
+        if not cases:
+            raise SystemExit(f"[S2] --render-cases-only needs the frozen selection: {selection}")
+        render_cases(cases, out / CASES_STEM.name)
+        print(f"[S2] {len(cases)} cases re-rendered at 17 cm / >= 11.5 pt; no table rewritten")
+        return 0
 
     study = np.load(R / "p1_statistics/bootstrap_samples.npz", allow_pickle=False)
     corrected_path = NEW / "01_geometry/btad03_percat_corrected.npz"
@@ -161,10 +214,12 @@ def main() -> int:
     inputs = {"study": study, "corrected": macro_corrected, "percat_corrected": corrected,
               "macro_corrected": macro_corrected}
 
-    revisions = {"mpdd": ["study"], "btad": ["study", "corrected"]}
+    # `corrected` is the S0 BTAD geometry and exists for btad only; KSDD2 is encoded on one
+    # frozen canvas, so it has a single (study) revision.
+    revisions = {"mpdd": ["study"], "btad": ["study", "corrected"], "ksdd2": ["study"]}
     # ------------------------------------------------------------------ K curve
     k_rows = []
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for revision in revisions[dataset]:
             for name, spec in INTERACTIONS.items():
                 cells = interaction_by_condition(inputs, dataset, revision, METRIC, spec)
@@ -191,7 +246,7 @@ def main() -> int:
 
     # ------------------------------------------------- per category / leave-one-out
     per_cat_rows, loo_rows = [], []
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for revision in revisions[dataset]:
             for name, spec in INTERACTIONS.items():
                 cells = interaction_by_condition(inputs, dataset, revision, METRIC, spec)
@@ -274,7 +329,7 @@ def main() -> int:
             corrections[(row["revision"], int(row["seed"]), int(row["shot"]), row["method"])] = \
                 float(row["pixel_ap"])
     full = {}
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for seed in SEEDS[dataset]:
             for shot in SHOTS:
                 methods = {m for spec in INTERACTIONS.values() for m in spec}
@@ -294,18 +349,21 @@ def main() -> int:
     #   * `point`      : the condition-averaged stride-8 point estimate, straight from S1;
     #   * `replicate`  : the paired bootstrap mean, averaged over the seeds present for that K
     #                    (earlier this column was overwritten by the last seed).
+    # Appended 2026-09-18: `--interaction-root` lets a run on another scope read its own S1
+    # tables (the confirmation run's 02_interaction) instead of the study's; the default is the
+    # study's directory, so existing invocations are unchanged.
     s1_cond, s1_agg = {}, {}
-    for row in read_csv(NEW / "02_interaction/interaction_by_condition.csv"):
+    for row in read_csv(args.interaction_root / "02_interaction/interaction_by_condition.csv"):
         if row.get("kind") != "interaction" or row.get("metric") != METRIC:
             continue
         s1_cond[(row["dataset"], row["evaluation_revision"], row["contrast"].split(":")[0],
                  int(row["seed"]), int(row["shot"]))] = float(row["point_delta"])
-    for row in read_csv(NEW / "02_interaction/interaction_aggregate.csv"):
+    for row in read_csv(args.interaction_root / "02_interaction/interaction_aggregate.csv"):
         if row.get("kind") != "interaction" or row.get("metric") != METRIC:
             continue
         s1_agg[(row["dataset"], row["evaluation_revision"], row["contrast"].split(":")[0])] = row
     replicate_by_k, stride8_aggregate = {}, {}
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for revision in revisions[dataset]:
             for name, spec in INTERACTIONS.items():
                 cells = interaction_by_condition(inputs, dataset, revision, METRIC, spec)
@@ -320,7 +378,7 @@ def main() -> int:
                     stride8_aggregate[(dataset, revision, name)] = {
                         "stats": ci(np.mean(np.stack([t for _, _, t in cells]), axis=0)),
                         "n_conditions": len(cells)}
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for revision in revisions[dataset]:
             for name, spec in INTERACTIONS.items():
                 per_condition = []
@@ -383,7 +441,7 @@ def main() -> int:
     write_csv(out / "interaction_fullpixel.csv",
               [r for r in stride_rows if r["stride"] == 1])
     sensitivity = []
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for revision in revisions[dataset]:
             for name in INTERACTIONS:
                 block = [r for r in stride_rows if r["dataset"] == dataset
@@ -411,8 +469,12 @@ def main() -> int:
     # ------------------------------------------------------------- qualitative
     cases = select_cases()
     write_csv(out / "interaction_case_selection.csv", cases)
+    # Appended 2026-09-18: the figure stem is taken from the run's own output directory (it
+    # used to be the module constant CASES_STEM, i.e. always the study directory, so a run
+    # with another --output would have overwritten the frozen study figure).  At the default
+    # --output the resolved path is identical to before.
     try:
-        render_cases(cases)
+        render_cases(cases, out / CASES_STEM.name)
     except Exception as exc:  # noqa: BLE001 - recorded, not hidden
         (out / "CASE_FIGURE_ERROR.txt").write_text(repr(exc), encoding="utf-8")
 
@@ -430,9 +492,9 @@ def main() -> int:
 def select_cases() -> list:
     """Pre-fixed rule: rank abnormal images by the swap's per-image localisation change."""
     rows = []
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for category in CATS[dataset]:
-            root = (R / ("p1_matrix" if dataset == "mpdd" else "p3_external") / "units"
+            root = (R / MATRIX_DIR[dataset] / "units"
                     / f"{dataset}_s{CASE_SEED}_k{CASE_SHOT}" / category)
             per_image = {}
             for row in read_csv(root / "per_image.csv"):
@@ -456,7 +518,7 @@ def select_cases() -> list:
                                           "dataset and interaction, ties by smaller index"),
                                  "label_used_only_for_offline_explanation": True})
     selected = []
-    for dataset in ("mpdd", "btad"):
+    for dataset in DATASETS:
         for interaction in INTERACTIONS:
             block = sorted([r for r in rows if r["dataset"] == dataset
                             and r["interaction"] == interaction],
@@ -470,21 +532,73 @@ def select_cases() -> list:
     return selected
 
 
-def render_cases(cases: list) -> None:
+def read_case_selection(path: Path) -> list:
+    """Frozen case rows read back from the selection CSV (copied, never re-selected)."""
+    rows = []
+    for row in read_csv(path):
+        rows.append({**row, "image_index": int(row["image_index"]),
+                     "per_image_interaction_delta": float(row["per_image_interaction_delta"]),
+                     "seed": int(row["seed"]), "shot": int(row["shot"])})
+    return rows
+
+
+def init_figure_style() -> None:
+    """Times New Roman at the printed floor, so the font gate can assert on the figure."""
+    import matplotlib
+    matplotlib.use("Agg")
+    matplotlib.rcParams["font.family"] = "Times New Roman"
+    matplotlib.rcParams["font.size"] = MIN_FONT_PT
+    matplotlib.rcParams["axes.titlesize"] = MIN_FONT_PT
+    matplotlib.rcParams["figure.titlesize"] = MIN_FONT_PT
+
+
+def save_figure(fig, out_stem: Path) -> list:
+    """Assert the legibility floor, then write the PNG and the vector PDF of the panel."""
+    import matplotlib.pyplot as plt
+    out_stem.parent.mkdir(parents=True, exist_ok=True)
+    assert_min_font_pt(fig, MIN_FONT_PT, out_stem.name)
+    written = []
+    for suffix in (".png", ".pdf"):
+        path = out_stem.with_suffix(suffix)
+        fig.savefig(path, dpi=FIG_DPI, facecolor="white")
+        written.append(path)
+    plt.close(fig)
+    for path in written:
+        print(f"[S2] wrote {path} ({path.stat().st_size} bytes)", flush=True)
+    return written
+
+
+def render_cases(cases: list, out_stem: Path | None = None) -> list:
+    """Render the pre-fixed cases at the 17 cm / >= 11.5 pt panel contract.
+
+    The case set, the images, the stored score planes and the wording of every label are
+    unchanged; the panel is built at the printed width so a font size here is the size that
+    reaches the paper, and the run fails if a text artist would print below 11.5 pt.  The
+    long row label of the earlier 11 in raster is wrapped over three lines for the narrower
+    column; the words are identical.
+    """
     import cv2
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    canonical = (ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913"
-                 / "canonical/B")
+    init_figure_style()
+    # Appended 2026-09-18: honour FUSION_CANONICAL_ROOT (the same convention as
+    # engine_v2.py:33-36 and run_fullpixel.py:39-41) and register KSDD2's image root, which
+    # is what the confirmation run's case panel needs.  The defaults are unchanged.
+    canonical = Path(os.environ.get(
+        "FUSION_CANONICAL_ROOT",
+        ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical")) / "B"
     data_root = {"mpdd": ROOT / "data/mpdd_raw/MPDD",
-                 "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed"}
-    fig, axes = plt.subplots(len(cases), 6, figsize=(16, 2.3 * len(cases)), squeeze=False)
+                 "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed",
+                 "ksdd2": ROOT / "data/kolektorsdd2_raw"}
+    fig, axes = plt.subplots(len(cases), 6, figsize=(FIG_WIDTH_IN, 1.35 * len(cases)),
+                             squeeze=False)
     for row_index, case in enumerate(cases):
         dataset, category = case["dataset"], case["category"]
         index = int(case["image_index"])
-        unit = (R / ("p1_matrix" if dataset == "mpdd" else "p3_external") / "units"
+        delta = float(case["per_image_interaction_delta"])
+        unit = (R / MATRIX_DIR[dataset] / "units"
                 / f"{dataset}_s{CASE_SEED}_k{CASE_SHOT}" / category)
         with np.load(unit / "patch_scores.npz", allow_pickle=False) as z:
             ids = [str(x) for x in np.asarray(z["sample_ids"]).reshape(-1)]
@@ -506,24 +620,23 @@ def render_cases(cases: list) -> None:
         mask = cv2.resize(masks[index], (canvas[1], canvas[0]), interpolation=cv2.INTER_NEAREST)
         spec = INTERACTIONS[case["interaction"]]
         axes[row_index][0].imshow(image)
-        axes[row_index][0].set_title(f"{dataset}/{category} idx{index}\n{case['interaction']} "
-                                     f"{case['role']} ({case['per_image_interaction_delta']:+.3f})",
-                                     fontsize=6)
+        axes[row_index][0].set_title(f"{dataset}/{category} idx{index}\n"
+                                     f"{case['interaction']} {case['role']}\n({delta:+.3f})",
+                                     fontsize=MIN_FONT_PT)
         axes[row_index][1].imshow(image)
         axes[row_index][1].imshow(mask, alpha=0.45, cmap="Reds")
-        axes[row_index][1].set_title("ground truth (canvas)", fontsize=6)
+        axes[row_index][1].set_title("ground truth (canvas)", fontsize=MIN_FONT_PT)
         for column, method in enumerate(spec, start=2):
             upsampled = cv2.resize(maps[method], (canvas[1], canvas[0]),
                                    interpolation=cv2.INTER_LINEAR)
             axes[row_index][column].imshow(upsampled, cmap="inferno")
-            axes[row_index][column].set_title(method, fontsize=6)
+            axes[row_index][column].set_title(method, fontsize=MIN_FONT_PT)
         for column in range(6):
             axes[row_index][column].axis("off")
-    fig.suptitle("Interaction cases (seed 0, K=4): ranked by the per-image localisation change "
-                 "of the swap; labels are offline explanation only", fontsize=8)
-    fig.tight_layout(rect=(0, 0, 1, 0.97))
-    fig.savefig(OUT / "figS3_interaction_cases.png", dpi=170)
-    plt.close(fig)
+    fig.suptitle("Interaction cases (seed 0, K=4): ranked by the per-image localisation change\n"
+                 "of the swap; labels are offline explanation only", fontsize=MIN_FONT_PT)
+    fig.tight_layout(rect=(0, 0, 1, 0.965))
+    return save_figure(fig, out_stem or CASES_STEM)
 
 
 if __name__ == "__main__":

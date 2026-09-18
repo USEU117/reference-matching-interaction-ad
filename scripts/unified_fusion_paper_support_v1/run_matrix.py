@@ -43,6 +43,15 @@ CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # added 2026-09-15 for the generalization study
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor",
+              "wood", "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
+    # appended 2026-09-18 for the confirmation study; KSDD2 is a single-class
+    # product dataset, so its one "category" is the whole test split (1004 images)
+    "ksdd2": ["ksdd2"],
 }
 CORE_METHODS = ["B", "S", "C", "A1_J", "A1_L", "DUP_J", "DUP_L", "TRI_J", "TRI_L",
                 "BAL_J", "BAL_L"]

@@ -42,8 +42,19 @@ CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # added 2026-09-15 for the generalization study
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor",
+              "wood", "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
+    # appended 2026-09-18 for the confirmation study (single class, 1004 test images)
+    "ksdd2": ["ksdd2"],
 }
-DATASET_ID = {"mpdd": 1, "btad": 2}
+# The dataset id is part of the resampling seed.  mpdd=1 and btad=2 must never
+# change, otherwise every published interval would stop reproducing; new datasets
+# only ever append.
+DATASET_ID = {"mpdd": 1, "btad": 2, "mvtec": 3, "visa": 4, "ksdd2": 5}
 CATEGORY_ID = {d: {c: i for i, c in enumerate(cats)} for d, cats in CATS.items()}
 METRIC_KEYS = ("pixel_ap", "pixel_auroc", "image_ap", "image_auroc")
 BOOTSTRAP_SEED = 20260913
@@ -189,9 +200,21 @@ def replicate_metrics(structures, draws, dataset, category_weights) -> dict:
 
 
 def bootstrap_group(dataset: str, seed: int, shot: int, run_root: Path, replicates: int,
-                    categories: list[str]):
-    """Bootstrap one (dataset, seed, K).  Returns arrays + per-category point values."""
+                    categories: list[str], fast: bool = False):
+    """Bootstrap one (dataset, seed, K).  Returns arrays + per-category point values.
+
+    ``fast=True`` is an opt-in switch to ``fast_replicates.bootstrap_group``, a
+    vectorised estimator that keeps the same RNG stream and the same estimators
+    and only changes how the numbers are computed.  The default path below is
+    untouched and is what every existing artefact was produced with.
+    """
     import time as _time
+
+    if fast:
+        import fast_replicates
+
+        return fast_replicates.bootstrap_group(dataset, seed, shot, run_root, replicates,
+                                               categories)
 
     t0 = _time.perf_counter()
     structures = [build_structure(run_root, dataset, seed, shot, c) for c in categories]
@@ -263,6 +286,11 @@ def main() -> int:
     ap.add_argument("--shots", nargs="+", type=int, default=[1, 2, 4, 8])
     ap.add_argument("--replicates", type=int, default=1000)
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--fast-replicates", action="store_true",
+                    default=os.environ.get("FAST_REPLICATES", "") not in ("", "0", "false"),
+                    help="opt in to the vectorised replicate estimator "
+                         "(fast_replicates.py); the estimator definition and the RNG stream "
+                         "are unchanged.  Also settable with FAST_REPLICATES=1.")
     ap.add_argument("--metric", default="pixel_ap")
     args = ap.parse_args()
     run_roots = ([p.resolve() for p in args.run_root] if args.run_root
@@ -287,9 +315,11 @@ def main() -> int:
                         continue
                     conditions.append({"dataset": dataset, "seed": seed, "shot": shot,
                                        "run_root": root, "replicates": args.replicates,
-                                       "categories": cats})
+                                       "categories": cats, "fast": args.fast_replicates})
                     root_used[(dataset, seed, shot)] = str(root)
                     break
+    # `fast` is a compute-path switch, not part of the protocol scope, so it is kept
+    # out of every PROTOCOL.json condition entry.
     protocol = {
         "stage": "unified_p1_statistics", "run_roots": [str(p) for p in run_roots],
         "conditions_root": {f"{k[0]}_s{k[1]}_k{k[2]}": v for k, v in sorted(root_used.items())},
@@ -303,11 +333,17 @@ def main() -> int:
         "effect_scale_macro_pixel_ap": EFFECT_SCALE,
         "main_inferences": list(MAIN_INFERENCES),
         "exploratory_contrasts": [list(c) for c in EXPLORATORY_CONTRASTS],
-        "conditions": [{k: v for k, v in c.items() if k != "run_root"} for c in conditions],
+        "conditions": [{k: v for k, v in c.items() if k not in ("run_root", "fast")}
+                       for c in conditions],
         "created_utc": _utc(),
         "source_hashes": {name: _sha256(Path(__file__).resolve().parent / name)
                           for name in ("stats_v2.py",)},
     }
+    if args.fast_replicates:
+        protocol["fast_replicates"] = True
+        protocol["fast_replicates_module"] = "scripts/unified_fusion_paper_support_v1/fast_replicates.py"
+        protocol["fast_replicates_source_sha256"] = _sha256(
+            Path(__file__).resolve().parent / "fast_replicates.py")
     protocol_path = output / "PROTOCOL.json"
     if protocol_path.exists():
         old = json.loads(protocol_path.read_text(encoding="utf-8"))
@@ -316,7 +352,8 @@ def main() -> int:
         history = old.get("scope_history", [])
         history.append({"datasets": list(args.datasets), "seeds": list(args.seeds),
                         "shots": list(args.shots),
-                        "conditions": [{k: v for k, v in c.items() if k != "run_root"}
+                        "conditions": [{k: v for k, v in c.items()
+                                        if k not in ("run_root", "fast")}
                                        for c in conditions]})
         old["scope_history"] = history
         known = {json.dumps(item, sort_keys=True) for item in old.get("conditions", [])}

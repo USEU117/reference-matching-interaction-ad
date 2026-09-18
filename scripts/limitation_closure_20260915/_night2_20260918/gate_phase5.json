@@ -1,0 +1,68 @@
+{
+  "phase": 5,
+  "created_utc": "2026-09-18T23:35:13.067597+00:00",
+  "pass": false,
+  "checks": [
+    {
+      "id": "qa_layout_zero_problems",
+      "what": "qa_layout.py 几何/字号门禁 0 problem",
+      "expected": "TOTAL PROBLEMS: 0",
+      "actual": "日志中无该行",
+      "pass": false,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+      ]
+    },
+    {
+      "id": "font_gate_floor",
+      "what": "figure_font_gate.py 下限配置 >= 11 pt",
+      "expected": "BODY_PT>=11 且 DEFAULT_PT>=11",
+      "actual": "未运行",
+      "pass": false,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+      ]
+    },
+    {
+      "id": "sync_all_files",
+      "what": "sync_to_manuscript.py --apply 清单全部成功",
+      "expected": "全部 30 个文件（复制或已一致）",
+      "actual": "total=None identical=None copied=None",
+      "pass": false,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+      ]
+    },
+    {
+      "id": "sync_count_matches_note",
+      "what": "同步文件数与本轮预期一致（仅记录）",
+      "expected": "30",
+      "actual": "None",
+      "pass": true,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+      ]
+    },
+    {
+      "id": "figure_pngs",
+      "what": "图件目录有 PNG 产物",
+      "expected": ">=7 个",
+      "actual": "25 个",
+      "pass": true,
+      "evidence": [
+        "docs\\figures_reference_matching_20260914"
+      ]
+    },
+    {
+      "id": "stderr_record",
+      "what": "阶段 5 stderr 记录（信息性，不作门禁）",
+      "expected": "记录",
+      "actual": "0 字符: (empty)",
+      "pass": true,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+      ]
+    }
+  ],
+  "n_failed": 3
+}

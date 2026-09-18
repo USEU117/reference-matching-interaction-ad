@@ -1,0 +1,44 @@
+{
+  "framework": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig1_framework.png",
+    "caption": "Controlled normal-reference framework. (a) The K verified normal images of one category pass through the same frozen branches, are mapped to the common grid and normalized branch by branch, and build a fixed reference bank whose rows keep one identity across branches; the query never writes to the bank. (b) A query image follows the same frozen path and is scored against that bank under one matching rule. The two task paths use different background shades. The extra slot holds S (DINOv2-S) or D (WideResNet50-2) in the controlled constructions only, so it is an experimental configuration rather than a runtime switch, and DUP trains no new model. The lower-right panels show one real MPDD query (metal_plate/test/scratches/026.png, seed 0, K = 1) with its dual-branch A1 score map and a contour derived from that same map: the map is min-max quantized to 256 levels and thresholded by Otsu for visualization only, no ground-truth mask is loaded to extract the contour, and the rule is not a calibrated deployment threshold. Patch scores are resized to the retained canvas and smoothed with a Gaussian of standard deviation 4; the image score is the spatial maximum. B is DINOv2-B, C the AnomalyCLIP visual path."
+  },
+  "matching": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig2_matching.png",
+    "caption": "Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) J requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas L lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization."
+  },
+  "constructions": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig3_constructions.png",
+    "caption": "Fixed representation constructions and the contrasts built from them. (a) A1, DUP, TRI and BAL with their distance weights; a slot keeps the same colour across panels. (b) A1 to DUP varies only the effective weight of B and is therefore the weight-confounding control; DUP to TRI puts a real encoder into the slot at an unchanged weight; A1 to BAL keeps the non-C family total and the C weight equal. (c) The four contrasts estimated in this paper. The TRI-to-A1 difference moves both factors at once and is never attributed to S alone. These are analysis configurations in one frozen pipeline, not four trained networks."
+  },
+  "effects": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig4_effects_interaction.png",
+    "caption": "Observed representation effects and their matching interactions, with paired percentile intervals on stride-eight pixels. (a) Representation swap E = P(new) - P(control) for S = DINOv2-S on the 12 MPDD and 8 BTAD support conditions. (b) The same measure for the prespecified D = WideResNet50-2 branch on the restricted scope of seeds 0 and 1 with K = 1 and 4. (c) The direct interactions I = E_L - E_J for both encoders, which are the quantities that the tables adjust for multiplicity. Every interval drawn here is the unadjusted 95% paired interval; the 98.75% family-adjusted intervals for the primary comparisons, and the matched encoder comparison, are reported in Section 4.2.4. The support scopes of (a) and (b) differ, so the vertical distance between those panels is not an encoder effect."
+  },
+  "budget_category": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig5_budget_category.png",
+    "caption": "Interaction against the nested support budget and across categories. (a) Seed-averaged stride-eight point estimates of I_TRI and I_BAL against K. K = 2, 4 and 8 are nested prefixes of the same support sequence, so the four budgets are not independent samples, and the lines connect evaluated budgets without implying a fitted trend. (b) I_TRI per category on the MPDD study revision and the BTAD corrected revision. Bracket_white and connector carry the widest intervals, so the MPDD average is not produced by one narrow estimate. These per-budget and per-category values are exploratory follow-up analyses that do not inherit the multiplicity adjustment of the primary family."
+  },
+  "cases_good": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/qualitative_improvements_part1.png",
+    "caption": "Three selected MPDD improvements for A1 L relative to A1 J at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. J/L heatmaps share one full-map min-max range per row. The cyan L contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.",
+    "parts": [
+      "docs/manuscript_reference_matching_20260914/figures/qualitative_improvements_part1.png",
+      "docs/manuscript_reference_matching_20260914/figures/qualitative_improvements_part2.png"
+    ],
+    "continuation_caption": "Figure 6 continued. The third selected improvement, with the same scale, crop, and contour conventions."
+  },
+  "cases_bad": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/qualitative_mpdd_matching_degradations.png",
+    "caption": "Two selected MPDD degradations under the same A1 comparison and display protocol as Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. The cases illustrate matching behaviour at the anchor and are not direct evidence of the representation interaction."
+  },
+  "resources": {
+    "path": "docs/manuscript_reference_matching_20260914/figures/fig8_resources.png",
+    "caption": "Recorded per-unit cost on the single archived machine. (a) Peak process GPU memory in MB; the PatchCore row is empty because the per-process query returned N/A on this machine and no device-wide substitute is used. (b) Peak process RAM in MB; the controlled A1 configuration has no recorded field, so it is absent rather than estimated. (c) Stage time per unit, where one unit is one dataset, seed and K; PatchCore reports its bank and scoring stages as a single combined total because the vendored interface does not separate them. These are partially instrumented stage measurements, not a synchronized end-to-end latency, and A1 has no comparable complete historical timing."
+  },
+  "encoders_geo": {
+    "label": "S1",
+    "path": "docs/manuscript_reference_matching_20260914/figures/figS1_encoders.png",
+    "caption": "Frozen branches and their native geometry. (a) The four branches with their source weights, input geometry, native patch grid and retained descriptor width. Both DINOv2 branches use a 14-pixel patch and already sit on the common grid; the C branch is resampled from its own grid, and the D branch concatenates layer2 and layer3 on the B canvas. (b) Every branch is mapped to the B canvas by a bilinear resample with align_corners = False and then unit-normalized per position, so the distance actually used is one minus the cosine similarity. (c) What is frozen and how wide the fused vector is. No target-domain training, dimensionality reduction, coreset or foreground selection is applied, the fusion weights are fixed by the protocol and never searched, and the C branch contributes only its visual path, with no text or prompt score entering the anomaly score."
+  }
+}

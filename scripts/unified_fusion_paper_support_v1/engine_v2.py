@@ -23,16 +23,24 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+import os
+
 import numpy as np
 import torch
 import torch.nn.functional as F
 
 ROOT = Path(__file__).resolve().parents[2]
-CANONICAL_ROOT = (ROOT / "outputs" / "dynamic_fusion"
-                  / "unified_fusion_paper_support_20260913" / "canonical")
+CANONICAL_ROOT = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs" / "dynamic_fusion"
+    / "unified_fusion_paper_support_20260913" / "canonical"))
 MAP_STRIDE = 14
 KNOWN_BRANCHES = ("B", "S", "C")
-DATASETS = ("mpdd", "btad")
+# mvtec/visa added 2026-09-15 for the generalization study; the mpdd/btad entries
+# and their order are unchanged.
+# ksdd2 appended 2026-09-18 for the confirmation study (single category, canonical
+# canvas 224 x 630 -> patch grid 16 x 45, read from the canonical B cache).
+DATASETS = ("mpdd", "btad", "mvtec", "visa", "ksdd2")
 
 
 def branch_dir(branch: str, dataset: str, seed: int) -> Path:

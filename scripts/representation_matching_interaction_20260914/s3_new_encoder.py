@@ -39,6 +39,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -49,18 +50,45 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[2]
 NEW = (ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
        ).resolve()
-CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
+# Appended 2026-09-18: the canonical root honours FUSION_CANONICAL_ROOT exactly like
+# engine_v2.py:33-36 and run_fullpixel.py:39-41, which is what lets the confirmation run
+# read KSDD2 features from their own experiment directory.  The default is unchanged, so
+# every existing mpdd/btad invocation resolves to the same path as before.
+CANONICAL = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"))
 SPLITS = ROOT / "data/splits"
 # The K=8 support set that the canonical CACHE was built from lives in the study's own
 # p0_support manifests (the `data/splits` manifests only go up to K=4).
 SUPPORT = (ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913/p0_support"
            ).resolve()
+# --- KolektorSDD2 confirmation set (appended 2026-09-18, additive only) --------
+# Frozen geometry (F_SPEC.json, experiments/dynamic_fusion/confirmation_ksdd2_20260918):
+# one fixed canvas 224 x 630 (width x height) per image via cv2.INTER_AREA, patch 14, so
+# B's canvas is exactly 224 x 630 = grid 16 x 45 at stride 14, i.e. (630, 224) masks and
+# grid_size (45, 16) in this module's (rows, cols) convention.  D tiles layer2+layer3
+# onto that same B canvas grid, exactly as it tiles onto B's 448-edge canvas elsewhere.
+KSDD2 = "ksdd2"
+KSDD2_CANVAS_WH = (224, 630)
+KSDD2_GRID_HW = (45, 16)
+KSDD2_PATCH = 14
+KSDD2_ENCODER_RESOLUTION = 224
 DATA_ROOT = {"mpdd": ROOT / "data/mpdd_raw/MPDD",
-             "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed"}
+             "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed",
+             # appended 2026-09-18: the confirmation set (train/ + test/, one flat pair)
+             KSDD2: ROOT / "data/kolektorsdd2_raw"}
 CATS = {"mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
                  "metal_plate", "tubes"],
-        "btad": ["01", "02", "03"]}
-DATASET_ID = {"mpdd": 1, "btad": 2}
+        "btad": ["01", "02", "03"],
+        # appended 2026-09-18: KSDD2 is a single-class product dataset, its one
+        # "category" is the whole official test split (1004 images, 110 positive)
+        KSDD2: ["ksdd2"]}
+DATASET_ID = {"mpdd": 1, "btad": 2, KSDD2: 5}   # 5 agrees with stats_v2.DATASET_ID
+# The pre-specified D scope (04_new_encoder/D_BRANCH_SPEC.json, frozen 2026-09-14) is
+# mpdd + btad at seed {0,1} x K {1,4}.  Naming it explicitly keeps the default run scope
+# exactly what it was, so appending the confirmation dataset to CATS cannot silently
+# widen it; KSDD2 is only ever run when it is requested with --datasets.
+DEFAULT_DATASETS = ("mpdd", "btad")
 SEEDS = [0, 1]
 SHOTS = [1, 4]
 REPLICATES = 1000
@@ -122,9 +150,22 @@ def write_csv(path: Path, rows, fields=None) -> None:
         writer.writerows(rows)
 
 
-def write_spec(out: Path) -> dict:
+def write_spec(out: Path, datasets=None, seeds=None, shots=None) -> dict:
+    """Write the pre-specification of this run.
+
+    ``datasets`` / ``seeds`` / ``shots`` (appended 2026-09-18, keyword-only in effect since
+    they default to None) describe the scope of *this* run.  With no arguments the payload
+    is identical to the frozen 2026-09-14 one: scope = all of CATS, seed {0,1}, K {1,4},
+    36 units, 180 new conditions.  The default run scope itself is not widened by the
+    confirmation dataset - see ``DEFAULT_DATASETS`` in ``run()``.
+    """
     import torch
     import torchvision
+
+    scope_datasets = list(datasets) if datasets else list(DEFAULT_DATASETS)
+    scope_seeds = list(seeds) if seeds else list(SEEDS)
+    scope_shots = list(shots) if shots else list(SHOTS)
+    n_units = sum(len(CATS[d]) * len(scope_seeds) * len(scope_shots) for d in scope_datasets)
 
     spec = {
         "created_utc": utcnow(),
@@ -167,8 +208,10 @@ def write_spec(out: Path) -> dict:
             "BAL_D_L": "B=1/4, D=1/4, C=1/2, independent reference rows",
             "controls": "A1 (B=.5,C=.5) and DUP (B=1/3,Bcopy=1/3,C=1/3) re-scored here",
         },
-        "scope": {"datasets": list(CATS), "categories": CATS, "seeds": SEEDS, "shots": SHOTS,
-                  "units": 36, "new_method_conditions": 180,
+        "scope": {"datasets": scope_datasets,
+                  "categories": {d: CATS[d] for d in scope_datasets},
+                  "seeds": scope_seeds, "shots": scope_shots,
+                  "units": n_units, "new_method_conditions": n_units * 5,
                   "out_of_scope": ["K2", "K8", "seed 2", "any further dataset",
                                    "any further branch or backbone"]},
         "btad_geometry": ("the coordinate-correct C re-grid and the image-faithful ground truth "
@@ -187,6 +230,16 @@ def write_spec(out: Path) -> dict:
         "technical_trial": {"category": "bracket_black (first by name)", "seed": 0, "shot": 1,
                             "included_in_full_scope": True},
     }
+    # Appended 2026-09-18: a run that includes the confirmation set is not the pre-specified
+    # D extension, so the mismatch with `scope.out_of_scope` above is stated in the payload
+    # instead of being silently left to the reader.
+    if any(dataset not in DEFAULT_DATASETS for dataset in scope_datasets):
+        spec["confirmation_set_extension"] = {
+            "note": ("this run includes dataset(s) beyond the pre-specified D extension: the "
+                     "`scope.out_of_scope` list above describes the frozen 2026-09-14 scope "
+                     "and does not apply to them"),
+            "datasets": [d for d in scope_datasets if d not in DEFAULT_DATASETS],
+        }
     weights_path = Path(spec["encoder"]["weights_file"])
     spec["encoder"]["weights_sha256"] = sha256(weights_path) if weights_path.exists() else None
     (out / "D_BRANCH_SPEC.json").write_text(json.dumps(spec, ensure_ascii=False, indent=2),
@@ -200,12 +253,16 @@ def write_spec(out: Path) -> dict:
 class EncoderD:
     """ImageNet WideResNet50-2, layer2+layer3, mapped onto B's canvas grid."""
 
-    def __init__(self, device: str):
+    def __init__(self, device: str, dataset: str | None = None):
         import torch
         import torchvision
 
         self.torch = torch
         self.device = device
+        # Appended 2026-09-18: `dataset` only selects the input canvas.  None keeps the
+        # historical aspect-preserving "smaller edge -> 448" rule; KSDD2 uses the fixed
+        # 224 x 630 canvas frozen in F_SPEC.json (see `canvas()`).
+        self.dataset = dataset
         self.model = torchvision.models.wide_resnet50_2(
             weights=torchvision.models.Wide_ResNet50_2_Weights.IMAGENET1K_V1)
         self.model.eval().to(device)
@@ -214,6 +271,16 @@ class EncoderD:
 
     def canvas(self, image_rgb: np.ndarray) -> np.ndarray:
         import cv2
+
+        # Appended 2026-09-18 (KSDD2 only): the frozen confirmation geometry fixes ONE
+        # canvas per image, 224 x 630 (width x height) via cv2.INTER_AREA - the same canvas
+        # `export_k8_cache.ksdd2_to_canvas` gives the B/S branches, so D's input extent is
+        # identical to B's canvas as D_BRANCH_SPEC requires.  Both sides are multiples of
+        # the patch size (224 = 16*14, 630 = 45*14), so the top-left crop below is a no-op.
+        # Nothing above this branch changes for mpdd/btad.
+        if self.dataset == KSDD2:
+            return np.ascontiguousarray(
+                cv2.resize(image_rgb, KSDD2_CANVAS_WH, interpolation=cv2.INTER_AREA))
 
         height, width = image_rgb.shape[:2]
         if height <= width:
@@ -270,14 +337,23 @@ def read_rgb(path: Path) -> np.ndarray:
 
 
 def build_features(out: Path, encoder: EncoderD, dataset: str, category: str, seed: int,
-                   force: bool = False) -> dict:
+                   force: bool = False, support_dir: Path | None = None) -> dict:
     query_path, ref_path = feature_paths(out, dataset, category, seed)
     with np.load(CANONICAL / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
                  allow_pickle=False) as z:
         grid = tuple(int(v) for v in np.asarray(z["grid_size"]).reshape(-1))
         sample_ids = [str(x) for x in np.asarray(z["sample_ids"]).reshape(-1)]
-    manifest = json.loads((SUPPORT / f"support_manifest_{dataset}.json").read_text(
-        encoding="utf-8"))
+    # Appended 2026-09-18: KSDD2's canonical B canvas is frozen at 224 x 630 = grid 16 x 45
+    # (F_SPEC.json `geometry`), read back here as grid_size (45, 16).  A mismatch means the
+    # canonical cache is not the frozen one, so the run is refused instead of silently
+    # producing D features on a different canvas.
+    if dataset == KSDD2 and tuple(grid) != KSDD2_GRID_HW:
+        raise SystemExit(f"{dataset}/{category}: canonical B grid {grid} != frozen "
+                         f"{KSDD2_GRID_HW}")
+    # `support_dir` (appended 2026-09-18) lets a run outside the study directory point at its
+    # own p0_support manifest; the default is the study's directory, unchanged.
+    manifest = json.loads(((support_dir or SUPPORT) / f"support_manifest_{dataset}.json")
+                          .read_text(encoding="utf-8"))
     ref_ids = list(manifest["categories"][category][str(seed)]["8"])
     if len(ref_ids) != 8:
         raise SystemExit(f"{dataset}/{category}/s{seed}: expected 8 references")
@@ -461,16 +537,19 @@ def score_branches(providers: dict, refs: dict, grid: tuple[int, int], n_images:
 
 
 def _replicate_worker(payload):
-    directory, dataset, category_index, replicates = payload
-    arrays, points = replicate_arrays(Path(directory), dataset, category_index, replicates)
+    directory, dataset, category_index, replicates = payload[:4]
+    fast = bool(payload[4]) if len(payload) > 4 else False
+    arrays, points = replicate_arrays(Path(directory), dataset, category_index, replicates,
+                                      fast=fast)
     return {"directory": directory, "dataset": dataset, "category_index": category_index,
             "arrays": arrays, "points": points}
 
 
-def collect_replicates(units: list, replicates: int, out: Path, workers: int) -> tuple:
+def collect_replicates(units: list, replicates: int, out: Path, workers: int,
+                       fast: bool = False) -> tuple:
     """Per-category replicate arrays for every scored unit (optionally in parallel)."""
     per_category, point_by_condition = {}, {}
-    payloads = [(str(directory), dataset, index, replicates)
+    payloads = [(str(directory), dataset, index, replicates, fast)
                 for directory, dataset, index in units]
     if workers > 1 and len(payloads) > 1:
         from concurrent.futures import ProcessPoolExecutor
@@ -511,8 +590,19 @@ def load_scored(directory: Path):
 
 
 def replicate_arrays(directory: Path, dataset: str, category_index: int,
-                     replicates: int) -> tuple[dict, dict]:
-    """Per-category replicate arrays for every method, plus the point metrics."""
+                     replicates: int, fast: bool = False) -> tuple[dict, dict]:
+    """Per-category replicate arrays for every method, plus the point metrics.
+
+    ``fast=True`` is an opt-in switch to ``fast_replicates.replicate_arrays``: the
+    drawn images, the estimator and the point metrics are unchanged, only the
+    arithmetic is vectorised over the replicate axis.  The default path below is
+    what every existing artefact was produced with.
+    """
+    if fast:
+        import fast_replicates
+
+        return fast_replicates.replicate_arrays(directory, dataset, category_index, replicates)
+
     methods, pixel, image, masks, labels = load_scored(directory)
     n_images = labels.size
     positive = masks.reshape(-1) > 0
@@ -605,14 +695,23 @@ def run(out: Path, args) -> int:
 
     out.mkdir(parents=True, exist_ok=True)
     device = args.device if args.device != "cuda" or torch.cuda.is_available() else "cpu"
-    spec = write_spec(out)
+    # Appended 2026-09-18: never overwrite an existing pre-specification.  For the D extension
+    # the spec is the artefact that makes the result interpretable ("frozen before any D
+    # result was produced"), so a run pointed at the historical directory must not rewrite it;
+    # a new run writes its own spec into its own output directory.
+    spec_path = out / "D_BRANCH_SPEC.json"
+    datasets = args.datasets or (["mpdd"] if args.smoke else list(DEFAULT_DATASETS))
+    seeds = args.seeds or ([0] if args.smoke else SEEDS)
+    shots = args.shots or ([1] if args.smoke else SHOTS)
+    spec = (write_spec(out, datasets, seeds, shots) if not spec_path.exists()
+            else json.loads(spec_path.read_text(encoding="utf-8")))
     encoder = EncoderD(device)
+    # KSDD2 uses the frozen fixed canvas (F_SPEC.json) instead of the aspect-preserving
+    # "smaller edge 448" rule, so it gets its own encoder instance whose canvas() maps every
+    # image onto 224 x 630.  Built only when KSDD2 is in this run's scope.
+    encoder_ksdd2 = EncoderD(device, KSDD2) if KSDD2 in datasets else None
     resource = {"encoding": [], "scoring": [], "device": device,
                 "peak_gpu_mb_encoding": None, "peak_gpu_mb_scoring": None}
-
-    datasets = ["mpdd"] if args.smoke else list(CATS)
-    seeds = [0] if args.smoke else SEEDS
-    shots = [1] if args.smoke else SHOTS
 
     # ---------------------------------------------------------- feature cache
     feature_rows = []
@@ -622,8 +721,10 @@ def run(out: Path, args) -> int:
         categories = CATS[dataset][:1] if args.smoke else CATS[dataset]
         for category in categories:
             for seed in seeds:
-                record = build_features(out, encoder, dataset, category, seed,
-                                        force=args.force_features)
+                record = build_features(out, encoder_ksdd2 if dataset == KSDD2 else encoder,
+                                        dataset, category, seed,
+                                        force=args.force_features,
+                                        support_dir=args.support_dir)
                 feature_rows.append(record)
                 if record.get("query_encoded") or record.get("ref_encoded"):
                     resource["encoding"].append({"dataset": dataset, "category": category,
@@ -678,7 +779,7 @@ def run(out: Path, args) -> int:
                                "extent": (params["x_extent_ratio"], params["y_extent_ratio"])}
         info = grid_cache[key]
         grid = info["grid"]
-        revisions = (["study"] if dataset == "mpdd"
+        revisions = (["study"] if dataset in ("mpdd", KSDD2)
                      else (["corrected", "study"] if args.btad_revision == "corrected"
                            else ["study"]))
         for revision in revisions:
@@ -758,16 +859,17 @@ def run(out: Path, args) -> int:
     replicate_units = []
     for dataset in CATS:
         for category_index, category in enumerate(CATS[dataset]):
-            for seed in SEEDS:
-                for shot in SHOTS:
-                    for revision in (["study"] if dataset == "mpdd"
+            for seed in seeds:
+                for shot in shots:
+                    for revision in (["study"] if dataset in ("mpdd", KSDD2)
                                      else ["corrected", "study"]):
                         directory = (out / "units" / f"{dataset}_s{seed}_k{shot}"
                                      / f"{category}__{revision}")
                         if (directory / "evaluation_scores.npz").exists():
                             replicate_units.append((directory, dataset, category_index))
     per_category, point_by_condition = collect_replicates(replicate_units, REPLICATES, out,
-                                                          args.workers)
+                                                          args.workers,
+                                                          fast=args.fast_replicates)
 
     def point_ap(dataset: str, revision: str, seed: int, shot: int, category: str,
                  method: str):
@@ -780,8 +882,8 @@ def run(out: Path, args) -> int:
     interaction_rows, effect_rows, trace = [], [], []
     interaction_replicates = {}
     for dataset in CATS:
-        for revision in (["study"] if dataset == "mpdd" else ["corrected", "study"]):
-            conditions = [(s, k) for s in SEEDS for k in SHOTS
+        for revision in (["study"] if dataset in ("mpdd", KSDD2) else ["corrected", "study"]):
+            conditions = [(s, k) for s in seeds for k in shots
                           if (dataset, revision, s, k, CATS[dataset][0], "A1_J") in point_by_condition]
             for name, spec in INTERACTIONS_D.items():
                 left_l, right_l, left_j, right_j = spec
@@ -881,11 +983,13 @@ def run(out: Path, args) -> int:
                         **interaction_replicates)
 
     # ------------------------------------- cross-encoder comparison on the same scope
-    study = np.load(ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913"
-                    / "p1_statistics/bootstrap_samples.npz", allow_pickle=False)
+    # Appended 2026-09-18: `--study-statistics` points this at the bootstrap-samples file of
+    # the scope being compared (the confirmation run uses its own).  The default is the
+    # historical study file, so existing invocations read exactly what they read before.
+    study = np.load(args.study_statistics, allow_pickle=False)
     comparison = []
     for dataset in CATS:
-        conditions = [(s, k) for s in SEEDS for k in SHOTS]
+        conditions = [(s, k) for s in seeds for k in shots]
         for name, spec in INTERACTIONS_S.items():
             block = []
             for seed, shot in conditions:
@@ -913,7 +1017,9 @@ def run(out: Path, args) -> int:
                                "n_conditions": len(block),
                                "bootstrap_mean": stats["bootstrap_mean"],
                                "ci95_low": stats["ci_low"], "ci95_high": stats["ci_high"],
-                               "scope": "seed 0/1 x K 1/4 (restricted to match the D scope)"})
+                               "scope": (f"seed {'/'.join(str(s) for s in seeds)} x K "
+                                         f"{'/'.join(str(k) for k in shots)}"
+                                         " (restricted to match the D scope)")})
     for row in interaction_rows:
         comparison.append({"dataset": row["dataset"], "encoder": "D (WideResNet50-2)",
                            "interaction": row["contrast"].split(":")[0],
@@ -982,6 +1088,31 @@ def main() -> int:
     ap.add_argument("--force-features", action="store_true",
                     help="re-encode the D feature cache even if it exists")
     ap.add_argument("--btad-revision", choices=("corrected", "study"), default="corrected")
+    # Appended 2026-09-18: the confirmation set needs its own scope (seeds 0,1,2 and K
+    # 1,2,4,8) and its own support manifest, without touching the pre-specified default
+    # scope.  Every default below is the historical value, so an invocation without these
+    # flags behaves exactly as before.
+    ap.add_argument("--datasets", nargs="+", default=None,
+                    help=f"run scope; default {list(DEFAULT_DATASETS)} (mpdd is used for "
+                         "--smoke)")
+    ap.add_argument("--seeds", nargs="+", type=int, default=None,
+                    help=f"reference seeds; default {SEEDS}")
+    ap.add_argument("--shots", nargs="+", type=int, default=None,
+                    help=f"reference budgets K; default {SHOTS}")
+    ap.add_argument("--support-dir", type=Path, default=None,
+                    help="directory holding support_manifest_<dataset>.json; "
+                         "default the study's p0_support")
+    ap.add_argument("--study-statistics", type=Path,
+                    default=ROOT / "experiments/dynamic_fusion"
+                    / "unified_fusion_paper_support_20260913/p1_statistics"
+                    / "bootstrap_samples.npz",
+                    help="bootstrap samples used for the S side of the cross-encoder table")
+    ap.add_argument("--fast-replicates", action="store_true",
+                    default=os.environ.get("FAST_REPLICATES", "") not in ("", "0", "false"),
+                    help="opt in to the vectorised replicate estimator "
+                         "(fast_replicates.py): the drawn images, the estimator and the point "
+                         "metrics are unchanged, only the arithmetic is vectorised.  Also "
+                         "settable with FAST_REPLICATES=1.")
     args = ap.parse_args()
     return run(args.out, args)
 

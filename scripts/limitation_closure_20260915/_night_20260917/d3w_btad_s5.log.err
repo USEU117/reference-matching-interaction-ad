@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 440, in <module>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 239, in main
+    got = condition_series(dataset, index, seed, shot, category)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 162, in condition_series
+    arrays, points = load_or_compute_series(directory, dataset, category_index, seed, shot, category)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 136, in load_or_compute_series
+    arrays, points = replicate_arrays(directory, dataset, category_index, REPLICATES)
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s3_new_encoder.py", line 545, in replicate_arrays
+    arrays[name][replicate] = weighted_ap(group_total, group_pos)
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s3_new_encoder.py", line 560, in weighted_ap
+    counts = np.cumsum(gt[::-1])
+  File "D:\STUDY\My_github\sci_project\.venv-anomalyclip\lib\site-packages\numpy\core\fromnumeric.py", line 2586, in cumsum
+    return _wrapfunc(a, 'cumsum', axis=axis, dtype=dtype, out=out)
+  File "D:\STUDY\My_github\sci_project\.venv-anomalyclip\lib\site-packages\numpy\core\fromnumeric.py", line 59, in _wrapfunc
+    return bound(*args, **kwds)
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 3.52 MiB for an array with shape (461550,) and data type float64

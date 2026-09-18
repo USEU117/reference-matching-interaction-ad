@@ -19,17 +19,33 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 STUDY = ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913"
-CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
+# Appended 2026-09-18: honour FUSION_CANONICAL_ROOT, the same convention as
+# engine_v2.py:33-36 and run_fullpixel.py:39-41, so the defect-area grouping can read the
+# confirmation run's canonical masks.  The default path is unchanged.
+CANONICAL = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"))
 CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # added 2026-09-15 for the generalization study
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor",
+              "wood", "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
+    # appended 2026-09-18 for the confirmation study (single class).  Nothing is iterated
+    # over this dict: the conditions come from the statistics tables, so a scope without
+    # KSDD2 rows behaves exactly as before.
+    "ksdd2": ["ksdd2"],
 }
 # Frozen before looking at the new effects (handoff section 9).
 AREA_GROUPS = [("tiny", 0.0, 0.001), ("small", 0.001, 0.01), ("large", 0.01, 1.01)]

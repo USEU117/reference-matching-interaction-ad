@@ -22,6 +22,11 @@ Three S0 deliverables:
    implementation treats the CLIP 37x37 grid as covering the same normalised extent as
    B's canvas; the corrected version accounts for the fact that the canvas is the
    *cropped* tensor (BTAD-03 keeps 588 of 597 columns).  Both are kept and named.
+
+The two panels are drawn at the manuscript's printed width (17 cm), so a font size written
+here is the size printed in the paper, and `figure_font_gate.assert_min_font_pt` fails the
+run when a label would fall below 11.5 pt.  Nothing about the geometry, the audited units or
+the numbers changed: only `figsize` and the font sizes differ from the earlier 11 in raster.
 """
 
 from __future__ import annotations
@@ -55,6 +60,19 @@ PATCH = 14
 SMALL_EDGE = 448
 
 sys.path.insert(0, str(ROOT / "scripts"))
+# The panel contract lives with the figure set it belongs to: 17 cm printed width, 11.5 pt floor.
+sys.path.insert(0, str(ROOT / "scripts/figures_reference_matching_20260914"))
+from figure_font_gate import (  # noqa: E402
+    DEFAULT_PT,
+    MANUSCRIPT_WIDTH_CM,
+    assert_min_font_pt,
+)
+
+FIG_WIDTH_IN = MANUSCRIPT_WIDTH_CM / 2.54  # panels are built at the printed width
+MIN_FONT_PT = DEFAULT_PT                   # so a font size on them is a printed size
+FIG_DPI = 350
+C_TO_B_STEM = NEW / "01_geometry/figS1_c_to_b_shift"
+CANVAS_STEM = NEW / "01_geometry/figS2_canvas_coverage"
 
 
 def utcnow() -> str:
@@ -83,6 +101,35 @@ def write_json(path: Path, payload) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str),
                     encoding="utf-8")
+
+
+def init_figure_style() -> None:
+    """Times New Roman at the printed floor, so the font gate can assert on the figure."""
+    import matplotlib
+    matplotlib.use("Agg")
+    matplotlib.rcParams["font.family"] = "Times New Roman"
+    matplotlib.rcParams["font.size"] = MIN_FONT_PT
+    matplotlib.rcParams["axes.titlesize"] = MIN_FONT_PT
+    matplotlib.rcParams["axes.labelsize"] = MIN_FONT_PT
+    matplotlib.rcParams["xtick.labelsize"] = MIN_FONT_PT
+    matplotlib.rcParams["ytick.labelsize"] = MIN_FONT_PT
+    matplotlib.rcParams["legend.fontsize"] = MIN_FONT_PT
+
+
+def save_figure(fig, out_stem: Path) -> list:
+    """Assert the legibility floor, then write the PNG and the vector PDF of one panel."""
+    import matplotlib.pyplot as plt
+    out_stem.parent.mkdir(parents=True, exist_ok=True)
+    assert_min_font_pt(fig, MIN_FONT_PT, out_stem.name)
+    written = []
+    for suffix in (".png", ".pdf"):
+        path = out_stem.with_suffix(suffix)
+        fig.savefig(path, dpi=FIG_DPI, facecolor="white")
+        written.append(path)
+    plt.close(fig)
+    for path in written:
+        print(f"[S0] wrote {path} ({path.stat().st_size} bytes)", flush=True)
+    return written
 
 
 # --------------------------------------------------------------------------- S0.1
@@ -318,8 +365,8 @@ def faithful_gt(dataset: str, seed: int, category: str, write: bool = True) -> d
 # --------------------------------------------------------------------------- S0.3
 
 
-def c_to_b_audit() -> dict:
-    """Compare the approximate and coordinate-correct C -> canvas maps."""
+def c_to_b_audit(figure_stem: Path | None = None) -> dict:
+    """Compare the approximate and coordinate-correct C -> canvas maps (plus the panel)."""
     records = []
     for dataset, category, seed in (("btad", "03", 0), ("mpdd", "bracket_black", 0),
                                     ("btad", "01", 0), ("mpdd", "tubes", 0)):
@@ -370,12 +417,23 @@ def c_to_b_audit() -> dict:
                    "correct variant is the primary one for the interaction analysis"),
     }
     write_json(NEW / "01_geometry/C_TO_B_COORDINATE_AUDIT.json", payload)
+    render_c_to_b_figure(payload, figure_stem or C_TO_B_STEM)
+    return payload
 
+
+def render_c_to_b_figure(payload: dict, out_stem: Path) -> list:
+    """The C->B coordinate-shift panel at the 17 cm / >= 11.5 pt contract.
+
+    Same records, same two curves and the same labels as the 11 in raster it replaces; only
+    the canvas width and the font sizes change, so the picture is embeddable in the paper.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
+    init_figure_style()
+    records = payload["records"]
+    fig, axes = plt.subplots(1, 2, figsize=(FIG_WIDTH_IN, 3.3))
     for ax, record in zip(axes, records[:2]):
         ratio = record["x_extent_ratio"]
         ax.axhline(1.0, color="black", linewidth=0.8)
@@ -386,25 +444,29 @@ def c_to_b_audit() -> dict:
                  - ((xs + 0.5) / record["grid"][1] * record["c_side"] - 0.5))
         ax.plot(xs, shift, color="#a5453b",
                 label="approx minus corrected (CLIP cells)")
-        ax.set_title(f"{record['dataset']}/{record['category']}  ratio={ratio:.5f}", fontsize=9)
-        ax.set_xlabel("canvas column", fontsize=8)
-        ax.set_ylabel("coordinate shift (CLIP cells)", fontsize=8)
-        ax.legend(fontsize=7)
+        ax.set_title(f"{record['dataset']}/{record['category']}  ratio={ratio:.5f}",
+                     fontsize=MIN_FONT_PT)
+        ax.set_xlabel("canvas column", fontsize=MIN_FONT_PT)
+        ax.set_ylabel("coordinate shift (CLIP cells)", fontsize=MIN_FONT_PT)
+        ax.legend(fontsize=MIN_FONT_PT, loc="upper left", framealpha=0.9)
         ax.grid(alpha=0.25)
     fig.tight_layout()
-    fig.savefig(NEW / "01_geometry/figS1_c_to_b_shift.png", dpi=180)
-    plt.close(fig)
-    return payload
+    return save_figure(fig, out_stem)
 
 
-def boundary_figure() -> None:
-    """Draw which part of the original image each branch's canvas covers."""
+def boundary_figure(out_stem: Path | None = None) -> list:
+    """Draw which part of the original image each branch's canvas covers.
+
+    Redrawn at the 17 cm / >= 11.5 pt contract; the two cases, the two rectangles and every
+    text are the same as in the earlier 11 in raster.
+    """
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
+    init_figure_style()
     cases = [("mpdd", "bracket_black"), ("btad", "03")]
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+    fig, axes = plt.subplots(1, 2, figsize=(FIG_WIDTH_IN, 3.9))
     for ax, (dataset, category) in zip(axes, cases):
         cache = CANONICAL / "B" / f"{dataset}_s0_k8" / f"{category}.npz"
         with np.load(cache, allow_pickle=False) as z:
@@ -426,23 +488,35 @@ def boundary_figure() -> None:
         ax.add_patch(plt.Rectangle((left / rw * w, top / rh * h), 224 / rw * w, 224 / rh * h,
                                    fill=False, edgecolor="#3b6ea5", linewidth=2,
                                    label="PatchCore 224 (centre crop)"))
-        ax.set_title(f"{dataset}/{category}  {w}x{h}", fontsize=9)
-        ax.legend(fontsize=7, loc="lower right")
+        ax.set_title(f"{dataset}/{category}  {w}x{h}", fontsize=MIN_FONT_PT)
+        ax.legend(fontsize=MIN_FONT_PT, loc="lower right")
         ax.axis("off")
-    fig.suptitle("Canvas coverage in original coordinates (all numbers are computed, not assumed)",
-                 fontsize=9)
-    fig.tight_layout(rect=(0, 0, 1, 0.95))
-    fig.savefig(NEW / "01_geometry/figS2_canvas_coverage.png", dpi=180)
-    plt.close(fig)
+    fig.suptitle("Canvas coverage in original coordinates\n"
+                 "(all numbers are computed, not assumed)", fontsize=MIN_FONT_PT)
+    fig.tight_layout(rect=(0, 0, 1, 0.88))
+    return save_figure(fig, out_stem or CANVAS_STEM)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-freeze", action="store_true")
+    ap.add_argument("--figures-only", action="store_true",
+                    help="re-render the two geometry panels from the frozen audit JSON and "
+                         "write nothing else (no protocol, geometry or metric file is touched)")
     args = ap.parse_args()
     for sub in ("00_protocol", "01_geometry/gt", "02_interaction", "03_robustness",
                 "04_new_encoder", "05_baselines", "06_paper"):
         (NEW / sub).mkdir(parents=True, exist_ok=True)
+
+    if args.figures_only:
+        audit_path = NEW / "01_geometry/C_TO_B_COORDINATE_AUDIT.json"
+        if not audit_path.is_file():
+            raise SystemExit(f"[S0] --figures-only needs the frozen audit: {audit_path}")
+        payload = json.loads(audit_path.read_text(encoding="utf-8"))
+        render_c_to_b_figure(payload, C_TO_B_STEM)
+        boundary_figure()
+        print("[S0] panels re-rendered at 17 cm / >= 11.5 pt; no data file was rewritten")
+        return 0
 
     out = {"created_utc": utcnow()}
     if not args.skip_freeze:

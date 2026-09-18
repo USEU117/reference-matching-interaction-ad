@@ -1,0 +1,48 @@
+{
+  "phase": 4,
+  "created_utc": "2026-09-18T23:34:36.798468+00:00",
+  "pass": false,
+  "checks": [
+    {
+      "id": "multi_dataset_dir",
+      "what": "05_baselines_multi_dataset 目录有结果文件",
+      "expected": ">=4 个文件",
+      "actual": "0 个",
+      "pass": false,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset"
+      ]
+    },
+    {
+      "id": "common_region_four_datasets",
+      "what": "共同区域表覆盖 4 个数据集",
+      "expected": "含 mpdd,btad,mvtec,visa",
+      "actual": "含 ",
+      "pass": false,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv"
+      ]
+    },
+    {
+      "id": "s8_summary",
+      "what": "S8_SUMMARY.json 存在",
+      "expected": "存在",
+      "actual": false,
+      "pass": false,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\S8_SUMMARY.json"
+      ]
+    },
+    {
+      "id": "patchcore_units",
+      "what": "PatchCore official224 单元目录（信息记录）",
+      "expected": "记录",
+      "actual": "16 个: btad_s0_k1,btad_s0_k4,btad_s1_k1,btad_s1_k4,mpdd_s0_k1,mpdd_s0_k4,mpdd_s1_k1,mpdd_s1_k4,mvtec_s0_k1,mvtec_s0_k4",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\patchcore_official224"
+      ]
+    }
+  ],
+  "n_failed": 3
+}

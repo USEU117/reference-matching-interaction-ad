@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import sys
 import time
 from datetime import datetime, timezone
@@ -48,18 +49,58 @@ ROOT = Path(__file__).resolve().parents[2]
 NEW = (ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
        ).resolve()
 R = (ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913").resolve()
-CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
+CANONICAL = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"))
+# appended 2026-09-18: the two canonical roots are disjoint - the study root holds only the
+# mpdd/btad caches (its export reports are export_report_{mpdd,btad}_k8.json) and the
+# generalization study holds only mvtec/visa, so one process cannot read all four datasets
+# from a single root.  FUSION_CANONICAL_ROOT still overrides every dataset, exactly as in
+# engine_v2/run_fullpixel.
+GENERALIZATION_CANONICAL = (ROOT / "experiments/dynamic_fusion"
+                            / "generalization_mvtec_visa_20260915/canonical")
+CANONICAL_ROOTS = {"mvtec": GENERALIZATION_CANONICAL, "visa": GENERALIZATION_CANONICAL}
 PATCHCORE_OUT = ROOT / "outputs/patchcore"
 VIEW_ROOT = ROOT / "data/patchcore_closeout"
 DATA_ROOT = {"mpdd": ROOT / "data/mpdd_raw/MPDD",
-             "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed"}
+             "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed",
+             # appended 2026-09-18 for the multi-dataset region figure; the mpdd/btad
+             # entries and their order are unchanged
+             "mvtec": ROOT / "data/mvtec",
+             "visa": ROOT / "data/visa_raw"}
 CATS = {"mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
                  "metal_plate", "tubes"],
-        "btad": ["01", "02", "03"]}
+        "btad": ["01", "02", "03"],
+        # appended 2026-09-18 (same lists as run_fullpixel.py / patchcore wrapper)
+        "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+                  "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor", "wood",
+                  "zipper"],
+        "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+                 "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"]}
+# The A1 matrix roots: the main study keeps mpdd in p1_matrix and btad in p3_external; the
+# generalization study exported mvtec/visa into its own p1_matrix (same engine/run_matrix.py,
+# same unit layout), so it is an additional candidate root only for those two datasets.
+CONTROLLED_ROOTS = {
+    "mvtec": ROOT / "experiments/dynamic_fusion/generalization_mvtec_visa_20260915"
+                   / "p1_matrix/units",
+    "visa": ROOT / "experiments/dynamic_fusion/generalization_mvtec_visa_20260915"
+                  / "p1_matrix/units",
+}
 SEEDS = [0, 1]
 SHOTS = [1, 4]
 PARTS = NEW / "05_baselines/_region_parts"
 CONTROLLED_METHODS = ("A1_J", "A1_L")
+
+
+def canonical_root(dataset: str) -> Path:
+    """The canonical cache root that actually holds `dataset`.
+
+    mpdd/btad live in the study root, mvtec/visa in the generalization root; the environment
+    variable overrides both (the engine_v2/run_fullpixel convention).
+    """
+    if os.environ.get("FUSION_CANONICAL_ROOT"):
+        return CANONICAL
+    return CANONICAL_ROOTS.get(dataset, CANONICAL)
 
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "scripts/unified_fusion_paper_support_v1"))
@@ -144,6 +185,22 @@ def controlled_rect(height: int, width: int):
     return (0.0, canvas[1] / resized[1]), (0.0, canvas[0] / resized[0]), canvas, resized
 
 
+def controlled_rect_truncated(height: int, width: int):
+    """`controlled_rect` with the truncated resize (`int()` of the exact scale).
+
+    Appended 2026-09-18.  The VisA `pcb1`/`pcb2` caches were exported from the older VisA cache
+    whose resized width is `int(448 * 1404 / 1070) = 587` (canvas 41 * 14 = 574) instead of the
+    rounded 588.  It is only consulted when the rounded rectangle disagrees with the canonical
+    mask, so mpdd/btad and every category that already agrees keep their own geometry.
+    """
+    if height <= width:
+        resized = (448, int(width * 448 / height))
+    else:
+        resized = (int(height * 448 / width), 448)
+    canvas = (resized[0] - resized[0] % 14, resized[1] - resized[1] % 14)
+    return (0.0, canvas[1] / resized[1]), (0.0, canvas[0] / resized[0]), canvas, resized
+
+
 def patchcore_rect(height: int, width: int, resize: int, imagesize: int):
     rh, rw = resize_geometry(height, width, resize)
     x0 = center_crop_offset(rw, imagesize)
@@ -187,6 +244,11 @@ def controlled_loader(dataset: str, seed: int, shot: int, category: str):
                           / "03__rev_correct" / "patch_scores.npz")
     root = R / ("p1_matrix" if dataset == "mpdd" else "p3_external") / "units"
     candidates.append(root / f"{dataset}_s{seed}_k{shot}" / category / "patch_scores.npz")
+    # additional root for the appended datasets; empty for mpdd/btad, so their resolution
+    # order and result are untouched
+    extra = CONTROLLED_ROOTS.get(dataset)
+    if extra is not None:
+        candidates.append(extra / f"{dataset}_s{seed}_k{shot}" / category / "patch_scores.npz")
     for path in candidates:
         if path.exists():
             return path
@@ -200,8 +262,13 @@ def anomalydino_loader(dataset: str, seed: int, shot: int, category: str, varian
 
 
 def patchcore_loader(dataset: str, seed: int, shot: int, category: str, config: str):
-    project = {"local128": {"mpdd": "mpdd_closeout", "btad": "btad_closeout"},
-               "official224": {"mpdd": "mpdd_official224", "btad": "btad_official224"}}[config]
+    project = {"local128": {"mpdd": "mpdd_closeout", "btad": "btad_closeout",
+                            # appended 2026-09-18: only official224 was ever run for
+                            # mvtec/visa, so the local128 entries resolve to nothing and
+                            # the method is simply absent from those units
+                            "mvtec": "mvtec_closeout", "visa": "visa_closeout"},
+               "official224": {"mpdd": "mpdd_official224", "btad": "btad_official224",
+                               "mvtec": "mvtec_official224", "visa": "visa_official224"}}[config]
     root = PATCHCORE_OUT / ("closeout" if config == "local128" else "closeout_official224")
     path = root / project[dataset] / f"{dataset}_s{seed}_k{shot}" / "predictions" \
         / f"mvtec_{category}.npz"
@@ -214,13 +281,13 @@ def canonical_masks(dataset: str, seed: int, category: str) -> np.ndarray:
         if faithful.exists():
             with np.load(faithful, allow_pickle=False) as z:
                 return np.asarray(z["imgs_masks"], dtype=np.uint8)
-    with np.load(CANONICAL / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
+    with np.load(canonical_root(dataset) / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
                  allow_pickle=False) as z:
         return np.asarray(z["imgs_masks"], dtype=np.uint8)
 
 
 def canonical_ids(dataset: str, seed: int, category: str) -> list:
-    with np.load(CANONICAL / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
+    with np.load(canonical_root(dataset) / "B" / f"{dataset}_s{seed}_k8" / f"{category}.npz",
                  allow_pickle=False) as z:
         return [str(x) for x in np.asarray(z["sample_ids"]).reshape(-1)]
 
@@ -246,11 +313,17 @@ def unit_worker(payload: dict) -> dict:
     rows, geometry = [], {}
     height, width = first_image_size(dataset, seed, category)
     canvas_rect, canvas_rect_y, canvas_hw, resized = controlled_rect(height, width)
-    controlled_rect_full = (canvas_rect, canvas_rect_y)
     masks = canonical_masks(dataset, seed, category)
     ids = canonical_ids(dataset, seed, category)
     if masks.shape[1:] != canvas_hw:
-        raise SystemExit(f"{dataset}/{category}: mask {masks.shape[1:]} != canvas {canvas_hw}")
+        # VisA pcb1/pcb2 only: the rounded rectangle disagrees with the canonical canvas, the
+        # truncated one reproduces it exactly.  mpdd/btad never enter this branch, so their
+        # published geometry is untouched.
+        fallback = controlled_rect_truncated(height, width)
+        if tuple(fallback[2]) != tuple(masks.shape[1:]):
+            raise SystemExit(f"{dataset}/{category}: mask {masks.shape[1:]} != canvas {canvas_hw}")
+        canvas_rect, canvas_rect_y, canvas_hw, resized = fallback
+    controlled_rect_full = (canvas_rect, canvas_rect_y)
 
     specs = {}
     for method in CONTROLLED_METHODS:
@@ -325,6 +398,15 @@ def unit_worker(payload: dict) -> dict:
                               .replace("\\", "/") for x in np.asarray(z["sample_ids"]).reshape(-1)]
                 if dataset == "btad":
                     source_ids = [s.replace("test/good/", "test/ok/") for s in source_ids]
+                # appended 2026-09-18: the VisA PatchCore view (data/visa_pytorch/1cls) is the
+                # MVTec-layout adapter and labels the two test classes good/bad, while the
+                # canonical cache keeps the raw VisA paths Normal/Anomaly.  File names are
+                # identical (verified for candle: 100 good == 100 Normal, 100 bad == 100
+                # Anomaly), so only the class directory token has to be translated.
+                if dataset == "visa":
+                    source_ids = [s.replace("test/good/", "Data/Images/Normal/")
+                                  .replace("test/bad/", "Data/Images/Anomaly/")
+                                  for s in source_ids]
         index = {sid: i for i, sid in enumerate(source_ids)}
         if any(sid not in index for sid in ids):
             return {"status": "sample_id_unmatched", "unit": unit, "method": name}

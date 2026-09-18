@@ -1,0 +1,657 @@
+{
+  "created_utc": "2026-09-18T04:06:13.601668+00:00",
+  "purpose": "quantify the support-set contribution to the interaction, i.e. whether the conclusion survives a change of normal reference images",
+  "scope": {
+    "datasets": {
+      "mpdd": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ]
+    },
+    "seeds": [
+      0
+    ],
+    "shots": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "replicates": 1000,
+    "revision": "study",
+    "btad03_geometry": "BTAD-03 is INCLUDED here.  Every seed 0..7 carries a canonical B mask of shape 448x588 for the 32x42 grid (verified on disk 2026-09-17), so the category can be pooled with 01/02 across seeds.  This is the canonical-mask convention that the matrices use.  The paper's separate BTAD-03 corrected-geometry analysis (image-faithful masks plus the coordinate-correct C regrid, 'rev_correct' in 01_geometry) is a different convention, so its numbers must not be quoted interchangeably with these."
+  },
+  "query_provenance": {
+    "shared_block_seeds": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "own_historical_block_seeds": [
+      0,
+      1,
+      2
+    ],
+    "reason": "seeds 3..7 copy one query encoding so that seed-to-seed differences come from the support set alone; seeds 0..2 keep their frozen historical blocks and are summarised separately as well as jointly"
+  },
+  "VD_4_variance": {
+    "mpdd|I_TRI": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 0,
+        "point_values": [],
+        "mean_point": null,
+        "sd_across_seeds": null,
+        "bootstrap_means": [],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": null,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 1,
+        "point_values": [
+          0.007757244891683729
+        ],
+        "mean_point": 0.007757244891683729,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.007060268335260231
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.006117975053231862,
+        "n_seeds_excluding_zero_95": 1,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 1,
+        "point_values": [
+          0.007757244891683729
+        ],
+        "mean_point": 0.007757244891683729,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.007060268335260231
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.006117975053231862,
+        "n_seeds_excluding_zero_95": 1,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      }
+    },
+    "mpdd|I_BAL": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 0,
+        "point_values": [],
+        "mean_point": null,
+        "sd_across_seeds": null,
+        "bootstrap_means": [],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": null,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0046487255975529865
+        ],
+        "mean_point": 0.0046487255975529865,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.004845865264889129
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.005356759828319558,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0046487255975529865
+        ],
+        "mean_point": 0.0046487255975529865,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.004845865264889129
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.005356759828319558,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      }
+    }
+  },
+  "VD_3_regression": {
+    "mpdd": {
+      "n_compared": 48,
+      "max_abs_delta": 0.02468881479032596,
+      "median_abs_delta": 0.005558690504616759,
+      "tolerance_1e_9": false,
+      "published_rows_found": true
+    }
+  },
+  "VD_3_rows": [
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0004821561599241864,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0005577428584696842,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.0016969004249455107,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0055074396871655955,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.010032958540686176,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.009522248713774033,
+      "published_bootstrap_mean": 0.004067607589179026
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.00019644766592788484,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0009069083289426725,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.0052685746271169676,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.013968513722765126,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007790641074478977,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01128680386225546,
+      "published_bootstrap_mean": 0.006569648213581182
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.000746142384418085,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0006536619386625567,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.013189741945398932,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.014407369979174077,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.005065637362213203,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.011100762112965725,
+      "published_bootstrap_mean": 0.007278505158999401
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0016552930279988822,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0004784543499036963,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.012421504581742055,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.03093024422148381,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.0044641968467356375,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.0129590899476312,
+      "published_bootstrap_mean": 0.010325312379281318
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0002735608256708584,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.00025092600152908036,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.0018890314745461589,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.006977937939610287,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007574212044626236,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.010082049900004632,
+      "published_bootstrap_mean": 0.0038782758728158253
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.000186537176328819,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0004809748995748583,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.009356374567723154,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.005696934958173718,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007172045984846982,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.012524529459669292,
+      "published_bootstrap_mean": 0.0056803954824182455
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0010968637231392585,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0007592970595054623,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.004613271344985504,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0019299124856219914,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004018082016135524,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01263606052478755,
+      "published_bootstrap_mean": 0.0026378240773673777
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0013501687449969095,
+      "published_bootstrap_mean": 0.007186965626955069
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0008205521598545877,
+      "published_bootstrap_mean": 0.007186965626955069
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.00489348257494826,
+      "published_bootstrap_mean": 0.007186965626955069
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.03187578041728103,
+      "published_bootstrap_mean": 0.007186965626955069
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.003097883231054322,
+      "published_bootstrap_mean": 0.007186965626955069
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.012511996103201011,
+      "published_bootstrap_mean": 0.007186965626955069
+    }
+  ],
+  "VD_2_query_drift": {
+    "measured": true,
+    "detail": "see QUERY_DRIFT.json; the criterion is that the query drift is a small fraction of the support-set effect measured on the same distance field",
+    "raw_feature_max_abs_drift": 0.0017137527465820312,
+    "distance_effective_ratio_worst": 1.5492822058149613e-05,
+    "distance_effective_all_below_one": true,
+    "distance_effective_units": [
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 4.080429789610207e-07,
+        "query_drift_effect_on_distance_max": 1.4066696166992188e-05,
+        "support_set_effect_on_distance_mean": 0.06825978308916092,
+        "support_set_effect_on_distance_max": 0.3838944435119629,
+        "ratio_drift_to_support": 5.977794899081346e-06
+      },
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1438192615287335e-07,
+        "query_drift_effect_on_distance_max": 6.198883056640625e-06,
+        "support_set_effect_on_distance_mean": 0.014075837098062038,
+        "support_set_effect_on_distance_max": 0.19520854949951172,
+        "ratio_drift_to_support": 8.126118700602092e-06
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 2.993474481627345e-07,
+        "query_drift_effect_on_distance_max": 3.415346145629883e-05,
+        "support_set_effect_on_distance_mean": 0.019573694095015526,
+        "support_set_effect_on_distance_max": 0.21435803174972534,
+        "ratio_drift_to_support": 1.5293355318135582e-05
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1684186773663896e-07,
+        "query_drift_effect_on_distance_max": 8.881092071533203e-06,
+        "support_set_effect_on_distance_mean": 0.007541677448898554,
+        "support_set_effect_on_distance_max": 0.04706072807312012,
+        "ratio_drift_to_support": 1.5492822058149613e-05
+      }
+    ],
+    "note": "the raw feature drift is not comparable with an interval width, so the ratio that is actually used compares the drift's effect on the nearest-reference cosine distance with the effect of swapping in another seed's references"
+  },
+  "missing_units": [],
+  "caveats": [
+    "the same test images are scored under every seed; only the eight normal references change",
+    "seeds 0..2 and seeds 3..7 differ in query provenance as well as in support set"
+  ]
+}

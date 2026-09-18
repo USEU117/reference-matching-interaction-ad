@@ -42,7 +42,13 @@ OUT = NEW / "02_interaction"
 METRICS = ("pixel_ap", "pixel_auroc")
 PRIMARY = "pixel_ap"
 SHOTS = [1, 2, 4, 8]
-SEEDS = {"mpdd": [0, 1, 2], "btad": [0, 1]}
+# Appended 2026-09-18: the KSDD2 confirmation set is registered here (three seeds, its
+# single category).  mpdd/btad entries are unchanged, and a dataset with no rows in the
+# statistics file contributes nothing, so existing runs are unaffected.
+SEEDS = {"mpdd": [0, 1, 2], "btad": [0, 1], "ksdd2": [0, 1, 2]}
+# Datasets this report covers.  mpdd/btad stay first and in that order so their rows keep
+# their historical position in every output table.
+DATASETS = ("mpdd", "btad", "ksdd2")
 EFFECT_SCALE = 0.005
 FAMILY_SIZE = 4                     # datasets x contrasts
 CI_EXPLORATORY = 0.95
@@ -79,10 +85,16 @@ def write_csv(path: Path, rows, fields=None) -> None:
         writer.writerows(rows)
 
 
-def load_inputs() -> dict:
-    study = np.load(R / "p1_statistics/bootstrap_samples.npz", allow_pickle=False)
+def load_inputs(study_root: Path = R) -> dict:
+    """Load the replicate/point inputs.
+
+    ``study_root`` (appended 2026-09-18) is the directory that holds ``p1_statistics``; the
+    default is the study directory, so existing invocations read the same files as before.
+    The confirmation run points it at its own statistics.
+    """
+    study = np.load(study_root / "p1_statistics/bootstrap_samples.npz", allow_pickle=False)
     points = {}
-    for row in read_csv(R / "p1_statistics/point_by_condition.csv"):
+    for row in read_csv(study_root / "p1_statistics/point_by_condition.csv"):
         for metric, column in (("pixel_ap", "macro_pixel_ap"),
                                ("pixel_auroc", "macro_pixel_auroc")):
             if row.get(column) not in (None, ""):
@@ -205,15 +217,21 @@ def per_condition_point(dataset: str, revision: str, spec: tuple, seed: int, sho
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--output", type=Path, default=OUT)
+    # Appended 2026-09-18: point the inputs at another run's statistics (the confirmation
+    # run has its own p1_statistics).  The default is the study directory, unchanged.
+    ap.add_argument("--study-root", type=Path, default=R,
+                    help="directory holding p1_statistics for this scope")
     args = ap.parse_args()
     out = args.output
     out.mkdir(parents=True, exist_ok=True)
-    inputs = load_inputs()
+    inputs = load_inputs(args.study_root)
 
     rows, by_condition, trace = [], [], []
     boot = {}
-    for dataset in ("mpdd", "btad"):
-        revisions = ["study"] if dataset == "mpdd" else ["study", "corrected"]
+    for dataset in DATASETS:
+        # `corrected` is the S0 BTAD geometry and exists for btad only; KSDD2 is encoded on
+        # one frozen canvas, so it has a single (study) revision.
+        revisions = ["study"] if dataset in ("mpdd", "ksdd2") else ["study", "corrected"]
         for revision in revisions:
             arrays = inputs["study"] if revision == "study" else inputs["corrected"]
             if arrays is None:

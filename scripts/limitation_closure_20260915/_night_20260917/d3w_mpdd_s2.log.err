@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 440, in <module>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 239, in main
+    got = condition_series(dataset, index, seed, shot, category)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 162, in condition_series
+    arrays, points = load_or_compute_series(directory, dataset, category_index, seed, shot, category)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\d3_seed_variance.py", line 136, in load_or_compute_series
+    arrays, points = replicate_arrays(directory, dataset, category_index, REPLICATES)
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s3_new_encoder.py", line 545, in replicate_arrays
+    arrays[name][replicate] = weighted_ap(group_total, group_pos)
+  File "D:\STUDY\My_github\sci_project\scripts\representation_matching_interaction_20260914\s3_new_encoder.py", line 557, in weighted_ap
+    gt, gp = group_total[keep], group_pos[keep]
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 1.21 MiB for an array with shape (159176,) and data type float64

@@ -1,0 +1,275 @@
+"""Build the English manuscript DOCX from the versioned manuscript sources.
+
+Moved here on 2026-09-18 from the git-ignored scratch directory
+`.tmp_english_manuscript_20260914`, where the 2026-09-14 draft was built.  The
+document logic is unchanged; only the paths became repository-relative and
+overridable from the command line.
+
+All inputs live next to this file (manuscript.md, results.md, tables.json,
+references.json, figures.json); every path inside them is either absolute or
+relative to the repository root.  Note that the default --out-dir is the
+manuscript directory itself, so a default run overwrites the checked-in
+Reference_Matching_Interaction_English_Draft_20260914.docx and
+English_Manuscript_Source.md; pass --out-dir for a verification run.
+"""
+from pathlib import Path
+import argparse, copy, re, json, csv, hashlib, zipfile
+from docx import Document
+from docx.shared import Cm, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_TAB_ALIGNMENT
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+
+HERE=Path(__file__).resolve().parent
+DEFAULT_REPO_ROOT=HERE.parents[1]
+
+def parse_args():
+    ap=argparse.ArgumentParser(description=__doc__.splitlines()[0],
+                               formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    ap.add_argument('--repo-root',type=Path,default=DEFAULT_REPO_ROOT,
+                    help='repository root that repository-relative paths resolve against')
+    ap.add_argument('--assets-dir',type=Path,default=HERE,
+                    help='directory holding manuscript.md, results.md, tables.json, references.json and figures.json')
+    ap.add_argument('--figures-dir',type=Path,default=None,
+                    help='directory the figure files are loaded from; overrides the figures.json directory and keeps the file names')
+    ap.add_argument('--out-dir',type=Path,default=None,
+                    help='output directory for the DOCX, English_Manuscript_Source.md and build_validation.json')
+    ap.add_argument('--reference-docx',type=Path,default=None,
+                    help='retained DOCX package whose styles, page system and page footer are reused')
+    return ap.parse_args()
+
+def under(root,path):
+    path=Path(path)
+    return path if path.is_absolute() else (root/path)
+
+ARGS=parse_args()
+ROOT=Path(ARGS.repo_root).resolve()
+# TMP keeps the name the original scratch build used: it is now the versioned asset directory.
+TMP=under(ROOT,ARGS.assets_dir)
+OUT=under(ROOT,ARGS.out_dir) if ARGS.out_dir is not None else ROOT/'docs/manuscript_reference_matching_20260914'
+OUT=Path(OUT).resolve()
+OUT.mkdir(parents=True,exist_ok=True)
+REF=under(ROOT,ARGS.reference_docx) if ARGS.reference_docx is not None else ROOT/'docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx'
+REF=Path(REF).resolve()
+SOURCE_SHA=hashlib.sha256(REF.read_bytes()).hexdigest()
+d=Document(REF)
+# Reuse the retained manuscript package, styles, page system, and page footer.
+# All old-topic body content is an explicitly replaceable slot.
+for e in list(d.element.body):
+    if e.tag!=qn('w:sectPr'):d.element.body.remove(e)
+for e in list(d.styles.element.iter(qn('w:pBdr')))+list(d.element.iter(qn('w:pBdr'))):e.getparent().remove(e)
+for n in ['Normal','Title','Heading 1','Heading 2','Heading 3','Caption']:
+    d.styles[n].font.color.rgb=RGBColor(0,0,0)
+    d.styles[n].font.name='Times New Roman'
+d.core_properties.title='Interaction between Additional Visual Representations and Normal Reference Matching in Few Shot Industrial Anomaly Localization'
+d.core_properties.subject='English manuscript based on the current representation and matching study'
+d.core_properties.author=''
+d.core_properties.keywords='few-shot anomaly localization; frozen visual encoders; reference matching'
+
+def mr(t,roman=False,bold=False):
+    x=OxmlElement('m:r');pr=OxmlElement('m:rPr');st=OxmlElement('m:sty');st.set(qn('m:val'),'b' if roman and bold else 'p' if roman else 'bi' if bold else 'i');pr.append(st);x.append(pr)
+    wp=OxmlElement('w:rPr');f=OxmlElement('w:rFonts')
+    for a in ['ascii','hAnsi']:f.set(qn('w:'+a),'Cambria Math')
+    wp.append(f);x.append(wp);tt=OxmlElement('m:t');tt.text=t;x.append(tt);return x
+def obj(tag,**parts):
+    e=OxmlElement('m:'+tag)
+    for name,children in parts.items():
+        part=OxmlElement('m:'+name)
+        for ch in children if isinstance(children,list) else [children]:part.append(ch)
+        e.append(part)
+    return e
+def sub(base,index,roman=False,bold=False):
+    return obj('sSub',e=[mr(base,roman,bold)],sub=index if isinstance(index,list) else [mr(index)])
+def sup(base,index,roman=False,bold=False):return obj('sSup',e=[mr(base,roman,bold)],sup=[mr(index)])
+def sub_sup(base,index,upper,bold=False):return obj('sSubSup',e=[mr(base,False,bold)],sub=[mr(index)],sup=[mr(upper)])
+def labelindex(t):
+    return [mr(part,part in ['TRI','BAL','DUP','A1','J','L','S','D','img','vis']) for part in re.split(r'(TRI|BAL|DUP|A1|img|vis|J|L|S|D)',t) if part]
+def sym(t):
+    t=t.replace(r'\mathrm{img}','img').replace(r'\mathrm{vis}','vis')
+    if t==r'\mathcal{R}_c':return [sub('ℛ','c',True)]
+    if t==r'\tau_{vis}':return [sub('τ',[mr('vis',True)])]
+    m=re.fullmatch(r'([A-Za-z]+)_\{([^}]+)\}',t) or re.fullmatch(r'([A-Za-z]+)_([A-Za-z]+)',t)
+    if t=='x_i^c':return [sub_sup('x','i','c',True)]
+    if m:
+        b,ix=m.groups();return [sub(b,labelindex(ix),b in ['TRI','BAL','DUP','A1','R'],b in ['F','g','A','a','M'])]
+    return [mr(t,t in ['J','L'] and False or t in ['P'] and False,t in ['x','F','g','A','a','M'])]
+def mathrun(p,items):
+    om=OxmlElement('m:oMath')
+    for x in items:om.append(x)
+    p._p.append(om)
+def limit(name,idx):return obj('limLow',e=[mr(name,True)],lim=idx)
+def summation(items):
+    e=OxmlElement('m:nary');pr=OxmlElement('m:naryPr');c=OxmlElement('m:chr');c.set(qn('m:val'),'∑');pr.append(c)
+    h=OxmlElement('m:supHide');h.set(qn('m:val'),'1');pr.append(h);e.append(pr)
+    e.append(obj('sub',e=[])) if False else None
+    for name,children in [('sub',[mr('b')]),('sup',[]),('e',items)]:
+        pp=OxmlElement('m:'+name)
+        for ch in children:pp.append(ch)
+        e.append(pp)
+    return e
+def configuration(name,mode):return sub(name,labelindex(mode),True)
+def performance(name,mode):return [mr('P'),mr('(',True),configuration(name,mode),mr(')',True)]
+def effect(name,mode):return sub('E',labelindex(name+','+mode))
+def parg(name):return [mr('(',True),mr(name),mr(')',True)]
+def distance():return [sub('d','b'),mr('(',True),mr('p'),mr(',',True),mr('r'),mr(')',True)]
+def eq(n):
+    if n==1:
+        nd=[sub('𝒳','c',True),mr(' = {',True),sub_sup('x','i','c',True),mr(' : ',True),mr('i'),mr(' = 1, …, ',True),mr('K'),mr('}',True)]
+    elif n==2:
+        g1=obj('sSup',e=[sub('g',labelindex('b,p'),False,True)],sup=[mr('T',True)])
+        nd=distance()+[mr(' = 1 − ',True),g1,sub('g',labelindex('b,r'),False,True)]
+    elif n in [3,4]:
+        mi=lambda:limit('min',[mr('r'),mr(' ∈ ',True),sub('ℛ','c',True)])
+        term=[sub('w','b')]+distance()
+        nd=[mr('J' if n==3 else 'L')]+parg('p')+[mr(' = ',True)]
+        nd += [mi(),summation(term)] if n==3 else [summation([sub('w','b'),mi()]+distance())]
+    elif n==5:nd=[mr('G')]+parg('p')+[mr(' = ',True),mr('J')]+parg('p')+[mr(' − ',True),mr('L')]+parg('p')+[mr(' ≥ 0',True)]
+    elif n in [6,7]:
+        name,control=('TRI','DUP') if n==6 else ('BAL','A1')
+        nd=[effect(name,'t'),mr(' = ',True)]+performance(name,'t')+[mr(' − ',True)]+performance(control,'t')
+    elif n in [8,9]:
+        name='TRI' if n==8 else 'BAL';nd=[sub('I',[mr(name,True)]),mr(' = ',True),effect(name,'L'),mr(' − ',True),effect(name,'J')]
+    elif n==10:nd=[sub('ΔI','q'),mr(' = ',True),sub('I',labelindex('q,D')),mr(' − ',True),sub('I',labelindex('q,S')),mr(',    ',True),mr('q'),mr(' ∈ {TRI, BAL}',True)]
+    elif n==11:
+        nd=[sub('A','t',False,True),mr(' = ',True),sub('Gauss',[mr('σ'),mr('=4',True)],True),mr('(',True),sub('Resize',[mr('H'),mr('×',True),mr('W')],True),mr('(',True),sub('a','t',False,True),mr(')),   ',True),sub('s',labelindex('img,t')),mr(' = ',True),limit('max',[mr('u')]),sub('A',labelindex('t,u'),False,True)]
+    elif n==12:nd=[sub('M',labelindex('vis,t'),False,True)]+parg('u')+[mr(' = ',True),mr('1',True),mr('[',True),sub('A',labelindex('t,u'),False,True),mr(' ≥ ',True),sub('τ',[mr('vis',True)]),mr(']',True)]
+    p=d.add_paragraph();p.paragraph_format.space_before=Pt(5);p.paragraph_format.space_after=Pt(8)
+    p.paragraph_format.tab_stops.add_tab_stop(Cm(8.5),WD_TAB_ALIGNMENT.CENTER)
+    p.paragraph_format.tab_stops.add_tab_stop(Cm(17),WD_TAB_ALIGNMENT.RIGHT)
+    p.add_run('\t');mathrun(p,nd);p.add_run('\t('+str(n)+')')
+
+refs=json.loads((TMP/'references.json').read_text(encoding='utf-8')) if (TMP/'references.json').exists() else {}
+if isinstance(refs,list):refs={r['key']:r for r in refs}
+elif 'references' in refs:refs={r['key']:r for r in refs['references']}
+numbers={}
+def cite(m):
+    keys=[x.strip().lstrip('@') for x in m.group(1).split(';')]
+    for k in keys:
+        if k not in numbers:numbers[k]=len(numbers)+1
+    return '['+', '.join(str(numbers[k]) for k in keys)+']'
+def inline(p,text,sub_vars=True):
+    text=re.sub(r'\[@([^\]]+)\]',cite,text)
+    # Match standalone mathematical labels even in tables and figure captions.
+    # Exclude occurrences glued to a hyphen so that names such as K-NG or ViT-L/14 stay plain text.
+    # Reference entries keep their literal text and never receive this substitution.
+    if sub_vars:
+        text=''.join(s if i%2 else re.sub(r'(?<![\w\-])([JKL])(?![\w\-])',r'$\1$',s) for i,s in enumerate(re.split(r'(\$[^$]+\$)',text)))
+    for part in re.split(r'(\$[^$]+\$|\*\*.*?\*\*)',text):
+        if part.startswith('$') and part.endswith('$'):mathrun(p,sym(part[1:-1]))
+        elif part.startswith('**') and part.endswith('**'):p.add_run(part[2:-2]).bold=True
+        else:p.add_run(part)
+    return p
+def para(text,style=None):return inline(d.add_paragraph(style=style),text)
+
+tables=json.loads((TMP/'tables.json').read_text(encoding='utf-8'))
+figures=json.loads((TMP/'figures.json').read_text(encoding='utf-8'))
+table_no=0;figure_no=0
+def table(key):
+    global table_no
+    spec=tables[key];table_no+=1
+    cap=para(f'Table {table_no}. '+spec['caption'],'Caption');cap.paragraph_format.keep_with_next=True
+    rows=[spec['headers']]+spec['rows']
+    # Group repeated values (for example one dataset name per block) by showing the value once.
+    prev={};disp=[]
+    for ri,row in enumerate(rows):
+        r2=list(row)
+        for ci in spec.get('dedupe_cols',[]):
+            if str(r2[ci])==prev.get(ci,'\x00'):r2[ci]=''
+            else:prev[ci]=str(r2[ci])
+        disp.append(r2)
+    t=d.add_table(rows=0,cols=len(disp[0]));t.alignment=WD_TABLE_ALIGNMENT.CENTER;t.autofit=False
+    widths=spec['widths']
+    for col,w in zip(t.columns,widths):col.width=Cm(w)
+    for ri,row in enumerate(disp):
+        rr=t.add_row();rp=rr._tr.get_or_add_trPr();rp.append(OxmlElement('w:cantSplit'))
+        if ri==0:rp.append(OxmlElement('w:tblHeader'))
+        for ci,(c,txt) in enumerate(zip(rr.cells,row)):
+            c.width=Cm(widths[ci]);c.vertical_alignment=WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            cp=c._tc.get_or_add_tcPr();bd=OxmlElement('w:tcBorders')
+            for edge in ['top','bottom','left','right']:
+                ee=OxmlElement('w:'+edge);on=(edge=='top' and ri==0) or (edge=='bottom' and ri in [0,len(rows)-1]);ee.set(qn('w:val'),'single' if on else 'nil');ee.set(qn('w:sz'),'8' if ri==len(rows)-1 else '6');ee.set(qn('w:color'),'000000');bd.append(ee)
+            cp.append(bd);mar=OxmlElement('w:tcMar')
+            for edge in ['top','bottom','left','right']:
+                z=OxmlElement('w:'+edge);z.set(qn('w:w'),'70');z.set(qn('w:type'),'dxa');mar.append(z)
+            cp.append(mar)
+            p=c.paragraphs[0];inline(p,str(txt));p.paragraph_format.line_spacing=1.05;p.paragraph_format.space_before=Pt(2);p.paragraph_format.space_after=Pt(2)
+            # Chain the rows so that the caption, the whole table and its note are never split across pages.
+            p.paragraph_format.keep_with_next=True
+            p.alignment=WD_ALIGN_PARAGRAPH.LEFT if ci in spec.get('left_cols',[0]) else WD_ALIGN_PARAGRAPH.CENTER
+            bold=ri==0 or ri-1 in spec.get('bold_rows',[])
+            for r in p.runs:r.font.name='Times New Roman';r.font.size=Pt(9.5);r.bold=bold
+            if bold:
+                # Math runs are not part of Paragraph.runs; bold them too so an anchor row is uniformly bold.
+                for mr in p._p.iter(qn('m:r')):
+                    mpr=mr.find(qn('m:rPr'));sty=mpr.find(qn('m:sty')) if mpr is not None else None
+                    if sty is not None:sty.set(qn('m:val'),'b' if sty.get(qn('m:val'))=='p' else 'bi')
+            for rp0 in p._p.iter(qn('w:rPr')):
+                z=OxmlElement('w:sz');z.set(qn('w:val'),'19');rp0.append(z)
+    # Set the inherited table default to none; direct three-line cell borders prevail.
+    tb=t._tbl.tblPr;bd=OxmlElement('w:tblBorders')
+    for edge in ['top','bottom','left','right','insideH','insideV']:
+        z=OxmlElement('w:'+edge);z.set(qn('w:val'),'nil');bd.append(z)
+    tb.append(bd)
+    if spec.get('note'):
+        p=para(spec['note'],'Caption');p.paragraph_format.space_before=Pt(4)
+    else:d.add_paragraph().paragraph_format.space_after=Pt(0)
+def figure_path(raw):
+    # Absolute paths are used as written; repository-relative ones resolve against the
+    # repository root, and --figures-dir replaces the directory while keeping the file name.
+    if ARGS.figures_dir is not None:return (under(ROOT,ARGS.figures_dir)/Path(raw).name).resolve()
+    return under(ROOT,raw)
+def figure(key):
+    global figure_no
+    sp=figures[key]
+    # Supplementary figures carry an explicit label such as S1 and keep their own counter.
+    if 'label' in sp:label='Figure '+sp['label']
+    else:figure_no+=1;label='Figure %d'%figure_no
+    parts=[figure_path(x) for x in sp.get('parts',[sp['path']])]
+    if not parts[0].exists():raise FileNotFoundError(parts[0])
+    for partno,path in enumerate(parts):
+        p=d.add_paragraph();p.alignment=WD_ALIGN_PARAGRAPH.CENTER;p.paragraph_format.keep_with_next=True;p.paragraph_format.space_before=Pt(5);p.paragraph_format.space_after=Pt(4)
+        p.add_run().add_picture(str(path),width=Cm(sp.get('width',17)))
+        cp=para((label+'. '+sp['caption']) if partno==0 else sp['continuation_caption'],'Caption');cp.paragraph_format.keep_with_next=False
+
+text=(TMP/'manuscript.md').read_text(encoding='utf-8').replace('{{results}}',(TMP/'results.md').read_text(encoding='utf-8'))
+for line in text.splitlines():
+    if not line.strip():continue
+    mm=re.fullmatch(r'\{\{(eq|table|figure):([^}]+)\}\}',line)
+    if mm:
+        kind,key=mm.groups()
+        if kind=='eq':eq(int(key))
+        elif kind=='table':table(key)
+        else:figure(key)
+    elif line=='{{references}}':
+        for key,number in numbers.items():
+            if key not in refs:raise ValueError('Missing reference '+key)
+            r=refs[key]
+            bib=r.get('formatted') or r.get('citation') or r.get('reference') or f"{r['authors']}. {r['title']}. {r.get('venue','')}, {r['year']}."
+            url=r.get('url') or r.get('primary_url')
+            # Keep the approved reference format: literal citation text followed by the plain source URL.
+            p=d.add_paragraph();inline(p,f'[{number}] '+bib+((' '+url) if url else ''),sub_vars=False)
+            p.paragraph_format.left_indent=Cm(.65);p.paragraph_format.first_line_indent=Cm(-.65);p.paragraph_format.line_spacing=1.05;p.paragraph_format.space_after=Pt(5)
+            for run in p.runs:run.font.size=Pt(9.5)
+    elif line.startswith('# '):
+        p=para(line[2:],'Title');p.alignment=WD_ALIGN_PARAGRAPH.CENTER
+    elif line.startswith('#### '):para(line[5:],'Heading 3')
+    elif line.startswith('### '):para(line[4:],'Heading 2')
+    elif line.startswith('## '):para(line[3:],'Heading 1')
+    else:para(line)
+
+dest=OUT/'Reference_Matching_Interaction_English_Draft_20260914.docx'
+d.save(dest)
+# Record preserved package structures; body, metadata and image relations are editable.
+with zipfile.ZipFile(REF) as a,zipfile.ZipFile(dest) as b:
+    preserved=[n for n in a.namelist() if n in b.namelist() and (n.startswith('word/footer') or n.startswith('word/header') or n in ['word/numbering.xml','word/theme/theme1.xml'])]
+    fidelity={n:a.read(n)==b.read(n) for n in preserved}
+    source_section=Document(REF).sections[0];out_section=d.sections[0]
+    page={k:getattr(source_section,k)==getattr(out_section,k) for k in ['page_width','page_height','top_margin','bottom_margin','left_margin','right_margin']}
+assert all(fidelity.values()),fidelity
+assert all(page.values()),page
+assert SOURCE_SHA==hashlib.sha256(REF.read_bytes()).hexdigest()
+resolved=re.sub(r'\[@([^\]]+)\]',lambda m:'['+', '.join(str(numbers[k.strip().lstrip('@')]) for k in m[1].split(';'))+']',text)
+(OUT/'English_Manuscript_Source.md').write_text(resolved,encoding='utf-8')
+(OUT/'build_validation.json').write_text(json.dumps({'source_sha256':SOURCE_SHA,'preserved_parts':fidelity,'page_fidelity':page,'tables':table_no,'figures':figure_no,'display_equations':12,'native_math_objects':len(d.element.xpath('//m:oMath')),'references':numbers,'words_approx':len(re.findall(r"\b[\w'-]+\b",text))},indent=2),encoding='utf-8')
+print(dest)

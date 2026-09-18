@@ -1,0 +1,26 @@
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\concurrent\futures\process.py", line 246, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "D:\STUDY\My_github\sci_project\scripts\unified_fusion_paper_support_v1\stats_v2.py", line 261, in worker
+    return bootstrap_group(**payload)
+  File "D:\STUDY\My_github\sci_project\scripts\unified_fusion_paper_support_v1\stats_v2.py", line 221, in bootstrap_group
+    values = replicate_metrics(structures, idx_map, dataset, weights_map)
+  File "D:\STUDY\My_github\sci_project\scripts\unified_fusion_paper_support_v1\stats_v2.py", line 193, in replicate_metrics
+    group_pos = np.add.reduceat(w * st.is_pos_sorted[name], st.starts[name])
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 2.61 MiB for an array with shape (342339,) and data type float64
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\STUDY\My_github\sci_project\scripts\unified_fusion_paper_support_v1\stats_v2.py", line 578, in <module>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\unified_fusion_paper_support_v1\stats_v2.py", line 362, in main
+    results[key] = future.result()
+  File "D:\Program Files\python\lib\concurrent\futures\_base.py", line 451, in result
+    return self.__get_result()
+  File "D:\Program Files\python\lib\concurrent\futures\_base.py", line 403, in __get_result
+    raise self._exception
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 2.61 MiB for an array with shape (342339,) and data type float64

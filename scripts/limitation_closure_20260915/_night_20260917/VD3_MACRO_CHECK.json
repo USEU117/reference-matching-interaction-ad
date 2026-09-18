@@ -1,0 +1,360 @@
+{
+  "created_utc": "2026-09-18T06:31:45.827942+00:00",
+  "why": "d3_seed_variance.py VD_3 compares a SINGLE-category bootstrap mean against the published value, which the CSV documents as a macro average over all categories of the dataset (interaction_by_condition.csv has no category column).  For any multi-category dataset that comparison can never reach 1e-9, so the gate as implemented reports a false failure.  This file recomputes the gate with the matching definition: macro over the categories of a given (seed, shot), then compare with the published per-condition value.",
+  "as_implemented_in_d3": {
+    "mpdd": {
+      "n_compared": 144,
+      "max_abs_delta": 0.03222853823108449,
+      "median_abs_delta": 0.005323145625570276,
+      "tolerance_1e_9": false,
+      "published_rows_found": true
+    },
+    "btad": {
+      "n_compared": 48,
+      "max_abs_delta": 0.006965696375940385,
+      "median_abs_delta": 0.0025972532033455937,
+      "tolerance_1e_9": false,
+      "published_rows_found": true
+    }
+  },
+  "datasets": {
+    "mpdd": {
+      "n_compared": 24,
+      "max_abs_delta": 5.204170427930421e-18,
+      "median_abs_delta": 1.734723475976807e-18,
+      "tolerance_1e_9": true,
+      "comparison": "macro over categories, matching the published definition",
+      "pairs": [
+        {
+          "seed": 0,
+          "shot": 1,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0038782758728158223,
+          "published_bootstrap_mean": 0.0038782758728158253
+        },
+        {
+          "seed": 0,
+          "shot": 1,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.004067607589179028,
+          "published_bootstrap_mean": 0.004067607589179026
+        },
+        {
+          "seed": 0,
+          "shot": 2,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.005680395482418245,
+          "published_bootstrap_mean": 0.0056803954824182455
+        },
+        {
+          "seed": 0,
+          "shot": 2,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0065696482135811805,
+          "published_bootstrap_mean": 0.006569648213581182
+        },
+        {
+          "seed": 0,
+          "shot": 4,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0026378240773673803,
+          "published_bootstrap_mean": 0.0026378240773673777
+        },
+        {
+          "seed": 0,
+          "shot": 4,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0072785051589994015,
+          "published_bootstrap_mean": 0.007278505158999401
+        },
+        {
+          "seed": 0,
+          "shot": 8,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.00718696562695507,
+          "published_bootstrap_mean": 0.007186965626955069
+        },
+        {
+          "seed": 0,
+          "shot": 8,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.010325312379281313,
+          "published_bootstrap_mean": 0.010325312379281318
+        },
+        {
+          "seed": 1,
+          "shot": 1,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.004339211531583274,
+          "published_bootstrap_mean": 0.004339211531583272
+        },
+        {
+          "seed": 1,
+          "shot": 1,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.003442434104366038,
+          "published_bootstrap_mean": 0.00344243410436604
+        },
+        {
+          "seed": 1,
+          "shot": 2,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.005609697968639603,
+          "published_bootstrap_mean": 0.005609697968639605
+        },
+        {
+          "seed": 1,
+          "shot": 2,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.006647692007235445,
+          "published_bootstrap_mean": 0.006647692007235442
+        },
+        {
+          "seed": 1,
+          "shot": 4,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.011022904424481563,
+          "published_bootstrap_mean": 0.011022904424481566
+        },
+        {
+          "seed": 1,
+          "shot": 4,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.01300655316367137,
+          "published_bootstrap_mean": 0.013006553163671372
+        },
+        {
+          "seed": 1,
+          "shot": 8,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.009787262527529643,
+          "published_bootstrap_mean": 0.009787262527529641
+        },
+        {
+          "seed": 1,
+          "shot": 8,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.00933861327749314,
+          "published_bootstrap_mean": 0.00933861327749314
+        },
+        {
+          "seed": 2,
+          "shot": 1,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0029091224207400406,
+          "published_bootstrap_mean": 0.0029091224207400397
+        },
+        {
+          "seed": 2,
+          "shot": 1,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.0048354221953732825,
+          "published_bootstrap_mean": 0.00483542219537328
+        },
+        {
+          "seed": 2,
+          "shot": 2,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.007240407423505668,
+          "published_bootstrap_mean": 0.007240407423505669
+        },
+        {
+          "seed": 2,
+          "shot": 2,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.00918659775968495,
+          "published_bootstrap_mean": 0.009186597759684948
+        },
+        {
+          "seed": 2,
+          "shot": 4,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.005672945928515035,
+          "published_bootstrap_mean": 0.005672945928515035
+        },
+        {
+          "seed": 2,
+          "shot": 4,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.006244630741060846,
+          "published_bootstrap_mean": 0.006244630741060847
+        },
+        {
+          "seed": 2,
+          "shot": 8,
+          "contrast": "I_BAL",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.007881638221208792,
+          "published_bootstrap_mean": 0.00788163822120879
+        },
+        {
+          "seed": 2,
+          "shot": 8,
+          "contrast": "I_TRI",
+          "n_categories": 6,
+          "new_macro_bootstrap_mean": 0.01054932033967508,
+          "published_bootstrap_mean": 0.010549320339675084
+        }
+      ]
+    },
+    "btad": {
+      "n_compared": 16,
+      "max_abs_delta": 6.938893903907228e-18,
+      "median_abs_delta": 2.168404344971009e-18,
+      "tolerance_1e_9": true,
+      "comparison": "macro over categories, matching the published definition",
+      "pairs": [
+        {
+          "seed": 0,
+          "shot": 1,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 1.7287454935433454e-05,
+          "published_bootstrap_mean": 1.7287454935432156e-05
+        },
+        {
+          "seed": 0,
+          "shot": 1,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 0.0012771978990068213,
+          "published_bootstrap_mean": 0.0012771978990068187
+        },
+        {
+          "seed": 0,
+          "shot": 2,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.00152809947502456,
+          "published_bootstrap_mean": -0.0015280994750245598
+        },
+        {
+          "seed": 0,
+          "shot": 2,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.000670652292578303,
+          "published_bootstrap_mean": -0.0006706522925782964
+        },
+        {
+          "seed": 0,
+          "shot": 4,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.002898119300411601,
+          "published_bootstrap_mean": -0.002898119300411596
+        },
+        {
+          "seed": 0,
+          "shot": 4,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.0027719363879678736,
+          "published_bootstrap_mean": -0.0027719363879678757
+        },
+        {
+          "seed": 0,
+          "shot": 8,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.0027351456381767294,
+          "published_bootstrap_mean": -0.002735145638176726
+        },
+        {
+          "seed": 0,
+          "shot": 8,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.00226470984961173,
+          "published_bootstrap_mean": -0.0022647098496117292
+        },
+        {
+          "seed": 1,
+          "shot": 1,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 0.0019971561002472735,
+          "published_bootstrap_mean": 0.001997156100247277
+        },
+        {
+          "seed": 1,
+          "shot": 1,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 0.0029195299225733304,
+          "published_bootstrap_mean": 0.0029195299225733304
+        },
+        {
+          "seed": 1,
+          "shot": 2,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 0.0016013824955182663,
+          "published_bootstrap_mean": 0.0016013824955182691
+        },
+        {
+          "seed": 1,
+          "shot": 2,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": 0.0024501846370148447,
+          "published_bootstrap_mean": 0.0024501846370148447
+        },
+        {
+          "seed": 1,
+          "shot": 4,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.0010739509064085161,
+          "published_bootstrap_mean": -0.0010739509064085183
+        },
+        {
+          "seed": 1,
+          "shot": 4,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.00022616767310495913,
+          "published_bootstrap_mean": -0.00022616767310496032
+        },
+        {
+          "seed": 1,
+          "shot": 8,
+          "contrast": "I_BAL",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.0023659281146570766,
+          "published_bootstrap_mean": -0.0023659281146570775
+        },
+        {
+          "seed": 1,
+          "shot": 8,
+          "contrast": "I_TRI",
+          "n_categories": 3,
+          "new_macro_bootstrap_mean": -0.0022881300559446684,
+          "published_bootstrap_mean": -0.0022881300559446753
+        }
+      ]
+    }
+  }
+}

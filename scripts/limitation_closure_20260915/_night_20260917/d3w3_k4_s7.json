@@ -1,0 +1,216 @@
+{
+  "created_utc": "2026-09-18T05:11:22.350635+00:00",
+  "purpose": "quantify the support-set contribution to the interaction, i.e. whether the conclusion survives a change of normal reference images",
+  "scope": {
+    "datasets": {
+      "btad": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    "seeds": [
+      7
+    ],
+    "shots": [
+      4
+    ],
+    "replicates": 1000,
+    "revision": "study",
+    "btad03_geometry": "BTAD-03 is INCLUDED here.  Every seed 0..7 carries a canonical B mask of shape 448x588 for the 32x42 grid (verified on disk 2026-09-17), so the category can be pooled with 01/02 across seeds.  This is the canonical-mask convention that the matrices use.  The paper's separate BTAD-03 corrected-geometry analysis (image-faithful masks plus the coordinate-correct C regrid, 'rev_correct' in 01_geometry) is a different convention, so its numbers must not be quoted interchangeably with these."
+  },
+  "query_provenance": {
+    "shared_block_seeds": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "own_historical_block_seeds": [
+      0,
+      1,
+      2
+    ],
+    "reason": "seeds 3..7 copy one query encoding so that seed-to-seed differences come from the support set alone; seeds 0..2 keep their frozen historical blocks and are summarised separately as well as jointly"
+  },
+  "VD_4_variance": {
+    "btad|I_TRI": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0021566547261752853
+        ],
+        "mean_point": 0.0021566547261752853,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.0024041336011189703
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.002224285569817831,
+        "n_seeds_excluding_zero_95": 1,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 0,
+        "point_values": [],
+        "mean_point": null,
+        "sd_across_seeds": null,
+        "bootstrap_means": [],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": null,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0021566547261752853
+        ],
+        "mean_point": 0.0021566547261752853,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.0024041336011189703
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.002224285569817831,
+        "n_seeds_excluding_zero_95": 1,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      }
+    },
+    "btad|I_BAL": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0010659290530790437
+        ],
+        "mean_point": 0.0010659290530790437,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.0012708277635602686
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.002354310599302808,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 0,
+        "point_values": [],
+        "mean_point": null,
+        "sd_across_seeds": null,
+        "bootstrap_means": [],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": null,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": null
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 1,
+        "point_values": [
+          0.0010659290530790437
+        ],
+        "mean_point": 0.0010659290530790437,
+        "sd_across_seeds": null,
+        "bootstrap_means": [
+          0.0012708277635602686
+        ],
+        "sd_of_bootstrap_means": null,
+        "support_set_sd_paired_replicate": null,
+        "median_bootstrap_half_width": 0.002354310599302808,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": null
+      }
+    }
+  },
+  "VD_3_regression": {
+    "btad": {
+      "n_compared": 0,
+      "available": false,
+      "published_rows_found": false
+    }
+  },
+  "VD_3_rows": [],
+  "VD_2_query_drift": {
+    "measured": true,
+    "detail": "see QUERY_DRIFT.json; the criterion is that the query drift is a small fraction of the support-set effect measured on the same distance field",
+    "raw_feature_max_abs_drift": 0.0017137527465820312,
+    "distance_effective_ratio_worst": 1.5492822058149613e-05,
+    "distance_effective_all_below_one": true,
+    "distance_effective_units": [
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 4.080429789610207e-07,
+        "query_drift_effect_on_distance_max": 1.4066696166992188e-05,
+        "support_set_effect_on_distance_mean": 0.06825978308916092,
+        "support_set_effect_on_distance_max": 0.3838944435119629,
+        "ratio_drift_to_support": 5.977794899081346e-06
+      },
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1438192615287335e-07,
+        "query_drift_effect_on_distance_max": 6.198883056640625e-06,
+        "support_set_effect_on_distance_mean": 0.014075837098062038,
+        "support_set_effect_on_distance_max": 0.19520854949951172,
+        "ratio_drift_to_support": 8.126118700602092e-06
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 2.993474481627345e-07,
+        "query_drift_effect_on_distance_max": 3.415346145629883e-05,
+        "support_set_effect_on_distance_mean": 0.019573694095015526,
+        "support_set_effect_on_distance_max": 0.21435803174972534,
+        "ratio_drift_to_support": 1.5293355318135582e-05
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1684186773663896e-07,
+        "query_drift_effect_on_distance_max": 8.881092071533203e-06,
+        "support_set_effect_on_distance_mean": 0.007541677448898554,
+        "support_set_effect_on_distance_max": 0.04706072807312012,
+        "ratio_drift_to_support": 1.5492822058149613e-05
+      }
+    ],
+    "note": "the raw feature drift is not comparable with an interval width, so the ratio that is actually used compares the drift's effect on the nearest-reference cosine distance with the effect of swapping in another seed's references"
+  },
+  "missing_units": [],
+  "caveats": [
+    "the same test images are scored under every seed; only the eight normal references change",
+    "seeds 0..2 and seeds 3..7 differ in query provenance as well as in support set"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "phase": 0,
+  "created_utc": "2026-09-18T16:34:35.169344+00:00",
+  "pass": true,
+  "checks": [
+    {
+      "id": "p2_conditions_nonempty",
+      "what": "阶段 0 的条件分析产物目录非空",
+      "expected": ">=1 个非空文件",
+      "actual": "8 个文件: defect_size_contrasts.csv, defect_size_effects.csv, defect_size_groups.csv, flip_by_image.csv, leave_one_category_out.csv, per_category_effects.csv, REPORT_CN.md, STATUS.json",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p2_conditions"
+      ]
+    },
+    {
+      "id": "p2_conditions_effects_rows",
+      "what": "per_category_effects.csv 有数据行",
+      "expected": ">0 行",
+      "actual": "3132 行",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p2_conditions\\per_category_effects.csv"
+      ]
+    },
+    {
+      "id": "interaction_generalization_rows",
+      "what": "interaction_generalization.csv 存在且行数 > 0",
+      "expected": ">0 行",
+      "actual": "8 行",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\interaction_generalization.csv"
+      ]
+    }
+  ],
+  "n_failed": 0
+}

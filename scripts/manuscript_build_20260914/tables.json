@@ -1,0 +1,747 @@
+{
+  "design": {
+    "caption": "Fixed representation constructions and the purpose of each control.",
+    "headers": [
+      "Construction",
+      "Distance weights",
+      "Controlled comparison"
+    ],
+    "rows": [
+      [
+        "A1",
+        "B 1/2; C 1/2",
+        "Dual-visual anchor"
+      ],
+      [
+        "DUP",
+        "B 1/3; B copy 1/3; C 1/3",
+        "Reweight existing information; no new encoder"
+      ],
+      [
+        "TRI",
+        "B 1/3; S or D 1/3; C 1/3",
+        "Replace the duplicate at fixed slot weights"
+      ],
+      [
+        "BAL",
+        "B 1/4; S or D 1/4; C 1/2",
+        "Preserve C and total non-C weights"
+      ]
+    ],
+    "widths": [
+      2.4,
+      6,
+      8.6
+    ],
+    "note": "Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight.",
+    "bold_rows": [
+      0
+    ],
+    "left_cols": [
+      0,
+      1,
+      2
+    ]
+  },
+  "models": {
+    "caption": "Frozen feature paths and shared model configuration.",
+    "headers": [
+      "Component",
+      "Input and retained feature path",
+      "Descriptor / target training"
+    ],
+    "rows": [
+      [
+        "B",
+        "DINOv2 ViT-B/14; final patch features; short side 448",
+        "768 dimensions; frozen"
+      ],
+      [
+        "S",
+        "DINOv2 ViT-S/14; final patch features; short side 448",
+        "384 dimensions; frozen"
+      ],
+      [
+        "C",
+        "CLIP ViT-L/14 visual + DPAM; 518 × 518; retain layer 24 after projection",
+        "768 dimensions; frozen"
+      ],
+      [
+        "D",
+        "WideResNet50-2; ImageNet1K V1; layer2 + layer3 on B canvas",
+        "512 + 1024 = 1536; frozen"
+      ],
+      [
+        "Alignment",
+        "Common B grid; bilinear mapping; align_corners false",
+        "32 × 32 for a 448 × 448 canvas"
+      ],
+      [
+        "Normalization",
+        "Per-branch L2; joint coefficients are square roots of distance weights",
+        "No learned scale or fusion parameter"
+      ],
+      [
+        "Memory and scoring",
+        "All aligned support patches; exact nearest-neighbor matching",
+        "Fixed bank per category, seed and K"
+      ],
+      [
+        "Output",
+        "Resize to retained H × W canvas; Gaussian standard deviation 4 pixels",
+        "Continuous map; maximum image score"
+      ],
+      [
+        "Optimization",
+        "No target loss, optimizer, learning rate or training epochs",
+        "0 target-trainable parameters"
+      ]
+    ],
+    "widths": [
+      2.3,
+      9.1,
+      5.6
+    ],
+    "note": "C requests layers 6, 12, 18 and 24, uses DPAM_layer = 20, and retains the final patch tensor. D query features are cached in float16 and restored to float32 for scoring. No text scores enter the model.",
+    "bold_rows": [],
+    "left_cols": [
+      0,
+      1,
+      2
+    ]
+  },
+  "protocol": {
+    "caption": "Current-theme evaluation scope and data roles.",
+    "headers": [
+      "Dataset",
+      "Categories / test images",
+      "S study",
+      "D and encoder comparison"
+    ],
+    "rows": [
+      [
+        "MPDD",
+        "6 / 458",
+        "Seeds 0, 1, 2; K = 1, 2, 4, 8",
+        "Seeds 0, 1; K = 1, 4"
+      ],
+      [
+        "BTAD",
+        "3 / 741",
+        "Seeds 0, 1; K = 1, 2, 4, 8",
+        "Seeds 0, 1; K = 1, 4"
+      ]
+    ],
+    "widths": [
+      2.1,
+      3.9,
+      5.5,
+      5.5
+    ],
+    "note": "Supports are nested within each category and seed and identical across paired methods. Both test datasets were already used in project analysis. The D specification was fixed before D results, but this is not unseen-dataset confirmation.",
+    "bold_rows": [],
+    "left_cols": [
+      0,
+      2,
+      3
+    ]
+  },
+  "matching": {
+    "caption": "Matching effect M = P(L) - P(J) for the four constructions under identical support conditions.",
+    "headers": [
+      "Dataset / construction",
+      "Point",
+      "Bootstrap mean",
+      "95% interval"
+    ],
+    "rows": [
+      [
+        "MPDD / A1",
+        "+0.618",
+        "+0.637",
+        "[+0.337, +0.977]"
+      ],
+      [
+        "MPDD / DUP",
+        "+0.321",
+        "+0.349",
+        "[+0.137, +0.580]"
+      ],
+      [
+        "MPDD / TRI",
+        "+1.093",
+        "+1.111",
+        "[+0.701, +1.544]"
+      ],
+      [
+        "MPDD / BAL",
+        "+1.213",
+        "+1.253",
+        "[+0.839, +1.722]"
+      ],
+      [
+        "BTAD / A1",
+        "+0.900",
+        "+0.916",
+        "[+0.732, +1.172]"
+      ],
+      [
+        "BTAD / DUP",
+        "+0.631",
+        "+0.638",
+        "[+0.518, +0.785]"
+      ],
+      [
+        "BTAD / TRI",
+        "+0.582",
+        "+0.617",
+        "[+0.373, +0.889]"
+      ],
+      [
+        "BTAD / BAL",
+        "+0.780",
+        "+0.826",
+        "[+0.541, +1.171]"
+      ]
+    ],
+    "widths": [
+      4.4,
+      2.4,
+      3,
+      7.2
+    ],
+    "note": "Pixel AP percentage points, stride eight. M is formed inside one construction, so it changes only the selection rule: a positive value means independent matching scores higher than joint matching. Values are condition-averaged observed differences and are shown next to, never replaced by, the bootstrap means. MPDD uses 12 support conditions (seeds 0, 1, 2) and corrected BTAD uses 8 (seeds 0, 1). Bold identifies the A1 anchor. These are descriptive summaries of the matching rule and are not part of the three adjusted families defined in Section 4.1.3, so no family-adjusted interval is claimed for them.",
+    "bold_rows": [
+      0,
+      4
+    ],
+    "left_cols": [
+      0
+    ]
+  },
+  "effects": {
+    "caption": "Absolute effects of replacing or adding S under each matching rule.",
+    "headers": [
+      "Dataset",
+      "Effect",
+      "Point",
+      "95% interval"
+    ],
+    "rows": [
+      [
+        "MPDD",
+        "$E_{TRI,J}$",
+        "−0.224",
+        "[−0.968, +0.478]"
+      ],
+      [
+        "MPDD",
+        "$E_{TRI,L}$",
+        "+0.548",
+        "[−0.092, +1.160]"
+      ],
+      [
+        "MPDD",
+        "$E_{BAL,J}$",
+        "−0.510",
+        "[−1.135, +0.123]"
+      ],
+      [
+        "MPDD",
+        "$E_{BAL,L}$",
+        "+0.085",
+        "[−0.434, +0.708]"
+      ],
+      [
+        "BTAD",
+        "$E_{TRI,J}$",
+        "+1.553",
+        "[+0.637, +2.465]"
+      ],
+      [
+        "BTAD",
+        "$E_{TRI,L}$",
+        "+1.503",
+        "[+0.585, +2.495]"
+      ],
+      [
+        "BTAD",
+        "$E_{BAL,J}$",
+        "+0.974",
+        "[+0.177, +1.803]"
+      ],
+      [
+        "BTAD",
+        "$E_{BAL,L}$",
+        "+0.854",
+        "[+0.057, +1.753]"
+      ]
+    ],
+    "widths": [
+      2.6,
+      4.5,
+      2.5,
+      7.4
+    ],
+    "note": "Pixel AP percentage points, stride eight. Values are condition-averaged observed differences, not bootstrap means. MPDD uses 12 support conditions and BTAD uses 8; each dataset name is printed once for its group. Intervals are exploratory; the primary adjusted interaction intervals appear in Table 7.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ],
+    "dedupe_cols": [
+      0
+    ]
+  },
+  "s_interaction": {
+    "caption": "Direct representation-by-matching interactions for S.",
+    "headers": [
+      "Dataset / contrast",
+      "Point",
+      "95% interval",
+      "98.75% interval",
+      "Full-pixel point"
+    ],
+    "rows": [
+      [
+        "MPDD / $I_{TRI}$",
+        "+0.772",
+        "[+0.426, +1.118]",
+        "[+0.346, +1.211]",
+        "+0.787"
+      ],
+      [
+        "MPDD / $I_{BAL}$",
+        "+0.595",
+        "[+0.322, +0.927]",
+        "[+0.189, +1.030]",
+        "+0.601"
+      ],
+      [
+        "BTAD / $I_{TRI}$",
+        "−0.050",
+        "[−0.192, +0.186]",
+        "[−0.235, +0.244]",
+        "−0.044"
+      ],
+      [
+        "BTAD / $I_{BAL}$",
+        "−0.119",
+        "[−0.265, +0.110]",
+        "[−0.306, +0.167]",
+        "−0.117"
+      ]
+    ],
+    "widths": [
+      3.3,
+      1.7,
+      4.0,
+      4.0,
+      4.0
+    ],
+    "note": "AP percentage points. The point estimates and intervals use stride eight; the last column uses all pixels and has no interval. The four stride-eight interactions form one Bonferroni-adjusted exploratory family. A positive interaction alone does not imply a positive absolute representation effect.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
+  },
+  "baselines": {
+    "caption": "Native-method context on the same common valid image region.",
+    "headers": [
+      "Configuration",
+      "MPDD AP",
+      "BTAD AP"
+    ],
+    "rows": [
+      [
+        "A1 L",
+        "0.3698",
+        "0.6474"
+      ],
+      [
+        "A1 J",
+        "0.3611",
+        "0.6380"
+      ],
+      [
+        "AnomalyDINO with rotation",
+        "0.3214",
+        "0.5840"
+      ],
+      [
+        "AnomalyDINO without rotation",
+        "0.3130",
+        "0.5614"
+      ],
+      [
+        "PatchCore 224 / 1024",
+        "0.2275",
+        "0.3760"
+      ],
+      [
+        "PatchCore 128 / 256",
+        "0.1649",
+        "0.2886"
+      ]
+    ],
+    "widths": [
+      9.4,
+      3.8,
+      3.8
+    ],
+    "note": "All methods use seeds 0 and 1 and K = 1 and 4. Pixel AP is averaged over categories and the four support conditions. Coverage is 76.56% of the MPDD canvas and 70.49% on average for BTAD. Bold identifies the study anchor. Backbone, input resolution and reference augmentation differ; this is not a controlled matching ablation or a full-image benchmark ranking.",
+    "bold_rows": [
+      0,
+      1
+    ],
+    "left_cols": [
+      0
+    ]
+  },
+  "main": {
+    "caption": "Primary controlled matrix with the S representation.",
+    "headers": [
+      "Configuration",
+      "MPDD AP",
+      "MPDD SD",
+      "BTAD AP",
+      "BTAD SD"
+    ],
+    "rows": [
+      [
+        "A1 J",
+        "0.3729",
+        "0.0424",
+        "0.6408",
+        "0.0134"
+      ],
+      [
+        "A1 L",
+        "0.3791",
+        "0.0434",
+        "0.6498",
+        "0.0129"
+      ],
+      [
+        "DUP J",
+        "0.3649",
+        "0.0438",
+        "0.6316",
+        "0.0136"
+      ],
+      [
+        "DUP L",
+        "0.3681",
+        "0.0445",
+        "0.6379",
+        "0.0133"
+      ],
+      [
+        "TRI J",
+        "0.3626",
+        "0.0433",
+        "0.6471",
+        "0.0108"
+      ],
+      [
+        "TRI L",
+        "0.3736",
+        "0.0463",
+        "0.6529",
+        "0.0086"
+      ],
+      [
+        "BAL J",
+        "0.3678",
+        "0.0409",
+        "0.6505",
+        "0.0113"
+      ],
+      [
+        "BAL L",
+        "0.3799",
+        "0.0437",
+        "0.6583",
+        "0.0090"
+      ]
+    ],
+    "widths": [
+      5,
+      3,
+      3,
+      3,
+      3
+    ],
+    "note": "Pixel AP on the stride-eight canvas grid. SD is the sample standard deviation across the 12 MPDD or 8 BTAD fixed support conditions; it is not a confidence interval or variation across independent test datasets. BTAD uses corrected coordinates. The table contains the eight configurations required by the interaction; single-branch diagnostics are retained in the archive. Bold identifies the A1 anchor.",
+    "bold_rows": [
+      0,
+      1
+    ],
+    "left_cols": [
+      0
+    ]
+  },
+  "d_full": {
+    "caption": "Full-pixel localization for the prespecified D extension.",
+    "headers": [
+      "Configuration",
+      "MPDD AP",
+      "MPDD AUROC",
+      "BTAD AP",
+      "BTAD AUROC"
+    ],
+    "rows": [
+      [
+        "D",
+        "0.3452",
+        "0.9708",
+        "0.4449",
+        "0.9542"
+      ],
+      [
+        "A1 J",
+        "0.3622",
+        "0.9658",
+        "0.6361",
+        "0.9745"
+      ],
+      [
+        "A1 L",
+        "0.3687",
+        "0.9688",
+        "0.6455",
+        "0.9755"
+      ],
+      [
+        "DUP J",
+        "0.3510",
+        "0.9626",
+        "0.6270",
+        "0.9734"
+      ],
+      [
+        "DUP L",
+        "0.3554",
+        "0.9647",
+        "0.6335",
+        "0.9742"
+      ],
+      [
+        "TRI D J",
+        "0.3960",
+        "0.9731",
+        "0.6464",
+        "0.9743"
+      ],
+      [
+        "TRI D L",
+        "0.4107",
+        "0.9768",
+        "0.6591",
+        "0.9758"
+      ],
+      [
+        "BAL D J",
+        "0.3942",
+        "0.9736",
+        "0.6401",
+        "0.9749"
+      ],
+      [
+        "BAL D L",
+        "0.4076",
+        "0.9773",
+        "0.6545",
+        "0.9766"
+      ]
+    ],
+    "widths": [
+      4.6,
+      3.1,
+      3.1,
+      3.1,
+      3.1
+    ],
+    "note": "All output-canvas pixels, seeds 0 and 1, K = 1 and 4. Each number averages category metrics and the four support conditions. No full-pixel confidence intervals were computed. The D-only row does not use the C branch. Bold identifies A1.",
+    "bold_rows": [
+      1,
+      2
+    ],
+    "left_cols": [
+      0
+    ]
+  },
+  "d_interaction": {
+    "caption": "Direct matching interactions with D replacing S.",
+    "headers": [
+      "Dataset / contrast",
+      "Point",
+      "95% interval",
+      "98.75% interval",
+      "Full-pixel point"
+    ],
+    "rows": [
+      [
+        "MPDD / TRI",
+        "+0.974",
+        "[+0.602, +1.472]",
+        "[+0.514, +1.689]",
+        "+1.033"
+      ],
+      [
+        "MPDD / BAL",
+        "+0.628",
+        "[+0.279, +1.218]",
+        "[+0.162, +1.394]",
+        "+0.694"
+      ],
+      [
+        "BTAD / TRI",
+        "+0.622",
+        "[+0.373, +0.917]",
+        "[+0.298, +1.003]",
+        "+0.624"
+      ],
+      [
+        "BTAD / BAL",
+        "+0.501",
+        "[+0.239, +0.883]",
+        "[+0.188, +0.995]",
+        "+0.496"
+      ]
+    ],
+    "widths": [
+      3.3,
+      1.7,
+      4,
+      4,
+      4
+    ],
+    "note": "AP percentage points. All four support conditions use seeds 0 and 1 and K = 1 and 4. Intervals are stride-eight paired percentile intervals, with the four D contrasts forming their own adjustment family. The final column has no interval.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
+  },
+  "encoder_diff": {
+    "caption": "Matched difference between D and S interactions.",
+    "headers": [
+      "Dataset / contrast",
+      "Observed difference",
+      "Bootstrap mean",
+      "98.75% interval",
+      "Full-pixel difference"
+    ],
+    "rows": [
+      [
+        "MPDD / TRI",
+        "+0.207",
+        "+0.326",
+        "[−0.296, +1.118]",
+        "+0.264"
+      ],
+      [
+        "MPDD / BAL",
+        "+0.081",
+        "+0.139",
+        "[−0.372, +0.806]",
+        "+0.075"
+      ],
+      [
+        "BTAD / TRI",
+        "+0.623",
+        "+0.603",
+        "[+0.255, +0.945]",
+        "+0.616"
+      ],
+      [
+        "BTAD / BAL",
+        "+0.585",
+        "+0.576",
+        "[+0.204, +1.060]",
+        "+0.575"
+      ]
+    ],
+    "widths": [
+      3.3,
+      2.8,
+      2.8,
+      4.7,
+      3.4
+    ],
+    "note": "AP percentage points; D interaction minus S interaction. S is restricted to the identical seeds 0 and 1 and K = 1 and 4. Intervals come from within-replicate differences, not differences of interval endpoints. Four encoder comparisons form a separate exploratory adjustment family. Full-pixel differences have no intervals.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
+  },
+  "resources": {
+    "caption": "Recorded native-method runtime stages and process GPU memory.",
+    "headers": [
+      "Dataset",
+      "Configuration",
+      "Processing s",
+      "Evaluation s",
+      "GPU peak MB"
+    ],
+    "rows": [
+      [
+        "MPDD",
+        "AnomalyDINO no rotation",
+        "44.47",
+        "8.38",
+        "111.6–112.5"
+      ],
+      [
+        "MPDD",
+        "AnomalyDINO rotation",
+        "82.74",
+        "8.22",
+        "111.6–112.5"
+      ],
+      [
+        "MPDD",
+        "PatchCore 224",
+        "99.75",
+        "23.40",
+        "Unavailable"
+      ],
+      [
+        "BTAD",
+        "AnomalyDINO no rotation",
+        "53.19",
+        "16.39",
+        "118.8"
+      ],
+      [
+        "BTAD",
+        "AnomalyDINO rotation",
+        "135.38",
+        "16.89",
+        "118.8"
+      ],
+      [
+        "BTAD",
+        "PatchCore 224",
+        "115.45",
+        "40.85",
+        "Unavailable"
+      ]
+    ],
+    "widths": [
+      2,
+      5.6,
+      3,
+      3,
+      3.4
+    ],
+    "note": "Mean seconds per complete dataset condition over seeds 0 and 1 and K = 1 and 4; MPDD has 458 queries and BTAD 741. Processing is bank plus retrieval for AnomalyDINO and the combined native stage for PatchCore. GPU cells report the range of process peaks across conditions; each dataset name is printed once for its group. Cached feature extraction and other unrecorded stages are not added; these are not end-to-end per-image latencies. A1 has no comparable complete historical timing.",
+    "bold_rows": [],
+    "left_cols": [
+      0,
+      1
+    ],
+    "dedupe_cols": [
+      0
+    ]
+  }
+}

@@ -15,6 +15,7 @@ import argparse
 import csv
 import gc
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -30,11 +31,26 @@ import common as C  # noqa: E402
 STUDY = ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913"
 DEFAULT_RUN = STUDY / "p1_matrix"
 DEFAULT_OUT = STUDY / "p4_fullpixel"
-CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
+# Honour the same override the matrix engine uses (engine_v2.CANONICAL_ROOT).  Without this the
+# masks always came from the main study cache, so the MVTec/VisA run died with FileNotFoundError on
+# canonical/B/mvtec_s0_k8/bottle.npz even though the caller had exported those caches under
+# experiments/.../generalization_mvtec_visa_20260915/canonical.  The default is unchanged, so every
+# previously published p4_fullpixel result keeps its own inputs.
+CANONICAL = Path(os.environ.get(
+    "FUSION_CANONICAL_ROOT",
+    ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"))
 CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # added 2026-09-15 for the generalization study
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor",
+              "wood", "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
+    # appended 2026-09-18 for the confirmation study (single class, 1004 test images)
+    "ksdd2": ["ksdd2"],
 }
 MAP_STRIDE = 14
 

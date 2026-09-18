@@ -1,0 +1,58 @@
+{
+  "phase": 3,
+  "created_utc": "2026-09-18T22:31:42.894919+00:00",
+  "pass": true,
+  "checks": [
+    {
+      "id": "units_E1",
+      "what": "E1 单元数达到扩展后的预期",
+      "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+      "actual": "144",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E1\\units"
+      ]
+    },
+    {
+      "id": "units_E2",
+      "what": "E2 单元数达到扩展后的预期",
+      "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+      "actual": "144",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E2\\units"
+      ]
+    },
+    {
+      "id": "units_E3",
+      "what": "E3 单元数达到扩展后的预期",
+      "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+      "actual": "144",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E3\\units"
+      ]
+    },
+    {
+      "id": "s10_five_encoders",
+      "what": "S10 五编码器表含 5 个编码器",
+      "expected": "{'S','D','E1','E2','E3'}",
+      "actual": "5 个: S,D,E1,E2,E3",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\S10_SUMMARY.json"
+      ]
+    },
+    {
+      "id": "s10_condition_scope",
+      "what": "S10 记录的条件数（E 分支已扩展，S/D 仍为研究范围）",
+      "expected": "E 分支 12，S/D 4（已知口径变化，仅记录）",
+      "actual": "E=['4'], S=['4']",
+      "pass": true,
+      "evidence": [
+        "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\encoder_comparison_three.csv"
+      ]
+    }
+  ],
+  "n_failed": 0
+}

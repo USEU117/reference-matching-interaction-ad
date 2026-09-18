@@ -1,0 +1,108 @@
+﻿{
+    "started":  "2026-09-18T00:10:30",
+    "phases":  {
+                   "visa_matrix":  {
+                                       "result":  "pass",
+                                       "note":  "144/144 units, STATUS=completed",
+                                       "at":  "2026-09-18T01:12:02",
+                                       "before":  75,
+                                       "after":  144,
+                                       "state":  "completed",
+                                       "minutes":  62,
+                                       "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\phase_visa.log"
+                                   },
+                   "d3_seed_variance":  {
+                                            "result":  "FAILED",
+                                            "note":  "no D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\seeds_extension_20260917\\interaction_seed_variance.json; see D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\phase_d3.log",
+                                            "at":  "2026-09-18T08:08:14"
+                                        },
+                   "swin_t":  {
+                                  "result":  "FAILED",
+                                  "note":  "E3 artefact or VE.2 gate missing; see D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\phase_e3.log",
+                                  "at":  "2026-09-18T04:24:48",
+                                  "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\phase_e3.log",
+                                  "gate_pass":  false
+                              },
+                   "preflight":  {
+                                     "result":  "pass",
+                                     "note":  "environment ok",
+                                     "at":  "2026-09-18T00:10:31",
+                                     "python_exists":  true,
+                                     "gpu_free_mb":  5054,
+                                     "ram_free_gb":  7.2,
+                                     "disk_free_gb":  176,
+                                     "canonical_default":  true,
+                                     "canonical_generalization":  true,
+                                     "btad03_all_seeds":  true,
+                                     "swin_weights_cached":  true,
+                                     "visa_done_before":  75,
+                                     "btad03_done_before":  0
+                                 },
+                   "btad03_matrix":  {
+                                         "result":  "pass",
+                                         "note":  "32/32 units",
+                                         "at":  "2026-09-18T04:24:47",
+                                         "before":  0,
+                                         "after":  32,
+                                         "minutes":  193,
+                                         "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\phase_btad03.log"
+                                     },
+                   "analysis_chain":  {
+                                          "result":  "needs_attention",
+                                          "note":  "6 steps, 4 with a non-zero exit code",
+                                          "at":  "2026-09-18T04:24:48",
+                                          "steps":  [
+                                                        {
+                                                            "step":  "d2b_query_drift",
+                                                            "at":  "2026-09-18T01:14:37",
+                                                            "note":  "cross-run query drift, GPU",
+                                                            "exit_code":  0
+                                                        },
+                                                        {
+                                                            "step":  "d3_seed_variance",
+                                                            "at":  "2026-09-18T01:14:37",
+                                                            "note":  "skipped by design; run it separately or in parallel, then add -IncludeD3 to chain it",
+                                                            "exit_code":  0
+                                                        },
+                                                        {
+                                                            "step":  "run_fullpixel_mvtec_visa",
+                                                            "at":  "2026-09-18T01:14:47",
+                                                            "note":  "stride-1 point table",
+                                                            "exit_code":  1
+                                                        },
+                                                        {
+                                                            "step":  "stats_v2_mvtec_visa",
+                                                            "at":  "2026-09-18T04:10:03",
+                                                            "note":  "bootstrap samples",
+                                                            "exit_code":  -1
+                                                        },
+                                                        {
+                                                            "step":  "analyze_conditions_mvtec_visa",
+                                                            "at":  "2026-09-18T04:10:04",
+                                                            "note":  "condition tables",
+                                                            "exit_code":  1
+                                                        },
+                                                        {
+                                                            "step":  "c5_generalization_interactions",
+                                                            "at":  "2026-09-18T04:10:05",
+                                                            "note":  "four-dataset interaction table",
+                                                            "exit_code":  1
+                                                        }
+                                                    ]
+                                      }
+               },
+    "finished":  "2026-09-18T08:08:15",
+    "checks":  {
+                   "C  visa units":  "144/144",
+                   "G  btad-03 units":  "32/32",
+                   "C  p1_statistics":  false,
+                   "C  p4_fullpixel":  true,
+                   "C  p2_conditions":  true,
+                   "C  C5_SUMMARY.json":  false,
+                   "D  d3 interaction_by_seed.csv":  false,
+                   "D  d3 interaction_seed_variance":  false,
+                   "E3 E3_SUMMARY.json":  true,
+                   "E  S10 five-encoder table":  true
+               },
+    "report":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night_20260917\\NIGHT_RUN_REPORT_CN.md"
+}

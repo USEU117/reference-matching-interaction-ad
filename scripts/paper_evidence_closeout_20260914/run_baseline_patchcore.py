@@ -20,6 +20,7 @@ for the 6 GB laptop GPU.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import shutil
@@ -38,14 +39,34 @@ SPLITS = ROOT / "data/splits"
 RAW = {
     "mpdd": ROOT / "data/mpdd_raw/MPDD",
     "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed",
+    "mvtec": ROOT / "data/mvtec",
+    "visa": ROOT / "data/visa_raw",
 }
 BTAD_VIEW = ROOT / "data/btad_patchcore_mvteclayout"
+# Official `tools/prepare_visa.py` output (see scripts/validation_handoff_20260911/finalize_e8.py):
+# already in the MVTec layout the vendored loader expects, so it is the VisA adapter layer.
+VISA_VIEW = ROOT / "data/visa_pytorch/1cls"
+# Source root per dataset: the directory whose <category>/{train/good,test,ground_truth}
+# trees are linked into the few-shot view.  `mvtec` is already MVTec-layout in the raw tree;
+# `visa` needs the converted view.
+SOURCE_ROOT = {
+    "mpdd": RAW["mpdd"],
+    "btad": BTAD_VIEW,
+    "mvtec": RAW["mvtec"],
+    "visa": VISA_VIEW,
+}
 VIEW_ROOT = ROOT / "data/patchcore_closeout"
 RAW_OUT = ROOT / "outputs/patchcore/closeout"
 CATS = {
     "mpdd": ["bracket_black", "bracket_brown", "bracket_white", "connector",
              "metal_plate", "tubes"],
     "btad": ["01", "02", "03"],
+    # vendor order from methods/patchcore/.../src/patchcore/datasets/mvtec.py::_CLASSNAMES
+    "mvtec": ["bottle", "cable", "capsule", "carpet", "grid", "hazelnut", "leather",
+              "metal_nut", "pill", "screw", "tile", "toothbrush", "transistor", "wood",
+              "zipper"],
+    "visa": ["candle", "capsules", "cashew", "chewinggum", "fryum", "macaroni1",
+             "macaroni2", "pcb1", "pcb2", "pcb3", "pcb4", "pipe_fryum"],
 }
 
 
@@ -162,7 +183,7 @@ def ensure_btad_layout(categories: list[str]) -> dict:
 
 def build_view(dataset: str, seed: int, shot: int, categories: list[str]) -> dict:
     manifest = json.loads((SPLITS / dataset / "manifest.json").read_text(encoding="utf-8"))
-    source_root = RAW["mpdd"] if dataset == "mpdd" else BTAD_VIEW
+    source_root = SOURCE_ROOT[dataset]
     target_root = VIEW_ROOT / f"{dataset}_s{seed}_k{shot}"
     info = {}
     for category in categories:
@@ -216,6 +237,14 @@ def run_patchcore(dataset: str, seed: int, shot: int, categories: list[str],
                "mvtec", str(data_root)]
     environment = dict(os.environ)
     environment["PYTHONPATH"] = str(PATCHCORE_ROOT / "src")
+    # The vendored CLI writes into create_storage_folder(..., mode="iterate"), which appends
+    # "_0", "_1", ... when <group> already exists - while every consumer (this file's own
+    # evaluation step, s8_common_region.py, s4_baselines.py) reads the unsuffixed
+    # <group>/predictions path.  Clear the stale folder first so a re-run repopulates exactly
+    # the path that is recorded and consumed.
+    target = Path(output_root) / project / group
+    if target.exists():
+        shutil.rmtree(target)
     result = run_in_job(command, str(PATCHCORE_ROOT), environment, log_path)
     result.update({"command": " ".join(command),
                    "predictions": str(output_root / project / group / "predictions")})
@@ -232,13 +261,65 @@ def evaluate(dataset: str, seed: int, shot: int, categories: list[str],
     return run_in_job(command, str(ROOT), dict(os.environ), log_path)
 
 
+def resolve_categories(dataset: str, requested, universe=None) -> list[str]:
+    """Restrict a dataset's category list to `--categories`.
+
+    `--categories` is shared by every dataset in one call, so a category that belongs to
+    another dataset is simply skipped; only a name that exists in no requested dataset
+    (a typo) is an error.
+    """
+    if not requested:
+        return list(CATS[dataset])
+    known_here = [c for c in CATS[dataset] if c in set(requested)]
+    if not known_here:
+        raise SystemExit(f"none of --categories {requested} exists in {dataset}")
+    unknown = [c for c in requested
+               if not any(c in CATS[d] for d in (universe or [dataset]))]
+    if unknown:
+        raise SystemExit(f"unknown categories {unknown}; known per dataset: "
+                         f"{ {d: CATS[d] for d in (universe or [dataset])} }")
+    return known_here
+
+
+def existing_categories(out_dir: Path) -> int:
+    """Number of per-category rows already written for a unit (0 if none/incomplete)."""
+    path = out_dir / "per_category.csv"
+    if not (out_dir / "summary.csv").exists() or not path.exists():
+        return 0
+    with path.open(encoding="utf-8-sig") as fh:
+        return sum(1 for _ in csv.DictReader(fh))
+
+
+def print_inventory(args, result_dir: Path) -> None:
+    """Print what this driver covers, and how much of each unit is already evaluated."""
+    for dataset in args.datasets:
+        categories = resolve_categories(dataset, args.categories, args.datasets)
+        units = [f"{dataset}_s{seed}_k{shot}" for seed in args.seeds for shot in args.shots]
+        done = [u for u in units if existing_categories(result_dir / u) >= len(CATS[dataset])]
+        print(f"[inventory] {dataset}: {len(categories)} categories "
+              f"({', '.join(categories)})")
+        print(f"[inventory] {dataset}: conditions {units} "
+              f"({len(done)}/{len(units)} fully evaluated)")
+        print(f"[inventory] {dataset}: source root {SOURCE_ROOT[dataset]}")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=S / "02_baselines")
-    ap.add_argument("--datasets", nargs="+", default=["mpdd", "btad"])
+    ap.add_argument("--datasets", nargs="+", default=["mpdd", "btad"],
+                    choices=sorted(CATS), help="default reproduces the original mpdd+btad run")
     ap.add_argument("--seeds", nargs="+", type=int, default=[0, 1])
     ap.add_argument("--shots", nargs="+", type=int, default=[1, 4])
-    ap.add_argument("--skip-existing", action="store_true")
+    ap.add_argument("--categories", nargs="+",
+                    help="restrict to these categories (subset of each dataset's own list); "
+                         "a restricted run REWRITES the unit's per_category/per_image/summary "
+                         "to cover only those categories, so use a separate --out for partial "
+                         "batches if the full unit already exists")
+    ap.add_argument("--only-unit", help="run a single unit, e.g. mvtec_s0_k1")
+    ap.add_argument("--skip-existing", action="store_true",
+                    help="skip a unit only when it already covers every category of the dataset")
+    ap.add_argument("--list", action="store_true",
+                    help="print the coverage inventory (categories, conditions, done/total) and exit")
     ap.add_argument("--config", choices=("local128", "official224"), default="local128",
                     help="local128 = resource-reduced (project default); official224 = the "
                          "vendor README's recommended experiment configuration")
@@ -248,6 +329,9 @@ def main() -> int:
     state_path = args.out / f"patchcore_state_{args.config}.json"
     result_dir = args.out / ("patchcore" if args.config == "local128"
                              else "patchcore_official224")
+    if args.list:
+        print_inventory(args, result_dir)
+        return 0
     state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {
         "created_utc": utcnow(), "units": {}, "btad_layout": None}
 
@@ -255,14 +339,21 @@ def main() -> int:
     print("[patchcore] BTAD MVTec-layout view ready", flush=True)
 
     for dataset in args.datasets:
-        categories = CATS[dataset]
+        categories = resolve_categories(dataset, args.categories, args.datasets)
         for seed in args.seeds:
             for shot in args.shots:
                 unit = f"{dataset}_s{seed}_k{shot}"
-                out_dir = result_dir / unit
-                if args.skip_existing and (out_dir / "summary.csv").exists():
-                    print(f"[patchcore] skip {unit} (already evaluated)", flush=True)
+                if args.only_unit and unit != args.only_unit:
                     continue
+                out_dir = result_dir / unit
+                have = existing_categories(out_dir)
+                if args.skip_existing and have >= len(CATS[dataset]):
+                    print(f"[patchcore] skip {unit} (already evaluated, "
+                          f"{have}/{len(CATS[dataset])} categories)", flush=True)
+                    continue
+                if have:
+                    print(f"[patchcore] {unit}: existing result covers {have} categories, "
+                          f"re-running for {len(categories)}", flush=True)
                 print(f"[patchcore] {unit}: preparing view ({args.config})", flush=True)
                 view = build_view(dataset, seed, shot, categories)
                 log_path = logs / f"{unit}_{args.config}.log"

@@ -1,0 +1,48 @@
+{
+  "phase": 1,
+  "created_utc": "2026-09-18T17:22:54.584711+00:00",
+  "pass": false,
+  "checks": [
+    {
+      "id": "fast_estimator_parity",
+      "what": "既有快估计器门（fast_parity_gate.py）通过",
+      "expected": "pass=True, 阈值 1e-9",
+      "actual": "{\"pass\": true, \"max_abs_delta\": 1.2212453270876722e-15, \"tolerance\": null, \"n_units_compared\": 288, \"units_compared\": null}",
+      "pass": true,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_ESTIMATOR_PARITY.json"
+      ]
+    },
+    {
+      "id": "fast_estimator_delta",
+      "what": "最大逐副本偏差不超过 1e-9",
+      "expected": "<= 1e-9",
+      "actual": 1.2212453270876722e-15,
+      "pass": true,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_ESTIMATOR_PARITY.json"
+      ]
+    },
+    {
+      "id": "ksdd2_fast_parity",
+      "what": "KSDD2 真单元上的快/慢实现对照通过",
+      "expected": "pass=True, R=20, max|delta| <= 1e-12",
+      "actual": "{\"pass\": false, \"replicates\": null, \"max_abs_delta_arrays\": null, \"point_max_abs_delta\": null, \"n_units_compared\": 0, \"units\": null}",
+      "pass": false,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
+      ]
+    },
+    {
+      "id": "ksdd2_fast_parity_tolerance",
+      "what": "KSDD2 逐副本最大偏差 <= 1e-12",
+      "expected": "<= 1e-12",
+      "actual": null,
+      "pass": false,
+      "evidence": [
+        "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
+      ]
+    }
+  ],
+  "n_failed": 2
+}

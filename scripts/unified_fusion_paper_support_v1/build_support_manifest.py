@@ -33,6 +33,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff"}
 DEFAULT_OUT = ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913"
+# --- KolektorSDD2 confirmation set (appended 2026-09-18, additive only) --------
+# KSDD2 ships as one flat `train/` + `test/` pair (no per-category folders, no
+# `data/splits` manifest), so it gets its own builder below.  Nothing in
+# `build()` (mpdd/btad/mvtec/visa) changes.
+KSDD2 = "ksdd2"
+KSDD2_ROOT = ROOT / "data" / "kolektorsdd2_raw"
+KSDD2_CATEGORY = "ksdd2"
+# The official archive carries one redundant pair of duplicates; the mask member
+# does not end in `_GT.png`, so a suffix-based scan would count it as an image.
+KSDD2_EXCLUDED_FILES = ("train/10301 (copy).png", "train/10301_GT (copy).png")
+KSDD2_OFFICIAL_COUNTS = {"train": {"pos": 246, "neg": 2085}, "test": {"pos": 110, "neg": 894}}
+KSDD2_F_SPEC = (ROOT / "experiments/dynamic_fusion/confirmation_ksdd2_20260918"
+                / "F_SPEC.json")
 
 
 def sha256(path: Path) -> str:
@@ -59,7 +72,112 @@ def normal_candidates(root: Path, dataset: str, category: str) -> list[str]:
     return []
 
 
+def ksdd2_split_images(split: str) -> list[Path]:
+    """Images of one KSDD2 split (ground truth and the two `(copy)` files removed)."""
+    excluded = {Path(rel).name for rel in KSDD2_EXCLUDED_FILES}
+    split_dir = KSDD2_ROOT / split
+    if not split_dir.is_dir():
+        raise SystemExit(f"KSDD2 split directory missing: {split_dir}")
+    return [p for p in sorted(split_dir.glob("*.png"))
+            if not p.name.endswith("_GT.png") and p.name not in excluded]
+
+
+def ksdd2_label(image: Path) -> int:
+    """Official KSDD2 rule: positive iff the mask `X_GT.png` has a non-zero pixel."""
+    import cv2
+
+    mask = image.with_name(f"{image.stem}_GT.png")
+    if not mask.is_file():
+        return 0
+    raw = cv2.imread(str(mask), cv2.IMREAD_GRAYSCALE)
+    if raw is None:
+        raise FileNotFoundError(mask)
+    return 1 if (raw > 0).any() else 0
+
+
+def build_ksdd2(shots: list[int], seeds: list[int]) -> dict:
+    """Support manifest + query list for the KSDD2 confirmation set.
+
+    KSDD2 has no historical `data/splits/<dataset>/manifest.json`, so there is no
+    prefix to preserve: the references are the prefix of one shuffled sequence per
+    seed, built with exactly the rule the other datasets use
+    (`sorted normal training images -> random.Random(seed).shuffle -> prefix K`).
+    Only training images whose mask is empty are admissible references; the query
+    list is the whole official test split (1004 images).
+    """
+    references: list[str] = []
+    train_counts = {"pos": 0, "neg": 0}
+    for image in ksdd2_split_images("train"):
+        if ksdd2_label(image) == 1:
+            train_counts["pos"] += 1
+        else:
+            train_counts["neg"] += 1
+            references.append(image.relative_to(KSDD2_ROOT).as_posix())
+    if len(references) < max(shots):
+        raise SystemExit(f"{KSDD2}: only {len(references)} normal training images, "
+                         f"need {max(shots)}")
+
+    categories: dict[str, dict] = {KSDD2_CATEGORY: {}}
+    for seed in seeds:
+        shuffled = references[:]
+        random.Random(int(seed)).shuffle(shuffled)
+        categories[KSDD2_CATEGORY][str(seed)] = {str(k): shuffled[:k] for k in shots}
+
+    queries: list[dict] = []
+    test_counts = {"pos": 0, "neg": 0}
+    for image in ksdd2_split_images("test"):
+        label = ksdd2_label(image)
+        test_counts["pos" if label else "neg"] += 1
+        relative = image.relative_to(KSDD2_ROOT).as_posix()
+        mask = image.with_name(f"{image.stem}_GT.png")
+        queries.append({"sample_id": relative, "image": relative,
+                        "mask": (mask.relative_to(KSDD2_ROOT).as_posix()
+                                 if mask.is_file() else None),
+                        "label": label})
+
+    selected = sorted({rel for seed_map in categories[KSDD2_CATEGORY].values()
+                       for rels in seed_map.values() for rel in rels})
+    return {
+        "schema_version": 1,
+        "kind": "support_manifest_k_extended",
+        "dataset": KSDD2,
+        "root": str(KSDD2_ROOT),
+        "shots": sorted(shots),
+        "seeds": sorted(seeds),
+        "nested": True,
+        "extension_rule": ("sorted normal (empty-mask) training images -> "
+                           "random.Random(seed).shuffle -> prefix; K=1/2/4/8 are "
+                           "prefixes of one sequence per seed"),
+        "source_manifest": None,
+        "historical_shots": None,
+        "prefix_checks": [],
+        "prefix_invariance_all_match": None,
+        "n_prefix_checks": 0,
+        "seeds_without_history": [{"category": KSDD2_CATEGORY, "seed": int(seed),
+                                   "n_normal_candidates": len(references)}
+                                  for seed in seeds],
+        "n_seeds_without_history": len(seeds),
+        "n_normal_candidates": len(references),
+        "selected_file_sha256": {
+            rel: sha256(KSDD2_ROOT.joinpath(*Path(rel).parts)) for rel in selected},
+        "categories": categories,
+        "queries": {KSDD2_CATEGORY: queries},
+        "query_counts": {"n": len(queries), **test_counts},
+        "official_counts": KSDD2_OFFICIAL_COUNTS,
+        "observed_counts": {"train": train_counts, "test": test_counts},
+        "counts_match_official": bool(train_counts == KSDD2_OFFICIAL_COUNTS["train"]
+                                      and test_counts == KSDD2_OFFICIAL_COUNTS["test"]),
+        "excluded_files": list(KSDD2_EXCLUDED_FILES),
+        "geometry": {"canvas_wh": [224, 630], "grid_wh": [16, 45], "patch": 14,
+                     "mask_rule": "nearest-neighbour resize onto the canvas, then binarise > 0"},
+        "frozen_spec": ({"path": str(KSDD2_F_SPEC), "sha256": sha256(KSDD2_F_SPEC)}
+                        if KSDD2_F_SPEC.is_file() else None),
+    }
+
+
 def build(dataset: str, shots: list[int], seeds: list[int]) -> dict:
+    if dataset == KSDD2:
+        return build_ksdd2(shots, seeds)
     source_path = ROOT / "data" / "splits" / dataset / "manifest.json"
     source = json.loads(source_path.read_text(encoding="utf-8"))
     root = Path(source["root"])
@@ -72,6 +190,7 @@ def build(dataset: str, shots: list[int], seeds: list[int]) -> dict:
     prefix_checks: list[dict] = []
     overlap: dict[str, int] = {}
     added: dict[str, list[str]] = {}
+    seeds_without_history: list[dict] = []
 
     for category in categories:
         candidates = normal_candidates(root, dataset, category)
@@ -102,14 +221,22 @@ def build(dataset: str, shots: list[int], seeds: list[int]) -> dict:
                         f"prefix mismatch {dataset}/{category}/seed{seed}/K{k}: "
                         f"{expected} != {got}")
 
-        overlap[f"{dataset}/{category}/s0_k8-vs-s1_k8"] = len(
-            set(out_categories[category]["0"]["8"]) & set(out_categories[category]["1"]["8"]))
-        overlap[f"{dataset}/{category}/s0_k8-vs-s2_k8"] = len(
-            set(out_categories[category]["0"]["8"]) & set(out_categories[category]["2"]["8"]))
-        overlap[f"{dataset}/{category}/s1_k8-vs-s2_k8"] = len(
-            set(out_categories[category]["1"]["8"]) & set(out_categories[category]["2"]["8"]))
+        for pair in (("0", "1"), ("0", "2"), ("1", "2")):
+            if all(seed in out_categories[category] for seed in pair):
+                overlap[f"{dataset}/{category}/s{pair[0]}_k8-vs-s{pair[1]}_k8"] = len(
+                    set(out_categories[category][pair[0]]["8"])
+                    & set(out_categories[category][pair[1]]["8"]))
 
-        hist_k4 = {p for seed in seeds for p in source["categories"][category][str(seed)]["4"]}
+        # Seeds that the historical manifest never had (the seed 3..7 extension) contribute no
+        # prefix check and no historical K=4 set; they are recorded instead of silently skipped.
+        without_history = [int(seed) for seed in seeds
+                           if str(seed) not in source["categories"][category]]
+        for seed in without_history:
+            seeds_without_history.append({"category": category, "seed": seed,
+                                          "n_normal_candidates": len(candidates)})
+
+        hist_k4 = {p for seed in seeds if str(seed) in source["categories"][category]
+                   for p in source["categories"][category][str(seed)]["4"]}
         for seed in seeds:
             new = [p for p in out_categories[category][str(seed)]["8"] if p not in hist_k4]
             added[f"{category}/seed{seed}"] = new
@@ -139,6 +266,8 @@ def build(dataset: str, shots: list[int], seeds: list[int]) -> dict:
         "prefix_checks": prefix_checks,
         "prefix_invariance_all_match": bool(all(c["match"] for c in prefix_checks)),
         "n_prefix_checks": len(prefix_checks),
+        "seeds_without_history": seeds_without_history,
+        "n_seeds_without_history": len(seeds_without_history),
         "added_at_k8": added,
         "added_file_sha256": new_hashes,
         "selected_file_sha256": selected_hashes,
