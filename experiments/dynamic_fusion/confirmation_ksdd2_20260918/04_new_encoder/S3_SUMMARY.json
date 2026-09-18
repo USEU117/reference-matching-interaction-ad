@@ -1,0 +1,57 @@
+{
+  "created_utc": "2026-09-18T19:04:51.704626+00:00",
+  "scope_units": 36,
+  "units_recorded": 12,
+  "new_d_method_conditions": 60,
+  "control_conditions": 48,
+  "datasets_with_results": [
+    "ksdd2"
+  ],
+  "interactions": 2,
+  "interaction_lookup": {
+    "ksdd2|study|I_TRI_D": {
+      "point": 0.004992543594918815,
+      "mean": 0.005069633770762308,
+      "ci95": [
+        0.0021240143210780496,
+        0.008508439196630042
+      ],
+      "ci9875": [
+        0.0011310501494005251,
+        0.009212563954309383
+      ],
+      "conditions": 12
+    },
+    "ksdd2|study|I_BAL_D": {
+      "point": 0.0036660261572967015,
+      "mean": 0.0037194448534415034,
+      "ci95": [
+        0.0012793575999006388,
+        0.0065325592721934425
+      ],
+      "ci9875": [
+        0.0003056753733781671,
+        0.007203599735911616
+      ],
+      "conditions": 12
+    }
+  },
+  "feature_reuse_vs_encode": {
+    "query_encoded": 1,
+    "ref_encoded": 3,
+    "reused_units": 0
+  },
+  "resource": {
+    "device": "cuda",
+    "peak_gpu_mb_encoding": 680.7,
+    "peak_gpu_mb_scoring": 680.7,
+    "total_query_seconds": 27.4,
+    "total_ref_seconds": 0.7,
+    "total_score_seconds": 205.1
+  },
+  "caveats": [
+    "the test data has been used before; this is an encoder-transfer check, not a held-out confirmation",
+    "only seed 0/1 and K 1/4 are in scope",
+    "D features are stored as float16 and cast back to float32 before normalisation"
+  ]
+}

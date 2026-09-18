@@ -1,0 +1,228 @@
+{
+  "stage": "unified_p1_statistics",
+  "run_roots": [
+    "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix"
+  ],
+  "conditions_root": {
+    "ksdd2_s0_k1": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s0_k2": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s0_k4": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s0_k8": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s1_k1": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s1_k2": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s1_k4": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s1_k8": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s2_k1": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s2_k2": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s2_k4": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix",
+    "ksdd2_s2_k8": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix"
+  },
+  "replicates": 1000,
+  "rng": "numpy.random.default_rng([20260913, dataset_id, category_id, replicate])",
+  "resampling_unit": "image; a drawn image carries all its stride-8 pixels, mask and label",
+  "shared_index": "the drawn image indices do not depend on method, reference seed or K, so cross-K and cross-seed contrasts are paired",
+  "metric": "pooled pixel AP/AUROC and image AP/AUROC per category, macro mean over categories",
+  "undefined_policy": "a category replicate with a single class yields NaN and is excluded",
+  "effect_scale_macro_pixel_ap": 0.005,
+  "main_inferences": [
+    {
+      "name": "A1_average_matching_effect",
+      "kind": "average_over_seeds_and_K",
+      "contrast": "A1_L - A1_J",
+      "ci_level": 0.975
+    },
+    {
+      "name": "A1_matching_effect_K8_minus_K1",
+      "kind": "K8_minus_K1",
+      "contrast": "A1_L - A1_J",
+      "k_high": 8,
+      "k_low": 1,
+      "ci_level": 0.975
+    }
+  ],
+  "exploratory_contrasts": [
+    [
+      "A1_L",
+      "A1_J"
+    ],
+    [
+      "TRI_L",
+      "TRI_J"
+    ],
+    [
+      "BAL_L",
+      "BAL_J"
+    ],
+    [
+      "DUP_L",
+      "DUP_J"
+    ],
+    [
+      "DUP_J",
+      "A1_J"
+    ],
+    [
+      "B",
+      "A1_J"
+    ],
+    [
+      "S",
+      "A1_J"
+    ],
+    [
+      "C",
+      "A1_J"
+    ],
+    [
+      "TRI_J",
+      "DUP_J"
+    ],
+    [
+      "TRI_L",
+      "DUP_L"
+    ],
+    [
+      "BAL_J",
+      "A1_J"
+    ],
+    [
+      "BAL_L",
+      "A1_L"
+    ]
+  ],
+  "conditions": [
+    {
+      "dataset": "ksdd2",
+      "seed": 0,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 0,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 0,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 0,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 1,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 1,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 1,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 1,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 2,
+      "shot": 1,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 2,
+      "shot": 2,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 2,
+      "shot": 4,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    },
+    {
+      "dataset": "ksdd2",
+      "seed": 2,
+      "shot": 8,
+      "replicates": 1000,
+      "categories": [
+        "ksdd2"
+      ]
+    }
+  ],
+  "created_utc": "2026-09-18T18:37:33.380231+00:00",
+  "source_hashes": {
+    "stats_v2.py": "ae2a46255d78caa1ea63977c950212483e61a6ce5532d630dbe872c455b26b95"
+  },
+  "fast_replicates": true,
+  "fast_replicates_module": "scripts/unified_fusion_paper_support_v1/fast_replicates.py",
+  "fast_replicates_source_sha256": "18c8dfbd1e8001c41eb3c5c105efb632f6e93f2f0578d4c5e883179413eb476b",
+  "scope_history": [
+    {
+      "datasets": [
+        "ksdd2"
+      ],
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ]
+    }
+  ]
+}

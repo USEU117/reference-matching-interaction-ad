@@ -1,0 +1,452 @@
+{
+  "kind": "confirmation_dataset_spec",
+  "spec_version": 1,
+  "workflow": "F (confirmation set)",
+  "frozen_utc": "2026-09-18T11:59:44.573532+00:00",
+  "frozen_before_any_feature": true,
+  "status": "frozen before any KSDD2 feature was encoded; every KSDD2 feature file must carry a later timestamp than frozen_utc",
+  "dataset": {
+    "name": "kolektorsdd2",
+    "dataset_id": 5,
+    "pipeline_dataset_key": "ksdd2",
+    "data_root": "data/kolektorsdd2_raw",
+    "splits": {
+      "train": "train",
+      "test": "test"
+    },
+    "category_names": [
+      "ksdd2"
+    ],
+    "n_categories": 1,
+    "role": "confirmation",
+    "source_of_truth": [
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+        "lines": "150-153",
+        "quote": "ROLE = {\"mpdd\": \"development\", \"btad\": \"holdout\",\n        \"mvtec\": \"external_frozen_validation\",\n        \"visa\": \"in_domain_frozen_validation\",\n        KSDD2: \"confirmation\"}"
+      },
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/stats_v2.py",
+        "lines": "55",
+        "quote": "DATASET_ID = {\"mpdd\": 1, \"btad\": 2, \"mvtec\": 3, \"visa\": 4, \"ksdd2\": 5}",
+        "note": "dataset_id 5 is part of the bootstrap resampling seed and is appended, never renumbered"
+      }
+    ]
+  },
+  "official_counts": {
+    "train": {
+      "pos": 246,
+      "neg": 2085
+    },
+    "test": {
+      "pos": 110,
+      "neg": 894
+    },
+    "positivity_rule": "a sample is positive iff its ground-truth mask (X_GT.png) has at least one non-zero pixel"
+  },
+  "provenance": {
+    "archive_path": "data/downloads/KolektorSDD2.zip",
+    "bytes": 853126555,
+    "sha256": "EDCDB486809B24F1D17B785E30C52FAFC5999554DD5FE18DDF77B61CEB6F36A8",
+    "source_url": "https://data.vicos.si/datasets/KSDD/KolektorSDD2.zip",
+    "license": "CC BY-NC-SA 4.0",
+    "extracted_to": "data/kolektorsdd2_raw",
+    "archive_contents_in_scope": [
+      "train/",
+      "test/"
+    ],
+    "archive_contents_not_used": [
+      "split_weakly_0.pyb",
+      "split_weakly_16.pyb",
+      "split_weakly_53.pyb",
+      "split_weakly_126.pyb",
+      "split_weakly_246.pyb"
+    ]
+  },
+  "excluded_files": [
+    {
+      "path": "train/10301 (copy).png",
+      "reason": "redundant duplicate of train/10301.png shipped by the official archive"
+    },
+    {
+      "path": "train/10301_GT (copy).png",
+      "reason": "redundant duplicate of train/10301_GT.png; it does not end in `_GT.png`, so a suffix-based ground-truth scan would count it as an image (2333 images vs 2331 masks)"
+    }
+  ],
+  "geometry": {
+    "canvas": [
+      224,
+      630
+    ],
+    "grid": [
+      16,
+      45
+    ],
+    "patch": 14,
+    "mask": "nearest",
+    "mask_binarise": ">0",
+    "axis_order": "canvas and grid are written as (width, height); in the pipeline's (height, width) convention this is canvas (630, 224) and grid_size (45, 16), and the mask canvas is grid * MAP_STRIDE = 630 x 224",
+    "resize": "one fixed canvas per image (cv2.INTER_AREA), native images are ~230 x 630 so the canvas aspect ratio deviates from the native one by about 2.4 %",
+    "dino_encoder": "smaller_edge_size = 224, which makes the wrapper's own resize a no-op because 224 = 16*14 and 630 = 45*14 are already patch-aligned",
+    "clip_encoder": "unchanged: the C branch keeps its own 518 x 518 preprocess and its 37 x 37 patch map, which engine_v2 re-grids onto the B canvas (16 x 45)",
+    "source_of_truth": [
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+        "lines": "72-80",
+        "quote": "KSDD2 = \"ksdd2\"\nKSDD2_CANVAS_WH = (224, 630)\nKSDD2_GRID_HW = (45, 16)\nKSDD2_PATCH = 14\nKSDD2_ENCODER_RESOLUTION = 224"
+      },
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+        "lines": "477-481",
+        "quote": "# Frozen mask rule: nearest-neighbour resize onto the canvas the patch grid\n                # covers (grid * MAP_STRIDE) and binarise at > 0.  For KSDD2 that canvas is\n                # exactly 224 x 630 = grid 16 x 45 at patch/stride 14.\n                mask = (cv2.resize(raw, (mask_size[1], mask_size[0]),\n                                   interpolation=cv2.INTER_NEAREST) > 0).astype(np.uint8)"
+      }
+    ]
+  },
+  "branches": [
+    "S",
+    "D",
+    "C"
+  ],
+  "branch_specs": {
+    "S": {
+      "label": "S (DINOv2-S)",
+      "role_in_existing_runs": "baseline branch pair",
+      "encoder": "facebookresearch DINOv2 ViT-S/14, frozen pretrained weights (torch.hub `dinov2_vits14`), eval mode, no training",
+      "feature_layer": "final block patch tokens (DINOv2-S/14: 12 blocks, patch-14 token grid, 384-d per position)",
+      "input_geometry": "smaller edge to 448, BICUBIC + antialias, ImageNet mean/std, top-left crop to a multiple of the patch size (this is B's canvas, identical extent); for KSDD2 the canvas becomes 224 x 630 per this spec",
+      "normalisation": "L2 per spatial position",
+      "distance": "1 - cosine (identical to every other branch)",
+      "pipeline_status": "implemented: scripts/unified_fusion_paper_support_v1/export_k8_cache.py --branch S",
+      "dataset_roles_in_existing_runs": {
+        "mpdd": "development",
+        "btad": "holdout"
+      },
+      "source_of_truth": [
+        {
+          "file": "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_extra_encoders/S10_SUMMARY.json",
+          "lines": "10-12",
+          "quote": "\"S\": {\n      \"label\": \"S (DINOv2-S)\",\n      \"status\": \"baseline\"\n    },"
+        },
+        {
+          "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+          "lines": "133-134",
+          "quote": "MODEL_NAME = {\"B\": \"dinov2_vitb14\", \"S\": \"dinov2_vits14\", \"C\": \"AnomalyCLIP_ViT-L/14@336px\"}\nBRANCH_FIELD = {\"B\": \"anomalydino_visual\", \"S\": \"anomalydino_visual\", \"C\": \"anomalyclip_text\"}"
+        },
+        {
+          "file": "methods/anomalydino/src/backbones.py",
+          "lines": "90-94",
+          "quote": "self.transform = transforms.Compose([\n            transforms.Resize(size=self.smaller_edge_size, interpolation=transforms.InterpolationMode.BICUBIC, antialias=True),\n            transforms.ToTensor(),\n            transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)), # imagenet defaults\n            ])"
+        },
+        {
+          "file": "methods/anomalydino/src/backbones.py",
+          "lines": "104-108",
+          "quote": "# Crop image to dimensions that are a multiple of the patch size\n        height, width = image_tensor.shape[1:] # C x H x W\n        cropped_width, cropped_height = width - width % self.model.patch_size, height - height % self.model.patch_size\n        image_tensor = image_tensor[:, :cropped_height, :cropped_width]\n        grid_size = (cropped_height // self.model.patch_size, cropped_width // self.model.patch_size)"
+        },
+        {
+          "file": "methods/anomalydino/src/backbones.py",
+          "lines": "111-118",
+          "quote": "def extract_features(self, image_tensor):\n        with torch.inference_mode():\n            if self.half_precision:\n                image_batch = image_tensor.unsqueeze(0).half().to(self.device)\n            else:\n                image_batch = image_tensor.unsqueeze(0).to(self.device)\n            tokens = self.model.get_intermediate_layers(image_batch)[0].squeeze()\n        return tokens.cpu().numpy()"
+        },
+        {
+          "file": "scripts/unified_fusion_paper_support_v1/engine_v2.py",
+          "lines": "64-74",
+          "quote": "def _unit_rows(rows: np.ndarray, name: str) -> np.ndarray:\n    arr = np.array(rows, dtype=np.float32, order=\"C\", copy=True)\n    ...\n    arr /= np.sqrt(norm2).astype(np.float32)[:, None]",
+          "note": "L2 per spatial position"
+        }
+      ]
+    },
+    "D": {
+      "label": "D (WideResNet50-2)",
+      "role_in_existing_runs": "pre-specified extension (frozen before any D result was produced)",
+      "encoder": "torchvision.models.wide_resnet50_2, Wide_ResNet50_2_Weights.IMAGENET1K_V1, weights sha256 95faca4d11227dddf8633dbb5ff6c8a9003c1aa5b8945c73834b8007b10950b8, eval mode, requires_grad_(False), no training",
+      "feature_layer": "layer2 + layer3, concatenated in that order on the channel axis (512 + 1024 = 1536-d), bilinearly resampled to B's canvas grid, L2 per spatial position",
+      "input_geometry": "smaller edge to 448, aspect preserved, bilinear; top-left crop to a multiple of 14 (B's canvas, identical extent); ImageNet colour normalisation; no D-specific tuning, PCA, coreset or foreground selection",
+      "distance": "1 - cosine (same as every other branch)",
+      "pipeline_status": "not implemented in the canonical K=8 exporter (MODEL_NAME / BRANCH_FIELD / KNOWN_BRANCHES hold B, S, C only); if the confirmation run encodes D, the frozen specification below must be reused verbatim",
+      "dataset_roles_in_existing_runs": {
+        "mpdd": "development",
+        "btad": "holdout"
+      },
+      "source_of_truth": [
+        {
+          "file": "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_extra_encoders/S10_SUMMARY.json",
+          "lines": "14-16",
+          "quote": "\"D\": {\n      \"label\": \"D (WideResNet50-2)\",\n      \"status\": \"pre-specified extension\"\n    },"
+        },
+        {
+          "file": "experiments/dynamic_fusion/representation_matching_interaction_20260914/04_new_encoder/D_BRANCH_SPEC.json",
+          "lines": "15-25",
+          "quote": "\"features\": {\n    \"layers\": [\n      \"layer2\",\n      \"layer3\"\n    ],\n    \"concat_order\": \"layer2 then layer3 on the channel axis\",\n    \"resample\": \"F.interpolate(bilinear, align_corners=False) to B's canvas grid\",\n    \"normalisation\": \"L2 per spatial position, after concatenation\",\n    \"distance\": \"1 - cosine (same as every other branch)\",\n    \"dim\": 1536\n  }"
+        },
+        {
+          "file": "experiments/dynamic_fusion/representation_matching_interaction_20260914/04_new_encoder/D_BRANCH_SPEC.json",
+          "lines": "26-43",
+          "quote": "\"input_geometry\": {\n    \"resize\": \"smaller edge to 448, aspect preserved\",\n    \"interpolation\": \"bilinear (the pretrained weight's default resize rule)\",\n    \"crop\": \"top-left to a multiple of 14 (B's canvas, identical extent)\",\n    \"colour_normalisation\": {\n      \"mean\": [\n        0.485,\n        0.456,\n        0.406\n      ],\n      \"std\": [\n        0.229,\n        0.224,\n        0.225\n      ]\n    },\n    \"note\": \"the geometry is B's canvas; the colour rule is ImageNet because D is a torchvision ImageNet model.  No D-specific tuning, PCA, coreset or foreground selection is applied.\"\n  }"
+        },
+        {
+          "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+          "lines": "145-152",
+          "quote": "\"features\": {\n            \"layers\": [\"layer2\", \"layer3\"],\n            \"concat_order\": \"layer2 then layer3 on the channel axis\",\n            \"resample\": \"F.interpolate(bilinear, align_corners=False) to B's canvas grid\",\n            \"normalisation\": \"L2 per spatial position, after concatenation\",\n            \"distance\": \"1 - cosine (same as every other branch)\",\n            \"dim\": D_DIM,\n        }"
+        }
+      ]
+    },
+    "C": {
+      "label": "C (AnomalyCLIP visual descriptor)",
+      "role_in_existing_runs": "frozen A1 anchor partner branch (A1 = B + C at equal weights); it enters every MPDD/BTAD construction unchanged",
+      "encoder": "AnomalyCLIP ViT-L/14@336px (CLIP image tower) with the frozen checkpoint methods/AnomalyCLIP-main/checkpoints/9_12_4_multiscale_visa/epoch_15.pth, prompt design {Prompt_length: 12, learnabel_text_embedding_depth: 9, learnabel_text_embedding_length: 4}, eval mode, no training",
+      "feature_layer": "layer-24 patch descriptors of the image tower (`patch_features[-1]`, class token dropped) with the fixed DPAM configuration (DPAM layer 20, intermediate layers [6, 12, 18, 24]); on the 518 x 518 preprocess this is a 37 x 37 square patch map, which engine_v2 re-grids (bilinear) onto B's canvas",
+      "input_geometry": "the branch's own AnomalyCLIP preprocess (get_transform with image_size = 518), unchanged",
+      "normalisation": "L2 per spatial position",
+      "distance": "1 - cosine (same as every other branch)",
+      "pipeline_status": "implemented: scripts/unified_fusion_paper_support_v1/export_k8_cache.py --branch C",
+      "dataset_roles_in_existing_runs": {
+        "mpdd": "development",
+        "btad": "holdout"
+      },
+      "source_of_truth": [
+        {
+          "file": "docs/manuscript_reference_matching_20260914/English_Manuscript_Source.md",
+          "lines": "115",
+          "quote": "We use upright branch labels B for DINOv2-B, S for DINOv2-S, C for the AnomalyCLIP visual descriptor, and D for WideResNet50-2."
+        },
+        {
+          "file": "docs/manuscript_reference_matching_20260914/中文对照内容.md",
+          "lines": "185",
+          "quote": "我们用正体分支标签：B 表示 DINOv2-B，S 表示 DINOv2-S，C 表示 AnomalyCLIP 视觉描述子，D 表示 WideResNet50-2。"
+        },
+        {
+          "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+          "lines": "50-51",
+          "quote": "CLIP_CHECKPOINT = ROOT / \"methods/AnomalyCLIP-main/checkpoints/9_12_4_multiscale_visa/epoch_15.pth\"\nANOMALYCLIP_LAYER = 20"
+        },
+        {
+          "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+          "lines": "271-314",
+          "quote": "def __init__(self, device: str, image_size: int = 518, model_seed: int = 111):\n        ...\n        self.preprocess, _ = get_transform(SimpleNamespace(image_size=image_size))\n        ...\n        model.visual.DAPM_replace(DPAM_layer=ANOMALYCLIP_LAYER)\n        ...\n                [6, 12, 18, 24], DPAM_layer=ANOMALYCLIP_LAYER)\n        token = patch_features[-1][0, 1:, :].float().cpu().numpy()\n        side = int(round(token.shape[0] ** 0.5))"
+        },
+        {
+          "file": "docs/figures_revision_20260905/图件内容整理_放置方案与英文图注.md",
+          "lines": "189",
+          "quote": "The CLIP visual encoder uses the fixed DPAM configuration and retains layer-24 patch descriptors on a 37 × 37 grid."
+        }
+      ]
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "shots": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "metrics": {
+    "keys": [
+      "pixel_ap",
+      "pixel_auroc",
+      "image_ap",
+      "image_auroc"
+    ],
+    "primary": "pixel_ap",
+    "primary_stride": 8,
+    "fullpixel_columns": [
+      "pixel_stride",
+      "pixel_auroc",
+      "pixel_ap",
+      "image_auroc",
+      "image_ap"
+    ],
+    "score_direction": "higher_is_more_anomalous",
+    "contrast_keys": [
+      "I_TRI",
+      "I_BAL"
+    ],
+    "source_of_truth": [
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/stats_v2.py",
+        "lines": "57",
+        "quote": "METRIC_KEYS = (\"pixel_ap\", \"pixel_auroc\", \"image_ap\", \"image_auroc\")"
+      },
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/stats_v2.py",
+        "lines": "273",
+        "quote": "ap.add_argument(\"--metric\", default=\"pixel_ap\")"
+      },
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/run_fullpixel.py",
+        "lines": "174-176",
+        "quote": "writer = csv.DictWriter(fh, fieldnames=[\"dataset\", \"seed\", \"shot\", \"category\", \"method\",\n                                                \"pixel_stride\", \"pixel_auroc\", \"pixel_ap\",\n                                                \"image_auroc\", \"image_ap\"])"
+      },
+      {
+        "file": "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+        "lines": "577-578",
+        "quote": "score_direction=np.asarray(\"higher_is_more_anomalous\"),\n        support_manifest=np.asarray(str(manifest_path)),"
+      }
+    ]
+  },
+  "expected_direction": {
+    "statement": "在 KSDD2 上，S 与 D 两支的 I_TRI 与 I_BAL 为正且 95% 区间不包含零",
+    "falsification": "若任一区间包含零，则本主张在该数据集上不成立，论文必须如实报告"
+  },
+  "one_shot_rule": "确认集的一次性规则：KSDD2 的测试标签只在全部特征编码、K/seed 条件与统计脚本冻结之后打开一次，用于计算一次最终数字。看到结果之后不得回头调整任何东西——不重选 K、seed、分支、方法、权重、度量、阈值或后处理，也不得因结果不理想而更换数据集、类别划分或统计口径。任何事后改动都只能作为新的、明确标注为探索性的分析另行报告，不能替换这一次的确认结果。",
+  "no_label_tuning": true,
+  "confirmation_scope": {
+    "note": "KSDD2 是单类产品数据集，宏平均退化为该唯一类别的值；它只作为确认集，不得用于开发或选择超参数",
+    "dependencies_frozen_before_this_spec": [
+      "scripts/unified_fusion_paper_support_v1/export_k8_cache.py",
+      "scripts/unified_fusion_paper_support_v1/engine_v2.py",
+      "scripts/unified_fusion_paper_support_v1/run_matrix.py",
+      "scripts/unified_fusion_paper_support_v1/stats_v2.py",
+      "scripts/unified_fusion_paper_support_v1/run_fullpixel.py",
+      "scripts/unified_fusion_paper_support_v1/build_support_manifest.py"
+    ]
+  },
+  "post_freeze_amendments": [
+    {
+      "added_utc": "2026-09-18T12:43:45.062344+00:00",
+      "note": "仅补充实现位置，未改任何冻结决议。frozen_utc 与本节之外的全部字段逐字保持冻结时的内容；本节只记录本轮为 KSDD2 追加的代码位置与烟测证据。",
+      "targets": [
+        "branch_specs.D.pipeline_status (top-level key)",
+        "branches"
+      ],
+      "d_branch_implementation": {
+        "what_was_added": "D (WideResNet50-2) 的 ksdd2 支持，纯追加在既有 S3 脚本内；mpdd/btad 的默认作用域与行为逐字不变",
+        "implemented_in": [
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "51-59",
+            "what": "CANONICAL 改为优先读 FUSION_CANONICAL_ROOT（写法与 engine_v2.py:33-36、run_fullpixel.py:39-41 一致）；默认值不变"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "66-95",
+            "what": "KSDD2 注册：KSDD2=\"ksdd2\"、KSDD2_CANVAS_WH=(224,630)、KSDD2_GRID_HW=(45,16)、KSDD2_PATCH=14、KSDD2_ENCODER_RESOLUTION=224、DATA_ROOT[ksdd2]=data/kolektorsdd2_raw、CATS[ksdd2]=[\"ksdd2\"]、DATASET_ID[ksdd2]=5（与 stats_v2 一致）、DEFAULT_DATASETS=(\"mpdd\",\"btad\")"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "256-289",
+            "what": "EncoderD(device, dataset=None)：dataset==ksdd2 时 canvas() 用固定画布 cv2.resize(image, (224,630), INTER_AREA)，即 B 支的画布，与 D_BRANCH_SPEC 的 \"the geometry is B's canvas, identical extent\" 一致；两条边都是 14 的倍数，top-left 裁剪为空操作；其余数据集仍走原来的 \"smaller edge -> 448\" 等比缩放路径"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "339-361",
+            "what": "build_features 增加 support_dir 参数（默认仍是研究目录的 p0_support），并加 KSDD2 网格守卫：canonical B 的 grid_size 必须等于 (45,16)，否则直接拒绝运行"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "1095-1111",
+            "what": "新增 --datasets / --seeds / --shots / --support-dir / --study-statistics；全部默认值等于历史值，因此不加参数的行为与之前完全相同"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "153-244",
+            "what": "write_spec(out, datasets, seeds, shots) 按本次作用域写 scope（categories/seeds/shots/units/new_method_conditions 由参数推导；默认调用产出与 2026-09-14 冻结版逐字相同），并在含 mpdd/btad 之外数据集时追加 confirmation_set_extension 说明"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "682-712",
+            "what": "run()：已存在的 D_BRANCH_SPEC.json 不被覆盖（保护 2026-09-14 预指定语义）；KSDD2 在作用域内时另建一个使用固定画布的编码器实例"
+          },
+          {
+            "file": "scripts/representation_matching_interaction_20260914/s3_new_encoder.py",
+            "lines": "782, 850, 870",
+            "what": "revisions 对 ksdd2 只走 study（corrected 是 BTAD 的 S0 几何，不适用于 KSDD2）；统计阶段改用本次运行的 seeds/shots"
+          }
+        ],
+        "geometry_for_ksdd2": {
+          "canvas_wh": [
+            224,
+            630
+          ],
+          "grid_hw": [
+            45,
+            16
+          ],
+          "patch": 14,
+          "resize": "one fixed canvas per image, cv2.INTER_AREA (与 export_k8_cache.ksdd2_to_canvas 同一规则)",
+          "feature_layer": "layer2 + layer3 拼接后 F.interpolate(bilinear, align_corners=False) 到 B 的画布网格 (45,16)，dim 1536",
+          "normalisation": "L2 per spatial position",
+          "distance": "1 - cosine",
+          "deviation_flagged": "D_BRANCH_SPEC.json 的 input_geometry 原文写 \"smaller edge to 448, aspect preserved\"，那是 mpdd/btad 的画布；对 KSDD2 本实现采用 F_SPEC 冻结的固定画布 224x630，使 D 的输入范围与 B 的画布完全相同（D_BRANCH_SPEC 自己的措辞是 \"B's canvas, identical extent\"）。被放弃的读法是等比缩放到较小边 224（约为 224x602），它会让 D 与 B 的画布不一致。要改口径必须先改 F_SPEC。"
+        }
+      },
+      "pipeline_scripts_registered_for_ksdd2": [
+        {
+          "file": "scripts/representation_matching_interaction_20260914/s1_interaction.py",
+          "lines": "45-52, 88-96, 218-231",
+          "what": "SEEDS[ksdd2]=[0,1,2]、DATASETS=(\"mpdd\",\"btad\",\"ksdd2\")、load_inputs(study_root)、新增 --study-root（默认研究目录）"
+        },
+        {
+          "file": "scripts/representation_matching_interaction_20260914/s2_robustness.py",
+          "lines": "48-60, 184-188, 204, 219, 352-361, 477, 497, 586-594, 601",
+          "what": "CATS/SEEDS 追加 ksdd2、MATRIX_DIR、DATASETS；新增 --study-root 与 --interaction-root（默认分别是研究目录与研究的 02_interaction）；revisions[ksdd2]=[\"study\"]；图件茎随 --output（原先恒写研究目录的 figS3）；S1 表格改从 --interaction-root 读；两处矩阵根改 MATRIX_DIR[dataset]；render_cases 读 FUSION_CANONICAL_ROOT 与 ksdd2 图像根"
+        },
+        {
+          "file": "scripts/unified_fusion_paper_support_v1/analyze_conditions.py",
+          "lines": "22-34, 43-49",
+          "what": "CANONICAL 读 FUSION_CANONICAL_ROOT；CATS[ksdd2]=[\"ksdd2\"]（条件集仍由统计表决定，无 ksdd2 行时不产生任何变化）"
+        },
+        {
+          "file": "scripts/limitation_closure_20260915/c5_generalization_interactions.py",
+          "lines": "47-53, 56-60",
+          "what": "CATS[ksdd2]、ROLE[ksdd2]=\"confirmation\"；PRIMARY_SCOPE 与 CI 家族刻意保持不变"
+        }
+      ],
+      "smoke_test": {
+        "harness": "experiments/dynamic_fusion/confirmation_ksdd2_20260918/_smoke_round2/smoke_d_branch.py",
+        "results": "experiments/dynamic_fusion/confirmation_ksdd2_20260918/_smoke_round2/SMOKE_RESULTS.json",
+        "written_up_in": "experiments/dynamic_fusion/confirmation_ksdd2_20260918/SMOKE_TEST.md（第 2 轮，第 5-9 节）",
+        "interpreter": ".venv-anomalyclip\\Scripts\\python.exe（torch 2.0.0+cu118 / torchvision 0.15.1+cu118；默认 python 无 torchvision）",
+        "asserted": [
+          "patch_features (N,45,16,1536) 与 masks (N,630,224)",
+          "两个 (copy) 文件不出现在任何清单",
+          "train 246/2085、test 110/894"
+        ],
+        "gates_passed": "19/19",
+        "features_written_by_this_round": "_smoke_round2 下的 3 图夹具与 D 特征（真实编码），时间戳晚于 frozen_utc；不属于任何正式 F 清单",
+        "label_contact_disclosure": "_smoke_round2/out_run 的单单元跑过 diagnostics_v2，因此出现了 3 张测试图的 pixel_ap 等数字；这些数字建立在合成 B/C 特征上，不是结果、不得引用。5.1 的三条断言不依赖任何度量。"
+      }
+    },
+    {
+      "decision_id": "A",
+      "decided_utc": "2026-09-18T13:19:47.382721+00:00",
+      "topic": "D 分支在 KSDD2 上的画布",
+      "decision": "采用 F_SPEC 已冻结的固定画布 224×630（cv2.INTER_AREA 缩放），不采用 D 分支规格原文里 smaller edge to 448 的读法。",
+      "rationale": "D 分支自身的规格写的是 B's canvas, identical extent；只有固定到同一画布，D 与 B 的输入范围才完全一致。在 224×630 下两条边都是 14 的倍数，top-left 裁剪到 14 的倍数成为空操作。被放弃的那条读法（等比缩放到较小边 224，约 224×602）会让 D 与 B 的画布不一致，故弃用。",
+      "scope_impact": "只影响 D 分支在 ksdd2 上的输入几何（scripts/representation_matching_interaction_20260914/s3_new_encoder.py 里 EncoderD(dataset=ksdd2) 的固定画布路径）；mpdd/btad 仍走 smaller edge 448 的等比缩放路径，行为逐字不变。F_SPEC.geometry 与 branch_specs.D.input_geometry 的文字保持冻结原样。",
+      "affects_frozen_fields": false,
+      "related_entry": "post_freeze_amendments[0].d_branch_implementation.geometry_for_ksdd2.deviation_flagged 记的是同一条口径，本条是人的正式拍板。"
+    },
+    {
+      "decision_id": "B",
+      "decided_utc": "2026-09-18T13:19:47.382721+00:00",
+      "topic": "KSDD2 的区间与家族校正口径",
+      "decision": "确认集的判据只报 95% 区间（ci95），不套用研究那一套 4 格家族校正（ci9875）。",
+      "rationale": "F 是与探索阶段独立的确认集，家族校正是探索阶段的内部口径；对确认集再叠加会事后放宽门槛，属于不当做法。",
+      "scope_impact": "F 的结论一律按冻结规格里写的 95% 区间是否排除零来判定（expected_direction.statement 与 expected_direction.falsification）。expected_direction、metrics、confirmation_scope、one_shot_rule 等冻结字段逐字不改；日后若要报家族校正版本，只能另行标注为探索性分析。",
+      "affects_frozen_fields": false
+    },
+    {
+      "decision_id": "C",
+      "decided_utc": "2026-09-18T13:19:47.382721+00:00",
+      "topic": "C5 四数据集交互表不含 KSDD2",
+      "decision": "scripts/limitation_closure_20260915/c5_generalization_interactions.py 的 PRIMARY_SCOPE 保持 (mpdd, btad, mvtec, visa) 四数据集不变；确认集 F 的结果单独成节报告，不并入已冻结的四数据集家族表。",
+      "rationale": "并入会改变已发表表的语义与家族校正基数，且确认集的独立性要求它不参与探索家族。",
+      "scope_impact": "只影响报告组织方式与脚本返回内容；c5_generalization_interactions.py 里已有的 CATS[ksdd2] / ROLE[ksdd2] 注册保留，PRIMARY_SCOPE 与 CI 家族不扩大。",
+      "affects_frozen_fields": false
+    },
+    {
+      "kind": "pending_todo",
+      "status": "pending",
+      "added_utc": "2026-09-18T13:19:47.382721+00:00",
+      "topic": "图 7 的多方法逐样本对比图版生成器尚不存在",
+      "note": "图 7 的『多方法逐样本对比』图版生成器尚不存在，需另写生成器；本条只是待办说明，不是决议，也不改任何冻结字段。",
+      "tonight_scope": "今晚最多产出『四数据集共同有效区域的度量表』，其中 MVTec/VisA 的方法列将先只有 A1 两列。",
+      "deferred": "PatchCore official224 的 6 个剩余单元与 AnomalyDINO 的 mvtec/visa dump 属夜间批次，跑完才能补齐方法列。",
+      "affects_frozen_fields": false
+    }
+  ]
+}

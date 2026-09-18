@@ -1,0 +1,154 @@
+{
+  "gates": {
+    "s3_data_root_ksdd2": true,
+    "canonical_root_from_env": true,
+    "s3_geometry_constants": true,
+    "counts_train_246_2085": true,
+    "counts_test_110_894": true,
+    "counts_match_official": true,
+    "index_sizes_2331_1004": true,
+    "copy_files_in_no_list": true,
+    "masks_shape_N_630_224": true,
+    "masks_binary_uint8": true,
+    "smoke_sample_masks_3_630_224": true,
+    "ksdd2_canvas_630_224": true,
+    "patch_features_N_45_16_1536": true,
+    "ref_patch_features_8_45_16_1536": true,
+    "query_rows_are_unit_length": true,
+    "all_maps_N_45_16": true,
+    "G_J_minus_L_non_negative": true,
+    "construction_arithmetic_exact": true,
+    "interaction_expression_finite": true
+  },
+  "facts": {
+    "s3_data_root_ksdd2": "D:\\STUDY\\My_github\\sci_project\\data\\kolektorsdd2_raw",
+    "canonical_root_from_env": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\_smoke_round2\\canonical",
+    "s3_geometry_constants": {
+      "canvas_wh": [
+        224,
+        630
+      ],
+      "grid_hw": [
+        45,
+        16
+      ],
+      "patch": 14,
+      "mpdd_btad_smaller_edge": 448,
+      "cats": [
+        "ksdd2"
+      ],
+      "dataset_id": 5,
+      "default_datasets": [
+        "mpdd",
+        "btad"
+      ]
+    },
+    "counts_train_246_2085": {
+      "pos": 246,
+      "neg": 2085
+    },
+    "counts_test_110_894": {
+      "pos": 110,
+      "neg": 894
+    },
+    "counts_match_official": true,
+    "index_sizes_2331_1004": [
+      2331,
+      1004
+    ],
+    "copy_files_in_no_list": {
+      "leaks": [],
+      "copy_present_on_disk": [
+        "10301 (copy).png",
+        "10301_GT (copy).png"
+      ],
+      "original_kept_in_index": true
+    },
+    "masks_shape_N_630_224": [
+      1004,
+      630,
+      224
+    ],
+    "masks_binary_uint8": {
+      "dtype": "uint8",
+      "values": [
+        0,
+        1
+      ],
+      "positive_masks": 110
+    },
+    "smoke_sample_masks_3_630_224": {
+      "sample_ids": [
+        "test/20042.png",
+        "test/20056.png",
+        "test/20000.png"
+      ],
+      "labels": [
+        1,
+        1,
+        0
+      ],
+      "shape": [
+        3,
+        630,
+        224
+      ]
+    },
+    "ksdd2_canvas_630_224": [
+      630,
+      224,
+      3
+    ],
+    "patch_features_N_45_16_1536": {
+      "query_shape": [
+        3,
+        45,
+        16,
+        1536
+      ],
+      "ref_shape": [
+        8,
+        45,
+        16,
+        1536
+      ],
+      "dtype": "float16",
+      "encode_s": 3.69
+    },
+    "ref_patch_features_8_45_16_1536": [
+      8,
+      45,
+      16,
+      1536
+    ],
+    "query_rows_are_unit_length": "L2 per position, max|norm-1|=6.068e-05",
+    "all_maps_N_45_16": {
+      "n_methods": 11,
+      "shapes": [
+        [
+          3,
+          45,
+          16
+        ]
+      ]
+    },
+    "G_J_minus_L_non_negative": {
+      "min(G)_A1": 0.0,
+      "min(G)_DUP": 0.0,
+      "min(G)_TRI_D": 0.011010349,
+      "min(G)_BAL_D": 0.009383261
+    },
+    "construction_arithmetic_exact": {
+      "A1_L": 0.0,
+      "DUP_L": 0.0,
+      "TRI_D_L": 0.0,
+      "BAL_D_L": 0.0,
+      "D_single": 0.0
+    },
+    "interaction_expression_finite": {
+      "I_TRI_D_placeholder": -0.015148,
+      "note": "synthetic B/C, one reference: a wiring value, NOT a KSDD2 result"
+    }
+  },
+  "all_gates_pass": true
+}
