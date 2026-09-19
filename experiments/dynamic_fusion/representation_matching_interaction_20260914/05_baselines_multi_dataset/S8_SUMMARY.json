@@ -1,0 +1,48 @@
+{
+  "created_utc": "2026-09-19T00:09:41.245688+00:00",
+  "units_expected": 144,
+  "units_completed": 144,
+  "row_status": {
+    "completed": 144
+  },
+  "methods": [
+    "PatchCore_native_local128",
+    "PatchCore_native_official224",
+    "anomalydino_canvas",
+    "anomalydino_canvas_rotation",
+    "controlled_A1_J",
+    "controlled_A1_L"
+  ],
+  "region_fraction_of_canvas": {
+    "btad": {
+      "mean": 0.7049425708699902,
+      "min": 0.5835777126099707,
+      "max": 0.765625
+    },
+    "mpdd": {
+      "mean": 0.765625,
+      "min": 0.765625,
+      "max": 0.765625
+    },
+    "mvtec": {
+      "mean": 0.765625,
+      "min": 0.765625,
+      "max": 0.765625
+    },
+    "visa": {
+      "mean": 0.5907414218025969,
+      "min": 0.47180103550295865,
+      "max": 0.7209598640900403
+    }
+  },
+  "protocol": "each method's map is resampled once onto one grid over the intersection of the rectangles the compared methods actually cover (linear for scores, nearest for the ground truth); pooled rank-based AP/AUROC over every pixel of every image of the category",
+  "guarantees": [
+    "no method is evaluated outside its own covered rectangle",
+    "the ground truth comes from the S0 image-faithful revision",
+    "no extra smoothing is applied - this is intentionally a different post-processing from each method's native frame, which is kept separately"
+  ],
+  "caveats": [
+    "the shared region is smaller than the canvas; the discarded fraction is reported per category so the loss of coverage is visible",
+    "the comparison is only as fair as the rectangles are correct; the rectangle rules are recorded in common_region_geometry.json"
+  ]
+}

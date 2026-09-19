@@ -1,0 +1,480 @@
+{
+  "created_utc": "2026-09-18T22:14:20.663283+00:00",
+  "branch": "E2",
+  "units_recorded": 144,
+  "new_method_conditions": 200,
+  "control_conditions": 160,
+  "interactions": 6,
+  "interaction_lookup": {
+    "mpdd|study|I_TRI_E": {
+      "point": -0.00039127928234955017,
+      "mean": -0.00038041502330279215,
+      "ci95": [
+        -0.002081629526840212,
+        0.001184222053353248
+      ],
+      "ci9875": [
+        -0.002664142287976802,
+        0.0017031920804381371
+      ],
+      "conditions": 12
+    },
+    "mpdd|study|I_BAL_E": {
+      "point": 0.00010197524778110072,
+      "mean": 0.0003624411693288211,
+      "ci95": [
+        -0.0017972341130157382,
+        0.0031856881177595355
+      ],
+      "ci9875": [
+        -0.002354249456806014,
+        0.004433573777872998
+      ],
+      "conditions": 12
+    },
+    "btad|corrected|I_TRI_E": {
+      "point": 0.0017368306096580504,
+      "mean": 0.0017847224055549775,
+      "ci95": [
+        0.0010617028527816904,
+        0.0027632282699400694
+      ],
+      "ci9875": [
+        0.0009019724432299962,
+        0.003152091081595165
+      ],
+      "conditions": 12
+    },
+    "btad|corrected|I_BAL_E": {
+      "point": 0.0020368710450757908,
+      "mean": 0.002258728907694763,
+      "ci95": [
+        0.0009284041072510653,
+        0.004292614306942031
+      ],
+      "ci9875": [
+        0.000627535778615059,
+        0.0049056829166131905
+      ],
+      "conditions": 12
+    },
+    "btad|study|I_TRI_E": {
+      "point": 0.0016509743519478777,
+      "mean": 0.0016973188202080022,
+      "ci95": [
+        0.0009618081948038384,
+        0.002707246696952446
+      ],
+      "ci9875": [
+        0.0007791132399258247,
+        0.0029898601849286943
+      ],
+      "conditions": 12
+    },
+    "btad|study|I_BAL_E": {
+      "point": 0.00180655866058189,
+      "mean": 0.002026482197129833,
+      "ci95": [
+        0.0007956852553352016,
+        0.0039289610590787245
+      ],
+      "ci9875": [
+        0.0005202492421856837,
+        0.004593798235479391
+      ],
+      "conditions": 12
+    }
+  },
+  "feature_reuse_vs_encode": {
+    "query_encoded": 0,
+    "ref_encoded": 0,
+    "reused_units": 27
+  },
+  "resource": {
+    "device": "cuda",
+    "peak_gpu_mb_encoding": 48.0,
+    "peak_gpu_mb_scoring": 207.1,
+    "total_query_seconds": 0,
+    "total_ref_seconds": 0,
+    "total_score_seconds": 242.1
+  },
+  "verification": {
+    "VE_2_single_branch_auroc": {
+      "pass": true,
+      "branch": "E2",
+      "n_units": 40,
+      "min_auroc": 0.9196406622194893,
+      "mean_auroc": 0.9538436201403758,
+      "max_auroc": 0.9869171297832415,
+      "btad_reference_auroc_of_D": 0.94,
+      "per_unit": [
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9309546144969858,
+          "pixel_ap": 0.41223858137960945
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9309546144969858,
+          "pixel_ap": 0.41223858137960945
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.948361679239408,
+          "pixel_ap": 0.4446496817804153
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.948361679239408,
+          "pixel_ap": 0.4446496817804153
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9586152679001297,
+          "pixel_ap": 0.46504939247678256
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9586152679001297,
+          "pixel_ap": 0.46504939247678256
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.9605541945988236,
+          "pixel_ap": 0.4710605196067856
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.9605541945988236,
+          "pixel_ap": 0.4710605196067856
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 2,
+          "pixel_auroc": 0.9240814757642153,
+          "pixel_ap": 0.3658405017225544
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 0,
+          "shot": 2,
+          "pixel_auroc": 0.9240814757642153,
+          "pixel_ap": 0.3658405017225544
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 8,
+          "pixel_auroc": 0.9302057198323982,
+          "pixel_ap": 0.38222321574089907
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 0,
+          "shot": 8,
+          "pixel_auroc": 0.9302057198323982,
+          "pixel_ap": 0.38222321574089907
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 2,
+          "pixel_auroc": 0.9233532594549116,
+          "pixel_ap": 0.36701690022775013
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 1,
+          "shot": 2,
+          "pixel_auroc": 0.9233532594549116,
+          "pixel_ap": 0.36701690022775013
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 8,
+          "pixel_auroc": 0.9292844895498513,
+          "pixel_ap": 0.3811875261829497
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 1,
+          "shot": 8,
+          "pixel_auroc": 0.9292844895498513,
+          "pixel_ap": 0.3811875261829497
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9196406622194893,
+          "pixel_ap": 0.35455738231954625
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9196406622194893,
+          "pixel_ap": 0.35455738231954625
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.925010621067514,
+          "pixel_ap": 0.3705876964209201
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.925010621067514,
+          "pixel_ap": 0.3705876964209201
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9275197835130815,
+          "pixel_ap": 0.3769717332990569
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9275197835130815,
+          "pixel_ap": 0.3769717332990569
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.929997866534481,
+          "pixel_ap": 0.38292895473418725
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.929997866534481,
+          "pixel_ap": 0.38292895473418725
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 2,
+          "pixel_auroc": 0.983886453099918,
+          "pixel_ap": 0.3403123970825717
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 0,
+          "shot": 2,
+          "pixel_auroc": 0.983886453099918,
+          "pixel_ap": 0.3403123970825717
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 8,
+          "pixel_auroc": 0.9869171297832415,
+          "pixel_ap": 0.4021463378316614
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 0,
+          "shot": 8,
+          "pixel_auroc": 0.9869171297832415,
+          "pixel_ap": 0.4021463378316614
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 2,
+          "pixel_auroc": 0.9812094511789543,
+          "pixel_ap": 0.3266713926769555
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 1,
+          "shot": 2,
+          "pixel_auroc": 0.9812094511789543,
+          "pixel_ap": 0.3266713926769555
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 8,
+          "pixel_auroc": 0.9860810999785321,
+          "pixel_ap": 0.3886450864863995
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 1,
+          "shot": 8,
+          "pixel_auroc": 0.9860810999785321,
+          "pixel_ap": 0.3886450864863995
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9794595247326905,
+          "pixel_ap": 0.2618219896279662
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 2,
+          "shot": 1,
+          "pixel_auroc": 0.9794595247326905,
+          "pixel_ap": 0.2618219896279662
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.9815805366435759,
+          "pixel_ap": 0.30203468425410424
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 2,
+          "shot": 2,
+          "pixel_auroc": 0.9815805366435759,
+          "pixel_ap": 0.30203468425410424
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9840752290514505,
+          "pixel_ap": 0.33996550967157124
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 2,
+          "shot": 4,
+          "pixel_auroc": 0.9840752290514505,
+          "pixel_ap": 0.33996550967157124
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.9860833441678644,
+          "pixel_ap": 0.3821745599662991
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 2,
+          "shot": 8,
+          "pixel_auroc": 0.9860833441678644,
+          "pixel_ap": 0.3821745599662991
+        }
+      ],
+      "note": "pixel AP is deliberately not used as a gate: it is very low for sparse defects even for a correct encoder"
+    }
+  },
+  "caveats": [
+    "the test data has been used before; this is an encoder-transfer check",
+    "seeds 0,1,2 and K 1,2,4,8 in scope",
+    "the branch was chosen after the S and D results were known, so it is exploratory and not a pre-specified confirmation"
+  ]
+}
