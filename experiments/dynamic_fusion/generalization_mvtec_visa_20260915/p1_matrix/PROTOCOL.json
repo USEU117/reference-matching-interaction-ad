@@ -1,0 +1,356 @@
+{
+  "protocol": "unified_fusion_paper_support_v1_matrix",
+  "datasets": [
+    "mvtec",
+    "visa"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "shots": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "categories": {
+    "mvtec": [
+      "bottle",
+      "cable",
+      "capsule",
+      "carpet",
+      "grid",
+      "hazelnut",
+      "leather",
+      "metal_nut",
+      "pill",
+      "screw",
+      "tile",
+      "toothbrush",
+      "transistor",
+      "wood",
+      "zipper"
+    ],
+    "visa": [
+      "candle",
+      "capsules",
+      "cashew",
+      "chewinggum",
+      "fryum",
+      "macaroni1",
+      "macaroni2",
+      "pcb1",
+      "pcb2",
+      "pcb3",
+      "pcb4",
+      "pipe_fryum"
+    ]
+  },
+  "branches": [
+    "B",
+    "S",
+    "C"
+  ],
+  "core_methods": [
+    "B",
+    "S",
+    "C",
+    "A1_J",
+    "A1_L",
+    "DUP_J",
+    "DUP_L",
+    "TRI_J",
+    "TRI_L",
+    "BAL_J",
+    "BAL_L"
+  ],
+  "distance_weights": {
+    "B": {
+      "B": 1.0
+    },
+    "S": {
+      "S": 1.0
+    },
+    "C": {
+      "C": 1.0
+    },
+    "A1_J": {
+      "B": 0.5,
+      "C": 0.5
+    },
+    "TRI_J": {
+      "B": 0.3333333333333333,
+      "S": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "BAL_J": {
+      "B": 0.25,
+      "S": 0.25,
+      "C": 0.5
+    },
+    "DUP_J": {
+      "B": 0.3333333333333333,
+      "Bcopy": 0.3333333333333333,
+      "C": 0.3333333333333333
+    },
+    "DUP_BAL_J": {
+      "B": 0.25,
+      "Bcopy": 0.25,
+      "C": 0.5
+    },
+    "DUP_EXPECTED_J": {
+      "B": 0.6666666666666666,
+      "C": 0.3333333333333333
+    }
+  },
+  "L_definition": {
+    "A1_L": "0.5*B+0.5*C",
+    "DUP_L": "(2/3)*B+(1/3)*C",
+    "TRI_L": "(B+S+C)/3",
+    "BAL_L": ".25*B+.25*S+.5*C"
+  },
+  "cache": "canonical K=8 cache; every K is a prefix of the same reference block",
+  "pixel_stride": 8,
+  "tolerances": {
+    "invariants": 1e-06
+  },
+  "permutation_controls": 3,
+  "device": "cpu",
+  "chunk": 256,
+  "dependency_versions": {
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "torch": "2.12.1",
+    "scikit-learn": "1.7.2",
+    "scikit-image": "0.25.2",
+    "faiss-cpu": "1.14.3"
+  },
+  "created_utc": "2026-09-17T04:02:44.448247+00:00",
+  "source_hashes": {
+    "engine_v2.py": "7780451a52de5a6f0378d8823e475bbc7f2c835e04bef0623569ab812938c108",
+    "diagnostics_v2.py": "ca7e65d539b6b93d92f9f57487750b52f6c91754ef32279254ec9f6d0ac4d7ab",
+    "run_matrix.py": "4141c10de9be7fcebb36ff0537c56543eacf2d65e3f9882efa0be71d9c3e127e"
+  },
+  "invocation": [
+    "scripts\\unified_fusion_paper_support_v1\\run_matrix.py",
+    "--output",
+    "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix",
+    "--datasets",
+    "mvtec",
+    "visa",
+    "--seeds",
+    "0",
+    "1",
+    "2",
+    "--shots",
+    "1",
+    "2",
+    "4",
+    "8",
+    "--device",
+    "cpu",
+    "--resume",
+    "--code-amendment-reason",
+    "generalization datasets mvtec/visa added additively; mpdd/btad behaviour verified bit-identical (see CODE_AMENDMENT.md)"
+  ],
+  "python": "D:\\Program Files\\python\\python.exe",
+  "scope_history": [
+    {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "categories": {
+        "mvtec": [
+          "bottle",
+          "cable",
+          "capsule",
+          "carpet",
+          "grid",
+          "hazelnut",
+          "leather",
+          "metal_nut",
+          "pill",
+          "screw",
+          "tile",
+          "toothbrush",
+          "transistor",
+          "wood",
+          "zipper"
+        ],
+        "visa": [
+          "candle",
+          "capsules",
+          "cashew",
+          "chewinggum",
+          "fryum",
+          "macaroni1",
+          "macaroni2",
+          "pcb1",
+          "pcb2",
+          "pcb3",
+          "pcb4",
+          "pipe_fryum"
+        ]
+      }
+    },
+    {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "categories": {
+        "mvtec": [
+          "bottle",
+          "cable",
+          "capsule",
+          "carpet",
+          "grid",
+          "hazelnut",
+          "leather",
+          "metal_nut",
+          "pill",
+          "screw",
+          "tile",
+          "toothbrush",
+          "transistor",
+          "wood",
+          "zipper"
+        ],
+        "visa": [
+          "candle",
+          "capsules",
+          "cashew",
+          "chewinggum",
+          "fryum",
+          "macaroni1",
+          "macaroni2",
+          "pcb1",
+          "pcb2",
+          "pcb3",
+          "pcb4",
+          "pipe_fryum"
+        ]
+      }
+    },
+    {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "categories": {
+        "mvtec": [
+          "bottle",
+          "cable",
+          "capsule",
+          "carpet",
+          "grid",
+          "hazelnut",
+          "leather",
+          "metal_nut",
+          "pill",
+          "screw",
+          "tile",
+          "toothbrush",
+          "transistor",
+          "wood",
+          "zipper"
+        ],
+        "visa": [
+          "candle",
+          "capsules",
+          "cashew",
+          "chewinggum",
+          "fryum",
+          "macaroni1",
+          "macaroni2",
+          "pcb1",
+          "pcb2",
+          "pcb3",
+          "pcb4",
+          "pipe_fryum"
+        ]
+      }
+    },
+    {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "categories": {
+        "mvtec": [
+          "bottle",
+          "cable",
+          "capsule",
+          "carpet",
+          "grid",
+          "hazelnut",
+          "leather",
+          "metal_nut",
+          "pill",
+          "screw",
+          "tile",
+          "toothbrush",
+          "transistor",
+          "wood",
+          "zipper"
+        ],
+        "visa": [
+          "candle",
+          "capsules",
+          "cashew",
+          "chewinggum",
+          "fryum",
+          "macaroni1",
+          "macaroni2",
+          "pcb1",
+          "pcb2",
+          "pcb3",
+          "pcb4",
+          "pipe_fryum"
+        ]
+      }
+    }
+  ],
+  "seeds_observed": [
+    0,
+    1,
+    2
+  ],
+  "shots_observed": [
+    1,
+    2,
+    4,
+    8
+  ]
+}

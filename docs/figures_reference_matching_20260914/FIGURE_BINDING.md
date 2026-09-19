@@ -117,8 +117,8 @@ node scripts/figures_reference_matching_20260914/build.mjs
 # 图 1 的光栅素材（只在素材缺失时需要；输出到 scripts/figures_reference_matching_20260914/assets/）
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/make_assets.py
 
-# 正文 docx（未改动，仍用原构建脚本）
-.venv-anomalyclip/Scripts/python.exe .tmp_english_manuscript_20260914/build.py
+# 正文 docx（现役构建脚本；2026-09-19 更正路径：旧的 `.tmp_english_manuscript_20260914/build.py` 已废弃）
+.venv-anomalyclip/Scripts/python.exe scripts/manuscript_build_20260914/build.py
 ```
 
 `build.mjs` 的可用参数：`--root --out-dir --layout-dir --assets-dir --contours --data-dir --artifact-tool`。

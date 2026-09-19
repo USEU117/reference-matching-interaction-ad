@@ -1,5 +1,7 @@
 # docs 索引：哪些是当前有效文档，哪些只是历史快照
 
+> **接手入口（2026-09-19）**：[HANDOVER_20260919.md](HANDOVER_20260919.md)（交接正文）｜[ARTIFACT_INDEX.md](ARTIFACT_INDEX.md)（工作流 A–I 产物总索引、清单有效性、命名歧义、清理策略）。
+
 最后整理：2026-09-14。**本文件是 `docs/` 的阅读入口；只做索引与状态标注，不替代任何实验报告。**
 
 标注含义：
@@ -83,7 +85,7 @@
 
 | 目录 | 说明 |
 |---|---|
-| [`../docs/figures_contour_notation_20260911/`](figures_contour_notation_20260911/) | 当前方法图（Fig1–FigS2）；生成器绑定见 `experiments/dynamic_fusion/validation_handoff_20260911/E8/figure_version_binding.md` |
+| [`../docs/figures_contour_notation_20260911/`](figures_contour_notation_20260911/) | **已被取代（superseded）**：旧方法图集（Fig1–FigS2）。当前方法图集见 §1.3 的 `docs/figures_reference_matching_20260914/`（`figures_reference_matching_20260914.pptx`、`fig1_framework.png`）。历史生成器绑定见 `experiments/dynamic_fusion/validation_handoff_20260911/E8/figure_version_binding.md`（2026-09-19 更正：本节此前误标为「当前方法图」，与 §1.3 矛盾） |
 | [`../docs/submission_reproducibility_20260826/`](submission_reproducibility_20260826/) | 投稿复现包审计、版本化证据哈希 |
 | [`../experiments/dynamic_fusion/validation_handoff_20260911/`](../experiments/dynamic_fusion/validation_handoff_20260911/) | 验证交接（E1–E8）、图件版本绑定与渲染 QA |
 
@@ -134,3 +136,19 @@
 - 不声称首创 J/L 匹配操作或多编码器视觉融合；增量限定为"因子化交互 + 编码器迁移检验"。
 - 不因方向不符更换 seed / 骨干，不为追求显著追加 bootstrap 复制次数。
 - 负结果按负结果报告；MPDD 为开发集，其区间不构成确认性检验。
+
+---
+
+## 6. 2026-09-15 起新增/扩充的工作流（2026-09-19 补记）
+
+本文件主体写于 **2026-09-14**，未收录 09-15 起的下列工作流目录。它们与 §1 的交付并列，引用前请先读各自目录内的计划/交接文档：
+
+| 工作流目录 | 说明 |
+|---|---|
+| [`../experiments/dynamic_fusion/limitation_closure_20260915/`](../experiments/dynamic_fusion/limitation_closure_20260915/) | A–I 收口剩余的独立审计与夜跑编排（计划见 `.trae/documents/remaining_experiments_full_closure_plan_20260915.md`，受控副本见 `docs/specs/`） |
+| [`../experiments/dynamic_fusion/generalization_mvtec_visa_20260915/`](../experiments/dynamic_fusion/generalization_mvtec_visa_20260915/) | MVTec/VisA 四数据集泛化矩阵（324 单元）与交互泛化表 |
+| [`../experiments/dynamic_fusion/seeds_extension_20260917/`](../experiments/dynamic_fusion/seeds_extension_20260917/) | 多种子扩展（8 seeds）与逐种子交互表 |
+| [`../experiments/dynamic_fusion/confirmation_ksdd2_20260918/`](../experiments/dynamic_fusion/confirmation_ksdd2_20260918/) | KSDD2 确认性实验（`F_SPEC.json`） |
+| [`figures_reference_matching_20260914/`](figures_reference_matching_20260914/) | 合并后的正式图集；图号↔图源↔脚本↔数据绑定见其 `FIGURE_BINDING.md`（`manuscript_reference_matching_20260914/` 为正文与其插图副本，见 §1.3） |
+
+注：2026-09-19 清理了若干 `.tmp_*` 与 `_*_smoke` / `_gpu_probe` 子的 scratch 目录，不影响上表目录。

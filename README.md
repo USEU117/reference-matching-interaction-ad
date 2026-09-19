@@ -1,5 +1,8 @@
 # Few-shot Industrial Anomaly Detection — Dual-Encoder Patch Fusion
 
+> **接手先读（2026-09-19）**：[docs/HANDOVER_20260919.md](docs/HANDOVER_20260919.md)（交接正文：结论/证据链/踩坑/边界）；
+> **产物总索引**：[docs/ARTIFACT_INDEX.md](docs/ARTIFACT_INDEX.md)（工作流 A–I → 目录 → 产物 → 复现命令 → 状态）。
+
 > **最新入口（2026-09-14）**：`docs/` 的阅读索引与当前状态请看 [docs/README.md](docs/README.md)。
 > 当前论文主线已更新为**固定融合下「正常参考匹配方式 × 新增视觉表征分支」的交互研究**，
 > 最新结果与六问回答见 [experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md](experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md)。
