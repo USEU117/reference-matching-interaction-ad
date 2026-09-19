@@ -40,6 +40,9 @@ from figure_font_gate import (  # noqa: E402
     DEFAULT_PT,
     MANUSCRIPT_WIDTH_CM,
     assert_min_font_pt,
+    assert_no_text_axes_overlap,
+    assert_no_text_text_overlap,
+    assert_text_inside_page,
 )
 
 R = (ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913").resolve()
@@ -72,6 +75,22 @@ FIG_WIDTH_IN = MANUSCRIPT_WIDTH_CM / 2.54
 MIN_FONT_PT = DEFAULT_PT
 FIG_DPI = 350
 CASES_STEM = OUT / "figS3_interaction_cases"
+
+# Case panel geometry (inches).  The 6 columns are the query, the GT overlay and the four
+# methods of the interaction; the case label is a full-width heading above its row, so nothing
+# has to be squeezed into a 1.06 in column.  Four rows of square panels plus the bands is a
+# printable page, so the rows are split into pages of CASE_ROWS_PER_PAGE.
+CASE_ROWS_PER_PAGE = 4
+CASE_COLUMNS = 6
+CASE_LEFT_RIGHT = (0.02, 0.98)
+CASE_H_GAP = 0.012
+CASE_HEAD_IN = 0.20        # one line of the row heading
+CASE_HEAD_PAD_IN = 0.06    # heading block -> column-title block
+CASE_TITLE_IN = 0.20       # one line of a column title
+CASE_TITLE_GAP_IN = 0.07   # column-title block -> image panel
+CASE_TOP_IN = 0.78         # page top -> first row (holds the three-line suptitle)
+CASE_ROW_GAP_IN = 0.14
+CASE_BOTTOM_IN = 0.14
 
 
 def utcnow() -> str:
@@ -572,16 +591,21 @@ def render_cases(cases: list, out_stem: Path | None = None) -> list:
     """Render the pre-fixed cases at the 17 cm / >= 11.5 pt panel contract.
 
     The case set, the images, the stored score planes and the wording of every label are
-    unchanged; the panel is built at the printed width so a font size here is the size that
-    reaches the paper, and the run fails if a text artist would print below 11.5 pt.  The
-    long row label of the earlier 11 in raster is wrapped over three lines for the narrower
-    column; the words are identical.
-    """
-    import cv2
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
+    unchanged; only the arrangement differs from the 2026-09-18 revision.  That revision set the
+    three-line case label as the *title of column 0* on a 6 x 8 grid: at 17 cm each column is
+    1.06 in wide while the label is about 1.5 in, so the label of every row ran into the
+    'ground truth (canvas)' title next to it - legible text, unprintable layout.  Here
 
+      * the labels of one case are printed once, as one full-width heading above its row
+        (dataset/category, image index, interaction and role, delta), and
+      * the column titles ('ground truth (canvas)', the four method names) sit above their own
+        column only, wrapped to the column width, and
+      * the rows are split over pages of `CASE_ROWS_PER_PAGE` rows, page 1 keeping the
+        historical `out_stem` name, page k > 1 written as `<out_stem>_pk`.
+
+    `figure_font_gate` asserts on every page that no text artist is below the floor, none
+    leaves the page and no two of them overlap, so the collision above cannot come back.
+    """
     init_figure_style()
     # Appended 2026-09-18: honour FUSION_CANONICAL_ROOT (the same convention as
     # engine_v2.py:33-36 and run_fullpixel.py:39-41) and register KSDD2's image root, which
@@ -592,51 +616,158 @@ def render_cases(cases: list, out_stem: Path | None = None) -> list:
     data_root = {"mpdd": ROOT / "data/mpdd_raw/MPDD",
                  "btad": ROOT / "data/btad_raw/BTech_Dataset_transformed",
                  "ksdd2": ROOT / "data/kolektorsdd2_raw"}
-    fig, axes = plt.subplots(len(cases), 6, figsize=(FIG_WIDTH_IN, 1.35 * len(cases)),
-                             squeeze=False)
-    for row_index, case in enumerate(cases):
-        dataset, category = case["dataset"], case["category"]
-        index = int(case["image_index"])
-        delta = float(case["per_image_interaction_delta"])
-        unit = (R / MATRIX_DIR[dataset] / "units"
-                / f"{dataset}_s{CASE_SEED}_k{CASE_SHOT}" / category)
-        with np.load(unit / "patch_scores.npz", allow_pickle=False) as z:
-            ids = [str(x) for x in np.asarray(z["sample_ids"]).reshape(-1)]
-            maps = {m: np.asarray(z[m], dtype=np.float32)[index]
-                    for m in set(sum(INTERACTIONS.values(), ()))}
-        with np.load(canonical / f"{dataset}_s{CASE_SEED}_k8" / f"{category}.npz",
-                     allow_pickle=False) as z:
-            masks = np.asarray(z["imgs_masks"], dtype=np.uint8)
-            grid = tuple(int(v) for v in np.asarray(z["grid_size"]).reshape(-1))
-        if dataset == "btad":
-            faithful = (NEW / "01_geometry/gt"
-                        / f"btad_s{CASE_SEED}_{category}_faithful.npz")
-            if faithful.exists():
-                with np.load(faithful, allow_pickle=False) as z:
-                    masks = np.asarray(z["imgs_masks"], dtype=np.uint8)
-        image = cv2.imread(str(data_root[dataset] / ids[index]), cv2.IMREAD_COLOR)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        canvas = (grid[0] * 14, grid[1] * 14)
-        mask = cv2.resize(masks[index], (canvas[1], canvas[0]), interpolation=cv2.INTER_NEAREST)
-        spec = INTERACTIONS[case["interaction"]]
-        axes[row_index][0].imshow(image)
-        axes[row_index][0].set_title(f"{dataset}/{category} idx{index}\n"
-                                     f"{case['interaction']} {case['role']}\n({delta:+.3f})",
-                                     fontsize=MIN_FONT_PT)
-        axes[row_index][1].imshow(image)
-        axes[row_index][1].imshow(mask, alpha=0.45, cmap="Reds")
-        axes[row_index][1].set_title("ground truth (canvas)", fontsize=MIN_FONT_PT)
-        for column, method in enumerate(spec, start=2):
-            upsampled = cv2.resize(maps[method], (canvas[1], canvas[0]),
-                                   interpolation=cv2.INTER_LINEAR)
-            axes[row_index][column].imshow(upsampled, cmap="inferno")
-            axes[row_index][column].set_title(method, fontsize=MIN_FONT_PT)
-        for column in range(6):
-            axes[row_index][column].axis("off")
-    fig.suptitle("Interaction cases (seed 0, K=4): ranked by the per-image localisation change\n"
-                 "of the swap; labels are offline explanation only", fontsize=MIN_FONT_PT)
-    fig.tight_layout(rect=(0, 0, 1, 0.965))
-    return save_figure(fig, out_stem or CASES_STEM)
+    rows = [_case_row(case, canonical, data_root) for case in cases]
+    out_stem = out_stem or CASES_STEM
+    pages = [rows[start:start + CASE_ROWS_PER_PAGE]
+             for start in range(0, len(rows), CASE_ROWS_PER_PAGE)]
+    written = []
+    for page_index, page_rows in enumerate(pages, start=1):
+        page_stem = (out_stem if page_index == 1
+                     else out_stem.parent / f"{out_stem.name}_p{page_index}")
+        fig = _build_case_page(page_rows, page_index, len(pages), page_stem.name)
+        written += save_figure(fig, page_stem)
+    return written
+
+
+def _case_row(case: dict, canonical: Path, data_root: dict) -> dict:
+    """Everything one case prints: the query image, the canvas, the GT overlay and the maps.
+
+    The data path is the one the 2026-09-18 revision used, file for file.
+    """
+    import cv2
+
+    dataset, category = case["dataset"], case["category"]
+    index = int(case["image_index"])
+    delta = float(case["per_image_interaction_delta"])
+    unit = (R / MATRIX_DIR[dataset] / "units"
+            / f"{dataset}_s{CASE_SEED}_k{CASE_SHOT}" / category)
+    with np.load(unit / "patch_scores.npz", allow_pickle=False) as z:
+        ids = [str(x) for x in np.asarray(z["sample_ids"]).reshape(-1)]
+        maps = {m: np.asarray(z[m], dtype=np.float32)[index]
+                for m in set(sum(INTERACTIONS.values(), ()))}
+    with np.load(canonical / f"{dataset}_s{CASE_SEED}_k8" / f"{category}.npz",
+                 allow_pickle=False) as z:
+        masks = np.asarray(z["imgs_masks"], dtype=np.uint8)
+        grid = tuple(int(v) for v in np.asarray(z["grid_size"]).reshape(-1))
+    if dataset == "btad":
+        faithful = (NEW / "01_geometry/gt"
+                    / f"btad_s{CASE_SEED}_{category}_faithful.npz")
+        if faithful.exists():
+            with np.load(faithful, allow_pickle=False) as z:
+                masks = np.asarray(z["imgs_masks"], dtype=np.uint8)
+    image = cv2.imread(str(data_root[dataset] / ids[index]), cv2.IMREAD_COLOR)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    canvas = (grid[0] * 14, grid[1] * 14)
+    mask = cv2.resize(masks[index], (canvas[1], canvas[0]), interpolation=cv2.INTER_NEAREST)
+    spec = INTERACTIONS[case["interaction"]]
+    panels = [("image", image, None), ("overlay", image, mask)]
+    titles = [None, "ground truth (canvas)"]
+    for method in spec:
+        panels.append(("score", cv2.resize(maps[method], (canvas[1], canvas[0]),
+                                           interpolation=cv2.INTER_LINEAR), None))
+        titles.append(method)
+    return {"panels": panels, "titles": titles, "canvas": canvas,
+            "heading": (f"{dataset}/{category} idx{index}    "
+                        f"{case['interaction']} {case['role']}    ({delta:+.3f})")}
+
+
+def _text_width_in(fig, text: str, fontsize: float, weight: str = "normal") -> float:
+    """The printed width of one line, in inches, measured with the real font."""
+    artist = fig.text(0.0, 0.0, text, fontsize=fontsize, fontweight=weight)
+    width = artist.get_window_extent(fig.canvas.get_renderer()).width / fig.dpi
+    artist.remove()
+    return width
+
+
+def _wrap_words(fig, text: str, max_in: float, fontsize: float,
+                weight: str = "normal") -> list:
+    """Greedy word wrap that keeps every word and is verified with the real font."""
+    lines, current = [], ""
+    for word in text.split():
+        candidate = f"{current} {word}".strip()
+        if current and _text_width_in(fig, candidate, fontsize, weight) > max_in:
+            lines.append(current)
+            current = word
+        else:
+            current = candidate
+    if current:
+        lines.append(current)
+    for line in lines:
+        if _text_width_in(fig, line, fontsize, weight) > max_in:
+            raise SystemExit(f"[S2] case panel: {line!r} is wider than {max_in:.2f} in at "
+                             f"{fontsize} pt; the row heading or column title cannot be printed")
+    return lines
+
+
+def _build_case_page(rows: list, page_index: int, n_pages: int, figure_name: str):
+    """One page of the case panel: a shared column-title band, one heading and 6 panels per row."""
+    import matplotlib.pyplot as plt
+
+    width_in = FIG_WIDTH_IN
+    avail_in = (CASE_LEFT_RIGHT[1] - CASE_LEFT_RIGHT[0]) * width_in
+    colw = ((CASE_LEFT_RIGHT[1] - CASE_LEFT_RIGHT[0]
+             - (CASE_COLUMNS - 1) * CASE_H_GAP) / CASE_COLUMNS)
+    panel_w_in = colw * width_in
+
+    probe = plt.figure(figsize=(width_in, 1.0), dpi=100)
+    try:
+        headings = [_wrap_words(probe, row["heading"], avail_in, MIN_FONT_PT, "bold")
+                    for row in rows]
+        titles = [[None if title is None
+                   else _wrap_words(probe, title, panel_w_in - 0.02, MIN_FONT_PT)
+                   for title in row["titles"]] for row in rows]
+    finally:
+        plt.close(probe)
+
+    head_lines = max(len(lines) for lines in headings)
+    title_lines = max(len(lines) for row in titles for lines in row if lines)
+    head_h = CASE_HEAD_IN * head_lines + CASE_HEAD_PAD_IN
+    title_h = CASE_TITLE_IN * title_lines + CASE_TITLE_GAP_IN
+    heights = [panel_w_in * row["canvas"][0] / row["canvas"][1] for row in rows]
+    height_in = (CASE_TOP_IN + sum(head_h + title_h + h for h in heights)
+                 + CASE_ROW_GAP_IN * (len(rows) - 1) + CASE_BOTTOM_IN)
+    fig = plt.figure(figsize=(width_in, height_in), dpi=FIG_DPI)
+    fig.patch.set_facecolor("white")
+    to_y = lambda inch: 1.0 - inch / height_in  # noqa: E731
+
+    suptitle = ("Interaction cases (seed 0, K=4): ranked by the per-image localisation change\n"
+                "of the swap; labels are offline explanation only")
+    if n_pages > 1:
+        suptitle += f"\npage {page_index} of {n_pages}"
+    fig.suptitle(suptitle, fontsize=MIN_FONT_PT, y=to_y(0.02), va="top")
+
+    top = CASE_TOP_IN
+    for row, lines, title_lines_of_row, panel_h in zip(rows, headings, titles, heights):
+        for k, line in enumerate(lines):
+            fig.text(CASE_LEFT_RIGHT[0], to_y(top + 0.02 + k * CASE_HEAD_IN), line,
+                     ha="left", va="top", fontsize=MIN_FONT_PT, fontweight="bold",
+                     color="#0F0F0F")
+        for column, block in enumerate(title_lines_of_row):
+            if not block:
+                continue
+            x = CASE_LEFT_RIGHT[0] + column * (colw + CASE_H_GAP) + colw / 2
+            for k, line in enumerate(block):
+                fig.text(x, to_y(top + head_h + k * CASE_TITLE_IN), line, ha="center",
+                         va="top", fontsize=MIN_FONT_PT, color="#1A1A1A")
+        panel_top = top + head_h + title_h
+        for column, (kind, first, overlay) in enumerate(row["panels"]):
+            rect = [CASE_LEFT_RIGHT[0] + column * (colw + CASE_H_GAP),
+                    to_y(panel_top + panel_h), colw, panel_h / height_in]
+            axes = fig.add_axes(rect)
+            if kind == "score":
+                axes.imshow(first, cmap="inferno")
+            else:
+                axes.imshow(first)
+                if overlay is not None:
+                    axes.imshow(overlay, alpha=0.45, cmap="Reds")
+            axes.set_axis_off()
+        top += head_h + title_h + panel_h + CASE_ROW_GAP_IN
+
+    assert_min_font_pt(fig, MIN_FONT_PT, figure_name)
+    assert_no_text_axes_overlap(fig, figure_name)
+    assert_no_text_text_overlap(fig, figure_name)
+    assert_text_inside_page(fig, figure_name)
+    return fig
 
 
 if __name__ == "__main__":

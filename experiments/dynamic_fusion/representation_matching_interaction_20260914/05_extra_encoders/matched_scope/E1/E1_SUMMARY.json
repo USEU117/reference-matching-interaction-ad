@@ -1,0 +1,113 @@
+{
+  "created_utc": "2026-09-19T01:26:01.676046+00:00",
+  "branch": "E1",
+  "units_recorded": 48,
+  "new_method_conditions": 0,
+  "control_conditions": 0,
+  "interactions": 6,
+  "interaction_lookup": {
+    "mpdd|study|I_TRI_E": {
+      "point": 0.008193675052278276,
+      "mean": 0.008113675420906588,
+      "ci95": [
+        0.004051766271151997,
+        0.012313374773566635
+      ],
+      "ci9875": [
+        0.0024559697400283473,
+        0.013622455758360364
+      ],
+      "conditions": 4
+    },
+    "mpdd|study|I_BAL_E": {
+      "point": 0.004860771131305633,
+      "mean": 0.0048840719198802365,
+      "ci95": [
+        0.00017870303200139765,
+        0.009417671551164145
+      ],
+      "ci9875": [
+        -0.0013561133806321696,
+        0.010909353500694927
+      ],
+      "conditions": 4
+    },
+    "btad|corrected|I_TRI_E": {
+      "point": 0.005682808254760752,
+      "mean": 0.005834671569327225,
+      "ci95": [
+        0.0028198950166056372,
+        0.009434138564328023
+      ],
+      "ci9875": [
+        0.0017222561996220337,
+        0.0105593439102672
+      ],
+      "conditions": 4
+    },
+    "btad|corrected|I_BAL_E": {
+      "point": 0.002098306672269845,
+      "mean": 0.0022431349015296326,
+      "ci95": [
+        -0.0007849732199877149,
+        0.005384257874061277
+      ],
+      "ci9875": [
+        -0.0015750027059980081,
+        0.006486510965584169
+      ],
+      "conditions": 4
+    },
+    "btad|study|I_TRI_E": {
+      "point": 0.005470302702027807,
+      "mean": 0.005636052555574735,
+      "ci95": [
+        0.002634891810968061,
+        0.009082935693532627
+      ],
+      "ci9875": [
+        0.001636288377595456,
+        0.01041248346161457
+      ],
+      "conditions": 4
+    },
+    "btad|study|I_BAL_E": {
+      "point": 0.0016337676272882296,
+      "mean": 0.0017789926568011287,
+      "ci95": [
+        -0.0011133928930725891,
+        0.004773950848483062
+      ],
+      "ci9875": [
+        -0.0021921014196181828,
+        0.0059808267923573775
+      ],
+      "conditions": 4
+    }
+  },
+  "feature_reuse_vs_encode": {
+    "query_encoded": 0,
+    "ref_encoded": 0,
+    "reused_units": 18
+  },
+  "resource": {
+    "device": "cuda",
+    "peak_gpu_mb_encoding": 83.0,
+    "peak_gpu_mb_scoring": null,
+    "total_query_seconds": 0,
+    "total_ref_seconds": 0,
+    "total_score_seconds": 0
+  },
+  "verification": {
+    "VE_2_single_branch_auroc": {
+      "pass": false,
+      "reason": "no single-branch AUROC rows",
+      "branch": "E1"
+    }
+  },
+  "caveats": [
+    "the test data has been used before; this is an encoder-transfer check",
+    "seeds 0,1 and K 1,4 in scope",
+    "the branch was chosen after the S and D results were known, so it is exploratory and not a pre-specified confirmation"
+  ]
+}

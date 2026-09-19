@@ -1,6 +1,6 @@
 # 2026-09-18 夜间批次验收报告
 
-- 生成时间（UTC）：2026-09-19T00:44:45.059138+00:00
+- 生成时间（UTC）：2026-09-19T02:11:19.504835+00:00
 - 编排器：`scripts/limitation_closure_20260915/night_run_2_20260918.ps1`
 - 状态文件：`scripts\limitation_closure_20260915\_night2_20260918\STATUS.json`
 - 总体结论：**pass**

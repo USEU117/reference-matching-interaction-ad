@@ -22,6 +22,11 @@ This script does exactly that, and nothing else:
     printed on the figure and stored in the JSON;
   * the figure is built at the manuscript width of 17 cm, so a label is set in printed points,
     and `figure_font_gate.assert_min_font_pt` fails the run below the floor (default 11.5 pt).
+    The three placement gates of the same module run on every figure as well: no label on an
+    image panel, no label on another label (a method label or a colour-bar end label that does
+    not fit its own column, or an "n/a" title that runs into its neighbour, is caught here) and
+    no label off the 17 cm page.  They hold for any number of method columns, so a dataset
+    whose dump is still incomplete (a shorter column list, or extra n/a columns) is gated too.
 
 Outputs (docs/figures_reference_matching_20260914/ by default):
   fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png/.pdf   one figure per category
@@ -54,6 +59,8 @@ from figure_font_gate import (  # noqa: E402
     MANUSCRIPT_WIDTH_CM,
     assert_min_font_pt,
     assert_no_text_axes_overlap,
+    assert_no_text_text_overlap,
+    assert_text_inside_page,
 )
 import s8_common_region as s8  # noqa: E402
 
@@ -91,8 +98,9 @@ METHOD_LEGEND = {
 MIN_GT_FRACTION = 0.0005
 MIN_GT_PIXELS = 16
 COLOR_MAP = "magma"
-# Wrapping width for a method key that has no hand-written short label: at 11.5 pt this is
-# about 0.7 in, so even eight columns on 17 cm keep the labels inside their own column.
+# Wrapping width for a method key that has no hand-written short label.  This only keeps the JSON
+# summary and the legend readable: what reaches the figure is wrapped again, by measurement
+# against the real column width, in `render_category`.
 UNKNOWN_LABEL_CHARS = 11
 
 
@@ -272,32 +280,8 @@ def assert_lines_fit(fig, lines, max_in: float, label: str, weight: str = "norma
                          f"use fewer method columns (--methods) or a smaller --min-pt")
 
 
-def assert_text_inside_page(fig, label: str, tol_px: float = 0.5) -> None:
-    """Fail when any label would be printed (partly) outside the page."""
-    from matplotlib.text import Text
-
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    width_px, height_px = fig.canvas.get_width_height()
-    outside = []
-    for artist in fig.findobj(Text):
-        if not str(artist.get_text() or "").strip():
-            continue
-        box = artist.get_window_extent(renderer)
-        if (box.x0 < -tol_px or box.y0 < -tol_px
-                or box.x1 > width_px + tol_px or box.y1 > height_px + tol_px):
-            outside.append((str(artist.get_text()).replace("\n", " ")[:40],
-                            round(box.x0, 1), round(box.x1, 1),
-                            round(box.y0, 1), round(box.y1, 1)))
-    if outside:
-        for text, x0, x1, y0, y1 in outside[:20]:
-            print(f"[fig7]   OUTSIDE PAGE x[{x0},{x1}] y[{y0},{y1}] of "
-                  f"{width_px}x{height_px} :: {text!r}", file=sys.stderr)
-        raise SystemExit(f"[fig7] {label}: {len(outside)} label(s) outside the page")
-
-
 def wrap_lines(lines, max_in: float, fontsize: float, weight: str = "normal",
-               label: str = "figure") -> list:
+               label: str = "figure", break_long_words: bool = False) -> list:
     """Greedy word wrap, verified with the real font and weight, so no line leaves the page."""
     import textwrap
 
@@ -311,10 +295,11 @@ def wrap_lines(lines, max_in: float, fontsize: float, weight: str = "normal",
         chars = max(16, int(len(text) * max_in * 0.96 / width))
         wrapped = [text]
         for _ in range(12):
-            wrapped = textwrap.wrap(text, chars, break_long_words=False, break_on_hyphens=False)
+            wrapped = textwrap.wrap(text, chars, break_long_words=break_long_words,
+                                    break_on_hyphens=False)
             if max(measure_width_in(probe, line, weight) for line in wrapped) <= max_in:
                 break
-            chars = max(8, int(chars * 0.9))
+            chars = max(4, int(chars * 0.9))
         else:
             plt.close(probe)
             raise SystemExit(f"[fig7] {label}: cannot wrap {text[:60]!r} into {max_in:.2f} in - a "
@@ -363,7 +348,15 @@ def render_category(record: dict, out_dir: Path) -> dict:
     colw = (right - left - (n_cols - 1) * gap) / n_cols
     panel_in = colw * width_in
     panel_h_in = panel_in * record["grid"][0] / record["grid"][1]
-    title_lines = max([len(label.split("\n")) + 1 for label in labels] or [2])
+    # A method key without a hand-written short label is wrapped by measurement against its own
+    # column, not by a character count: at 4-6 method columns on 17 cm a column is 0.73-0.88 in
+    # wide, so 'PatchCore' (nine wide letters, 0.87 in at 11.5 pt) is already too long for a
+    # title.  A long token is broken rather than allowed to run into the next column.  The wrap
+    # keeps 0.01 in of slack under the width asserted below, because the wrap is measured on a
+    # probe figure and the assertion on this one.
+    titles = [wrap_lines(text.split("\n"), panel_in - 0.02, FONT_PT, label=record["name"],
+                         break_long_words=True) for text in labels]
+    title_lines = max([len(lines) + 1 for lines in titles] or [2])
     title_in = LAYOUT["title_gap_in"] + line_in * title_lines
     title_block = wrap_lines([record["title"]], avail_in, FONT_PT, weight="bold",
                              label=record["name"])
@@ -394,15 +387,15 @@ def render_category(record: dict, out_dir: Path) -> dict:
             fig.text(left, to_y(top + 0.02 + k * line_in), line, ha="left", va="top",
                      fontsize=FONT_PT, color="#0F0F0F", fontweight="bold")
 
-        panels = [(sample["query"], "Query"), (sample["gt_rgb"], "GT mask")]
-        for method, label in zip(columns, labels):
+        panels = [(sample["query"], ["Query"]), (sample["gt_rgb"], ["GT mask"])]
+        for method, block in zip(columns, titles):
             ap = sample["method_ap"].get(method)
-            title = f"{label}\n{'n/a' if ap is None else f'P-AP {ap:.2f}'}"
-            panels.append((sample["method_maps"].get(method), title))
-        for j, (array, title) in enumerate(panels):
+            panels.append((sample["method_maps"].get(method),
+                           block + ["n/a" if ap is None else f"P-AP {ap:.2f}"]))
+        for j, (array, title_block_of_column) in enumerate(panels):
             fig.text(x_col[j] + colw / 2, to_y(top + head_in + title_in - 0.02),
-                     title, ha="center", va="bottom", fontsize=FONT_PT, color="#1A1A1A",
-                     linespacing=1.15)
+                     "\n".join(title_block_of_column), ha="center", va="bottom",
+                     fontsize=FONT_PT, color="#1A1A1A", linespacing=1.15)
             rect = [x_col[j], to_y(top + head_in + title_in + panel_h_in),
                     colw, panel_h_in / height_in]
             if array is None:
@@ -432,7 +425,7 @@ def render_category(record: dict, out_dir: Path) -> dict:
         fig.text(left, to_y(note_y + k * line_in), line, ha="left", va="top",
                  fontsize=FONT_PT, color="#3F3F3F")
 
-    assert_lines_fit(fig, panels_titles(labels), colw * width_in - 0.01, record["name"])
+    assert_lines_fit(fig, panels_titles(titles), colw * width_in - 0.01, record["name"])
     assert_lines_fit(fig, notes, avail_in, record["name"])
     assert_lines_fit(fig, title_block + [ln for lines in headings for ln in lines], avail_in,
                      record["name"], weight="bold")
@@ -451,46 +444,18 @@ def render_category(record: dict, out_dir: Path) -> dict:
             "height_in": height_in, "n_cols": n_cols}
 
 
-def panels_titles(labels) -> list:
-    """The widest titles the figure can print, for the width check."""
+def panels_titles(titles) -> list:
+    """Every line a column title can print, for the width check.
+
+    `titles` is the already wrapped block of each method column (one list of lines per column);
+    the value line under it is checked as 'n/a' and as the widest 'P-AP' form.
+    """
     out = ["Query", "GT mask"]
-    for label in labels:
-        out.append(label)
+    for lines in titles:
+        out.extend(lines)
         out.append("n/a")
         out.append("P-AP 0.00")
     return out
-
-
-def assert_no_text_text_overlap(fig, label: str, tol_px: float = 2.0) -> None:
-    """Fail when two labels would print on top of each other.
-
-    `figure_font_gate.assert_no_text_axes_overlap` only compares labels with image panels; at
-    eight columns on 17 cm the neighbour risk is label against label, so it is checked here.
-    """
-    from matplotlib.text import Text
-
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    boxes = []
-    for artist in fig.findobj(Text):
-        if not str(artist.get_text() or "").strip():
-            continue
-        box = artist.get_window_extent(renderer)
-        boxes.append((str(artist.get_text()).replace("\n", " ")[:40], box))
-    clashes = []
-    for i in range(len(boxes)):
-        for j in range(i + 1, len(boxes)):
-            (a_text, a), (b_text, b) = boxes[i], boxes[j]
-            ox = min(a.x1, b.x1) - max(a.x0, b.x0)
-            oy = min(a.y1, b.y1) - max(a.y0, b.y0)
-            if ox > tol_px and oy > tol_px:
-                clashes.append((a_text, b_text, round(ox, 1), round(oy, 1)))
-    if clashes:
-        for a_text, b_text, ox, oy in clashes[:20]:
-            print(f"[fig7]   TEXT ON TEXT ({ox}x{oy} px) :: {a_text!r} vs {b_text!r}",
-                  file=sys.stderr)
-        raise SystemExit(f"[fig7] {label}: {len(clashes)} label pair(s) overlap")
-    print(f"[fig7] {label}: {len(boxes)} labels, no label overlaps another label")
 
 
 # ----------------------------------------------------------------------- planning --

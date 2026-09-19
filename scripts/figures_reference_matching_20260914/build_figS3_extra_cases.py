@@ -18,8 +18,10 @@ they are; only their *placement* is left to this script:
           `03_robustness/interaction_case_selection.csv`.
   * `--embed-panels` additionally re-renders the three picture panels into `--panel-dir` and
     places them, each at its full 17 cm width, on one companion page
-    (`figS3_extra_cases_panels.png/.pdf`). The default output of the script is byte-for-byte
-    the same as before the switch existed, because the flag only adds files.
+    (`figS3_extra_cases_panels.png/.pdf`).  The case panel is two pages since 2026-09-19 (see
+    `s2_robustness.render_cases`), so the companion page carries `panel_interaction_cases.png`
+    and `panel_interaction_cases_p2.png` under one caption. The default output of the script is
+    byte-for-byte the same as before the switch existed, because the flag only adds files.
 
 Outputs: figS3_extra_cases.png/.pdf and figS3_extra_cases.json, plus (with `--embed-panels`)
 figS3_extra_cases_panels.png/.pdf and the three `panel_*.png/.pdf` pictures.
@@ -45,6 +47,8 @@ from figure_font_gate import (  # noqa: E402
     MANUSCRIPT_WIDTH_CM,
     assert_min_font_pt,
     assert_no_text_axes_overlap,
+    assert_no_text_text_overlap,
+    assert_text_inside_page,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -57,10 +61,14 @@ SELECTION = STUDY / "03_robustness" / "interaction_case_selection.csv"
 DEFAULT_OUT = ROOT / "docs" / "figures_reference_matching_20260914"
 
 # The three picture panels of the geometry freeze and the robustness pass: the script that draws
-# each one, the raster that script leaves in the study directory, and the caption for the page.
+# each one, the raster(s) that script leaves in the study directory, and the caption for the
+# page.  The case panel is paginated (a 6 x 8 board at 17 cm cannot be printed, see
+# `s2_robustness.render_cases`), so it contributes several files, `raster_base` + `_p2`, `_p3`...
 PICTURE_PANELS = [
     {"stem": "panel_c_to_b_shift",
      "raster": STUDY / "01_geometry" / "figS1_c_to_b_shift.png",
+     "raster_dir": STUDY / "01_geometry",
+     "raster_base": "figS1_c_to_b_shift",
      "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py "
                       "-> render_c_to_b_figure",
      "caption": "(1) C-to-B coordinate shift, the only non-square audited unit\n"
@@ -68,6 +76,8 @@ PICTURE_PANELS = [
                 "recomputed)"},
     {"stem": "panel_canvas_coverage",
      "raster": STUDY / "01_geometry" / "figS2_canvas_coverage.png",
+     "raster_dir": STUDY / "01_geometry",
+     "raster_base": "figS2_canvas_coverage",
      "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py "
                       "-> boundary_figure",
      "caption": "(2) Canvas coverage in original coordinates\n"
@@ -75,12 +85,38 @@ PICTURE_PANELS = [
                 "assumed)"},
     {"stem": "panel_interaction_cases",
      "raster": STUDY / "03_robustness" / "figS3_interaction_cases.png",
+     "raster_dir": STUDY / "03_robustness",
+     "raster_base": "figS3_interaction_cases",
      "source_script": "scripts/representation_matching_interaction_20260914/s2_robustness.py "
                       "-> render_cases",
-     "caption": "(3) The eight frozen interaction cases\n"
+     "caption": "(3) The eight frozen interaction cases, on two pages (the four MPDD cases, "
+                "then the four BTAD cases)\n"
                 "source: 03_robustness/interaction_case_selection.csv (seed 0, K = 4)"},
 ]
 PANELS_PAGE = "figS3_extra_cases_panels"
+
+
+def page_key(base: str, path: Path) -> tuple:
+    """Sort key of one page: page 1 is `<base>.png`, page k > 1 is `<base>_pk.png`."""
+    tail = path.stem[len(base):]
+    if not tail:
+        return (0, 0)
+    if tail.startswith("_p") and tail[2:].isdigit():
+        return (1, int(tail[2:]))
+    return (99, 0)
+
+
+def panel_pages(panel_dir: Path, base: str) -> list:
+    """Every page of one panel written into `panel_dir`, in page order."""
+    return sorted((p for p in panel_dir.glob(f"{base}*.png") if p.is_file()),
+                  key=lambda p: page_key(base, p))
+
+
+def panel_rasters(panel: dict) -> list:
+    """The rasters the panel script leaves in the study directory, in page order."""
+    found = sorted((p for p in panel["raster_dir"].glob(panel["raster_base"] + "*.png")
+                    if p.is_file()), key=lambda p: page_key(panel["raster_base"], p))
+    return found or [panel["raster"]]
 
 
 def load_audit() -> dict:
@@ -117,7 +153,10 @@ def render_picture_panels(panel_dir: Path) -> list:
 
 
 def build_panels_page(panel_dir: Path, min_pt: float):
-    """Stack the three panels on one companion page, each at its own 17 cm printed width."""
+    """Stack the panels on one companion page, each page image at its own 17 cm printed width.
+
+    A paginated panel (the case panel) keeps its reading order, page 1 first, under one caption.
+    """
     import matplotlib.image as mpimg
 
     matplotlib.rcParams["font.family"] = "Times New Roman"
@@ -125,30 +164,36 @@ def build_panels_page(panel_dir: Path, min_pt: float):
     width_in = MANUSCRIPT_WIDTH_CM / 2.54
     rows = []
     for panel in PICTURE_PANELS:
-        png = panel_dir / f"{panel['stem']}.png"
-        if not png.is_file():
-            raise SystemExit(f"[figS3] missing {png}; it is written by render_picture_panels")
-        image = mpimg.imread(png)
-        height = float(image.shape[0]) / float(image.shape[1]) * width_in
-        rows.append((panel["caption"], image, height))
+        pages = []
+        for path in panel_pages(panel_dir, panel["stem"]):
+            image = mpimg.imread(path)
+            pages.append((image, float(image.shape[0]) / float(image.shape[1]) * width_in))
+        if not pages:
+            raise SystemExit(f"[figS3] missing {panel_dir / (panel['stem'] + '.png')}; "
+                             f"it is written by render_picture_panels")
+        rows.append((panel["caption"], pages))
     head_in, caption_in, gap_in = 0.72, 0.42, 0.16
-    height_in = head_in + sum(caption_in + h for _, _, h in rows) + gap_in * (len(rows) - 1)
+    height_in = head_in + sum(caption_in + sum(h for _, h in pages) + gap_in * len(pages)
+                              for _, pages in rows) + gap_in * (len(rows) - 1)
     fig = plt.figure(figsize=(width_in, height_in), dpi=350)
     fig.patch.set_facecolor("white")
     top = head_in
-    for caption, image, height in rows:
+    for caption, pages in rows:
         fig.text(0.01, 1.0 - top / height_in, caption, ha="left", va="top",
                  fontsize=DEFAULT_PT, color="#1A1A1A")
         top += caption_in
-        ax = fig.add_axes([0.01, 1.0 - (top + height) / height_in, 0.98, height / height_in])
-        ax.imshow(image)
-        ax.set_axis_off()
-        top += height + gap_in
+        for image, height in pages:
+            ax = fig.add_axes([0.01, 1.0 - (top + height) / height_in, 0.98, height / height_in])
+            ax.imshow(image)
+            ax.set_axis_off()
+            top += height + gap_in
     fig.suptitle("Figure S3 (continued): the picture panels of the geometry freeze\n"
                  "and the robustness pass, each at the manuscript's 17 cm width",
                  fontsize=DEFAULT_PT, y=0.995, va="top")
     assert_min_font_pt(fig, min_pt, PANELS_PAGE)
     assert_no_text_axes_overlap(fig, PANELS_PAGE)
+    assert_no_text_text_overlap(fig, PANELS_PAGE)
+    assert_text_inside_page(fig, PANELS_PAGE)
     return fig
 
 
@@ -269,30 +314,31 @@ def main() -> int:
 
     not_embedded = []
     for panel in PICTURE_PANELS:
-        path = panel["raster"]
-        exists = path.is_file()
-        panel_png = panel_dir / f"{panel['stem']}.png"
-        on_page = bool(args.embed_panels and panel_png.is_file())
-        if not exists:
-            reason = "not produced by the pipeline"
-        elif on_page:
-            reason = (f"drawn on the companion page {PANELS_PAGE}.png/.pdf, at its own printed "
-                      f"width, by --embed-panels; it stays off the (a)/(b) board because it is "
-                      f"not a data panel of this figure")
-        else:
-            reason = ("the raster is re-rendered at the manuscript width (17 cm) with every text "
-                      "artist at >= 11.5 pt, but it is not part of the (a)/(b) board: pass "
-                      "--embed-panels to place the three picture panels on the companion page "
-                      f"{PANELS_PAGE}.png/.pdf")
-        not_embedded.append({
-            "path": str(path.relative_to(ROOT)).replace("\\", "/"),
-            "exists": exists,
-            "embedded": on_page,
-            "embedded_as": (str(panel_png.relative_to(ROOT)).replace("\\", "/")
-                            if on_page else None),
-            "source_script": panel["source_script"],
-            "reason": reason,
-        })
+        pages = panel_pages(panel_dir, panel["stem"]) if args.embed_panels else []
+        for index, path in enumerate(panel_rasters(panel)):
+            exists = path.is_file()
+            page_file = pages[index] if index < len(pages) else None
+            on_page = bool(page_file is not None and page_file.is_file())
+            if not exists:
+                reason = "not produced by the pipeline"
+            elif on_page:
+                reason = (f"drawn on the companion page {PANELS_PAGE}.png/.pdf, at its own printed "
+                          f"width, by --embed-panels; it stays off the (a)/(b) board because it is "
+                          f"not a data panel of this figure")
+            else:
+                reason = ("the raster is re-rendered at the manuscript width (17 cm) with every text "
+                          "artist at >= 11.5 pt, but it is not part of the (a)/(b) board: pass "
+                          "--embed-panels to place the picture panels on the companion page "
+                          f"{PANELS_PAGE}.png/.pdf")
+            not_embedded.append({
+                "path": str(path.relative_to(ROOT)).replace("\\", "/"),
+                "exists": exists,
+                "embedded": on_page,
+                "embedded_as": (str(page_file.relative_to(ROOT)).replace("\\", "/")
+                                if on_page else None),
+                "source_script": panel["source_script"],
+                "reason": reason,
+            })
     summary = {
         "figure": "figS3_extra_cases",
         "panels": {
@@ -306,9 +352,16 @@ def main() -> int:
         },
         "picture_panels": {
             "contract": ("re-rendered at the manuscript width 17 cm, Times New Roman, every text "
-                         "artist >= 11.5 pt, asserted by figure_font_gate.assert_min_font_pt "
-                         "inside the panel scripts"),
+                         "artist >= 11.5 pt (figure_font_gate.assert_min_font_pt), no label on an "
+                         "image panel (assert_no_text_axes_overlap), no label on another label "
+                         "(assert_no_text_text_overlap) and no label off the page "
+                         "(assert_text_inside_page); the panel scripts and this companion page "
+                         "assert all four"),
             "min_font_pt": DEFAULT_PT,
+            "case_panel_pages": ("the eight cases are split over "
+                                 "s2_robustness.CASE_ROWS_PER_PAGE rows per page, so the case "
+                                 "panel is figS3_interaction_cases.png plus "
+                                 "figS3_interaction_cases_p2.png"),
             "embedding": "on" if args.embed_panels else "off",
             "embedding_command": ("python scripts/figures_reference_matching_20260914/"
                                   "build_figS3_extra_cases.py --embed-panels"),
