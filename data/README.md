@@ -32,6 +32,7 @@ aws s3 cp --no-sign-request s3://amazon-visual-anomaly/VisA_20220922.tar data/do
 ## MPDD
 
 - 来源: Hugging Face 镜像 (原始 SharePoint 下载需要机构登录)
+- 许可：据提供方官方仓库 <https://github.com/stepanje/MPDD> 的 `LICENSE` 文件记录为 **CC BY-NC-SA 4.0**（非商业）；本机副本取自 Hugging Face 镜像而非官方 SharePoint 分发，具体来源与再分发范围仍待与提供方最终确认。证据记录见 `docs/paper_writing_preparation_20260830/references/REFERENCE_AUDIT.md`（§3 数据集许可证据）与 `docs/CURRENT_DYNAMIC_FUSION_STATUS.md`。
 - LFS SHA256: `69f8da73eea4a31451a50251e5c261e83e0c53f2d1a39a7d4dfc78b5c434ddd6`
 - 原始目录: `data/mpdd_raw/MPDD/`
 - 6个类别: bracket_black, bracket_brown, bracket_white, connector, metal_plate, tubes
@@ -41,6 +42,7 @@ aws s3 cp --no-sign-request s3://amazon-visual-anomaly/VisA_20220922.tar data/do
 ## BTAD
 
 - 来源: 公共服务器 (BTAD 文献引用)
+- 许可：据原始作者仓库 <https://github.com/pankajmishra000/VT-ADL> 的数据集条目记录为 **CC BY-SA 4.0**（其 `CC-BY-SA` 标签链接指向 CC BY-SA 4.0 法律文本）；本地归档 `data/btad_raw/README.txt` 记 `License type: CC-BY-SA`（该文本未印版本号，版本以作者仓库链接的 4.0 法律文本为准）。再分发原图或改动版须保留署名、标注修改、链接许可并遵守 ShareAlike，具体条款待与提供方最终确认。注意：作者仓库根目录的 MIT 文件适用于 VT-ADL 代码，不适用于 BTAD 数据。证据记录见 `docs/paper_writing_preparation_20260830/BTAD_LICENSE_EVIDENCE.md`。
 - 原始目录: `data/btad_raw/`
 - 3个类别 (类别03使用BMP遮罩, 需特殊处理)
 - 清单: `data/splits/btad/manifest.json` — SHA256 `40696d901a78006c342dce98625dc21221b8ee9f642ebb74b7c3f3ffc5a1d215`

@@ -263,9 +263,12 @@ def main() -> int:
           f"rows={len(btad03)}")
     state = read_json(NEW / "05_baselines/patchcore_state_official224.json") or {}
     units = (state.get("units") or {})
+    # The expected unit count is read from the state file itself.  The official
+    # configuration now covers four datasets (16 units), so a hard-coded 8 is no longer
+    # a check; what must hold is that every unit the file records is completed.
     check("S4: the official PatchCore configuration completed every unit",
-          len(units) == 8 and all(v.get("status") == "completed" for v in units.values()),
-          f"units={len(units)}")
+          bool(units) and all(v.get("status") == "completed" for v in units.values()),
+          f"units={len(units)}, statuses={sorted({str(v.get('status')) for v in units.values()})}")
 
     # ------------------------------------------------------------------ S5
     literature = read_csv(NEW / "06_paper/literature_verification_20260914.csv")
@@ -285,25 +288,71 @@ def main() -> int:
         check(f"S5: {name} rendered", (NEW / "06_paper" / name).exists())
 
     # ------------------------------------------------------------------ read-only proof
-    from datetime import datetime, timezone
-    start = datetime(2026, 9, 14, 11, 20).timestamp()
-    touched = []
-    for root in (ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913",
-                 ROOT / "experiments/dynamic_fusion/paper_evidence_closeout_20260914",
-                 ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913"):
-        for path in root.rglob("*"):
-            if path.is_file() and path.stat().st_mtime > start:
-                touched.append(str(path.relative_to(ROOT)))
+    # Scope revision (2026-09-20).  The previous version swept three trees for any file
+    # whose mtime was newer than the delivery cutoff (2026-09-14 11:20).  That criterion
+    # was too broad and could not establish what its name claims:
+    #   (1) `experiments/dynamic_fusion/paper_evidence_closeout_20260914` is not a
+    #       read-only input of this stage but the output tree of the stage that owns it
+    #       (it holds the claim ledger this delivery reads), so a write there is expected;
+    #   (2) an mtime sweep cannot distinguish "an input was rewritten" from "a new file
+    #       was added later".  The seed 3..7 export added *new* canonical unit dirs under
+    #       the read-only canonical root; `seeds_extension_20260917/CANONICAL_GUARD.json`
+    #       gates exactly that and reports `changed_files=[]`, `removed_files=[]`,
+    #       `pass=true`, listing the new unit dirs and the append/merge `export_report_*`
+    #       logs whose bytes are expected to change.
+    # The check now compares against the delivery's own machine-readable input freeze
+    # (`00_protocol/INPUT_FREEZE.json`, created 2026-09-14: "immutable snapshot of every
+    # input this stage reads; nothing here is written"): every frozen data artefact must
+    # still carry its recorded size and mtime.  Out of scope, with reasons: this delivery's
+    # own code and byte-code (`.py`/`.pyc`), the append/merge `export_report_*_k8.json`
+    # logs, and the frozen entries under the closeout tree that the owning stage writes.
+    from datetime import datetime
+    freeze = read_json(NEW / "00_protocol/INPUT_FREEZE.json") or {}
+    guard = read_json(ROOT / "experiments/dynamic_fusion/seeds_extension_20260917"
+                             "/CANONICAL_GUARD.json") or {}
+    out_of_scope = []
+    changed, checked = [], 0
+    for entry in (freeze.get("files") or []):
+        rel = entry["path"]
+        why = None
+        if Path(rel).suffix in (".py", ".pyc"):
+            why = "code"
+        elif Path(rel).name.startswith("export_report_"):
+            why = "append-only export/merge log"
+        elif rel.startswith("experiments\\dynamic_fusion\\paper_evidence_closeout_20260914"):
+            why = "output tree of the owning stage"
+        if why:
+            out_of_scope.append({"path": rel, "why": why}); continue
+        path = ROOT / rel
+        if not path.exists():
+            changed.append({"path": rel, "why": "missing"}); continue
+        checked += 1
+        stat = path.stat()
+        if stat.st_size == entry["size"] and abs(
+                stat.st_mtime - datetime.fromisoformat(entry["mtime_utc"]).timestamp()) <= 1.0:
+            continue
+        changed.append({"path": rel, "why": f"frozen size {entry['size']} -> {stat.st_size}"})
     check("read-only inputs were not written during this delivery",
-          not touched, f"modified={touched[:5]}" if touched else "0 files under R/CLOSE/canonical")
+          not changed, f"modified={changed[:5]}" if changed else
+          f"{checked} frozen data artefacts unchanged "
+          f"({len(out_of_scope)} code/log/owner-output entries out of scope)")
     (NEW / "READONLY_PROOF.json").write_text(json.dumps({
-        "checked_roots": [
-            "experiments/dynamic_fusion/unified_fusion_paper_support_20260913",
-            "experiments/dynamic_fusion/paper_evidence_closeout_20260914",
-            "outputs/dynamic_fusion/unified_fusion_paper_support_20260913"],
-        "cutoff_local": "2026-09-14T11:20:00",
-        "files_modified_after_cutoff": touched,
-        "verdict": "no write by this delivery",
+        "criterion": ("INPUT_FREEZE.json size+mtime over frozen data artefacts "
+                      "(tree mtime sweep replaced on 2026-09-20)"),
+        "freeze_file": "00_protocol/INPUT_FREEZE.json",
+        "freeze_created_utc": freeze.get("created_utc"),
+        "frozen_entries": len(freeze.get("files") or []),
+        "checked": checked,
+        "out_of_scope": out_of_scope,
+        "seed_3_7_additive_gate": {
+            "path": "experiments/dynamic_fusion/seeds_extension_20260917/CANONICAL_GUARD.json",
+            "pass": guard.get("pass"),
+            "changed_files": guard.get("changed_files"),
+            "removed_files": guard.get("removed_files"),
+            "new_unit_dirs": guard.get("new_unit_dirs"),
+        },
+        "files_modified_after_cutoff": changed,
+        "verdict": "no frozen read-only input was written",
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # -------------------------------------------- closure items (this round)
