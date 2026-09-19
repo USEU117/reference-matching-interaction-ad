@@ -1,0 +1,25 @@
+﻿python : Traceback (most recent call last):
+At line:15 char:2496
++ ... i_project'; python scripts\limitation_closure_20260915\e2_shared_op_a ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e2_shared_op_ablation.py", line 320, in <mod
+ule>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e2_shared_op_ablation.py", line 315, in main
+    return run_map_ablations(args)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e2_shared_op_ablation.py", line 266, in run_
+map_ablations
+    "stride": 8, "pixel_ap": ap_of(flat, y)})
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e2_shared_op_ablation.py", line 176, in ap_o
+f
+    prof = profile_from_blocks(np.asarray(map_flat, dtype=np.float64), y)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 124, in profile_fr
+om_blocks
+    positives = [scores[i][y[i]] for i in range(n_images)]
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 124, in <listcomp>
+    positives = [scores[i][y[i]] for i in range(n_images)]
+IndexError: boolean index did not match indexed array along axis 0; size of axis is 1024 but size of corresponding bool
+ean axis is 3136

@@ -1,0 +1,91 @@
+{
+  "VA_1_point_reproduction": {
+    "applicable": true,
+    "n": 64,
+    "reference": "NEW/01_geometry/btad03_point_corrected.csv:macro_point_corrected",
+    "tolerance": 1e-06,
+    "max_abs_diff_cat03": 3.813269850994061e-07,
+    "max_abs_diff_macro": 1.4705808182302604e-07,
+    "pass_1e_6": true,
+    "pass": true
+  },
+  "VA_2_study_reproduction": {
+    "n": 4,
+    "reference": "R/p3_external/units/btad_s{seed}_k{shot}/03/evaluation_scores.npz",
+    "tolerance": 1e-06,
+    "max_abs_diff": 6.982937517108212e-08,
+    "pass_1e_6": true,
+    "pass": true
+  },
+  "VA_3_macro_series": {
+    "applicable": true,
+    "reference": "NEW/01_geometry/btad03_macro_corrected.npz",
+    "reference_generator": "scripts/representation_matching_interaction_20260914/btad03_bootstrap.py (macro_out)",
+    "reference_consumer": "scripts/representation_matching_interaction_20260914/s1_interaction.py:103-104 (corrected revision)",
+    "tolerance": 1e-05,
+    "n_compared": 64,
+    "max_abs_diff": 5.551115123125783e-16,
+    "pass_1e_5": true,
+    "pass": true,
+    "worst": [
+      {
+        "key": "btad_s0_k2__TRI_J__pixel_ap",
+        "max_abs_diff": 5.551115123125783e-16
+      },
+      {
+        "key": "btad_s0_k1__A1_J__pixel_ap",
+        "max_abs_diff": 4.440892098500626e-16
+      },
+      {
+        "key": "btad_s0_k1__DUP_J__pixel_ap",
+        "max_abs_diff": 4.440892098500626e-16
+      },
+      {
+        "key": "btad_s0_k1__TRI_J__pixel_ap",
+        "max_abs_diff": 4.440892098500626e-16
+      },
+      {
+        "key": "btad_s0_k1__BAL_J__pixel_ap",
+        "max_abs_diff": 4.440892098500626e-16
+      }
+    ]
+  },
+  "VA_4_nesting": {
+    "n": 16,
+    "violations": 0,
+    "pass": true
+  },
+  "produced": {
+    "grid": "stride8",
+    "categories": [
+      "01",
+      "02",
+      "03"
+    ],
+    "dataset_interactions": [
+      {
+        "dataset": "btad",
+        "name": "I_TRI",
+        "n_conditions": 8,
+        "bootstrap_mean": -0.00020748595687089294,
+        "ci95_low": -0.0019225034150954336,
+        "ci95_high": 0.001861476553999253,
+        "ci9875_low": -0.0023502275667552134,
+        "ci9875_high": 0.0024375756258426754,
+        "ci9875_excludes_zero": false
+      },
+      {
+        "dataset": "btad",
+        "name": "I_BAL",
+        "n_conditions": 8,
+        "bootstrap_mean": -0.0008945533002541812,
+        "ci95_low": -0.0026469380538337558,
+        "ci95_high": 0.00109812500559317,
+        "ci9875_low": -0.0030576761819406015,
+        "ci9875_high": 0.001665856475783743,
+        "ci9875_excludes_zero": false
+      }
+    ],
+    "report": "BTAD fine-grid intervals now cover all three categories, category 03 on the corrected geometry"
+  }
+}

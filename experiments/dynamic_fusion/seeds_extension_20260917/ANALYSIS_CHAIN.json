@@ -1,0 +1,41 @@
+﻿{
+    "finished_utc":  "2026-09-18T04:10:05",
+    "steps":  [
+                  {
+                      "step":  "d2b_query_drift",
+                      "at":  "2026-09-18T01:14:37",
+                      "note":  "cross-run query drift, GPU",
+                      "exit_code":  0
+                  },
+                  {
+                      "step":  "d3_seed_variance",
+                      "at":  "2026-09-18T01:14:37",
+                      "note":  "skipped by design; run it separately or in parallel, then add -IncludeD3 to chain it",
+                      "exit_code":  0
+                  },
+                  {
+                      "step":  "run_fullpixel_mvtec_visa",
+                      "at":  "2026-09-18T01:14:47",
+                      "note":  "stride-1 point table",
+                      "exit_code":  1
+                  },
+                  {
+                      "step":  "stats_v2_mvtec_visa",
+                      "at":  "2026-09-18T04:10:03",
+                      "note":  "bootstrap samples",
+                      "exit_code":  -1
+                  },
+                  {
+                      "step":  "analyze_conditions_mvtec_visa",
+                      "at":  "2026-09-18T04:10:04",
+                      "note":  "condition tables",
+                      "exit_code":  1
+                  },
+                  {
+                      "step":  "c5_generalization_interactions",
+                      "at":  "2026-09-18T04:10:05",
+                      "note":  "four-dataset interaction table",
+                      "exit_code":  1
+                  }
+              ]
+}

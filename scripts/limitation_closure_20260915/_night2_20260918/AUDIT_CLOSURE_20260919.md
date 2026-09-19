@@ -42,15 +42,56 @@
 | 图 4(b) 是否真画上四数据集行 | **已确认画上**，且用数值反查证明：布局 JSON 里 `i4-GEN-bar` 的包围盒右端反解得 v≈0.004325，与 `interaction_generalization.csv` 的 mvtec/I_TRI `bootstrap_mean=0.004324678…` 一致；同时把 `figs_data.mjs`/`build.mjs` 里"待表落盘"的旧标注改为现状 |
 | 顶层 S10 该作论文口径还是对照口径 | **已拍板**：默认=同口径（与 S/D 可比），宽口径入 `wide_scope/` 作附录/对照 |
 
-## 五、仍未闭合（如实列出，均不影响主结论）
+## 五、闭环状态（逐条）
 
-1. **VisA 的 AnomalyDINO 逐样本列不齐**（网络所致）→ 图 7 的 VisA 方法列少于 MVTec/MPDD；如需补齐需绕开 `torch.hub` 的联网校验（会改动共享的 `methods/anomalydino/src/backbones.py`，**需先行批准**）。
-2. **工作流 B 的 BTAD 只覆盖两个变体**（identity、ot_sinkhorn）；protrudes/shuffled 的 BTAD 版未跑，命令已写在 `REPORT_CN.md §7.3`。
-3. **`A_btad03_corrected/VERIFICATION.json` 缺 VA.3 字段**（计划里列的第三项校验），无独立证据可判 → 建议后续补上或从计划中明确撤销。
-4. **role 字符串不一致**：C5 表写 `external_frozen_validation`，而 `F_SPEC.json` 引用的 `export_k8_cache.ROLE` 写 `holdout`（两者同义，正文按"以产物为准 + 一句说明"处理，未强行统一）。
-5. **KSDD2 参考文献缺卷号/页码**（提供方页面无此信息，已在 `references.json` 的 `verification` 字段注明）。
-6. **handover §4.4 的"有监督式对应"**标为*可选*，未做（不计缺失）。
-7. **图 7 的 25 张多方法逐样本图未嵌入 docx**（否则文档再增约 50 MB），仅在正文/图注中说明其口径与列数。
+### 5.1 已闭合（2026-09-19 下午第二轮补齐）
+
+1. **VisA 的 AnomalyDINO 逐样本列** → **已补齐**：`05_baselines/region_maps/anomalydino_canvas` 的 visa
+   现 **48/48**、`anomalydino_canvas_rotation` 的 visa 现 **48/48**（此前分别为 21 与 25）。**根因订正**：
+   此前记的「torch.hub 联网校验挂死」**不是唯一原因**——`methods/anomalydino/src/backbones.py` 的
+   `load_model` 改为优先 `skip_validation=True`（离线，实测 6.3 s 加载成功）后**仍然失败**；真正原因是
+   **与另一个 5–8 GB 的 CPU 作业并发时的资源竞争**，机器空闲时同一条命令 22 分钟即跑完 visa canvas。
+   同时**如实披露守护脚本缺陷**：`anomalydino_guarded_retry.ps1` 用 `Start-Process -PassThru` 的
+   `TotalProcessorTime` 判断停滞，会把刚启动的进程误读为 0 而**误杀健康进程**（至少误杀两次）。
+   补齐后共同区域表 `05_baselines_multi_dataset/baseline_common_region.csv` 于 **16:14:53** 重算为
+   **864 行**、232684 B，四数据集**各 6 个方法列**（btad 72 / mpdd 144 / mvtec 360 / visa 288；六个方法
+   `controlled_A1_J`/`controlled_A1_L`/`anomalydino_canvas`/`anomalydino_canvas_rotation`/
+   `PatchCore_native_local128`/`PatchCore_native_official224` 按方法合计各 144）；图 7 的 VisA 12 类
+   也据此按 6 列重出（`docs/figures_reference_matching_20260914/fig7_multimethod_visa_s0_k4.json`，
+   `created_local` = 2026-09-19T16:15:03，PNG mtime 16:15:11—16:16:34，`columns_na` 与 `missing` 均空）。
+2. **工作流 B 的 BTAD 只覆盖两个变体** → **已补齐**：`B_correspondence/` 一次性重跑 BTAD
+   **四变体**（identity / procrustes / shuffled / ot_sinkhorn，3 类 × 2 seed × 2 K = 12 单元/变体），
+   并加 **ε ∈ {0, 0.05, 0.1, 0.5}** 网格（先验规则 `eps = 0.1 × IQR(cost)` 为预注册主值 0.1，其余为敏感性）。
+   证据：`B2_SUMMARY_btad.json`（15:02:55）、`interaction_by_variant_btad.csv`、`ot_sensitivity_btad.csv`
+   与其中的 `ot_sensitivity_added_20260919`。结果：**四变体与整个 ε 网格的 95%/98.75% 区间全部跨零**
+   （`ci9875_excludes_zero` 全 False）→ **对应方式替换不改变 BTAD 判定**（与 MPDD 只在软混合处翻转形成对照）。
+3. **`A_btad03_corrected/VERIFICATION.json` 缺 VA.3 字段** → **已闭合（2026-09-19）**：根因是
+   `a1_btad03_corrected_grid.py` 无论 stride 都写同一个 `VERIFICATION.json`，最后一次 stride-4 运行
+   （该网格下 VA.1/VA.3 本就不适用）覆盖掉了含 VA.3 的 stride-8 记录。现改为**逐 stride 各写
+   `VERIFICATION_stride{N}.json`，`VERIFICATION.json` 恒为 stride-8 的完整四门记录**，并给 VA.1–VA.4
+   全部补上显式 `pass` 字段。重跑 stride-8 四门实测：**VA.1 pass（max\|Δ macro\| = 1.47e-07）、
+   VA.2 pass（6.98e-08）、VA.3 pass（逐副本 64 键 max\|Δ\| = 5.55e-16）、VA.4 pass（0 违规）**，
+   见 `A_btad03_corrected/VERIFICATION.json`（13:16:28）、`VERIFICATION_stride8.json`、`log_stride8.txt`。
+4. **KSDD2 参考文献缺卷号/页码** → **已闭合**：`references.json` 的 `ksdd2` 条目补齐为
+   *Computers in Industry* **129**, Art. no. **103459**, 2021, DOI 10.1016/j.compind.2021.103459
+   （三类来源交叉确认：arXiv 2104.06064 的 related-DOI、出版商 DOI 落地页、两条引用记录均给出同名卷号/文章号），
+   `verification` 字段已写明核实日期 2026-09-19；两个 docx 已因此重建。
+
+### 5.2 仍未闭合（2 条，均不影响主结论）
+
+1. **`A_btad03_corrected` 的 VA.1 在 stride-8 走「读归档产物」而非字面重建**：VA.1 比对的
+   `NEW/01_geometry/btad03_point_corrected.csv:macro_point_corrected` 是一份归档产物，而不是本次运行里
+   字面重跑重建出来的；**已注明可另开一次"写临时目录、不进产物"的重建对比运行**来消除这一差别
+   （现有产物与结论不动）。
+2. **handover §4.4 的可选项 I（有监督式对应）**：按用户选择**保持现状**——不做，也不标注为
+   「按设计不做」（handover 明示它只是方法论加强项，不是实验缺口）。
+
+### 5.3 已定性的非缺口（不计划改动，不改变主结论）
+
+- **role 字符串不一致**：C5 表写 `external_frozen_validation`，而 `F_SPEC.json` 引用的
+  `export_k8_cache.ROLE` 写 `holdout`（两者同义，正文按「以产物为准 + 一句说明」处理，未强行统一）。
+- **图 7 的多方法逐样本图未嵌入 docx**（否则文档再增约 50 MB），仅在正文/图注中说明其口径与列数；
+  该批图现已扩到 36 张（mpdd 6 + btad 3 + mvtec 15 + visa 12，见 `FIGURE_BINDING.md` 第六节）。
 
 ## 六、P0 修复的代码位置（便于复核）
 
@@ -60,3 +101,19 @@
 | `scripts/limitation_closure_20260915/c5_generalization_interactions.py` | 新增 `condition_labels()`；`conditions` 按实际条件生成；`point_from_fullpixel()` 双根搜索 + 只要求实际条件 |
 | `scripts/limitation_closure_20260915/d3_seed_variance.py` | VD.3 改为宏对宏比较（保留 `per_category_max_abs_delta` 与 `aggregation` 字段）；另修一处无点估计行导致整轮 KeyError 的打印 |
 | `scripts/limitation_closure_20260915/{p0_fixes_20260919.ps1,anomalydino_guarded_retry.ps1}` | P0 重算驱动与 AnomalyDINO 守护重试 |
+
+## 七、第二轮补齐（2026-09-19 下午）
+
+本节汇总 2026-09-19 下午这一轮把 §5.2 之外的缺口全部落地的动作；每条都能在盘上找到实体。
+
+| # | 项 | 落盘证据（文件 / 时间戳 / 实测） |
+|---|---|---|
+| 1 | VisA 的 AnomalyDINO 逐样本 dump 补齐 | `05_baselines/region_maps/anomalydino_canvas` 与 `…_rotation` 的 visa 各 **48 个 npz**（canvas/rotation 四数据集合计均 btad 12、mpdd 24、mvtec 60、visa 48）；`fig7_multimethod_visa_s0_k4.json` 的 `sources` 记 visa 的 ADino 逐类来源 mtime 15:06—15:38。**根因订正与守护脚本缺陷见 §5.1 第 1 条。** |
+| 2 | S8 共同区域表重算 | `05_baselines_multi_dataset/baseline_common_region.csv` **864 行**、232684 B、mtime **2026-09-19 16:14:53**；`common_region_geometry.json` 同为 16:14:53。四数据集各 6 个方法列，方法列按方法合计各 144 行。 |
+| 3 | 图 7 的 VisA 按 6 列重出 | `docs/figures_reference_matching_20260914/fig7_multimethod_visa_s0_k4.json`（`created_local` = 2026-09-19T16:15:03，`columns` 6 条、`columns_na` 空、`missing` 空、12 类）；12 张 PNG mtime 16:15:11—16:16:34；`FIGURE_BINDING.md` 第六节已同步（36 张图：mpdd 6 + btad 3 + mvtec 15 + visa 12）。 |
+| 4 | 工作流 B 的 BTAD 四变体 + ε 网格 | `B_correspondence/{B2_SUMMARY_btad.json（15:02:55）,interaction_by_variant_btad.csv,ot_sensitivity_btad.csv,variant_metrics_btad.csv}`；结果：四变体与 ε ∈ {0, 0.05, 0.1, 0.5} 的 95%/98.75% 区间**全部跨零** → BTAD 判定不随对应方式改变。 |
+| 5 | `A_btad03_corrected` 四门校验补全 | `A_btad03_corrected/VERIFICATION.json`（13:16:28，stride-8 完整四门）、`VERIFICATION_stride4.json`（13:09:54）、`VERIFICATION_stride8.json`、`log_stride8.txt`；VA.1 1.47e-07 / VA.2 6.98e-08 / VA.3 5.55e-16(64 键) / VA.4 0 违规。 |
+| 6 | 资源对比表刷新 | `05_baselines/resource_comparison_v2.csv` **75 行**、`resource_comparison.csv` **71 行**（均 mtime 2026-09-19 13:09:29）；新增行含 local128 的 mvtec/visa ×8、official224 的 mvtec/visa ×8、以及 v1 侧 AnomalyDINO mvtec/visa ×6。**图 8 不需重建**：`figs_data.mjs` 的 `drawFigure8`（第 570 行起）读的是文件内硬编码常量 `GPU_ROWS`/`RAM_ROWS`/`TIME_ROWS`（第 552—568 行，只有 MPDD/BTAD 行），`SOURCES.resources`（第 38 行）声明了但从未被引用（全文件无 `SOURCES.resources` 取用点），故表新增行不会改变图 8。 |
+| 7 | KSDD2 文献补全 | `scripts/manuscript_build_20260914/references.json` 的 `ksdd2` 条目已含 *Computers in Industry* **129**、Art. no. **103459**、DOI 10.1016/j.compind.2021.103459、`verification` 记 2026-09-19 三类来源交叉确认；两个 docx 已重建（`docs/manuscript_reference_matching_20260914/*.docx` mtime 2026-09-19 13:11:17 / 13:11:20）。 |
+
+**状态**：§5.1 的四条与本节 1—7 项均已落地；仍未闭合的只剩 §5.2 的两条（VA.1 走归档产物、handover §4.4 可选项 I）。

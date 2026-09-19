@@ -23,6 +23,10 @@ Verification gates (see PLAN.md section 三/工作流 A)
     VA.2  the same code path on `rev_study` reproduces the stored study unit
     VA.3  the stride-8 macro replicate series reproduces `btad03_macro_corrected.npz`
     VA.4  98.75% intervals nest the 95% intervals
+
+VA.1 and VA.3 compare against stride-8 archives, so they are only applicable at stride 8 and
+are reported as `not_applicable` elsewhere.  Each run writes `VERIFICATION_stride{N}.json`;
+`VERIFICATION.json` always holds the stride-8 run, i.e. the complete four-gate record.
 """
 
 from __future__ import annotations
@@ -206,15 +210,21 @@ def main() -> int:
                                 "macro_archived": row_value(ref["macro_point_corrected"]),
                                 "cat03_abs_diff": abs(mine_cat03 - row_value(ref["cat03_point"])),
                                 "macro_abs_diff": abs(mine_macro - row_value(ref["macro_point_corrected"]))})
+        ok1 = all(r["macro_abs_diff"] < 1e-6 for r in va1)
         verification["VA_1_point_reproduction"] = {
             "applicable": True, "n": len(va1),
+            "reference": "NEW/01_geometry/btad03_point_corrected.csv:macro_point_corrected",
+            "tolerance": 1e-6,
             "max_abs_diff_cat03": max(r["cat03_abs_diff"] for r in va1),
             "max_abs_diff_macro": max(r["macro_abs_diff"] for r in va1),
-            "pass_1e_6": all(r["macro_abs_diff"] < 1e-6 for r in va1),
+            "pass_1e_6": ok1,
+            "pass": ok1,
         }
     else:
         verification["VA_1_point_reproduction"] = {
-            "applicable": False, "n": 0,
+            "applicable": False, "n": 0, "pass": "not_applicable",
+            "reference": "NEW/01_geometry/btad03_point_corrected.csv:macro_point_corrected",
+            "tolerance": 1e-6,
             "reason": "the archived corrected table is stride-8; point estimates on a "
                       "finer grid are expected to differ and no equality is claimed",
         }
@@ -239,26 +249,54 @@ def main() -> int:
                 del prof
             del stored
             gc.collect()
+    ok2 = all(r["abs_diff"] < 1e-6 for r in va2)
     verification["VA_2_study_reproduction"] = {
         "n": len(va2),
+        "reference": "R/p3_external/units/btad_s{seed}_k{shot}/03/evaluation_scores.npz",
+        "tolerance": 1e-6,
         "max_abs_diff": max(r["abs_diff"] for r in va2) if va2 else None,
-        "pass_1e_6": all(r["abs_diff"] < 1e-6 for r in va2),
+        "pass_1e_6": ok2,
+        "pass": ok2,
     }
 
-    # --- VA.3: stride-8 macro series against btad03_macro_corrected.npz
+    # --- VA.3: stride-8 macro series against btad03_macro_corrected.npz.
+    # That npz is the authoritative BTAD corrected-geometry composition: it is written by
+    # `btad03_bootstrap.py` (macro_out = paired per-replicate mean over categories 01/02/03)
+    # and consumed by `s1_interaction.py` for the corrected revision, so the comparison here
+    # must use the same replicate stream (default_rng([20260913, 2, category_id, replicate]))
+    # and the same paired macro the script above builds.
+    macro_ref = GEOM / "btad03_macro_corrected.npz"
     if stride == 8:
-        ref = np.load(GEOM / "btad03_macro_corrected.npz", allow_pickle=False)
+        ref = np.load(macro_ref, allow_pickle=False)
         diffs = []
         for key, values in macro_series.items():
             if key in ref.files:
                 diffs.append({"key": key,
                               "max_abs_diff": float(np.max(np.abs(
                                   np.asarray(ref[key], dtype=np.float64) - values)))})
+        worst = max((d["max_abs_diff"] for d in diffs), default=None)
+        ok3 = bool(diffs) and worst < 1e-5
         verification["VA_3_macro_series"] = {
+            "applicable": True,
+            "reference": "NEW/01_geometry/btad03_macro_corrected.npz",
+            "reference_generator": "scripts/representation_matching_interaction_20260914/"
+                                   "btad03_bootstrap.py (macro_out)",
+            "reference_consumer": "scripts/representation_matching_interaction_20260914/"
+                                  "s1_interaction.py:103-104 (corrected revision)",
+            "tolerance": 1e-5,
             "n_compared": len(diffs),
-            "max_abs_diff": max((d["max_abs_diff"] for d in diffs), default=None),
-            "pass_1e_5": bool(diffs) and max(d["max_abs_diff"] for d in diffs) < 1e-5,
+            "max_abs_diff": worst,
+            "pass_1e_5": ok3,
+            "pass": ok3,
             "worst": sorted(diffs, key=lambda d: -d["max_abs_diff"])[:5],
+        }
+    else:
+        verification["VA_3_macro_series"] = {
+            "applicable": False, "pass": "not_applicable",
+            "reference": "NEW/01_geometry/btad03_macro_corrected.npz",
+            "tolerance": 1e-5,
+            "reason": "the reference npz stores the stride-8 replicate series; the stride-4 "
+                      "series is a different grid and no equality is claimed",
         }
 
     # --- interactions and intervals (all three categories)
@@ -317,8 +355,14 @@ def main() -> int:
                                 "dataset_interactions": agg,
                                 "report": "BTAD fine-grid intervals now cover all three "
                                           "categories, category 03 on the corrected geometry"}
-    (out / "VERIFICATION.json").write_text(
+    # VA.1 and VA.3 are stride-8 gates (the archived references are stride-8), so a stride-4
+    # run cannot carry the complete gate set.  Every run keeps its own tagged snapshot, and
+    # the canonical VERIFICATION.json is the stride-8 one that holds all four gates.
+    (out / f"VERIFICATION_{tag}.json").write_text(
         json.dumps(verification, indent=2, ensure_ascii=False), encoding="utf-8")
+    if stride == 8:
+        (out / "VERIFICATION.json").write_text(
+            json.dumps(verification, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print("== Workflow A ==")
     v1 = verification["VA_1_point_reproduction"]
@@ -332,10 +376,13 @@ def main() -> int:
     print(f"  VA.2 study reproduction: n={len(va2)} "
           f"max|d|={verification['VA_2_study_reproduction']['max_abs_diff']} "
           f"pass={verification['VA_2_study_reproduction']['pass_1e_6']}")
-    if "VA_3_macro_series" in verification:
-        v3 = verification["VA_3_macro_series"]
+    v3 = verification["VA_3_macro_series"]
+    if v3.get("applicable"):
         print(f"  VA.3 macro series: n={v3['n_compared']} max|d|={v3['max_abs_diff']:.3e} "
               f"pass={v3['pass_1e_5']}")
+    else:
+        print(f"  VA.3 macro series: not applicable at stride {stride} "
+              f"(reference npz is stride-8)")
     print(f"  VA.4 nesting: violations={verification['VA_4_nesting']['violations']} "
           f"pass={verification['VA_4_nesting']['pass']}")
     print("  dataset-level interactions (3 categories, corrected 03):")

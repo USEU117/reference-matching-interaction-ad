@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "kind": "canonical_k8_cache",
+  "created_utc": "2026-09-17T07:58:54.415738+00:00",
+  "dataset": "mpdd",
+  "branch": "S",
+  "model": "dinov2_vits14",
+  "support_manifest": "experiments\\dynamic_fusion\\seeds_extension_20260917\\p0_support\\support_manifest_mpdd.json",
+  "support_manifest_sha256": "e9964504564396ee2c5d0fd6cf9b05a077c792930aa7e2798a203d90f7f77f35",
+  "query_reuse_policy": "reuse the fixed historical query block of this branch; encode only the eight support references",
+  "query_shared_across_seeds_from": {
+    "root": "experiments\\dynamic_fusion\\seeds_extension_20260917\\_smoke_canonical",
+    "source_seed": 3,
+    "reason": "one query encoding shared by the seeds in this batch, so seed-to-seed differences come from the support set alone"
+  },
+  "units": [
+    {
+      "dataset": "mpdd",
+      "branch": "S",
+      "seed": 3,
+      "category": "bracket_black",
+      "n_references": 8,
+      "references": [
+        "bracket_black/train/good/025.png",
+        "bracket_black/train/good/045.png",
+        "bracket_black/train/good/127.png",
+        "bracket_black/train/good/065.png",
+        "bracket_black/train/good/070.png",
+        "bracket_black/train/good/113.png",
+        "bracket_black/train/good/184.png",
+        "bracket_black/train/good/177.png"
+      ],
+      "output": "experiments\\dynamic_fusion\\seeds_extension_20260917\\_smoke_canonical\\S\\mpdd_s3_k8\\bracket_black.npz",
+      "seed_specific_source": null,
+      "query_source": null,
+      "query_shared_across_seeds": false,
+      "query_shared_source_seed": null,
+      "query_reused": false,
+      "query_note": "no historical query cache for this branch/dataset; queries encoded here",
+      "references_reused_from_history": 0,
+      "references_encoded": 8,
+      "reference_grid": [
+        32,
+        32
+      ],
+      "query_grid": [
+        32,
+        32
+      ],
+      "output_sha256": "56ae68f184f721eccaf793f175bad6f9807fc5fe1ae25f8897ef0aa6617fbc93",
+      "n_query": 79,
+      "seconds": 12.53,
+      "written_utc": "2026-09-17T07:58:43.003936+00:00"
+    },
+    {
+      "dataset": "mpdd",
+      "branch": "S",
+      "seed": 4,
+      "category": "bracket_black",
+      "n_references": 8,
+      "references": [
+        "bracket_black/train/good/143.png",
+        "bracket_black/train/good/068.png",
+        "bracket_black/train/good/069.png",
+        "bracket_black/train/good/100.png",
+        "bracket_black/train/good/035.png",
+        "bracket_black/train/good/282.png",
+        "bracket_black/train/good/223.png",
+        "bracket_black/train/good/236.png"
+      ],
+      "output": "experiments\\dynamic_fusion\\seeds_extension_20260917\\_smoke_canonical\\S\\mpdd_s4_k8\\bracket_black.npz",
+      "seed_specific_source": null,
+      "query_source": "experiments\\dynamic_fusion\\seeds_extension_20260917\\_smoke_canonical\\S\\mpdd_s3_k8\\bracket_black.npz",
+      "query_shared_across_seeds": true,
+      "query_shared_source_seed": 3,
+      "query_source_sha256": "56ae68f184f721eccaf793f175bad6f9807fc5fe1ae25f8897ef0aa6617fbc93",
+      "query_reused": true,
+      "query_note": "query block shared with the other seeds of this dataset/branch; references are still encoded for this seed",
+      "references_reused_from_history": 0,
+      "references_encoded": 8,
+      "reference_grid": [
+        32,
+        32
+      ],
+      "query_grid": [
+        32,
+        32
+      ],
+      "output_sha256": "0f977ed87ebe2bb819f3fa3a9196f34ebfe3515ec9e06281632198248b04cc19",
+      "n_query": 79,
+      "seconds": 6.57,
+      "written_utc": "2026-09-17T07:58:54.397408+00:00"
+    }
+  ]
+}

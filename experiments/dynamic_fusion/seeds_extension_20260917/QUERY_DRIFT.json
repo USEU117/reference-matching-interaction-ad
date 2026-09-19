@@ -1,0 +1,118 @@
+{
+  "created_utc": "2026-09-17T17:14:35.364337+00:00",
+  "purpose": "measure the cross-run query-encoding drift, so that it can be shown to be smaller than the support-set effect on the same quantity (VD.2)",
+  "method": "the encoder is re-loaded in a fresh process and the stored shared query block is re-encoded image by image; the element-wise difference against the block on disk is the drift",
+  "max_abs_diff": 0.0017137527465820312,
+  "units": [
+    {
+      "dataset": "mpdd",
+      "category": "bracket_black",
+      "branch": "B",
+      "source_seed": 3,
+      "n_images": 40,
+      "total_images": 79,
+      "max_abs_diff": 0.0012106895446777344,
+      "median_max_abs_diff": 0.0003126859664916992,
+      "min_cosine": 0.9999995231628418
+    },
+    {
+      "dataset": "mpdd",
+      "category": "bracket_black",
+      "branch": "C",
+      "source_seed": 3,
+      "n_images": 40,
+      "total_images": 79,
+      "max_abs_diff": 0.00039005279541015625,
+      "median_max_abs_diff": 9.393692016601562e-05,
+      "min_cosine": 0.999999463558197
+    },
+    {
+      "dataset": "btad",
+      "category": "01",
+      "branch": "B",
+      "source_seed": 3,
+      "n_images": 40,
+      "total_images": 70,
+      "max_abs_diff": 0.0016262531280517578,
+      "median_max_abs_diff": 0.000545501708984375,
+      "min_cosine": 0.999999463558197
+    },
+    {
+      "dataset": "btad",
+      "category": "01",
+      "branch": "C",
+      "source_seed": 3,
+      "n_images": 40,
+      "total_images": 70,
+      "max_abs_diff": 0.0017137527465820312,
+      "median_max_abs_diff": 0.0001564621925354004,
+      "min_cosine": 0.9999994039535522
+    }
+  ],
+  "distance_effect": {
+    "rationale": "the interaction is a difference of nearest-reference cosine distances, so the drift is also reported in those units: its effect on that distance versus the effect of swapping in a different seed's references",
+    "partner_seed": 4,
+    "images_per_unit": 8,
+    "units": [
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 4.080429789610207e-07,
+        "query_drift_effect_on_distance_max": 1.4066696166992188e-05,
+        "support_set_effect_on_distance_mean": 0.06825978308916092,
+        "support_set_effect_on_distance_max": 0.3838944435119629,
+        "ratio_drift_to_support": 5.977794899081346e-06
+      },
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1438192615287335e-07,
+        "query_drift_effect_on_distance_max": 6.198883056640625e-06,
+        "support_set_effect_on_distance_mean": 0.014075837098062038,
+        "support_set_effect_on_distance_max": 0.19520854949951172,
+        "ratio_drift_to_support": 8.126118700602092e-06
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 2.993474481627345e-07,
+        "query_drift_effect_on_distance_max": 3.415346145629883e-05,
+        "support_set_effect_on_distance_mean": 0.019573694095015526,
+        "support_set_effect_on_distance_max": 0.21435803174972534,
+        "ratio_drift_to_support": 1.5293355318135582e-05
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1684186773663896e-07,
+        "query_drift_effect_on_distance_max": 8.881092071533203e-06,
+        "support_set_effect_on_distance_mean": 0.007541677448898554,
+        "support_set_effect_on_distance_max": 0.04706072807312012,
+        "ratio_drift_to_support": 1.5492822058149613e-05
+      }
+    ],
+    "worst_ratio_drift_to_support": 1.5492822058149613e-05,
+    "all_units_below_one": true
+  },
+  "criterion": "the drift must be a small fraction of the support-set effect on the same distance field; the raw feature drift is reported alongside so the two numbers cannot be confused"
+}

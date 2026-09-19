@@ -1,0 +1,50 @@
+{
+  "VA_1_point_reproduction": {
+    "applicable": false,
+    "n": 0,
+    "reason": "the archived corrected table is stride-8; point estimates on a finer grid are expected to differ and no equality is claimed"
+  },
+  "VA_2_study_reproduction": {
+    "n": 4,
+    "max_abs_diff": 6.982937517108212e-08,
+    "pass_1e_6": true
+  },
+  "VA_4_nesting": {
+    "n": 16,
+    "violations": 0,
+    "pass": true
+  },
+  "produced": {
+    "grid": "stride4",
+    "categories": [
+      "01",
+      "02",
+      "03"
+    ],
+    "dataset_interactions": [
+      {
+        "dataset": "btad",
+        "name": "I_TRI",
+        "n_conditions": 8,
+        "bootstrap_mean": -0.00010707283500751433,
+        "ci95_low": -0.0018019886387240854,
+        "ci95_high": 0.001959822483575287,
+        "ci9875_low": -0.0022358873101968506,
+        "ci9875_high": 0.0025092852747466616,
+        "ci9875_excludes_zero": false
+      },
+      {
+        "dataset": "btad",
+        "name": "I_BAL",
+        "n_conditions": 8,
+        "bootstrap_mean": -0.000845401904452638,
+        "ci95_low": -0.0025805993035035975,
+        "ci95_high": 0.0011610001935631307,
+        "ci9875_low": -0.0029648875848164217,
+        "ci9875_high": 0.001769799664439983,
+        "ci9875_excludes_zero": false
+      }
+    ],
+    "report": "BTAD fine-grid intervals now cover all three categories, category 03 on the corrected geometry"
+  }
+}

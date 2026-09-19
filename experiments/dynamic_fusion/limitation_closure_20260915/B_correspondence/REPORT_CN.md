@@ -38,9 +38,13 @@
 4. **OT 计划本身几乎不携带"画布位置对应"信息**：OT 计划的**对角质量中位数 0.000949，而随机基线是 1/P = 0.000977**，即与画布对角的一致度处于偶然水平。这与 B1 审计（MPDD `match_exact` 均值 5.93%、`positional_information` 5.87%）互相印证：跨分支描述子的余弦代价太"平"，OT 解出的软对应基本不是画布对应。
 5. **必须同时说明 OT 变体的性质**：在主规则 ε=0.1·IQR 下，每行最大权重中位数 0.0441（≈20–40 个画布位置的加权平均）。所以 OT 不是"重标号（relabel）"，而是**软混合（会同时平滑 C 支）**。它与 identity / procrustes / shuffled 有一个不可回避的不对称：后三者保持 C 支描述子的多重集不变，OT 软混合会改变它。因此 §6 另报了 **ε→0 硬对应（LAP 精确分配）** 这一"保持多重集"的极限作为对照——结果正是这一对照把翻转归因于软混合而非对应选择。
 
-6. **BTAD（§7）**：补跑了 identity 与 ot_sinkhorn 两个变体（全 3 类，27 min）。
-   BTAD 上两者都**不排除零**（identity I_TRI +0.000013 ✗ / I_BAL −0.000801 ✗；
-   OT I_TRI +0.001151 ✗ / I_BAL +0.001035 ✗），即对应替换**没有改变**该判定。
+6. **BTAD（§7）**：BTAD 上的**四变体**（identity / procrustes / shuffled / ot_sinkhorn）与 **ε∈{0, 0.05, 0.5} 扫描**
+   已在**同一次运行**中一次性补齐（全 3 类，115 min，见 §7.1）。
+   BTAD 上 **identity 本身就不排除零**（I_TRI +0.000013 ✗ / I_BAL −0.000801 ✗），
+   其余变体**也全部不排除零**（procrustes 与 identity 逐值相同；shuffled +0.002338 ✗ / +0.002172 ✗；
+   OT(ε=0.1) +0.001151 ✗ / +0.001035 ✗；OT 硬指派 ε→0 +0.002197 ✗ / +0.001483 ✗）。
+   即：**对应方式的替换没有改变 BTAD 上的判定**——只不过 BTAD 上的判定本来就是"不显著"，
+   所以这是一条一致性证据，**不是**对 MPDD 那个翻转的复现（见 §7.5）。
    口径核对：本 harness 的 identity 在 MPDD 与 BTAD 上都复现了论文 **S（DINOv2-S）分支**的符号与零排除判定
    （BTAD 对照值 +0.00029 ✗ / −0.00052 ✗），因此这里的 BTAD 结论只适用于 S 分支那一档配置。
 
@@ -59,7 +63,8 @@
 | 单 (dataset,seed,K,类别) 的评价与自助 | `evaluate_variant` | 335 |
 | 区间 | `interval` | 373 |
 | VB.2 回归门 | `run_gate` | 382 |
-| 三变体主循环（**本次未改**） | `run_variants` | 767 |
+| 三变体主循环（**本次未改**） | `run_variants` | 871 |
+| BTAD 覆盖（四变体 + ε 网格） | `run_btad` | 704 |
 | 常量：SLOTS / 交互定义 / CI 水平 | — | 61-71 |
 
 支撑模块（本次未改）：
@@ -343,40 +348,86 @@ OT 只改写 C 支的**软混合**，每行最大权重中位 0.044（≈20–40
 
 ## 7. BTAD 覆盖
 
-**结论：本轮补跑了 BTAD 上的 `identity` 与 `ot_sinkhorn` 两个变体（全 3 类、全条件的口径），
-未跑 procrustes / shuffled。** BTAD 上两个变体都**不排除零**，即对应方式的替换**没有改变**该判定。
+**结论：BTAD 上的四个变体与 ε∈{0, 0.05, 0.5} 网格都已补齐（同一次运行），全部不排除零。
+对应方式的替换没有改变 BTAD 上的判定。**
 
-### 7.1 已跑的口径与结果
+### 7.1 本轮实际使用的策略、命令与口径
 
-- 命令：`--mode btad --variants identity ot_sinkhorn --seeds 0 1 --shots 1 4 --replicates 1000 --ot-factor 0.1`
-- 口径：BTAD 类别 {01, 02, 03} × seeds {0,1} × K {1,4} = **12 单元/变体**，共 24 单元；
+- **策略：一次性跑完，不做二次调用。** `run_btad` 每次调用都会**重写**自己的 `*_btad.*` 产物，
+  所以四变体（或四变体 + ε 网格）必须在**同一个进程**里跑完才能并列。本轮即如此：
+
+  ```powershell
+  .venv-anomalyclip\Scripts\python.exe scripts\limitation_closure_20260915\b2_learned_correspondence.py `
+    --mode btad --variants identity procrustes shuffled ot_sinkhorn `
+    --seeds 0 1 --shots 1 4 --replicates 1000 --ot-factor 0.1 --ot-factors 0 0.05 0.5
+  ```
+
+- **备份（跑之前）**：上轮的 identity + ot_sinkhorn 两变体产物已整体复制到
+  `B_correspondence/_backup_btad_2var_20260919/`（`variant_metrics_btad.csv`、`ot_info_btad.csv`、
+  `interaction_by_variant_btad.csv`、`B2_SUMMARY_btad.json`，SHA256 见 §8.4）。
+  因为本轮是"一次性+重写"，备份只用于**逐值复现核对**，不存在"用备份拼接"的操作。
+- 口径：BTAD 类别 {01, 02, 03} × seeds {0,1} × K {1,4} = **12 单元/变体**；
+  本轮共 **96 次单元评价** = 4 个变体（48）+ ε 网格的 4 个因子（48）。
   其余（canonical k8 缓存、参考块前缀截断、`maps_from_patch(8, 4.0)`、`profile_from_blocks`、
   `pooled_ap_auroc`、`replicate_weights`(seed 20260913)、98.75% 族式）与 MPDD 侧**完全同一套**。
-- 实测耗时：**27 min**（11:19:30 → 11:46:34，含 BTAD-03 的 441 张图 / 32×42 网格）。
-  期间主机空闲内存最低到 1.1 GB，**未 OOM**。
-- 产物（均为新文件，MPDD 侧文件未动）：`variant_metrics_btad.csv`、`ot_info_btad.csv`、
-  `interaction_by_variant_btad.csv`、`B2_SUMMARY_btad.json`。
+- 实测耗时 **115.2 min**（13:06:19 → 15:01:34，含 BTAD-03 的 441 张图 / 32×42 网格），**纯 CPU、未用 GPU**。
+  日志：`scripts/limitation_closure_20260915/_btad_4var_eps_20260919.log`（exit 0，无异常）。
+- **"保持默认行为不变"**：`--ot-factors` 为空且不带 `--ot-sensitivity-only` 时，
+  `run_btad` 只跑主变体、只写原有四个 `*_btad.*`，**不产生** `ot_sensitivity_btad.csv`、也不加 JSON 键。
+  新增开关与 `--mode ot` 语义一致：`--ot-sensitivity-only` 只追加网格、不动主产物。
 
-| 变体 | 交互量 | 点估计 | 98.75% 族式区间 | 排除零 |
-|---|---|---|---|---|
-| identity（画布对应） | I_TRI | +0.000013 | [−0.003017, +0.002594] | 否 |
-| identity（画布对应） | I_BAL | −0.000801 | [−0.003170, +0.001643] | 否 |
-| **ot_sinkhorn** | I_TRI | +0.001151 | [−0.002209, +0.005053] | 否 |
-| **ot_sinkhorn** | I_BAL | +0.001035 | [−0.002330, +0.006295] | 否 |
+### 7.2 四变体并列结果
+
+| 变体 | I_TRI 点估计 | I_TRI 98.75% | 排除零 | I_BAL 点估计 | I_BAL 98.75% | 排除零 |
+|---|---|---|---|---|---|---|
+| identity（画布对应） | +0.000013 | [−0.003017, +0.002594] | 否 | −0.000801 | [−0.003170, +0.001643] | 否 |
+| procrustes | +0.000013 | [−0.003017, +0.002594] | 否 | −0.000801 | [−0.003170, +0.001643] | 否 |
+| shuffled（空间置换） | +0.002338 | [−0.001874, +0.005785] | 否 | +0.002172 | [−0.002790, +0.006392] | 否 |
+| ot_sinkhorn（ε=0.1·IQR，软混合） | +0.001151 | [−0.002209, +0.005053] | 否 | +0.001035 | [−0.002330, +0.006295] | 否 |
 
 逐条件（`s0K1, s0K4, s1K1, s1K4`）：
-identity I_TRI `[+0.00110, −0.00306, +0.00262, −0.00060]`、I_BAL `[−0.00013, −0.00320, +0.00168, −0.00155]`；
-ot I_TRI `[+0.00304, −0.00223, +0.00509, −0.00130]`、I_BAL `[+0.00234, −0.00224, +0.00637, −0.00233]`。
 
-OT 诊断（`ot_info_btad.csv`，12 单元）：`eps` 0.00220–0.00401（中位 0.00318），迭代 50–75 次，
-边缘误差 ≤ 3.3e-11（**全部收敛**），`ot_diag_mass` 中位 0.000927（随机基线：01/02 为 1/1024=0.000977、
-03 为 1/1344=0.000744，即仍处偶然水平），`ot_mean_rowmax` 中位 0.0272。
+| 交互量 | 变体 | s0K1 | s0K4 | s1K1 | s1K4 | 宏平均 |
+|---|---|---|---|---|---|---|
+| I_TRI | identity | +0.00110 | −0.00306 | +0.00262 | −0.00060 | +0.000013 |
+| I_TRI | procrustes | +0.00110 | −0.00306 | +0.00262 | −0.00060 | +0.000013 |
+| I_TRI | shuffled | +0.00580 | −0.00192 | +0.00506 | +0.00041 | +0.002338 |
+| I_TRI | ot_sinkhorn | +0.00304 | −0.00223 | +0.00509 | −0.00130 | +0.001151 |
+| I_BAL | identity | −0.00013 | −0.00320 | +0.00168 | −0.00155 | −0.000801 |
+| I_BAL | procrustes | −0.00013 | −0.00320 | +0.00168 | −0.00155 | −0.000801 |
+| I_BAL | shuffled | +0.00642 | −0.00284 | +0.00503 | +0.00008 | +0.002172 |
+| I_BAL | ot_sinkhorn | +0.00234 | −0.00224 | +0.00637 | −0.00233 | +0.001035 |
 
-**判定**：BTAD 上 identity 与 OT 的"排除零"判定一致（都是"否"），点估计在 OT 下由 ≈0 变为略正
-（I_BAL 甚至由 −0.0008 翻到 +0.0010），但两条都远未排除零。
-因此 BTAD 提供的是一条**一致性证据**："换对应方式不改变结论"在此成立——只不过这里的结论本来就是"不显著"。
+要点：
 
-### 7.2 这个 harness 在 BTAD 上给出的 identity 值可信吗（口径核对）
+- **`procrustes ≡ identity`**：宏平均到第 5 位小数相同，96 个单元级值 max\|Δ\| = **3.0e-7**
+  （float32 + 经 `q @ W`（‖W−I‖≈39）旋转的复现下限，与 MPDD 侧的 1.77e-6 同阶）。与已发布结论一致。
+- **`shuffled` 也保持"不排除零"**，但它把点估计从 ≈0 抬到 +0.0023 / +0.0022
+  （逐条件 max\|Δ\| vs identity = **7.8e-2**），是四个变体里离 identity 最远的一个。
+- **`ot_sinkhorn`** 同样不排除零，点估计 +0.0012 / +0.0010。
+- OT 诊断（`ot_info_btad.csv`，12 单元）：`eps` 0.00220–0.00401（中位 0.00318），迭代 50–75 次，
+  边缘误差 ≤ 3.3e-11（**全部收敛**），`ot_diag_mass` 中位 0.000927（随机基线：01/02 为 1/1024=0.000977、
+  03 为 1/1344=0.000744，即仍处偶然水平），`ot_mean_rowmax` 中位 0.0272。
+
+### 7.3 ε 扫描结果（与 MPDD §6 对称）
+
+（来自同一次运行；结果写入新文件 `ot_sensitivity_btad.csv`，并在 `B2_SUMMARY_btad.json` 的
+`ot_sensitivity_added_20260919` 键里留档。整张网格与主表**共用同一份代码路径、同一批条件、同一批自助权重**，
+唯一差别是 `OT_IQR_FACTOR`。）
+
+| `ot_factor` | 对应的 OT 设置 | I_TRI 点估计 | I_TRI 98.75% | 排除零 | I_BAL 点估计 | I_BAL 98.75% | 排除零 |
+|---|---|---|---|---|---|---|---|
+| **0** | **ε→0 硬对应（LAP 指派，保持 C 描述子多重集）** | **+0.002197** | [−0.001718, +0.006972] | **否** | **+0.001483** | [−0.003688, +0.006888] | **否** |
+| 0.05 | ε = 0.05·IQR | +0.001619 | [−0.001579, +0.006286] | 否 | +0.001560 | [−0.001984, +0.007676] | 否 |
+| 0.1（主规则） | ε = 0.1·IQR | +0.001151 | [−0.002209, +0.005053] | 否 | +0.001035 | [−0.002330, +0.006295] | 否 |
+| 0.5 | ε = 0.5·IQR | +0.000612 | [−0.002408, +0.003734] | 否 | +0.000249 | [−0.002676, +0.003396] | 否 |
+
+**读法**：BTAD 上 **ε 的全网格都不排除零**，包括"保持 C 描述子多重集"的 ε→0 硬指派。
+点估计在全部 4 个设置下都为正，但幅度 ≤ +0.0022，比 MPDD 侧（+0.0057 – +0.0091）小 3–4 倍。
+因此 **BTAD 上不存在 MPDD 那种"软混合使区间跨零"的翻转**——原因很简单：
+BTAD 上 identity 本身就没跨出零，没有"可翻转"的显著结论。
+
+### 7.4 这个 harness 在 BTAD 上给出的 identity 值可信吗（口径核对）
 
 B2 的评分路径与论文冻结的 full-pixel 链不是同一条实现，所以先做一致性核对再解读：
 
@@ -394,22 +445,29 @@ B2 的评分路径与论文冻结的 full-pixel 链不是同一条实现，所�
 但**不能**把这里的 BTAD 数字与论文里 D/E1/E2 分支的 BTAD 数字（+0.0063 / +0.0058 / +0.0028）混用——
 那些是**另一档编码器**、另一条评分路径的结果。
 
-### 7.3 还没跑的部分与命令
+### 7.5 判定与仍未做
 
-- **BTAD 的 procrustes / shuffled**：按本轮实测外推约 13–15 min/变体，合计 ≈ 30 min。命令：
-  ```powershell
-  .venv-anomalyclip\Scripts\python.exe scripts\limitation_closure_20260915\b2_learned_correspondence.py `
-    --mode btad --variants procrustes shuffled --seeds 0 1 --shots 1 4 --replicates 1000
-  ```
-  注意：`run_btad` 每次调用会**重写**自己的 `*_btad.*` 产物，所以第二次调用不会与已跑的
-  identity / ot 两行合并；若要四变体并列，需**一次性**用
-  `--variants identity procrustes shuffled ot_sinkhorn` 重跑（全量 ≈ 55–60 min）。
-- **BTAD 的 ε 扫描**：本轮只跑了主规则 ε=0.1·IQR。若要复刻 §6 的对照（ε→0 硬对应），
-  需在 `run_btad` 里加 `--ot-factors` 支持（目前该开关只在 `--mode ot` 下生效），≈ +30 min。
-  鉴于 BTAD 上两个变体都"不排除零"，这一补充的边际信息量不大。
-- **内存**：BTAD-03 单单元峰值（含 `F.interpolate` 与 float64 画布）约 5–8 GB；本机总内存 15.8 GB，
-  在无其他重负载作业时可跑通（本轮实测），**有并发重负载时有 OOM 风险**。
-  运行本报告 §7.1 期间，另一个非本任务的 PatchCore 基线作业（10:25 启动）已结束，空闲内存 6.9 GB。
+**判定（BTAD，与 MPDD 分开写）**：把"画布对应"替换成 procrustes / 空间置换 / OT 硬指派 / OT 软混合，
+BTAD 上的判定**一处都没有改变**——四个变体的 **8 条区间**与 ε 网格的 **8 条区间**全部跨零。
+
+| 层面 | MPDD（§4–§6） | BTAD（§7.2–§7.3） |
+|---|---|---|
+| "交互为正"（方向/量级） | identity / procrustes / shuffled / OT（ε→0、0.05、0.1、0.5）共 7 个设置、14 个点估计**全为正**，+0.0057 – +0.0091 | 4 个变体 + 4 个 ε 全为正，+0.0002 – +0.0023 |
+| "98.75% 区间排除零" | identity / procrustes / shuffled / OT-硬对应 / OT-ε=0.5 排除零；OT-ε∈{0.05, 0.1} **跨零** | **全部跨零**（identity 本身就跨零） |
+| "替换对应方式是否改变判定" | **改变**（仅"软混合"那一档，ε∈{0.05, 0.1}） | **不改变** |
+
+⇒ BTAD 提供的是一条**一致性证据**："换对应方式不改变结论"在此成立——只不过这里的结论本来就是"不显著"。
+它**不能**用来验证或复现 MPDD 的翻转，两者不应混为一谈。
+
+**仍未做 / 未解释**
+
+- BTAD 上 ε 网格的**逐单元诊断没有落盘**：`ot_info_btad.csv` 仍只存主规则 ε=0.1 的 12 个单元。
+  本轮只把网格的数据集级交互写进 `ot_sensitivity_btad.csv` 与 `B2_SUMMARY_btad.json`；
+  网格因子 0 / 0.05 / 0.5 的 `eps` 可由 `factor × IQR` 从 `ot_info_btad.csv` 的 IQR 列直接推出
+  （factor=0 走 `linear_sum_assignment`，`ot_mode = hard_lap_eps0`）。要逐单元诊断需再跑一轮网格。
+- **内存**：BTAD-03 单单元峰值（含 `F.interpolate` 与 float64 画布）约 5–8 GB；本机总内存 15.8 GB。
+  本轮 96 次单元评价在 115.2 min 内跑通、**未 OOM**（启动时空闲 5.07 GB）。**有并发重负载时仍有 OOM 风险**。
+- BTAD 只覆盖 seeds {0,1} × K {1,4}，未扩到更多 seed / K。
 
 ---
 
@@ -423,12 +481,14 @@ B2 的评分路径与论文冻结的 full-pixel 链不是同一条实现，所�
 | `ot_info.csv` | 新建：24 个 OT 单元的 ε / IQR / 迭代数 / 边缘误差 / 对角质量 / 行最大权重 / ‖M−I‖ |
 | `ot_sensitivity.csv` | 新建：ε 网格下的数据集级交互（首轮写 2 行主规则，随后**追加** ε∈{0,0.05,0.5} 的 6 行，共 8 行） |
 | `VB_2_OT_IDENTITY_GATE.json` | 新建：§3.1 三道子门 |
-| `variant_metrics_btad.csv`、`ot_info_btad.csv`、`interaction_by_variant_btad.csv`、`B2_SUMMARY_btad.json` | 新建：§7 的 BTAD 覆盖（identity + ot_sinkhorn，全 3 类） |
+| `variant_metrics_btad.csv`、`ot_info_btad.csv`、`interaction_by_variant_btad.csv`、`B2_SUMMARY_btad.json` | §7 的 BTAD 覆盖。本轮由"identity + ot_sinkhorn 两变体"扩为**四变体**（重写）：`variant_metrics_btad.csv` 192 → 384 行；`interaction_by_variant_btad.csv` 4 → 8 行；`B2_SUMMARY_btad.json` 追加 `ot_sensitivity_added_20260919` 键、`scope.variants` 变为四个；**identity 与 ot_sinkhorn 的既有数值逐位不变**（§8.4） |
+| `ot_sensitivity_btad.csv` | 新建：§7.3 的 BTAD ε 网格（4 个因子 × 2 个交互 = 8 行） |
+| `_backup_btad_2var_20260919/`（4 个文件） | 新建：本轮开跑**之前**的 identity + ot_sinkhorn 两变体产物备份（用途与 SHA256 见 §8.4） |
 | `B2_SUMMARY.json` | **追加**：`VB_4_variants` 增 2 条 `ot_sinkhorn` 记录、新增 `variants` 清单与 `ot_sinkhorn_added_20260919` 键 |
 | `variant_metrics.csv` | **追加**：192 行 `ot_sinkhorn`（表头与既有 576 行未动；行数 385 → 769） |
 | `interaction_by_variant.csv` | **追加**：2 行 `ot_sinkhorn`（既有 6 行未动） |
-| 脚本 `b2_learned_correspondence.py` | 纯追加：新函数 `support_cost_matrix` / `sinkhorn_plan` / `fit_ot_plan` / `mix_positions` / `interaction_rows` / `run_gate_ot` / `run_ot` / `run_btad`；`apply_variant`/`evaluate_variant` 只增带默认值的形参 |
-| `scripts/limitation_closure_20260915/_ot_primary_20260919.log`、`_ot_gate_20260919.log`、`_ot_sensitivity_20260919.log`、`_btad_20260919.log` | 运行日志（证据） |
+| 脚本 `b2_learned_correspondence.py` | 纯追加：新函数 `support_cost_matrix` / `sinkhorn_plan` / `fit_ot_plan` / `mix_positions` / `interaction_rows` / `run_gate_ot` / `run_ot` / `run_btad`；`apply_variant`/`evaluate_variant` 只增带默认值的形参。第二轮再给 `run_btad` 补 `--ot-factors` / `--ot-sensitivity-only`（默认行为不变，见 §7.1 与 §8.4(d)） |
+| `scripts/limitation_closure_20260915/_ot_primary_20260919.log`、`_ot_gate_20260919.log`、`_ot_sensitivity_20260919.log`、`_btad_20260919.log`、`_btad_4var_eps_20260919.log` | 运行日志（证据） |
 
 ### 8.2 逐文件哈希核对（改动前 → 改动后）
 
@@ -440,19 +500,69 @@ B2 的评分路径与论文冻结的 full-pixel 链不是同一条实现，所�
 | `log_variants.txt` | C2E38032…5B841B8AC | 同 | **未动** |
 | `VB_2_IDENTITY_GATE.json` | DEC41881…74DAA4B1AA | 同 | **未动** |
 | `B2_SUMMARY.json` | 9BF5847F…276CB411 | AE062297…ACA7949B2 | 追加（既有条目逐字节保留；主规则一轮 + 敏感性一轮，共 2 次追加） |
-| `variant_metrics.csv` | 71B88EA8…78C657B4 | 0A3E6B82…2FB2D2B4 | 追加 192 行 |
+| `variant_metrics.csv` | 71B88EA8…78C657B4 | 0A3E6B82…1FB2D2B4 | 追加 192 行（本轮复验时发现上一轮本表把该哈希后缀误写成 `…2FB2D2B4`，此处更正；文件本身未被本轮改动，见 §8.4(a)） |
 | `interaction_by_variant.csv` | C8441FE8…2D761A08 | DE84B439…141A69F13 | 追加 2 行 |
 
 ### 8.3 py_compile
 
 `python -m py_compile scripts/limitation_closure_20260915/b2_learned_correspondence.py` → exit 0。
+（本轮为 `run_btad` 补 `--ot-factors` / `--ot-sensitivity-only` 后**又跑了一次** `py_compile` → exit 0。）
+
+### 8.4 本轮（BTAD 四变体 + ε 网格）的核对
+
+**(a) 已发布的 MPDD 产物一个都没动。** 8 个文件在本轮结束后重算 SHA256，与 §8.2 的"改动后"值逐位一致：
+
+| 文件 | SHA256（本轮实测） |
+|---|---|
+| `audit_metrics.csv` | `C242A9D98F57E0A6465008F4666D51A9EFAEFFD331859C4D8839649304A47F41` |
+| `B1_SUMMARY.json` | `4ACBBE2D3A3B105BB47F75AA8BF34FA000B15C375FA734C379CC4C99C29E6E89` |
+| `variant_info.csv` | `8120210A820ECA05850ECDB4F7FECA1CD60C3C1ECF37A59AAB5CC56581E3D819` |
+| `log_variants.txt` | `C2E38032A5D957580E44E5B7BA4E3138E353557E767AA7380F8A7195B841B8AC` |
+| `VB_2_IDENTITY_GATE.json` | `DEC4188181B1E8E35ACE2B67CDEA25C4B757A40D1CC5870C5677EE74DAA4B1AA` |
+| `B2_SUMMARY.json` | `AE062297240695F229EF00D5543C72F47FDA29D5479EEA609535D68ACA7949B2` |
+| `variant_metrics.csv` | `0A3E6B8214E9797CB8E6C8827C7B124719EF653252AE960CD827A4F41FB2D2B4`（769 行，mtime 仍是 10:51:34） |
+| `interaction_by_variant.csv` | `DE84B4394C6AA584AF8712E1F7FABA2B16749BE176DC69DF409397E141A69F13`（mtime 仍是 10:51:34） |
+
+**(b) BTAD 两变体备份（跑之前）**，目录 `_backup_btad_2var_20260919/`：
+
+| 文件 | SHA256 |
+|---|---|
+| `B2_SUMMARY_btad.json` | `89DED73CDC17AA8C5B6B09555EE433883B7E4E94535267FA9A651B55890AF5C9` |
+| `interaction_by_variant_btad.csv` | `8C257B2AFC0D1CC0422DB834D155EF3A04E0A8426F90AC4273BCC1EF0F529B64` |
+| `ot_info_btad.csv` | `69BF813A77851AA6156D968277664A2E4DB6BE66A38F0C828250891513A42B22` |
+| `variant_metrics_btad.csv` | `01007171CAAEB981A2A082C00F8627338FE68902F5D2B02EDD458C21E1E6EE92` |
+
+本轮的 `ot_info_btad.csv` 哈希与备份**完全相同**（`ot_sinkhorn` 在 ε=0.1 的 12 个单元诊断逐字节不变）。
+
+**(c) "逐值复现"证据（口径一致性）。** 把本轮 `variant_metrics_btad.csv` 中 `identity` 与 `ot_sinkhorn`
+的 **192 个 `pixel_ap`** 与备份按 `(variant, seed, shot, category, method)` 对齐，**逐字符串比较，
+差异 0 处**。这说明：(i) 本 harness 是确定性的；(ii) 四变体共用同一批条件、同一套评分链与
+**同一批自助权重**（`replicate_weights` 只依赖 dataset / category / 单元大小，与变体无关），
+即任务要求的口径一致性证据在本轮同样成立。
+
+**(d) 一处记账修正（已改在脚本里，不影响任何数值）。** 首跑的 ε 网格循环把**主规则 0.1** 也算了一遍，
+与主表派生出的 0.1 行重复，使 `ot_sensitivity_btad.csv` 与 JSON 的 `sensitivity` 各多出 2 行（10 行）。
+`run_btad` 现已改为"**网格只有一条代码路径**：主规则因子开网格、其后跟额外因子"，
+因此重跑会直接得到 8 行。落盘产物已把 2 行**逐字段完全相同**的重复行无损去重为 8 行
+（去重脚本先断言两行逐字段相同，再删除），所以**当前文件与修正后代码的输出一致**。
+
+**(e) 本轮产物的 SHA256（当前状态）**
+
+| 文件 | SHA256 |
+|---|---|
+| `variant_metrics_btad.csv`（384 行） | `0815936866738F34C2F1CBC23292CDFD79D195C3B09FC42F104FF5E37688E6C7` |
+| `interaction_by_variant_btad.csv`（8 行） | `3383B7C5FCF36ACEE030FD1A944AE475D62CCE417B766D361DCDD919DD2335EF` |
+| `ot_sensitivity_btad.csv`（8 行） | `98B312D529E49F004F347078725B64BDD98597AE8E1CDBC27B8E8207EF87BA44` |
+| `ot_info_btad.csv`（12 行） | `69BF813A77851AA6156D968277664A2E4DB6BE66A38F0C828250891513A42B22` |
+| `B2_SUMMARY_btad.json` | `9F5F0F2F4B96A2EDC8A26FBE80A3C0100D6EB07E463A456502876F1ECDDB9CCA` |
 
 ---
 
 ## 9. 不确定 / 未做（如实列出）
 
-1. **BTAD 只跑了 identity + ot_sinkhorn 两个变体**（§7）。procrustes / shuffled 与 BTAD 的 ε 扫描未跑，
-   命令与预计耗时已写在 §7.3；另需注意 `run_btad` 会重写自己的产物，四变体并列必须一次性重跑。
+1. **BTAD 已补齐四变体 + ε∈{0, 0.05, 0.5} 网格**（§7），由**同一次运行**产出、耗时 115.2 min。
+   该轮**仍未做**的是：BTAD ε 网格的**逐单元诊断没有落盘**（`ot_info_btad.csv` 仍只存主规则 ε=0.1 的 12 个单元），
+   以及 BTAD 未扩到更多 seed / K（详见 §7.5）。
 2. **OT 软对应跨零的成因已定位到"软混合"，但非单调形态没有机理层解释**：
    扫描结果是 0 → 是、0.05 → 否、0.1 → 否、0.5 → 是（§6.1）。
    我们能给出的是"共享同一成本矩阵的 ε→0 硬对应不翻转"，据此把翻转归因于平滑；

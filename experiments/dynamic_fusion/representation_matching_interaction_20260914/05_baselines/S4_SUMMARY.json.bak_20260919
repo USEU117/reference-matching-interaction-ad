@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-09-14T09:53:20.502309+00:00",
+  "config_audit_rows": 14,
+  "coverage": {
+    "target_conditions": "72",
+    "baseline_rows_matched": "72",
+    "controlled_reference_rows": "72",
+    "duplicate_keys": "0",
+    "missing_keys": "0",
+    "extra_keys": "0",
+    "macro_checks": "16",
+    "macro_checks_verified": "16",
+    "macro_checks_failed": "0",
+    "duplicate_detail": "",
+    "missing_detail": "",
+    "extra_detail": ""
+  },
+  "native_frame_rows": 72,
+  "common_frame_rows": 124,
+  "common_frame_notes": 0,
+  "resource_rows": 49,
+  "frames": {
+    "native": "each method on the frame it natively produces - not comparable across methods without care",
+    "common": "the controlled grid*14 canvas with the S0 ground truth; PatchCore rows are resampled approximations, AnomalyDINO rows are native canvas runs"
+  },
+  "caveats": [
+    "no ranking is claimed between frames",
+    "PatchCore common-frame rows resample the dumped prediction maps instead of re-running PatchCore at canvas resolution",
+    "PatchCore resource rows carry no peak GPU memory because the vendored process does not instrument it",
+    "AnomalyDINO wall clock is not recorded; per-image time is not synchronised GPU time"
+  ],
+  "anomalydino_canvas_rows": 36
+}

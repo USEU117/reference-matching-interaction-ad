@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-09-18T21:37:04.284662+00:00",
+  "created_utc": "2026-09-19T04:22:29.727244+00:00",
   "frozen_before_any_feature_or_result": true,
   "status": "frozen before any E1 feature was encoded",
   "purpose": "post-hoc encoder-transfer extension; the S and D results were already known when this encoder was added, so this is exploratory and must not be reported as a pre-specified confirmation",
@@ -80,24 +80,24 @@
     },
     "seeds": [
       0,
-      1,
-      2
+      1
     ],
     "shots": [
       1,
-      2,
-      4,
-      8
+      4
     ],
-    "units": 144,
+    "units": 48,
     "out_of_scope": [
+      "K2",
+      "K8",
+      "seed 2",
       "any further dataset",
       "any further branch or backbone"
     ]
   },
   "btad_geometry": "the coordinate-correct C re-grid and the image-faithful ground truth (the S0 primary revision); the study revision is kept as a labelled sensitivity row",
   "statistics": {
-    "conditions_per_dataset": "seed {0,1,2} x K {1,2,4,8} = 12",
+    "conditions_per_dataset": "seed {0,1} x K {1,4} = 4",
     "aggregation": "interaction inside each bootstrap replicate, averaged over the conditions, then percentile",
     "rng": "numpy.random.default_rng([20260913, dataset_id, category_id, replicate])",
     "replicates": 1000,
@@ -106,7 +106,7 @@
   },
   "caveats": [
     "the test data has been used before; this is an encoder-transfer check",
-    "seeds 0,1,2 and K 1,2,4,8 in scope",
+    "seeds 0,1 and K 1,4 in scope",
     "the branch was chosen after the S and D results were known"
   ]
 }

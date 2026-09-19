@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "kind": "canonical_k8_cache",
+  "created_utc": "2026-09-17T08:10:01.129380+00:00",
+  "dataset": "visa",
+  "branch": "B",
+  "model": "dinov2_vitb14",
+  "support_manifest": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p0_support\\support_manifest_visa.json",
+  "support_manifest_sha256": "926eedcecadf03b7d099b6ded697a7e3f47bce43fac9e8d4de212f0ceaa6c8ab",
+  "query_reuse_policy": "reuse the fixed historical query block of this branch; encode only the eight support references",
+  "query_shared_across_seeds_from": null,
+  "units": [
+    {
+      "dataset": "visa",
+      "branch": "B",
+      "seed": 0,
+      "category": "candle",
+      "n_references": 8,
+      "references": [
+        "candle/Data/Images/Normal/0345.JPG",
+        "candle/Data/Images/Normal/0661.JPG",
+        "candle/Data/Images/Normal/0789.JPG",
+        "candle/Data/Images/Normal/0517.JPG",
+        "candle/Data/Images/Normal/0970.JPG",
+        "candle/Data/Images/Normal/0977.JPG",
+        "candle/Data/Images/Normal/0706.JPG",
+        "candle/Data/Images/Normal/0369.JPG"
+      ],
+      "output": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\_maskfix_smoke\\B\\visa_s0_k8\\candle.npz",
+      "seed_specific_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\visa_features_vitb14\\s0_k4\\anomalydino_visual",
+      "query_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\dynamic_fusion\\v3_direction_a\\visa_features_vitb14\\s0_k4\\anomalydino_visual",
+      "query_shared_across_seeds": false,
+      "query_shared_source_seed": null,
+      "query_source_sha256": "f7f45fa469add8c8bb7f13e6233519765e618d041f74d4919eea0b51dca11c3b",
+      "query_reused": true,
+      "historical_ref_count": 4,
+      "masks_rebuilt_on_canvas": {
+        "stored_shape": [
+          448,
+          448
+        ],
+        "canonical_shape": [
+          448,
+          490
+        ],
+        "grid": [
+          32,
+          35
+        ],
+        "reason": "the cached masks are not on the canonical canvas grid*MAP_STRIDE (a square resize was stored); they were rebuilt aspect-preservingly from the dataset masks",
+        "n_masks": 200,
+        "n_positive_masks": 100
+      },
+      "reencode_vs_history": [
+        {
+          "index": 0,
+          "reference": "candle/Data/Images/Normal/0345.JPG",
+          "max_abs_diff": 0.00028836727142333984,
+          "min_cosine": 0.9999999999827819
+        },
+        {
+          "index": 1,
+          "reference": "candle/Data/Images/Normal/0661.JPG",
+          "max_abs_diff": 0.0002903938293457031,
+          "min_cosine": 0.9999999999846239
+        },
+        {
+          "index": 2,
+          "reference": "candle/Data/Images/Normal/0789.JPG",
+          "max_abs_diff": 0.00022554397583007812,
+          "min_cosine": 0.9999999999835386
+        },
+        {
+          "index": 3,
+          "reference": "candle/Data/Images/Normal/0517.JPG",
+          "max_abs_diff": 0.0002579689025878906,
+          "min_cosine": 0.9999999999849997
+        }
+      ],
+      "references_reused_from_history": 4,
+      "references_encoded": 4,
+      "reference_grid": [
+        32,
+        35
+      ],
+      "query_grid": [
+        32,
+        35
+      ],
+      "reused_prefix_bitwise_identical": true,
+      "output_sha256": "fd61a73d2ac59cb5420fc805a0a2a0134b054c3cc71fc0abbe65ff1cb312f6a1",
+      "n_query": 200,
+      "seconds": 44.51,
+      "written_utc": "2026-09-17T08:10:01.089420+00:00"
+    }
+  ]
+}

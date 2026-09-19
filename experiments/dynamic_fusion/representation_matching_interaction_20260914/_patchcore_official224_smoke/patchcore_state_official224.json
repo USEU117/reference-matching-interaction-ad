@@ -1,0 +1,107 @@
+{
+  "created_utc": "2026-09-18T11:54:23.166722+00:00",
+  "units": {
+    "mvtec_s0_k1": {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 1,
+      "config": "official224",
+      "categories": [
+        "bottle"
+      ],
+      "view": {
+        "bottle": {
+          "train_count": 1,
+          "test_count": 83,
+          "mask_count": 63,
+          "reference_files": [
+            "043.png"
+          ]
+        }
+      },
+      "run": {
+        "exit_code": 0,
+        "seconds": 39.3,
+        "peak_ram_mb": 5838.2,
+        "peak_ram_source": "Windows job object PeakProcessMemoryUsed (true peak of the child process)",
+        "peak_gpu_mb": null,
+        "peak_gpu_source": "not available: nvidia-smi --query-compute-apps returns N/A on this driver, and a device-wide value would not be this method's peak",
+        "command": "D:\\STUDY\\My_github\\sci_project\\.venv-patchcore\\Scripts\\python.exe bin/run_patchcore.py --gpu 0 --seed 0 --dump_predictions --log_group mvtec_s0_k1 --log_project mvtec_official224 D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224 patch_core -b wideresnet50 -le layer2 -le layer3 --pretrain_embed_dimension 1024 --target_embed_dimension 1024 --anomaly_scorer_num_nn 1 --patchsize 3 --faiss_num_workers 1 sampler -p 0.1 approx_greedy_coreset dataset --resize 256 --imagesize 224 --batch_size 1 --num_workers 0 -d bottle mvtec D:\\STUDY\\My_github\\sci_project\\data\\patchcore_closeout\\mvtec_s0_k1",
+        "predictions": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions"
+      },
+      "batch_size": 1,
+      "iterations": 1,
+      "completed_utc": "2026-09-18T11:57:03.872625+00:00",
+      "evaluation": {
+        "exit_code": 0,
+        "seconds": 12.0,
+        "peak_ram_mb": 1602.8,
+        "peak_ram_source": "Windows job object PeakProcessMemoryUsed (true peak of the child process)",
+        "peak_gpu_mb": null,
+        "peak_gpu_source": "not available: nvidia-smi --query-compute-apps returns N/A on this driver, and a device-wide value would not be this method's peak"
+      },
+      "status": "completed"
+    },
+    "visa_s0_k1": {
+      "dataset": "visa",
+      "seed": 0,
+      "shot": 1,
+      "config": "official224",
+      "categories": [
+        "pipe_fryum"
+      ],
+      "view": {
+        "pipe_fryum": {
+          "train_count": 1,
+          "test_count": 150,
+          "mask_count": 100,
+          "reference_files": [
+            "139.JPG"
+          ]
+        }
+      },
+      "run": {
+        "exit_code": 0,
+        "seconds": 44.1,
+        "peak_ram_mb": 6194.4,
+        "peak_ram_source": "Windows job object PeakProcessMemoryUsed (true peak of the child process)",
+        "peak_gpu_mb": null,
+        "peak_gpu_source": "not available: nvidia-smi --query-compute-apps returns N/A on this driver, and a device-wide value would not be this method's peak",
+        "command": "D:\\STUDY\\My_github\\sci_project\\.venv-patchcore\\Scripts\\python.exe bin/run_patchcore.py --gpu 0 --seed 0 --dump_predictions --log_group visa_s0_k1 --log_project visa_official224 D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224 patch_core -b wideresnet50 -le layer2 -le layer3 --pretrain_embed_dimension 1024 --target_embed_dimension 1024 --anomaly_scorer_num_nn 1 --patchsize 3 --faiss_num_workers 1 sampler -p 0.1 approx_greedy_coreset dataset --resize 256 --imagesize 224 --batch_size 1 --num_workers 0 -d pipe_fryum mvtec D:\\STUDY\\My_github\\sci_project\\data\\patchcore_closeout\\visa_s0_k1",
+        "predictions": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\visa_official224\\visa_s0_k1\\predictions"
+      },
+      "batch_size": 1,
+      "iterations": 1,
+      "completed_utc": "2026-09-18T11:58:40.935429+00:00",
+      "evaluation": {
+        "exit_code": 0,
+        "seconds": 9.9,
+        "peak_ram_mb": 1765.3,
+        "peak_ram_source": "Windows job object PeakProcessMemoryUsed (true peak of the child process)",
+        "peak_gpu_mb": null,
+        "peak_gpu_source": "not available: nvidia-smi --query-compute-apps returns N/A on this driver, and a device-wide value would not be this method's peak"
+      },
+      "status": "completed"
+    }
+  },
+  "btad_layout": {
+    "01": {
+      "train/good": 400,
+      "test/good": 21,
+      "test/ko": 49,
+      "ground_truth/ko": 49
+    },
+    "02": {
+      "train/good": 399,
+      "test/good": 30,
+      "test/ko": 200,
+      "ground_truth/ko": 200
+    },
+    "03": {
+      "train/good": 1000,
+      "test/good": 400,
+      "test/ko": 41,
+      "ground_truth/ko": 41
+    }
+  }
+}

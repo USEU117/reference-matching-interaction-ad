@@ -45,3 +45,31 @@ aws s3 cp --no-sign-request s3://amazon-visual-anomaly/VisA_20220922.tar data/do
 - 3个类别 (类别03使用BMP遮罩, 需特殊处理)
 - 清单: `data/splits/btad/manifest.json` — SHA256 `40696d901a78006c342dce98625dc21221b8ee9f642ebb74b7c3f3ffc5a1d215`
 
+## KolektorSDD2
+
+用于工作流 F 的确认集（单产品、单类别，不是多类别数据集）。
+
+- 官方页面：<https://www.vicos.si/resources/kolektorsdd2/>
+- 下载入口 <https://go.vicos.si/kolektorsdd2> 会 301 到直接地址
+  <https://data.vicos.si/datasets/KSDD/KolektorSDD2.zip>（路径大小写敏感）
+- 许可：CC BY-NC-SA 4.0（非商业使用；商用需联系作者）
+- 归档校验：大小 `853126555` B（与官方 `Content-Length` 逐字节一致），
+  SHA256 `EDCDB486809B24F1D17B785E30C52FAFC5999554DD5FE18DDF77B61CEB6F36A8`
+- 原始目录：`data/kolektorsdd2_raw/`，含 `train/`、`test/`、5 个 `split_weakly_*.pyb`
+- 复核结果（按掩码非空判正/负）：train 246 正 / 2085 负，test 110 正 / 894 负 —— 与官方说明逐项一致
+- 图像尺寸不固定（实测约 206–236 × 615–665），宽高比约 1:2.7，几何/画布处理需按可变尺寸考虑
+- 注意：官方包内自带一对多余副本 `train/10301 (copy).png` 与 `train/10301_GT (copy).png`。
+  后者不以 `_GT.png` 结尾，按后缀匹配做 GT 统计时会把它误计为图像（这正是 train 目录
+  “2333 张图 vs 2331 个 GT” 的原因）；管线需显式排除这两个副本。
+- 下载方式：官方主机单连接仅约 25 KB/s，但聚合带宽随连接数近似线性增长
+  （实测 1 连接 25 KB/s → 4 连接 59 KB/s → 12 连接 244 KB/s → 16 连接 387 KB/s），
+  且连接会在分片传完前被中断，故用可续传的分片脚本：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/fetch_kolektorsdd2.ps1 -Parts 16
+```
+
+  实测 16 分片并行续传约 360–440 KB/s，813 MB 用时约 39 分钟；脚本可重复执行
+  （已完成分片跳过、未完成分片从自身字节偏移续传）。
+
+

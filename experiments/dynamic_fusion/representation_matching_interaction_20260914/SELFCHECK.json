@@ -1,7 +1,10 @@
 {
   "checks": 71,
-  "passed": 71,
-  "failed": [],
+  "passed": 69,
+  "failed": [
+    "S4: the official PatchCore configuration completed every unit",
+    "read-only inputs were not written during this delivery"
+  ],
   "results": [
     {
       "check": "all required artefacts exist",
@@ -195,8 +198,8 @@
     },
     {
       "check": "S4: the official PatchCore configuration completed every unit",
-      "passed": true,
-      "detail": "units=8"
+      "passed": false,
+      "detail": "units=16"
     },
     {
       "check": "S5: five sources verified, none left at abstract level",
@@ -225,8 +228,8 @@
     },
     {
       "check": "read-only inputs were not written during this delivery",
-      "passed": true,
-      "detail": "0 files under R/CLOSE/canonical"
+      "passed": false,
+      "detail": "modified=['outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\export_report_btad_k8.json', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\export_report_mpdd_k8.json', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\btad_s2_k8\\\\01.npz', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\btad_s2_k8\\\\02.npz', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\btad_s2_k8\\\\03.npz']"
     },
     {
       "check": "closure/statistics: the per-K stride-8 column is a seed average, not the last seed",
@@ -271,12 +274,12 @@
     {
       "check": "closure/baseline-region: anomalydino_canvas completed with no failures",
       "passed": true,
-      "detail": "failures=0 maps=36"
+      "detail": "failures=0 maps=115"
     },
     {
       "check": "closure/baseline-region: anomalydino_canvas_rotation completed with no failures",
       "passed": true,
-      "detail": "failures=0 maps=36"
+      "detail": "failures=0 maps=120"
     },
     {
       "check": "closure/baseline-region: the instrumented canvas run has synchronised stage timings",
@@ -286,7 +289,7 @@
     {
       "check": "closure/baseline-cost: PatchCore re-run carries a measured peak RAM per unit",
       "passed": true,
-      "detail": "units=8"
+      "detail": "units=16"
     },
     {
       "check": "closure/baseline-cost: the instrumented re-run reproduces the recorded metrics",
@@ -316,7 +319,7 @@
     {
       "check": "closure/cost: every row states how it was measured",
       "passed": true,
-      "detail": "rows=59"
+      "detail": "rows=75"
     },
     {
       "check": "closure/cost: the remaining gaps are written down, not hidden",

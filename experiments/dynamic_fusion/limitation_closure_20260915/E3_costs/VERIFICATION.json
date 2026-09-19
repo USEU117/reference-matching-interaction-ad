@@ -1,0 +1,45 @@
+{
+  "V3_1_unit_count": {
+    "found": 96,
+    "expected": 96,
+    "pass": true,
+    "detail": {
+      "p1_matrix": 72,
+      "p3_external": 24
+    }
+  },
+  "V3_1_all_invariants_pass": {
+    "n_pass": 96,
+    "n": 96,
+    "pass": true
+  },
+  "V3_1_no_timing_missing": {
+    "n_missing": 0,
+    "pass": true
+  },
+  "V3_2_archive_present": {
+    "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p0_support\\cost_summary.csv",
+    "rows": 8,
+    "present": true
+  },
+  "V3_3_gpu_peaks_recorded": {
+    "n_distinct_peak_records": 2,
+    "pass": true,
+    "peaks": [
+      [
+        "peak_gpu_mb_encoding",
+        417.7
+      ],
+      [
+        "peak_gpu_mb_scoring",
+        417.7
+      ]
+    ]
+  },
+  "V3_3_unavailable": {
+    "per_unit_query_encoder_time_for_A1_historical_matrix": "scoring/loading/metrics are recorded per unit, but the frozen historical matrix did not store per-unit feature-extraction time",
+    "PatchCore_combined_memory_and_scoring_stage": "recorded as one stage; not separable",
+    "PatchCore_per_process_gpu_peak": "not instrumented; device-wide usage is not a substitute",
+    "consequence": "no end-to-end latency or latency-VRAM chart is produced from these records"
+  }
+}

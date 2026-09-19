@@ -32,7 +32,9 @@ Gates
   VB.4  baseline / procrustes / shuffled / ot_sinkhorn are reported side by side
 
 Modes: `gate` (VB.2), `variants` (the three original variants), `gate-ot` (the
-ot_sinkhorn gates) and `ot` (the ot_sinkhorn variant, appended to the tables).
+ot_sinkhorn gates), `ot` (the ot_sinkhorn variant, appended to the MPDD tables)
+and `btad` (the correspondence variants on BTAD, with the same `--ot-factors` /
+`--ot-sensitivity-only` epsilon grid as `ot`).
 """
 
 from __future__ import annotations
@@ -707,46 +709,124 @@ def run_btad(args) -> int:
     Writes only *new*, tagged files - the published MPDD artefacts in
     `B_correspondence/` are never touched.  Cost was the reason B2 stopped at
     MPDD: BTAD-03 is 441 images on a 32x42 grid, ~7x an MPDD unit.
+
+    `--ot-factors` / `--ot-sensitivity-only` mirror the semantics of `--mode ot`
+    on BTAD: the extra epsilon multipliers are evaluated with the same harness
+    and appended to `ot_sensitivity_btad.csv`.  With no extra factors the
+    default behaviour (primary artefacts only) is unchanged.
     """
     out = Path(args.output).resolve()
     out.mkdir(parents=True, exist_ok=True)
     variants = list(args.variants)
     dataset = "btad"
-    rows, infos = [], []
-    for variant in variants:
+    sensitivity_only = bool(args.ot_sensitivity_only)
+    extras = [f for f in args.ot_factors if f != args.ot_factor]
+    if sensitivity_only and not extras:
+        raise RuntimeError("no ot factors selected")
+    want_sensitivity = bool(extras) or sensitivity_only
+    # The pre-registered multiplier opens the grid, so the sensitivity table and
+    # the primary artefacts come out of one code path (as in `--mode ot`).
+    grid_factors = ([args.ot_factor] + extras) if (want_sensitivity and not sensitivity_only) \
+        else list(extras)
+    sens_fields = ["ot_factor", "variant", "dataset", "name", "n_conditions",
+                   "mean_over_conditions", "ci95_low", "ci95_high", "ci9875_low",
+                   "ci9875_high", "ci9875_excludes_zero"]
+    rows, infos, sensitivity, sens_infos = [], [], [], []
+    result = None
+    if not sensitivity_only:
+        for variant in variants:
+            for seed in args.seeds:
+                for shot in args.shots:
+                    for category in CATS[dataset]:
+                        _, points, info = evaluate_variant(
+                            dataset, seed, shot, category, variant, args.replicates,
+                            args.perm_seed, ot_factor=args.ot_factor)
+                        for key, value in points.items():
+                            rows.append({"variant": variant, "dataset": dataset,
+                                         "seed": seed, "shot": shot,
+                                         "category": category, "method": key,
+                                         "pixel_ap": value})
+                        if info:
+                            infos.append({"variant": variant, "seed": seed, "shot": shot,
+                                          "category": category, **info})
+                    print(f"[B2-BTAD] {variant} s{seed} K{shot} {category} done", flush=True)
+        with (out / "variant_metrics_btad.csv").open("w", newline="",
+                                                     encoding="utf-8-sig") as fh:
+            wr = csv.DictWriter(fh, fieldnames=list(rows[0]))
+            wr.writeheader()
+            wr.writerows(rows)
+        ot_infos = [r for r in infos if r["variant"] == "ot_sinkhorn"]
+        if ot_infos:
+            with (out / "ot_info_btad.csv").open("w", newline="", encoding="utf-8-sig") as fh:
+                fields = sorted({k for r in ot_infos for k in r})
+                wr = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+                wr.writeheader()
+                wr.writerows(ot_infos)
+        result = interaction_rows(rows, variants, args, dataset=dataset)
+        with (out / "interaction_by_variant_btad.csv").open("w", newline="",
+                                                            encoding="utf-8-sig") as fh:
+            wr = csv.DictWriter(fh, fieldnames=[k for k in result[0] if k != "per_condition"],
+                                extrasaction="ignore")
+            wr.writeheader()
+            wr.writerows(result)
+    # the epsilon grid is one code path, exactly like `--mode ot`: the
+    # pre-registered multiplier opens it and the extra ones follow
+    for factor in grid_factors:
+        frows = []
         for seed in args.seeds:
             for shot in args.shots:
                 for category in CATS[dataset]:
                     _, points, info = evaluate_variant(
-                        dataset, seed, shot, category, variant, args.replicates,
-                        args.perm_seed, ot_factor=args.ot_factor)
+                        dataset, seed, shot, category, "ot_sinkhorn",
+                        args.replicates, args.perm_seed, ot_factor=factor)
                     for key, value in points.items():
-                        rows.append({"variant": variant, "dataset": dataset, "seed": seed,
-                                     "shot": shot, "category": category, "method": key,
-                                     "pixel_ap": value})
+                        frows.append({"variant": "ot_sinkhorn", "dataset": dataset,
+                                      "seed": seed, "shot": shot, "category": category,
+                                      "method": key, "pixel_ap": value})
                     if info:
-                        infos.append({"variant": variant, "seed": seed, "shot": shot,
-                                      "category": category, **info})
-                print(f"[B2-BTAD] {variant} s{seed} K{shot} {category} done", flush=True)
-    with (out / "variant_metrics_btad.csv").open("w", newline="", encoding="utf-8-sig") as fh:
-        wr = csv.DictWriter(fh, fieldnames=list(rows[0]))
-        wr.writeheader()
-        wr.writerows(rows)
-    ot_infos = [r for r in infos if r["variant"] == "ot_sinkhorn"]
-    if ot_infos:
-        with (out / "ot_info_btad.csv").open("w", newline="", encoding="utf-8-sig") as fh:
-            fields = sorted({k for r in ot_infos for k in r})
-            wr = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
-            wr.writeheader()
-            wr.writerows(ot_infos)
-    result = interaction_rows(rows, variants, args, dataset=dataset)
-    with (out / "interaction_by_variant_btad.csv").open("w", newline="",
-                                                        encoding="utf-8-sig") as fh:
-        wr = csv.DictWriter(fh, fieldnames=[k for k in result[0] if k != "per_condition"],
-                            extrasaction="ignore")
-        wr.writeheader()
-        wr.writerows(result)
-    (out / "B2_SUMMARY_btad.json").write_text(json.dumps({
+                        sens_infos.append({"variant": "ot_sinkhorn", "seed": seed,
+                                           "shot": shot, "category": category,
+                                           "ot_factor": factor, **info})
+                print(f"[B2-BTAD-OT] factor={factor} s{seed} K{shot} {category} done",
+                      flush=True)
+        for r in interaction_rows(frows, ("ot_sinkhorn",), args, dataset=dataset):
+            sensitivity.append({**{k: v for k, v in r.items() if k != "per_condition"},
+                                "ot_factor": factor})
+        del frows
+        gc.collect()
+    if want_sensitivity:
+        sensitivity.sort(key=lambda r: (r["ot_factor"], r["name"]))
+        sens_path = out / "ot_sensitivity_btad.csv"
+        if sensitivity_only:
+            fresh = not sens_path.exists()
+            with sens_path.open("a", newline="", encoding="utf-8-sig") as fh:
+                wr = csv.DictWriter(fh, fieldnames=sens_fields, extrasaction="ignore")
+                if fresh:
+                    wr.writeheader()
+                wr.writerows(sensitivity)
+        else:
+            with sens_path.open("w", newline="", encoding="utf-8-sig") as fh:
+                wr = csv.DictWriter(fh, fieldnames=sens_fields, extrasaction="ignore")
+                wr.writeheader()
+                wr.writerows(sensitivity)
+    summary_path = out / "B2_SUMMARY_btad.json"
+    if sensitivity_only:
+        doc = json.loads(summary_path.read_text(encoding="utf-8")) \
+            if summary_path.exists() else {}
+        block = doc.setdefault("ot_sensitivity_added_20260919", {})
+        block.setdefault("sensitivity", []).extend(sensitivity)
+        block["sensitivity_factors"] = sorted({r["ot_factor"] for r in block["sensitivity"]})
+        block.setdefault("info_samples", []).extend(sens_infos[:6])
+        summary_path.write_text(json.dumps(doc, indent=2, ensure_ascii=False),
+                                encoding="utf-8")
+        print("== ot_sinkhorn sensitivity appended (BTAD) ==")
+        for r in sensitivity:
+            print(f"  factor={r['ot_factor']} {r['name']}: "
+                  f"{r['mean_over_conditions']:+.6f} "
+                  f"98.75%=[{r['ci9875_low']:+.6f}, {r['ci9875_high']:+.6f}] "
+                  f"excl0={r['ci9875_excludes_zero']}")
+        return 0
+    doc = {
         "scope": {"dataset": dataset, "seeds": args.seeds, "shots": args.shots,
                   "categories": CATS[dataset], "variants": variants,
                   "replicates": args.replicates, "bootstrap_seed": 20260913,
@@ -754,13 +834,39 @@ def run_btad(args) -> int:
         "note": "new tagged files only; the published MPDD artefacts are untouched",
         "VB_4_variants": result,
         "variant_info_sample": infos[:6],
-    }, indent=2, ensure_ascii=False), encoding="utf-8")
+    }
+    if want_sensitivity:
+        doc["ot_sensitivity_added_20260919"] = {
+            "scope_consistency": {
+                "note": "identical scope/harness/bootstrap to the BTAD variants "
+                        "above; the only difference is the epsilon multiplier",
+                "seeds": args.seeds, "shots": args.shots,
+                "categories": CATS[dataset], "replicates": args.replicates,
+                "bootstrap_seed": 20260913, "perm_seed": args.perm_seed,
+                "ci_levels": [CI_EXPLORATORY, CI_FAMILY],
+                "bootstrap_key": "[BOOTSTRAP_SEED, DATASET_ID[dataset], "
+                                 "CATEGORY_ID[category], r]",
+            },
+            "primary_ot_factor": args.ot_factor,
+            "sensitivity_factors": sorted({r["ot_factor"] for r in sensitivity}),
+            "sensitivity": sensitivity,
+            "info_samples": sens_infos[:6],
+        }
+    summary_path.write_text(json.dumps(doc, indent=2, ensure_ascii=False),
+                            encoding="utf-8")
     print("== VB.4 interactions by correspondence variant (BTAD) ==")
     for r in result:
         print(f"  {r['variant']:<11} {r['name']}: point(macro over conditions)="
               f"{r['mean_over_conditions']:+.6f} 98.75%="
               f"[{r['ci9875_low']:+.6f}, {r['ci9875_high']:+.6f}] "
               f"excl0={r['ci9875_excludes_zero']}")
+    if want_sensitivity:
+        print("== eps sensitivity (BTAD) ==")
+        for r in sensitivity:
+            print(f"  factor={r['ot_factor']} {r['name']}: "
+                  f"{r['mean_over_conditions']:+.6f} "
+                  f"98.75%=[{r['ci9875_low']:+.6f}, {r['ci9875_high']:+.6f}] "
+                  f"excl0={r['ci9875_excludes_zero']}")
     return 0
 
 
