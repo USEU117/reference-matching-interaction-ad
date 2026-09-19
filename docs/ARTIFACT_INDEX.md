@@ -47,7 +47,7 @@
 | `experiments/dynamic_fusion/freeze/a1_mpdd_w05/freeze_manifest.json`（+ `freeze_verification.json`） | A1 冻结配置清单（**旧主线**，仍有效） | 属 2026-08 主线，别与 09-14 主线混用 |
 | `outputs/dynamic_fusion/generalization_mvtec_visa_20260915/CODE_AMENDMENT.md` | 冻结脚本就地追加改动的记录 | 计划 AD-3 要求 |
 | `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256` | 投稿复现包版本化证据哈希 | 内容未逐一核对（**待确认**其是否覆盖 09-19 新增产物） |
-| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 17 / figures 8 / equations 12 / references 34 |
+| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 18 / figures 8 / equations 12 / references 34 |
 
 ### 2.2 已过期 / 会误导（引用前先看说明）
 

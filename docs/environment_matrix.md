@@ -49,3 +49,48 @@ python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda
 For the current study pipeline the package set that matters is the one read from
 `.venv-anomalyclip`; a top-level list of the third-party packages actually
 imported by `scripts/**` is kept in [`../requirements_repro.txt`](../requirements_repro.txt).
+
+## 4. Known issues
+
+Both items below were re-checked on disk on 2026-09-19 with an import probe.
+
+### 4.1 `.venv-rempad` is a stale duplicate of `.venv-remp_ad`
+
+Two environments with almost the same name exist, and only one of them is used:
+
+| | `.venv-remp_ad` (in use) | `.venv-rempad` (stale) |
+|---|---|---|
+| Referenced by `scripts/**` | **Yes** — `scripts/start_remp_ad_mvtec.ps1` L9 and `scripts/monitor_baselines.ps1` L31 both hardcode `.venv-remp_ad\Scripts\python.exe` | **No** — no script, config or `.ps1` under `scripts/**` resolves this path (repo-wide text search) |
+| torch / CUDA | 2.6.0+cu124, `cuda_available=True` | 2.0.0+cu118, `cuda_available=True` |
+| torchvision | 0.21.0+cu124 | 0.15.1+cu118 |
+| numpy | 2.2.6 | 1.24.4 |
+| matplotlib | installed | **missing** |
+| Disk | ≈ 5.16 GB | ≈ 5.30 GB |
+
+Evidence that `.venv-rempad` is the earlier spelling of the same purpose:
+`build_progress_report.py` L457 records that "the isolated environment
+`.venv-rempad` has been created", and `docs/reproduction_notes.md` L244 records
+that `.venv-rempad` then imported torch 2.0.0+cu118 with numpy pinned to 1.24.4
+— which is exactly the stack now found on disk. The ReMP-AD audit conclusions
+(`docs/remp_ad_adaptclip_audit.md`) were drawn after the cu124 stack was
+installed, and the two runner scripts call `.venv-remp_ad`; therefore
+**`.venv-remp_ad` is the environment the ReMP-AD runs used, and
+`.venv-rempad` is residue that should not be assumed to be it** (the root
+`README.md` already says so). Removing the residue would reclaim ≈ 5.3 GB, but
+it is not removed here: deletion is an author decision, not a correctness fix.
+
+### 4.2 `psutil` is imported but not installed — optional, not a defect
+
+`import psutil` appears in exactly two scripts, both inside a `try/except` with
+a working fallback, and neither path is on the frozen pipeline:
+
+| Script | Line | Behaviour without `psutil` |
+|---|---|---|
+| `scripts/validation_handoff_20260911/e0_preflight.py` | 46–50 | falls back to `os.sysconf(...)` and then to `None` for total RAM |
+| `scripts/validation_handoff_20260911/univad_stage2_eval.py` | 42–45 | falls back to a dependency-free `ctypes`/psapi resident-memory query |
+
+So this is an **optional import, not a defect**: no frozen result depends on it,
+and `requirements_repro.txt` deliberately leaves `psutil` commented out. The
+only visible consequence is that the E1/E4 cost tables report peak RAM as
+"not instrumented", which is recorded honestly rather than filled with zeros
+(`experiments/dynamic_fusion/validation_handoff_20260911/E4/DECISION.md` L42).

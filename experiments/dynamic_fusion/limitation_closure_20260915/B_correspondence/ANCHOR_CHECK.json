@@ -1,0 +1,96 @@
+{
+  "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\S10_SUMMARY.json",
+  "series_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\limitation_closure_20260915\\E1_fullpixel_ci\\replicate_stride8.npz",
+  "scope": {
+    "dataset": "mpdd",
+    "seeds": [
+      0,
+      1
+    ],
+    "shots": [
+      1,
+      4
+    ],
+    "replicates": 1000,
+    "ci_levels": [
+      0.95,
+      0.9875
+    ]
+  },
+  "tolerance": {
+    "offline_same_code": 1e-09,
+    "local_rescored": 1e-06
+  },
+  "offline_from_archived_series": [
+    {
+      "name": "I_TRI",
+      "n_conditions": 4,
+      "ci9875": [
+        0.0019297204077052545,
+        0.011601501404138527
+      ],
+      "series_mean": 0.006948775004053961,
+      "expected_ci9875": [
+        0.0019297204077052686,
+        0.011601501404138527
+      ],
+      "max_abs_diff_expected": 1.4094628242311558e-17,
+      "s10_mean": 0.006948775004053959,
+      "s10_max_abs_diff": 1.4094628242311558e-17
+    },
+    {
+      "name": "I_BAL",
+      "n_conditions": 4,
+      "ci9875": [
+        0.0007827304432808225,
+        0.009617061384832279
+      ],
+      "series_mean": 0.005469553963756353,
+      "expected_ci9875": [
+        0.0007827304845194826,
+        0.00961706136859155
+      ],
+      "max_abs_diff_expected": 4.123866016465111e-11,
+      "s10_mean": 0.00546955397656201,
+      "s10_max_abs_diff": 4.123866016465111e-11
+    }
+  ],
+  "local_from_rebuilt_series": [
+    {
+      "name": "I_TRI",
+      "n_conditions": 4,
+      "mean_over_conditions": 0.007670731682667569,
+      "series_mean": 0.0069487045746398565,
+      "ci9875": [
+        0.0019299627506230742,
+        0.011601715568884027
+      ],
+      "expected_ci9875": [
+        0.0019297204077052686,
+        0.011601501404138527
+      ],
+      "max_abs_diff_expected": 2.4234291780560364e-07,
+      "series_mean_abs_diff": 7.042941410281833e-08
+    },
+    {
+      "name": "I_BAL",
+      "n_conditions": 4,
+      "mean_over_conditions": 0.00546966970189623,
+      "series_mean": 0.005469462698924952,
+      "ci9875": [
+        0.00078299687636747,
+        0.009616926760945393
+      ],
+      "expected_ci9875": [
+        0.0007827304845194826,
+        0.00961706136859155
+      ],
+      "max_abs_diff_expected": 2.663918479873942e-07,
+      "series_mean_abs_diff": 9.127763705811531e-08
+    }
+  ],
+  "local_note": null,
+  "pass_offline": true,
+  "pass_local": true,
+  "pass": true
+}

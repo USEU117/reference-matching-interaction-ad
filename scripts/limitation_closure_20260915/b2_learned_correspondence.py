@@ -32,9 +32,10 @@ Gates
   VB.4  baseline / procrustes / shuffled / ot_sinkhorn are reported side by side
 
 Modes: `gate` (VB.2), `variants` (the three original variants), `gate-ot` (the
-ot_sinkhorn gates), `ot` (the ot_sinkhorn variant, appended to the MPDD tables)
-and `btad` (the correspondence variants on BTAD, with the same `--ot-factors` /
-`--ot-sensitivity-only` epsilon grid as `ot`).
+ot_sinkhorn gates), `ot` (the ot_sinkhorn variant, appended to the MPDD tables),
+`btad` (the correspondence variants on BTAD, with the same `--ot-factors` /
+`--ot-sensitivity-only` epsilon grid as `ot`) and `anchor` (the zero-cost check
+that the interval convention here is the main study's; see SERIES_DIRNAME).
 """
 
 from __future__ import annotations
@@ -58,6 +59,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import engine_v2 as E  # noqa: E402
 from e1_fullpixel_ci import (CATS, pooled_ap_auroc, profile_from_blocks,  # noqa: E402
                              replicate_weights)
+# The interval convention of the main study lives in `e1_fullpixel_ci` and is
+# reused verbatim by `--mode anchor` (see ANCHOR_EXPECTED below); it is the only
+# path whose correctness the published `interaction_aggregate.csv` intervals
+# already certify (V1_3_END_TO_END.json, max|d| = 4.14e-11).
+from e1_fullpixel_ci import _interval as study_interval  # noqa: E402
+from e1_fullpixel_ci import _interaction_series as study_interaction_series  # noqa: E402
 
 BRANCHES = ("B", "S", "C")
 SLOTS = {
@@ -71,6 +78,37 @@ INTERACTIONS = {"I_TRI": ("TRI_L", "DUP_L", "TRI_J", "DUP_J"),
 CHUNK = 1024
 CI_EXPLORATORY = 0.95
 CI_FAMILY = 1.0 - (1.0 - 0.95) / 4
+
+# --- interval convention (fixed 2026-09-19) --------------------------------- #
+# `evaluate_variant` already produced a per-unit image-level bootstrap series and
+# threw it away, keeping only the point value; `interaction_rows` then took
+# percentiles of the four condition *point* values, so the published intervals
+# were effectively the [min, max] of four numbers and never propagated the
+# bootstrap.  The series are now stored per unit (SERIES_DIRNAME) and the
+# intervals are taken from the replicate-wise series exactly as the main study
+# does it.  See `REPORT_CN.md` section 10.
+SERIES_DIRNAME = "series"
+E1_DIR = ROOT / "experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci"
+ANCHOR_SERIES_NPZ = E1_DIR / "replicate_stride8.npz"
+ANCHOR_S10 = (ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
+              / "05_extra_encoders/S10_SUMMARY.json")
+# The canvas rule (= the extra-encoder summary's S branch) over THIS workflow's
+# scope: six MPDD categories twice macro-averaged, seeds 0/1, K 1/4, 1000
+# replicates.  These are the numbers the corrected `interaction_rows` must
+# return for the identity row; they are quoted from S10_SUMMARY.json, which was
+# produced by the independent main-study pipeline.
+ANCHOR_EXPECTED = {
+    "I_TRI": {"mean": 0.006948775004053959,
+              "ci9875": [0.0019297204077052686, 0.011601501404138527]},
+    "I_BAL": {"mean": 0.00546955397656201,
+              "ci9875": [0.0007827304845194826, 0.00961706136859155]},
+}
+ANCHOR_TOL = 1e-9
+# The end-to-end leg re-scores the units through this harness, so it inherits the
+# float32/BLAS reduction-order floor that the VB.2-OT identity-parity gate already
+# sits at (2.25e-08 on point values, tolerance 1e-6).  Percentile interpolation
+# carries that floor into the interval bounds at the same order of magnitude.
+ANCHOR_TOL_E2E = 1e-6
 
 # --- ot_sinkhorn, pre-registered before looking at any interaction value ---- #
 # The cross-branch cosine cost has a large constant offset (raw cosines sit near
@@ -256,13 +294,32 @@ def fit_ot_plan(data: dict, grid: tuple, shot: int, factor: float = OT_IQR_FACTO
 
 
 def mix_positions(x: np.ndarray, m: np.ndarray, patch_count: int, name: str) -> np.ndarray:
-    """Relabel a branch's rows by the soft position correspondence ``m``."""
+    """Relabel a branch's rows by the soft position correspondence ``m``.
+
+    In blocks of ``MIX_CHUNK`` images, as the constant is documented to be for.
+    BTAD-03 has 441 x 1344 query rows and a 1344 x 1344 plan, so the whole
+    product plus the copy inside ``_unit_rows`` asks for ~3.6 GB on top of the
+    input; the first run of the BTAD epsilon grid died there with
+    "Unable to allocate 1.70 GiB".  Only the blocking changes: every output row
+    is the same contraction over canvas positions, and the per-row
+    normalisation is row-independent, so the numbers are unchanged (checked
+    against the stored per-unit values when the fix was introduced).
+    """
     if x.shape[0] % patch_count:
         raise RuntimeError(f"{name}: {x.shape[0]} rows not divisible by {patch_count}")
     n = x.shape[0] // patch_count
-    blocks = x.reshape(n, patch_count, -1).astype(np.float32)
-    mixed = np.einsum("pq,nqd->npd", m, blocks, optimize=True)
-    return E._unit_rows(mixed.reshape(-1, blocks.shape[-1]), name)
+    dim = x.shape[-1]
+    blocks = x.reshape(n, patch_count, dim)
+    mixed = np.empty((n, patch_count, dim), dtype=np.float32)
+    for start in range(0, n, MIX_CHUNK):
+        stop = min(start + MIX_CHUNK, n)
+        part = np.einsum("pq,nqd->npd", m, blocks[start:stop].astype(np.float32),
+                         optimize=True)
+        mixed[start:stop] = E._unit_rows(
+            part.reshape(-1, dim), name).reshape(stop - start, patch_count, dim)
+        del part
+    return mixed.reshape(-1, dim)
+
 
 
 def apply_variant(data: dict, variant: str, grid: tuple, shot: int, perm_seed: int,
@@ -334,9 +391,37 @@ def maps_for_constructions(data: dict, weights_map: dict, chunk: int = CHUNK):
     return joint, l_maps
 
 
+def series_path(series_dir: Path, dataset: str, variant: str, seed: int, shot: int,
+                category: str, ot_factor: float | None = None) -> Path:
+    """One file per evaluated unit; the epsilon multiplier keeps the OT grid apart."""
+    stem = f"{dataset}_{variant}"
+    if ot_factor is not None:
+        stem += f"_f{float(ot_factor):g}"
+    return Path(series_dir) / f"{stem}_s{seed}_k{shot}_{category}.npz"
+
+
+def save_series(path: Path, series: dict) -> Path:
+    """Persist one unit's image-level bootstrap series (key = method name)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(path, **{k: np.asarray(v, dtype=np.float64)
+                                 for k, v in series.items()})
+    return path
+
+
+def load_series(path: Path, keys) -> dict | None:
+    """Load the requested method series, or None if the unit was never stored."""
+    if not path.exists():
+        return None
+    with np.load(path, allow_pickle=False) as z:
+        if not all(k in z.files for k in keys):
+            return None
+        return {k: np.asarray(z[k], dtype=np.float64) for k in keys}
+
+
 def evaluate_variant(dataset: str, seed: int, shot: int, category: str, variant: str,
                      replicates: int, perm_seed: int,
-                     ot_factor: float = OT_IQR_FACTOR, ot_identity: bool = False):
+                     ot_factor: float = OT_IQR_FACTOR, ot_identity: bool = False,
+                     series_dir: Path | None = None):
     from e1_fullpixel_ci import canonical_masks
     masks, grid = canonical_masks(dataset, seed, category)
     n_images = masks.shape[0]
@@ -369,6 +454,10 @@ def evaluate_variant(dataset: str, seed: int, shot: int, category: str, variant:
             del prof, canvas
     del data, transformed, joint, l_maps
     gc.collect()
+    if series_dir is not None:
+        save_series(series_path(series_dir, dataset, variant, seed, shot, category,
+                                ot_factor=(ot_factor if variant == "ot_sinkhorn" else None)),
+                    series)
     return series, points, info
 
 
@@ -379,6 +468,116 @@ def interval(values, level):
         return None
     return (float(v.mean()), float(np.percentile(v, (1 - level) / 2 * 100)),
             float(np.percentile(v, (1 + level) / 2 * 100)))
+
+
+def run_anchor(args) -> int:
+    """Anchor check for the interval convention (zero cost).
+
+    (a) offline: the main study's own `_interaction_series` + `_interval`, applied
+        to the archived canonical stride-8 series over THIS workflow's
+        four-condition scope, must return the S branch of
+        `05_extra_encoders/S10_SUMMARY.json` (an independently produced summary).
+        Nothing is re-evaluated, so this can be run before any long job.
+    (b) on disk: once the identity units here have been re-run with series
+        output, `interaction_series` + `interval` must return the same numbers
+        from the local `series/` directory; that is the end-to-end check of the
+        corrected `interaction_rows`.
+    """
+    out = Path(args.output).resolve()
+    out.mkdir(parents=True, exist_ok=True)
+    expected_mean = {k: v["mean"] for k, v in ANCHOR_EXPECTED.items()}
+    expected_ci = {k: v["ci9875"] for k, v in ANCHOR_EXPECTED.items()}
+
+    # (a) offline re-computation from the archived main-study series
+    offline = []
+    with np.load(ANCHOR_SERIES_NPZ, allow_pickle=False) as arr:
+        s10 = {}
+        if ANCHOR_S10.exists():
+            doc = json.loads(ANCHOR_S10.read_text(encoding="utf-8"))
+            for row in doc.get("table", []):
+                if row.get("encoder") == "S":
+                    s10[(row["dataset"], row["contrast"])] = row
+        for name, spec in INTERACTIONS.items():
+            got = study_interaction_series(arr, "mpdd", args.seeds, args.shots, spec, None)
+            if got is None:
+                raise RuntimeError(f"the archived series do not cover {name} under "
+                                   f"seeds={args.seeds} shots={args.shots}")
+            series, n_cond = got
+            mean, lo, hi = study_interval(series, CI_FAMILY)
+            ref = s10.get(("mpdd", name))
+            offline.append({
+                "name": name, "n_conditions": n_cond,
+                "ci9875": [lo, hi], "series_mean": mean,
+                "expected_ci9875": expected_ci[name],
+                "max_abs_diff_expected": max(abs(lo - expected_ci[name][0]),
+                                             abs(hi - expected_ci[name][1])),
+                "s10_mean": None if ref is None else float(ref["mean"]),
+                "s10_max_abs_diff": None if ref is None else max(
+                    abs(mean - float(ref["mean"])),
+                    abs(lo - float(ref["ci9875"][0])), abs(hi - float(ref["ci9875"][1]))),
+            })
+
+    # (b) the workflow's own series, if the identity units have been re-run
+    local, local_note = [], None
+    metrics_csv = out / "variant_metrics.csv"
+    series_dir = out / SERIES_DIRNAME
+    if metrics_csv.exists() and series_dir.exists():
+        rows = []
+        with metrics_csv.open(encoding="utf-8-sig") as fh:
+            for row in csv.DictReader(fh):
+                if row["variant"] != "identity" or row["dataset"] != "mpdd":
+                    continue
+                rows.append({"variant": "identity", "dataset": "mpdd",
+                             "seed": int(row["seed"]), "shot": int(row["shot"]),
+                             "category": row["category"], "method": row["method"],
+                             "pixel_ap": float(row["pixel_ap"])})
+        if rows:
+            stub = argparse.Namespace(seeds=args.seeds, shots=args.shots,
+                                      output=out, ot_factor=OT_IQR_FACTOR)
+            for r in interaction_rows(rows, ("identity",), stub):
+                local.append({
+                    "name": r["name"], "n_conditions": r["n_conditions"],
+                    "mean_over_conditions": r["mean_over_conditions"],
+                    "series_mean": r["series_mean"],
+                    "ci9875": [r["ci9875_low"], r["ci9875_high"]],
+                    "expected_ci9875": expected_ci[r["name"]],
+                    "max_abs_diff_expected": max(abs(r["ci9875_low"] - expected_ci[r["name"]][0]),
+                                                 abs(r["ci9875_high"] - expected_ci[r["name"]][1])),
+                    "series_mean_abs_diff": abs(r["series_mean"] - expected_mean[r["name"]]),
+                })
+        else:
+            local_note = "variant_metrics.csv holds no identity/mpdd rows"
+    else:
+        local_note = "identity units have not been re-run with series output yet"
+
+    report = {"expected_source": str(ANCHOR_S10), "series_source": str(ANCHOR_SERIES_NPZ),
+              "scope": {"dataset": "mpdd", "seeds": args.seeds, "shots": args.shots,
+                        "replicates": args.replicates, "ci_levels": [CI_EXPLORATORY, CI_FAMILY]},
+              "tolerance": {"offline_same_code": ANCHOR_TOL,
+                            "local_rescored": ANCHOR_TOL_E2E},
+              "offline_from_archived_series": offline,
+              "local_from_rebuilt_series": local, "local_note": local_note}
+    report["pass_offline"] = bool(offline) and all(
+        r["max_abs_diff_expected"] < ANCHOR_TOL for r in offline)
+    report["pass_local"] = bool(local) and all(
+        r["max_abs_diff_expected"] < ANCHOR_TOL_E2E for r in local)
+    report["pass"] = bool(report["pass_offline"] and report["pass_local"])
+    (out / "ANCHOR_CHECK.json").write_text(json.dumps(report, indent=2, ensure_ascii=False),
+                                           encoding="utf-8")
+    print("== interval-convention anchor ==")
+    for r in offline:
+        print(f"  offline {r['name']}: 98.75%=[{r['ci9875'][0]:+.9f}, {r['ci9875'][1]:+.9f}] "
+              f"expected=[{r['expected_ci9875'][0]:+.9f}, {r['expected_ci9875'][1]:+.9f}] "
+              f"max|d|={r['max_abs_diff_expected']:.2e} vs S10={r['s10_max_abs_diff']}")
+    for r in local:
+        print(f"  local   {r['name']}: 98.75%=[{r['ci9875'][0]:+.9f}, {r['ci9875'][1]:+.9f}] "
+              f"expected=[{r['expected_ci9875'][0]:+.9f}, {r['expected_ci9875'][1]:+.9f}] "
+              f"max|d|={r['max_abs_diff_expected']:.2e}")
+    if local_note:
+        print(f"  (b) {local_note}")
+    print(f"== anchor offline={'PASS' if report['pass_offline'] else 'FAIL'} "
+          f"local={'PASS' if report['pass_local'] else 'PENDING'}")
+    return 0 if report["pass_offline"] else 1
 
 
 def run_gate(args) -> int:
@@ -423,11 +622,59 @@ def run_gate(args) -> int:
 # and the bootstrap are the ones the other three variants already use; the only
 # thing that differs is how C's canvas is corresponded to B's.
 # --------------------------------------------------------------------------- #
-def interaction_rows(rows: list, variants, args, dataset: str = "mpdd") -> list:
-    """Dataset-level macro interaction per variant - same recipe as run_variants."""
+def interaction_series(series_dir: Path, dataset: str, variant: str, spec, seeds, shots,
+                       categories, ot_factor: float | None = None):
+    """The interaction as a *bootstrap series*, in the main study's convention.
+
+    For every condition (seed, K) the contrast ``a - b - c + d`` is formed inside
+    each replicate, the replicates are then averaged over the categories of the
+    unit, and the per-condition result is averaged over conditions.  This is
+    exactly `e1_fullpixel_ci._interaction_series` combined with that module's
+    per-replicate category macro, whose correctness the published
+    `interaction_aggregate.csv` intervals certify to 4.14e-11.
+
+    Returns ``(series, n_conditions)`` or ``(None, 0)`` if a unit is missing.
+    """
+    left_l, right_l, left_j, right_j = spec
+    keys = (left_l, right_l, left_j, right_j)
+    pieces = []
+    for seed in seeds:
+        for shot in shots:
+            per_category = []
+            for category in categories:
+                loaded = load_series(series_path(
+                    series_dir, dataset, variant, seed, shot, category,
+                    ot_factor=(ot_factor if variant == "ot_sinkhorn" else None)), keys)
+                if loaded is None:
+                    return None, 0
+                a, b, c, d = (loaded[k] for k in keys)
+                per_category.append(a - b - c + d)
+            with np.errstate(invalid="ignore"):
+                pieces.append(np.nanmean(np.stack(per_category), axis=0))
+    if not pieces:
+        return None, 0
+    return np.mean(np.stack(pieces), axis=0), len(pieces)
+
+
+def interaction_rows(rows: list, variants, args, dataset: str = "mpdd",
+                     ot_factor: float | None = None) -> list:
+    """Dataset-level macro interaction per variant.
+
+    Point column (unchanged semantics): ``mean_over_conditions`` is the mean of
+    the per-condition contrast computed from the point scores.
+
+    Intervals (changed 2026-09-19): the 95% and 98.75% bounds are percentiles of
+    the replicate-wise series from `interaction_series`, i.e. the main study's
+    convention.  The previous implementation took percentiles of the four
+    condition point values, which does not propagate the bootstrap uncertainty
+    and is not what the Table 17 note promises.  `series_mean` is reported for
+    audit only and is not part of any published CSV schema.
+    """
     lookup = {}
     for r in rows:
         lookup[(r["variant"], r["seed"], r["shot"], r["category"], r["method"])] = r["pixel_ap"]
+    series_dir = Path(args.output).resolve() / SERIES_DIRNAME
+    factor = args.ot_factor if ot_factor is None else float(ot_factor)
     result = []
     for variant in variants:
         for name, spec in INTERACTIONS.items():
@@ -441,14 +688,24 @@ def interaction_rows(rows: list, variants, args, dataset: str = "mpdd") -> list:
                             return lookup[(variant, seed, shot, category, m)]
                         per_cat.append(g(left_l) - g(right_l) - g(left_j) + g(right_j))
                     per_condition.append(float(np.mean(per_cat)))
-            stats95 = interval(per_condition, CI_EXPLORATORY)
-            stats9875 = interval(per_condition, CI_FAMILY)
+            series, n_series_conditions = interaction_series(
+                series_dir, dataset, variant, spec, args.seeds, args.shots, CATS[dataset],
+                ot_factor=(factor if variant == "ot_sinkhorn" else None))
+            if series is None or n_series_conditions != len(per_condition):
+                raise RuntimeError(
+                    f"bootstrap series missing for {dataset}/{variant}/{name} under "
+                    f"{series_dir} ({n_series_conditions} conditions vs "
+                    f"{len(per_condition)} point conditions); re-run the variant with "
+                    f"--series output enabled")
+            stats95 = interval(series, CI_EXPLORATORY)
+            stats9875 = interval(series, CI_FAMILY)
             result.append({"variant": variant, "dataset": dataset, "name": name,
                            "n_conditions": len(per_condition),
-                           "mean_over_conditions": stats95[0],
+                           "mean_over_conditions": float(np.mean(per_condition)),
                            "ci95_low": stats95[1], "ci95_high": stats95[2],
                            "ci9875_low": stats9875[1], "ci9875_high": stats9875[2],
                            "ci9875_excludes_zero": bool(stats9875[1] > 0 or stats9875[2] < 0),
+                           "series_mean": stats95[0],
                            "per_condition": per_condition})
     return result
 
@@ -578,6 +835,7 @@ def run_ot(args) -> int:
     if not factors:
         raise RuntimeError("no ot factors selected")
     primary_rows, primary_infos, sensitivity = [], [], []
+    primary_interactions = []
     for factor in factors:
         rows, infos = [], []
         for seed in args.seeds:
@@ -585,7 +843,8 @@ def run_ot(args) -> int:
                 for category in CATS["mpdd"]:
                     _, points, info = evaluate_variant(
                         "mpdd", seed, shot, category, "ot_sinkhorn",
-                        args.replicates, args.perm_seed, ot_factor=factor)
+                        args.replicates, args.perm_seed, ot_factor=factor,
+                        series_dir=out / SERIES_DIRNAME)
                     for key, value in points.items():
                         rows.append({"variant": "ot_sinkhorn", "dataset": "mpdd",
                                      "seed": seed, "shot": shot, "category": category,
@@ -594,11 +853,14 @@ def run_ot(args) -> int:
                     infos.append({"variant": "ot_sinkhorn", "seed": seed, "shot": shot,
                                   "category": category, "ot_factor": factor, **info})
                 print(f"[B2-OT] factor={factor} s{seed} K{shot} {category} done", flush=True)
-        for r in interaction_rows(rows, ("ot_sinkhorn",), args):
+        for r in interaction_rows(rows, ("ot_sinkhorn",), args, ot_factor=factor):
             sensitivity.append({**{k: v for k, v in r.items() if k != "per_condition"},
                                 "ot_factor": factor})
         if factor == args.ot_factor:
             primary_rows, primary_infos = rows, infos
+            # the series of this factor stay on disk only until the next factor
+            # overwrites them, so the primary interactions are taken right here
+            primary_interactions = [r for r in sensitivity if r["ot_factor"] == factor]
 
     summary_path = out / "B2_SUMMARY.json"
     sens_path = out / "ot_sensitivity.csv"
@@ -647,7 +909,8 @@ def run_ot(args) -> int:
                                             "category", "method", "pixel_ap"],
                             extrasaction="ignore")
         wr.writerows(primary_rows)
-    primary_interactions = interaction_rows(primary_rows, ("ot_sinkhorn",), args)
+    if not primary_interactions:
+        raise RuntimeError("primary ot_sinkhorn interactions were not computed")
     with (out / "interaction_by_variant.csv").open("a", newline="", encoding="utf-8-sig") as fh:
         wr = csv.DictWriter(fh, fieldnames=["variant", "dataset", "name", "n_conditions",
                                             "mean_over_conditions", "ci95_low", "ci95_high",
@@ -740,7 +1003,8 @@ def run_btad(args) -> int:
                     for category in CATS[dataset]:
                         _, points, info = evaluate_variant(
                             dataset, seed, shot, category, variant, args.replicates,
-                            args.perm_seed, ot_factor=args.ot_factor)
+                            args.perm_seed, ot_factor=args.ot_factor,
+                            series_dir=out / SERIES_DIRNAME)
                         for key, value in points.items():
                             rows.append({"variant": variant, "dataset": dataset,
                                          "seed": seed, "shot": shot,
@@ -778,7 +1042,8 @@ def run_btad(args) -> int:
                 for category in CATS[dataset]:
                     _, points, info = evaluate_variant(
                         dataset, seed, shot, category, "ot_sinkhorn",
-                        args.replicates, args.perm_seed, ot_factor=factor)
+                        args.replicates, args.perm_seed, ot_factor=factor,
+                        series_dir=out / SERIES_DIRNAME)
                     for key, value in points.items():
                         frows.append({"variant": "ot_sinkhorn", "dataset": dataset,
                                       "seed": seed, "shot": shot, "category": category,
@@ -789,7 +1054,8 @@ def run_btad(args) -> int:
                                            "ot_factor": factor, **info})
                 print(f"[B2-BTAD-OT] factor={factor} s{seed} K{shot} {category} done",
                       flush=True)
-        for r in interaction_rows(frows, ("ot_sinkhorn",), args, dataset=dataset):
+        for r in interaction_rows(frows, ("ot_sinkhorn",), args, dataset=dataset,
+                                  ot_factor=factor):
             sensitivity.append({**{k: v for k, v in r.items() if k != "per_condition"},
                                 "ot_factor": factor})
         del frows
@@ -879,7 +1145,8 @@ def run_variants(args) -> int:
             for shot in args.shots:
                 for category in CATS["mpdd"]:
                     series, points, info = evaluate_variant(
-                        "mpdd", seed, shot, category, variant, args.replicates, args.perm_seed)
+                        "mpdd", seed, shot, category, variant, args.replicates,
+                        args.perm_seed, series_dir=out / SERIES_DIRNAME)
                     for key, value in points.items():
                         rows.append({"variant": variant, "dataset": "mpdd", "seed": seed,
                                      "shot": shot, "category": category, "method": key,
@@ -899,32 +1166,9 @@ def run_variants(args) -> int:
             wr.writeheader()
             wr.writerows(infos)
 
-    # interactions per variant, dataset-level macro over conditions
-    lookup = {}
-    for r in rows:
-        lookup[(r["variant"], r["seed"], r["shot"], r["category"], r["method"])] = r["pixel_ap"]
-    result = []
-    for variant in ("identity", "procrustes", "shuffled"):
-        for name, spec in INTERACTIONS.items():
-            left_l, right_l, left_j, right_j = spec
-            per_condition = []
-            for seed in args.seeds:
-                for shot in args.shots:
-                    per_cat = []
-                    for category in CATS["mpdd"]:
-                        def g(m):
-                            return lookup[(variant, seed, shot, category, m)]
-                        per_cat.append(g(left_l) - g(right_l) - g(left_j) + g(right_j))
-                    per_condition.append(float(np.mean(per_cat)))
-            stats95 = interval(per_condition, CI_EXPLORATORY)
-            stats9875 = interval(per_condition, CI_FAMILY)
-            result.append({"variant": variant, "dataset": "mpdd", "name": name,
-                           "n_conditions": len(per_condition),
-                           "mean_over_conditions": stats95[0],
-                           "ci95_low": stats95[1], "ci95_high": stats95[2],
-                           "ci9875_low": stats9875[1], "ci9875_high": stats9875[2],
-                           "ci9875_excludes_zero": bool(stats9875[1] > 0 or stats9875[2] < 0),
-                           "per_condition": per_condition})
+    # interactions per variant, dataset-level macro over conditions; the
+    # interval convention is the shared one in `interaction_rows`
+    result = interaction_rows(rows, ("identity", "procrustes", "shuffled"), args)
     with (out / "interaction_by_variant.csv").open("w", newline="", encoding="utf-8-sig") as fh:
         wr = csv.DictWriter(fh, fieldnames=[k for k in result[0] if k != "per_condition"],
                             extrasaction="ignore")
@@ -933,6 +1177,8 @@ def run_variants(args) -> int:
     (out / "B2_SUMMARY.json").write_text(json.dumps({
         "scope": {"dataset": "mpdd", "seeds": args.seeds, "shots": args.shots,
                   "categories": CATS["mpdd"]},
+        "interval_convention": "replicate-wise bootstrap series (main-study convention), "
+                               "per-unit series stored under series/",
         "VB_3_label_isolation": "ground-truth arrays are only read after scoring, in "
                                 "evaluate_variant, and are used solely to evaluate the maps",
         "VB_4_variants": result, "variant_info_sample": infos[:6],
@@ -948,7 +1194,7 @@ def run_variants(args) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["gate", "variants", "gate-ot", "ot", "btad"],
+    ap.add_argument("--mode", choices=["gate", "variants", "gate-ot", "ot", "btad", "anchor"],
                     default="gate")
     ap.add_argument("--output", type=Path, default=OUTDIR)
     ap.add_argument("--seeds", nargs="+", type=int, default=[0, 1])
@@ -966,6 +1212,8 @@ def main() -> int:
                     default=["identity", "procrustes", "shuffled", "ot_sinkhorn"],
                     help="variant list for --mode btad")
     args = ap.parse_args()
+    if args.mode == "anchor":
+        return run_anchor(args)
     if args.mode == "gate":
         return run_gate(args)
     if args.mode == "gate-ot":
