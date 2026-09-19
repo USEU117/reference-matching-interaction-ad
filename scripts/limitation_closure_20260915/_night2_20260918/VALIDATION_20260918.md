@@ -1,9 +1,9 @@
 # 2026-09-18 夜间批次验收报告
 
-- 生成时间（UTC）：2026-09-18T23:35:30.660072+00:00
+- 生成时间（UTC）：2026-09-19T00:44:45.059138+00:00
 - 编排器：`scripts/limitation_closure_20260915/night_run_2_20260918.ps1`
 - 状态文件：`scripts\limitation_closure_20260915\_night2_20260918\STATUS.json`
-- 总体结论：**partial**
+- 总体结论：**pass**
 
 ## 一、口径说明（先读）
 
@@ -16,35 +16,55 @@
 
 | 阶段 | 名称 | 状态 | 退出码 | 开始(UTC) | 结束(UTC) | 门禁 | 产物 |
 |---|---|---|---|---|---|---|---|
-| phase_0_statistics | statistics wait + workflow C | skipped_by_request | None | None | 2026-09-18T19:10:54Z | 未跑 |  |
-| phase_1_fast_parity | fast-estimator comparability | skipped_by_request | None | None | 2026-09-18T19:10:54Z | 未跑 |  |
-| phase_2_ksdd2_confirmation | F confirmation set (KolektorSDD2) | skipped_by_request | None | None | 2026-09-18T19:10:54Z | 未跑 |  |
-| phase_3_encoder_krange | E1/E2/E3 K-range extension | gate_failed | 1 | 2026-09-18T19:10:54Z | 2026-09-18T20:17:40Z | FAIL(2) |  |
-| phase_4_baselines_multi | figure-7 extra method columns | gate_failed | 1 | 2026-09-18T20:17:40Z | 2026-09-18T23:34:36Z | FAIL(3) |  |
-| phase_5_figures | figures rebuilt and synced | gate_failed | 0 | 2026-09-18T23:34:36Z | 2026-09-18T23:35:13Z | FAIL(3) | `D:\STUDY\My_github\sci_project\docs\manuscript_reference_matching_20260914\figures` |
-| phase_6_validation | acceptance report + git | running | 0 | 2026-09-18T23:35:13Z | None | 未跑 |  |
+| phase_0_statistics | statistics wait + workflow C | pass_reverified | None | None | 2026-09-18T19:10:54Z | PASS |  |
+| phase_1_fast_parity | fast-estimator comparability | pass_reverified | None | None | 2026-09-18T19:10:54Z | PASS |  |
+| phase_2_ksdd2_confirmation | F confirmation set (KolektorSDD2) | pass_reverified | None | None | 2026-09-18T19:10:54Z | PASS |  |
+| phase_3_encoder_krange | E1/E2/E3 K-range extension | pass_reverified | 1 | 2026-09-18T19:10:54Z | 2026-09-18T20:17:40Z | PASS |  |
+| phase_4_baselines_multi | figure-7 extra method columns | pass_reverified | 1 | 2026-09-18T20:17:40Z | 2026-09-18T23:34:36Z | PASS |  |
+| phase_5_figures | figures rebuilt and synced | pass_reverified | 0 | 2026-09-18T23:34:36Z | 2026-09-18T23:35:13Z | PASS | `D:\STUDY\My_github\sci_project\docs\manuscript_reference_matching_20260914\figures` |
+| phase_6_validation | acceptance report + git | pass | 0 | 2026-09-18T23:35:13Z | 2026-09-18T23:35:31Z | PASS |  |
 | preflight | environment preflight | pass | 0 | 2026-09-18T19:10:54Z | 2026-09-18T19:10:54Z | 未跑 |  |
 
 ## 三、逐项检查（阶段 / 检查项 / 期望 / 实测 / 结果 / 证据）
 
 | 阶段 | 检查项 | 期望 | 实测 | 结果 | 证据 |
 |---|---|---|---|---|---|
-| phase_3_encoder_krange | E1 单元数达到扩展后的预期 | >= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2) | 104 | FAIL | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\E1\units` |
-| phase_3_encoder_krange | E2 单元数达到扩展后的预期 | >= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2) | 104 | FAIL | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\E2\units` |
+| phase_0_statistics | 阶段 0 的条件分析产物目录非空 | >=1 个非空文件 | 8 个文件: defect_size_contrasts.csv, defect_size_effects.csv, defect_size_groups.csv, flip_by_image.csv, leave_one_category_out.csv, per_category_effects.csv, REPO | PASS | `experiments\dynamic_fusion\generalization_mvtec_visa_20260915\p2_conditions` |
+| phase_0_statistics | per_category_effects.csv 有数据行 | >0 行 | 3132 行 | PASS | `experiments\dynamic_fusion\generalization_mvtec_visa_20260915\p2_conditions\per_category_effects.csv` |
+| phase_0_statistics | interaction_generalization.csv 存在且行数 > 0 | >0 行 | 8 行 | PASS | `experiments\dynamic_fusion\generalization_mvtec_visa_20260915\interaction_generalization.csv` |
+| phase_1_fast_parity | 既有快估计器门（fast_parity_gate.py）通过 | pass=True, 阈值 1e-9 | {"pass": true, "max_abs_delta": 1.2212453270876722e-15, "tolerance": null, "n_units_compared": 288, "units_compared": null} | PASS | `scripts\limitation_closure_20260915\_night2_20260918\FAST_ESTIMATOR_PARITY.json` |
+| phase_1_fast_parity | 最大逐副本偏差不超过 1e-9 | <= 1e-9 | 1.2212453270876722e-15 | PASS | `scripts\limitation_closure_20260915\_night2_20260918\FAST_ESTIMATOR_PARITY.json` |
+| phase_1_fast_parity | KSDD2 真单元上的快/慢实现对照通过 | pass=True, R=20, max|delta| <= 1e-12 | {"pass": true, "replicates": 20, "max_abs_delta_arrays": 9.992007221626409e-16, "point_max_abs_delta": 2.220446049250313e-16, "n_units_compared": 3, "units": [" | PASS | `scripts\limitation_closure_20260915\_night2_20260918\FAST_PARITY_KSDD2.json` |
+| phase_1_fast_parity | KSDD2 逐副本最大偏差 <= 1e-12 | <= 1e-12 | 9.992007221626409e-16 | PASS | `scripts\limitation_closure_20260915\_night2_20260918\FAST_PARITY_KSDD2.json` |
+| phase_2_ksdd2_confirmation | canonical B 三份 k8 缓存存在 | 3/3 存在 | 缺 0 个 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\B\ksdd2_s0_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\B\ksdd2_s1_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\B\ksdd2_s2_k8\ksdd2.npz` |
+| phase_2_ksdd2_confirmation | canonical B 形状断言 | patch_features (N,45,16,768), imgs_masks (N,630,224), N=1004 | 全部符合 | PASS | `{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s0_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 768], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s1_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 768], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s2_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 768], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}` |
+| phase_2_ksdd2_confirmation | canonical S 三份 k8 缓存存在 | 3/3 存在 | 缺 0 个 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\S\ksdd2_s0_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\S\ksdd2_s1_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\S\ksdd2_s2_k8\ksdd2.npz` |
+| phase_2_ksdd2_confirmation | canonical S 形状断言 | patch_features (N,45,16,384), imgs_masks (N,630,224), N=1004 | 全部符合 | PASS | `{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s0_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 384], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s1_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 384], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s2_k8\\ksdd2.npz', 'patch_features': [1004, 45, 16, 384], 'imgs_masks': [1004, 630, 224], 'grid_size': [45, 16]}` |
+| phase_2_ksdd2_confirmation | canonical C 三份 k8 缓存存在 | 3/3 存在 | 缺 0 个 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\C\ksdd2_s0_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\C\ksdd2_s1_k8\ksdd2.npz`<br>`experiments\dynamic_fusion\confirmation_ksdd2_20260918\canonical\C\ksdd2_s2_k8\ksdd2.npz` |
+| phase_2_ksdd2_confirmation | canonical C 形状断言 | patch_features (N,37,37,768), imgs_masks (N,518,518), N=1004 | 全部符合 | PASS | `{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s0_k8\\ksdd2.npz', 'patch_features': [1004, 37, 37, 768], 'imgs_masks': [1004, 518, 518], 'grid_size': [37, 37]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s1_k8\\ksdd2.npz', 'patch_features': [1004, 37, 37, 768], 'imgs_masks': [1004, 518, 518], 'grid_size': [37, 37]}`<br>`{'file': 'experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s2_k8\\ksdd2.npz', 'patch_features': [1004, 37, 37, 768], 'imgs_masks': [1004, 518, 518], 'grid_size': [37, 37]}` |
+| phase_2_ksdd2_confirmation | KSDD2 矩阵 12 个单元 DONE.json 齐全 | 12/12 | 12/12 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\p1_matrix` |
+| phase_2_ksdd2_confirmation | bootstrap_samples.npz 键覆盖 12 条件 | 12 条件 x 全部 method x 4 metric（类别维 = 1） | 12/12 条件无缺口; 缺口: 无 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\p1_statistics\bootstrap_samples.npz` |
+| phase_2_ksdd2_confirmation | bootstrap_samples.npz 至少含 ksdd2 键 | >0 | 1248 个键 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\p1_statistics\bootstrap_samples.npz` |
+| phase_2_ksdd2_confirmation | 02_interaction/interaction_by_condition.csv 行数 > 0 | >0 行 | 400 行 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\02_interaction\interaction_by_condition.csv` |
+| phase_2_ksdd2_confirmation | 04_new_encoder/interaction_new_encoder.csv 行数 > 0 | >0 行 | 2 行 | PASS | `experiments\dynamic_fusion\confirmation_ksdd2_20260918\04_new_encoder\interaction_new_encoder.csv` |
+| phase_3_encoder_krange | E1 单元数达到扩展后的预期 | >= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2) | 144 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\E1\units` |
+| phase_3_encoder_krange | E2 单元数达到扩展后的预期 | >= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2) | 144 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\E2\units` |
 | phase_3_encoder_krange | E3 单元数达到扩展后的预期 | >= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2) | 144 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\E3\units` |
 | phase_3_encoder_krange | S10 五编码器表含 5 个编码器 | {'S','D','E1','E2','E3'} | 5 个: S,D,E1,E2,E3 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\S10_SUMMARY.json` |
 | phase_3_encoder_krange | S10 记录的条件数（E 分支已扩展，S/D 仍为研究范围） | E 分支 12，S/D 4（已知口径变化，仅记录） | E=['4'], S=['4'] | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_extra_encoders\encoder_comparison_three.csv` |
-| phase_4_baselines_multi | 05_baselines_multi_dataset 目录有结果文件 | >=4 个文件 | 0 个 | FAIL | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset` |
-| phase_4_baselines_multi | 共同区域表覆盖 4 个数据集 | 含 mpdd,btad,mvtec,visa | 含  | FAIL | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset\baseline_common_region.csv` |
-| phase_4_baselines_multi | S8_SUMMARY.json 存在 | 存在 | False | FAIL | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset\S8_SUMMARY.json` |
+| phase_4_baselines_multi | 05_baselines_multi_dataset 目录有结果文件 | >=4 个文件 | 4 个 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset` |
+| phase_4_baselines_multi | 共同区域表覆盖 4 个数据集 | 含 mpdd,btad,mvtec,visa | 含 btad,mpdd,mvtec,visa | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset\baseline_common_region.csv` |
+| phase_4_baselines_multi | S8_SUMMARY.json 存在 | 存在 | True | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_multi_dataset\S8_SUMMARY.json` |
 | phase_4_baselines_multi | PatchCore official224 单元目录（信息记录） | 记录 | 16 个: btad_s0_k1,btad_s0_k4,btad_s1_k1,btad_s1_k4,mpdd_s0_k1,mpdd_s0_k4,mpdd_s1_k1,mpdd_s1_k4,mvtec_s0_k1,mvtec_s0_k4 | PASS | `experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines\patchcore_official224` |
-| phase_5_figures | qa_layout.py 几何/字号门禁 0 problem | TOTAL PROBLEMS: 0 | 日志中无该行 | FAIL | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
-| phase_5_figures | figure_font_gate.py 下限配置 >= 11 pt | BODY_PT>=11 且 DEFAULT_PT>=11 | 未运行 | FAIL | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
-| phase_5_figures | sync_to_manuscript.py --apply 清单全部成功 | 全部 30 个文件（复制或已一致） | total=None identical=None copied=None | FAIL | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
-| phase_5_figures | 同步文件数与本轮预期一致（仅记录） | 30 | None | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
+| phase_5_figures | qa_layout.py 几何/字号门禁 0 problem | TOTAL PROBLEMS: 0 | TOTAL PROBLEMS: 0 | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
+| phase_5_figures | figure_font_gate.py 下限配置 >= 11 pt | BODY_PT>=11 且 DEFAULT_PT>=11 | [fonts] BODY_PT=11.0 DEFAULT_PT=11.5 floor_ok=True | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
+| phase_5_figures | sync_to_manuscript.py --apply 清单全部成功 | 全部 30 个文件（复制或已一致） | total=50 identical=0 copied=50 | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
+| phase_5_figures | 同步文件数与本轮预期一致（仅记录） | 30 | 50 | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.log` |
 | phase_5_figures | 图件目录有 PNG 产物 | >=7 个 | 25 个 | PASS | `docs\figures_reference_matching_20260914` |
 | phase_5_figures | 阶段 5 stderr 记录（信息性，不作门禁） | 记录 | 0 字符: (empty) | PASS | `scripts\limitation_closure_20260915\_night2_20260918\phase_5_figures.err` |
-| phase_5_figures | build.mjs rewrote the slide figure PNGs in this run | at least 7 PNGs modified after the phase-5 start time | 7 files: fig1_framework.png,fig2_matching.png,fig3_constructions.png,fig4_effects_interaction.png,fig5_budget_category.png,fig8_resources.png,figS1_encoders.png | PASS | `D:\STUDY\My_github\sci_project\docs\figures_reference_matching_20260914` |
+| phase_6_validation | acceptance report JSON written | D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\VALIDATION_20260918.json | present | PASS | `D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\VALIDATION_20260918.json` |
+| phase_6_validation | acceptance report markdown written | D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\VALIDATION_20260918.md | present | PASS | `D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\VALIDATION_20260918.md` |
+| phase_6_validation | git status/diff printed and grouped commits attempted | status + diff captured | branch=main, status_lines=115, commits=4, tag=night-20260918 -> 629ce32 | PASS | `D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\git_status.txt`<br>`D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\_night2_20260918\git_diff_stat.txt` |
 
 ## 四、阶段 0 键完整性（信息性，不阻断）
 
@@ -156,7 +176,8 @@ data/README.md                                     |   28 +
 - `b965bfb` night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check
 - `7175e53` night 2: KolektorSDD2 confirmation set artefacts and frozen spec
 - `dc30a31` night 2: rebuilt figure set and manuscript sync
-- tag：`night-20260918 (planned)`
+- `629ce32` night 2: record the acceptance report and the per-phase gates
+- tag：`night-20260918 -> 629ce32`
 
 ## 七、未决与不确定性
 

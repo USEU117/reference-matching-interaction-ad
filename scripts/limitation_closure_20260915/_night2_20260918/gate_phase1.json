@@ -1,7 +1,7 @@
 {
   "phase": 1,
-  "created_utc": "2026-09-18T17:22:54.584711+00:00",
-  "pass": false,
+  "created_utc": "2026-09-19T00:02:37.211944+00:00",
+  "pass": true,
   "checks": [
     {
       "id": "fast_estimator_parity",
@@ -27,8 +27,8 @@
       "id": "ksdd2_fast_parity",
       "what": "KSDD2 真单元上的快/慢实现对照通过",
       "expected": "pass=True, R=20, max|delta| <= 1e-12",
-      "actual": "{\"pass\": false, \"replicates\": null, \"max_abs_delta_arrays\": null, \"point_max_abs_delta\": null, \"n_units_compared\": 0, \"units\": null}",
-      "pass": false,
+      "actual": "{\"pass\": true, \"replicates\": 20, \"max_abs_delta_arrays\": 9.992007221626409e-16, \"point_max_abs_delta\": 2.220446049250313e-16, \"n_units_compared\": 3, \"units\": [\"ksdd2_s0_k1\", \"ksdd2_s1_k1\", \"ksdd2_s2_k1\"]}",
+      "pass": true,
       "evidence": [
         "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
       ]
@@ -37,12 +37,12 @@
       "id": "ksdd2_fast_parity_tolerance",
       "what": "KSDD2 逐副本最大偏差 <= 1e-12",
       "expected": "<= 1e-12",
-      "actual": null,
-      "pass": false,
+      "actual": 9.992007221626409e-16,
+      "pass": true,
       "evidence": [
         "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
       ]
     }
   ],
-  "n_failed": 2
+  "n_failed": 0
 }

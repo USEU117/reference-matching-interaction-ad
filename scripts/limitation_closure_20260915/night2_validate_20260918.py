@@ -370,7 +370,22 @@ def gate_phase4() -> dict:
 
 # --------------------------------------------------------------------------- phase 5
 def parse_log(path: Path) -> str:
-    return path.read_text(encoding="utf-8", errors="replace") if path.is_file() else ""
+    """Read a phase log, sniffing the encoding.
+
+    The orchestrator redirects native-command output with PowerShell 5.1's `1>>`, which writes
+    UTF-16LE with a BOM.  Reading such a file as UTF-8 yields NUL-interleaved text in which no
+    ASCII marker matches, which is exactly how the phase-5 gate came to report "log line
+    missing" for lines that were present in the log (`TOTAL PROBLEMS: 0`, the font floor line
+    and the sync summary).  Sniff the BOM; fall back to utf-8.
+    """
+    if not path.is_file():
+        return ""
+    raw = path.read_bytes()
+    for bom, encoding in ((b"\xff\xfe", "utf-16"), (b"\xfe\xff", "utf-16"),
+                          (b"\xef\xbb\xbf", "utf-8-sig")):
+        if raw.startswith(bom):
+            return raw.decode(encoding, errors="replace")
+    return raw.decode("utf-8", errors="replace")
 
 
 def gate_phase5(log_dir: Path) -> dict:
@@ -519,13 +534,18 @@ def keys_coverage(npz: Path) -> dict:
 
 # --------------------------------------------------------------------------- report
 def verdict_of(status: dict) -> str:
+    # `pass_reverified` is a phase whose gate was re-run after the blocking issue was fixed and
+    # whose gate JSON now records `pass: true` (the original status stays in the record's
+    # `status_before_reconcile` and the reason in `reconcile_note`).  See
+    # night2_refresh_gate_snapshots.py.
     phases = (status or {}).get("phases") or {}
     if not phases:
         return "unknown"
     bad = [p for p in phases.values() if p.get("status") not in
-           ("pass", "skipped", "skipped_by_request")]
+           ("pass", "pass_reverified", "skipped", "skipped_by_request")]
     return "pass" if not bad else ("partial" if any(
-        p.get("status") in ("pass", "skipped") for p in phases.values()) else "fail")
+        p.get("status") in ("pass", "pass_reverified", "skipped") for p in phases.values())
+        else "fail")
 
 
 def flatten_checks(status: dict) -> list:

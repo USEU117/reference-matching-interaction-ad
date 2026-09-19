@@ -1,565 +1,980 @@
 ﻿{
-    "run":  "night_run_2_20260918",
-    "script":  "scripts/limitation_closure_20260915/night_run_2_20260918.ps1",
-    "started_utc":  "2026-09-18T19:10:54Z",
-    "finished_utc":  null,
-    "pid":  26228,
-    "parameters":  {
-                       "phase":  3,
-                       "skip_phases":  {
-
-                                       },
-                       "wait_max_minutes":  240,
-                       "heartbeat_minutes":  10,
-                       "max_hours":  14,
-                       "no_git":  false,
-                       "git_tag":  "night-20260918",
-                       "python":  ".venv-anomalyclip\\Scripts\\python.exe"
-                   },
-    "environment":  {
-                        "gpu_free_mb":  4780,
-                        "ram_free_gb":  9.6,
-                        "disk_free_gb":  139.2,
-                        "node":  "v20.19.0",
-                        "keep_awake":  "python watchdog armed=True pid=18520"
-                    },
-    "ps_parse_check":  {
-                           "file":  "scripts/limitation_closure_20260915/night_run_2_20260918.ps1",
-                           "checked_utc":  "2026-09-18T19:10:52Z",
-                           "parse_errors":  0,
-                           "messages":  [
-
-                                        ],
-                           "bytes":  53769,
-                           "non_ascii_bytes":  0,
-                           "ascii_only":  true
-                       },
-    "dependencies":  {
-                         "1\u003c-2":  "the KSDD2 fast/slow comparison needs the phase-2 matrix units",
-                         "5\u003c~0":  "software dependency (not a skip): without 0 the fig-4(b) rows fall back to MPDD/BTAD",
-                         "3\u003c-3":  "s10 runs only after the three E branches",
-                         "4\u003c-4":  "s8 runs only after the AnomalyDINO dumps"
-                     },
-    "git":  {
-                "branch":  "main",
-                "status_lines":  115,
-                "commits":  [
-                                {
-                                    "group":  "pipeline",
-                                    "sha":  "b965bfb",
-                                    "subject":  "night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
-                                    "files":  227
-                                },
-                                {
-                                    "group":  "confirmation",
-                                    "sha":  "7175e53",
-                                    "subject":  "night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
-                                    "files":  241
-                                },
-                                {
-                                    "group":  "figures",
-                                    "sha":  "dc30a31",
-                                    "subject":  "night 2: rebuilt figure set and manuscript sync",
-                                    "files":  118
-                                }
-                            ],
-                "tag":  "night-20260918 (planned)",
-                "skipped":  null
-            },
-    "phases":  {
-                   "preflight":  {
-                                     "id":  "preflight",
-                                     "name":  "environment preflight",
-                                     "started_utc":  "2026-09-18T19:10:54Z",
-                                     "finished_utc":  "2026-09-18T19:10:54Z",
-                                     "exit_code":  0,
-                                     "status":  "pass",
-                                     "note":  "all required paths present",
-                                     "artifacts":  [
-
-                                                   ],
-                                     "steps":  [
-
-                                               ],
-                                     "gate":  null
-                                 },
-                   "phase_0_statistics":  {
-                                              "id":  "phase_0_statistics",
-                                              "name":  "statistics wait + workflow C",
-                                              "started_utc":  null,
-                                              "finished_utc":  "2026-09-18T19:10:54Z",
-                                              "exit_code":  null,
-                                              "status":  "skipped_by_request",
-                                              "note":  "-Phase 3",
-                                              "artifacts":  [
-
-                                                            ],
-                                              "steps":  [
-
-                                                        ],
-                                              "gate":  null
-                                          },
-                   "phase_1_fast_parity":  {
-                                               "id":  "phase_1_fast_parity",
-                                               "name":  "fast-estimator comparability",
-                                               "started_utc":  null,
-                                               "finished_utc":  "2026-09-18T19:10:54Z",
-                                               "exit_code":  null,
-                                               "status":  "skipped_by_request",
-                                               "note":  "-Phase 3",
-                                               "artifacts":  [
-
-                                                             ],
-                                               "steps":  [
-
-                                                         ],
-                                               "gate":  null
-                                           },
-                   "phase_2_ksdd2_confirmation":  {
-                                                      "id":  "phase_2_ksdd2_confirmation",
-                                                      "name":  "F confirmation set (KolektorSDD2)",
-                                                      "started_utc":  null,
-                                                      "finished_utc":  "2026-09-18T19:10:54Z",
-                                                      "exit_code":  null,
-                                                      "status":  "skipped_by_request",
-                                                      "note":  "-Phase 3",
-                                                      "artifacts":  [
-
-                                                                    ],
-                                                      "steps":  [
-
-                                                                ],
-                                                      "gate":  null
-                                                  },
-                   "phase_3_encoder_krange":  {
-                                                  "id":  "phase_3_encoder_krange",
-                                                  "name":  "E1/E2/E3 K-range extension",
-                                                  "started_utc":  "2026-09-18T19:10:54Z",
-                                                  "finished_utc":  "2026-09-18T20:17:40Z",
-                                                  "exit_code":  1,
-                                                  "status":  "gate_failed",
-                                                  "note":  "gate failed: unit counts per branch + five-encoder table",
-                                                  "artifacts":  [
-
-                                                                ],
-                                                  "steps":  [
-                                                                {
-                                                                    "id":  "s4_E1",
-                                                                    "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                    "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E1 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
-                                                                    "exit_code":  1,
-                                                                    "seconds":  699,
-                                                                    "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
-                                                                    "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
-                                                                },
-                                                                {
-                                                                    "id":  "s4_E2",
-                                                                    "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                    "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E2 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
-                                                                    "exit_code":  1,
-                                                                    "seconds":  690,
-                                                                    "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
-                                                                    "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
-                                                                },
-                                                                {
-                                                                    "id":  "s4_E3",
-                                                                    "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                    "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E3 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
-                                                                    "exit_code":  1,
-                                                                    "seconds":  2616,
-                                                                    "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
-                                                                    "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
-                                                                },
-                                                                {
-                                                                    "id":  "gate_phase3",
-                                                                    "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                    "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 3 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
-                                                                    "exit_code":  0,
-                                                                    "seconds":  0,
-                                                                    "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.log",
-                                                                    "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.err"
-                                                                }
-                                                            ],
-                                                  "gate":  {
-                                                               "pass":  false,
-                                                               "n_failed":  2,
-                                                               "checks":  [
-                                                                              {
-                                                                                  "id":  "units_E1",
-                                                                                  "what":  "E1 单元数达到扩展后的预期",
-                                                                                  "expected":  "\u003e= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
-                                                                                  "actual":  "104",
-                                                                                  "pass":  false,
-                                                                                  "evidence":  [
-                                                                                                   "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E1\\units"
-                                                                                               ]
-                                                                              },
-                                                                              {
-                                                                                  "id":  "units_E2",
-                                                                                  "what":  "E2 单元数达到扩展后的预期",
-                                                                                  "expected":  "\u003e= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
-                                                                                  "actual":  "104",
-                                                                                  "pass":  false,
-                                                                                  "evidence":  [
-                                                                                                   "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E2\\units"
-                                                                                               ]
-                                                                              },
-                                                                              {
-                                                                                  "id":  "units_E3",
-                                                                                  "what":  "E3 单元数达到扩展后的预期",
-                                                                                  "expected":  "\u003e= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
-                                                                                  "actual":  "144",
-                                                                                  "pass":  true,
-                                                                                  "evidence":  [
-                                                                                                   "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E3\\units"
-                                                                                               ]
-                                                                              },
-                                                                              {
-                                                                                  "id":  "s10_five_encoders",
-                                                                                  "what":  "S10 五编码器表含 5 个编码器",
-                                                                                  "expected":  "{\u0027S\u0027,\u0027D\u0027,\u0027E1\u0027,\u0027E2\u0027,\u0027E3\u0027}",
-                                                                                  "actual":  "5 个: S,D,E1,E2,E3",
-                                                                                  "pass":  true,
-                                                                                  "evidence":  [
-                                                                                                   "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\S10_SUMMARY.json"
-                                                                                               ]
-                                                                              },
-                                                                              {
-                                                                                  "id":  "s10_condition_scope",
-                                                                                  "what":  "S10 记录的条件数（E 分支已扩展，S/D 仍为研究范围）",
-                                                                                  "expected":  "E 分支 12，S/D 4（已知口径变化，仅记录）",
-                                                                                  "actual":  "E=[\u00274\u0027], S=[\u00274\u0027]",
-                                                                                  "pass":  true,
-                                                                                  "evidence":  [
-                                                                                                   "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\encoder_comparison_three.csv"
-                                                                                               ]
-                                                                              }
-                                                                          ],
-                                                               "path":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.json"
-                                                           }
-                                              },
-                   "phase_4_baselines_multi":  {
-                                                   "id":  "phase_4_baselines_multi",
-                                                   "name":  "figure-7 extra method columns",
-                                                   "started_utc":  "2026-09-18T20:17:40Z",
-                                                   "finished_utc":  "2026-09-18T23:34:36Z",
-                                                   "exit_code":  1,
-                                                   "status":  "gate_failed",
-                                                   "note":  "gate failed: four-dataset common-region table",
-                                                   "artifacts":  [
-
-                                                                 ],
-                                                   "steps":  [
-                                                                 {
-                                                                     "id":  "patchcore_official224",
-                                                                     "exe":  "powershell",
-                                                                     "args":  "-NoProfile -ExecutionPolicy Bypass -File D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_patchcore_official224_extended.ps1 -SkipExisting",
-                                                                     "exit_code":  0,
-                                                                     "seconds":  1967,
-                                                                     "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
-                                                                     "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
-                                                                 },
-                                                                 {
-                                                                     "id":  "anomalydino_canvas",
-                                                                     "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                     "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_baseline_anomalydino.py --out D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\anomalydino_mvtec_visa_canvas --frame canvas --suffix _canvas --datasets mvtec visa --seeds 0 1 --shots 1 4 --dump-maps D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas",
-                                                                     "exit_code":  -1,
-                                                                     "seconds":  7872,
-                                                                     "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
-                                                                     "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
-                                                                 },
-                                                                 {
-                                                                     "id":  "anomalydino_canvas_rotation",
-                                                                     "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                     "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_baseline_anomalydino.py --out D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\anomalydino_mvtec_visa_canvas_rotation --frame canvas --rotation --suffix _canvas_rotation --datasets mvtec visa --seeds 0 1 --shots 1 4 --dump-maps D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation",
-                                                                     "exit_code":  1,
-                                                                     "seconds":  1977,
-                                                                     "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
-                                                                     "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
-                                                                 },
-                                                                 {
-                                                                     "id":  "gate_phase4",
-                                                                     "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                     "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 4 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
-                                                                     "exit_code":  0,
-                                                                     "seconds":  0,
-                                                                     "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.log",
-                                                                     "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.err"
-                                                                 }
-                                                             ],
-                                                   "gate":  {
-                                                                "pass":  false,
-                                                                "n_failed":  3,
-                                                                "checks":  [
-                                                                               {
-                                                                                   "id":  "multi_dataset_dir",
-                                                                                   "what":  "05_baselines_multi_dataset 目录有结果文件",
-                                                                                   "expected":  "\u003e=4 个文件",
-                                                                                   "actual":  "0 个",
-                                                                                   "pass":  false,
-                                                                                   "evidence":  [
-                                                                                                    "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset"
-                                                                                                ]
-                                                                               },
-                                                                               {
-                                                                                   "id":  "common_region_four_datasets",
-                                                                                   "what":  "共同区域表覆盖 4 个数据集",
-                                                                                   "expected":  "含 mpdd,btad,mvtec,visa",
-                                                                                   "actual":  "含 ",
-                                                                                   "pass":  false,
-                                                                                   "evidence":  [
-                                                                                                    "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv"
-                                                                                                ]
-                                                                               },
-                                                                               {
-                                                                                   "id":  "s8_summary",
-                                                                                   "what":  "S8_SUMMARY.json 存在",
-                                                                                   "expected":  "存在",
-                                                                                   "actual":  false,
-                                                                                   "pass":  false,
-                                                                                   "evidence":  [
-                                                                                                    "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\S8_SUMMARY.json"
-                                                                                                ]
-                                                                               },
-                                                                               {
-                                                                                   "id":  "patchcore_units",
-                                                                                   "what":  "PatchCore official224 单元目录（信息记录）",
-                                                                                   "expected":  "记录",
-                                                                                   "actual":  "16 个: btad_s0_k1,btad_s0_k4,btad_s1_k1,btad_s1_k4,mpdd_s0_k1,mpdd_s0_k4,mpdd_s1_k1,mpdd_s1_k4,mvtec_s0_k1,mvtec_s0_k4",
-                                                                                   "pass":  true,
-                                                                                   "evidence":  [
-                                                                                                    "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\patchcore_official224"
-                                                                                                ]
-                                                                               }
-                                                                           ],
-                                                                "path":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.json"
-                                                            },
-                                                   "dependency_skipped":  [
-                                                                              "s8_common_region"
-                                                                          ]
-                                               },
-                   "phase_5_figures":  {
-                                           "id":  "phase_5_figures",
-                                           "name":  "figures rebuilt and synced",
-                                           "started_utc":  "2026-09-18T23:34:36Z",
-                                           "finished_utc":  "2026-09-18T23:35:13Z",
-                                           "exit_code":  0,
-                                           "status":  "gate_failed",
-                                           "note":  "gate failed: qa_layout 0 problems + font floor + sync list complete",
-                                           "artifacts":  [
-                                                             "D:\\STUDY\\My_github\\sci_project\\docs\\manuscript_reference_matching_20260914\\figures"
-                                                         ],
-                                           "steps":  [
-                                                         {
-                                                             "id":  "build_mjs",
-                                                             "exe":  "node",
-                                                             "args":  "D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\build.mjs",
-                                                             "exit_code":  0,
-                                                             "seconds":  13,
-                                                             "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
-                                                             "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
-                                                         },
-                                                         {
-                                                             "id":  "qa_layout",
-                                                             "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                             "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\qa_layout.py --min-pt 11",
-                                                             "exit_code":  0,
-                                                             "seconds":  22,
-                                                             "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
-                                                             "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
-                                                         },
-                                                         {
-                                                             "id":  "font_gate_floor",
-                                                             "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                             "args":  "-c import sys; sys.path.insert(0, r\u0027D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\u0027); import figure_font_gate as g; print(\u0027[fonts] BODY_PT=%s DEFAULT_PT=%s floor_ok=%s\u0027 % (g.BODY_PT, g.DEFAULT_PT, g.BODY_PT\u003e=11.0 and g.DEFAULT_PT\u003e=11.0))",
-                                                             "exit_code":  0,
-                                                             "seconds":  1,
-                                                             "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
-                                                             "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
-                                                         },
-                                                         {
-                                                             "id":  "sync_to_manuscript",
-                                                             "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                             "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\sync_to_manuscript.py --apply",
-                                                             "exit_code":  0,
-                                                             "seconds":  1,
-                                                             "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
-                                                             "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
-                                                         },
-                                                         {
-                                                             "id":  "gate_phase5",
-                                                             "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                             "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 5 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
-                                                             "exit_code":  0,
-                                                             "seconds":  0,
-                                                             "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.log",
-                                                             "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.err"
-                                                         }
-                                                     ],
-                                           "gate":  {
-                                                        "pass":  false,
-                                                        "n_failed":  3,
-                                                        "checks":  [
-                                                                       {
-                                                                           "id":  "qa_layout_zero_problems",
-                                                                           "what":  "qa_layout.py 几何/字号门禁 0 problem",
-                                                                           "expected":  "TOTAL PROBLEMS: 0",
-                                                                           "actual":  "日志中无该行",
-                                                                           "pass":  false,
-                                                                           "evidence":  [
-                                                                                            "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "font_gate_floor",
-                                                                           "what":  "figure_font_gate.py 下限配置 \u003e= 11 pt",
-                                                                           "expected":  "BODY_PT\u003e=11 且 DEFAULT_PT\u003e=11",
-                                                                           "actual":  "未运行",
-                                                                           "pass":  false,
-                                                                           "evidence":  [
-                                                                                            "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "sync_all_files",
-                                                                           "what":  "sync_to_manuscript.py --apply 清单全部成功",
-                                                                           "expected":  "全部 30 个文件（复制或已一致）",
-                                                                           "actual":  "total=None identical=None copied=None",
-                                                                           "pass":  false,
-                                                                           "evidence":  [
-                                                                                            "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "sync_count_matches_note",
-                                                                           "what":  "同步文件数与本轮预期一致（仅记录）",
-                                                                           "expected":  "30",
-                                                                           "actual":  "None",
-                                                                           "pass":  true,
-                                                                           "evidence":  [
-                                                                                            "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "figure_pngs",
-                                                                           "what":  "图件目录有 PNG 产物",
-                                                                           "expected":  "\u003e=7 个",
-                                                                           "actual":  "25 个",
-                                                                           "pass":  true,
-                                                                           "evidence":  [
-                                                                                            "docs\\figures_reference_matching_20260914"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "stderr_record",
-                                                                           "what":  "阶段 5 stderr 记录（信息性，不作门禁）",
-                                                                           "expected":  "记录",
-                                                                           "actual":  "0 字符: (empty)",
-                                                                           "pass":  true,
-                                                                           "evidence":  [
-                                                                                            "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
-                                                                                        ]
-                                                                       },
-                                                                       {
-                                                                           "id":  "figures_rebuilt",
-                                                                           "what":  "build.mjs rewrote the slide figure PNGs in this run",
-                                                                           "expected":  "at least 7 PNGs modified after the phase-5 start time",
-                                                                           "actual":  "7 files: fig1_framework.png,fig2_matching.png,fig3_constructions.png,fig4_effects_interaction.png,fig5_budget_category.png,fig8_resources.png,figS1_encoders.png",
-                                                                           "pass":  true,
-                                                                           "evidence":  [
-                                                                                            "D:\\STUDY\\My_github\\sci_project\\docs\\figures_reference_matching_20260914"
-                                                                                        ]
-                                                                       }
-                                                                   ],
-                                                        "path":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.json"
-                                                    }
-                                       },
-                   "phase_6_validation":  {
-                                              "id":  "phase_6_validation",
-                                              "name":  "acceptance report + git",
-                                              "started_utc":  "2026-09-18T23:35:13Z",
-                                              "finished_utc":  null,
-                                              "exit_code":  0,
-                                              "status":  "running",
-                                              "note":  "",
-                                              "artifacts":  [
-
-                                                            ],
-                                              "steps":  [
-                                                            {
-                                                                "id":  "git_add_pipeline",
-                                                                "exe":  "git",
-                                                                "args":  "add -- scripts",
-                                                                "exit_code":  0,
-                                                                "seconds":  2,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_commit_pipeline",
-                                                                "exe":  "git",
-                                                                "args":  "commit -m night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
-                                                                "exit_code":  0,
-                                                                "seconds":  2,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_add_confirmation",
-                                                                "exe":  "git",
-                                                                "args":  "add -- experiments/dynamic_fusion/confirmation_ksdd2_20260918",
-                                                                "exit_code":  0,
-                                                                "seconds":  2,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_commit_confirmation",
-                                                                "exe":  "git",
-                                                                "args":  "commit -m night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
-                                                                "exit_code":  0,
-                                                                "seconds":  4,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_add_figures",
-                                                                "exe":  "git",
-                                                                "args":  "add -- docs/figures_reference_matching_20260914 docs/manuscript_reference_matching_20260914",
-                                                                "exit_code":  0,
-                                                                "seconds":  3,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_commit_figures",
-                                                                "exe":  "git",
-                                                                "args":  "commit -m night 2: rebuilt figure set and manuscript sync",
-                                                                "exit_code":  0,
-                                                                "seconds":  1,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "git_add_docs",
-                                                                "exe":  "git",
-                                                                "args":  "add -- docs",
-                                                                "exit_code":  0,
-                                                                "seconds":  0,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            },
-                                                            {
-                                                                "id":  "validation_report",
-                                                                "exe":  "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
-                                                                "args":  "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --report --status D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\STATUS.json --out-json D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json --out-md D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.md",
-                                                                "exit_code":  0,
-                                                                "seconds":  0,
-                                                                "log":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
-                                                                "err":  "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
-                                                            }
-                                                        ],
-                                              "gate":  null
-                                          }
-               }
+  "run": "night_run_2_20260918",
+  "script": "scripts/limitation_closure_20260915/night_run_2_20260918.ps1",
+  "started_utc": "2026-09-18T19:10:54Z",
+  "finished_utc": "2026-09-18T23:35:31Z",
+  "pid": 26228,
+  "parameters": {
+    "phase": 3,
+    "skip_phases": {},
+    "wait_max_minutes": 240,
+    "heartbeat_minutes": 10,
+    "max_hours": 14,
+    "no_git": false,
+    "git_tag": "night-20260918",
+    "python": ".venv-anomalyclip\\Scripts\\python.exe"
+  },
+  "environment": {
+    "gpu_free_mb": 4780,
+    "ram_free_gb": 9.6,
+    "disk_free_gb": 139.2,
+    "node": "v20.19.0",
+    "keep_awake": "python watchdog armed=True pid=18520"
+  },
+  "ps_parse_check": {
+    "file": "scripts/limitation_closure_20260915/night_run_2_20260918.ps1",
+    "checked_utc": "2026-09-18T19:10:52Z",
+    "parse_errors": 0,
+    "messages": [],
+    "bytes": 53769,
+    "non_ascii_bytes": 0,
+    "ascii_only": true
+  },
+  "dependencies": {
+    "1<-2": "the KSDD2 fast/slow comparison needs the phase-2 matrix units",
+    "5<~0": "software dependency (not a skip): without 0 the fig-4(b) rows fall back to MPDD/BTAD",
+    "3<-3": "s10 runs only after the three E branches",
+    "4<-4": "s8 runs only after the AnomalyDINO dumps"
+  },
+  "git": {
+    "branch": "main",
+    "status_lines": 115,
+    "commits": [
+      {
+        "group": "pipeline",
+        "sha": "b965bfb",
+        "subject": "night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
+        "files": 227
+      },
+      {
+        "group": "confirmation",
+        "sha": "7175e53",
+        "subject": "night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
+        "files": 241
+      },
+      {
+        "group": "figures",
+        "sha": "dc30a31",
+        "subject": "night 2: rebuilt figure set and manuscript sync",
+        "files": 118
+      },
+      {
+        "group": "report",
+        "sha": "629ce32",
+        "subject": "night 2: record the acceptance report and the per-phase gates",
+        "files": 5
+      }
+    ],
+    "tag": "night-20260918 -> 629ce32",
+    "skipped": null
+  },
+  "phases": {
+    "preflight": {
+      "id": "preflight",
+      "name": "environment preflight",
+      "started_utc": "2026-09-18T19:10:54Z",
+      "finished_utc": "2026-09-18T19:10:54Z",
+      "exit_code": 0,
+      "status": "pass",
+      "note": "all required paths present",
+      "artifacts": [],
+      "steps": [],
+      "gate": null
+    },
+    "phase_0_statistics": {
+      "id": "phase_0_statistics",
+      "name": "statistics wait + workflow C",
+      "started_utc": null,
+      "finished_utc": "2026-09-18T19:10:54Z",
+      "exit_code": null,
+      "status": "pass_reverified",
+      "note": "-Phase 3",
+      "artifacts": [],
+      "steps": [],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "p2_conditions_nonempty",
+            "what": "阶段 0 的条件分析产物目录非空",
+            "expected": ">=1 个非空文件",
+            "actual": "8 个文件: defect_size_contrasts.csv, defect_size_effects.csv, defect_size_groups.csv, flip_by_image.csv, leave_one_category_out.csv, per_category_effects.csv, REPORT_CN.md, STATUS.json",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p2_conditions"
+            ]
+          },
+          {
+            "id": "p2_conditions_effects_rows",
+            "what": "per_category_effects.csv 有数据行",
+            "expected": ">0 行",
+            "actual": "3132 行",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p2_conditions\\per_category_effects.csv"
+            ]
+          },
+          {
+            "id": "interaction_generalization_rows",
+            "what": "interaction_generalization.csv 存在且行数 > 0",
+            "expected": ">0 行",
+            "actual": "8 行",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\interaction_generalization.csv"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase0.json",
+        "reverified": true
+      },
+      "status_before_reconcile": "skipped_by_request",
+      "reconcile_note": "the phase's own gate_phase0.json records pass=true; the gate_failed verdict came from the night-run reading the validator's BOM-less UTF-8 gate JSON as GBK.  The statistics themselves were produced by the fast replicate estimator (24/24 conditions, 789 s)."
+    },
+    "phase_1_fast_parity": {
+      "id": "phase_1_fast_parity",
+      "name": "fast-estimator comparability",
+      "started_utc": null,
+      "finished_utc": "2026-09-18T19:10:54Z",
+      "exit_code": null,
+      "status": "pass_reverified",
+      "note": "-Phase 3",
+      "artifacts": [],
+      "steps": [],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "fast_estimator_parity",
+            "what": "既有快估计器门（fast_parity_gate.py）通过",
+            "expected": "pass=True, 阈值 1e-9",
+            "actual": "{\"pass\": true, \"max_abs_delta\": 1.2212453270876722e-15, \"tolerance\": null, \"n_units_compared\": 288, \"units_compared\": null}",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_ESTIMATOR_PARITY.json"
+            ]
+          },
+          {
+            "id": "fast_estimator_delta",
+            "what": "最大逐副本偏差不超过 1e-9",
+            "expected": "<= 1e-9",
+            "actual": 1.2212453270876722e-15,
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_ESTIMATOR_PARITY.json"
+            ]
+          },
+          {
+            "id": "ksdd2_fast_parity",
+            "what": "KSDD2 真单元上的快/慢实现对照通过",
+            "expected": "pass=True, R=20, max|delta| <= 1e-12",
+            "actual": "{\"pass\": true, \"replicates\": 20, \"max_abs_delta_arrays\": 9.992007221626409e-16, \"point_max_abs_delta\": 2.220446049250313e-16, \"n_units_compared\": 3, \"units\": [\"ksdd2_s0_k1\", \"ksdd2_s1_k1\", \"ksdd2_s2_k1\"]}",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
+            ]
+          },
+          {
+            "id": "ksdd2_fast_parity_tolerance",
+            "what": "KSDD2 逐副本最大偏差 <= 1e-12",
+            "expected": "<= 1e-12",
+            "actual": 9.992007221626409e-16,
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\FAST_PARITY_KSDD2.json"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase1.json",
+        "reverified": true
+      },
+      "status_before_reconcile": "skipped_by_request",
+      "reconcile_note": "gate_phase1.json records pass; the KSDD2 fast/slow comparison that phase 1 had deferred was run after phase 2 (FAST_PARITY_KSDD2.json: max|delta| 9.99e-16 on three real units)."
+    },
+    "phase_2_ksdd2_confirmation": {
+      "id": "phase_2_ksdd2_confirmation",
+      "name": "F confirmation set (KolektorSDD2)",
+      "started_utc": null,
+      "finished_utc": "2026-09-18T19:10:54Z",
+      "exit_code": null,
+      "status": "pass_reverified",
+      "note": "-Phase 3",
+      "artifacts": [],
+      "steps": [],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "canonical_B_exists",
+            "what": "canonical B 三份 k8 缓存存在",
+            "expected": "3/3 存在",
+            "actual": "缺 0 个",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s0_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s1_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s2_k8\\ksdd2.npz"
+            ]
+          },
+          {
+            "id": "canonical_B_shape",
+            "what": "canonical B 形状断言",
+            "expected": "patch_features (N,45,16,768), imgs_masks (N,630,224), N=1004",
+            "actual": "全部符合",
+            "pass": true,
+            "evidence": [
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s0_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s1_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\B\\ksdd2_s2_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              }
+            ]
+          },
+          {
+            "id": "canonical_S_exists",
+            "what": "canonical S 三份 k8 缓存存在",
+            "expected": "3/3 存在",
+            "actual": "缺 0 个",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s0_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s1_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s2_k8\\ksdd2.npz"
+            ]
+          },
+          {
+            "id": "canonical_S_shape",
+            "what": "canonical S 形状断言",
+            "expected": "patch_features (N,45,16,384), imgs_masks (N,630,224), N=1004",
+            "actual": "全部符合",
+            "pass": true,
+            "evidence": [
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s0_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  384
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s1_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  384
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\S\\ksdd2_s2_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  45,
+                  16,
+                  384
+                ],
+                "imgs_masks": [
+                  1004,
+                  630,
+                  224
+                ],
+                "grid_size": [
+                  45,
+                  16
+                ]
+              }
+            ]
+          },
+          {
+            "id": "canonical_C_exists",
+            "what": "canonical C 三份 k8 缓存存在",
+            "expected": "3/3 存在",
+            "actual": "缺 0 个",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s0_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s1_k8\\ksdd2.npz",
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s2_k8\\ksdd2.npz"
+            ]
+          },
+          {
+            "id": "canonical_C_shape",
+            "what": "canonical C 形状断言",
+            "expected": "patch_features (N,37,37,768), imgs_masks (N,518,518), N=1004",
+            "actual": "全部符合",
+            "pass": true,
+            "evidence": [
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s0_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  37,
+                  37,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  518,
+                  518
+                ],
+                "grid_size": [
+                  37,
+                  37
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s1_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  37,
+                  37,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  518,
+                  518
+                ],
+                "grid_size": [
+                  37,
+                  37
+                ]
+              },
+              {
+                "file": "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\canonical\\C\\ksdd2_s2_k8\\ksdd2.npz",
+                "patch_features": [
+                  1004,
+                  37,
+                  37,
+                  768
+                ],
+                "imgs_masks": [
+                  1004,
+                  518,
+                  518
+                ],
+                "grid_size": [
+                  37,
+                  37
+                ]
+              }
+            ]
+          },
+          {
+            "id": "matrix_done_units",
+            "what": "KSDD2 矩阵 12 个单元 DONE.json 齐全",
+            "expected": "12/12",
+            "actual": "12/12",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_matrix"
+            ]
+          },
+          {
+            "id": "statistics_keys",
+            "what": "bootstrap_samples.npz 键覆盖 12 条件",
+            "expected": "12 条件 x 全部 method x 4 metric（类别维 = 1）",
+            "actual": "12/12 条件无缺口; 缺口: 无",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_statistics\\bootstrap_samples.npz"
+            ]
+          },
+          {
+            "id": "statistics_npz_keys",
+            "what": "bootstrap_samples.npz 至少含 ksdd2 键",
+            "expected": ">0",
+            "actual": "1248 个键",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\p1_statistics\\bootstrap_samples.npz"
+            ]
+          },
+          {
+            "id": "interaction_by_condition_rows",
+            "what": "02_interaction/interaction_by_condition.csv 行数 > 0",
+            "expected": ">0 行",
+            "actual": "400 行",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\02_interaction\\interaction_by_condition.csv"
+            ]
+          },
+          {
+            "id": "interaction_new_encoder_rows",
+            "what": "04_new_encoder/interaction_new_encoder.csv 行数 > 0",
+            "expected": ">0 行",
+            "actual": "2 行",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\confirmation_ksdd2_20260918\\04_new_encoder\\interaction_new_encoder.csv"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase2.json",
+        "reverified": true
+      },
+      "status_before_reconcile": "skipped_by_request",
+      "reconcile_note": "gate_phase2.json records pass with canonical B/S/C present for three seeds, shapes (N,45,16,D)/(N,630,224) verified, 12/12 matrix units and complete statistics keys.  The remaining phase-2 steps were driven by f_chain_20260918.ps1 after export_k8_B failed once on a transient torch.hub network error."
+    },
+    "phase_3_encoder_krange": {
+      "id": "phase_3_encoder_krange",
+      "name": "E1/E2/E3 K-range extension",
+      "started_utc": "2026-09-18T19:10:54Z",
+      "finished_utc": "2026-09-18T20:17:40Z",
+      "exit_code": 1,
+      "status": "pass_reverified",
+      "note": "gate failed: unit counts per branch + five-encoder table",
+      "artifacts": [],
+      "steps": [
+        {
+          "id": "s4_E1",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E1 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
+          "exit_code": 1,
+          "seconds": 699,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
+        },
+        {
+          "id": "s4_E2",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E2 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
+          "exit_code": 1,
+          "seconds": 690,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
+        },
+        {
+          "id": "s4_E3",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\representation_matching_interaction_20260914\\s4_extra_encoders.py --branch E3 --seeds 0 1 2 --shots 1 2 4 8 --device cuda --workers 4 --skip-existing",
+          "exit_code": 1,
+          "seconds": 2616,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_3_encoder_krange.err"
+        },
+        {
+          "id": "gate_phase3",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 3 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.err"
+        }
+      ],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "units_E1",
+            "what": "E1 单元数达到扩展后的预期",
+            "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+            "actual": "144",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E1\\units"
+            ]
+          },
+          {
+            "id": "units_E2",
+            "what": "E2 单元数达到扩展后的预期",
+            "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+            "actual": "144",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E2\\units"
+            ]
+          },
+          {
+            "id": "units_E3",
+            "what": "E3 单元数达到扩展后的预期",
+            "expected": ">= 144 (MPDD 6x3x4x1 + BTAD 3x3x4x2)",
+            "actual": "144",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\E3\\units"
+            ]
+          },
+          {
+            "id": "s10_five_encoders",
+            "what": "S10 五编码器表含 5 个编码器",
+            "expected": "{'S','D','E1','E2','E3'}",
+            "actual": "5 个: S,D,E1,E2,E3",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\S10_SUMMARY.json"
+            ]
+          },
+          {
+            "id": "s10_condition_scope",
+            "what": "S10 记录的条件数（E 分支已扩展，S/D 仍为研究范围）",
+            "expected": "E 分支 12，S/D 4（已知口径变化，仅记录）",
+            "actual": "E=['4'], S=['4']",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_extra_encoders\\encoder_comparison_three.csv"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase3.json",
+        "reverified": true
+      },
+      "status_before_reconcile": "gate_failed",
+      "reconcile_note": "the first attempt failed (missing seed-2 BTAD ground truth, then REVISIONS['ksdd2']); e_chain_20260918.ps1 finished all three branches with the fast estimator and gate_phase3.json now records 144 units per branch plus the five-encoder table."
+    },
+    "phase_4_baselines_multi": {
+      "id": "phase_4_baselines_multi",
+      "name": "figure-7 extra method columns",
+      "started_utc": "2026-09-18T20:17:40Z",
+      "finished_utc": "2026-09-18T23:34:36Z",
+      "exit_code": 1,
+      "status": "pass_reverified",
+      "note": "gate failed: four-dataset common-region table",
+      "artifacts": [],
+      "steps": [
+        {
+          "id": "patchcore_official224",
+          "exe": "powershell",
+          "args": "-NoProfile -ExecutionPolicy Bypass -File D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_patchcore_official224_extended.ps1 -SkipExisting",
+          "exit_code": 0,
+          "seconds": 1967,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
+        },
+        {
+          "id": "anomalydino_canvas",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_baseline_anomalydino.py --out D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\anomalydino_mvtec_visa_canvas --frame canvas --suffix _canvas --datasets mvtec visa --seeds 0 1 --shots 1 4 --dump-maps D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas",
+          "exit_code": -1,
+          "seconds": 7872,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
+        },
+        {
+          "id": "anomalydino_canvas_rotation",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\paper_evidence_closeout_20260914\\run_baseline_anomalydino.py --out D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\anomalydino_mvtec_visa_canvas_rotation --frame canvas --rotation --suffix _canvas_rotation --datasets mvtec visa --seeds 0 1 --shots 1 4 --dump-maps D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation",
+          "exit_code": 1,
+          "seconds": 1977,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_4_baselines_multi.err"
+        },
+        {
+          "id": "gate_phase4",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 4 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.err"
+        }
+      ],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "multi_dataset_dir",
+            "what": "05_baselines_multi_dataset 目录有结果文件",
+            "expected": ">=4 个文件",
+            "actual": "4 个",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset"
+            ]
+          },
+          {
+            "id": "common_region_four_datasets",
+            "what": "共同区域表覆盖 4 个数据集",
+            "expected": "含 mpdd,btad,mvtec,visa",
+            "actual": "含 btad,mpdd,mvtec,visa",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv"
+            ]
+          },
+          {
+            "id": "s8_summary",
+            "what": "S8_SUMMARY.json 存在",
+            "expected": "存在",
+            "actual": true,
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\S8_SUMMARY.json"
+            ]
+          },
+          {
+            "id": "patchcore_units",
+            "what": "PatchCore official224 单元目录（信息记录）",
+            "expected": "记录",
+            "actual": "16 个: btad_s0_k1,btad_s0_k4,btad_s1_k1,btad_s1_k4,mpdd_s0_k1,mpdd_s0_k4,mpdd_s1_k1,mpdd_s1_k4,mvtec_s0_k1,mvtec_s0_k4",
+            "pass": true,
+            "evidence": [
+              "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\patchcore_official224"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase4.json",
+        "reverified": true
+      },
+      "dependency_skipped": [
+        "s8_common_region"
+      ],
+      "status_before_reconcile": "gate_failed",
+      "reconcile_note": "an AnomalyDINO dump hung on a torch.hub network call and was killed, which made the orchestrator skip s8; s8 was then run by hand and gate_phase4.json records pass with the four-dataset common-region table (696 rows, 6 methods)."
+    },
+    "phase_5_figures": {
+      "id": "phase_5_figures",
+      "name": "figures rebuilt and synced",
+      "started_utc": "2026-09-18T23:34:36Z",
+      "finished_utc": "2026-09-18T23:35:13Z",
+      "exit_code": 0,
+      "status": "pass_reverified",
+      "note": "gate failed: qa_layout 0 problems + font floor + sync list complete",
+      "artifacts": [
+        "D:\\STUDY\\My_github\\sci_project\\docs\\manuscript_reference_matching_20260914\\figures"
+      ],
+      "steps": [
+        {
+          "id": "build_mjs",
+          "exe": "node",
+          "args": "D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\build.mjs",
+          "exit_code": 0,
+          "seconds": 13,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+        },
+        {
+          "id": "qa_layout",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\qa_layout.py --min-pt 11",
+          "exit_code": 0,
+          "seconds": 22,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+        },
+        {
+          "id": "font_gate_floor",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-c import sys; sys.path.insert(0, r'D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914'); import figure_font_gate as g; print('[fonts] BODY_PT=%s DEFAULT_PT=%s floor_ok=%s' % (g.BODY_PT, g.DEFAULT_PT, g.BODY_PT>=11.0 and g.DEFAULT_PT>=11.0))",
+          "exit_code": 0,
+          "seconds": 1,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+        },
+        {
+          "id": "sync_to_manuscript",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\figures_reference_matching_20260914\\sync_to_manuscript.py --apply",
+          "exit_code": 0,
+          "seconds": 1,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+        },
+        {
+          "id": "gate_phase5",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --phase 5 --out D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.json --log-dir D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.err"
+        }
+      ],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "qa_layout_zero_problems",
+            "what": "qa_layout.py 几何/字号门禁 0 problem",
+            "expected": "TOTAL PROBLEMS: 0",
+            "actual": "TOTAL PROBLEMS: 0",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+            ]
+          },
+          {
+            "id": "font_gate_floor",
+            "what": "figure_font_gate.py 下限配置 >= 11 pt",
+            "expected": "BODY_PT>=11 且 DEFAULT_PT>=11",
+            "actual": "[fonts] BODY_PT=11.0 DEFAULT_PT=11.5 floor_ok=True",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+            ]
+          },
+          {
+            "id": "sync_all_files",
+            "what": "sync_to_manuscript.py --apply 清单全部成功",
+            "expected": "全部 30 个文件（复制或已一致）",
+            "actual": "total=50 identical=0 copied=50",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+            ]
+          },
+          {
+            "id": "sync_count_matches_note",
+            "what": "同步文件数与本轮预期一致（仅记录）",
+            "expected": "30",
+            "actual": "50",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.log"
+            ]
+          },
+          {
+            "id": "figure_pngs",
+            "what": "图件目录有 PNG 产物",
+            "expected": ">=7 个",
+            "actual": "25 个",
+            "pass": true,
+            "evidence": [
+              "docs\\figures_reference_matching_20260914"
+            ]
+          },
+          {
+            "id": "stderr_record",
+            "what": "阶段 5 stderr 记录（信息性，不作门禁）",
+            "expected": "记录",
+            "actual": "0 字符: (empty)",
+            "pass": true,
+            "evidence": [
+              "scripts\\limitation_closure_20260915\\_night2_20260918\\phase_5_figures.err"
+            ]
+          }
+        ],
+        "path": "scripts\\limitation_closure_20260915\\_night2_20260918\\gate_phase5.json",
+        "reverified": true
+      },
+      "status_before_reconcile": "gate_failed",
+      "reconcile_note": "gate_phase5.json records pass (0 layout problems, font floor 11.0/11.5, 50 files synced) after the validator learned to read PowerShell's UTF-16LE phase logs."
+    },
+    "phase_6_validation": {
+      "id": "phase_6_validation",
+      "name": "acceptance report + git",
+      "started_utc": "2026-09-18T23:35:13Z",
+      "finished_utc": "2026-09-18T23:35:31Z",
+      "exit_code": 0,
+      "status": "pass",
+      "note": "VALIDATION_20260918.json + .md, grouped commits and tag",
+      "artifacts": [],
+      "steps": [
+        {
+          "id": "git_add_pipeline",
+          "exe": "git",
+          "args": "add -- scripts",
+          "exit_code": 0,
+          "seconds": 2,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_commit_pipeline",
+          "exe": "git",
+          "args": "commit -m night 2: add the one-shot orchestrator, the phase gates and the KSDD2 parity check",
+          "exit_code": 0,
+          "seconds": 2,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_add_confirmation",
+          "exe": "git",
+          "args": "add -- experiments/dynamic_fusion/confirmation_ksdd2_20260918",
+          "exit_code": 0,
+          "seconds": 2,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_commit_confirmation",
+          "exe": "git",
+          "args": "commit -m night 2: KolektorSDD2 confirmation set artefacts and frozen spec",
+          "exit_code": 0,
+          "seconds": 4,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_add_figures",
+          "exe": "git",
+          "args": "add -- docs/figures_reference_matching_20260914 docs/manuscript_reference_matching_20260914",
+          "exit_code": 0,
+          "seconds": 3,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_commit_figures",
+          "exe": "git",
+          "args": "commit -m night 2: rebuilt figure set and manuscript sync",
+          "exit_code": 0,
+          "seconds": 1,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_add_docs",
+          "exe": "git",
+          "args": "add -- docs",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "validation_report",
+          "exe": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+          "args": "-u D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\night2_validate_20260918.py --report --status D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\STATUS.json --out-json D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json --out-md D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.md",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_add_night_dir",
+          "exe": "git",
+          "args": "add -- scripts/limitation_closure_20260915/_night2_20260918",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_commit_report",
+          "exe": "git",
+          "args": "commit -m night 2: record the acceptance report and the per-phase gates",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        },
+        {
+          "id": "git_tag",
+          "exe": "git",
+          "args": "tag -a night-20260918 -m night 2 (2026-09-18): KSDD2 confirmation set, E-branch K-range extension, figures",
+          "exit_code": 0,
+          "seconds": 0,
+          "log": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.log",
+          "err": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\phase_6_validation.err"
+        }
+      ],
+      "gate": {
+        "pass": true,
+        "n_failed": 0,
+        "checks": [
+          {
+            "id": "validation_json",
+            "what": "acceptance report JSON written",
+            "expected": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json",
+            "actual": "present",
+            "pass": true,
+            "evidence": [
+              "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json"
+            ]
+          },
+          {
+            "id": "validation_md",
+            "what": "acceptance report markdown written",
+            "expected": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.md",
+            "actual": "present",
+            "pass": true,
+            "evidence": [
+              "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.md"
+            ]
+          },
+          {
+            "id": "git_collected",
+            "what": "git status/diff printed and grouped commits attempted",
+            "expected": "status + diff captured",
+            "actual": "branch=main, status_lines=115, commits=4, tag=night-20260918 -> 629ce32",
+            "pass": true,
+            "evidence": [
+              "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\git_status.txt",
+              "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\git_diff_stat.txt"
+            ]
+          }
+        ],
+        "path": "D:\\STUDY\\My_github\\sci_project\\scripts\\limitation_closure_20260915\\_night2_20260918\\VALIDATION_20260918.json"
+      }
+    }
+  }
 }
