@@ -243,3 +243,5 @@ MPDD and BTAD are available from their respective dataset providers [@mpdd;@btad
 {{figure:shared_op_ablation}}
 
 {{figure:extra_cases}}
+
+The supplementary material consists of Figures S1 to S3 together with the per-sample material that the text does not embed: Figure S1 records the frozen branches and their native geometry (cited from Section 3.7), Figure S2 the one completed shared-operation ablation and Figure S3 the geometry panels with the eight per-image cases (both cited from Section 4.2.13); the thirty-six multi-method per-sample comparison figures in the Figure 7 convention, covering MPDD, BTAD, MVTec AD and VisA, are archived as `docs/figures_reference_matching_20260914/fig7_multimethod_*.png` with their figure-to-script-to-data binding in `docs/figures_reference_matching_20260914/FIGURE_BINDING.md`, the per-unit and per-image tables behind them are stored with each scored unit as `metrics.csv` and `per_image.csv` in the project archive, and the shared-region baseline table those figures draw on is `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv`.

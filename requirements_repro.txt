@@ -1,0 +1,73 @@
+# requirements_repro.txt — top-level third-party packages actually imported by this repo.
+#
+# This is a reproduction list, NOT a lock file.
+#
+# Scope and provenance
+#   * Source: a static AST scan of every *.py under scripts/ (416 files, 2026-09-19),
+#     counting top-level `import` / `from ... import` module names.
+#   * Local packages are excluded because they are not PyPI dependencies:
+#     industrial_ad (src/industrial_ad/), plus project-local modules such as
+#     utils, models, datasets, engine*, stats_v2, common, e1_fullpixel_ci.
+#   * Vendored method code is also excluded: AnomalyCLIP_lib, prompt_ensemble and
+#     dinov2 live under methods/ or come from torch.hub (see the notes at the end).
+#   * Versions were read from the working interpreter .venv-anomalyclip
+#     (`python -m pip list`, 2026-09-19) — that is the environment the frozen
+#     results were produced with. Do not treat them as upstream requirements.
+#   * Install with:
+#         .venv-anomalyclip\Scripts\python.exe -m pip install -r requirements_repro.txt
+#
+# Groups: core numerics/statistics | encoding | evaluation/retrieval |
+#         plotting/documents | utilities | development/test
+
+# --- core numerics / statistics -------------------------------------------- #
+numpy==1.26.4
+scipy==1.9.1
+pandas==2.3.3
+
+# --- encoding (frozen branches B/S/C/D and the E1-E3 extra encoders) -------- #
+# CUDA 11.8 wheels; the GPU encoding path requires these.
+torch==2.0.0+cu118
+torchvision==0.15.1+cu118
+timm==1.0.28
+
+# --- evaluation / retrieval ------------------------------------------------- #
+faiss-cpu==1.15.0
+scikit-learn==1.2.2
+scikit-image==0.20.0
+opencv-python-headless==4.8.1.78
+
+# --- plotting / documents --------------------------------------------------- #
+matplotlib==3.10.9
+pillow==12.2.0
+python-docx==1.2.0
+
+# --- utilities -------------------------------------------------------------- #
+PyYAML==6.0.3
+tifffile==2025.5.10
+threadpoolctl==3.6.0
+tqdm==4.65.0
+setuptools==80.9.0   # provides pkg_resources, imported by a legacy script
+
+# --- development / test ----------------------------------------------------- #
+pytest==9.1.1
+
+# --- imported by scripts but NOT installed in .venv-anomalyclip ------------- #
+# `import psutil` appears as an optional import in two preflight/eval scripts
+# (scripts/validation_handoff_20260911/e0_preflight.py,
+#  scripts/validation_handoff_20260911/univad_stage2_eval.py) and psutil is
+# absent from .venv-anomalyclip's pip list. Install it into whichever
+# environment runs those scripts, or leave the optional branch disabled.
+# psutil
+
+# --- local / vendored packages (not on PyPI) -------------------------------- #
+# industrial_ad  : src/industrial_ad/  -> add src/ to PYTHONPATH or `pip install -e src`
+# AnomalyCLIP_lib, prompt_ensemble : methods/ (vendored AnomalyCLIP source)
+# dinov2         : torch.hub facebookresearch/dinov2 source, used by the B/S branches
+# UniVAD, groundingdino : methods/ (vendored; only the UniVAD probe scripts use them)
+#
+# open_clip_torch (3.3.0) is installed in .venv-anomalyclip and is used by the
+# vendored WinCLIP / PromptAD / AnomalyCLIP code under methods/, but no script
+# under scripts/ imports it directly, so it is deliberately not listed above.
+#
+# anomalib is NOT installed in any environment and is NOT imported anywhere;
+# the PatchCore baseline is the vendored implementation plus FAISS.

@@ -578,3 +578,119 @@ BTAD 上的判定**一处都没有改变**——四个变体的 **8 条区间**�
    与已发布 `B2_SUMMARY.json` 里记录的 ~5e-8 一致。
 7. 本报告期间的机器负载包含**一个非本任务的 PatchCore 作业**，所有耗时数据（§7.1）都含该负载，
    空载时会更短；但**内存约束的结论不受影响**（空闲 4.0 GB 是实测）。
+
+---
+
+## 10. 区间口径核查（2026-09-19 追加，独立审计）
+
+> 本节为**事后核查记录**。除本节外，本文其它章节的数值、表格与判断**一字未改**；
+> 表 17 与 §4.2.12 正文的数字是否修改，属作者判断（见 §10.5 的待决项）。
+
+### 10.1 疑点
+
+有人指出：`interaction_rows()` 可能是对**四个条件的点值取分位数**得到 98.75% 区间，
+而不是用**逐副本（image-level bootstrap）序列**。若属实，则表 17 / §4.2.12 的区间与主研究口径不一致。
+本节核实该疑点。
+
+### 10.2 代码实读（关键行号与片段）
+
+`scripts/limitation_closure_20260915/b2_learned_correspondence.py`：
+
+| 位置 | 代码 | 作用 |
+|---|---|---|
+| **L375-381** | `def interval(values, level): ... return (float(v.mean()), float(np.percentile(v, (1-level)/2*100)), float(np.percentile(v, (1+level)/2*100)))` | 区间 = **对传入数组取分位数** |
+| **L426-453** | `def interaction_rows(rows, variants, args, dataset="mpdd")` | 数据集级宏交互 |
+| **L436-443** | `for seed ... for shot ...: per_cat.append(g(left_l)-g(right_l)-g(left_j)+g(right_j)); per_condition.append(float(np.mean(per_cat)))` | `per_condition` 是 **4 个数**（seeds {0,1} × K {1,4}），每个 = 6 类的点值宏平均 |
+| **L444-445** | `stats95 = interval(per_condition, CI_EXPLORATORY)`；`stats9875 = interval(per_condition, CI_FAMILY)` | **对 4 个点值取分位数** |
+| **L354** | `w = replicate_weights(dataset, category, n_images, replicates)` | 自助权重确实生成了（1000×N，确定性） |
+| **L365-368** | `ap, _ = pooled_ap_auroc(prof, w)`；`one, _ = pooled_ap_auroc(prof, np.ones((1, n_images)))`；`series[key] = ap`；`points[key] = float(one[0])` | **自助序列 `series` 被算出来但只留在局部**；调用方只取 `points`（点值） |
+| L883-886 / L589-593 / L744-748 | `for key, value in points.items(): rows.append({... "pixel_ap": value})` | 三处调用方**都只用 `points`，`series` 被丢弃** |
+
+**判定：疑点属实。** 95% 与 98.75% 区间都是对 **4 个条件级点值** 取分位数得到的，
+`CI_FAMILY = 1 - 0.05/4 = 0.9875`（L73）只用于分位水平，与自助副本数无关。
+以 4 个点时 `np.percentile` 在 0.625%/99.375% 处插值，区间实质上≈这 4 个条件点值的 `[min, max]`
+（可复核：identity I_TRI 的 4 个条件值 `+0.00401/+0.00949/+0.00441/+0.01277` → 区间 `[0.004014, 0.012712]`，
+与 `interaction_by_variant.csv` 逐位一致；I_BAL 同理 → `[0.003237, 0.010488]`）。
+
+### 10.3 与 §1.3 / §4.1 的表述是否矛盾
+
+**不构成逻辑矛盾，但口径确实与主研究不同。**
+
+- §1.3 写"1000 次自助、`replicate_weights` 确定性、四变体逐条件共用同一批权重"——**这句话本身为真**：
+  `evaluate_variant` 里确实按单元跑 `replicate_weights` + `pooled_ap_auroc`，四变体逐条件共用同一批权重。
+- §1.3 / §4.1 写"区间 = 条件级 95% 探索性 + 4 成员族式 98.75%"——**"条件级"三字是准确的**：
+  区间是对 4 个条件取分位，不是对自助副本取分位。
+- **真正的问题**是：自助序列只在单条件 AP 内部被使用，**从未进入交互量的区间**。
+  因此"用了 1000 次自助"与"区间来自自助序列"是两件事；论文表 17 的注释
+  （`1000 paired replicates, the same bootstrap stream for every row`）会被读成后者。
+
+对照主研究口径（`scripts/limitation_closure_20260915/e1_fullpixel_ci.py`）：
+`_interaction_series`（L475-488）先在**每个副本内**算 `a-b-c+d` 再跨条件取均值，得到长度 1000 的序列；
+`_interval`（L465-472）对该序列取分位数。`E1_fullpixel_ci/V1_3_END_TO_END.json` 显示
+这条链复现已发布的 `interaction_aggregate.csv` 的 ci9875，`max|Δ| ≤ 4.14e-11`。
+⇒ **主研究口径 = 逐副本自助序列分位；B2 口径 = 4 个条件点值分位。两者不是同一个量。**
+
+### 10.4 廉价复算（只读盘上既有产物，未启动任何长任务）
+
+`E1_fullpixel_ci/replicate_stride8.npz` 里存着 canonical 管线在 **s0/s1 × K1/K4** 上的逐副本序列，
+与 B2 的 4 条件范围完全重合；把同一 `_interaction_series` 口径套上去，即得 B2 scope 的**正确**区间：
+
+| 交互量 | 点值（4 条件宏平均） | B2/表 17 现用区间（条件点值分位） | **主口径区间（逐副本自助分位）** | 新点估计（自助均值） | 是否仍排除零 |
+|---|---|---|---|---|---|
+| I_TRI | +0.007671 | [+0.004014, +0.012712] | **[+0.001930, +0.011602]** | +0.006949 | **是**（原判不变） |
+| I_BAL | +0.005470 | [+0.003237, +0.010488] | **[+0.000783, +0.009617]** | +0.005470 | **是**（原判不变） |
+
+**交叉验证（重要）**：上表"主口径区间"与 `05_extra_encoders/S10_SUMMARY.json` 里 **S 支** MPDD 行的
+`mean`/`ci9875` 逐位吻合（I_TRI mean 0.006948775004053959、ci9875 [0.0019297204077052686, 0.011601501404138527]；
+I_BAL mean 0.00546955397656201、ci9875 [0.0007827304845194826, 0.00961706136859155]），
+这说明该重算就是研究主口径，而不是另造一套。
+
+⇒ **identity / procrustes 两行可以就地改正**（Procrustes 与 identity 逐条件差 ≤4e-8，§4.2），
+且**零排除判定不变**；变的只是区间端点（表 17 中该两行下界从 +0.401 / +0.324 变成 **+0.193 / +0.078** 个百分点）。
+
+### 10.5 影响与最小修正方案（**未执行，留作者决定**）
+
+**影响面**
+
+1. 表 17 五行、§4.2.12 正文的 BTAD 四个区间，**数值全部**来自条件点值分位，不是主研究口径。
+2. `identity / procrustes` 两行：判定不变，**换数即可**（§10.4）。
+3. `shuffled` 与 OT 三行（ε→0 硬指派、ε=0.05、ε=0.1 主规则、ε=0.5）：其逐副本序列**从未落盘**
+   （`variant_metrics.csv` 只有逐单元点值），因此**无法用既有产物复算**。
+4. **"软混合跨零"这一结论目前建立在不一致口径上**：现用区间 ≈ 4 个条件点值的 `[min, max]`，
+   跨零只是因为 4 个条件里 `s1K1` 为负（I_TRI −0.00216 / I_BAL −0.00074）。
+   主口径的区间是"逐副本重采样下、四条件宏平均估计量"的抽样分布，**不含条件间离散度**；
+   按 identity 行重建的宽度（半宽约 0.0048 / 0.0044）外推，软混合行的主口径区间**很可能不再跨零**。
+   **但这是外推、不是实测**；在拿到软混合的逐副本序列之前，**不能**断言该结论成立或不成立。
+5. 反向也要说清：即使主口径下软混合不再跨零，"该替换同时平滑了 C 支"的机制解释（§6）不受影响——
+   它来自 ε 扫描的形状（0→是、0.05→否、0.1→否、0.5→是），而那批数字同样待重算后才可定论。
+
+**最小修正方案（建议，两步）**
+
+- **第 1 步（零成本）**：identity / procrustes 行改用 §10.4 的主口径区间
+  （数值可直接取 `S10_SUMMARY.json` 的 S 行，或从 `replicate_stride8.npz` 复算；
+  修 `interaction_rows` 时不要动 identity/procrustes 的评分路径）。
+- **第 2 步（需重跑，代码改动很小）**：
+  1. 在 `evaluate_variant` 的返回里保留 `series`（或新增一个 `--save-series` 参数落盘 `interaction_bootstrap.npz`）；
+  2. 在 `interaction_rows` 里改为：先按 `a-b-c+d` 逐副本相减、跨条件取均值，再 `interval()`；
+  3. 重跑 `--mode variants`（shuffled 必需）与 `--mode ot --ot-factors 0 0.05 0.5 --ot-sensitivity-only`。
+
+**预计代价（实读日志推算，非猜测）**
+
+- `_ot_primary_20260919.log`：10:36:31 → 10:51:34 = **15.1 min / 24 单元**（MPDD ot_sinkhorn，≈38 s/单元）。
+- `_ot_sensitivity_20260919.log`：10:52:37 → 11:16:38 = **24.0 min / 72 单元**（3 个 ε × 24，≈20 s/单元）。
+- ⇒ 第 2 步的 MPDD 部分约 **60 min**（`--mode variants` 72 单元 ≈ 36 min + ε 网格 72 单元 ≈ 24 min），
+  纯 CPU、单进程。若 BTAD 也要同步改，参照 §7.1 的 **115 min**。
+- **本审计未启动上述任何重跑。**
+
+### 10.6 一处附带发现（不改正文）
+
+§4.2.12 正文写"On BTAD only the canvas rule and the soft mixing were run"，
+但 `interaction_by_variant_btad.csv` 实读有 **四个变体**（identity / procrustes / shuffled / ot_sinkhorn，8 行）
+且 `REPORT_CN.md` §7.2 的表格也是四变体。这是**正文的少写**，不是数据的多写；
+因涉及正文措辞，本审计只记录、不修改。
+
+### 10.7 本节未做
+
+1. 未重跑任何单元；未改动任何 CSV / JSON / npz。
+2. 未改动表 17、`tables.json`、`results.md`、`manuscript.md` 的任何数字或措辞。
+3. 软混合主口径下的区间是否跨零，**未实测**（见 §10.5 第 4 点）。

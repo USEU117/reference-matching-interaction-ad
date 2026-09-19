@@ -28,15 +28,16 @@
 >
 > 2026-09-19 再补（第二轮）：VisA 的 AnomalyDINO 逐样本 dump 补齐后，S8 四数据集共同区域表
 > `05_baselines_multi_dataset/baseline_common_region.csv` 于 **16:14:53** 重算为 **864 行**（232684 B），
-> mpdd/btad/mvtec/visa **各含 6 个方法列**；**图 7 的 VisA 12 类已按 6 列重出**（A1 J、A1 L、ADino、
-> ADino-rot、PC-128、PC-224，无 `n/a`），见第六节。数值、案例选择、评测口径未改。
+> mpdd/btad/mvtec/visa **各含 6 个方法列**；**图 7 的 VisA 12 类已于 16:15 按 6 列重出、MVTec 15 类
+> 已于 16:20 按 6 列重出**（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224，无 `n/a`），见第六节。
+> 数值、案例选择、评测口径未改。
 
-- 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（27 页，8 张正文图 + 1 张补充图）
+- 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（页数未在本次重建中重新测量；8 张正文图 + 3 张补充图）
 - 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/figures)
 - 可编辑母版：[figures_reference_matching_20260914.pptx](file:///d:/STUDY/My_github/sci_project/docs/figures_reference_matching_20260914/figures_reference_matching_20260914.pptx)（7 页）
 - 数据根目录：`experiments/dynamic_fusion/representation_matching_interaction_20260914/`
 - 绘图脚本目录：`scripts/figures_reference_matching_20260914/`
-- 本轮合并日期：**2026-09-15**（图集重建 2026-09-18；2026-09-19 补图 4 的 MVTec/VisA 四数据集行、图 7 的 VisA 12 类与全部方法列）
+- 本轮合并日期：**2026-09-15**（图集重建 2026-09-18；2026-09-19 补图 4 的 MVTec/VisA 四数据集行、图 7 的 VisA 12 类与 MVTec 15 类与全部方法列）
 
 ## 一、正文图号与图源
 
@@ -133,7 +134,7 @@ node scripts/figures_reference_matching_20260914/build.mjs
 
 | 建议图号 | 状态 | 原因 |
 |---|---|---|
-| 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；这些 dump 现已全部落盘，mpdd/btad/visa 为 6 列、mvtec 因出图早于共同区域表重算仍为 5 列（缺 PC-128）；缺列时仍按「n/a」降级并记入 JSON，不中断构建。 |
+| 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；这些 dump 现已全部落盘，mpdd/btad/visa/mvtec 均为 6 列（mvtec 已于 2026-09-19 16:20 按重算后的表重出）；缺列时仍按「n/a」降级并记入 JSON，不中断构建。 |
 | 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。老师口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
 | 四数据集（MVTec/VisA）交互行 | **已产出（2026-09-19）** | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz`（2026-09-19 00:24，≈116 MB）与 `generalization_mvtec_visa_20260915/interaction_generalization.csv`（2026-09-19 00:34，2600 B，8 行 = 4 数据集 × I_TRI/I_BAL，`available` 全为 True、`n_replicates` = 1000）均已落盘。`seeds_extension_20260917/ANALYSIS_CHAIN.json` 仍是 2026-09-18 的旧链日志（记 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0），**未反映夜跑结果**。图 4 的 (b) 面板已画出这四行：重跑 `node scripts/figures_reference_matching_20260914/build.mjs` 打印 `[fig4] band (b) now carries 8 rows …`（退出码 0），`layouts/fig4_effects_interaction.layout.json` 里第 5—8 行分别是 `MVTec I TRI`、`MVTec I BAL`、`VisA I TRI`、`VisA I BAL`，各带一条 `GEN` 车道（`i4-GEN-bar`…`i7-GEN-mark`）；`i4-GEN-bar` 的 bbox 右端 x = 659.33 + 102.35 = 761.68，与 `mvtec/I_TRI` 的 `bootstrap_mean` 0.0043247 按 (b) 轴 `470 + (v + 0.008)/0.03 × 710` 换算一致。 |
 | loss–epoch 收敛曲线 | 不适用 | 冻结检索方法没有目标域训练，不能为该曲线编造数据。已用图 5（K 曲线）与图 8（资源）替代，属需向老师说明的替代方案。 |
@@ -218,7 +219,7 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
 
 | 参数 | 默认 | 说明 |
 |---|---|---|
-| `--region-table` | `…/05_baselines/baseline_common_region.csv` | S8 逐方法共同区域结果表（含每个方法的来源文件路径）。该表只覆盖 mpdd（144 行）、btad（72 行）共 216 行；四数据集表是 `…/05_baselines_multi_dataset/baseline_common_region.csv`（**864 行**、232684 B、2026-09-19 16:14:53 重算；按数据集 btad 72 / mpdd 144 / mvtec 360 / visa 288，**六个方法列在每个数据集内行数相等**——btad 各 12、mpdd 各 24、mvtec 各 60、visa 各 48，按方法合计 `controlled_A1_J`/`controlled_A1_L`/`anomalydino_canvas`/`anomalydino_canvas_rotation`/`PatchCore_native_local128`/`PatchCore_native_official224` 各 144；mpdd/btad 行与前者逐字段相同），mpdd/mvtec 的正式产物由它生成。**六个方法列现已覆盖四个数据集**（`PatchCore_native_local128` 由原来的 btad+mpdd 36 行补齐为 144 行）。注意 mvtec 的 15 张图是 09:43 出图的、早于这张表 16:14 的重算，故仍呈现 5 列（缺 PC-128）；visa 的 12 张图出图于重算之后，已含 6 列（见第六节表） |
+| `--region-table` | `…/05_baselines/baseline_common_region.csv` | S8 逐方法共同区域结果表（含每个方法的来源文件路径）。该表只覆盖 mpdd（144 行）、btad（72 行）共 216 行；四数据集表是 `…/05_baselines_multi_dataset/baseline_common_region.csv`（**864 行**、232684 B、2026-09-19 16:14:53 重算；按数据集 btad 72 / mpdd 144 / mvtec 360 / visa 288，**六个方法列在每个数据集内行数相等**——btad 各 12、mpdd 各 24、mvtec 各 60、visa 各 48，按方法合计 `controlled_A1_J`/`controlled_A1_L`/`anomalydino_canvas`/`anomalydino_canvas_rotation`/`PatchCore_native_local128`/`PatchCore_native_official224` 各 144；mpdd/btad 行与前者逐字段相同），mpdd/mvtec 的正式产物由它生成。**六个方法列现已覆盖四个数据集**（`PatchCore_native_local128` 由原来的 btad+mpdd 36 行补齐为 144 行）。mvtec 的 15 张图已于 16:20 按重算后的这张表重出为 6 列；visa 的 12 张图于 16:15 出图，也已含 6 列（见第六节表） |
 | `--geometry` | `--region-table` 同目录 `common_region_geometry.json` | 共同区域矩形/网格与每个方法的覆盖矩形 |
 | `--dataset` / `--seed` / `--shot` | `mpdd` / `0` / `4` | 单元；多数据集表里 mpdd、btad、mvtec、visa 都有 s0 k4 的条目 |
 | `--categories` | 表内该数据集的全部类别 | 逗号分隔；每类出一张图 |
@@ -262,7 +263,7 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
 |---|---|---|---|---|---|
 | MPDD s0 k4 | `fig7_multimethod_mpdd_s0_k4_{bracket_black,bracket_brown,bracket_white,connector,metal_plate,tubes}.png/.pdf` + `fig7_multimethod_mpdd_s0_k4.json` | 6（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224） | 6 类 × 3 = 18 | 11.50 pt | 30 s |
 | BTAD s0 k4 | `fig7_multimethod_btad_s0_k4_{01,02,03}.png/.pdf` + `fig7_multimethod_btad_s0_k4.json` | 6（同上） | 3 类 × 3 = 9 | 11.50 pt | 25 s |
-| MVTec s0 k4 | `fig7_multimethod_mvtec_s0_k4_<15 类>.png/.pdf` + `fig7_multimethod_mvtec_s0_k4.json`（2026-09-19 09:43 出图） | **5**（A1 J、A1 L、ADino、ADino-rot、PC-224）——该图出图早于共同区域表 16:14:53 的重算，当时 mvtec 表内还没有 PC-128；现表已含 mvtec PC-128 60 行，重跑同一条命令即得 6 列 | 15 类 × 3 = 45 | 11.50 pt | 约 3 分钟 |
+| MVTec s0 k4 | `fig7_multimethod_mvtec_s0_k4_<15 类>.png/.pdf` + `fig7_multimethod_mvtec_s0_k4.json`（2026-09-19 16:20 按重算后的表重出） | **6**（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224；15 类全部有数据，`columns_na` 与 `missing` 均为空） | 15 类 × 3 = 45 | 11.50 pt | 约 3 分钟 |
 | VisA s0 k4 | `fig7_multimethod_visa_s0_k4_{candle,capsules,cashew,chewinggum,fryum,macaroni1,macaroni2,pcb1,pcb2,pcb3,pcb4,pipe_fryum}.png/.pdf` + `fig7_multimethod_visa_s0_k4.json`（2026-09-19 16:15—16:16 落盘，早先 10:09—10:11 的 4 列版已被覆盖） | **6**（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224；12 类全部有数据，`columns_na` 与 `missing` 均为空） | 12 类 × 3 = 36 | 11.50 pt | 约 2 分钟 |
 
 ### 列宽与图注复核（2026-09-19）
@@ -308,13 +309,14 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
   该次复跑用的是 16:14:53 重算**之前**的表；重算后 `PatchCore_native_local128` 已进入 visa 表，
   同一条命令现在只剩故意写错的 `PatchCore_extra_unknown_key` 一列为 `n/a`（推断，未重跑）。
   未知方法键的列标题按**实测宽度**折行（`PatchCore` / `extra` / `unknown key`），不再靠字符数估算。
-- 本包当前：mpdd、btad、visa 各 6 列、mvtec 5 列，所选单元的全部类别都有逐样本图（`missing` 为空）；
+- 本包当前：mpdd、btad、mvtec、visa 四个数据集各 6 列，所选单元的全部类别都有逐样本图（`missing` 为空）；
   visa 的 s0 k4 表内 6 个方法为 A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224；ADino 的两列
   （canvas 与 rotation）visa dump 已由 8 类补齐到 12 类（`region_maps/anomalydino_canvas` 与
   `…_rotation` 下各 48 个 visa npz），因此 12 类全部 6 列均有数据（`fig7_multimethod_visa_s0_k4.json`
   记 `created_local` = 2026-09-19T16:15:03、`categories_rendered` = 12、`columns` 6 条且
   `columns_na` 全空、`missing` 空、`units_missing_from_region_table` 空，PNG mtime 16:15:11—16:16:34）；
-  mvtec 的 15 张图仍是 5 列，原因是它的 PNG/JSON（09:43）早于共同区域表 16:14:53 的重算。
+  mvtec 的 15 张图已于 2026-09-19 16:20 按重算后的表重出为 6 列（PNG mtime 16:20:03—16:21:42，
+  JSON `created_local` = 2026-09-19T16:19:58，`columns` 6 条、`columns_na` 与 `missing` 均空）。
   缺列时仍会自动以 `n/a` 呈现而不是中断构建。
 
 ### 校验
