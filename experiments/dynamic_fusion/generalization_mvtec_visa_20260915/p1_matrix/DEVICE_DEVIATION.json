@@ -1,0 +1,38 @@
+{
+  "kind": "device_deviation_record",
+  "recorded_utc": "2026-09-17T12:35:00+00:00",
+  "scope": "the remaining VisA units of the MVTec/VisA generalization matrix (99 of 144 at the time of the switch)",
+  "what_changed": {
+    "device": {"from": "cpu", "to": "cuda"},
+    "interpreter": {"from": "system python 3.10.11 / torch 2.12.1+cpu",
+                    "to": ".venv-anomalyclip / torch 2.0.0+cu118"},
+    "concurrency": {"from": "1 (the runner's sequential loop, later 2 via the dispatcher)",
+                    "to": "3 concurrent units, throttled on free host RAM and free device memory"}
+  },
+  "why": {
+    "measured_cost": "the score stage is 5.3x (candle, K=1) to 7.8x (pcb3, K=1) faster on the GPU, and the score stage is the K-proportional part, so the gain grows with K",
+    "measured_peaks": "peak device memory was 2430 MiB for one small unit, 2600 MiB for one large unit, 2668 MiB for two and 3331 MiB for three, i.e. the per-process CUDA context dominates rather than the data",
+    "wall_clock": "three K=8 large units took 159 s on 3-way GPU; the same three units sequentially on CPU are about 2500 s by extrapolation (pcb3 K=8 score is 758 s at the measured CPU rate)"
+  },
+  "evidence": {
+    "parity_report": "experiments/dynamic_fusion/generalization_mvtec_visa_20260915/_gpu_probe/DEVICE_PARITY.json",
+    "parity_summary": {
+      "unit": "visa_s1_k1_candle, CPU vs GPU, same interpreter",
+      "bitwise_identical_arrays": ["grid", "labels", "method_names", "pixel_masks", "sample_ids", "stride"],
+      "pixel_scores_max_abs_diff": 5.215e-07,
+      "image_scores_max_abs_diff": 2.682e-07,
+      "worst_pixel_ap_abs_diff_over_13_methods": 6.496e-07,
+      "verdict": "numerically equivalent up to float32 accumulation order"
+    },
+    "probe_units": ["visa_s1_k1_candle", "visa_s1_k1_pcb3", "visa_s1_k1_pcb4", "visa_s1_k8_pcb3", "visa_s1_k8_pcb4", "visa_s1_k8_pipe_fryum"],
+    "probe_outputs": "experiments/dynamic_fusion/generalization_mvtec_visa_20260915/_gpu_probe/"
+  },
+  "consequence_for_the_artefact": {
+    "mixed_batch": true,
+    "statement": "within the VisA batch the first 55 units were produced with device=cpu and torch 2.12.1, the remainder with device=cuda and torch 2.0.0; the 180 MVTec units are all cpu/torch 2.12.1",
+    "why_it_is_acceptable": "pixel AP is a rank statistic over the patch maps; the measured device effect on it is 6.5e-07, four orders of magnitude below the effects reported in this study (about 5e-03) and well below the reported interval half-widths (about 4e-03)",
+    "residual_risk": "the torch 2.12.1 vs 2.0.0 difference inside the CPU branch was not measured separately, so the mixed-batch statement rests on the device parity plus the fact that both builds compute the same float32 expression",
+    "mitigation": "every unit records its own device-independent inputs (grid, labels, sample_ids) and the parity check is reproducible with scripts/limitation_closure_20260915/probe_device_parity.py"
+  },
+  "reversal": "re-running the same unit ids with the recorded cpu interpreter overwrites the affected units; the runner skips nothing unless a unit is deleted, so a reversal must delete the DONE.json of the units to be recomputed"
+}
