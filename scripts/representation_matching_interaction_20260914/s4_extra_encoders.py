@@ -766,6 +766,20 @@ def run(out: Path, args) -> int:
                                     "shot": shot, "revision": revision,
                                     "status": "reused_verified",
                                     "new_method_conditions": len(NEW_METHODS)})
+                # Re-emit the aggregate rows for a reused unit.  Until 2026-09-19 this branch
+                # `continue`d without touching metric_rows, so a re-run with --skip-existing
+                # rewrote new_method_metrics.csv with a header only (5 bytes); E1 and E3 then
+                # failed VE.2 with "no single-branch AUROC rows" even though every unit's own
+                # metrics.csv holds the values.
+                unit_metrics = directory / "metrics.csv"
+                if unit_metrics.exists():
+                    for row in S.read_csv(unit_metrics):
+                        metric_rows.append({
+                                "dataset": dataset, "category": category, "seed": seed,
+                                "shot": shot, "revision": revision, "method": row["method"],
+                                "pixel_ap": row.get("pixel_ap"),
+                                "pixel_auroc": row.get("pixel_auroc"),
+                                "is_new_method": row["method"] in NEW_METHODS})
                 continue
             directory.mkdir(parents=True, exist_ok=True)
             started = time.perf_counter()

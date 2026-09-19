@@ -743,5 +743,352 @@
     "dedupe_cols": [
       0
     ]
+  },
+  "ksdd2_confirmation": {
+    "caption": "Confirmation-set interactions on KolektorSDD2, whose expected direction was frozen before any of its features were encoded.",
+    "headers": [
+      "Branch",
+      "Contrast",
+      "Point",
+      "95% interval",
+      "Excludes zero"
+    ],
+    "rows": [
+      [
+        "S",
+        "$I_{TRI}$",
+        "+0.539",
+        "[+0.299, +0.823]",
+        "Yes"
+      ],
+      [
+        "S",
+        "$I_{BAL}$",
+        "+0.343",
+        "[+0.129, +0.579]",
+        "Yes"
+      ],
+      [
+        "D",
+        "$I_{TRI}$",
+        "+0.499",
+        "[+0.212, +0.851]",
+        "Yes"
+      ],
+      [
+        "D",
+        "$I_{BAL}$",
+        "+0.367",
+        "[+0.128, +0.653]",
+        "Yes"
+      ]
+    ],
+    "widths": [
+      2.4,
+      3,
+      2,
+      7,
+      2.6
+    ],
+    "note": "AP percentage points, stride eight, 1000 paired replicates. One category and twelve support conditions (seeds 0, 1, 2 with K = 1, 2, 4 and 8). The frozen specification fixes the judgement as the 95% interval, so no family adjustment is applied to this confirmation set; the same four cells also exclude zero at 98.75%, which is recorded for transparency only. Each branch name is printed once for its two rows.",
+    "bold_rows": [],
+    "left_cols": [
+      0,
+      1
+    ],
+    "dedupe_cols": [
+      0
+    ]
+  },
+  "generalization": {
+    "caption": "The two interactions on all four datasets, with the interval levels that the wider family requires.",
+    "headers": [
+      "Dataset (role)",
+      "Contrast",
+      "Estimate",
+      "95%",
+      "98.75%",
+      "99.375%"
+    ],
+    "rows": [
+      [
+        "MPDD (development)",
+        "$I_{TRI}$",
+        "+0.762",
+        "[+0.426, +1.118]",
+        "[+0.346, +1.211]",
+        "[+0.324, +1.250]"
+      ],
+      [
+        "MPDD (development)",
+        "$I_{BAL}$",
+        "+0.615",
+        "[+0.322, +0.927]",
+        "[+0.189, +1.030]",
+        "[+0.152, +1.081]"
+      ],
+      [
+        "BTAD (external frozen validation)",
+        "$I_{TRI}$",
+        "−0.020",
+        "[−0.192, +0.192]",
+        "[−0.237, +0.238]",
+        "[−0.245, +0.261]"
+      ],
+      [
+        "BTAD (external frozen validation)",
+        "$I_{BAL}$",
+        "−0.087",
+        "[−0.258, +0.109]",
+        "[−0.300, +0.179]",
+        "[−0.313, +0.201]"
+      ],
+      [
+        "MVTec AD (external frozen validation)",
+        "$I_{TRI}$",
+        "+0.432",
+        "[+0.342, +0.530]",
+        "[+0.324, +0.553]",
+        "[+0.309, +0.570]"
+      ],
+      [
+        "MVTec AD (external frozen validation)",
+        "$I_{BAL}$",
+        "+0.402",
+        "[+0.313, +0.503]",
+        "[+0.297, +0.529]",
+        "[+0.287, +0.534]"
+      ],
+      [
+        "VisA (in-domain frozen validation)",
+        "$I_{TRI}$",
+        "+0.927",
+        "[+0.788, +1.064]",
+        "[+0.754, +1.112]",
+        "[+0.738, +1.114]"
+      ],
+      [
+        "VisA (in-domain frozen validation)",
+        "$I_{BAL}$",
+        "+0.810",
+        "[+0.673, +0.959]",
+        "[+0.631, +1.011]",
+        "[+0.611, +1.018]"
+      ]
+    ],
+    "widths": [
+      5,
+      2.2,
+      1.7,
+      2.7,
+      2.7,
+      2.7
+    ],
+    "note": "AP percentage points, stride eight, 1000 paired bootstrap replicates. The estimate is the mean of the replicate distribution, not the condition-averaged observed difference used in Table 7; on MPDD the two differ by 0.01 point. The 98.75% level is a Bonferroni adjustment over the four MPDD and BTAD cells and the 99.375% level over the eight cells this table covers. The BTAD row pools the study's canonical-mask series rather than the corrected geometry used in Section 4.2.4, which moves the point estimate by about 0.03 point without changing the judgement. Stride-one point estimates are now available for all four datasets (+0.787 and +0.601 points on MPDD, −0.045 and −0.115 on BTAD, +0.423 and +0.386 on MVTec AD, +0.896 and +0.760 on VisA, each pair ordered as $I_{TRI}$ then $I_{BAL}$). KolektorSDD2 is reported separately in Table 13 and is not part of this family. Each dataset name is printed once for its two rows.",
+    "bold_rows": [],
+    "left_cols": [
+      0,
+      1
+    ],
+    "dedupe_cols": [
+      0
+    ]
+  },
+  "encoders": {
+    "caption": "Interactions of the five frozen encoders, in the four-condition scope shared with S and D and in the wider twelve-condition scope.",
+    "headers": [
+      "Encoder (conditions)",
+      "MPDD $I_{TRI}$",
+      "MPDD $I_{BAL}$",
+      "BTAD $I_{TRI}$",
+      "BTAD $I_{BAL}$"
+    ],
+    "rows": [
+      [
+        "S (4)",
+        "+0.695 [+0.193, +1.160]",
+        "+0.547 [+0.078, +0.962]",
+        "+0.029 [−0.189, +0.293]",
+        "−0.052 [−0.273, +0.208]"
+      ],
+      [
+        "D (4)",
+        "+1.020 [+0.514, +1.689]",
+        "+0.686 [+0.162, +1.394]",
+        "+0.631 [+0.298, +1.003]",
+        "+0.524 [+0.188, +0.995]"
+      ],
+      [
+        "E1 (4)",
+        "+0.811 [+0.246, +1.362]",
+        "+0.488 [−0.136, +1.091]",
+        "+0.583 [+0.172, +1.056]",
+        "+0.224 [−0.158, +0.649]"
+      ],
+      [
+        "E1 (12)",
+        "+0.995 [+0.529, +1.504]",
+        "+0.747 [+0.290, +1.309]",
+        "+0.441 [+0.067, +0.829]",
+        "+0.174 [−0.138, +0.516]"
+      ],
+      [
+        "E2 (4)",
+        "−0.018 [−0.358, +0.298]",
+        "+0.076 [−0.315, +0.588]",
+        "+0.278 [+0.152, +0.494]",
+        "+0.422 [+0.158, +0.872]"
+      ],
+      [
+        "E2 (12)",
+        "−0.038 [−0.266, +0.170]",
+        "+0.036 [−0.235, +0.443]",
+        "+0.178 [+0.090, +0.315]",
+        "+0.226 [+0.063, +0.491]"
+      ],
+      [
+        "E3 (4)",
+        "+1.253 [+0.644, +2.056]",
+        "+0.745 [+0.055, +1.425]",
+        "+0.488 [+0.217, +0.906]",
+        "+0.465 [+0.171, +0.955]"
+      ],
+      [
+        "E3 (12)",
+        "+1.397 [+0.803, +2.215]",
+        "+0.939 [+0.355, +1.620]",
+        "+0.298 [+0.073, +0.578]",
+        "+0.180 [−0.029, +0.442]"
+      ]
+    ],
+    "widths": [
+      3.4,
+      3.4,
+      3.4,
+      3.4,
+      3.4
+    ],
+    "note": "AP percentage points, stride eight; each cell gives the replicate mean followed by the 98.75% paired interval, the Bonferroni level for that encoder's four cells. Cells marked (4) pool seeds 0 and 1 with K = 1 and 4, the primary scope shared with S and D, so their paired differences against S are same-condition pairs; cells marked (12) pool seeds 0, 1, 2 with K = 1, 2, 4 and 8, the wider scope recorded for the three additional encoders. Both scopes are given because they change some of the zero-exclusion decisions. No family adjustment covers the additional encoders as a group, because E1, E2 and E3 were added after the S and D results were known.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
+  },
+  "seed_variance": {
+    "caption": "Descriptive summary of the eight-seed extension, whose reproduction gate passes at the dataset macro level.",
+    "headers": [
+      "Series",
+      "Mean point",
+      "SD across seeds",
+      "Same sign at every seed",
+      "Seeds excluding zero (95%)",
+      "Support / test uncertainty"
+    ],
+    "rows": [
+      [
+        "MPDD $I_{TRI}$",
+        "+0.679",
+        "0.221",
+        "Yes",
+        "7 of 8",
+        "0.48"
+      ],
+      [
+        "MPDD $I_{BAL}$",
+        "+0.548",
+        "0.159",
+        "Yes",
+        "6 of 8",
+        "0.37"
+      ],
+      [
+        "BTAD $I_{TRI}$",
+        "+0.125",
+        "0.136",
+        "No",
+        "3 of 8",
+        "0.68"
+      ],
+      [
+        "BTAD $I_{BAL}$",
+        "+0.036",
+        "0.129",
+        "No",
+        "0 of 8",
+        "0.65"
+      ]
+    ],
+    "widths": [
+      3.4,
+      2.4,
+      3,
+      3.4,
+      2.6,
+      2.2
+    ],
+    "note": "AP percentage points. Seeds 0 to 2 keep their own query encodings; seeds 3 to 7 share one query block, so they vary the support set alone. The last column is the between-seed standard deviation divided by the median bootstrap half-width, that is, how large the support-set contribution is beside the test-image contribution. These numbers are descriptive only; the reproduction gate compares the recomputed and the published per-condition bootstrap means at the dataset macro level and records a maximum absolute difference of 2.602e-18 AP on MPDD over 24 compared cells and 6.722e-18 on BTAD over 16, against a tolerance of 1e-9, so the gate passes. The earlier apparent difference of 0.032 AP on MPDD and 0.007 on BTAD came from comparing a published dataset macro average with a single-category value, an aggregation-level mismatch rather than data drift, and it disappears once the aggregation is aligned. Figure 5(c) draws the same per-seed series.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
+  },
+  "correspondence": {
+    "caption": "The same interaction under five correspondence conventions on MPDD.",
+    "headers": [
+      "Correspondence",
+      "$I_{TRI}$ point",
+      "$I_{TRI}$ 98.75%",
+      "$I_{BAL}$ point",
+      "$I_{BAL}$ 98.75%"
+    ],
+    "rows": [
+      [
+        "Canvas rule (identity)",
+        "+0.767",
+        "[+0.401, +1.271]",
+        "+0.547",
+        "[+0.324, +1.049]"
+      ],
+      [
+        "Procrustes (orthogonal)",
+        "+0.767",
+        "[+0.401, +1.271]",
+        "+0.547",
+        "[+0.324, +1.049]"
+      ],
+      [
+        "Position permutation",
+        "+0.799",
+        "[+0.207, +1.278]",
+        "+0.813",
+        "[+0.317, +1.294]"
+      ],
+      [
+        "OT, exact assignment",
+        "+0.834",
+        "[+0.242, +1.456]",
+        "+0.910",
+        "[+0.438, +1.473]"
+      ],
+      [
+        "OT, soft mixing",
+        "+0.591",
+        "[−0.205, +1.653]",
+        "+0.570",
+        "[−0.065, +1.447]"
+      ]
+    ],
+    "widths": [
+      5,
+      2.2,
+      3.6,
+      2.2,
+      4
+    ],
+    "note": "AP percentage points; six MPDD categories, seeds 0 and 1, K = 1 and 4, four support conditions, 1000 paired replicates, the same bootstrap stream for every row. Intervals are at the 98.75% family level used for the four primary MPDD and BTAD cells. The exact assignment is the limit of the transport rule as its regulariser tends to zero and uses the same cost matrix; the soft-mixing row fixes that regulariser a priori at 0.1 times the interquartile range of the support cost matrix. The canvas row here reproduces the S branch's sign and zero-exclusion decisions on both datasets but not its exact values, because this harness scores through its own path; the text states the comparison.",
+    "bold_rows": [],
+    "left_cols": [
+      0
+    ]
   }
 }

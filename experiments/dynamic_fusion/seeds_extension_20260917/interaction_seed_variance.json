@@ -1,0 +1,2386 @@
+{
+  "created_utc": "2026-09-19T04:28:25.579101+00:00",
+  "purpose": "quantify the support-set contribution to the interaction, i.e. whether the conclusion survives a change of normal reference images",
+  "scope": {
+    "datasets": {
+      "mpdd": [
+        "bracket_black",
+        "bracket_brown",
+        "bracket_white",
+        "connector",
+        "metal_plate",
+        "tubes"
+      ],
+      "btad": [
+        "01",
+        "02",
+        "03"
+      ]
+    },
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "shots": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "replicates": 1000,
+    "revision": "study",
+    "btad03_geometry": "BTAD-03 is INCLUDED here.  Every seed 0..7 carries a canonical B mask of shape 448x588 for the 32x42 grid (verified on disk 2026-09-17), so the category can be pooled with 01/02 across seeds.  This is the canonical-mask convention that the matrices use.  The paper's separate BTAD-03 corrected-geometry analysis (image-faithful masks plus the coordinate-correct C regrid, 'rev_correct' in 01_geometry) is a different convention, so its numbers must not be quoted interchangeably with these."
+  },
+  "query_provenance": {
+    "shared_block_seeds": [
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "own_historical_block_seeds": [
+      0,
+      1,
+      2
+    ],
+    "reason": "seeds 3..7 copy one query encoding so that seed-to-seed differences come from the support set alone; seeds 0..2 keep their frozen historical blocks and are summarised separately as well as jointly"
+  },
+  "VD_4_variance": {
+    "mpdd|I_TRI": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 5,
+        "point_values": [
+          0.008837335904969691,
+          0.007298972893621802,
+          0.008396418234203189,
+          0.0029665121136925204,
+          0.0036465523780254334
+        ],
+        "mean_point": 0.006229158304902527,
+        "sd_across_seeds": 0.0027367326683217924,
+        "bootstrap_means": [
+          0.009443325112220796,
+          0.0076589959765890996,
+          0.008864485278247415,
+          0.0035370630901798723,
+          0.004305090204992599
+        ],
+        "sd_of_bootstrap_means": 0.002685664446713,
+        "support_set_sd_paired_replicate": 0.002685664446713,
+        "median_bootstrap_half_width": 0.004315694381844851,
+        "n_seeds_excluding_zero_95": 4,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.622301814978137
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 3,
+        "point_values": [
+          0.007757244891683729,
+          0.007985760101886051,
+          0.007420328217563929
+        ],
+        "mean_point": 0.007721111070377903,
+        "sd_across_seeds": 0.00028444251393495583,
+        "bootstrap_means": [
+          0.007060268335260231,
+          0.008108823138191498,
+          0.00770399275894854
+        ],
+        "sd_of_bootstrap_means": 0.000528793586755278,
+        "support_set_sd_paired_replicate": 0.000528793586755278,
+        "median_bootstrap_half_width": 0.004433568525702973,
+        "n_seeds_excluding_zero_95": 3,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.11927042148771888
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 8,
+        "point_values": [
+          0.007757244891683729,
+          0.007985760101886051,
+          0.007420328217563929,
+          0.008837335904969691,
+          0.007298972893621802,
+          0.008396418234203189,
+          0.0029665121136925204,
+          0.0036465523780254334
+        ],
+        "mean_point": 0.006788640591955793,
+        "sd_across_seeds": 0.0022134086061975024,
+        "bootstrap_means": [
+          0.007060268335260231,
+          0.008108823138191498,
+          0.00770399275894854,
+          0.009443325112220796,
+          0.0076589959765890996,
+          0.008864485278247415,
+          0.0035370630901798723,
+          0.004305090204992599
+        ],
+        "sd_of_bootstrap_means": 0.0020978038973784234,
+        "support_set_sd_paired_replicate": 0.0020978038973784234,
+        "median_bootstrap_half_width": 0.004374631453773912,
+        "n_seeds_excluding_zero_95": 7,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.4795384295901515
+      }
+    },
+    "mpdd|I_BAL": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 5,
+        "point_values": [
+          0.007249420099251405,
+          0.005446809013795778,
+          0.006399469661093243,
+          0.003393498811405878,
+          0.003473933851380334
+        ],
+        "mean_point": 0.005192626287385328,
+        "sd_across_seeds": 0.0017278775952019655,
+        "bootstrap_means": [
+          0.00742224491320127,
+          0.005481175622004543,
+          0.0066704068594925095,
+          0.0034220956950158296,
+          0.0038637942801317935
+        ],
+        "sd_of_bootstrap_means": 0.0017304692405087688,
+        "support_set_sd_paired_replicate": 0.0017304692405087688,
+        "median_bootstrap_half_width": 0.004302898059510876,
+        "n_seeds_excluding_zero_95": 4,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.4021636619263708
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 3,
+        "point_values": [
+          0.0046487255975529865,
+          0.0076455671082057185,
+          0.005570243160847674
+        ],
+        "mean_point": 0.005954845288868793,
+        "sd_across_seeds": 0.0015349931132261202,
+        "bootstrap_means": [
+          0.004845865264889129,
+          0.007689769113058522,
+          0.0059260284984923835
+        ],
+        "sd_of_bootstrap_means": 0.001435579015840592,
+        "support_set_sd_paired_replicate": 0.001435579015840592,
+        "median_bootstrap_half_width": 0.004286647334027124,
+        "n_seeds_excluding_zero_95": 2,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.3348955264980771
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 8,
+        "point_values": [
+          0.0046487255975529865,
+          0.0076455671082057185,
+          0.005570243160847674,
+          0.007249420099251405,
+          0.005446809013795778,
+          0.006399469661093243,
+          0.003393498811405878,
+          0.003473933851380334
+        ],
+        "mean_point": 0.005478458412941627,
+        "sd_across_seeds": 0.001592122798475313,
+        "bootstrap_means": [
+          0.004845865264889129,
+          0.007689769113058522,
+          0.0059260284984923835,
+          0.00742224491320127,
+          0.005481175622004543,
+          0.0066704068594925095,
+          0.0034220956950158296,
+          0.0038637942801317935
+        ],
+        "sd_of_bootstrap_means": 0.0015696365876481171,
+        "support_set_sd_paired_replicate": 0.0015696365876481171,
+        "median_bootstrap_half_width": 0.004294772696769,
+        "n_seeds_excluding_zero_95": 6,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.3654760562366829
+      }
+    },
+    "btad|I_TRI": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 5,
+        "point_values": [
+          0.0020412783880957483,
+          0.000641096943940637,
+          0.002054083788599346,
+          0.0013281781496482514,
+          0.001830765176764837
+        ],
+        "mean_point": 0.0015790804894097639,
+        "sd_across_seeds": 0.0006011167376866958,
+        "bootstrap_means": [
+          0.002272160662943565,
+          0.0008422436431032255,
+          0.0022173865446744215,
+          0.0015844743082387821,
+          0.0020405785756033657
+        ],
+        "sd_of_bootstrap_means": 0.0005954832786657299,
+        "support_set_sd_paired_replicate": 0.0005954832786657299,
+        "median_bootstrap_half_width": 0.001958558799421493,
+        "n_seeds_excluding_zero_95": 2,
+        "all_seeds_same_sign": true,
+        "ratio_support_to_test_uncertainty": 0.30404156303176605
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 3,
+        "point_values": [
+          -0.0013586394265878987,
+          0.00040276633765004566,
+          0.0030786080537139418
+        ],
+        "mean_point": 0.0007075783215920295,
+        "sd_across_seeds": 0.002234272601883495,
+        "bootstrap_means": [
+          -0.0011075251577877712,
+          0.0007138542076346368,
+          0.003305405503697661
+        ],
+        "sd_of_bootstrap_means": 0.0022176383059458672,
+        "support_set_sd_paired_replicate": 0.0022176383059458672,
+        "median_bootstrap_half_width": 0.0019556895746412014,
+        "n_seeds_excluding_zero_95": 1,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": 1.1339418764108942
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 8,
+        "point_values": [
+          -0.0013586394265878987,
+          0.00040276633765004566,
+          0.0030786080537139418,
+          0.0020412783880957483,
+          0.000641096943940637,
+          0.002054083788599346,
+          0.0013281781496482514,
+          0.001830765176764837
+        ],
+        "mean_point": 0.0012522671764781134,
+        "sd_across_seeds": 0.001355064890476837,
+        "bootstrap_means": [
+          -0.0011075251577877712,
+          0.0007138542076346368,
+          0.003305405503697661,
+          0.002272160662943565,
+          0.0008422436431032255,
+          0.0022173865446744215,
+          0.0015844743082387821,
+          0.0020405785756033657
+        ],
+        "sd_of_bootstrap_means": 0.0013372371733170268,
+        "support_set_sd_paired_replicate": 0.0013372371733170268,
+        "median_bootstrap_half_width": 0.001957124187031347,
+        "n_seeds_excluding_zero_95": 3,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": 0.6832663875793225
+      }
+    },
+    "btad|I_BAL": {
+      "seeds_3_7_query_shared": {
+        "n_seeds": 5,
+        "point_values": [
+          0.0018666399509636722,
+          -0.000567903600491119,
+          0.00141377731850643,
+          0.00036454289114251637,
+          0.0007191400540091375
+        ],
+        "mean_point": 0.0007592393228261274,
+        "sd_across_seeds": 0.0009451795732085908,
+        "bootstrap_means": [
+          0.0021404591969660033,
+          -0.0004014204234414442,
+          0.0016062150311809368,
+          0.0005793288714635405,
+          0.0009127232875417933
+        ],
+        "sd_of_bootstrap_means": 0.0009761417161772261,
+        "support_set_sd_paired_replicate": 0.0009761417161772261,
+        "median_bootstrap_half_width": 0.0019490953631721001,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": 0.5008178330425976
+      },
+      "seeds_0_2_own_query": {
+        "n_seeds": 3,
+        "point_values": [
+          -0.002017798467598808,
+          -0.0003198575186152593,
+          0.001450705722444832
+        ],
+        "mean_point": -0.0002956500879230785,
+        "sd_across_seeds": 0.0017343788020104229,
+        "bootstrap_means": [
+          -0.0017860192396693645,
+          3.966489367498689e-05,
+          0.0016617019331437177
+        ],
+        "sd_of_bootstrap_means": 0.0017248626997347458,
+        "support_set_sd_paired_replicate": 0.0017248626997347458,
+        "median_bootstrap_half_width": 0.002015481130439481,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": 0.8558069205830943
+      },
+      "seeds_0_7_all": {
+        "n_seeds": 8,
+        "point_values": [
+          -0.002017798467598808,
+          -0.0003198575186152593,
+          0.001450705722444832,
+          0.0018666399509636722,
+          -0.000567903600491119,
+          0.00141377731850643,
+          0.00036454289114251637,
+          0.0007191400540091375
+        ],
+        "mean_point": 0.0003636557937951752,
+        "sd_across_seeds": 0.001291515263964723,
+        "bootstrap_means": [
+          -0.0017860192396693645,
+          3.966489367498689e-05,
+          0.0016617019331437177,
+          0.0021404591969660033,
+          -0.0004014204234414442,
+          0.0016062150311809368,
+          0.0005793288714635405,
+          0.0009127232875417933
+        ],
+        "sd_of_bootstrap_means": 0.0012884399907649188,
+        "support_set_sd_paired_replicate": 0.0012884399907649188,
+        "median_bootstrap_half_width": 0.001985639673761562,
+        "n_seeds_excluding_zero_95": 0,
+        "all_seeds_same_sign": false,
+        "ratio_support_to_test_uncertainty": 0.6488790528263972
+      }
+    }
+  },
+  "VD_3_regression": {
+    "mpdd": {
+      "n_compared": 24,
+      "max_abs_delta": 2.6020852139652106e-18,
+      "median_abs_delta": 1.734723475976807e-18,
+      "per_category_max_abs_delta": 0.03222853823108449,
+      "aggregation": "macro over the dataset's categories of the replicate series, compared with the published macro mean_delta",
+      "tolerance_1e_9": true,
+      "published_rows_found": true
+    },
+    "btad": {
+      "n_compared": 16,
+      "max_abs_delta": 6.7220534694101275e-18,
+      "median_abs_delta": 2.6020852139652106e-18,
+      "per_category_max_abs_delta": 0.006965696375940385,
+      "aggregation": "macro over the dataset's categories of the replicate series, compared with the published macro mean_delta",
+      "tolerance_1e_9": true,
+      "published_rows_found": true
+    }
+  },
+  "VD_3_rows": [
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0004821561599241864,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0005577428584696842,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.0016969004249455107,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0055074396871655955,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.010032958540686176,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.009522248713774033,
+      "published_bootstrap_mean": 0.004067607589179026,
+      "series_key": "mpdd|I_TRI|0|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.00019644766592788484,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0009069083289426725,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.0052685746271169676,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.013968513722765126,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007790641074478977,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01128680386225546,
+      "published_bootstrap_mean": 0.006569648213581182,
+      "series_key": "mpdd|I_TRI|0|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.000746142384418085,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0006536619386625567,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.013189741945398932,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.014407369979174077,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.005065637362213203,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.011100762112965725,
+      "published_bootstrap_mean": 0.007278505158999401,
+      "series_key": "mpdd|I_TRI|0|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0016552930279988822,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0004784543499036963,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.012421504581742055,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.03093024422148381,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.0044641968467356375,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.0129590899476312,
+      "published_bootstrap_mean": 0.010325312379281318,
+      "series_key": "mpdd|I_TRI|0|8|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.00488987725123316,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0018778410426328344,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.014093146885741719,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.02010231447672143,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004448104299850451,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.013209368943966389,
+      "published_bootstrap_mean": 0.00344243410436604,
+      "series_key": "mpdd|I_TRI|1|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.001326431232340834,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.000383771044162458,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.001886758231609828,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.01892278442996144,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.006035022333243963,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.011331384772094144,
+      "published_bootstrap_mean": 0.006647692007235442,
+      "series_key": "mpdd|I_TRI|1|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.005908548003626413,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.00469186572929496,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.010150983088942744,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.043556700440948344,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.005248299863251698,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.00848292185596406,
+      "published_bootstrap_mean": 0.013006553163671372,
+      "series_key": "mpdd|I_TRI|1|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.00791359660489144,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0062560000402702666,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.014783003184046465,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.041567151508577635,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.005121862207122666,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.009956072488143298,
+      "published_bootstrap_mean": 0.00933861327749314,
+      "series_key": "mpdd|I_TRI|1|8|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 2.649382789600742e-05,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0006045944379316899,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.003895218906262521,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.012567256404467987,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.00851611226811429,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01119329514009224,
+      "published_bootstrap_mean": 0.00483542219537328,
+      "series_key": "mpdd|I_TRI|2|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.004446371522459327,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0011661008816315607,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.018503932317635818,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0045554999553960125,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.01324912456999797,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.013198557310989003,
+      "published_bootstrap_mean": 0.009186597759684948,
+      "series_key": "mpdd|I_TRI|2|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.007999683589164417,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -2.0870680831930318e-05,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.008164404466202058,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.007747835931730024,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004184286682169919,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.009392444457930587,
+      "published_bootstrap_mean": 0.006244630741060847,
+      "series_key": "mpdd|I_TRI|2|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.005536266058923255,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0006760181697287436,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.010158400271745313,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.03234170133237685,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.0047055828625253504,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "seed": 2,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.009877953342750977,
+      "published_bootstrap_mean": 0.010549320339675084,
+      "series_key": "mpdd|I_TRI|2|8|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0002735608256708584,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.00025092600152908036,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.0018890314745461589,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.006977937939610287,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007574212044626236,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.010082049900004632,
+      "published_bootstrap_mean": 0.0038782758728158253,
+      "series_key": "mpdd|I_BAL|0|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.000186537176328819,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0004809748995748583,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.009356374567723154,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.005696934958173718,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.007172045984846982,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.012524529459669292,
+      "published_bootstrap_mean": 0.0056803954824182455,
+      "series_key": "mpdd|I_BAL|0|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0010968637231392585,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0007592970595054623,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.004613271344985504,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0019299124856219914,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004018082016135524,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01263606052478755,
+      "published_bootstrap_mean": 0.0026378240773673777,
+      "series_key": "mpdd|I_BAL|0|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0013501687449969095,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0008205521598545877,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.00489348257494826,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.03187578041728103,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.003097883231054322,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.012511996103201011,
+      "published_bootstrap_mean": 0.007186965626955069,
+      "series_key": "mpdd|I_BAL|0|8|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.006819501251724336,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0018136665109726852,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.003773682058829702,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.01582342820974169,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.0036239253814542,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01536743239788511,
+      "published_bootstrap_mean": 0.004339211531583272,
+      "series_key": "mpdd|I_BAL|1|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0006627650975748081,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.00013464238849258676,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.00463944100478765,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.013653144695758289,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.00436758011259206,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.010469899289617399,
+      "published_bootstrap_mean": 0.005609697968639605,
+      "series_key": "mpdd|I_BAL|1|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": -0.0021715248784318518,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.002509670955499776,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.014350729840097656,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.04007993162417107,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004256836981925488,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.0071117820236272465,
+      "published_bootstrap_mean": 0.011022904424481566,
+      "series_key": "mpdd|I_BAL|1|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.010044582146941794,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.003803679799687261,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.0026317546025616213,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.032576737522953834,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.004151380176424671,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.01077895012173192,
+      "published_bootstrap_mean": 0.009787262527529641,
+      "series_key": "mpdd|I_BAL|1|8|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 6.297231643614517e-06,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.00021772131461305155,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "bracket_white",
+      "new_bootstrap_mean": -0.01265918669849502,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "connector",
+      "new_bootstrap_mean": 0.012368711462587171,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.006344253462251689,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 1,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.011176937751839738,
+      "published_bootstrap_mean": 0.0029091224207400397,
+      "series_key": "mpdd|I_BAL|2|1|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.002812484413822731,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": 0.0007567510828503179,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.016211422173199517,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "connector",
+      "new_bootstrap_mean": 0.0007333769290366202,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.009858512719600107,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 2,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.013069897222524714,
+      "published_bootstrap_mean": 0.007240407423505669,
+      "series_key": "mpdd|I_BAL|2|2|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.0024470287529283633,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.00017744351442244193,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.012112403475857519,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "connector",
+      "new_bootstrap_mean": 0.008041504224093676,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.002933547181569027,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 4,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.008680635451064072,
+      "published_bootstrap_mean": 0.005672945928515035,
+      "series_key": "mpdd|I_BAL|2|4|tubes"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_black",
+      "new_bootstrap_mean": 0.006062236859984172,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|bracket_black"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_brown",
+      "new_bootstrap_mean": -0.0013054854471175107,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|bracket_brown"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "bracket_white",
+      "new_bootstrap_mean": 0.008500118879033316,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|bracket_white"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "connector",
+      "new_bootstrap_mean": 0.022189219252438164,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|connector"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "metal_plate",
+      "new_bootstrap_mean": 0.0033780909965940333,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|metal_plate"
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "seed": 2,
+      "shot": 8,
+      "category": "tubes",
+      "new_bootstrap_mean": 0.00846564878632058,
+      "published_bootstrap_mean": 0.00788163822120879,
+      "series_key": "mpdd|I_BAL|2|8|tubes"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "01",
+      "new_bootstrap_mean": 0.005024816507380353,
+      "published_bootstrap_mean": 0.0012771978990068187,
+      "series_key": "btad|I_TRI|0|1|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "02",
+      "new_bootstrap_mean": 0.0004947748748126346,
+      "published_bootstrap_mean": 0.0012771978990068187,
+      "series_key": "btad|I_TRI|0|1|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 1,
+      "category": "03",
+      "new_bootstrap_mean": -0.001687997685172523,
+      "published_bootstrap_mean": 0.0012771978990068187,
+      "series_key": "btad|I_TRI|0|1|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "01",
+      "new_bootstrap_mean": -0.004447159471717863,
+      "published_bootstrap_mean": -0.0006706522925782964,
+      "series_key": "btad|I_TRI|0|2|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "02",
+      "new_bootstrap_mean": 0.0021630790603213972,
+      "published_bootstrap_mean": -0.0006706522925782964,
+      "series_key": "btad|I_TRI|0|2|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 2,
+      "category": "03",
+      "new_bootstrap_mean": 0.0002721235336615563,
+      "published_bootstrap_mean": -0.0006706522925782964,
+      "series_key": "btad|I_TRI|0|2|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "01",
+      "new_bootstrap_mean": -0.006929466456287704,
+      "published_bootstrap_mean": -0.0027719363879678757,
+      "series_key": "btad|I_TRI|0|4|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "02",
+      "new_bootstrap_mean": -0.00021755871306186847,
+      "published_bootstrap_mean": -0.0027719363879678757,
+      "series_key": "btad|I_TRI|0|4|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 4,
+      "category": "03",
+      "new_bootstrap_mean": -0.0011687839945540466,
+      "published_bootstrap_mean": -0.0027719363879678757,
+      "series_key": "btad|I_TRI|0|4|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "01",
+      "new_bootstrap_mean": -0.003869933568434504,
+      "published_bootstrap_mean": -0.0022647098496117292,
+      "series_key": "btad|I_TRI|0|8|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "02",
+      "new_bootstrap_mean": -0.00021914252918612387,
+      "published_bootstrap_mean": -0.0022647098496117292,
+      "series_key": "btad|I_TRI|0|8|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 0,
+      "shot": 8,
+      "category": "03",
+      "new_bootstrap_mean": -0.002705053451214562,
+      "published_bootstrap_mean": -0.0022647098496117292,
+      "series_key": "btad|I_TRI|0|8|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "01",
+      "new_bootstrap_mean": 0.004465109599967075,
+      "published_bootstrap_mean": 0.0029195299225733304,
+      "series_key": "btad|I_TRI|1|1|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "02",
+      "new_bootstrap_mean": 0.0031687148938638037,
+      "published_bootstrap_mean": 0.0029195299225733304,
+      "series_key": "btad|I_TRI|1|1|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 1,
+      "category": "03",
+      "new_bootstrap_mean": 0.001124765273889112,
+      "published_bootstrap_mean": 0.0029195299225733304,
+      "series_key": "btad|I_TRI|1|1|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "01",
+      "new_bootstrap_mean": 0.006793554658074391,
+      "published_bootstrap_mean": 0.0024501846370148447,
+      "series_key": "btad|I_TRI|1|2|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "02",
+      "new_bootstrap_mean": -0.0014458329810045512,
+      "published_bootstrap_mean": 0.0024501846370148447,
+      "series_key": "btad|I_TRI|1|2|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 2,
+      "category": "03",
+      "new_bootstrap_mean": 0.002002832233974694,
+      "published_bootstrap_mean": 0.0024501846370148447,
+      "series_key": "btad|I_TRI|1|2|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "01",
+      "new_bootstrap_mean": 0.0019441099576928658,
+      "published_bootstrap_mean": -0.00022616767310496032,
+      "series_key": "btad|I_TRI|1|4|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "02",
+      "new_bootstrap_mean": -0.007191864049045345,
+      "published_bootstrap_mean": -0.00022616767310496032,
+      "series_key": "btad|I_TRI|1|4|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 4,
+      "category": "03",
+      "new_bootstrap_mean": 0.004569251072037602,
+      "published_bootstrap_mean": -0.00022616767310496032,
+      "series_key": "btad|I_TRI|1|4|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "01",
+      "new_bootstrap_mean": -0.0006982133651838811,
+      "published_bootstrap_mean": -0.0022881300559446753,
+      "series_key": "btad|I_TRI|1|8|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "02",
+      "new_bootstrap_mean": -0.007362849385724065,
+      "published_bootstrap_mean": -0.0022881300559446753,
+      "series_key": "btad|I_TRI|1|8|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "seed": 1,
+      "shot": 8,
+      "category": "03",
+      "new_bootstrap_mean": 0.0011966725830739407,
+      "published_bootstrap_mean": -0.0022881300559446753,
+      "series_key": "btad|I_TRI|1|8|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "01",
+      "new_bootstrap_mean": 0.005559494035991687,
+      "published_bootstrap_mean": 1.7287454935432156e-05,
+      "series_key": "btad|I_BAL|0|1|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "02",
+      "new_bootstrap_mean": 0.0005973828104801832,
+      "published_bootstrap_mean": 1.7287454935432156e-05,
+      "series_key": "btad|I_BAL|0|1|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 1,
+      "category": "03",
+      "new_bootstrap_mean": -0.00610501448166557,
+      "published_bootstrap_mean": 1.7287454935432156e-05,
+      "series_key": "btad|I_BAL|0|1|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "01",
+      "new_bootstrap_mean": -0.002750340402697862,
+      "published_bootstrap_mean": -0.0015280994750245598,
+      "series_key": "btad|I_BAL|0|2|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "02",
+      "new_bootstrap_mean": 0.0011898176942074104,
+      "published_bootstrap_mean": -0.0015280994750245598,
+      "series_key": "btad|I_BAL|0|2|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 2,
+      "category": "03",
+      "new_bootstrap_mean": -0.0030237757165832288,
+      "published_bootstrap_mean": -0.0015280994750245598,
+      "series_key": "btad|I_BAL|0|2|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "01",
+      "new_bootstrap_mean": -0.004679355470652554,
+      "published_bootstrap_mean": -0.002898119300411596,
+      "series_key": "btad|I_BAL|0|4|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "02",
+      "new_bootstrap_mean": -0.0008660298012320236,
+      "published_bootstrap_mean": -0.002898119300411596,
+      "series_key": "btad|I_BAL|0|4|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 4,
+      "category": "03",
+      "new_bootstrap_mean": -0.0031489726293502268,
+      "published_bootstrap_mean": -0.002898119300411596,
+      "series_key": "btad|I_BAL|0|4|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "01",
+      "new_bootstrap_mean": -0.0039772177232070965,
+      "published_bootstrap_mean": -0.002735145638176726,
+      "series_key": "btad|I_BAL|0|8|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "02",
+      "new_bootstrap_mean": 3.902952056655751e-05,
+      "published_bootstrap_mean": -0.002735145638176726,
+      "series_key": "btad|I_BAL|0|8|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 0,
+      "shot": 8,
+      "category": "03",
+      "new_bootstrap_mean": -0.004267248711889648,
+      "published_bootstrap_mean": -0.002735145638176726,
+      "series_key": "btad|I_BAL|0|8|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "01",
+      "new_bootstrap_mean": 0.004996081271556235,
+      "published_bootstrap_mean": 0.001997156100247277,
+      "series_key": "btad|I_BAL|1|1|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "02",
+      "new_bootstrap_mean": 0.0016383596607234883,
+      "published_bootstrap_mean": 0.001997156100247277,
+      "series_key": "btad|I_BAL|1|1|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 1,
+      "category": "03",
+      "new_bootstrap_mean": -0.0006429726315379033,
+      "published_bootstrap_mean": 0.001997156100247277,
+      "series_key": "btad|I_BAL|1|1|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "01",
+      "new_bootstrap_mean": 0.007570761283181879,
+      "published_bootstrap_mean": 0.0016013824955182691,
+      "series_key": "btad|I_BAL|1|2|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "02",
+      "new_bootstrap_mean": -0.0026115492538335886,
+      "published_bootstrap_mean": 0.0016013824955182691,
+      "series_key": "btad|I_BAL|1|2|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 2,
+      "category": "03",
+      "new_bootstrap_mean": -0.00015506454279349137,
+      "published_bootstrap_mean": 0.0016013824955182691,
+      "series_key": "btad|I_BAL|1|2|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "01",
+      "new_bootstrap_mean": 0.0016556780253916515,
+      "published_bootstrap_mean": -0.0010739509064085183,
+      "series_key": "btad|I_BAL|1|4|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "02",
+      "new_bootstrap_mean": -0.006847431188883677,
+      "published_bootstrap_mean": -0.0010739509064085183,
+      "series_key": "btad|I_BAL|1|4|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 4,
+      "category": "03",
+      "new_bootstrap_mean": 0.0019699004442664775,
+      "published_bootstrap_mean": -0.0010739509064085183,
+      "series_key": "btad|I_BAL|1|4|03"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "01",
+      "new_bootstrap_mean": 0.0002769823067565387,
+      "published_bootstrap_mean": -0.0023659281146570775,
+      "series_key": "btad|I_BAL|1|8|01"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "02",
+      "new_bootstrap_mean": -0.006015975029589063,
+      "published_bootstrap_mean": -0.0023659281146570775,
+      "series_key": "btad|I_BAL|1|8|02"
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "seed": 1,
+      "shot": 8,
+      "category": "03",
+      "new_bootstrap_mean": -0.0013587916211387056,
+      "published_bootstrap_mean": -0.0023659281146570775,
+      "series_key": "btad|I_BAL|1|8|03"
+    }
+  ],
+  "VD_2_query_drift": {
+    "measured": true,
+    "detail": "see QUERY_DRIFT.json; the criterion is that the query drift is a small fraction of the support-set effect measured on the same distance field",
+    "raw_feature_max_abs_drift": 0.0017137527465820312,
+    "distance_effective_ratio_worst": 1.5492822058149613e-05,
+    "distance_effective_all_below_one": true,
+    "distance_effective_units": [
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 4.080429789610207e-07,
+        "query_drift_effect_on_distance_max": 1.4066696166992188e-05,
+        "support_set_effect_on_distance_mean": 0.06825978308916092,
+        "support_set_effect_on_distance_max": 0.3838944435119629,
+        "ratio_drift_to_support": 5.977794899081346e-06
+      },
+      {
+        "available": true,
+        "dataset": "mpdd",
+        "category": "bracket_black",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1438192615287335e-07,
+        "query_drift_effect_on_distance_max": 6.198883056640625e-06,
+        "support_set_effect_on_distance_mean": 0.014075837098062038,
+        "support_set_effect_on_distance_max": 0.19520854949951172,
+        "ratio_drift_to_support": 8.126118700602092e-06
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "B",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 8192,
+        "query_drift_effect_on_distance_mean": 2.993474481627345e-07,
+        "query_drift_effect_on_distance_max": 3.415346145629883e-05,
+        "support_set_effect_on_distance_mean": 0.019573694095015526,
+        "support_set_effect_on_distance_max": 0.21435803174972534,
+        "ratio_drift_to_support": 1.5293355318135582e-05
+      },
+      {
+        "available": true,
+        "dataset": "btad",
+        "category": "01",
+        "branch": "C",
+        "partner_seed": 4,
+        "n_images": 8,
+        "n_patches": 10952,
+        "query_drift_effect_on_distance_mean": 1.1684186773663896e-07,
+        "query_drift_effect_on_distance_max": 8.881092071533203e-06,
+        "support_set_effect_on_distance_mean": 0.007541677448898554,
+        "support_set_effect_on_distance_max": 0.04706072807312012,
+        "ratio_drift_to_support": 1.5492822058149613e-05
+      }
+    ],
+    "note": "the raw feature drift is not comparable with an interval width, so the ratio that is actually used compares the drift's effect on the nearest-reference cosine distance with the effect of swapping in another seed's references"
+  },
+  "missing_units": [],
+  "caveats": [
+    "the same test images are scored under every seed; only the eight normal references change",
+    "seeds 0..2 and seeds 3..7 differ in query provenance as well as in support set"
+  ]
+}

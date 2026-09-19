@@ -266,6 +266,13 @@ def patchcore_loader(dataset: str, seed: int, shot: int, category: str, config: 
                             # appended 2026-09-18: only official224 was ever run for
                             # mvtec/visa, so the local128 entries resolve to nothing and
                             # the method is simply absent from those units
+                            # appended 2026-09-19: the local128 (closeout) protocol was run on
+                            # mvtec/visa too, writing the same
+                            # outputs/patchcore/closeout/{dataset}_closeout/{unit}/predictions
+                            # layout, so these two entries now resolve; no other change here.
+                            # The local128 rectangle (Resize(144)+Crop(128)) always contains the
+                            # official224 one (Resize(256)+Crop(224)), so the shared region of a
+                            # unit that already had official224 is unchanged.
                             "mvtec": "mvtec_closeout", "visa": "visa_closeout"},
                "official224": {"mpdd": "mpdd_official224", "btad": "btad_official224",
                                "mvtec": "mvtec_official224", "visa": "visa_official224"}}[config]

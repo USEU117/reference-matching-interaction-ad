@@ -20,6 +20,7 @@ table does not list is printed as unmapped rather than guessed silently).
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import re
 import shutil
 from datetime import datetime
@@ -62,15 +63,23 @@ def parse_binding(path: Path) -> dict:
             if token.startswith(".") or Path(token).stem.startswith("."):
                 continue          # a bare `.pdf` in the "also as vector" prose is not a file
             if token.lower().endswith(SUFFIXES):
-                table[Path(token).stem] = script
+                # A row may name a whole family with a pattern, e.g. the figure 7 multi-method
+                # files `fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png`.  Turn every
+                # `<...>` placeholder into a glob so those files resolve instead of being
+                # reported as unmapped.
+                table[re.sub(r"<[^>]*>", "*", Path(token).stem)] = script
     return table
 
 
 def resolve(name: str, table: dict) -> str:
-    """Generating script of one output file: exact stem, then the longest containing entry."""
+    """Generating script of one output file: exact stem, then a pattern, then the longest
+    containing entry."""
     stem = Path(name).stem
     if stem in table:
         return table[stem]
+    for pattern in table:
+        if any(ch in pattern for ch in "*?[") and fnmatch.fnmatchcase(stem, pattern):
+            return table[pattern]
     hits = [s for s in table if s in stem or stem in s]
     return table[max(hits, key=len)] if hits else UNMAPPED
 

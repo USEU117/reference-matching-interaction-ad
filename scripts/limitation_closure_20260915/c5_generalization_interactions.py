@@ -110,29 +110,58 @@ def conditions_for(store, dataset: str, name: str):
     return out
 
 
-def point_from_fullpixel(dataset: str, name: str):
-    """Stride-1 point estimate, read from the full-pixel table when it exists."""
-    path = GEN / "p4_fullpixel/fullpixel_metrics.csv"
-    if not path.exists():
-        return None
-    with path.open(encoding="utf-8-sig") as fh:
-        rows = list(csv.DictReader(fh))
+def condition_labels(store, dataset: str, name: str):
+    """The (seed, K) pairs `conditions_for` actually used, in the same order.
+
+    The published `conditions` string used to enumerate every SEEDS x SHOTS pair regardless of
+    availability, so btad (8 usable conditions) advertised 12 while `n_conditions` said 8.
+    """
+    spec = INTERACTIONS[name]
+    labels = []
+    for seed in SEEDS:
+        for shot in SHOTS:
+            ok = True
+            for method in spec:
+                block = series(store, dataset, seed, shot, method)
+                if block is None or block.shape[1] < len(CATS[dataset]):
+                    ok = False
+                    break
+            if ok:
+                labels.append(f"s{seed}k{shot}")
+    return labels
+
+
+def point_from_fullpixel(dataset: str, name: str, pairs):
+    """Stride-1 point estimate, read from the full-pixel table when it exists.
+
+    Two roots hold full-pixel tables: the generalization store (MVTec/VisA) and the unified
+    support store (MPDD/BTAD).  Until 2026-09-19 only the first was searched, so the MPDD and
+    BTAD rows carried an empty `point_delta_fullpixel` although their table exists.
+
+    `pairs` are the (seed, K) pairs the interaction actually used: btad has 8 usable conditions,
+    and demanding all 12 made this return None even once the right root was searched.
+    """
+    study_root = STUDY_STATS.parent.parent
     table = {}
-    for row in rows:
-        if row["dataset"] != dataset or row.get("metric", PRIMARY) != PRIMARY:
+    for root in (GEN, study_root):
+        path = root / "p4_fullpixel/fullpixel_metrics.csv"
+        if not path.exists():
             continue
-        try:
-            table[(int(row["seed"]), int(row["shot"]), row["method"], row["category"])] = \
-                float(row["pixel_ap"])
-        except (KeyError, TypeError, ValueError):
-            continue
+        with path.open(encoding="utf-8-sig") as fh:
+            for row in csv.DictReader(fh):
+                if row["dataset"] != dataset or row.get("metric", PRIMARY) != PRIMARY:
+                    continue
+                try:
+                    table[(int(row["seed"]), int(row["shot"]), row["method"], row["category"])] = \
+                        float(row["pixel_ap"])
+                except (KeyError, TypeError, ValueError):
+                    continue
     spec = INTERACTIONS[name]
     terms = []
     for left, right in ((spec[0], spec[1]), (spec[2], spec[3])):
         left_values, right_values = [], []
-        for seed in SEEDS:
-            for shot in SHOTS:
-                for category in CATS[dataset]:
+        for seed, shot in pairs:
+            for category in CATS[dataset]:
                     a = table.get((seed, shot, left, category))
                     b = table.get((seed, shot, right, category))
                     if a is None or b is None:
@@ -171,11 +200,16 @@ def main() -> int:
                 continue
             pooled = np.mean(np.stack(parts), axis=0)
             stats = {key: interval(pooled, level) for key, level in CI_LEVELS.items()}
+            labels = condition_labels(source, dataset, name)
+            pairs = []
+            for label in labels:
+                seed_text, shot_text = label[1:].split("k")
+                pairs.append((int(seed_text), int(shot_text)))
             row = {"dataset": dataset, "contrast": name, "role": ROLE[dataset],
                    "metric": PRIMARY, "n_conditions": len(parts),
-                   "conditions": ";".join(f"s{s}k{k}" for s in SEEDS for k in SHOTS),
+                   "conditions": ";".join(labels),
                    "available": True,
-                   "point_delta_fullpixel": point_from_fullpixel(dataset, name),
+                   "point_delta_fullpixel": point_from_fullpixel(dataset, name, pairs),
                    "bootstrap_mean": stats["ci95"]["mean"]}
             for key, block in stats.items():
                 row[f"{key}_low"] = block["low"]

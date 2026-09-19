@@ -9,8 +9,8 @@
 > 不再依赖任何 `.tmp_*` 目录；图 6/图 7 已重排布并加入字号自检（脚本在字号不达标时直接失败）；
 > 新增图 S2（真模块消融）与图 S3（额外案例）。
 >
-> 2026-09-18 补：图 S3 的图片面板问题已解决——`freeze_s0.py` 与 `s2_robustness.py` 里那三张
-> 11 in / 7—9 pt 的光栅图改为按稿件宽度 17 cm 绘制并接上字号门禁（实测均为 11.50 pt），
+> 2026-09-18 补：图 S3 的图片面板问题已解决——`freeze_s0.py` 与 `s2_robustness.py` 里那些
+> 11 in / 7—9 pt 的光栅图（现为 4 张，逐图案例 2026-09-19 起分两页）改为按稿件宽度 17 cm 绘制并接上字号门禁（实测均为 11.50 pt），
 > `build_figS3_extra_cases.py --embed-panels` 可把它们以原尺寸放到续页（默认不开，见第四节）；
 > 新增正文插图同步脚本 `sync_to_manuscript.py`（默认 dry-run，见第五节末）。
 >
@@ -19,13 +19,19 @@
 > 那一列（按实测宽度折行）+ 每页 4 行分页」，并把「文本互压」「文本出页面」两个断言并入
 > `figure_font_gate.py`（`assert_no_text_text_overlap`、`assert_text_inside_page`，带可失败的
 > `--self-test` 负向对照），图 S3 与图 7 的每张产物都过这两道断言。数值、案例选择、评测口径未改。
+>
+> 2026-09-19 补：C 的四数据集交互表已落盘，**图 4 的 (b) 面板已画出 MVTec/VisA 四行**（共 8 行 =
+> 4 数据集 × 2 对比），证据是 `build.mjs` 重跑打印的 `[fig4] band (b) now carries 8 rows …` 与
+> `layouts/fig4_effects_interaction.layout.json` 的 `i4`—`i7` 行（含 `GEN` 车道）；图 7 的 VisA
+> 12 类 + JSON 也已出齐；`sync_to_manuscript.py` 现能解析绑定表里的 `<…>` 文件名模式。数值、
+> 案例选择、评测口径未改。
 
 - 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（27 页，8 张正文图 + 1 张补充图）
 - 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/figures)
 - 可编辑母版：[figures_reference_matching_20260914.pptx](file:///d:/STUDY/My_github/sci_project/docs/figures_reference_matching_20260914/figures_reference_matching_20260914.pptx)（7 页）
 - 数据根目录：`experiments/dynamic_fusion/representation_matching_interaction_20260914/`
 - 绘图脚本目录：`scripts/figures_reference_matching_20260914/`
-- 本轮合并日期：**2026-09-15**（图集重建 2026-09-18）
+- 本轮合并日期：**2026-09-15**（图集重建 2026-09-18；2026-09-19 补图 4 的 MVTec/VisA 四数据集行与图 7 的 VisA 12 类）
 
 ## 一、正文图号与图源
 
@@ -34,10 +40,10 @@
 | 图 1 | §3.2 Overview | `fig1_framework.png` | `scripts/figures_reference_matching_20260914/fig1.mjs`（+ `make_assets.py` 生成光栅素材） | MPDD `metal_plate` train/good 000/001/029 与 test/scratches/026.png；分数图回放自 `submission_repro_20260827/predictions_compact/maps/mpdd/s0_k1/metal_plate.npz`，轮廓见 `assets/contours.json`（Otsu 可视化规则，不用 GT） | 2026-09-18 |
 | 图 2 | §3.3 Matching rules | `fig2_matching.png` | `figs_methods.mjs` → `drawFigure2` | 结构示意图；格位明示「ordering only」，不含测量数值 | 2026-09-18 |
 | 图 3 | §3.4 Constructions | `fig3_constructions.png` | `figs_methods.mjs` → `drawFigure3` | `00_protocol/PROTOCOL.json` 的 A1/DUP/TRI/BAL 固定权重；X 槽由五个冻结编码器实例化（S、D、E1、E2、E3，维度取自 `s4_extra_encoders.py` 的 `feature_dim`） | 2026-09-18 |
-| 图 4 | §4.2.3—4.2.4 | `fig4_effects_interaction.png` | `figs_data.mjs` → `drawFigure4` | `02_interaction/representation_effects.csv`（S）、`04_new_encoder/representation_effects_new_encoder.csv`（D）、`05_extra_encoders/encoder_comparison_three.csv`（S、D、E1、E2、E3）；区间为源文件的未校正 95%；MVTec/VisA 行待 `generalization_mvtec_visa_20260915/interaction_generalization.csv` | 2026-09-18 |
+| 图 4 | §4.2.3—4.2.4 | `fig4_effects_interaction.png` | `figs_data.mjs` → `drawFigure4` | `02_interaction/representation_effects.csv`（S）、`04_new_encoder/representation_effects_new_encoder.csv`（D）、`05_extra_encoders/encoder_comparison_three.csv`（S、D、E1、E2、E3）、`generalization_mvtec_visa_20260915/interaction_generalization.csv`（MVTec/VisA 四数据集行，见第四节）；区间为源文件的未校正 95%；(b) 面板共 **8 行 = 4 数据集 × 2 对比**，MVTec/VisA 画作 `GEN` 车道 | 2026-09-19 |
 | 图 5 | §4.2.5 | `fig5_budget_category.png` | `figs_data.mjs` → `drawFigure5` | `03_robustness/interaction_K_curve.csv`（seed = −1 种子平均行）、`03_robustness/interaction_per_category.csv`、`seeds_extension_20260917/interaction_by_seed.csv`（8 seeds；0—2 自持 query，3—7 共享 query 块） | 2026-09-18 |
 | 图 6 | §4.2.6 | `qualitative_improvements_part1.png` + `part2.png`（另有矢量 `.pdf`；同源清单 `qualitative_mpdd_matching_manifest.json`、`qualitative_mpdd_matching_manifest.csv` 与图注 `qualitative_mpdd_matching_captions.md`） | `build_qualitative_figures.py` | 5 例细节案例来自 `04_new_encoder/units/mpdd_s0_k4/*__study/` 存储预测（seed 0、K = 4）；案例选择规则见 `paper_evidence_closeout_20260914/03_paper/fig5_selection.csv` | 2026-09-18 |
-| 图 7 | §4.2.6 | `qualitative_mpdd_matching_degradations.png`（另有矢量 `.pdf`）；**新增多方法逐样本对比**：`fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png`（+`.pdf`，见第六节） | `build_qualitative_figures.py`（同图 6）；**新增 `build_fig7_multimethod_samples.py`**（多方法逐样本/逐区域，输入与命令见第六节） | 同上（退化案例）；多方法图另加 S8 共同区域表 `05_baselines/baseline_common_region.csv` + `common_region_geometry.json` | 2026-09-18 |
+| 图 7 | §4.2.6 | `qualitative_mpdd_matching_degradations.png`（另有矢量 `.pdf`）；**新增多方法逐样本对比**：`fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png`（+`.pdf`，同源摘要 `fig7_multimethod_<dataset>_s<seed>_k<shot>.json`，见第六节） | `build_qualitative_figures.py`（同图 6）；**新增 `build_fig7_multimethod_samples.py`**（多方法逐样本/逐区域，输入与命令见第六节） | 同上（退化案例）；多方法图另加 S8 共同区域表 `05_baselines/baseline_common_region.csv` + `common_region_geometry.json`（四数据集版见 `05_baselines_multi_dataset/`） | 2026-09-19 |
 | 图 8 | §4.2.7 | `fig8_resources.png` | `figs_data.mjs` → `drawFigure8` | `05_baselines/resource_comparison_v2.csv`（单机 RTX 3060 Laptop 6 GB） | 2026-09-18 |
 | 图 S1 | Supplementary Method Figures | `figS1_encoders.png` | `figs_methods.mjs` → `drawFigureS1` | 分支维度与网格来自 `00_protocol/INPUT_FREEZE.json`、`01_geometry/*`；D 支见 `04_new_encoder/D_BRANCH_SPEC.json`，E1/E2/E3 见 `s4_extra_encoders.py` | 2026-09-18 |
 | 图 S2 | Supplementary Results | `figS2_shared_op_ablation.png`（+`.pdf`、`figS2_shared_op_ablation.json`） | `build_figS2_ablation.py` | `limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics.csv` + `ablation_metrics_abl_s_L.csv`；**scope 仅 seed 0、K = 1**，图上与图注均标注为探索性 | 2026-09-18 |
@@ -93,9 +99,9 @@ node scripts/figures_reference_matching_20260914/build.mjs
 # 图 S3（额外案例）
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS3_extra_cases.py
 
-# 图 S3 的图片面板（几何冻结 + 稳健性两张面板的 17 cm / >= 11.5 pt 版本，见第四节）
+# 图 S3 的图片面板（几何冻结 2 张 + 稳健性 2 张（逐图案例 2026-09-19 起分两页）的 17 cm / >= 11.5 pt 版本，见第四节）
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS3_extra_cases.py --embed-panels
-# 只重渲染管线里的那三张面板（写回实验目录，不重算任何表）
+# 只重渲染管线里的那四张面板（写回实验目录，不重算任何表）
 .venv-anomalyclip/Scripts/python.exe scripts/representation_matching_interaction_20260914/freeze_s0.py --figures-only
 .venv-anomalyclip/Scripts/python.exe scripts/representation_matching_interaction_20260914/s2_robustness.py --render-cases-only
 
@@ -124,22 +130,23 @@ node scripts/figures_reference_matching_20260914/build.mjs
 |---|---|---|
 | 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类只覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；AnomalyDINO 的 mvtec/visa dump 与 PatchCore 的 6 个夜间单元尚未落盘时，相应列按「n/a」降级并记入 JSON，不中断构建。 |
 | 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。老师口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
-| 四数据集（MVTec/VisA）交互行 | 未产出 | 工作流 C 的 `generalization_mvtec_visa_20260915/` 只有逐单元 `p4_fullpixel/**` 与探针日志，**没有** `p1_statistics/bootstrap_samples.npz`、也没有 `interaction_generalization.csv`（`seeds_extension_20260917/ANALYSIS_CHAIN.json` 记录 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0）。图 4 的 (b) 面板已按该表的列名预留，一旦表落盘，重跑 `build.mjs` 即自动补上四数据集行（脚本会打印行数变化）。 |
+| 四数据集（MVTec/VisA）交互行 | **已产出（2026-09-19）** | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz`（2026-09-19 00:24，≈116 MB）与 `generalization_mvtec_visa_20260915/interaction_generalization.csv`（2026-09-19 00:34，2600 B，8 行 = 4 数据集 × I_TRI/I_BAL，`available` 全为 True、`n_replicates` = 1000）均已落盘。`seeds_extension_20260917/ANALYSIS_CHAIN.json` 仍是 2026-09-18 的旧链日志（记 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0），**未反映夜跑结果**。图 4 的 (b) 面板已画出这四行：重跑 `node scripts/figures_reference_matching_20260914/build.mjs` 打印 `[fig4] band (b) now carries 8 rows …`（退出码 0），`layouts/fig4_effects_interaction.layout.json` 里第 5—8 行分别是 `MVTec I TRI`、`MVTec I BAL`、`VisA I TRI`、`VisA I BAL`，各带一条 `GEN` 车道（`i4-GEN-bar`…`i7-GEN-mark`）；`i4-GEN-bar` 的 bbox 右端 x = 659.33 + 102.35 = 761.68，与 `mvtec/I_TRI` 的 `bootstrap_mean` 0.0043247 按 (b) 轴 `470 + (v + 0.008)/0.03 × 710` 换算一致。 |
 | loss–epoch 收敛曲线 | 不适用 | 冻结检索方法没有目标域训练，不能为该曲线编造数据。已用图 5（K 曲线）与图 8（资源）替代，属需向老师说明的替代方案。 |
 
 ### 图 S3 的图片面板（2026-09-18 已可嵌入，见 `figS3_extra_cases.json` 的 `picture_panels`）
 
 `01_geometry/figS1_c_to_b_shift.png`、`01_geometry/figS2_canvas_coverage.png`、
-`03_robustness/figS3_interaction_cases.png` 三张都是几何冻结与稳健性脚本产出的**光栅图**，
+`03_robustness/figS3_interaction_cases.png`、`03_robustness/figS3_interaction_cases_p2.png`
+四张（逐图案例 2026-09-19 起分两页）都是几何冻结与稳健性脚本产出的**光栅图**，
 其内部字号原来是 **7—9 pt（11 in 画布）**，放到 17 cm 栏宽后只剩 **4.3—5.5 pt**，不满足
 F09（≥ 11 pt）。本轮把三个源脚本的画布改成稿件宽度 **17 cm（6.69 in）**、字号改为
 **11.5 pt**，并接上 `figure_font_gate.assert_min_font_pt` 自动断言（不达标即失败），
 重渲染为 PNG+PDF：
 
 - `freeze_s0.py` → `render_c_to_b_figure`（`figS1_c_to_b_shift`）、`boundary_figure`（`figS2_canvas_coverage`）
-- `s2_robustness.py` → `render_cases`（`figS3_interaction_cases`）
+- `s2_robustness.py` → `render_cases`（`figS3_interaction_cases`、第 2 页 `figS3_interaction_cases_p2`）
 
-三张重渲染后实测最小字号均为 **11.50 pt**，已无 F09 问题。图 S3 的 (a)(b) 两块仍用同源数据在
+四张重渲染后实测最小字号均为 **11.50 pt**，已无 F09 问题。图 S3 的 (a)(b) 两块仍用同源数据在
 17 cm / ≥ 11.5 pt 契约下重绘；图片面板由 `build_figS3_extra_cases.py --embed-panels` 以
 **原尺寸（每张满 17 cm 宽）**放到续页 `figS3_extra_cases_panels.png/.pdf`，默认不开该开关，
 因此 (a)(b) 版输出不变。
@@ -184,10 +191,15 @@ F09（≥ 11 pt）。本轮把三个源脚本的画布改成稿件宽度 **17 cm
 **2026-09-19 已执行 `--apply`**：首次 85 个文件里 35 个新增、43 个更新（复制 78 个）；
 幂等复跑后再补 20 个（内容相同、只有 mtime 变了），最终 dry-run 显示 85 个全部 identical；
 目标目录现含 42 张 PNG（含新增的 `panel_interaction_cases_p2.png`/`.pdf`）。
+**2026-09-19 再执行 `--apply`**（图 7 的 VisA 12 类与重绘的图 4 出图后）：源目录 108 个文件里
+**23 个新增、9 个更新（复制 32 个）**，幂等复跑显示 108 个全部 identical；目标目录现含
+**53 张 PNG**、共 108 个文件（其中 `fig7_multimethod_visa_*` 25 个含 JSON）。
 正文 docx 与 `figures.json` 的文件名映射**未改**，本轮只写 `figures/` 目录。
-（次要提示：`sync_to_manuscript.py` 的来源脚本列是按图名精确/子串匹配绑定表的，图 7 那行写的是
-`fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png` 这种模式，因此多方法逐样本图在
-copy 清单里显示 `not listed in FIGURE_BINDING.md`；它们实际出处见第六节，映射未丢。）
+（2026-09-19 补：`sync_to_manuscript.py` 的来源脚本列此前按图名精确/子串匹配绑定表，而图 7 那行写的是
+`fig7_multimethod_<dataset>_s<seed>_k<shot>_<category>.png` 这种**文件名模式**，因此多方法逐样本图在
+copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_binding`/`resolve` 里把 `<…>` 段
+转成通配符并把 `fnmatch` 匹配接在精确匹配之后（纯追加，原有精确/子串规则不变），图 7 的多方法图
+现在都能解析到 `build_fig7_multimethod_samples.py`；它们实际出处仍见第六节。）
 
 ## 六、图 7 的多方法逐样本/逐区域对比（2026-09-18 新增）
 
@@ -201,7 +213,7 @@ copy 清单里显示 `not listed in FIGURE_BINDING.md`；它们实际出处见�
 
 | 参数 | 默认 | 说明 |
 |---|---|---|
-| `--region-table` | `…/05_baselines/baseline_common_region.csv` | S8 逐方法共同区域结果表（含每个方法的来源文件路径）。该表只覆盖 mpdd、btad；四数据集表是 `…/05_baselines_multi_dataset/baseline_common_region.csv`（696 行 = 4 数据集 × 6 方法，mpdd/btad 行与前者逐字段相同），mpdd/mvtec 的正式产物由它生成 |
+| `--region-table` | `…/05_baselines/baseline_common_region.csv` | S8 逐方法共同区域结果表（含每个方法的来源文件路径）。该表只覆盖 mpdd、btad；四数据集表是 `…/05_baselines_multi_dataset/baseline_common_region.csv`（**703 行**，2026-09-19 实测；按方法计 `controlled_A1_J` 144、`controlled_A1_L` 144、`anomalydino_canvas_rotation` 120、`anomalydino_canvas` 115、`PatchCore_native_official224` 144、`PatchCore_native_local128` 36，mpdd/btad 行与前者逐字段相同），mpdd/mvtec 的正式产物由它生成。**注意 `PatchCore_native_local128` 现只有 btad（12 行）+ mpdd（24 行）共 36 行，在 mvtec、visa 上尚无行**（另有任务在补跑），因此 mvtec 的 s0 k4 单元只有 5 列 |
 | `--geometry` | `--region-table` 同目录 `common_region_geometry.json` | 共同区域矩形/网格与每个方法的覆盖矩形 |
 | `--dataset` / `--seed` / `--shot` | `mpdd` / `0` / `4` | 单元；多数据集表里 mpdd、btad、mvtec、visa 都有 s0 k4 的条目 |
 | `--categories` | 表内该数据集的全部类别 | 逗号分隔；每类出一张图 |
@@ -232,12 +244,13 @@ copy 清单里显示 `not listed in FIGURE_BINDING.md`；它们实际出处见�
   Pixel-AP 与共享色标范围）、哪些方法列、哪些方法缺（方法名 + 原因 + 应有来源路径）、
   每个来源文件的路径/mtime/字节数、选择规则与限制。
 
-### 复现命令与四次实测（mpdd/btad 2026-09-18 出图，mvtec 2026-09-19 出图并重过门禁）
+### 复现命令与四次实测（mpdd/btad 2026-09-18 出图；mvtec、visa 2026-09-19 出图并重过门禁）
 
 ```
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --region-table experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv --dataset mpdd --seed 0 --shot 4 --samples-per-category 3
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --dataset btad --seed 0 --shot 4 --samples-per-category 3
 .venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --region-table experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv --dataset mvtec --seed 0 --shot 4 --samples-per-category 3
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py --region-table experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv --dataset visa --seed 0 --shot 4 --samples-per-category 3
 ```
 
 | 运行 | 产物 | 方法列 | 样本数 | 实测最小字号 | 耗时 |
@@ -245,7 +258,7 @@ copy 清单里显示 `not listed in FIGURE_BINDING.md`；它们实际出处见�
 | MPDD s0 k4 | `fig7_multimethod_mpdd_s0_k4_{bracket_black,bracket_brown,bracket_white,connector,metal_plate,tubes}.png/.pdf` + `fig7_multimethod_mpdd_s0_k4.json` | 6（A1 J、A1 L、ADino、ADino-rot、PC-128、PC-224） | 6 类 × 3 = 18 | 11.50 pt | 30 s |
 | BTAD s0 k4 | `fig7_multimethod_btad_s0_k4_{01,02,03}.png/.pdf` + `fig7_multimethod_btad_s0_k4.json` | 6（同上） | 3 类 × 3 = 9 | 11.50 pt | 25 s |
 | MVTec s0 k4 | `fig7_multimethod_mvtec_s0_k4_<15 类>.png/.pdf` + `fig7_multimethod_mvtec_s0_k4.json` | **5**（A1 J、A1 L、ADino、ADino-rot、PC-224；该单元表内没有 PC-128） | 15 类 × 3 = 45 | 11.50 pt | 约 3 分钟 |
-| VisA s0 k4 | 官方目录里只有父流程留下的 `fig7_multimethod_visa_s0_k4_candle.png/.pdf`（当时只跑到第一类，无 JSON）；本轮的 5 列 n/a 复核写临时目录、未覆盖它 | 3（A1 J、A1 L、PC-224） | 1 类 × 3 = 3 | 11.50 pt | 复核约 40 s |
+| VisA s0 k4 | `fig7_multimethod_visa_s0_k4_{candle,capsules,cashew,chewinggum,fryum,macaroni1,macaroni2,pcb1,pcb2,pcb3,pcb4,pipe_fryum}.png/.pdf` + `fig7_multimethod_visa_s0_k4.json`（2026-09-19 10:09—10:11 落盘） | **4**（A1 J、A1 L、ADino、PC-224；ADino 的 visa dump 只覆盖 8 类，其余 4 类该列为 `n/a`） | 12 类 × 3 = 36 | 11.50 pt | 约 2 分钟 |
 
 ### 列宽与图注复核（2026-09-19）
 
@@ -288,10 +301,11 @@ copy 清单里显示 `not listed in FIGURE_BINDING.md`；它们实际出处见�
   → 5 个方法列、其中 **2 个 n/a**（`not in the region table for this unit`）、`n_rows = 3`、
   图高 12.04 in、51—57 个 text artist 全为 **11.50 pt**、0 互压 / 0 出页 / 0 压图、退出码 0。
   未知方法键的列标题按**实测宽度**折行（`PatchCore` / `extra` / `unknown key`），不再靠字符数估算。
-- 本包当前：mpdd、btad 各 6 列、mvtec 5 列，所选单元的全部类别都有逐样本数据（`missing` 为空）；
-  visa 的 s0 k4 表内只有 3 个方法（A1 J、A1 L、PC-224），AnomalyDINO 的 visa dump 仍在补，
-  正式目录里因此只有父流程留下的那一张 candle 图（无 JSON）；补齐后重跑同一条命令即可补列，
-  缺列会自动以 `n/a` 呈现而不是中断构建。
+- 本包当前：mpdd、btad 各 6 列、mvtec 5 列、visa 4 列，所选单元的全部类别都有逐样本图（`missing` 为空）；
+  visa 的 s0 k4 表内 4 个方法为 A1 J、A1 L、ADino、PC-224，其中 ADino 的 visa dump 只覆盖 8 类
+  （candle—macaroni2），其余 4 类（pcb1—pipe_fryum）该列按 `n/a` 呈现；12 类图与 JSON 已于
+  2026-09-19 10:09—10:11 出齐（`fig7_multimethod_visa_s0_k4.json` 记 `categories_rendered` = 12、
+  `missing` 空、`units_missing_from_region_table` 空）；缺列会自动以 `n/a` 呈现而不是中断构建。
 
 ### 校验
 

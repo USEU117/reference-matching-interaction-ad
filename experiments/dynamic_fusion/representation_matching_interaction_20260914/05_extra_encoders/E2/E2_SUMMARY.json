@@ -1,472 +1,544 @@
 {
-  "created_utc": "2026-09-18T22:14:20.663283+00:00",
+  "created_utc": "2026-09-19T04:24:56.277007+00:00",
   "branch": "E2",
-  "units_recorded": 144,
-  "new_method_conditions": 200,
-  "control_conditions": 160,
+  "units_recorded": 48,
+  "new_method_conditions": 240,
+  "control_conditions": 192,
   "interactions": 6,
   "interaction_lookup": {
     "mpdd|study|I_TRI_E": {
-      "point": -0.00039127928234955017,
-      "mean": -0.00038041502330279215,
+      "point": -0.00018647504292564065,
+      "mean": -0.00017535814658874044,
       "ci95": [
-        -0.002081629526840212,
-        0.001184222053353248
+        -0.0024985730047156042,
+        0.001961020967448362
       ],
       "ci9875": [
-        -0.002664142287976802,
-        0.0017031920804381371
+        -0.003584049369666766,
+        0.002978187685033789
       ],
-      "conditions": 12
+      "conditions": 4
     },
     "mpdd|study|I_BAL_E": {
-      "point": 0.00010197524778110072,
-      "mean": 0.0003624411693288211,
+      "point": 0.00039269600257689496,
+      "mean": 0.0007627135778202334,
       "ci95": [
-        -0.0017972341130157382,
-        0.0031856881177595355
+        -0.0022986465314856477,
+        0.004753077075969307
       ],
       "ci9875": [
-        -0.002354249456806014,
-        0.004433573777872998
+        -0.0031526940268701313,
+        0.005882258032879231
       ],
-      "conditions": 12
+      "conditions": 4
     },
     "btad|corrected|I_TRI_E": {
-      "point": 0.0017368306096580504,
-      "mean": 0.0017847224055549775,
+      "point": 0.0026874772407942393,
+      "mean": 0.0027755551415281137,
       "ci95": [
-        0.0010617028527816904,
-        0.0027632282699400694
+        0.0016844332778784257,
+        0.004341377187885995
       ],
       "ci9875": [
-        0.0009019724432299962,
-        0.003152091081595165
+        0.0015182522665971292,
+        0.0049353335793966575
       ],
-      "conditions": 12
+      "conditions": 4
     },
     "btad|corrected|I_BAL_E": {
-      "point": 0.0020368710450757908,
-      "mean": 0.002258728907694763,
+      "point": 0.003980898191868559,
+      "mean": 0.004218819560660888,
       "ci95": [
-        0.0009284041072510653,
-        0.004292614306942031
+        0.0020304891982820847,
+        0.007700764871457727
       ],
       "ci9875": [
-        0.000627535778615059,
-        0.0049056829166131905
+        0.0015792100418951694,
+        0.008723109145638862
       ],
-      "conditions": 12
+      "conditions": 4
     },
     "btad|study|I_TRI_E": {
-      "point": 0.0016509743519478777,
-      "mean": 0.0016973188202080022,
+      "point": 0.0025565724792675215,
+      "mean": 0.002637577342439575,
       "ci95": [
-        0.0009618081948038384,
-        0.002707246696952446
+        0.0015879870810668576,
+        0.004136823578351495
       ],
       "ci9875": [
-        0.0007791132399258247,
-        0.0029898601849286943
+        0.0014187859904619493,
+        0.004667442787221499
       ],
-      "conditions": 12
+      "conditions": 4
     },
     "btad|study|I_BAL_E": {
-      "point": 0.00180655866058189,
-      "mean": 0.002026482197129833,
+      "point": 0.0037649012031545637,
+      "mean": 0.003976276007820809,
       "ci95": [
-        0.0007956852553352016,
-        0.0039289610590787245
+        0.0020269254893598046,
+        0.0071203443321012075
       ],
       "ci9875": [
-        0.0005202492421856837,
-        0.004593798235479391
+        0.001709443064678664,
+        0.008357331221372463
       ],
-      "conditions": 12
+      "conditions": 4
     }
   },
   "feature_reuse_vs_encode": {
     "query_encoded": 0,
     "ref_encoded": 0,
-    "reused_units": 27
+    "reused_units": 18
   },
   "resource": {
     "device": "cuda",
     "peak_gpu_mb_encoding": 48.0,
-    "peak_gpu_mb_scoring": 207.1,
+    "peak_gpu_mb_scoring": null,
     "total_query_seconds": 0,
     "total_ref_seconds": 0,
-    "total_score_seconds": 242.1
+    "total_score_seconds": 0
   },
   "verification": {
     "VE_2_single_branch_auroc": {
       "pass": true,
       "branch": "E2",
-      "n_units": 40,
-      "min_auroc": 0.9196406622194893,
-      "mean_auroc": 0.9538436201403758,
-      "max_auroc": 0.9869171297832415,
+      "n_units": 48,
+      "min_auroc": 0.8871240275286193,
+      "mean_auroc": 0.9528974098821988,
+      "max_auroc": 0.9844146751078309,
       "btad_reference_auroc_of_D": 0.94,
       "per_unit": [
         {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "corrected",
-          "seed": 2,
+          "dataset": "mpdd",
+          "category": "bracket_black",
+          "revision": "study",
+          "seed": 0,
           "shot": 1,
-          "pixel_auroc": 0.9309546144969858,
-          "pixel_ap": 0.41223858137960945
+          "pixel_auroc": 0.9349591949455838,
+          "pixel_ap": 0.00792436444652458
         },
         {
-          "dataset": "btad",
-          "category": "01",
+          "dataset": "mpdd",
+          "category": "bracket_black",
           "revision": "study",
-          "seed": 2,
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9579285812407434,
+          "pixel_ap": 0.019809750585627995
+        },
+        {
+          "dataset": "mpdd",
+          "category": "bracket_black",
+          "revision": "study",
+          "seed": 1,
           "shot": 1,
-          "pixel_auroc": 0.9309546144969858,
-          "pixel_ap": 0.41223858137960945
+          "pixel_auroc": 0.9491982352078792,
+          "pixel_ap": 0.01590938562388102
         },
         {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "corrected",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.948361679239408,
-          "pixel_ap": 0.4446496817804153
-        },
-        {
-          "dataset": "btad",
-          "category": "01",
+          "dataset": "mpdd",
+          "category": "bracket_black",
           "revision": "study",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.948361679239408,
-          "pixel_ap": 0.4446496817804153
-        },
-        {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "corrected",
-          "seed": 2,
+          "seed": 1,
           "shot": 4,
-          "pixel_auroc": 0.9586152679001297,
-          "pixel_ap": 0.46504939247678256
+          "pixel_auroc": 0.9566091327078939,
+          "pixel_ap": 0.020578999364001916
         },
         {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "study",
-          "seed": 2,
-          "shot": 4,
-          "pixel_auroc": 0.9586152679001297,
-          "pixel_ap": 0.46504939247678256
-        },
-        {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "corrected",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.9605541945988236,
-          "pixel_ap": 0.4710605196067856
-        },
-        {
-          "dataset": "btad",
-          "category": "01",
-          "revision": "study",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.9605541945988236,
-          "pixel_ap": 0.4710605196067856
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 0,
-          "shot": 2,
-          "pixel_auroc": 0.9240814757642153,
-          "pixel_ap": 0.3658405017225544
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
+          "dataset": "mpdd",
+          "category": "bracket_brown",
           "revision": "study",
           "seed": 0,
-          "shot": 2,
-          "pixel_auroc": 0.9240814757642153,
-          "pixel_ap": 0.3658405017225544
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 0,
-          "shot": 8,
-          "pixel_auroc": 0.9302057198323982,
-          "pixel_ap": 0.38222321574089907
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "study",
-          "seed": 0,
-          "shot": 8,
-          "pixel_auroc": 0.9302057198323982,
-          "pixel_ap": 0.38222321574089907
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 1,
-          "shot": 2,
-          "pixel_auroc": 0.9233532594549116,
-          "pixel_ap": 0.36701690022775013
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "study",
-          "seed": 1,
-          "shot": 2,
-          "pixel_auroc": 0.9233532594549116,
-          "pixel_ap": 0.36701690022775013
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 1,
-          "shot": 8,
-          "pixel_auroc": 0.9292844895498513,
-          "pixel_ap": 0.3811875261829497
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "study",
-          "seed": 1,
-          "shot": 8,
-          "pixel_auroc": 0.9292844895498513,
-          "pixel_ap": 0.3811875261829497
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 2,
           "shot": 1,
-          "pixel_auroc": 0.9196406622194893,
-          "pixel_ap": 0.35455738231954625
+          "pixel_auroc": 0.9596913730799743,
+          "pixel_ap": 0.10425108952147327
         },
         {
-          "dataset": "btad",
-          "category": "02",
+          "dataset": "mpdd",
+          "category": "bracket_brown",
           "revision": "study",
-          "seed": 2,
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9613646333695487,
+          "pixel_ap": 0.11289458168449243
+        },
+        {
+          "dataset": "mpdd",
+          "category": "bracket_brown",
+          "revision": "study",
+          "seed": 1,
           "shot": 1,
-          "pixel_auroc": 0.9196406622194893,
-          "pixel_ap": 0.35455738231954625
+          "pixel_auroc": 0.9594008779318255,
+          "pixel_ap": 0.1006874354470172
         },
         {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.925010621067514,
-          "pixel_ap": 0.3705876964209201
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
+          "dataset": "mpdd",
+          "category": "bracket_brown",
           "revision": "study",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.925010621067514,
-          "pixel_ap": 0.3705876964209201
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 2,
+          "seed": 1,
           "shot": 4,
-          "pixel_auroc": 0.9275197835130815,
-          "pixel_ap": 0.3769717332990569
+          "pixel_auroc": 0.9638037188526611,
+          "pixel_ap": 0.15061212123329518
         },
         {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "study",
-          "seed": 2,
-          "shot": 4,
-          "pixel_auroc": 0.9275197835130815,
-          "pixel_ap": 0.3769717332990569
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "corrected",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.929997866534481,
-          "pixel_ap": 0.38292895473418725
-        },
-        {
-          "dataset": "btad",
-          "category": "02",
-          "revision": "study",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.929997866534481,
-          "pixel_ap": 0.38292895473418725
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 0,
-          "shot": 2,
-          "pixel_auroc": 0.983886453099918,
-          "pixel_ap": 0.3403123970825717
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
+          "dataset": "mpdd",
+          "category": "bracket_white",
           "revision": "study",
           "seed": 0,
-          "shot": 2,
-          "pixel_auroc": 0.983886453099918,
-          "pixel_ap": 0.3403123970825717
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 0,
-          "shot": 8,
-          "pixel_auroc": 0.9869171297832415,
-          "pixel_ap": 0.4021463378316614
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "study",
-          "seed": 0,
-          "shot": 8,
-          "pixel_auroc": 0.9869171297832415,
-          "pixel_ap": 0.4021463378316614
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 1,
-          "shot": 2,
-          "pixel_auroc": 0.9812094511789543,
-          "pixel_ap": 0.3266713926769555
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "study",
-          "seed": 1,
-          "shot": 2,
-          "pixel_auroc": 0.9812094511789543,
-          "pixel_ap": 0.3266713926769555
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 1,
-          "shot": 8,
-          "pixel_auroc": 0.9860810999785321,
-          "pixel_ap": 0.3886450864863995
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "study",
-          "seed": 1,
-          "shot": 8,
-          "pixel_auroc": 0.9860810999785321,
-          "pixel_ap": 0.3886450864863995
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 2,
           "shot": 1,
-          "pixel_auroc": 0.9794595247326905,
-          "pixel_ap": 0.2618219896279662
+          "pixel_auroc": 0.9583757312835122,
+          "pixel_ap": 0.002691188345615221
         },
         {
-          "dataset": "btad",
-          "category": "03",
+          "dataset": "mpdd",
+          "category": "bracket_white",
           "revision": "study",
-          "seed": 2,
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9685479014729947,
+          "pixel_ap": 0.0038250998547042017
+        },
+        {
+          "dataset": "mpdd",
+          "category": "bracket_white",
+          "revision": "study",
+          "seed": 1,
           "shot": 1,
-          "pixel_auroc": 0.9794595247326905,
-          "pixel_ap": 0.2618219896279662
+          "pixel_auroc": 0.9591260065637035,
+          "pixel_ap": 0.0026487493473319056
         },
         {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.9815805366435759,
-          "pixel_ap": 0.30203468425410424
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
+          "dataset": "mpdd",
+          "category": "bracket_white",
           "revision": "study",
-          "seed": 2,
-          "shot": 2,
-          "pixel_auroc": 0.9815805366435759,
-          "pixel_ap": 0.30203468425410424
-        },
-        {
-          "dataset": "btad",
-          "category": "03",
-          "revision": "corrected",
-          "seed": 2,
+          "seed": 1,
           "shot": 4,
-          "pixel_auroc": 0.9840752290514505,
-          "pixel_ap": 0.33996550967157124
+          "pixel_auroc": 0.9685480250971965,
+          "pixel_ap": 0.003685367462878488
+        },
+        {
+          "dataset": "mpdd",
+          "category": "connector",
+          "revision": "study",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9557660730923935,
+          "pixel_ap": 0.08823208982002873
+        },
+        {
+          "dataset": "mpdd",
+          "category": "connector",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.968205950661261,
+          "pixel_ap": 0.14835674036243846
+        },
+        {
+          "dataset": "mpdd",
+          "category": "connector",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9587274724503243,
+          "pixel_ap": 0.11233633180720184
+        },
+        {
+          "dataset": "mpdd",
+          "category": "connector",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9696817832181439,
+          "pixel_ap": 0.22234735060426017
+        },
+        {
+          "dataset": "mpdd",
+          "category": "metal_plate",
+          "revision": "study",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.8918742194588762,
+          "pixel_ap": 0.3652527585591562
+        },
+        {
+          "dataset": "mpdd",
+          "category": "metal_plate",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9069066310772522,
+          "pixel_ap": 0.41155242160244615
+        },
+        {
+          "dataset": "mpdd",
+          "category": "metal_plate",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.8871240275286193,
+          "pixel_ap": 0.3549576398630413
+        },
+        {
+          "dataset": "mpdd",
+          "category": "metal_plate",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9042202799663962,
+          "pixel_ap": 0.4036482181113579
+        },
+        {
+          "dataset": "mpdd",
+          "category": "tubes",
+          "revision": "study",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9785320500341879,
+          "pixel_ap": 0.45233757035978794
+        },
+        {
+          "dataset": "mpdd",
+          "category": "tubes",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9829238014980378,
+          "pixel_ap": 0.5151676520203612
+        },
+        {
+          "dataset": "mpdd",
+          "category": "tubes",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9796852308952906,
+          "pixel_ap": 0.42525782578336635
+        },
+        {
+          "dataset": "mpdd",
+          "category": "tubes",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9834243880563861,
+          "pixel_ap": 0.5294435389440466
         },
         {
           "dataset": "btad",
-          "category": "03",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9528108813086118,
+          "pixel_ap": 0.45167099554876144
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
           "revision": "study",
-          "seed": 2,
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9528108813086118,
+          "pixel_ap": 0.45167099554876144
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 0,
           "shot": 4,
-          "pixel_auroc": 0.9840752290514505,
-          "pixel_ap": 0.33996550967157124
+          "pixel_auroc": 0.9560243376088502,
+          "pixel_ap": 0.4587856358479993
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9560243376088502,
+          "pixel_ap": 0.4587856358479993
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9538354158162731,
+          "pixel_ap": 0.456129132789321
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9538354158162731,
+          "pixel_ap": 0.456129132789321
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9595091930811982,
+          "pixel_ap": 0.4671449049778058
+        },
+        {
+          "dataset": "btad",
+          "category": "01",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9595091930811982,
+          "pixel_ap": 0.4671449049778058
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9216300377955062,
+          "pixel_ap": 0.3598123902145449
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9216300377955062,
+          "pixel_ap": 0.3598123902145449
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9273997402822561,
+          "pixel_ap": 0.3745859566926415
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9273997402822561,
+          "pixel_ap": 0.3745859566926415
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9203398320545133,
+          "pixel_ap": 0.35686574825710193
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9203398320545133,
+          "pixel_ap": 0.35686574825710193
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9258053702890447,
+          "pixel_ap": 0.37149980146684536
+        },
+        {
+          "dataset": "btad",
+          "category": "02",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.9258053702890447,
+          "pixel_ap": 0.37149980146684536
         },
         {
           "dataset": "btad",
           "category": "03",
           "revision": "corrected",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.9860833441678644,
-          "pixel_ap": 0.3821745599662991
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9753674560483471,
+          "pixel_ap": 0.26282061152318764
         },
         {
           "dataset": "btad",
           "category": "03",
           "revision": "study",
-          "seed": 2,
-          "shot": 8,
-          "pixel_auroc": 0.9860833441678644,
-          "pixel_ap": 0.3821745599662991
+          "seed": 0,
+          "shot": 1,
+          "pixel_auroc": 0.9753674560483471,
+          "pixel_ap": 0.26282061152318764
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9844146751078309,
+          "pixel_ap": 0.3693851657146878
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 0,
+          "shot": 4,
+          "pixel_auroc": 0.9844146751078309,
+          "pixel_ap": 0.3693851657146878
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9770418988346399,
+          "pixel_ap": 0.2542252161939569
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 1,
+          "shot": 1,
+          "pixel_auroc": 0.9770418988346399,
+          "pixel_ap": 0.2542252161939569
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "corrected",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.983046339100355,
+          "pixel_ap": 0.34535726572880004
+        },
+        {
+          "dataset": "btad",
+          "category": "03",
+          "revision": "study",
+          "seed": 1,
+          "shot": 4,
+          "pixel_auroc": 0.983046339100355,
+          "pixel_ap": 0.34535726572880004
         }
       ],
       "note": "pixel AP is deliberately not used as a gate: it is very low for sparse defects even for a correct encoder"
@@ -474,7 +546,7 @@
   },
   "caveats": [
     "the test data has been used before; this is an encoder-transfer check",
-    "seeds 0,1,2 and K 1,2,4,8 in scope",
+    "seeds 0,1 and K 1,4 in scope",
     "the branch was chosen after the S and D results were known, so it is exploratory and not a pre-specified confirmation"
   ]
 }

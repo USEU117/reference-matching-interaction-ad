@@ -321,6 +321,9 @@ def main() -> int:
 
     # ------------------------------------------------------------------ VD.3
     regression = []
+    # Per-category replicate series live here, keyed by `series_key`, because the rows themselves
+    # are serialised into the report JSON and numpy arrays are not JSON-serialisable.
+    series_store = {}
     for dataset in CATS:
         for name in INTERACTIONS:
             for seed in SEEDS:
@@ -333,12 +336,16 @@ def main() -> int:
                         ref = published.get((dataset, args.revision, name, seed, shot))
                         if got is None or ref is None or ref["mean_delta"] is None:
                             continue
+                        series_key = f"{dataset}|{name}|{seed}|{shot}|{category}"
+                        series_store[series_key] = np.asarray(got[name]["series"],
+                                                              dtype=np.float64)
                         regression.append({
                             "dataset": dataset, "contrast": name, "seed": seed, "shot": shot,
                             "category": category,
                             "new_bootstrap_mean": interval(got[name]["series"],
                                                            CI_EXPLORATORY)["mean"],
                             "published_bootstrap_mean": ref["mean_delta"],
+                            "series_key": series_key,
                         })
     per_dataset_regression = {}
     for dataset in CATS:
@@ -358,12 +365,30 @@ def main() -> int:
             per_dataset_regression[dataset] = {"n_compared": 0, "available": False,
                                                "published_rows_found": False}
             continue
-        deltas = [abs(r["new_bootstrap_mean"] - r["published_bootstrap_mean"]) for r in block]
+        deltas, per_category = [], []
+        by_condition = {}
+        for row in block:
+            by_condition.setdefault((row["contrast"], row["seed"], row["shot"]), []).append(row)
+        for rows in by_condition.values():
+            if len(rows) < len(CATS[dataset]):
+                continue
+            # Like-for-like: the published `mean_delta` is the bootstrap mean of the series that
+            # was already macro-averaged over the dataset's categories, so the new side must
+            # average the per-category replicate series first and only then take the mean.
+            # Comparing the published macro value against a single category (what this gate did
+            # until 2026-09-19) reported a 3e-2 "regression" that was an aggregation mismatch.
+            macro = np.stack([series_store[r["series_key"]] for r in rows], axis=0)
+            deltas.append(abs(float(macro.mean(axis=0).mean()) - rows[0]["published_bootstrap_mean"]))
+            per_category.extend(abs(r["new_bootstrap_mean"] - r["published_bootstrap_mean"])
+                                for r in rows)
         per_dataset_regression[dataset] = {
-            "n_compared": len(block),
-            "max_abs_delta": max(deltas),
-            "median_abs_delta": float(np.median(deltas)),
-            "tolerance_1e_9": max(deltas) <= 1e-9,
+            "n_compared": len(deltas),
+            "max_abs_delta": max(deltas) if deltas else None,
+            "median_abs_delta": float(np.median(deltas)) if deltas else None,
+            "per_category_max_abs_delta": max(per_category) if per_category else None,
+            "aggregation": ("macro over the dataset's categories of the replicate series, "
+                            "compared with the published macro mean_delta"),
+            "tolerance_1e_9": bool(deltas) and max(deltas) <= 1e-9,
             "published_rows_found": True,
         }
 
@@ -421,6 +446,14 @@ def main() -> int:
 
     print("[D3] interaction per seed")
     for row in rows:
+        # Rows without a point estimate (an unavailable seed/K cell) are labelled instead of
+        # raising: this print used to index `point_delta` directly and killed the whole run with a
+        # KeyError after the report had already been written.
+        if row.get("point_delta") is None or row.get("bootstrap_mean") is None:
+            print(f"[D3]   {row.get('dataset')} {row.get('contrast')} s{row.get('seed')} "
+                  f"unavailable={row.get('unavailable') or row.get('note') or 'no point estimate'}",
+                  flush=True)
+            continue
         print(f"[D3]   {row['dataset']:5s} {row['contrast']:6s} s{row['seed']} "
               f"point={row['point_delta']:+.5f} mean={row['bootstrap_mean']:+.5f} "
               f"ci95=[{row['ci95_low']:+.5f},{row['ci95_high']:+.5f}] "

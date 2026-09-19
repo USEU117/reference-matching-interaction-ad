@@ -1,0 +1,203 @@
+{
+  "created_utc": "2026-09-19T04:29:10.825586+00:00",
+  "purpose": "VC.5: the same two interaction contrasts on all four datasets, so the generalization datasets can be placed beside MPDD and BTAD",
+  "scope": {
+    "datasets": [
+      "mpdd",
+      "btad",
+      "mvtec",
+      "visa"
+    ],
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "shots": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "metric": "pixel_ap",
+    "aggregation": "interaction formed inside each bootstrap replicate, averaged over categories then over conditions, then percentiled - the study's own `s1_interaction.py` rule"
+  },
+  "roles": {
+    "mpdd": "development",
+    "btad": "external_frozen_validation",
+    "mvtec": "external_frozen_validation",
+    "visa": "in_domain_frozen_validation",
+    "ksdd2": "confirmation"
+  },
+  "ci_levels": {
+    "ci95": [
+      0.95,
+      "Bonferroni over 8 cells"
+    ],
+    "ci9875": [
+      0.9875,
+      "Bonferroni over 4 cells"
+    ],
+    "ci99375": [
+      0.99375,
+      "Bonferroni over 8 cells"
+    ]
+  },
+  "n_rows": 8,
+  "n_available": 8,
+  "table": [
+    {
+      "dataset": "mpdd",
+      "contrast": "I_TRI",
+      "mean": 0.007624361410800091,
+      "ci95": [
+        0.004255086524111886,
+        0.011181574814542274
+      ],
+      "ci9875": [
+        0.003460352074943862,
+        0.01211410088527157
+      ],
+      "ci99375": [
+        0.0032435268586841204,
+        0.01249631422557901
+      ],
+      "excludes_zero_9875": true
+    },
+    {
+      "dataset": "mpdd",
+      "contrast": "I_BAL",
+      "mean": 0.006153887625480011,
+      "ci95": [
+        0.003216078832111455,
+        0.009270959127387133
+      ],
+      "ci9875": [
+        0.0018853506624125133,
+        0.010295737927010573
+      ],
+      "ci99375": [
+        0.0015208087071769017,
+        0.010805896795761341
+      ],
+      "excludes_zero_9875": true
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_TRI",
+      "mean": -0.00019683547507656795,
+      "ci95": [
+        -0.0019227440049266326,
+        0.0019221007572745104
+      ],
+      "ci9875": [
+        -0.002368025349418893,
+        0.0023771744102965516
+      ],
+      "ci99375": [
+        -0.002446729567045293,
+        0.0026061949992339183
+      ],
+      "excludes_zero_9875": false
+    },
+    {
+      "dataset": "btad",
+      "contrast": "I_BAL",
+      "mean": -0.0008731771729971874,
+      "ci95": [
+        -0.0025778787472930742,
+        0.0010946742773468336
+      ],
+      "ci9875": [
+        -0.0030021735961079862,
+        0.0017857047340059317
+      ],
+      "ci99375": [
+        -0.0031341426202778537,
+        0.0020127012669002757
+      ],
+      "excludes_zero_9875": false
+    },
+    {
+      "dataset": "mvtec",
+      "contrast": "I_TRI",
+      "mean": 0.004324678234168268,
+      "ci95": [
+        0.003416570511447321,
+        0.005303508528200961
+      ],
+      "ci9875": [
+        0.0032370575531632728,
+        0.0055327759113411755
+      ],
+      "ci99375": [
+        0.003087937603651631,
+        0.00569666142524591
+      ],
+      "excludes_zero_9875": true
+    },
+    {
+      "dataset": "mvtec",
+      "contrast": "I_BAL",
+      "mean": 0.004019560949030576,
+      "ci95": [
+        0.003134095806655188,
+        0.005029729778772439
+      ],
+      "ci9875": [
+        0.002967688150473875,
+        0.005286637759573291
+      ],
+      "ci99375": [
+        0.0028681337515417565,
+        0.005342374610790158
+      ],
+      "excludes_zero_9875": true
+    },
+    {
+      "dataset": "visa",
+      "contrast": "I_TRI",
+      "mean": 0.009267071690775444,
+      "ci95": [
+        0.007884929624225266,
+        0.010640045976956449
+      ],
+      "ci9875": [
+        0.007542320622290911,
+        0.01111616412055765
+      ],
+      "ci99375": [
+        0.007380114104586474,
+        0.011141246531526783
+      ],
+      "excludes_zero_9875": true
+    },
+    {
+      "dataset": "visa",
+      "contrast": "I_BAL",
+      "mean": 0.008098028265111456,
+      "ci95": [
+        0.006733779814702262,
+        0.009594336213043285
+      ],
+      "ci9875": [
+        0.006311881986481995,
+        0.010108919198233663
+      ],
+      "ci99375": [
+        0.00610522135711294,
+        0.010181693573293902
+      ],
+      "excludes_zero_9875": true
+    }
+  ],
+  "sources": {
+    "generalization": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_statistics\\bootstrap_samples.npz",
+    "study": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\p1_statistics\\bootstrap_samples.npz",
+    "fullpixel_table": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p4_fullpixel\\fullpixel_metrics.csv"
+  },
+  "caveats": [
+    "MVTec and VisA have both been examined in earlier work; they are frozen validation sets, not untouched confirmation sets",
+    "VisA is in-domain for the C branch (the AnomalyCLIP checkpoint was trained on it)"
+  ]
+}

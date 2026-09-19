@@ -356,7 +356,7 @@ export async function drawFigure4(slide) {
   /* (b) direct interaction, one row per dataset x contrast and one lane per encoder */
   band(slide, "band-b", LEFT, 460, WIDE, 436, C.bandWarm);
   bandHead(slide, "b", "Direct interaction", 464,
-    "I = E_L − E_J · S and D pre-specified; E1, E2, E3 added later and exploratory · MVTec/VisA rows appear once interaction_generalization.csv exists (TODO)",
+    "I = E_L − E_J · S and D pre-specified; E1, E2, E3 added later and exploratory · MVTec/VisA rows from interaction_generalization.csv (GEN)",
     62);
   ticks(slide, "i", IA.lo, IA.hi, 0.005, 470, 3, 104);
   seriesKey(slide, "i-key", 706, 570, ENCODERS.map((e) => ({ label: e.label, fill: e.fill, stroke: e.stroke })));
