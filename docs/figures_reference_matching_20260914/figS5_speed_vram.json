@@ -1,0 +1,367 @@
+{
+  "figure": "figS5_speed_vram",
+  "panels": [
+    "(a) end-to-end wall clock stacked by stage",
+    "(b) peak VRAM, in-process vs device-wide cross-check"
+  ],
+  "unit_set": {
+    "dataset": [
+      "mpdd"
+    ],
+    "seed": [
+      0
+    ],
+    "shots": [
+      1,
+      4
+    ],
+    "categories": [
+      "bracket_black",
+      "bracket_brown",
+      "bracket_white"
+    ],
+    "units": [
+      "mpdd:s0:k1:bracket_black",
+      "mpdd:s0:k1:bracket_brown",
+      "mpdd:s0:k1:bracket_white",
+      "mpdd:s0:k4:bracket_black",
+      "mpdd:s0:k4:bracket_brown",
+      "mpdd:s0:k4:bracket_white"
+    ],
+    "n_units": 6,
+    "reason": "MPDD is the only dataset whose s0_k1 and s0_k4 conditions carry all six method columns in 05_baselines_multi_dataset/baseline_common_region.csv; the three categories are the first three in dictionary order of the frozen support manifest"
+  },
+  "definitions": {
+    "end_to_end": "reference-set encoding + query-set scoring; excludes dataset construction, model loading, metric computation and result dump",
+    "stages": {
+      "preprocess": "CPU decode + resize/normalise to the method's own input tensor",
+      "encode": "every model forward pass (references and queries)",
+      "score": "encoder-output alignment + L2 normalisation, memory bank / coreset construction, query retrieval, method-specific map post-processing"
+    },
+    "repeat": "1 untimed warm-up + 3 timed repeats, median reported",
+    "peak_vram": "torch.cuda.reset_peak_memory_stats() before each timed repeat, torch.cuda.max_memory_allocated() after; cross-checked against the device-wide nvidia-smi memory.used at 1 Hz, read as (peak during the method's child processes) - (first sample of those children, taken before they initialise CUDA)",
+    "method_isolation": "each method is measured in its own interpreter, so the two different `src` package roots of the A1 exporter and the AnomalyDINO runner cannot collide and the CUDA allocator state is not shared",
+    "protocols_are_native": "each method keeps its own input protocol; 'same protocol' means the same measurement methodology"
+  },
+  "repeats": {
+    "warmup": 1,
+    "timed": 3,
+    "statistic": "median",
+    "spread_in_json": true,
+    "error_bars_drawn": false
+  },
+  "values": [
+    {
+      "method": "controlled_A1_J",
+      "label": "A1 J",
+      "protocol": "DINOv2-B/14 smaller_edge=448 (branch B) + AnomalyCLIP ViT-L/14@336 image_size=518 (branch C), weights 1/2 : 1/2; output frame = controlled canvas grid*14 (448x448 for MPDD); no rotation; memory bank K",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 30.441,
+      "encode_s": 161.966,
+      "score_s": 4.384,
+      "total_s_median": 197.118,
+      "total_s_min": 196.823,
+      "total_s_max": 197.424,
+      "peak_vram_mb": 2376.8,
+      "peak_vram_median_mb": 2376.8,
+      "device_start_mb": 2802,
+      "device_peak_mb": 5317,
+      "device_peak_delta_mb": 2515,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "branches B and C are encoded back to back inside one process, so the reported peak carries both encoders resident; production runs one --branch per process, and the per-branch peaks are in SPEED_VRAM_BENCH.json (phase_peaks)"
+    },
+    {
+      "method": "controlled_A1_L",
+      "label": "A1 L",
+      "protocol": "same B+C encoding as A1_J; different rule L(q)=sum_b w_b min_r d_b(q,r); output frame = controlled canvas grid*14; no rotation; memory bank K",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 30.556,
+      "encode_s": 160.308,
+      "score_s": 4.39,
+      "total_s_median": 195.3,
+      "total_s_min": 195.162,
+      "total_s_max": 195.491,
+      "peak_vram_mb": 2376.8,
+      "peak_vram_median_mb": 2376.8,
+      "device_start_mb": 2611,
+      "device_peak_mb": 5356,
+      "device_peak_delta_mb": 2745,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "identical encoding to A1_J but measured as its own complete end-to-end pass, so the row is the cost of running the L rule alone; only the fusion order differs"
+    },
+    {
+      "method": "anomalydino_canvas",
+      "label": "ADino",
+      "protocol": "DINOv2-S/14 smaller_edge=448, agnostic preprocessing, no mask; output frame = controlled canvas grid*14; no rotation; memory bank K",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 13.95,
+      "encode_s": 11.551,
+      "score_s": 5.461,
+      "total_s_median": 30.959,
+      "total_s_min": 30.871,
+      "total_s_max": 36.532,
+      "peak_vram_mb": 111.6,
+      "peak_vram_median_mb": 111.6,
+      "device_start_mb": 2601,
+      "device_peak_mb": 3303,
+      "device_peak_delta_mb": 702,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "CPU FAISS, k=1, distance/2, official dists2map upsampling"
+    },
+    {
+      "method": "anomalydino_canvas_rotation",
+      "label": "ADino-rot",
+      "protocol": "DINOv2-S/14 smaller_edge=448, agnostic preprocessing; official unknown-dataset fallback: each of the K references rotated into 8 angles; output frame = controlled canvas grid*14; memory bank K*8",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 23.883,
+      "encode_s": 14.141,
+      "score_s": 40.875,
+      "total_s_median": 78.863,
+      "total_s_min": 78.794,
+      "total_s_max": 79.012,
+      "peak_vram_mb": 111.6,
+      "peak_vram_median_mb": 111.6,
+      "device_start_mb": 3072,
+      "device_peak_mb": 3343,
+      "device_peak_delta_mb": 271,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "each of the K references is rotated into 8 angles, so the memory bank holds K*8 rows; the augmentation is charged to preprocess"
+    },
+    {
+      "method": "PatchCore_native_local128",
+      "label": "PC-128",
+      "protocol": "WideResNet50-2 layer2+layer3, --resize 144 --imagesize 128, --pretrain_embed_dimension 1024 --target_embed_dimension 256, --patchsize 3, --anomaly_scorer_num_nn 1, approx_greedy_coreset p=0.1, CPU FAISS; no rotation",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 14.136,
+      "encode_s": 8.588,
+      "score_s": 1.472,
+      "total_s_median": 24.19,
+      "total_s_min": 24.08,
+      "total_s_max": 24.331,
+      "peak_vram_mb": 403.1,
+      "peak_vram_median_mb": 403.1,
+      "device_start_mb": 2850,
+      "device_peak_mb": 3733,
+      "device_peak_delta_mb": 883,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "the vendored CLI runs in a child process with its classes patched in-process; score = fit+predict minus preprocess minus encode, i.e. approx-greedy coreset + FAISS retrieval + segmentor upsampling"
+    },
+    {
+      "method": "PatchCore_native_official224",
+      "label": "PC-224",
+      "protocol": "WideResNet50-2 layer2+layer3, --resize 256 --imagesize 224, --pretrain_embed_dimension 1024 --target_embed_dimension 1024, --patchsize 3, --anomaly_scorer_num_nn 1, approx_greedy_coreset p=0.1, CPU FAISS; no rotation",
+      "protocol_short_on_figure": [
+        [
+          "A1 J / A1 L",
+          "B = DINOv2-B/14 @448, C = AnomalyCLIP ViT-L/14@336 @518"
+        ],
+        [
+          "",
+          "canvas 448x448, no rotation, bank K; L differs from J only in the fusion order"
+        ],
+        [
+          "ADino",
+          "DINOv2-S/14 @448, canvas 448x448, no rotation, bank K"
+        ],
+        [
+          "ADino-rot",
+          "DINOv2-S/14 @448, canvas 448x448, 8 rotations per reference, bank Kx8"
+        ],
+        [
+          "PC-128",
+          "WideResNet50-2 layer2+3, resize 144 / imagesize 128, coreset 10%"
+        ],
+        [
+          "PC-224",
+          "WideResNet50-2 layer2+3, resize 256 / imagesize 224, coreset 10%"
+        ]
+      ],
+      "preprocess_s": 14.279,
+      "encode_s": 19.234,
+      "score_s": 3.406,
+      "total_s_median": 36.931,
+      "total_s_min": 36.557,
+      "total_s_max": 37.162,
+      "peak_vram_mb": 409.8,
+      "peak_vram_median_mb": 409.8,
+      "device_start_mb": 3029,
+      "device_peak_mb": 4251,
+      "device_peak_delta_mb": 1222,
+      "n_refs_median": null,
+      "n_queries": 432,
+      "status": "ok",
+      "note": "same instrumentation as local128; the CLI's metric computation and --dump_predictions happen after predict and are excluded"
+    }
+  ],
+  "source_files": [
+    "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines/SPEED_VRAM_BENCH.json"
+  ],
+  "outputs": [
+    "docs/figures_reference_matching_20260914/figS5_speed_vram.png",
+    "docs/figures_reference_matching_20260914/figS5_speed_vram.pdf"
+  ],
+  "layout_json_for_qa_layout": "scripts/figures_reference_matching_20260914/layouts/figS5_speed_vram.layout.json",
+  "parity_check": {
+    "threshold": 1e-06,
+    "checked": [
+      {
+        "unit": [
+          "mpdd",
+          0,
+          1,
+          "bracket_black"
+        ],
+        "max_abs_diff": {
+          "J": 7.748603820800781e-07,
+          "L": 8.642673492431641e-07
+        },
+        "pass": true
+      },
+      {
+        "unit": [
+          "mpdd",
+          0,
+          4,
+          "connector"
+        ],
+        "skipped": "not in the requested unit set"
+      }
+    ],
+    "all_pass": true
+  }
+}

@@ -1,0 +1,6021 @@
+{
+  "schema_version": 1,
+  "kind": "speed_vram_end_to_end_bench",
+  "created_utc": "2026-09-20T06:57:46.693433+00:00",
+  "plan": "docs/REFERENCE_FIG_SPEED_VRAM_PLAN.md",
+  "revealed_by": "limitation_closure_20260915/E3_costs/e3_cost_aggregation.py V3_3_unavailable",
+  "script": "scripts/limitation_closure_20260915/bench_inference_speed_vram.py",
+  "host": {
+    "python": "D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe",
+    "torch": "2.0.0+cu118",
+    "cuda": "11.8",
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "nvidia_smi_polling": true,
+    "nvidia_smi_mode": "device-wide memory.used at 1 Hz; per-process VRAM is N/A on this driver (--query-compute-apps returns N/A)"
+  },
+  "definitions": {
+    "end_to_end": "reference-set encoding + query-set scoring; excludes dataset construction, model loading, metric computation and result dump",
+    "stages": {
+      "preprocess": "CPU decode + resize/normalise to the method's own input tensor",
+      "encode": "every model forward pass (references and queries)",
+      "score": "encoder-output alignment + L2 normalisation, memory bank / coreset construction, query retrieval, method-specific map post-processing"
+    },
+    "repeat": "1 untimed warm-up + 3 timed repeats, median reported",
+    "peak_vram": "torch.cuda.reset_peak_memory_stats() before each timed repeat, torch.cuda.max_memory_allocated() after; cross-checked against the device-wide nvidia-smi memory.used at 1 Hz, read as (peak during the method's child processes) - (first sample of those children, taken before they initialise CUDA)",
+    "method_isolation": "each method is measured in its own interpreter, so the two different `src` package roots of the A1 exporter and the AnomalyDINO runner cannot collide and the CUDA allocator state is not shared",
+    "protocols_are_native": "each method keeps its own input protocol; 'same protocol' means the same measurement methodology"
+  },
+  "unit_set": {
+    "dataset": [
+      "mpdd"
+    ],
+    "seed": [
+      0
+    ],
+    "shots": [
+      1,
+      4
+    ],
+    "categories": [
+      "bracket_black",
+      "bracket_brown",
+      "bracket_white"
+    ],
+    "units": [
+      "mpdd:s0:k1:bracket_black",
+      "mpdd:s0:k1:bracket_brown",
+      "mpdd:s0:k1:bracket_white",
+      "mpdd:s0:k4:bracket_black",
+      "mpdd:s0:k4:bracket_brown",
+      "mpdd:s0:k4:bracket_white"
+    ],
+    "n_units": 6,
+    "reason": "MPDD is the only dataset whose s0_k1 and s0_k4 conditions carry all six method columns in 05_baselines_multi_dataset/baseline_common_region.csv; the three categories are the first three in dictionary order of the frozen support manifest"
+  },
+  "parity_check": {
+    "threshold": 1e-06,
+    "checked": [
+      {
+        "unit": [
+          "mpdd",
+          0,
+          1,
+          "bracket_black"
+        ],
+        "max_abs_diff": {
+          "J": 7.748603820800781e-07,
+          "L": 8.642673492431641e-07
+        },
+        "pass": true
+      },
+      {
+        "unit": [
+          "mpdd",
+          0,
+          4,
+          "connector"
+        ],
+        "skipped": "not in the requested unit set"
+      }
+    ],
+    "all_pass": true
+  },
+  "device_cross_checks": {
+    "a1_j": {
+      "available": true,
+      "device_start_mb": 2802,
+      "device_peak_mb": 5317,
+      "device_min_mb": 2802,
+      "n_samples": 655,
+      "device_delta_mb": 2515,
+      "mode": "device-wide memory.used at 1 Hz; the first sample is taken before this process initialises CUDA"
+    },
+    "a1_l": {
+      "available": true,
+      "device_start_mb": 2611,
+      "device_peak_mb": 5356,
+      "device_min_mb": 2611,
+      "n_samples": 655,
+      "device_delta_mb": 2745,
+      "mode": "device-wide memory.used at 1 Hz; the first sample is taken before this process initialises CUDA"
+    },
+    "adino_canvas": {
+      "available": true,
+      "device_start_mb": 2601,
+      "device_peak_mb": 3303,
+      "device_min_mb": 2601,
+      "n_samples": 138,
+      "device_delta_mb": 702,
+      "mode": "device-wide memory.used at 1 Hz; the first sample is taken before this process initialises CUDA"
+    },
+    "adino_canvas_rotation": {
+      "available": true,
+      "device_start_mb": 3072,
+      "device_peak_mb": 3343,
+      "device_min_mb": 2966,
+      "n_samples": 320,
+      "device_delta_mb": 271,
+      "mode": "device-wide memory.used at 1 Hz; the first sample is taken before this process initialises CUDA"
+    },
+    "patchcore_local128": {
+      "available": true,
+      "device_start_mb": 2850,
+      "device_peak_mb": 3733,
+      "device_delta_mb": 883,
+      "n_children": 6,
+      "mode": "device-wide memory.used at 1 Hz, aggregated over the method's child processes; each child's first sample precedes its CUDA initialisation"
+    },
+    "patchcore_official224": {
+      "available": true,
+      "device_start_mb": 3029,
+      "device_peak_mb": 4251,
+      "device_delta_mb": 1222,
+      "n_children": 6,
+      "mode": "device-wide memory.used at 1 Hz, aggregated over the method's child processes; each child's first sample precedes its CUDA initialisation"
+    }
+  },
+  "measurements": [
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.949,
+      "encode_s": 31.087,
+      "score_s": 0.791,
+      "total_s": 37.827,
+      "alignment_s": 0.282,
+      "peak_vram_mb": 2382.5,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B": 374.6,
+        "C": 2382.5
+      },
+      "device_window": {
+        "device_peak_mb": 5317,
+        "device_baseline_mb": 2802,
+        "device_delta_mb": 2515,
+        "device_samples_in_window": 46
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.384,
+      "encode_s": 31.26,
+      "score_s": 0.686,
+      "total_s": 37.331,
+      "alignment_s": 0.235,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5291,
+        "device_baseline_mb": 5315,
+        "device_delta_mb": -24,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.528,
+      "encode_s": 30.499,
+      "score_s": 0.786,
+      "total_s": 36.813,
+      "alignment_s": 0.257,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5295,
+        "device_baseline_mb": 5291,
+        "device_delta_mb": 4,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.884,
+      "encode_s": 30.378,
+      "score_s": 0.775,
+      "total_s": 37.036,
+      "alignment_s": 0.287,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5310,
+        "device_baseline_mb": 5292,
+        "device_delta_mb": 18,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.282,
+      "encode_s": 28.254,
+      "score_s": 0.703,
+      "total_s": 34.239,
+      "alignment_s": 0.227,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5305,
+        "device_delta_mb": -19,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.146,
+      "encode_s": 28.201,
+      "score_s": 0.664,
+      "total_s": 34.011,
+      "alignment_s": 0.229,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 27
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.231,
+      "encode_s": 28.104,
+      "score_s": 0.657,
+      "total_s": 33.991,
+      "alignment_s": 0.236,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.258,
+      "encode_s": 28.128,
+      "score_s": 0.666,
+      "total_s": 34.053,
+      "alignment_s": 0.235,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5291,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.151,
+      "encode_s": 21.863,
+      "score_s": 0.543,
+      "total_s": 26.556,
+      "alignment_s": 0.187,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5287,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.066,
+      "encode_s": 21.908,
+      "score_s": 0.547,
+      "total_s": 26.521,
+      "alignment_s": 0.192,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5287,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.1,
+      "encode_s": 21.737,
+      "score_s": 0.55,
+      "total_s": 26.388,
+      "alignment_s": 0.19,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5287,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.096,
+      "encode_s": 21.844,
+      "score_s": 0.537,
+      "total_s": 26.478,
+      "alignment_s": 0.183,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5292,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.673,
+      "encode_s": 29.709,
+      "score_s": 0.874,
+      "total_s": 36.256,
+      "alignment_s": 0.257,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5292,
+        "device_delta_mb": -6,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.68,
+      "encode_s": 29.816,
+      "score_s": 0.882,
+      "total_s": 36.378,
+      "alignment_s": 0.261,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.644,
+      "encode_s": 29.858,
+      "score_s": 0.886,
+      "total_s": 36.388,
+      "alignment_s": 0.254,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5291,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.678,
+      "encode_s": 29.704,
+      "score_s": 0.883,
+      "total_s": 36.265,
+      "alignment_s": 0.255,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.561,
+      "encode_s": 29.116,
+      "score_s": 0.849,
+      "total_s": 35.527,
+      "alignment_s": 0.25,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.576,
+      "encode_s": 28.832,
+      "score_s": 0.885,
+      "total_s": 35.293,
+      "alignment_s": 0.254,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5287,
+        "device_baseline_mb": 5286,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.604,
+      "encode_s": 28.88,
+      "score_s": 0.857,
+      "total_s": 35.341,
+      "alignment_s": 0.247,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5287,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.557,
+      "encode_s": 28.968,
+      "score_s": 0.853,
+      "total_s": 35.378,
+      "alignment_s": 0.249,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5288,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.354,
+      "encode_s": 22.902,
+      "score_s": 0.672,
+      "total_s": 27.927,
+      "alignment_s": 0.201,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5288,
+        "device_baseline_mb": 5288,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.316,
+      "encode_s": 22.903,
+      "score_s": 0.671,
+      "total_s": 27.89,
+      "alignment_s": 0.196,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5288,
+        "device_baseline_mb": 5287,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 23
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.334,
+      "encode_s": 22.888,
+      "score_s": 0.679,
+      "total_s": 27.902,
+      "alignment_s": 0.203,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5293,
+        "device_baseline_mb": 5288,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.329,
+      "encode_s": 22.909,
+      "score_s": 0.67,
+      "total_s": 27.908,
+      "alignment_s": 0.196,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5293,
+        "device_baseline_mb": 5282,
+        "device_delta_mb": 11,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 6.12,
+      "encode_s": 28.962,
+      "score_s": 0.745,
+      "total_s": 35.827,
+      "alignment_s": 0.264,
+      "peak_vram_mb": 2382.5,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B": 374.6,
+        "C": 2382.5
+      },
+      "device_window": {
+        "device_peak_mb": 5299,
+        "device_baseline_mb": 2611,
+        "device_delta_mb": 2688,
+        "device_samples_in_window": 49
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.374,
+      "encode_s": 28.699,
+      "score_s": 0.68,
+      "total_s": 34.753,
+      "alignment_s": 0.245,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5299,
+        "device_delta_mb": -24,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.342,
+      "encode_s": 28.804,
+      "score_s": 0.707,
+      "total_s": 34.853,
+      "alignment_s": 0.259,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.449,
+      "encode_s": 28.838,
+      "score_s": 0.713,
+      "total_s": 35.0,
+      "alignment_s": 0.246,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.389,
+      "encode_s": 28.008,
+      "score_s": 0.671,
+      "total_s": 34.068,
+      "alignment_s": 0.237,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.466,
+      "encode_s": 28.074,
+      "score_s": 0.704,
+      "total_s": 34.244,
+      "alignment_s": 0.243,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.383,
+      "encode_s": 28.123,
+      "score_s": 0.693,
+      "total_s": 34.198,
+      "alignment_s": 0.246,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5286,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 11,
+        "device_samples_in_window": 27
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.367,
+      "encode_s": 27.91,
+      "score_s": 0.688,
+      "total_s": 33.964,
+      "alignment_s": 0.247,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 27
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.186,
+      "encode_s": 21.876,
+      "score_s": 0.542,
+      "total_s": 26.603,
+      "alignment_s": 0.187,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.126,
+      "encode_s": 21.868,
+      "score_s": 0.529,
+      "total_s": 26.522,
+      "alignment_s": 0.187,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5275,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.097,
+      "encode_s": 22.005,
+      "score_s": 0.537,
+      "total_s": 26.639,
+      "alignment_s": 0.185,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5356,
+        "device_baseline_mb": 5275,
+        "device_delta_mb": 81,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.126,
+      "encode_s": 21.956,
+      "score_s": 0.532,
+      "total_s": 26.614,
+      "alignment_s": 0.185,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5278,
+        "device_delta_mb": -1,
+        "device_samples_in_window": 21
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.732,
+      "encode_s": 29.776,
+      "score_s": 0.88,
+      "total_s": 36.388,
+      "alignment_s": 0.258,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.694,
+      "encode_s": 29.641,
+      "score_s": 0.902,
+      "total_s": 36.238,
+      "alignment_s": 0.263,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.743,
+      "encode_s": 29.648,
+      "score_s": 0.885,
+      "total_s": 36.277,
+      "alignment_s": 0.258,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5282,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.735,
+      "encode_s": 29.683,
+      "score_s": 0.9,
+      "total_s": 36.318,
+      "alignment_s": 0.256,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 30
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 5.575,
+      "encode_s": 28.977,
+      "score_s": 0.861,
+      "total_s": 35.413,
+      "alignment_s": 0.254,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 5.544,
+      "encode_s": 29.127,
+      "score_s": 0.858,
+      "total_s": 35.529,
+      "alignment_s": 0.255,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 5.535,
+      "encode_s": 29.125,
+      "score_s": 0.885,
+      "total_s": 35.546,
+      "alignment_s": 0.249,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 29
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 5.583,
+      "encode_s": 28.971,
+      "score_s": 0.872,
+      "total_s": 35.425,
+      "alignment_s": 0.257,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 28
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.461,
+      "encode_s": 23.014,
+      "score_s": 0.672,
+      "total_s": 28.148,
+      "alignment_s": 0.194,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 23
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.352,
+      "encode_s": 22.854,
+      "score_s": 0.67,
+      "total_s": 27.876,
+      "alignment_s": 0.197,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.361,
+      "encode_s": 22.934,
+      "score_s": 0.683,
+      "total_s": 27.978,
+      "alignment_s": 0.199,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5277,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 23
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.33,
+      "encode_s": 22.95,
+      "score_s": 0.698,
+      "total_s": 27.979,
+      "alignment_s": 0.207,
+      "peak_vram_mb": 2376.8,
+      "baseline_vram_mb": 1976.0,
+      "phase_peaks": {
+        "B": 2014.5,
+        "C": 2376.8
+      },
+      "device_window": {
+        "device_peak_mb": 5278,
+        "device_baseline_mb": 5277,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 22
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.583,
+      "encode_s": 2.287,
+      "score_s": 0.606,
+      "total_s": 5.476,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2876,
+        "device_baseline_mb": 2601,
+        "device_delta_mb": 275,
+        "device_samples_in_window": 16
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.557,
+      "encode_s": 2.126,
+      "score_s": 0.597,
+      "total_s": 5.28,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.559,
+      "encode_s": 2.126,
+      "score_s": 0.592,
+      "total_s": 5.276,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2876,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.504,
+      "encode_s": 2.061,
+      "score_s": 0.587,
+      "total_s": 5.151,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.473,
+      "encode_s": 2.013,
+      "score_s": 0.575,
+      "total_s": 5.062,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.407,
+      "encode_s": 1.982,
+      "score_s": 0.569,
+      "total_s": 4.957,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.416,
+      "encode_s": 1.916,
+      "score_s": 0.566,
+      "total_s": 4.898,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.429,
+      "encode_s": 1.864,
+      "score_s": 0.568,
+      "total_s": 4.862,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 1.84,
+      "encode_s": 1.418,
+      "score_s": 0.443,
+      "total_s": 3.701,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 3
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 1.876,
+      "encode_s": 1.429,
+      "score_s": 0.439,
+      "total_s": 3.743,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 1.857,
+      "encode_s": 1.415,
+      "score_s": 0.439,
+      "total_s": 3.711,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 1.867,
+      "encode_s": 1.457,
+      "score_s": 0.448,
+      "total_s": 3.772,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 1024,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.62,
+      "encode_s": 2.164,
+      "score_s": 1.444,
+      "total_s": 6.228,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.613,
+      "encode_s": 2.208,
+      "score_s": 1.413,
+      "total_s": 6.235,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.625,
+      "encode_s": 2.207,
+      "score_s": 1.433,
+      "total_s": 6.265,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.591,
+      "encode_s": 2.114,
+      "score_s": 1.422,
+      "total_s": 6.126,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.528,
+      "encode_s": 2.118,
+      "score_s": 1.375,
+      "total_s": 6.02,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.512,
+      "encode_s": 2.167,
+      "score_s": 1.372,
+      "total_s": 6.051,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.541,
+      "encode_s": 2.154,
+      "score_s": 1.371,
+      "total_s": 6.067,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.513,
+      "encode_s": 2.166,
+      "score_s": 1.356,
+      "total_s": 6.035,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 1.964,
+      "encode_s": 1.698,
+      "score_s": 1.055,
+      "total_s": 4.718,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 1.985,
+      "encode_s": 1.639,
+      "score_s": 1.068,
+      "total_s": 4.693,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 1.945,
+      "encode_s": 1.649,
+      "score_s": 1.06,
+      "total_s": 4.654,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 2875,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.494,
+      "encode_s": 6.521,
+      "score_s": 1.571,
+      "total_s": 10.586,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3303,
+        "device_baseline_mb": 2875,
+        "device_delta_mb": 428,
+        "device_samples_in_window": 5
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 4096,
+      "rotation": false
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.17,
+      "encode_s": 2.466,
+      "score_s": 3.362,
+      "total_s": 9.998,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3343,
+        "device_baseline_mb": 3044,
+        "device_delta_mb": 299,
+        "device_samples_in_window": 20
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.188,
+      "encode_s": 2.281,
+      "score_s": 3.451,
+      "total_s": 9.92,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3294,
+        "device_baseline_mb": 3294,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.21,
+      "encode_s": 2.267,
+      "score_s": 3.445,
+      "total_s": 9.923,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3278,
+        "device_baseline_mb": 3278,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k1:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.17,
+      "encode_s": 2.274,
+      "score_s": 3.455,
+      "total_s": 9.899,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3278,
+        "device_baseline_mb": 3278,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.068,
+      "encode_s": 2.212,
+      "score_s": 3.312,
+      "total_s": 9.592,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3266,
+        "device_baseline_mb": 3278,
+        "device_delta_mb": -12,
+        "device_samples_in_window": 9
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.111,
+      "encode_s": 2.208,
+      "score_s": 3.354,
+      "total_s": 9.673,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3265,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.08,
+      "encode_s": 2.216,
+      "score_s": 3.341,
+      "total_s": 9.637,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3265,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 9
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k1:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.099,
+      "encode_s": 2.232,
+      "score_s": 3.348,
+      "total_s": 9.678,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3265,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 3.218,
+      "encode_s": 1.768,
+      "score_s": 2.632,
+      "total_s": 7.619,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3265,
+        "device_baseline_mb": 3264,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 7
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 3.219,
+      "encode_s": 1.759,
+      "score_s": 2.676,
+      "total_s": 7.653,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3270,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 8
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 3.134,
+      "encode_s": 1.762,
+      "score_s": 2.59,
+      "total_s": 7.486,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3269,
+        "device_baseline_mb": 3259,
+        "device_delta_mb": 10,
+        "device_samples_in_window": 7
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k1:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 3.14,
+      "encode_s": 1.76,
+      "score_s": 2.592,
+      "total_s": 7.492,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3265,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 7
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 1,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 8192,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.455,
+      "encode_s": 2.809,
+      "score_s": 11.423,
+      "total_s": 18.687,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3264,
+        "device_baseline_mb": 3264,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.471,
+      "encode_s": 2.824,
+      "score_s": 11.466,
+      "total_s": 18.761,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3264,
+        "device_delta_mb": 3,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.533,
+      "encode_s": 2.831,
+      "score_s": 11.554,
+      "total_s": 18.917,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3265,
+        "device_delta_mb": 2,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd:s0:k4:bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.49,
+      "encode_s": 2.823,
+      "score_s": 11.475,
+      "total_s": 18.788,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 79,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 4.396,
+      "encode_s": 2.76,
+      "score_s": 11.173,
+      "total_s": 18.329,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 17
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 4.428,
+      "encode_s": 2.753,
+      "score_s": 11.287,
+      "total_s": 18.468,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 4.405,
+      "encode_s": 2.763,
+      "score_s": 11.19,
+      "total_s": 18.358,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 18
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd:s0:k4:bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 4.388,
+      "encode_s": 2.766,
+      "score_s": 11.231,
+      "total_s": 18.385,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 17
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 77,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 3.509,
+      "encode_s": 2.298,
+      "score_s": 8.724,
+      "total_s": 14.531,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 14
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 3.469,
+      "encode_s": 2.295,
+      "score_s": 8.772,
+      "total_s": 14.537,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 14
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 3.521,
+      "encode_s": 2.302,
+      "score_s": 8.719,
+      "total_s": 14.542,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3267,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 14
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd:s0:k4:bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 3.472,
+      "encode_s": 2.307,
+      "score_s": 8.774,
+      "total_s": 14.552,
+      "alignment_s": 0.0,
+      "peak_vram_mb": 111.6,
+      "baseline_vram_mb": 92.3,
+      "phase_peaks": null,
+      "device_window": {
+        "device_peak_mb": 3268,
+        "device_baseline_mb": 3267,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 14
+      },
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated, reset before the timed run (PyTorch caching allocator only)",
+      "n_refs": 4,
+      "n_queries": 60,
+      "grid": [
+        32,
+        32
+      ],
+      "canvas": [
+        448,
+        448
+      ],
+      "memory_bank_rows": 32768,
+      "rotation": true
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.445,
+      "encode_s": 1.524,
+      "score_s": 0.266,
+      "total_s": 4.236,
+      "fit_s": 0.103,
+      "predict_s": 4.133,
+      "cli_wall_s": 6.362,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3434,
+        "device_baseline_mb": 2857,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.448,
+      "encode_s": 1.489,
+      "score_s": 0.231,
+      "total_s": 4.168,
+      "fit_s": 0.066,
+      "predict_s": 4.101,
+      "cli_wall_s": 6.082,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3434,
+        "device_baseline_mb": 3434,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.424,
+      "encode_s": 1.488,
+      "score_s": 0.232,
+      "total_s": 4.144,
+      "fit_s": 0.066,
+      "predict_s": 4.078,
+      "cli_wall_s": 6.078,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3434,
+        "device_baseline_mb": 3434,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.404,
+      "encode_s": 1.477,
+      "score_s": 0.228,
+      "total_s": 4.109,
+      "fit_s": 0.06,
+      "predict_s": 4.049,
+      "cli_wall_s": 6.009,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3434,
+        "device_baseline_mb": 3434,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.439,
+      "encode_s": 1.44,
+      "score_s": 0.262,
+      "total_s": 4.141,
+      "fit_s": 0.102,
+      "predict_s": 4.039,
+      "cli_wall_s": 6.254,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3434,
+        "device_baseline_mb": 2857,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.46,
+      "encode_s": 1.463,
+      "score_s": 0.227,
+      "total_s": 4.151,
+      "fit_s": 0.066,
+      "predict_s": 4.085,
+      "cli_wall_s": 6.086,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3425,
+        "device_baseline_mb": 3425,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.431,
+      "encode_s": 1.446,
+      "score_s": 0.23,
+      "total_s": 4.106,
+      "fit_s": 0.061,
+      "predict_s": 4.045,
+      "cli_wall_s": 6.044,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3425,
+        "device_baseline_mb": 3425,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.435,
+      "encode_s": 1.438,
+      "score_s": 0.224,
+      "total_s": 4.098,
+      "fit_s": 0.062,
+      "predict_s": 4.036,
+      "cli_wall_s": 6.005,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3425,
+        "device_baseline_mb": 3425,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 1.858,
+      "encode_s": 1.148,
+      "score_s": 0.211,
+      "total_s": 3.216,
+      "fit_s": 0.105,
+      "predict_s": 3.111,
+      "cli_wall_s": 4.966,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3427,
+        "device_baseline_mb": 2850,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 4
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 1.832,
+      "encode_s": 1.117,
+      "score_s": 0.174,
+      "total_s": 3.123,
+      "fit_s": 0.061,
+      "predict_s": 3.062,
+      "cli_wall_s": 4.679,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3427,
+        "device_baseline_mb": 3427,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 1.824,
+      "encode_s": 1.104,
+      "score_s": 0.171,
+      "total_s": 3.099,
+      "fit_s": 0.061,
+      "predict_s": 3.038,
+      "cli_wall_s": 4.628,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3427,
+        "device_baseline_mb": 3427,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 1.826,
+      "encode_s": 1.112,
+      "score_s": 0.175,
+      "total_s": 3.114,
+      "fit_s": 0.062,
+      "predict_s": 3.052,
+      "cli_wall_s": 4.673,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3427,
+        "device_baseline_mb": 3427,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.52,
+      "encode_s": 1.624,
+      "score_s": 0.329,
+      "total_s": 4.473,
+      "fit_s": 0.273,
+      "predict_s": 4.2,
+      "cli_wall_s": 6.627,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3427,
+        "device_baseline_mb": 2850,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.573,
+      "encode_s": 1.594,
+      "score_s": 0.292,
+      "total_s": 4.459,
+      "fit_s": 0.233,
+      "predict_s": 4.225,
+      "cli_wall_s": 6.769,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3498,
+        "device_baseline_mb": 3427,
+        "device_delta_mb": 71,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 3.008,
+      "encode_s": 1.843,
+      "score_s": 0.33,
+      "total_s": 5.18,
+      "fit_s": 0.255,
+      "predict_s": 4.925,
+      "cli_wall_s": 7.675,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3544,
+        "device_baseline_mb": 3479,
+        "device_delta_mb": 65,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 3.016,
+      "encode_s": 1.786,
+      "score_s": 0.323,
+      "total_s": 5.125,
+      "fit_s": 0.253,
+      "predict_s": 4.873,
+      "cli_wall_s": 7.545,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3621,
+        "device_baseline_mb": 3476,
+        "device_delta_mb": 145,
+        "device_samples_in_window": 7
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.937,
+      "encode_s": 1.732,
+      "score_s": 0.35,
+      "total_s": 5.018,
+      "fit_s": 0.39,
+      "predict_s": 4.629,
+      "cli_wall_s": 7.907,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3733,
+        "device_baseline_mb": 3166,
+        "device_delta_mb": 567,
+        "device_samples_in_window": 7
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.762,
+      "encode_s": 1.685,
+      "score_s": 0.313,
+      "total_s": 4.761,
+      "fit_s": 0.322,
+      "predict_s": 4.438,
+      "cli_wall_s": 6.838,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3530,
+        "device_baseline_mb": 3522,
+        "device_delta_mb": 8,
+        "device_samples_in_window": 7
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.552,
+      "encode_s": 1.556,
+      "score_s": 0.286,
+      "total_s": 4.394,
+      "fit_s": 0.24,
+      "predict_s": 4.153,
+      "cli_wall_s": 6.399,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3525,
+        "device_baseline_mb": 3524,
+        "device_delta_mb": 1,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.542,
+      "encode_s": 1.534,
+      "score_s": 0.286,
+      "total_s": 4.361,
+      "fit_s": 0.242,
+      "predict_s": 4.119,
+      "cli_wall_s": 6.342,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3521,
+        "device_baseline_mb": 3521,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 6
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 1.957,
+      "encode_s": 1.226,
+      "score_s": 0.264,
+      "total_s": 3.447,
+      "fit_s": 0.277,
+      "predict_s": 3.17,
+      "cli_wall_s": 5.175,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 395.0
+      },
+      "device_window": {
+        "device_peak_mb": 3521,
+        "device_baseline_mb": 2945,
+        "device_delta_mb": 576,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 1.953,
+      "encode_s": 1.23,
+      "score_s": 0.235,
+      "total_s": 3.418,
+      "fit_s": 0.252,
+      "predict_s": 3.166,
+      "cli_wall_s": 4.983,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3518,
+        "device_baseline_mb": 3518,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 4
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 1.943,
+      "encode_s": 1.234,
+      "score_s": 0.231,
+      "total_s": 3.408,
+      "fit_s": 0.232,
+      "predict_s": 3.175,
+      "cli_wall_s": 4.954,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3518,
+        "device_baseline_mb": 3518,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 1.913,
+      "encode_s": 1.241,
+      "score_s": 0.229,
+      "total_s": 3.383,
+      "fit_s": 0.226,
+      "predict_s": 3.157,
+      "cli_wall_s": 4.945,
+      "peak_vram_mb": 403.1,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 403.1
+      },
+      "device_window": {
+        "device_peak_mb": 3518,
+        "device_baseline_mb": 3518,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 5
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.592,
+      "encode_s": 3.301,
+      "score_s": 0.629,
+      "total_s": 6.522,
+      "fit_s": 0.159,
+      "predict_s": 6.363,
+      "cli_wall_s": 11.878,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 3716,
+        "device_baseline_mb": 3024,
+        "device_delta_mb": 692,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.505,
+      "encode_s": 3.243,
+      "score_s": 0.516,
+      "total_s": 6.264,
+      "fit_s": 0.099,
+      "predict_s": 6.165,
+      "cli_wall_s": 11.174,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3716,
+        "device_baseline_mb": 3716,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.514,
+      "encode_s": 3.444,
+      "score_s": 0.537,
+      "total_s": 6.494,
+      "fit_s": 0.102,
+      "predict_s": 6.393,
+      "cli_wall_s": 11.347,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k1_bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.49,
+      "encode_s": 3.395,
+      "score_s": 0.518,
+      "total_s": 6.402,
+      "fit_s": 0.104,
+      "predict_s": 6.298,
+      "cli_wall_s": 11.197,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.492,
+      "encode_s": 3.4,
+      "score_s": 0.549,
+      "total_s": 6.442,
+      "fit_s": 0.134,
+      "predict_s": 6.308,
+      "cli_wall_s": 11.596,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3138,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.489,
+      "encode_s": 3.369,
+      "score_s": 0.51,
+      "total_s": 6.367,
+      "fit_s": 0.102,
+      "predict_s": 6.265,
+      "cli_wall_s": 11.309,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 10
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.495,
+      "encode_s": 3.355,
+      "score_s": 0.514,
+      "total_s": 6.365,
+      "fit_s": 0.108,
+      "predict_s": 6.256,
+      "cli_wall_s": 11.325,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3720,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 5,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k1_bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.507,
+      "encode_s": 3.319,
+      "score_s": 0.521,
+      "total_s": 6.348,
+      "fit_s": 0.101,
+      "predict_s": 6.247,
+      "cli_wall_s": 11.304,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3719,
+        "device_delta_mb": -4,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 1,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 1.892,
+      "encode_s": 2.635,
+      "score_s": 0.435,
+      "total_s": 4.962,
+      "fit_s": 0.135,
+      "predict_s": 4.827,
+      "cli_wall_s": 8.745,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3138,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 1.904,
+      "encode_s": 2.492,
+      "score_s": 0.4,
+      "total_s": 4.796,
+      "fit_s": 0.105,
+      "predict_s": 4.691,
+      "cli_wall_s": 8.422,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 1.89,
+      "encode_s": 2.477,
+      "score_s": 0.404,
+      "total_s": 4.771,
+      "fit_s": 0.097,
+      "predict_s": 4.674,
+      "cli_wall_s": 8.395,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3715,
+        "device_baseline_mb": 3715,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k1_bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 1.876,
+      "encode_s": 2.467,
+      "score_s": 0.426,
+      "total_s": 4.769,
+      "fit_s": 0.105,
+      "predict_s": 4.663,
+      "cli_wall_s": 8.384,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3632,
+        "device_baseline_mb": 3632,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 1,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.585,
+      "encode_s": 3.622,
+      "score_s": 0.726,
+      "total_s": 6.933,
+      "fit_s": 0.44,
+      "predict_s": 6.493,
+      "cli_wall_s": 12.03,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 3607,
+        "device_baseline_mb": 3030,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.574,
+      "encode_s": 3.581,
+      "score_s": 0.685,
+      "total_s": 6.84,
+      "fit_s": 0.396,
+      "predict_s": 6.444,
+      "cli_wall_s": 11.752,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3607,
+        "device_baseline_mb": 3607,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.585,
+      "encode_s": 3.646,
+      "score_s": 0.696,
+      "total_s": 6.928,
+      "fit_s": 0.44,
+      "predict_s": 6.488,
+      "cli_wall_s": 11.837,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3607,
+        "device_baseline_mb": 3607,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_black",
+      "unit": "mpdd_s0_k4_bracket_black",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.589,
+      "encode_s": 3.522,
+      "score_s": 0.68,
+      "total_s": 6.791,
+      "fit_s": 0.392,
+      "predict_s": 6.4,
+      "cli_wall_s": 11.924,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3720,
+        "device_baseline_mb": 3607,
+        "device_delta_mb": 113,
+        "device_samples_in_window": 12
+      },
+      "n_refs": 4,
+      "n_queries": 79,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.797,
+      "encode_s": 3.546,
+      "score_s": 0.756,
+      "total_s": 7.099,
+      "fit_s": 0.464,
+      "predict_s": 6.635,
+      "cli_wall_s": 12.6,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 3796,
+        "device_baseline_mb": 3210,
+        "device_delta_mb": 586,
+        "device_samples_in_window": 12
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.757,
+      "encode_s": 3.533,
+      "score_s": 0.699,
+      "total_s": 6.989,
+      "fit_s": 0.423,
+      "predict_s": 6.566,
+      "cli_wall_s": 12.428,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3767,
+        "device_baseline_mb": 3673,
+        "device_delta_mb": 94,
+        "device_samples_in_window": 11
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.773,
+      "encode_s": 3.588,
+      "score_s": 0.698,
+      "total_s": 7.059,
+      "fit_s": 0.437,
+      "predict_s": 6.621,
+      "cli_wall_s": 12.621,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3974,
+        "device_baseline_mb": 3766,
+        "device_delta_mb": 208,
+        "device_samples_in_window": 12
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_brown",
+      "unit": "mpdd_s0_k4_bracket_brown",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.869,
+      "encode_s": 3.7,
+      "score_s": 0.75,
+      "total_s": 7.319,
+      "fit_s": 0.43,
+      "predict_s": 6.889,
+      "cli_wall_s": 12.622,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 4198,
+        "device_baseline_mb": 3962,
+        "device_delta_mb": 236,
+        "device_samples_in_window": 12
+      },
+      "n_refs": 4,
+      "n_queries": 77,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 0,
+      "warmup": true,
+      "preprocess_s": 2.003,
+      "encode_s": 2.717,
+      "score_s": 0.58,
+      "total_s": 5.3,
+      "fit_s": 0.453,
+      "predict_s": 4.847,
+      "cli_wall_s": 9.236,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 0.0,
+      "phase_peaks": {
+        "B_bank_after_fit": 401.6
+      },
+      "device_window": {
+        "device_peak_mb": 4251,
+        "device_baseline_mb": 3674,
+        "device_delta_mb": 577,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 1,
+      "warmup": false,
+      "preprocess_s": 2.029,
+      "encode_s": 2.717,
+      "score_s": 0.555,
+      "total_s": 5.301,
+      "fit_s": 0.441,
+      "predict_s": 4.86,
+      "cli_wall_s": 9.025,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 4147,
+        "device_baseline_mb": 4199,
+        "device_delta_mb": -52,
+        "device_samples_in_window": 9
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 2,
+      "warmup": false,
+      "preprocess_s": 2.022,
+      "encode_s": 2.735,
+      "score_s": 0.557,
+      "total_s": 5.314,
+      "fit_s": 0.405,
+      "predict_s": 4.909,
+      "cli_wall_s": 9.119,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 4147,
+        "device_baseline_mb": 4147,
+        "device_delta_mb": 0,
+        "device_samples_in_window": 9
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 4,
+      "category": "bracket_white",
+      "unit": "mpdd_s0_k4_bracket_white",
+      "repeat": 3,
+      "warmup": false,
+      "preprocess_s": 2.125,
+      "encode_s": 2.831,
+      "score_s": 0.577,
+      "total_s": 5.533,
+      "fit_s": 0.463,
+      "predict_s": 5.07,
+      "cli_wall_s": 9.398,
+      "peak_vram_mb": 409.8,
+      "baseline_vram_mb": 8.1,
+      "phase_peaks": {
+        "B_bank_after_fit": 409.8
+      },
+      "device_window": {
+        "device_peak_mb": 3817,
+        "device_baseline_mb": 3828,
+        "device_delta_mb": -11,
+        "device_samples_in_window": 8
+      },
+      "n_refs": 4,
+      "n_queries": 60,
+      "status": "ok",
+      "error": null,
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated inside the vendored-CLI child process, reset before the run"
+    }
+  ],
+  "summary": [
+    {
+      "method": "a1_j",
+      "method_column": "controlled_A1_J",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "DINOv2-B/14 smaller_edge=448 (branch B) + AnomalyCLIP ViT-L/14@336 image_size=518 (branch C), weights 1/2 : 1/2; output frame = controlled canvas grid*14 (448x448 for MPDD); no rotation; memory bank K",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "branches B and C are encoded back to back inside one process, so the reported peak carries both encoders resident; production runs one --branch per process, and the per-branch peaks are in SPEED_VRAM_BENCH.json (phase_peaks)",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 30.441,
+      "encode_s": 161.966,
+      "score_s": 4.384,
+      "total_s_median": 197.118,
+      "total_s_min": 196.823,
+      "total_s_max": 197.424,
+      "peak_vram_mb": 2376.8,
+      "peak_vram_median_mb": 2376.8,
+      "device_peak_mb": 5317,
+      "device_peak_delta_mb": 2515,
+      "device_start_mb": 2802,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    },
+    {
+      "method": "a1_l",
+      "method_column": "controlled_A1_L",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "same B+C encoding as A1_J; different rule L(q)=sum_b w_b min_r d_b(q,r); output frame = controlled canvas grid*14; no rotation; memory bank K",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "identical encoding to A1_J but measured as its own complete end-to-end pass, so the row is the cost of running the L rule alone; only the fusion order differs",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 30.556,
+      "encode_s": 160.308,
+      "score_s": 4.39,
+      "total_s_median": 195.3,
+      "total_s_min": 195.162,
+      "total_s_max": 195.491,
+      "peak_vram_mb": 2376.8,
+      "peak_vram_median_mb": 2376.8,
+      "device_peak_mb": 5356,
+      "device_peak_delta_mb": 2745,
+      "device_start_mb": 2611,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    },
+    {
+      "method": "adino_canvas",
+      "method_column": "anomalydino_canvas",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "DINOv2-S/14 smaller_edge=448, agnostic preprocessing, no mask; output frame = controlled canvas grid*14; no rotation; memory bank K",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "CPU FAISS, k=1, distance/2, official dists2map upsampling",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 13.95,
+      "encode_s": 11.551,
+      "score_s": 5.461,
+      "total_s_median": 30.959,
+      "total_s_min": 30.871,
+      "total_s_max": 36.532,
+      "peak_vram_mb": 111.6,
+      "peak_vram_median_mb": 111.6,
+      "device_peak_mb": 3303,
+      "device_peak_delta_mb": 702,
+      "device_start_mb": 2601,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    },
+    {
+      "method": "adino_canvas_rotation",
+      "method_column": "anomalydino_canvas_rotation",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "DINOv2-S/14 smaller_edge=448, agnostic preprocessing; official unknown-dataset fallback: each of the K references rotated into 8 angles; output frame = controlled canvas grid*14; memory bank K*8",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "each of the K references is rotated into 8 angles, so the memory bank holds K*8 rows; the augmentation is charged to preprocess",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 23.883,
+      "encode_s": 14.141,
+      "score_s": 40.875,
+      "total_s_median": 78.863,
+      "total_s_min": 78.794,
+      "total_s_max": 79.012,
+      "peak_vram_mb": 111.6,
+      "peak_vram_median_mb": 111.6,
+      "device_peak_mb": 3343,
+      "device_peak_delta_mb": 271,
+      "device_start_mb": 3072,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    },
+    {
+      "method": "patchcore_local128",
+      "method_column": "PatchCore_native_local128",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "WideResNet50-2 layer2+layer3, --resize 144 --imagesize 128, --pretrain_embed_dimension 1024 --target_embed_dimension 256, --patchsize 3, --anomaly_scorer_num_nn 1, approx_greedy_coreset p=0.1, CPU FAISS; no rotation",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "the vendored CLI runs in a child process with its classes patched in-process; score = fit+predict minus preprocess minus encode, i.e. approx-greedy coreset + FAISS retrieval + segmentor upsampling",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 14.136,
+      "encode_s": 8.588,
+      "score_s": 1.472,
+      "total_s_median": 24.19,
+      "total_s_min": 24.08,
+      "total_s_max": 24.331,
+      "peak_vram_mb": 403.1,
+      "peak_vram_median_mb": 403.1,
+      "device_peak_mb": 3733,
+      "device_peak_delta_mb": 883,
+      "device_start_mb": 2850,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    },
+    {
+      "method": "patchcore_official224",
+      "method_column": "PatchCore_native_official224",
+      "dataset": "mpdd",
+      "n_units": 6,
+      "protocol": "WideResNet50-2 layer2+layer3, --resize 256 --imagesize 224, --pretrain_embed_dimension 1024 --target_embed_dimension 1024, --patchsize 3, --anomaly_scorer_num_nn 1, approx_greedy_coreset p=0.1, CPU FAISS; no rotation",
+      "stages": "preprocess/encode/score",
+      "peak_vram_source": "in-process torch.cuda.max_memory_allocated (PyTorch caching allocator); device_peak_mb / device_peak_delta_mb are the 1 Hz device-wide nvidia-smi cross-check",
+      "note": "same instrumentation as local128; the CLI's metric computation and --dump_predictions happen after predict and are excluded",
+      "n_timed_repeats": 3,
+      "scope": "sum over 6 units (mpdd seed 0, K in {1,4}, 3 categories; the K=1 and K=4 units cover the same 216 query images), median of 3 timed repeats",
+      "preprocess_s": 14.279,
+      "encode_s": 19.234,
+      "score_s": 3.406,
+      "total_s_median": 36.931,
+      "total_s_min": 36.557,
+      "total_s_max": 37.162,
+      "peak_vram_mb": 409.8,
+      "peak_vram_median_mb": 409.8,
+      "device_peak_mb": 4251,
+      "device_peak_delta_mb": 1222,
+      "device_start_mb": 3029,
+      "n_refs_values": "1,4",
+      "n_queries": 432,
+      "status": "ok",
+      "n_failed_repeats": 0
+    }
+  ],
+  "failures": [],
+  "aggregated_utc": "2026-09-20T07:07:07.891146+00:00",
+  "built_from": "child records of the measurement run",
+  "notes": [
+    "PatchCore_native_local128 was re-measured on its own after the full run: its preprocess stage had come out at 18.38 s (vs 14.14 s on the re-run and 14.66 s on the earlier full pass). An isolated re-timing of the identical MVTecDataset.__getitem__ transform list on the same files gave 13.15 s (resize 144/crop 128) against 13.31 s (resize 256/crop 224), so the 18.38 s excursion was not a protocol property. The artifact carries the re-measurement; the outlier and the probe are kept in _bench_speed_vram/SPEED_VRAM_BENCH.pass1.json and _probe_preprocess.py."
+  ]
+}
