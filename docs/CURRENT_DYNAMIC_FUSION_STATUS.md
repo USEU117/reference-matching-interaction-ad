@@ -115,7 +115,7 @@
 
 - P0 四数据集研究数值重建：✅ passed。648 个分支特征 NPZ、36 个配置报告齐全；MPDD/BTAD/VisA/MVTec 相对 matched feature-DINO-only 的 ΔPixel-AP 分别为 +0.025829/+0.024895/+0.052353/+0.031962，均在历史值绝对误差 5e-4 内。
 - P0 smoke：✅ passed。实测 DINO 768 维、AnomalyCLIP image-tower 768 维、concat **1536 维**；旧文档 1152 为错误记录。
-- CPU 回归：✅ 历史快照 81 passed；当前 `tests/` 独立复验 **122 passed in 5.80s**。
+- CPU 回归：✅ 历史快照 81 passed；本节（2026-08-27）当时对 `tests/` 的独立复验为 **122 passed in 5.80s**（**该数字对应当时提交与当时的 `tests/` 内容，不能用作当前 HEAD 的结论**）。
 - P0 技术复现包：✅ **最终通过（submission_repro_package_complete=true，P0A–P0I 全门禁）**。
   - `predictions_compact/maps/`：324 个逐 `dataset×seed×shot×category` float16 patch maps（含 `sample_ids`、concat/DINO map、grid/map/stride、`ref_ids`、特征缓存 SHA256），逐类重放与 p0_3 报告容差 5e-3（唯一最差项 mvtec s1/k4 wood dino-AUPRO 3.58e-3，纹理大类对 float16 量化最敏感；concat 与 AP/AUROC 均在 ~1e-5）。
   - 包内独立 CPU 脚本 `recompute_tables.py`：`--verify-only` 结构校验 324/324 通过；完整重算经 mpdd s0/k1 与 mvtec s1/k4（含 wood 超差项）冒烟，配置级聚合相对参考表 ≤1e-5，远在 5e-4 内。
@@ -156,14 +156,14 @@ P1-A/B/D 已同时包含机器可读 JSON/CSV、Markdown 表、生成脚本、�
 | 项 | 结果 |
 |---|---|
 | Phase 0 输入审计 | ✅ 通过（`experiments/dynamic_fusion/rcec_v1/PHASE0_INPUT_AUDIT.md`；A1 冻结证据未修改） |
-| 单元/技术测试 | ✅ 18/18 通过；独立复核时项目自有测试 `pytest tests -q` 为 141/141 通过 |
+| 单元/技术测试 | ✅ 18/18 通过；项目自有测试当时记载 `pytest tests -q` 为 **141/141 passed**（2026-09-02 **历史快照**，对应当时的 `tests/` 内容，**不适用于当前 HEAD**；当前 HEAD 的正式范围与实测见 `tests/README.md`） |
 | Phase 2 MPDD 小门（12 候选 × seed0 × shot 1/2/4） | ❌ 0/12 通过（`experiments/dynamic_fusion/rcec_v1/development_mpdd/small_gate_summary.csv`、`SMALL_GATE_REPORT.json`） |
 | 早停决定 | ✅ `experiments/dynamic_fusion/rcec_v1/development_mpdd/RCEC_V1_EARLY_STOP_REPORT.json`（winners=[]，按任务书不运行 full/freeze/验证） |
 | 最终决策 | **ARCHIVE**（`FINAL_RCEC_DECISION.md`） |
 
 关键数值：12 个预注册候选（direction × k ∈ {1,3,5} × λ ∈ {0.25,0.50}）的三-shot平均值在 MPDD seed0 全部低于 A1；36 个 candidate-shot 组合中 35 个下降，仅最佳候选 `dino_to_clip_k5_lam0.25` 的 s0/k1 微升 `+0.0003`。该候选三-shot平均 ΔPixel-AP 仍为 **−0.0071**（仅 1/3 shot 正），λ 越大退化越严重，k=5 略优于 k=1，dino_to_clip 平均优于 symmetric。结论如实写入论文 Discussion/Future Work：正常参考条件下的跨编码器邻域分歧没有稳定超过固定拼接，简单互补收益并不必然转化为可利用的局部一致性信号。RCEC 相关源码/配置/runner/测试全部保留，负结果不隐藏、不改门槛、不换主指标。
 
-独立复核补充：直接运行仓库根目录无范围的 `pytest` 会误收集 `methods/` 内第三方上游测试，并因各自专用环境缺少 `thop/patchcore` 而在 collection 阶段失败；项目回归的正确命令是 `.\\.venv-patchcore\\Scripts\\python.exe -m pytest tests -q`。这不影响 RCEC 结论。
+独立复核补充：直接运行仓库根目录无范围的 `pytest` 会误收集 `methods/` 内第三方上游测试，并因各自专用环境缺少 `thop/patchcore` 而在 collection 阶段失败；项目回归的正确命令是 `.\\.venv-patchcore\\Scripts\\python.exe -m pytest tests -q`。**2026-09-20 复核更新**：该命令本身当时也会在 collection 阶段中断（`tests/innovation_v6_dgsafe/test_wave2a_probes.py` 报 `ModuleNotFoundError: No module named 'src.subspacead'`，成因是命名空间包遮蔽，而非依赖缺失）；现已在仓库根新增 `pytest.ini` 显式排除该单个文件，正式范围实测 **260 passed / 0 failed / 0 errors**，命令、范围与被排除项见 `tests/README.md`。这不影响 RCEC 结论。
 
 ## 13. A2 Innovation Program 多路线执行结果与独立复核（2026-09-02）
 

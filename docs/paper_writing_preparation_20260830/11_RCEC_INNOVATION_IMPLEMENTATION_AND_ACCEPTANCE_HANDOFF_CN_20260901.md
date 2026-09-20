@@ -852,7 +852,7 @@ experiments/dynamic_fusion/rcec_v1/freeze/rcec_mpdd_v1/
 - Phase 0 输入与 A1 回归审计：通过；
 - RCEC 核心模块、配置、runner、冻结/验证接口和测试：已实现；
 - RCEC 专项测试：独立实跑 `18/18 passed`；
-- 项目自有回归测试：独立实跑 `pytest tests -q`，`141/141 passed`；
+- 项目自有回归测试：独立实跑 `pytest tests -q`，当时记载 `141/141 passed`（**2026-09-02 历史快照**，对应当时的 `tests/` 内容，**不能用作当前 HEAD 的结论**；当前 HEAD 的正式范围与实测见 `tests/README.md`：2026-09-20 为 **260 passed / 0 failed**）；
 - Phase 2：12 个预注册候选 × MPDD seed0 × shot `{1,2,4}`，共 36 份逐配置报告；
 - Phase 3—6：未执行，这是小门失败后的正确停止行为，不属于遗漏；
 - RCEC-D：未执行，因为任务书规定只有 RCEC 主模块通过 MPDD Gate 后才能开始。

@@ -147,3 +147,81 @@ canonical `k8` 缓存不随包发布，必须重建（或单独从归档下载�
 - [ ] 各工作流的 `*_SUMMARY.json` / `VERIFICATION*.json` / `interaction_*.csv` 均在包内
 - [ ] 包内不含任何秘密（token/密钥）；`.env` 类文件已确认不存在
 - [ ] 需要一次 docx 重建：`python scripts/manuscript_build_20260914/build.py`（本次**未重建**，见交接说明）
+
+---
+
+## 7. 已生成的复现包与 2026-09-20 的可执行性加固
+
+> 本节记录 `dist/replication_package_20260920/` 的**实际状态**（实读）。前六节是"应打包什么"的清单，
+> 本节是"实际打了什么、外人能不能直接跑"。
+
+### 7.1 包的基本指标（实读）
+
+| 项 | 值 |
+|---|---|
+| 路径 | `dist/replication_package_20260920/` |
+| 文件数 / 体积 | **2488 个文件 / 470,734,903 B = 470.73 MB = 448.93 MiB**（不含 `SHA256SUMS` 自身） |
+| 首版（v1） | 1316 个文件 / ≈433.55 MB —— 只是**证据与说明包**，缺 `src/`、`configs/`、`methods/`、包级校验和与提交指针，**不能独立执行** |
+| 校入口 | `SHA256SUMS`（2488 行，`hash  path`）、`SOURCE_COMMIT.txt`、包内 `README.md` |
+
+### 7.2 各顶层目录（实读）
+
+| 包内路径 | 文件数 | 体积 | 相对 §2 白名单 |
+|---|---:|---:|---|
+| `docs/` | 462 | 419,147,828 B | 一致 |
+| `methods/` | 1085 | 36,546,719 B | **新增**（§2 未列；`src/` 属"重建入口"的隐含依赖） |
+| `scripts/` | 756 | 10,156,044 B | 一致 |
+| `experiments/` | 88 | 4,379,744 B | 白名单 + **新增** `paper_evidence_closeout_20260914/CLAIM_EVIDENCE_LEDGER.csv` 与 `seeds_extension_20260917/p0_support/support_manifest_{mpdd,btad}.json` |
+| `src/` | 57 | 363,339 B | **新增（必需）**：`industrial_ad` 被 106 个脚本 import |
+| `data/` | 10 | 60,018 B | 一致 |
+| `configs/` | 24 | 23,340 B | **新增（必需）**：协议/路由配置由脚本按相对路径读取 |
+| `weights/` | 1 | 17,426 B | **新增**：46 个权重的目标路径 + SHA-256 + 来源（权重本体不入包） |
+| `LICENSE` / `SOURCE_COMMIT.txt` / `requirements_lock.txt` / `requirements_repro.txt` | 4 | 20,609 B | **新增 3 个**：提交指针、lock 文件；`requirements_repro.txt` 补注 CUDA 安装源与解释器选择 |
+| **合计（不含 `SHA256SUMS`）** | **2488** | **470,734,903 B** | |
+
+### 7.3 加固做了什么
+
+1. **静态依赖审计**：对包内 `scripts/**` 的 418 个 `.py` 做 AST import 扫描，用 `.venv-anomalyclip`
+   的 `find_spec` + 仓库导入根逐个判定"第三方 / 仓库本地 / 无解"，得到"包内缺失的本地依赖"清单；
+   据此补齐 `src/`、`configs/`、`methods/`（9 个方法目录的**源码与配置**，剔除权重 8.5 GB 与数据集 7.3 GB）。
+2. **权重不进包**：改为 `weights/README.md` —— 46 个权重逐个给出目标路径、字节数、**本机实读的 SHA-256**
+   （46/46 全部读到，无 `[[SHA256]]` 占位）与来源 URL；其中 32 个是本项目自训产物（公网不存在）。
+3. **环境**：`requirements_repro.txt` 头部明确它是"最小可复现约束集、**不是 lock**"，并给出
+   `--index-url https://download.pytorch.org/whl/cu118` + `torch==2.0.0+cu118 / torchvision==0.15.1+cu118`
+   的写法（版本与实读一致）与两个解释器的分工；另生成 `requirements_lock.txt`（`.venv-anomalyclip`
+   的 `pip freeze` 实读，95 行），并逐条标注 3 行**本机特有**条目（`anyup @ file:///…`、
+   `torch @ file:///…outputs/downloads/…whl`、`-e git+…SubspaceAD@ef56d5c8…`）。
+4. **包级校验与指针**：`SHA256SUMS`（2488 行）+ `SOURCE_COMMIT.txt`（HEAD `841b478b0658ff0af12d4aa93ad8009a38b1e532`、
+   分支 `main`、8 个 tag、**工作树不干净**：19 个已改 + 32 项未跟踪）。
+5. **8-seed 清单哈希**：`VD1_MANIFEST.json` 的 `manifest_sha256` 原为 `null`，原因是
+   `d1_verify_manifest.py` L109 读的 `manifest.get("sha256")` 这个键**从未被生成脚本写入**
+   （`build_support_manifest.py` L299 只把它打印到 stdout）。口径由同一流水线的两处代码确证为
+   "**清单文件字节的 SHA-256**"（`export_k8_cache.py` L641 `support_manifest_sha256`；
+   并用 `support_manifest_*.json` 里的 `source_manifest_sha256` == `sha256(data/splits/<ds>/manifest.json)`
+   交叉验证通过）。填入值：mpdd `e9964504564396ee2c5d0fd6cf9b05a077c792930aa7e2798a203d90f7f77f35`、
+   btad `c0304a9666ebdbf2c8aa04dd23912d1aa0b9b81908df9c79ff3e78374b4ef66c`。
+6. **可执行性验证**（不新建 venv）：把 `sys.path` 指向包目录，61 个本地模块 import 全部成功
+   （唯一例外 `UniVAD`：缺 `groundingdino` 编译扩展，且不在冻结流水线上）；从包内运行 4 个代表性
+   入口脚本的 `--help`，退出码均为 0。
+
+### 7.4 校验方式
+
+```powershell
+cd dist\replication_package_20260920
+$bad = 0
+Get-Content .\SHA256SUMS | ForEach-Object {
+    $h, $p = $_ -split '  ', 2
+    if ((Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLower() -ne $h) { $bad++ }
+}
+"mismatching files: $bad"      # 期望 0
+```
+
+### 7.5 本包仍未覆盖的（详见包内 `README.md` §7）
+
+- 数据本体（许可）、模型权重（体积 + 32 个项目自训权重不可下载）、canonical/units/outputs 缓存（≈659 GB）、GPU。
+- `CLAIM_EVIDENCE_LEDGER.csv` 有 10 条 `evidence_file` 引用指向 `00_audit/`、`01_statistics/`、
+  `02_baselines/`、`03_paper/`、`04_recheck/` 下的文件，这些文件**在仓库里存在但不在包内**（原白名单未含）。
+- `patches/*.patch`（7 个，记录 vendored 方法相对上游的改动）未随包；包内 `methods/` 已是打过补丁的版本。
+- `fetch_assets` / `recompute_tables` / `table_geometry` 三个模块来自仓库之外的第三方文档技能目录，
+  受影响脚本 8 个（清单见包内 `README.md` §7 第 4 条）。
+- 本包**未重建任何实验产物、未跑任何实验、未做 git 提交**。

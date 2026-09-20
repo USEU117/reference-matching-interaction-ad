@@ -67,6 +67,8 @@ seed 统计的含义已写对，但正文仍需避免“独立重复实验”的
 
 未来发布前的最小动作是选一个带日期、解释器和明确 `tests` 范围的权威 CPU 记录，修正 81/122/123/141 的语义，不需要为本次审计重跑 GPU。另有版本化证据清单问题：对 `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256` 逐项只读核对时，`:9` 的 `docs/CURRENT_DYNAMIC_FUSION_STATUS.md` 期望 SHA256 `8f9d93...`、实际 `fcb2ff...`，`:10` 的 `docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md` 期望 `bd49e7...`、实际 `269090...`；其余清单项本轮核对相符。应在这些文档定稿后重生成清单，不要把旧 hash index 当作当前 HEAD 的完整性证明。
 
+> **后续状态（2026-09-20 追注；上文为 2026-09-10 审计当时的事实，不改写）**：本节所列测试计数问题已收敛。仓库根新增 `pytest.ini` 界定正式范围（`tests/` 递归，显式排除单个文件 `tests/innovation_v6_dgsafe/test_wave2a_probes.py`），2026-09-20 实测 **260 passed / 0 failed / 0 errors**；`141/141` 已在 `docs/CURRENT_DYNAMIC_FUSION_STATUS.md` 与 `docs/paper_writing_preparation_20260830/{README.md, 11_RCEC_INNOVATION_IMPLEMENTATION_AND_ACCEPTANCE_HANDOFF_CN_20260901.md}` 就地标注为 2026-09-02 历史快照。命令、正式范围与被排除项的原因见 `tests/README.md`。
+
 ## 运行环境和许可证
 
 环境快照 `submission_repro_20260827/environment/system.txt:4-14` 是 Windows、Python 3.10.11、RTX 3060 Laptop 6 GiB；DINO 和 CLIP 分别在 `.venv-patchcore` / `.venv-anomalyclip`，K=2/4 复用 K=1 测试特征。两个 freeze 文件记录了关键依赖（例如 `faiss-cpu==1.7.4`、`numpy==1.24.4`、`opencv-python==4.8.1.78`、`scipy==1.9.1`、`scikit-learn==1.2.2`、`torchvision==0.15.1+cu118`）；但 `patchcore_pip_freeze.txt:49` 和 `anomalyclip_pip_freeze.txt:73` 的 torch 依赖是绝对本机 `D:/.../outputs/downloads/...whl` URL，DINO 权重又在 `C:/Users/lynle/.cache/...`。因此这是可追溯的历史机器快照，不是外部机器可直接安装的 lockfile/container。最小后续是补一份带 wheel 来源、第三方 `methods/` 固定 commit、DINO hub commit/权重校验和双环境安装顺序的便携说明；不必重新导出 648 个 cache。

@@ -1,0 +1,3264 @@
+{
+  "kind": "fig7_multimethod_per_sample_common_region",
+  "schema_version": 1,
+  "created_local": "2026-09-19T16:19:58",
+  "dataset": "mvtec",
+  "seed": 0,
+  "shot": 4,
+  "region_table": {
+    "path": "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "exists": true,
+    "size_bytes": 232684,
+    "mtime": "2026-09-19T16:14:53"
+  },
+  "geometry": {
+    "path": "experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\common_region_geometry.json",
+    "exists": true,
+    "size_bytes": 466556,
+    "mtime": "2026-09-19T16:14:53"
+  },
+  "categories_requested": "all",
+  "categories_rendered": [
+    "bottle",
+    "cable",
+    "capsule",
+    "carpet",
+    "grid",
+    "hazelnut",
+    "leather",
+    "metal_nut",
+    "pill",
+    "screw",
+    "tile",
+    "toothbrush",
+    "transistor",
+    "wood",
+    "zipper"
+  ],
+  "units_missing_from_region_table": [],
+  "columns": [
+    {
+      "method": "controlled_A1_J",
+      "label": "A1 J",
+      "legend": "A1 J = controlled A1, shared support row",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    {
+      "method": "controlled_A1_L",
+      "label": "A1 L",
+      "legend": "A1 L = controlled A1, independent support rows",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    {
+      "method": "anomalydino_canvas",
+      "label": "ADino",
+      "legend": "ADino = AnomalyDINO, controlled canvas frame",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    {
+      "method": "anomalydino_canvas_rotation",
+      "label": "ADino-rot",
+      "legend": "ADino-rot = AnomalyDINO, canvas frame + rotation",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    {
+      "method": "PatchCore_native_local128",
+      "label": "PC-128",
+      "legend": "PC-128 = PatchCore native Resize(144) + CenterCrop(128)",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    },
+    {
+      "method": "PatchCore_native_official224",
+      "label": "PC-224",
+      "legend": "PC-224 = PatchCore native Resize(256) + CenterCrop(224)",
+      "in_region_table_for": [
+        "bottle",
+        "cable",
+        "capsule",
+        "carpet",
+        "grid",
+        "hazelnut",
+        "leather",
+        "metal_nut",
+        "pill",
+        "screw",
+        "tile",
+        "toothbrush",
+        "transistor",
+        "wood",
+        "zipper"
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_bottle",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 63,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_bottle.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_bottle.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_cable",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 92,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_cable.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_cable.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_capsule",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 108,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_capsule.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_capsule.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_carpet",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 89,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_carpet.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_carpet.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_grid",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 56,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_grid.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_grid.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_hazelnut",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 70,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_hazelnut.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_hazelnut.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_leather",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 92,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_leather.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_leather.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_metal_nut",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 93,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_metal_nut.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_metal_nut.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_pill",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 141,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_pill.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_pill.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_screw",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 119,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_screw.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_screw.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_tile",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 84,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_tile.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_tile.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_toothbrush",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 30,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_toothbrush.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_toothbrush.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_transistor",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 40,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_transistor.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_transistor.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_wood",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 60,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_wood.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_wood.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    },
+    {
+      "name": "fig7_multimethod_mvtec_s0_k4_zipper",
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "region_grid": [
+        392,
+        392
+      ],
+      "region_rect": {
+        "x": [
+          0.0625,
+          0.9375
+        ],
+        "y": [
+          0.0625,
+          0.9375
+        ]
+      },
+      "region_fraction_of_canvas": 0.765625,
+      "n_rows": 3,
+      "columns": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "labels": [
+        "A1 J",
+        "A1 L",
+        "ADino",
+        "ADino-rot",
+        "PC-128",
+        "PC-224"
+      ],
+      "columns_with_data": [
+        "controlled_A1_J",
+        "controlled_A1_L",
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "columns_na": [],
+      "selection_fallback_lt2_methods": false,
+      "selection_gt_pixel_floor": 76,
+      "n_candidate_samples": 119,
+      "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_zipper.png",
+      "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_zipper.pdf",
+      "min_font_pt_measured": 11.5,
+      "figure_height_in": 9.979
+    }
+  ],
+  "samples": [
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "sample_id": "bottle/test/contamination/014.png",
+      "canonical_index": 56,
+      "selection_rank": 1,
+      "selection_spread": 0.4427554070375118,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1158,
+      "shared_colour_range": [
+        0.00013429386308416724,
+        0.5852526426315308
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.645315,
+        "controlled_A1_L": 0.653427,
+        "anomalydino_canvas": 0.628042,
+        "anomalydino_canvas_rotation": 0.564702,
+        "PatchCore_native_local128": 0.210672,
+        "PatchCore_native_official224": 0.363884
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\contamination\\014.png",
+        "exists": true,
+        "size_bytes": 538973,
+        "mtime": "2019-03-04T23:40:20"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "sample_id": "bottle/test/broken_small/014.png",
+      "canonical_index": 34,
+      "selection_rank": 2,
+      "selection_spread": 0.3570268967413346,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3563,
+      "shared_colour_range": [
+        0.0006673136376775801,
+        0.6078962683677673
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.949435,
+        "controlled_A1_L": 0.962194,
+        "anomalydino_canvas": 0.945181,
+        "anomalydino_canvas_rotation": 0.944496,
+        "PatchCore_native_local128": 0.605167,
+        "PatchCore_native_official224": 0.909276
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\broken_small\\014.png",
+        "exists": true,
+        "size_bytes": 543679,
+        "mtime": "2019-03-04T23:40:20"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "sample_id": "bottle/test/contamination/018.png",
+      "canonical_index": 60,
+      "selection_rank": 3,
+      "selection_spread": 0.3455047600138835,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1156,
+      "shared_colour_range": [
+        0.0003842675650957972,
+        0.7909921407699585
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.7465,
+        "controlled_A1_L": 0.731123,
+        "anomalydino_canvas": 0.717697,
+        "anomalydino_canvas_rotation": 0.715003,
+        "PatchCore_native_local128": 0.400995,
+        "PatchCore_native_official224": 0.488457
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\contamination\\018.png",
+        "exists": true,
+        "size_bytes": 538498,
+        "mtime": "2019-03-04T23:40:20"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "sample_id": "cable/test/poke_insulation/006.png",
+      "canonical_index": 146,
+      "selection_rank": 1,
+      "selection_spread": 0.8836219407412121,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 5309,
+      "shared_colour_range": [
+        0.01027671992778778,
+        0.46315693855285645
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.942483,
+        "controlled_A1_L": 0.954262,
+        "anomalydino_canvas": 0.961529,
+        "anomalydino_canvas_rotation": 0.958955,
+        "PatchCore_native_local128": 0.077907,
+        "PatchCore_native_official224": 0.159543
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\006.png",
+        "exists": true,
+        "size_bytes": 1327939,
+        "mtime": "2019-03-04T23:40:25"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "sample_id": "cable/test/poke_insulation/004.png",
+      "canonical_index": 144,
+      "selection_rank": 2,
+      "selection_spread": 0.8526852531665311,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 6039,
+      "shared_colour_range": [
+        0.008053459227085114,
+        0.5202212333679199
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.889386,
+        "controlled_A1_L": 0.891066,
+        "anomalydino_canvas": 0.913268,
+        "anomalydino_canvas_rotation": 0.931331,
+        "PatchCore_native_local128": 0.444673,
+        "PatchCore_native_official224": 0.078646
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\004.png",
+        "exists": true,
+        "size_bytes": 1344766,
+        "mtime": "2019-03-04T23:40:25"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "sample_id": "cable/test/poke_insulation/000.png",
+      "canonical_index": 140,
+      "selection_rank": 3,
+      "selection_spread": 0.8343940997775511,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1654,
+      "shared_colour_range": [
+        0.0064331721514463425,
+        0.5403758883476257
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.894775,
+        "controlled_A1_L": 0.893353,
+        "anomalydino_canvas": 0.861279,
+        "anomalydino_canvas_rotation": 0.88637,
+        "PatchCore_native_local128": 0.060381,
+        "PatchCore_native_official224": 0.434956
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\000.png",
+        "exists": true,
+        "size_bytes": 1348056,
+        "mtime": "2019-03-04T23:40:25"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "sample_id": "capsule/test/faulty_imprint/015.png",
+      "canonical_index": 38,
+      "selection_rank": 1,
+      "selection_spread": 0.961976275082429,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 394,
+      "shared_colour_range": [
+        0.0037051187828183174,
+        0.3976736068725586
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.973428,
+        "controlled_A1_L": 0.959269,
+        "anomalydino_canvas": 0.947695,
+        "anomalydino_canvas_rotation": 0.916605,
+        "PatchCore_native_local128": 0.011452,
+        "PatchCore_native_official224": 0.029589
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\015.png",
+        "exists": true,
+        "size_bytes": 1130212,
+        "mtime": "2019-03-04T23:40:29"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "sample_id": "capsule/test/faulty_imprint/021.png",
+      "canonical_index": 44,
+      "selection_rank": 2,
+      "selection_spread": 0.9419279550231132,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 641,
+      "shared_colour_range": [
+        0.003966858144849539,
+        0.39163535833358765
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.934361,
+        "controlled_A1_L": 0.972966,
+        "anomalydino_canvas": 0.930474,
+        "anomalydino_canvas_rotation": 0.937678,
+        "PatchCore_native_local128": 0.031038,
+        "PatchCore_native_official224": 0.360859
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\021.png",
+        "exists": true,
+        "size_bytes": 1134882,
+        "mtime": "2019-03-04T23:40:29"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "sample_id": "capsule/test/faulty_imprint/007.png",
+      "canonical_index": 30,
+      "selection_rank": 3,
+      "selection_spread": 0.8974497333702302,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 554,
+      "shared_colour_range": [
+        0.002703019417822361,
+        0.3944457769393921
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.927215,
+        "controlled_A1_L": 0.929145,
+        "anomalydino_canvas": 0.930672,
+        "anomalydino_canvas_rotation": 0.924257,
+        "PatchCore_native_local128": 0.033222,
+        "PatchCore_native_official224": 0.678437
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\007.png",
+        "exists": true,
+        "size_bytes": 1173518,
+        "mtime": "2019-03-04T23:40:29"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/metal_contamination/000.png",
+      "canonical_index": 81,
+      "selection_rank": 1,
+      "selection_spread": 0.7162761553075462,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 330,
+      "shared_colour_range": [
+        0.009908974170684814,
+        0.5512160658836365
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.696268,
+        "controlled_A1_L": 0.720602,
+        "anomalydino_canvas": 0.663559,
+        "anomalydino_canvas_rotation": 0.671142,
+        "PatchCore_native_local128": 0.004326,
+        "PatchCore_native_official224": 0.552809
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\metal_contamination\\000.png",
+        "exists": true,
+        "size_bytes": 1859166,
+        "mtime": "2019-03-04T23:40:35"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/metal_contamination/016.png",
+      "canonical_index": 97,
+      "selection_rank": 2,
+      "selection_spread": 0.6826985317458695,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 637,
+      "shared_colour_range": [
+        0.013710426166653633,
+        0.6073267459869385
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.429547,
+        "controlled_A1_L": 0.426902,
+        "anomalydino_canvas": 0.595968,
+        "anomalydino_canvas_rotation": 0.68747,
+        "PatchCore_native_local128": 0.004772,
+        "PatchCore_native_official224": 0.571018
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\metal_contamination\\016.png",
+        "exists": true,
+        "size_bytes": 1825545,
+        "mtime": "2019-03-04T23:40:35"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/thread/004.png",
+      "canonical_index": 102,
+      "selection_rank": 3,
+      "selection_spread": 0.6482881236378323,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2871,
+      "shared_colour_range": [
+        0.025311879813671112,
+        0.6158595085144043
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.65391,
+        "controlled_A1_L": 0.674058,
+        "anomalydino_canvas": 0.798072,
+        "anomalydino_canvas_rotation": 0.726134,
+        "PatchCore_native_local128": 0.149783,
+        "PatchCore_native_official224": 0.417683
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\thread\\004.png",
+        "exists": true,
+        "size_bytes": 1861917,
+        "mtime": "2019-03-04T23:40:35"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "sample_id": "grid/test/glue/010.png",
+      "canonical_index": 34,
+      "selection_rank": 1,
+      "selection_spread": 0.9115446270763683,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1302,
+      "shared_colour_range": [
+        0.041956666857004166,
+        0.8739274144172668
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.890212,
+        "controlled_A1_L": 0.820232,
+        "anomalydino_canvas": 0.91703,
+        "anomalydino_canvas_rotation": 0.536649,
+        "PatchCore_native_local128": 0.005978,
+        "PatchCore_native_official224": 0.005485
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\010.png",
+        "exists": true,
+        "size_bytes": 494103,
+        "mtime": "2019-03-04T23:40:40"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "sample_id": "grid/test/glue/001.png",
+      "canonical_index": 25,
+      "selection_rank": 2,
+      "selection_spread": 0.9110697795427017,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 957,
+      "shared_colour_range": [
+        0.046932220458984375,
+        0.8695971965789795
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.904458,
+        "controlled_A1_L": 0.915798,
+        "anomalydino_canvas": 0.557532,
+        "anomalydino_canvas_rotation": 0.791517,
+        "PatchCore_native_local128": 0.004728,
+        "PatchCore_native_official224": 0.442811
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\001.png",
+        "exists": true,
+        "size_bytes": 492565,
+        "mtime": "2019-03-04T23:40:40"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "sample_id": "grid/test/glue/004.png",
+      "canonical_index": 28,
+      "selection_rank": 3,
+      "selection_spread": 0.9050581113716855,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1473,
+      "shared_colour_range": [
+        0.04724173992872238,
+        0.8725523352622986
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.886962,
+        "controlled_A1_L": 0.876837,
+        "anomalydino_canvas": 0.911989,
+        "anomalydino_canvas_rotation": 0.899604,
+        "PatchCore_native_local128": 0.006931,
+        "PatchCore_native_official224": 0.036817
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\004.png",
+        "exists": true,
+        "size_bytes": 507112,
+        "mtime": "2019-03-04T23:40:40"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "sample_id": "hazelnut/test/hole/008.png",
+      "canonical_index": 83,
+      "selection_rank": 1,
+      "selection_spread": 0.7654895255964838,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1052,
+      "shared_colour_range": [
+        0.006566314026713371,
+        0.46577271819114685
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.474378,
+        "controlled_A1_L": 0.568119,
+        "anomalydino_canvas": 0.738045,
+        "anomalydino_canvas_rotation": 0.836612,
+        "PatchCore_native_local128": 0.071123,
+        "PatchCore_native_official224": 0.521055
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\hole\\008.png",
+        "exists": true,
+        "size_bytes": 1228616,
+        "mtime": "2019-03-04T23:40:44"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "sample_id": "hazelnut/test/cut/006.png",
+      "canonical_index": 24,
+      "selection_rank": 2,
+      "selection_spread": 0.7636790070747661,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2058,
+      "shared_colour_range": [
+        0.0036962400190532207,
+        0.4230678975582123
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.828729,
+        "controlled_A1_L": 0.844516,
+        "anomalydino_canvas": 0.773037,
+        "anomalydino_canvas_rotation": 0.795179,
+        "PatchCore_native_local128": 0.080837,
+        "PatchCore_native_official224": 0.186562
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\cut\\006.png",
+        "exists": true,
+        "size_bytes": 1243859,
+        "mtime": "2019-03-04T23:40:43"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "sample_id": "hazelnut/test/cut/000.png",
+      "canonical_index": 18,
+      "selection_rank": 3,
+      "selection_spread": 0.758274989810748,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 807,
+      "shared_colour_range": [
+        0.0034428054932504892,
+        0.43336543440818787
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.586477,
+        "controlled_A1_L": 0.801031,
+        "anomalydino_canvas": 0.042756,
+        "anomalydino_canvas_rotation": 0.308156,
+        "PatchCore_native_local128": 0.553846,
+        "PatchCore_native_official224": 0.718339
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\cut\\000.png",
+        "exists": true,
+        "size_bytes": 1244473,
+        "mtime": "2019-03-04T23:40:43"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "sample_id": "leather/test/poke/007.png",
+      "canonical_index": 113,
+      "selection_rank": 1,
+      "selection_spread": 0.8974877067163713,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 440,
+      "shared_colour_range": [
+        0.008068747818470001,
+        0.6076652407646179
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.059304,
+        "controlled_A1_L": 0.05831,
+        "anomalydino_canvas": 0.040592,
+        "anomalydino_canvas_rotation": 0.060104,
+        "PatchCore_native_local128": 0.719288,
+        "PatchCore_native_official224": 0.93808
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\007.png",
+        "exists": true,
+        "size_bytes": 1481058,
+        "mtime": "2019-03-04T23:40:51"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "sample_id": "leather/test/poke/017.png",
+      "canonical_index": 123,
+      "selection_rank": 2,
+      "selection_spread": 0.8865405720364572,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 330,
+      "shared_colour_range": [
+        0.00799101684242487,
+        0.5605028867721558
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.062235,
+        "controlled_A1_L": 0.051745,
+        "anomalydino_canvas": 0.032237,
+        "anomalydino_canvas_rotation": 0.047269,
+        "PatchCore_native_local128": 0.918778,
+        "PatchCore_native_official224": 0.786613
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\017.png",
+        "exists": true,
+        "size_bytes": 1482914,
+        "mtime": "2019-03-04T23:40:51"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "sample_id": "leather/test/poke/002.png",
+      "canonical_index": 108,
+      "selection_rank": 3,
+      "selection_spread": 0.880697826683432,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 807,
+      "shared_colour_range": [
+        0.002320889150723815,
+        0.5315696001052856
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.18863,
+        "controlled_A1_L": 0.193473,
+        "anomalydino_canvas": 0.080585,
+        "anomalydino_canvas_rotation": 0.355992,
+        "PatchCore_native_local128": 0.75668,
+        "PatchCore_native_official224": 0.961282
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\002.png",
+        "exists": true,
+        "size_bytes": 1470612,
+        "mtime": "2019-03-04T23:40:50"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "sample_id": "metal_nut/test/bent/024.png",
+      "canonical_index": 24,
+      "selection_rank": 1,
+      "selection_spread": 0.8721965776191265,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3448,
+      "shared_colour_range": [
+        0.007161905523389578,
+        0.6994732022285461
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.918173,
+        "controlled_A1_L": 0.930164,
+        "anomalydino_canvas": 0.845407,
+        "anomalydino_canvas_rotation": 0.847353,
+        "PatchCore_native_local128": 0.057967,
+        "PatchCore_native_official224": 0.70166
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\bent\\024.png",
+        "exists": true,
+        "size_bytes": 500574,
+        "mtime": "2019-03-04T23:40:54"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "sample_id": "metal_nut/test/scratch/000.png",
+      "canonical_index": 92,
+      "selection_rank": 2,
+      "selection_spread": 0.8686177768748394,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3822,
+      "shared_colour_range": [
+        0.0050977673381567,
+        0.7092834711074829
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.907906,
+        "controlled_A1_L": 0.910879,
+        "anomalydino_canvas": 0.87623,
+        "anomalydino_canvas_rotation": 0.907305,
+        "PatchCore_native_local128": 0.042261,
+        "PatchCore_native_official224": 0.114043
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\scratch\\000.png",
+        "exists": true,
+        "size_bytes": 500460,
+        "mtime": "2019-03-04T23:40:55"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "sample_id": "metal_nut/test/bent/006.png",
+      "canonical_index": 6,
+      "selection_rank": 3,
+      "selection_spread": 0.8342390671047523,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2784,
+      "shared_colour_range": [
+        0.002512724604457617,
+        0.5618205666542053
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.83385,
+        "controlled_A1_L": 0.844599,
+        "anomalydino_canvas": 0.880402,
+        "anomalydino_canvas_rotation": 0.890814,
+        "PatchCore_native_local128": 0.056574,
+        "PatchCore_native_official224": 0.533859
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\bent\\006.png",
+        "exists": true,
+        "size_bytes": 500710,
+        "mtime": "2019-03-04T23:40:54"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "sample_id": "pill/test/scratch/019.png",
+      "canonical_index": 162,
+      "selection_rank": 1,
+      "selection_spread": 0.9779195935795333,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 672,
+      "shared_colour_range": [
+        0.0037952589336782694,
+        0.5290146470069885
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.987992,
+        "controlled_A1_L": 0.98396,
+        "anomalydino_canvas": 0.930858,
+        "anomalydino_canvas_rotation": 0.882898,
+        "PatchCore_native_local128": 0.010072,
+        "PatchCore_native_official224": 0.891472
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\scratch\\019.png",
+        "exists": true,
+        "size_bytes": 629482,
+        "mtime": "2019-03-06T20:57:52"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "sample_id": "pill/test/scratch/001.png",
+      "canonical_index": 144,
+      "selection_rank": 2,
+      "selection_spread": 0.9018422790076372,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 819,
+      "shared_colour_range": [
+        0.004552190192043781,
+        0.45006340742111206
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.890385,
+        "controlled_A1_L": 0.919207,
+        "anomalydino_canvas": 0.77085,
+        "anomalydino_canvas_rotation": 0.879366,
+        "PatchCore_native_local128": 0.017364,
+        "PatchCore_native_official224": 0.080897
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\scratch\\001.png",
+        "exists": true,
+        "size_bytes": 625183,
+        "mtime": "2019-03-06T20:57:52"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "sample_id": "pill/test/faulty_imprint/000.png",
+      "canonical_index": 89,
+      "selection_rank": 3,
+      "selection_spread": 0.8914715980939701,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1776,
+      "shared_colour_range": [
+        0.005274161696434021,
+        0.5016211867332458
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.860861,
+        "controlled_A1_L": 0.938207,
+        "anomalydino_canvas": 0.93348,
+        "anomalydino_canvas_rotation": 0.93108,
+        "PatchCore_native_local128": 0.046735,
+        "PatchCore_native_official224": 0.541381
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\faulty_imprint\\000.png",
+        "exists": true,
+        "size_bytes": 637179,
+        "mtime": "2019-03-06T20:57:52"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "sample_id": "screw/test/scratch_neck/001.png",
+      "canonical_index": 90,
+      "selection_rank": 1,
+      "selection_spread": 0.9501761945165743,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1427,
+      "shared_colour_range": [
+        0.0037137395702302456,
+        0.7820562124252319
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.943052,
+        "controlled_A1_L": 0.95558,
+        "anomalydino_canvas": 0.830257,
+        "anomalydino_canvas_rotation": 0.977181,
+        "PatchCore_native_local128": 0.027005,
+        "PatchCore_native_official224": 0.05252
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_neck\\001.png",
+        "exists": true,
+        "size_bytes": 409478,
+        "mtime": "2019-03-04T23:41:09"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "sample_id": "screw/test/scratch_neck/010.png",
+      "canonical_index": 99,
+      "selection_rank": 2,
+      "selection_spread": 0.9468320196090786,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 883,
+      "shared_colour_range": [
+        0.008176187053322792,
+        0.9408876299858093
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.840776,
+        "controlled_A1_L": 0.877296,
+        "anomalydino_canvas": 0.948166,
+        "anomalydino_canvas_rotation": 0.962766,
+        "PatchCore_native_local128": 0.015934,
+        "PatchCore_native_official224": 0.026171
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_neck\\010.png",
+        "exists": true,
+        "size_bytes": 414743,
+        "mtime": "2019-03-04T23:41:10"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "sample_id": "screw/test/scratch_head/001.png",
+      "canonical_index": 66,
+      "selection_rank": 3,
+      "selection_spread": 0.927107700695337,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 574,
+      "shared_colour_range": [
+        0.0,
+        0.6790210604667664
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.687244,
+        "controlled_A1_L": 0.681453,
+        "anomalydino_canvas": 0.945483,
+        "anomalydino_canvas_rotation": 0.906053,
+        "PatchCore_native_local128": 0.018375,
+        "PatchCore_native_official224": 0.026834
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_head\\001.png",
+        "exists": true,
+        "size_bytes": 407204,
+        "mtime": "2019-03-04T23:41:09"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "sample_id": "tile/test/gray_stroke/002.png",
+      "canonical_index": 70,
+      "selection_rank": 1,
+      "selection_spread": 0.8798555189834386,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1335,
+      "shared_colour_range": [
+        0.019951019436120987,
+        0.29045021533966064
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.899392,
+        "controlled_A1_L": 0.900652,
+        "anomalydino_canvas": 0.881623,
+        "anomalydino_canvas_rotation": 0.906495,
+        "PatchCore_native_local128": 0.045908,
+        "PatchCore_native_official224": 0.02664
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\gray_stroke\\002.png",
+        "exists": true,
+        "size_bytes": 995529,
+        "mtime": "2019-03-04T23:41:13"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "sample_id": "tile/test/crack/005.png",
+      "canonical_index": 5,
+      "selection_rank": 2,
+      "selection_spread": 0.6986230691734454,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2208,
+      "shared_colour_range": [
+        0.020046807825565338,
+        0.6607101559638977
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.757661,
+        "controlled_A1_L": 0.75872,
+        "anomalydino_canvas": 0.940839,
+        "anomalydino_canvas_rotation": 0.8651,
+        "PatchCore_native_local128": 0.242216,
+        "PatchCore_native_official224": 0.572335
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\crack\\005.png",
+        "exists": true,
+        "size_bytes": 908983,
+        "mtime": "2019-03-04T23:41:12"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "sample_id": "tile/test/rough/014.png",
+      "canonical_index": 116,
+      "selection_rank": 3,
+      "selection_spread": 0.5588945922928319,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 13882,
+      "shared_colour_range": [
+        0.02603016421198845,
+        0.3851701021194458
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.921108,
+        "controlled_A1_L": 0.923976,
+        "anomalydino_canvas": 0.906334,
+        "anomalydino_canvas_rotation": 0.926089,
+        "PatchCore_native_local128": 0.367194,
+        "PatchCore_native_official224": 0.594192
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\rough\\014.png",
+        "exists": true,
+        "size_bytes": 1054988,
+        "mtime": "2019-03-04T23:41:14"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "sample_id": "toothbrush/test/defective/021.png",
+      "canonical_index": 21,
+      "selection_rank": 1,
+      "selection_spread": 0.7931576570771374,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 509,
+      "shared_colour_range": [
+        0.0037143435329198837,
+        0.5701021552085876
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.807118,
+        "controlled_A1_L": 0.788693,
+        "anomalydino_canvas": 0.654929,
+        "anomalydino_canvas_rotation": 0.635745,
+        "PatchCore_native_local128": 0.01396,
+        "PatchCore_native_official224": 0.621846
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\021.png",
+        "exists": true,
+        "size_bytes": 1062085,
+        "mtime": "2019-03-04T23:41:16"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "sample_id": "toothbrush/test/defective/024.png",
+      "canonical_index": 24,
+      "selection_rank": 2,
+      "selection_spread": 0.7852399680719568,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 968,
+      "shared_colour_range": [
+        0.004892599768936634,
+        0.5369532704353333
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.679315,
+        "controlled_A1_L": 0.664044,
+        "anomalydino_canvas": 0.797885,
+        "anomalydino_canvas_rotation": 0.794415,
+        "PatchCore_native_local128": 0.012645,
+        "PatchCore_native_official224": 0.421507
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\024.png",
+        "exists": true,
+        "size_bytes": 1069673,
+        "mtime": "2019-03-04T23:41:16"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "sample_id": "toothbrush/test/defective/007.png",
+      "canonical_index": 7,
+      "selection_rank": 3,
+      "selection_spread": 0.6208760430015855,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 480,
+      "shared_colour_range": [
+        0.005025888793170452,
+        0.5507431030273438
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.63082,
+        "controlled_A1_L": 0.656026,
+        "anomalydino_canvas": 0.514254,
+        "anomalydino_canvas_rotation": 0.540523,
+        "PatchCore_native_local128": 0.03515,
+        "PatchCore_native_official224": 0.145309
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\007.png",
+        "exists": true,
+        "size_bytes": 1079451,
+        "mtime": "2019-03-04T23:41:16"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "sample_id": "transistor/test/damaged_case/004.png",
+      "canonical_index": 24,
+      "selection_rank": 1,
+      "selection_spread": 0.6748874438121655,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 5099,
+      "shared_colour_range": [
+        0.009048198349773884,
+        0.5413991212844849
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.73618,
+        "controlled_A1_L": 0.723803,
+        "anomalydino_canvas": 0.816811,
+        "anomalydino_canvas_rotation": 0.823474,
+        "PatchCore_native_local128": 0.148586,
+        "PatchCore_native_official224": 0.446423
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\damaged_case\\004.png",
+        "exists": true,
+        "size_bytes": 1297586,
+        "mtime": "2019-03-04T23:41:18"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "sample_id": "transistor/test/damaged_case/007.png",
+      "canonical_index": 27,
+      "selection_rank": 2,
+      "selection_spread": 0.6382857264985924,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2593,
+      "shared_colour_range": [
+        0.007227403111755848,
+        0.456218957901001
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.921312,
+        "controlled_A1_L": 0.916266,
+        "anomalydino_canvas": 0.928024,
+        "anomalydino_canvas_rotation": 0.927746,
+        "PatchCore_native_local128": 0.289739,
+        "PatchCore_native_official224": 0.863214
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\damaged_case\\007.png",
+        "exists": true,
+        "size_bytes": 1294864,
+        "mtime": "2019-03-04T23:41:18"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "sample_id": "transistor/test/bent_lead/001.png",
+      "canonical_index": 1,
+      "selection_rank": 3,
+      "selection_spread": 0.6205355392539905,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 452,
+      "shared_colour_range": [
+        0.01283402368426323,
+        0.3609546422958374
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.012507,
+        "controlled_A1_L": 0.016531,
+        "anomalydino_canvas": 0.02725,
+        "anomalydino_canvas_rotation": 0.03286,
+        "PatchCore_native_local128": 0.633042,
+        "PatchCore_native_official224": 0.551339
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\bent_lead\\001.png",
+        "exists": true,
+        "size_bytes": 1285834,
+        "mtime": "2019-03-04T23:41:18"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "sample_id": "wood/test/color/000.png",
+      "canonical_index": 0,
+      "selection_rank": 1,
+      "selection_spread": 0.6758559812401289,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 4268,
+      "shared_colour_range": [
+        0.019575372338294983,
+        0.5685964822769165
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.912765,
+        "controlled_A1_L": 0.906766,
+        "anomalydino_canvas": 0.876653,
+        "anomalydino_canvas_rotation": 0.886975,
+        "PatchCore_native_local128": 0.236909,
+        "PatchCore_native_official224": 0.511939
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\color\\000.png",
+        "exists": true,
+        "size_bytes": 1559500,
+        "mtime": "2019-03-04T23:41:22"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "sample_id": "wood/test/hole/006.png",
+      "canonical_index": 44,
+      "selection_rank": 2,
+      "selection_spread": 0.6279153314043442,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 524,
+      "shared_colour_range": [
+        0.01933743618428707,
+        0.3797376751899719
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.565773,
+        "controlled_A1_L": 0.561344,
+        "anomalydino_canvas": 0.651344,
+        "anomalydino_canvas_rotation": 0.593401,
+        "PatchCore_native_local128": 0.023428,
+        "PatchCore_native_official224": 0.381212
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\hole\\006.png",
+        "exists": true,
+        "size_bytes": 1613596,
+        "mtime": "2019-03-04T23:41:23"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "sample_id": "wood/test/combined/008.png",
+      "canonical_index": 16,
+      "selection_rank": 3,
+      "selection_spread": 0.5598969006548049,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 7595,
+      "shared_colour_range": [
+        0.018222926184535027,
+        0.5491487383842468
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.875955,
+        "controlled_A1_L": 0.874038,
+        "anomalydino_canvas": 0.854763,
+        "anomalydino_canvas_rotation": 0.846931,
+        "PatchCore_native_local128": 0.316058,
+        "PatchCore_native_official224": 0.705476
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\combined\\008.png",
+        "exists": true,
+        "size_bytes": 1471040,
+        "mtime": "2019-03-04T23:41:22"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "sample_id": "zipper/test/squeezed_teeth/006.png",
+      "canonical_index": 141,
+      "selection_rank": 1,
+      "selection_spread": 0.9252594210819052,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1309,
+      "shared_colour_range": [
+        0.014010373502969742,
+        0.3735915720462799
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.178317,
+        "controlled_A1_L": 0.166925,
+        "anomalydino_canvas": 0.211014,
+        "anomalydino_canvas_rotation": 0.215837,
+        "PatchCore_native_local128": 0.036277,
+        "PatchCore_native_official224": 0.961536
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\squeezed_teeth\\006.png",
+        "exists": true,
+        "size_bytes": 410417,
+        "mtime": "2019-03-06T21:03:01"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "sample_id": "zipper/test/fabric_interior/001.png",
+      "canonical_index": 53,
+      "selection_rank": 2,
+      "selection_spread": 0.8623148401868598,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3856,
+      "shared_colour_range": [
+        0.008661096915602684,
+        0.5771698951721191
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.896794,
+        "controlled_A1_L": 0.898938,
+        "anomalydino_canvas": 0.903617,
+        "anomalydino_canvas_rotation": 0.899537,
+        "PatchCore_native_local128": 0.041302,
+        "PatchCore_native_official224": 0.31981
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\fabric_interior\\001.png",
+        "exists": true,
+        "size_bytes": 400816,
+        "mtime": "2019-03-06T21:03:01"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "sample_id": "zipper/test/fabric_interior/005.png",
+      "canonical_index": 57,
+      "selection_rank": 3,
+      "selection_spread": 0.8408334442822393,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2063,
+      "shared_colour_range": [
+        0.008431114256381989,
+        0.63704514503479
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.897971,
+        "controlled_A1_L": 0.867425,
+        "anomalydino_canvas": 0.92167,
+        "anomalydino_canvas_rotation": 0.890267,
+        "PatchCore_native_local128": 0.080837,
+        "PatchCore_native_official224": 0.327962
+      },
+      "per_sample_pixel_ap_na": [],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\fabric_interior\\005.png",
+        "exists": true,
+        "size_bytes": 409794,
+        "mtime": "2019-03-06T21:03:01"
+      }
+    }
+  ],
+  "missing": [],
+  "sources": [
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\bottle\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5940259,
+      "mtime": "2026-09-17T12:02:58",
+      "method": "controlled_A1_J",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\bottle\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5940259,
+      "mtime": "2026-09-17T12:02:58",
+      "method": "controlled_A1_L",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_bottle.npz",
+      "exists": true,
+      "size_bytes": 349183,
+      "mtime": "2026-09-19T04:50:40",
+      "method": "anomalydino_canvas",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_bottle.npz",
+      "exists": true,
+      "size_bytes": 348196,
+      "mtime": "2026-09-19T07:01:55",
+      "method": "anomalydino_canvas_rotation",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz",
+      "exists": true,
+      "size_bytes": 4748804,
+      "mtime": "2026-09-19T10:25:51",
+      "method": "PatchCore_native_local128",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz",
+      "exists": true,
+      "size_bytes": 14648455,
+      "mtime": "2026-09-18T20:07:43",
+      "method": "PatchCore_native_official224",
+      "category": "bottle"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\cable\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11182440,
+      "mtime": "2026-09-17T12:03:26",
+      "method": "controlled_A1_J",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\cable\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11182440,
+      "mtime": "2026-09-17T12:03:26",
+      "method": "controlled_A1_L",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_cable.npz",
+      "exists": true,
+      "size_bytes": 610492,
+      "mtime": "2026-09-19T04:50:53",
+      "method": "anomalydino_canvas",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_cable.npz",
+      "exists": true,
+      "size_bytes": 607912,
+      "mtime": "2026-09-19T07:02:13",
+      "method": "anomalydino_canvas_rotation",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_cable.npz",
+      "exists": true,
+      "size_bytes": 8543167,
+      "mtime": "2026-09-19T10:26:05",
+      "method": "PatchCore_native_local128",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_cable.npz",
+      "exists": true,
+      "size_bytes": 25890397,
+      "mtime": "2026-09-18T20:08:21",
+      "method": "PatchCore_native_official224",
+      "category": "cable"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\capsule\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 9679940,
+      "mtime": "2026-09-17T12:04:01",
+      "method": "controlled_A1_J",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\capsule\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 9679940,
+      "mtime": "2026-09-17T12:04:01",
+      "method": "controlled_A1_L",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_capsule.npz",
+      "exists": true,
+      "size_bytes": 497265,
+      "mtime": "2026-09-19T04:51:04",
+      "method": "anomalydino_canvas",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_capsule.npz",
+      "exists": true,
+      "size_bytes": 496751,
+      "mtime": "2026-09-19T07:02:29",
+      "method": "anomalydino_canvas_rotation",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz",
+      "exists": true,
+      "size_bytes": 7490412,
+      "mtime": "2026-09-19T10:26:20",
+      "method": "PatchCore_native_local128",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz",
+      "exists": true,
+      "size_bytes": 23258853,
+      "mtime": "2026-09-18T20:08:57",
+      "method": "PatchCore_native_official224",
+      "category": "capsule"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\carpet\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8627515,
+      "mtime": "2026-09-17T12:04:31",
+      "method": "controlled_A1_J",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\carpet\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8627515,
+      "mtime": "2026-09-17T12:04:31",
+      "method": "controlled_A1_L",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_carpet.npz",
+      "exists": true,
+      "size_bytes": 451232,
+      "mtime": "2026-09-19T04:51:14",
+      "method": "anomalydino_canvas",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_carpet.npz",
+      "exists": true,
+      "size_bytes": 449504,
+      "mtime": "2026-09-19T07:02:44",
+      "method": "anomalydino_canvas_rotation",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz",
+      "exists": true,
+      "size_bytes": 6687602,
+      "mtime": "2026-09-19T10:26:33",
+      "method": "PatchCore_native_local128",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz",
+      "exists": true,
+      "size_bytes": 20439769,
+      "mtime": "2026-09-18T20:09:30",
+      "method": "PatchCore_native_official224",
+      "category": "carpet"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\grid\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5809592,
+      "mtime": "2026-09-17T12:04:58",
+      "method": "controlled_A1_J",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\grid\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5809592,
+      "mtime": "2026-09-17T12:04:58",
+      "method": "controlled_A1_L",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_grid.npz",
+      "exists": true,
+      "size_bytes": 307235,
+      "mtime": "2026-09-19T04:51:20",
+      "method": "anomalydino_canvas",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_grid.npz",
+      "exists": true,
+      "size_bytes": 307632,
+      "mtime": "2026-09-19T07:02:54",
+      "method": "anomalydino_canvas_rotation",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_grid.npz",
+      "exists": true,
+      "size_bytes": 4359634,
+      "mtime": "2026-09-19T10:26:41",
+      "method": "PatchCore_native_local128",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_grid.npz",
+      "exists": true,
+      "size_bytes": 13009617,
+      "mtime": "2026-09-18T20:09:52",
+      "method": "PatchCore_native_official224",
+      "category": "grid"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\hazelnut\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8209503,
+      "mtime": "2026-09-17T12:05:25",
+      "method": "controlled_A1_J",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\hazelnut\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8209503,
+      "mtime": "2026-09-17T12:05:25",
+      "method": "controlled_A1_L",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_hazelnut.npz",
+      "exists": true,
+      "size_bytes": 443889,
+      "mtime": "2026-09-19T04:51:29",
+      "method": "anomalydino_canvas",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_hazelnut.npz",
+      "exists": true,
+      "size_bytes": 441120,
+      "mtime": "2026-09-19T07:03:07",
+      "method": "anomalydino_canvas_rotation",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz",
+      "exists": true,
+      "size_bytes": 6336983,
+      "mtime": "2026-09-19T10:26:52",
+      "method": "PatchCore_native_local128",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz",
+      "exists": true,
+      "size_bytes": 19357701,
+      "mtime": "2026-09-18T20:10:15",
+      "method": "PatchCore_native_official224",
+      "category": "hazelnut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\leather\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 9213173,
+      "mtime": "2026-09-17T12:05:56",
+      "method": "controlled_A1_J",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\leather\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 9213173,
+      "mtime": "2026-09-17T12:05:56",
+      "method": "controlled_A1_L",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_leather.npz",
+      "exists": true,
+      "size_bytes": 470191,
+      "mtime": "2026-09-19T04:51:39",
+      "method": "anomalydino_canvas",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_leather.npz",
+      "exists": true,
+      "size_bytes": 469011,
+      "mtime": "2026-09-19T07:03:21",
+      "method": "anomalydino_canvas_rotation",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_leather.npz",
+      "exists": true,
+      "size_bytes": 7111994,
+      "mtime": "2026-09-19T10:27:04",
+      "method": "PatchCore_native_local128",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_leather.npz",
+      "exists": true,
+      "size_bytes": 21321190,
+      "mtime": "2026-09-18T20:10:46",
+      "method": "PatchCore_native_official224",
+      "category": "leather"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8535588,
+      "mtime": "2026-09-17T12:06:26",
+      "method": "controlled_A1_J",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8535588,
+      "mtime": "2026-09-17T12:06:26",
+      "method": "controlled_A1_L",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_metal_nut.npz",
+      "exists": true,
+      "size_bytes": 504624,
+      "mtime": "2026-09-19T04:51:48",
+      "method": "anomalydino_canvas",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_metal_nut.npz",
+      "exists": true,
+      "size_bytes": 502382,
+      "mtime": "2026-09-19T07:03:33",
+      "method": "anomalydino_canvas_rotation",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz",
+      "exists": true,
+      "size_bytes": 6611362,
+      "mtime": "2026-09-19T10:27:15",
+      "method": "PatchCore_native_local128",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz",
+      "exists": true,
+      "size_bytes": 20108182,
+      "mtime": "2026-09-18T20:11:11",
+      "method": "PatchCore_native_official224",
+      "category": "metal_nut"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\pill\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 12344489,
+      "mtime": "2026-09-17T12:07:01",
+      "method": "controlled_A1_J",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\pill\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 12344489,
+      "mtime": "2026-09-17T12:07:01",
+      "method": "controlled_A1_L",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_pill.npz",
+      "exists": true,
+      "size_bytes": 652074,
+      "mtime": "2026-09-19T04:52:00",
+      "method": "anomalydino_canvas",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_pill.npz",
+      "exists": true,
+      "size_bytes": 649059,
+      "mtime": "2026-09-19T07:03:50",
+      "method": "anomalydino_canvas_rotation",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_pill.npz",
+      "exists": true,
+      "size_bytes": 9395678,
+      "mtime": "2026-09-19T10:27:29",
+      "method": "PatchCore_native_local128",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_pill.npz",
+      "exists": true,
+      "size_bytes": 28693470,
+      "mtime": "2026-09-18T20:11:48",
+      "method": "PatchCore_native_official224",
+      "category": "pill"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\screw\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11888560,
+      "mtime": "2026-09-17T12:07:39",
+      "method": "controlled_A1_J",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\screw\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11888560,
+      "mtime": "2026-09-17T12:07:39",
+      "method": "controlled_A1_L",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_screw.npz",
+      "exists": true,
+      "size_bytes": 609278,
+      "mtime": "2026-09-19T04:52:12",
+      "method": "anomalydino_canvas",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_screw.npz",
+      "exists": true,
+      "size_bytes": 592863,
+      "mtime": "2026-09-19T07:04:07",
+      "method": "anomalydino_canvas_rotation",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_screw.npz",
+      "exists": true,
+      "size_bytes": 9199773,
+      "mtime": "2026-09-19T10:27:44",
+      "method": "PatchCore_native_local128",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_screw.npz",
+      "exists": true,
+      "size_bytes": 28312555,
+      "mtime": "2026-09-18T20:12:31",
+      "method": "PatchCore_native_official224",
+      "category": "screw"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\tile\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8705667,
+      "mtime": "2026-09-17T12:08:11",
+      "method": "controlled_A1_J",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\tile\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 8705667,
+      "mtime": "2026-09-17T12:08:11",
+      "method": "controlled_A1_L",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_tile.npz",
+      "exists": true,
+      "size_bytes": 508023,
+      "mtime": "2026-09-19T04:52:21",
+      "method": "anomalydino_canvas",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_tile.npz",
+      "exists": true,
+      "size_bytes": 505960,
+      "mtime": "2026-09-19T07:04:20",
+      "method": "anomalydino_canvas_rotation",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_tile.npz",
+      "exists": true,
+      "size_bytes": 6705111,
+      "mtime": "2026-09-19T10:27:57",
+      "method": "PatchCore_native_local128",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_tile.npz",
+      "exists": true,
+      "size_bytes": 20293126,
+      "mtime": "2026-09-18T20:13:05",
+      "method": "PatchCore_native_official224",
+      "category": "tile"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\toothbrush\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 3114749,
+      "mtime": "2026-09-17T12:08:32",
+      "method": "controlled_A1_J",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\toothbrush\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 3114749,
+      "mtime": "2026-09-17T12:08:32",
+      "method": "controlled_A1_L",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_toothbrush.npz",
+      "exists": true,
+      "size_bytes": 171783,
+      "mtime": "2026-09-19T04:52:24",
+      "method": "anomalydino_canvas",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_toothbrush.npz",
+      "exists": true,
+      "size_bytes": 171606,
+      "mtime": "2026-09-19T07:04:25",
+      "method": "anomalydino_canvas_rotation",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz",
+      "exists": true,
+      "size_bytes": 2416441,
+      "mtime": "2026-09-19T10:28:04",
+      "method": "PatchCore_native_local128",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz",
+      "exists": true,
+      "size_bytes": 7426984,
+      "mtime": "2026-09-18T20:13:22",
+      "method": "PatchCore_native_official224",
+      "category": "toothbrush"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\transistor\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 7379444,
+      "mtime": "2026-09-17T12:08:52",
+      "method": "controlled_A1_J",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\transistor\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 7379444,
+      "mtime": "2026-09-17T12:08:52",
+      "method": "controlled_A1_L",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_transistor.npz",
+      "exists": true,
+      "size_bytes": 402165,
+      "mtime": "2026-09-19T04:52:33",
+      "method": "anomalydino_canvas",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_transistor.npz",
+      "exists": true,
+      "size_bytes": 401038,
+      "mtime": "2026-09-19T07:04:36",
+      "method": "anomalydino_canvas_rotation",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz",
+      "exists": true,
+      "size_bytes": 5650621,
+      "mtime": "2026-09-19T10:28:13",
+      "method": "PatchCore_native_local128",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz",
+      "exists": true,
+      "size_bytes": 17196685,
+      "mtime": "2026-09-18T20:13:44",
+      "method": "PatchCore_native_official224",
+      "category": "transistor"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\wood\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5864801,
+      "mtime": "2026-09-17T12:09:13",
+      "method": "controlled_A1_J",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\wood\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 5864801,
+      "mtime": "2026-09-17T12:09:13",
+      "method": "controlled_A1_L",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_wood.npz",
+      "exists": true,
+      "size_bytes": 333883,
+      "mtime": "2026-09-19T04:52:40",
+      "method": "anomalydino_canvas",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_wood.npz",
+      "exists": true,
+      "size_bytes": 333739,
+      "mtime": "2026-09-19T07:04:46",
+      "method": "anomalydino_canvas_rotation",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_wood.npz",
+      "exists": true,
+      "size_bytes": 4520532,
+      "mtime": "2026-09-19T10:28:22",
+      "method": "PatchCore_native_local128",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_wood.npz",
+      "exists": true,
+      "size_bytes": 13740767,
+      "mtime": "2026-09-18T20:14:06",
+      "method": "PatchCore_native_official224",
+      "category": "wood"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\zipper\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11059816,
+      "mtime": "2026-09-17T12:09:43",
+      "method": "controlled_A1_J",
+      "category": "zipper"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\zipper\\patch_scores.npz",
+      "exists": true,
+      "size_bytes": 11059816,
+      "mtime": "2026-09-17T12:09:43",
+      "method": "controlled_A1_L",
+      "category": "zipper"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_zipper.npz",
+      "exists": true,
+      "size_bytes": 588211,
+      "mtime": "2026-09-19T04:52:51",
+      "method": "anomalydino_canvas",
+      "category": "zipper"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_zipper.npz",
+      "exists": true,
+      "size_bytes": 586753,
+      "mtime": "2026-09-19T07:05:02",
+      "method": "anomalydino_canvas_rotation",
+      "category": "zipper"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz",
+      "exists": true,
+      "size_bytes": 8666356,
+      "mtime": "2026-09-19T10:28:33",
+      "method": "PatchCore_native_local128",
+      "category": "zipper"
+    },
+    {
+      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz",
+      "exists": true,
+      "size_bytes": 26497423,
+      "mtime": "2026-09-18T20:14:35",
+      "method": "PatchCore_native_official224",
+      "category": "zipper"
+    }
+  ],
+  "rules": {
+    "region_rule": "the intersection of the rectangles each compared method covers, frozen in common_region_geometry.json (S8)",
+    "resampling": "s8_common_region.remap_to_region, linear for the score maps, nearest for the ground truth; identical to the S8 evaluation",
+    "sample_selection": "per category, the --samples-per-category test images among those whose ground truth covers at least max(16, 0.0005 * region pixels) region pixels, ranked by the per-sample Pixel-AP spread (max - min) across the method columns that have data; ties broken by sample id; the spread is computed on the region grid",
+    "colour_rule": "one cmap (magma) with one shared min-max range per row across the method columns",
+    "degradation": "a method with no per-sample dump for a unit keeps its column and is drawn as an n/a panel; the run does not abort"
+  },
+  "interpretation_limit": "the rows are display examples selected by the rule above, not a random sample, and the per-sample numbers are region-grid values; the category-level numbers stay in the S8 table",
+  "font_floor_pt": 11.5
+}

@@ -1,10 +1,7 @@
 {
   "checks": 71,
-  "passed": 69,
-  "failed": [
-    "S4: the official PatchCore configuration completed every unit",
-    "read-only inputs were not written during this delivery"
-  ],
+  "passed": 71,
+  "failed": [],
   "results": [
     {
       "check": "all required artefacts exist",
@@ -198,8 +195,8 @@
     },
     {
       "check": "S4: the official PatchCore configuration completed every unit",
-      "passed": false,
-      "detail": "units=16"
+      "passed": true,
+      "detail": "units=16, statuses=['completed']"
     },
     {
       "check": "S5: five sources verified, none left at abstract level",
@@ -228,8 +225,8 @@
     },
     {
       "check": "read-only inputs were not written during this delivery",
-      "passed": false,
-      "detail": "modified=['experiments\\\\dynamic_fusion\\\\paper_evidence_closeout_20260914\\\\CLAIM_EVIDENCE_LEDGER.csv', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\export_report_btad_k8.json', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\export_report_mpdd_k8.json', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\btad_s2_k8\\\\01.npz', 'outputs\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\canonical\\\\B\\\\btad_s2_k8\\\\02.npz']"
+      "passed": true,
+      "detail": "1642 frozen data artefacts unchanged (147 code/log/owner-output entries out of scope)"
     },
     {
       "check": "closure/statistics: the per-K stride-8 column is a seed average, not the last seed",

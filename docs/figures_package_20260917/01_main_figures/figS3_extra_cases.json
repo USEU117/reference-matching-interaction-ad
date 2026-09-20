@@ -1,0 +1,118 @@
+{
+  "figure": "figS3_extra_cases",
+  "panels": {
+    "a": {
+      "source": "experiments/dynamic_fusion/representation_matching_interaction_20260914/01_geometry/C_TO_B_COORDINATE_AUDIT.json",
+      "shows": "coordinate shift of the only non-square audited unit",
+      "non_square_units": [
+        "btad/03"
+      ],
+      "zero_shift_units": [
+        "mpdd/bracket_black",
+        "btad/01",
+        "mpdd/tubes"
+      ]
+    },
+    "b": {
+      "source": "experiments/dynamic_fusion/representation_matching_interaction_20260914/03_robustness/interaction_case_selection.csv",
+      "shows": "the eight per-image cases of the frozen selection rule",
+      "n_cases": 8
+    }
+  },
+  "picture_panels": {
+    "contract": "re-rendered at the manuscript width 17 cm, Times New Roman, every text artist >= 11.5 pt (figure_font_gate.assert_min_font_pt), no label on an image panel (assert_no_text_axes_overlap), no label on another label (assert_no_text_text_overlap) and no label off the page (assert_text_inside_page); the panel scripts and this companion page assert all four",
+    "min_font_pt": 11.5,
+    "case_panel_pages": "the eight cases are split over s2_robustness.CASE_ROWS_PER_PAGE rows per page, so the case panel is figS3_interaction_cases.png plus figS3_interaction_cases_p2.png",
+    "embedding": "on",
+    "embedding_command": "python scripts/figures_reference_matching_20260914/build_figS3_extra_cases.py --embed-panels",
+    "panel_dir": "docs/figures_reference_matching_20260914",
+    "page": [
+      "docs/figures_reference_matching_20260914/figS3_extra_cases_panels.png",
+      "docs/figures_reference_matching_20260914/figS3_extra_cases_panels.pdf"
+    ],
+    "files": [
+      "docs/figures_reference_matching_20260914/panel_c_to_b_shift.png",
+      "docs/figures_reference_matching_20260914/panel_c_to_b_shift.pdf",
+      "docs/figures_reference_matching_20260914/panel_canvas_coverage.png",
+      "docs/figures_reference_matching_20260914/panel_canvas_coverage.pdf",
+      "docs/figures_reference_matching_20260914/panel_interaction_cases.png",
+      "docs/figures_reference_matching_20260914/panel_interaction_cases.pdf",
+      "docs/figures_reference_matching_20260914/panel_interaction_cases_p2.png",
+      "docs/figures_reference_matching_20260914/panel_interaction_cases_p2.pdf"
+    ],
+    "items": [
+      {
+        "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/01_geometry/figS1_c_to_b_shift.png",
+        "exists": true,
+        "embedded": true,
+        "embedded_as": "docs/figures_reference_matching_20260914/panel_c_to_b_shift.png",
+        "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py -> render_c_to_b_figure",
+        "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+      },
+      {
+        "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/01_geometry/figS2_canvas_coverage.png",
+        "exists": true,
+        "embedded": true,
+        "embedded_as": "docs/figures_reference_matching_20260914/panel_canvas_coverage.png",
+        "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py -> boundary_figure",
+        "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+      },
+      {
+        "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/03_robustness/figS3_interaction_cases.png",
+        "exists": true,
+        "embedded": true,
+        "embedded_as": "docs/figures_reference_matching_20260914/panel_interaction_cases.png",
+        "source_script": "scripts/representation_matching_interaction_20260914/s2_robustness.py -> render_cases",
+        "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+      },
+      {
+        "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/03_robustness/figS3_interaction_cases_p2.png",
+        "exists": true,
+        "embedded": true,
+        "embedded_as": "docs/figures_reference_matching_20260914/panel_interaction_cases_p2.png",
+        "source_script": "scripts/representation_matching_interaction_20260914/s2_robustness.py -> render_cases",
+        "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+      }
+    ]
+  },
+  "not_embedded": [
+    {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/01_geometry/figS1_c_to_b_shift.png",
+      "exists": true,
+      "embedded": true,
+      "embedded_as": "docs/figures_reference_matching_20260914/panel_c_to_b_shift.png",
+      "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py -> render_c_to_b_figure",
+      "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+    },
+    {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/01_geometry/figS2_canvas_coverage.png",
+      "exists": true,
+      "embedded": true,
+      "embedded_as": "docs/figures_reference_matching_20260914/panel_canvas_coverage.png",
+      "source_script": "scripts/representation_matching_interaction_20260914/freeze_s0.py -> boundary_figure",
+      "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+    },
+    {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/03_robustness/figS3_interaction_cases.png",
+      "exists": true,
+      "embedded": true,
+      "embedded_as": "docs/figures_reference_matching_20260914/panel_interaction_cases.png",
+      "source_script": "scripts/representation_matching_interaction_20260914/s2_robustness.py -> render_cases",
+      "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+    },
+    {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/03_robustness/figS3_interaction_cases_p2.png",
+      "exists": true,
+      "embedded": true,
+      "embedded_as": "docs/figures_reference_matching_20260914/panel_interaction_cases_p2.png",
+      "source_script": "scripts/representation_matching_interaction_20260914/s2_robustness.py -> render_cases",
+      "reason": "drawn on the companion page figS3_extra_cases_panels.png/.pdf, at its own printed width, by --embed-panels; it stays off the (a)/(b) board because it is not a data panel of this figure"
+    }
+  ],
+  "outputs": [
+    "docs/figures_reference_matching_20260914/figS3_extra_cases.png",
+    "docs/figures_reference_matching_20260914/figS3_extra_cases.pdf",
+    "docs/figures_reference_matching_20260914/figS3_extra_cases_panels.png",
+    "docs/figures_reference_matching_20260914/figS3_extra_cases_panels.pdf"
+  ]
+}
