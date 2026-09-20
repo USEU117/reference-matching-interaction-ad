@@ -34,17 +34,21 @@
 
 ## 环境
 
-| 虚拟环境 | 用途 |
+> 下表于 2026-09-19 在盘上逐环境实读（`<venv>\Scripts\python.exe`），不是转抄上游 requirements。
+
+| 虚拟环境 | 用途（实读） |
 |---|---|
-| `.venv-anomalyclip` | AnomalyCLIP GPU 推理 |
-| `.venv-anomalydino` | AnomalyDINO GPU 推理 |
-| `.venv-patchcore` | PatchCore 推理 + V3.3/V3.5 CPU 评估 |
+| `.venv-anomalyclip` | **论文主线工作流的默认解释器**（torch 2.0.0+cu118, CUDA 11.8）：B/S/C 编码、D 支、E1–E3、泛化与 KSDD2 矩阵、AnomalyDINO 基线、统计与图件脚本 —— `scripts/**` 的绝大多数调用都用它 |
+| `.venv-patchcore` | PatchCore 基线推理 + 部分 CPU 评估 / 早期 DINOv2 特征导出（torch 2.0.0+cu118, faiss-cpu 1.7.4） |
 | `.venv-winclip` | WinCLIP+ 推理 |
 | `.venv-promptad` | PromptAD 训练/推理 |
-| `.venv-adaptclip` | AdaptCLIP 推理 + 部分 CPU 评估 |
-| `.venv-remp_ad` | ReMP-AD 推理 |
+| `.venv-adaptclip` | AdaptCLIP 推理 + 部分 CPU 评估（torch 2.7.1+cu118） |
+| `.venv-remp_ad` | ReMP-AD 推理（torch 2.6.0+cu124） |
+| **（无）** | **`.venv-anomalydino` 不存在**；AnomalyDINO 基线在 `.venv-anomalyclip` 下运行（见 `scripts/limitation_closure_20260915/anomalydino_guarded_retry.ps1` L21） |
+| `.venv-rempad` | 同名残留：盘上另存一份（torch 2.0.0+cu118，**未装 matplotlib**）；不要假定它是被使用的那一份 |
+| 默认 `python`（PATH） | torch 2.12.1+**cpu**，`cuda_available=False` ⇒ **只能跑统计/CPU 阶段，不能编码** |
 
-GPU: NVIDIA RTX 3060 Laptop, 6 GB VRAM
+GPU: NVIDIA RTX 3060 Laptop, 6 GB VRAM；内存 15.8 GB，20 逻辑核。
 
 ## 快速复现
 
