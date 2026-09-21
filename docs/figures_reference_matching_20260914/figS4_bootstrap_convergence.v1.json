@@ -1,12 +1,5 @@
 {
   "figure": "figS4_bootstrap_convergence",
-  "version": 2,
-  "version_note": "v2 (2026-09-21) is a layout/annotation revision of v1: two panels instead of three, colour-blind safe palette with marker-encoded datasets, N = 1000 asymptote reference lines, annotated stability points, an in-figure gloss for I_TRI/I_BAL and a bilingual caption.  No value, replicate array, contrast definition or tolerance was changed; v1 of these files is kept as figS4_bootstrap_convergence.v1.{png,pdf,json}.",
-  "v1_backup": [
-    "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.png",
-    "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.pdf",
-    "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.json"
-  ],
   "claim": "The reported interaction estimates and 95% interval widths are stable in the number of bootstrap replicates kept on disk.  No target-domain training is involved and no loss curve exists for this pipeline.",
   "metric": "pixel_ap",
   "contrasts": {
@@ -26,32 +19,6 @@
     900,
     1000
   ],
-  "panels": {
-    "a": "point-estimate change from its N = 1000 value, 10^-3 pixel AP, all ten series; reference line y = 0 and grey band = the measured N >= 200 bound",
-    "b": "95% interval width relative to its N = 1000 value, all ten series; reference line y = 1 and shaded band = +/-5%"
-  },
-  "style": {
-    "palette": {
-      "mpdd": "#0072B2",
-      "btad": "#D55E00",
-      "mvtec": "#009E73",
-      "visa": "#CC79A7",
-      "ksdd2": "#808080"
-    },
-    "marker": {
-      "mpdd": "o",
-      "btad": "s",
-      "mvtec": "^",
-      "visa": "v",
-      "ksdd2": "D"
-    },
-    "linestyle": {
-      "I_TRI": "solid",
-      "I_BAL": "dashed"
-    },
-    "colour_blind_note": "Okabe-Ito subset; the contrast is also carried by the line style and the dataset by its marker, so the figure does not rely on colour alone (greyscale printing).",
-    "ksdd2_note": "KSDD2 is drawn in neutral grey with a thinner line and stays outside the four-dataset family; the legend marks it as the confirmation set."
-  },
   "scope": {
     "datasets": {
       "mpdd": {
@@ -78,84 +45,6 @@
     "replicates_on_disk": 1000,
     "no_new_random_draws": true,
     "ksdd2_note": "KSDD2 is the one-shot confirmation set; it is drawn grey/dashed and is not part of the four-dataset family."
-  },
-  "stability_points": {
-    "annotation": "vertical lines on both panels",
-    "recommended_n": 1000,
-    "recommended_n_text": "recommended N = 1000 (used throughout)",
-    "estimate": {
-      "bound_pixel_ap": 0.00022999999999999998,
-      "bound_definition": "measured worst |estimate(N) - estimate(N = 1000)| over all ten series for N >= 200, rounded up to one decimal of 1e-4 pixel AP",
-      "settled_from_n": 200
-    },
-    "interval_width": {
-      "bound_relative": 0.068,
-      "bound_definition": "measured worst |width(N)/width(N = 1000) - 1| over all ten series for N >= 500, rounded up to one decimal of one percent",
-      "settled_from_n": 500
-    },
-    "per_series_first_settled_n": {
-      "btad|I_BAL": {
-        "estimate_settled_from_n": 100,
-        "width_settled_from_n": 400,
-        "estimate_max_abs_deviation_from_N_1000": 0.000285179,
-        "width_max_rel_deviation_from_N_1000": 0.203552
-      },
-      "btad|I_TRI": {
-        "estimate_settled_from_n": 200,
-        "width_settled_from_n": 500,
-        "estimate_max_abs_deviation_from_N_1000": 0.000304839,
-        "width_max_rel_deviation_from_N_1000": 0.310767
-      },
-      "ksdd2|I_BAL": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 100,
-        "estimate_max_abs_deviation_from_N_1000": 0.000226794,
-        "width_max_rel_deviation_from_N_1000": 0.127348
-      },
-      "ksdd2|I_TRI": {
-        "estimate_settled_from_n": 100,
-        "width_settled_from_n": 100,
-        "estimate_max_abs_deviation_from_N_1000": 0.000252833,
-        "width_max_rel_deviation_from_N_1000": 0.136592
-      },
-      "mpdd|I_BAL": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 50,
-        "estimate_max_abs_deviation_from_N_1000": 0.000191006,
-        "width_max_rel_deviation_from_N_1000": 0.067507
-      },
-      "mpdd|I_TRI": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 200,
-        "estimate_max_abs_deviation_from_N_1000": 0.00014591,
-        "width_max_rel_deviation_from_N_1000": 0.153144
-      },
-      "mvtec|I_BAL": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 400,
-        "estimate_max_abs_deviation_from_N_1000": 0.00010274,
-        "width_max_rel_deviation_from_N_1000": 0.164425
-      },
-      "mvtec|I_TRI": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 200,
-        "estimate_max_abs_deviation_from_N_1000": 9.2355e-05,
-        "width_max_rel_deviation_from_N_1000": 0.127335
-      },
-      "visa|I_BAL": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 200,
-        "estimate_max_abs_deviation_from_N_1000": 7.5365e-05,
-        "width_max_rel_deviation_from_N_1000": 0.117463
-      },
-      "visa|I_TRI": {
-        "estimate_settled_from_n": 50,
-        "width_settled_from_n": 500,
-        "estimate_max_abs_deviation_from_N_1000": 0.000122075,
-        "width_max_rel_deviation_from_N_1000": 0.164065
-      }
-    },
-    "reading_note": "The settled-from N is the first grid point from which every series stays inside the stated bound; some series are already inside it earlier, so the line is the conservative joint statement, not a per-series threshold."
   },
   "sources": [
     {
@@ -1185,40 +1074,22 @@
     "max_abs_estimate_deviation_N_ge_200": 0.00022169336403284967,
     "max_abs_estimate_deviation_N_ge_500": 0.00012651730514320284,
     "max_relative_width_deviation_N_ge_200": 0.17133892017712907,
-    "max_relative_width_deviation_N_ge_500": 0.06766906680896374,
-    "max_abs_cross_check_delta": 2.38524477946811e-16
+    "max_relative_width_deviation_N_ge_500": 0.06766906680896374
   },
-  "caption_en": "Figure S4. Bootstrap convergence of the interaction (macro pixel AP). Only prefixes of the frozen replicate arrays are used; no new sampling. The horizontal reference line marks each series' N = 1000 value. Point estimates settle by N = 200 and interval widths by N = 500 (within 6.8%); the paper reports N = 1000. KSDD2 (grey, dashed) is the confirmation set, outside the four-dataset family.",
-  "caption_zh": "图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值；点估计自 N = 200 起稳定，区间宽度自 N = 500 起收敛到 6.8% 以内；全文报告 N = 1000。KSDD2（灰色虚线）为确认集，不属四数据集家族。",
-  "caption_en_words": 66,
   "gates": {
     "min_font_pt_floor": 11.5,
-    "min_font_pt_measured": 11.5,
-    "text_artists_compared": 39,
+    "text_artists_compared": 44,
     "text_text_overlaps": 0,
-    "text_outside_page": 0,
-    "in_panel_annotations_checked_against_curves": 4
+    "text_outside_page": 0
   },
-  "outputs": [
-    {
-      "path": "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.png",
-      "bytes": 820616,
-      "pixels": [
-        2342,
-        3290
-      ],
-      "dpi": 350
-    },
-    {
-      "path": "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.pdf",
-      "bytes": 63565,
-      "vector": true
-    }
-  ],
   "limits": [
     "the figure characterises the Monte-Carlo stability of the estimator under resampling; the statistical uncertainty itself is the 95% interval, which is drawn but not interpreted here",
     "prefixes of one fixed replicate array are not independent replications, so the curves are a stability check and not an estimate of bias",
     "no training, no optimisation and no model update is performed at any point"
   ],
-  "created_utc": "2026-09-21T06:43:14+00:00"
+  "created_utc": "2026-09-20T05:33:18+00:00",
+  "outputs": [
+    "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.png",
+    "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.pdf"
+  ]
 }

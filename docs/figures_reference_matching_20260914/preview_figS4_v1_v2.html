@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>图 S4 对比预览：v1 vs v2（自助收敛曲线）</title>
+<style>
+  :root { --ink:#1E2E38; --muted:#5E717C; --line:#D8DEE3; --bg:#FFFFFF; --accent:#0072B2; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 28px 48px; background:var(--bg); color:var(--ink);
+         font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif; font-size:14px; line-height:1.55; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  h2 { font-size:16px; margin:26px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--line); }
+  p.sub { color:var(--muted); margin:0 0 18px; }
+  .cols { display:flex; gap:18px; align-items:flex-start; flex-wrap:wrap; }
+  .col { flex:1 1 420px; min-width:340px; border:1px solid var(--line); border-radius:6px; padding:12px; }
+  .col h3 { margin:0 0 6px; font-size:15px; }
+  .tag { display:inline-block; font-size:12px; padding:1px 7px; border-radius:9px; margin-left:6px;
+         background:#EEF3F7; color:var(--muted); }
+  .col img { display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:4px;
+             background:#fff; }
+  .meta { font-size:12.5px; color:var(--muted); margin:8px 0 0; }
+  .meta code { color:var(--ink); }
+  table { border-collapse:collapse; width:100%; margin:6px 0 4px; font-size:13px; }
+  th, td { border:1px solid var(--line); padding:5px 8px; text-align:left; vertical-align:top; }
+  th { background:#F4F7F9; font-weight:600; }
+  td.num { white-space:nowrap; }
+  .ok { color:#0F7A4A; font-weight:600; }
+  .warn { color:#B26A00; font-weight:600; }
+  ul { margin:6px 0 0 18px; padding:0; }
+  li { margin:2px 0; }
+  .cap { border:1px solid var(--line); border-radius:6px; padding:10px 12px; background:#FAFCFD; }
+  .cap .en { font-family:"Times New Roman",Georgia,serif; font-size:14.5px; }
+  .cap .zh { color:var(--muted); margin-top:6px; }
+  footer { margin-top:28px; color:var(--muted); font-size:12.5px; }
+</style>
+</head>
+<body>
+
+<h1>图 S4「自助收敛曲线」v1 / v2 对比预览</h1>
+<p class="sub">
+  文件：<code>docs/figures_reference_matching_20260914/preview_figS4_v1_v2.html</code>　|　
+  生成日期：2026-09-21　|　
+  页面只引用同目录本地相对文件（无外链、无 CDN）　|　
+  实验数值未改：v2 仍由三份已冻结 <code>bootstrap_samples.npz</code> 的前缀复算，10 行已发表表核对断言全部通过。
+</p>
+
+<div class="cols">
+  <div class="col">
+    <h3>v1（2026-09-20）<span class="tag">3 面板</span><span class="tag">旧配色</span></h3>
+    <img src="figS4_bootstrap_convergence.v1.png" alt="图 S4 v1：三面板自助收敛曲线">
+    <p class="meta">
+      文件：<code>figS4_bootstrap_convergence.v1.png</code><br>
+      体积：<code>665,788 B</code>（≈ 650 KB）　像素：<code>2342 × 3360</code>（350 dpi，17 cm × 24.4 cm）<br>
+      最小字号：<code>11.50 pt</code>（73 个 text artist）　面板：(a) I_TRI 水平 ± 95% 带 / (b) I_BAL / (c) 区间宽度比<br>
+      另存：<code>figS4_bootstrap_convergence.v1.pdf</code>（61,149 B）、<code>…v1.json</code>（30,519 B）
+    </p>
+  </div>
+  <div class="col">
+    <h3>v2（2026-09-21）<span class="tag">2 面板</span><span class="tag">色盲友好</span></h3>
+    <img src="figS4_bootstrap_convergence.png" alt="图 S4 v2：两面板自助收敛曲线，带渐近参考线与稳定点标注">
+    <p class="meta">
+      文件：<code>figS4_bootstrap_convergence.png</code><br>
+      体积：<code>820,616 B</code>（≈ 801 KB，门限 ≤ 900 KB）　像素：<code>2342 × 3290</code>（350 dpi，17 cm × 23.9 cm）<br>
+      最小字号：<code>11.50 pt</code>（61 个 text artist）　面板：(a) 点估计相对变化 / (b) 区间宽度相对变化<br>
+      另存：<code>figS4_bootstrap_convergence.pdf</code>（63,565 B，矢量）、<code>…json</code>（36,764 B）
+    </p>
+  </div>
+</div>
+
+<h2>一、量测对照</h2>
+<table>
+  <tr><th>项目</th><th>v1</th><th>v2</th><th>判定</th></tr>
+  <tr><td>面板数</td><td class="num">3（(a) I_TRI、(b) I_BAL、(c) 宽度比）</td><td class="num">2（(a) 点估计相对变化、(b) 宽度相对变化）</td><td class="ok">更疏朗，一屏一问</td></tr>
+  <tr><td>PNG 像素</td><td class="num">2342 × 3360</td><td class="num">2342 × 3290</td><td class="ok">同为 17 cm 栏宽 / 350 dpi</td></tr>
+  <tr><td>PNG 体积</td><td class="num">665,788 B（650 KB）</td><td class="num">820,616 B（801 KB）</td><td class="ok">≤ 900 KB 门限内</td></tr>
+  <tr><td>最小字号（印刷尺寸）</td><td class="num">11.50 pt / 73 个 text</td><td class="num">11.50 pt / 61 个 text</td><td class="ok">≥ 11 pt</td></tr>
+  <tr><td>文本互压 / 出页面 / 压图</td><td class="num">0 / 0 / 0</td><td class="num">0 / 0 / 0（另加 4 处面板内标注与曲线不相交）</td><td class="ok">四道断言 + 1 道新增断言</td></tr>
+  <tr><td>PNG 墨度 / 灰度标准差</td><td class="num">ink = 0.0982，std = 52.2</td><td class="num">ink = 0.0808，std = 52.9</td><td class="ok">非空白、非裁切</td></tr>
+  <tr><td>数值断言（N = 1000 复算 vs 已发表表，容差 1e−8）</td><td class="num">10 行，最大偏差 2.4e−16</td><td class="num">10 行，最大偏差 2.4e−16</td><td class="ok">全部通过，容差未放宽</td></tr>
+  <tr><td>收敛实测（10 条序列）</td><td class="num">N ≥ 200：≤ 2.3e−04；宽度 N ≥ 500：≤ 6.8%</td><td class="num">同（由同一前缀复算，图上按实测画线与标注）</td><td class="ok">数值未改</td></tr>
+</table>
+
+<h2>二、本轮 6 项优化：改前 → 改后</h2>
+<table>
+  <tr><th>#</th><th>目标</th><th>改前（v1）</th><th>改后（v2）</th></tr>
+  <tr>
+    <td class="num">1</td><td>更像「收敛图」</td>
+    <td>三个面板各画原始曲线，无渐近线、无稳定点标注；读者要自己判断「平了没有」。</td>
+    <td>每个面板都画一条水平参考线＝该序列在 N = 1000 的取值（(a) 为 0、(b) 为 1），并直接标注实测稳定点：竖虚线 <code>settled from N = 200</code>（点估计，±2.3e−04 pixel AP 灰带）与 <code>settled from N = 500</code>（区间宽度，±5% 灰带），另加 <code>recommended N = 1000 (used throughout)</code> 点线。</td>
+  </tr>
+  <tr>
+    <td class="num">2</td><td>面板数与信息密度</td>
+    <td>3 面板 × 5 数据集：(a)(b) 各 5 条「水平 ± 区间带」，点估计的「是否变平」在 |值| 尺度上不易读（如 VisA 的 0.0081–0.0096）。</td>
+    <td><b>选 (a) 方案：2 面板</b>。左＝全部数据集（10 条序列）点估计相对 N = 1000 的变化，右＝区间宽度相对变化（KSDD2 仍灰虚线单列）。理由见下方「三、为什么选 2 面板」。</td>
+  </tr>
+  <tr>
+    <td class="num">3</td><td>单位与标签</td>
+    <td>y 轴写 <code>I_TRI (10^-3 pixel AP)</code>；I_TRI / I_BAL 在图上首次出现处无释义；「10^-3」相对「百分点」未点明。</td>
+    <td>y 轴写清量纲：<code>estimate(N) - estimate(1000) (10^-3 pixel AP)</code> 与 <code>95% interval width / width at N = 1000</code>；面板标题注明「pixel AP, original metric scale」「ratio」；标题下新增一句图内释义：<i>I_TRI and I_BAL are the two interaction contrasts, both in macro pixel AP: I_TRI = (TRI − DUP)_L − (TRI − DUP)_J and I_BAL = (BAL − A1)_L − (BAL − A1)_J, with L, J = local, joint matching rule.</i></td>
+  </tr>
+  <tr>
+    <td class="num">4</td><td>配色</td>
+    <td>自选四色（#2E6F9E 蓝 / #B27C20 赭 / #3F7D4F 绿 / #9E3B57 玫红）＋ KSDD2 灰；面板 (c) 只靠颜色区分数据集，灰度打印时蓝/绿/玫红难以区分。</td>
+    <td>换成色盲友好 <b>Okabe–Ito</b> 子集：MPDD <code>#0072B2</code>○、BTAD <code>#D55E00</code>□、MVTec <code>#009E73</code>△、VisA <code>#CC79A7</code>▽、KSDD2 <code>#808080</code>◇。同时<b>线型承载对比量</b>（实线 = I_TRI，虚线 = I_BAL）、<b>标记形状承载数据集</b>，灰度打印也能逐条辨认（不再只靠颜色）。</td>
+  </tr>
+  <tr>
+    <td class="num">5</td><td>KSDD2 的语义</td>
+    <td>灰色虚线，仅靠图例标签 <code>KSDD2</code> 与图注一句话区分。</td>
+    <td>保持确认集语义并强化：灰色 + 更细线（1.0 vs 1.25）+ 置于底层，图例写作 <code>KSDD2 (confirmation)</code>，面板 (b) 标题直接写「KSDD2 (grey, dashed) = confirmation set, not a family member」，图注再声明「outside the four-dataset family」。</td>
+  </tr>
+  <tr>
+    <td class="num">6</td><td>图注</td>
+    <td>图内 8 行多行说明块；无固定词数的「可入稿图注」，无中文对照。</td>
+    <td>图内说明块精简为 6 行（含「无 loss 曲线」「只用前缀、未新采样」「稳定阈值来自实测」）；另在 JSON 与绑定表给出 <b>66 词英文图注 + 中文对照</b>（见下方「四」），可直接入稿。</td>
+  </tr>
+</table>
+
+<h2>三、为什么选 2 面板（方案 a）而不是保留 3 面板（方案 b）</h2>
+<ul>
+  <li><b>一屏一问</b>：导师 10 秒内要回答两个问题——「点估计稳了吗」「区间稳了吗」。v2 把这两个问题各给一个面板，面板标题即是结论句；v1 的 (a)(b) 是同一个问题的两种对比构造，需要读者跨面板比较。</li>
+  <li><b>「变平」在变化量尺度上唯一可读</b>：v1 画的是水平值（VisA≈0.0093、MVTec≈0.0043、BTAD≈−0.0002），四组数值量级差 40 倍，共用一个 y 轴时 BTAD 的「平」与「不平」肉眼无法分辨。v2 左面板改为「与 N = 1000 的差」，全部序列收敛到同一条 0 参考线，平不平一眼可判。</li>
+  <li><b>密度用编码解决，而不是用第三个面板</b>：方案 b 的 3 面板会把 10 条序列挤在 1.6 in 高的面板里；v2 面板高 2.25 in，且用「线型 = 对比量、颜色 + 标记 = 数据集」把 10 条序列编码清楚，仍不需要在每个面板放图例框。</li>
+  <li><b>版面收益</b>：面板从 3 降到 2，图高从 24.4 cm 降到 23.9 cm，字号下限不变（11.50 pt），体积反而略增（801 KB）——增量来自曲线与标记本身，仍在 900 KB 门限内。</li>
+</ul>
+
+<h2>四、可入稿图注（≤ 70 词）</h2>
+<div class="cap">
+  <div class="en"><b>Figure S4.</b> Bootstrap convergence of the interaction (macro pixel AP). Only prefixes of the frozen replicate arrays are used; no new sampling. The horizontal reference line marks each series' N = 1000 value. Point estimates settle by N = 200 and interval widths by N = 500 (within 6.8%); the paper reports N = 1000. KSDD2 (grey, dashed) is the confirmation set, outside the four-dataset family.</div>
+  <div class="zh">图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值；点估计自 N = 200 起稳定，区间宽度自 N = 500 起收敛到 6.8% 以内；全文报告 N = 1000。KSDD2（灰色虚线）为确认集，不属四数据集家族。</div>
+  <div class="zh">英文 66 词（上限 70）。同文另存于 <code>figS4_bootstrap_convergence.json</code> 的 <code>caption_en</code> / <code>caption_zh</code> 字段。</div>
+</div>
+
+<h2>五、复现与门禁（本次实跑）</h2>
+<table>
+  <tr><th>命令</th><th>结果</th></tr>
+  <tr><td><code>.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py</code></td><td class="ok">退出码 0；10 行数值断言通过（最大偏差 2.385e−16）；61 个 text artist 全部 11.50 pt；0 互压 / 0 出页 / 0 压图；4 处面板内标注与曲线不相交</td></tr>
+  <tr><td><code>.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/qa_layout.py</code></td><td class="ok">TOTAL PROBLEMS: 0（7 张幻灯片图，最小 11.29 pt），退出码 0</td></tr>
+  <tr><td><code>.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/figure_font_gate.py --self-test</code></td><td class="ok">4/4 对照按预期（3 拒 1 放行），退出码 0</td></tr>
+</table>
+
+<footer>
+  v1 备份位置：<code>figS4_bootstrap_convergence.v1.png / .v1.pdf / .v1.json</code>（同目录，本页左栏即引用该 PNG）。
+  v2 数据来源与逐 N 前缀表见 <code>figS4_bootstrap_convergence.json</code>；绑定与实测明细见 <code>FIGURE_BINDING.md</code> 图 S4 行与第七节；
+  「为什么没有 loss 收敛曲线」见 <code>docs/REFERENCE_FIG_CONVERGENCE_PLAN.md</code>。
+</footer>
+
+</body>
+</html>

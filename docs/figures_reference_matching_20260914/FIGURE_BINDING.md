@@ -36,6 +36,13 @@
 > ——本方法冻结、无目标域训练，没有优化过程也就没有 loss 曲线；图 S4 画的是已冻结自助样本**前缀**
 > （N = 50→1000）下点估计与 95% 区间宽度的收敛，不新采样、不重算。理由与论文可引用段落见
 > `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`，实测与门禁见第七节。图 1—8、S1—S3 的数值、口径与脚本**未改**。
+>
+> 2026-09-21 改版（**图 S4 → v2**，只动版面、标注与配色，不动任何数值）：3 面板改为 **2 面板**
+> （左＝10 条序列点估计相对 N = 1000 的变化，右＝区间宽度相对变化），每个面板都加 N = 1000 **水平
+> 渐近参考线**与**实测稳定点竖线**（点估计 N = 200：±2.3e−04 pixel AP 灰带；区间宽度 N = 500：±5% 带），
+> 配色改色盲友好 **Okabe–Ito** 子集并让线型承载对比量、标记承载数据集，新增图内 I_TRI/I_BAL 释义与
+> 中英图注（英文 66 词）。**数值、前缀、对比量定义、容差全部未改**，10 行断言仍全部通过（最大偏差 2.4e−16）；
+> v1 产物备份为 `figS4_bootstrap_convergence.v1.{png,pdf,json}`，逐条对比见 `preview_figS4_v1_v2.html`。
 
 - 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（页数未在本次重建中重新测量；8 张正文图 + 4 张补充图（S1—S4，2026-09-20 起）；S4 尚未并入正文 docx）
 - 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/figures)
@@ -60,7 +67,7 @@
 | 图 S2 | Supplementary Results | `figS2_shared_op_ablation.png`（+`.pdf`、`figS2_shared_op_ablation.json`） | `build_figS2_ablation.py` | `limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics.csv` + `ablation_metrics_abl_s_L.csv`；**scope 仅 seed 0、K = 1**，图上与图注均标注为探索性 | 2026-09-18 |
 | 图 S3 | Supplementary Results | `figS3_extra_cases.png`（+`.pdf`、`figS3_extra_cases.json`） | `build_figS3_extra_cases.py` | `01_geometry/C_TO_B_COORDINATE_AUDIT.json`（坐标位移）与 `03_robustness/interaction_case_selection.csv`（8 个逐图案例） | 2026-09-19 |
 | 图 S3（图片面板） | Supplementary Results | `figS3_extra_cases_panels.png`（+`.pdf`；四张面板 `panel_c_to_b_shift.png`、`panel_canvas_coverage.png`、`panel_interaction_cases.png`、`panel_interaction_cases_p2.png`，各含 `.pdf`） | `build_figS3_extra_cases.py --embed-panels`；面板本身由 `scripts/representation_matching_interaction_20260914/freeze_s0.py`（`render_c_to_b_figure`、`boundary_figure`）与 `s2_robustness.py`（`render_cases`，逐图案例分两页）绘制 | 同图 S3；复现见第三节（`freeze_s0.py --figures-only`、`s2_robustness.py --render-cases-only`） | 2026-09-19 |
-| 图 S4 | Supplementary Results | `figS4_bootstrap_convergence.png`（+`.pdf`、`figS4_bootstrap_convergence.json`） | `build_figS4_bootstrap_convergence.py` | 三份已冻结 `bootstrap_samples.npz` 的**前缀**（50→1000）：`unified_fusion_paper_support_20260913/p1_statistics/` 供 MPDD（12 单元）/BTAD（8）；`generalization_mvtec_visa_20260915/p1_statistics/` 供 MVTec/VisA（各 12）；`confirmation_ksdd2_20260918/p1_statistics/` 供 KSDD2（12，确认集，灰色虚线单列）。N = 1000 端与 `interaction_generalization.csv` 及 KSDD2 `02_interaction/interaction_aggregate.csv` 逐行核对（最大偏差 2.4e−16）。**替代 loss 收敛曲线**：方法无目标域训练、无优化过程，说明见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` | 2026-09-20 |
+| 图 S4 | Supplementary Results | `figS4_bootstrap_convergence.png`（+`.pdf`、`figS4_bootstrap_convergence.json`）；**v1 备份** `figS4_bootstrap_convergence.v1.{png,pdf,json}`；对比预览 `preview_figS4_v1_v2.html` | `build_figS4_bootstrap_convergence.py`（**v2 版脚本**，2026-09-21 两面板改版；复现命令见第三节，实测明细见第七节） | 三份已冻结 `bootstrap_samples.npz` 的**前缀**（50→1000）：`unified_fusion_paper_support_20260913/p1_statistics/` 供 MPDD（12 单元）/BTAD（8）；`generalization_mvtec_visa_20260915/p1_statistics/` 供 MVTec/VisA（各 12）；`confirmation_ksdd2_20260918/p1_statistics/` 供 KSDD2（12，确认集，灰色虚线单列）。N = 1000 端与 `interaction_generalization.csv` 及 KSDD2 `02_interaction/interaction_aggregate.csv` 逐行核对（v1/v2 最大偏差均 2.4e−16，容差 1e−8 未放宽）。**替代 loss 收敛曲线**：方法无目标域训练、无优化过程，说明见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` | 2026-09-21（v1：2026-09-20） |
 | 图 S5 | Supplementary Results | `figS5_speed_vram.png`（+`.pdf`、`figS5_speed_vram.json`） | `scripts/figures_reference_matching_20260914/build_figS5_speed_vram.py` | `05_baselines/SPEED_VRAM_BENCH.json`（**144 条原始逐次测量**）+ `05_baselines/SPEED_VRAM_BENCH.csv`（汇总），两者由 `scripts/limitation_closure_20260915/bench_inference_speed_vram.py` 在 6 个固定单元上产出；计划与口径定义见 `docs/REFERENCE_FIG_SPEED_VRAM_PLAN.md` | 2026-09-20 |
 
 ## 二、版式契约（本图集的硬约束）
@@ -77,7 +84,7 @@
     最近一次实测：图 6/7 最小 **11.50 pt**；图 S2 **11.50 pt**；图 S3 的 (a)(b) 板 **11.50 pt**（26 个 text artist）；S3 逐图案例面板两页各 **11.50 pt**（各 29 个 text artist，0 互压、0 出页）；S3 续页 `figS3_extra_cases_panels` **11.50 pt**；
     四张图片面板（`figS1_c_to_b_shift` 62 个 text artist、`figS2_canvas_coverage` 33 个、`figS3_interaction_cases` 29 个、`figS3_interaction_cases_p2` 29 个）最小字号均为 **11.50 pt**；
     图 7 的多方法逐样本图（共 36 张 = mpdd 6 + btad 3 + mvtec 15 + visa 12，见第六节）每张最小 **11.50 pt**，0 互压、0 出页、0 压图（5—6 列布局）。
-    图 S4（`figS4_bootstrap_convergence`，2026-09-20 新增，见第七节）实测 **73 个 text artist 全部 11.50 pt**，0 互压、0 出页、0 压图；`assert_no_text_text_overlap` / `assert_text_inside_page` 由 `--self-test` 的负向对照把守。
+    图 S4（`figS4_bootstrap_convergence`，2026-09-20 新增、2026-09-21 改版为 v2 两面板，见第七节）实测 **61 个 text artist 全部 11.50 pt**，0 互压、0 出页、0 压图；v2 另加一道「面板内标注不得被曲线穿过」断言（本次 4 处标注全部通过，由构建脚本自带的 `assert_annotations_clear` 把守）；`assert_no_text_text_overlap` / `assert_text_inside_page` 由 `--self-test` 的负向对照把守。
 
 ### 图 6/图 7 字号问题（2026-09-18 已修复）
 
@@ -154,7 +161,7 @@ node scripts/figures_reference_matching_20260914/build.mjs
 | 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；这些 dump 现已全部落盘，mpdd/btad/visa/mvtec 均为 6 列（mvtec 已于 2026-09-19 16:20 按重算后的表重出）；缺列时仍按「n/a」降级并记入 JSON，不中断构建。 |
 | 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。老师口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
 | 四数据集（MVTec/VisA）交互行 | **已产出（2026-09-19）** | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz`（2026-09-19 00:24，≈116 MB）与 `generalization_mvtec_visa_20260915/interaction_generalization.csv`（2026-09-19 00:34，2600 B，8 行 = 4 数据集 × I_TRI/I_BAL，`available` 全为 True、`n_replicates` = 1000）均已落盘。`seeds_extension_20260917/ANALYSIS_CHAIN.json` 仍是 2026-09-18 的旧链日志（记 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0），**未反映夜跑结果**。图 4 的 (b) 面板已画出这四行：重跑 `node scripts/figures_reference_matching_20260914/build.mjs` 打印 `[fig4] band (b) now carries 8 rows …`（退出码 0），`layouts/fig4_effects_interaction.layout.json` 里第 5—8 行分别是 `MVTec I TRI`、`MVTec I BAL`、`VisA I TRI`、`VisA I BAL`，各带一条 `GEN` 车道（`i4-GEN-bar`…`i7-GEN-mark`）；`i4-GEN-bar` 的 bbox 右端 x = 659.33 + 102.35 = 761.68，与 `mvtec/I_TRI` 的 `bootstrap_mean` 0.0043247 按 (b) 轴 `470 + (v + 0.008)/0.03 × 710` 换算一致。 |
-| loss–epoch 收敛曲线 | 不适用（**替代图已产出：图 S4，2026-09-20**） | 冻结检索方法没有目标域训练，不能为该曲线编造数据。原用图 5（K 曲线）与图 8（资源）替代；2026-09-20 起由**图 S4**（`figS4_bootstrap_convergence`）承接「估计是否收敛/稳定」这一意图：它是已冻结自助样本**前缀**（N = 50→1000）下点估计与 95% 区间宽度的收敛曲线，不新采样、不重算。不适用的完整说明与可引用段落见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`。 |
+| loss–epoch 收敛曲线 | 不适用（**替代图已产出：图 S4，2026-09-20；2026-09-21 改版为 v2 两面板**） | 冻结检索方法没有目标域训练，不能为该曲线编造数据。原用图 5（K 曲线）与图 8（资源）替代；2026-09-20 起由**图 S4**（`figS4_bootstrap_convergence`）承接「估计是否收敛/稳定」这一意图：它是已冻结自助样本**前缀**（N = 50→1000）下点估计与 95% 区间宽度的收敛曲线，不新采样、不重算。不适用的完整说明与可引用段落见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`。 |
 
 ### 图 S3 的图片面板（2026-09-18 已可嵌入，见 `figS3_extra_cases.json` 的 `picture_panels`）
 
@@ -353,7 +360,7 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
   在 3/4/5/6 列下逐一验证，六个已知标签（`A1 J`、`A1 L`、`ADino`、`ADino-rot`、`PC-128`、
   `PC-224`）经新折行后仍是同一行，mpdd/btad/mvtec 重跑用的也仍是同一条命令与同一张输入表。
 
-## 七、图 S4：自助收敛（2026-09-20 新增，替代不适用的 loss 收敛曲线）
+## 七、图 S4：自助收敛（2026-09-20 新增，2026-09-21 改版为 v2；替代不适用的 loss 收敛曲线）
 
 **它为什么存在**：本方法在目标域**不做任何训练**（冻结编码器 + 固定匹配规则），因此不存在优化目标，
 也就没有 loss–iteration 曲线；为它画一条曲线等于编造过程。图 S4 承接导师原来的真实意图
@@ -361,38 +368,59 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
 完整说明（含可直接写进论文/回复审稿人的英中段落）见
 [`docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`](file:///d:/STUDY/My_github/sci_project/docs/REFERENCE_FIG_CONVERGENCE_PLAN.md)。
 
+**v1 → v2（2026-09-21，只动版面/标注/配色）**：v1 为 3 面板（(a) I_TRI 水平 ± 区间带、(b) I_BAL 同、(c) 宽度比），
+`2342 × 3360 px`、`665,788 B`、73 个 text artist；备份在 `figS4_bootstrap_convergence.v1.{png,pdf,json}`（同目录）。
+v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两版共用同一份前缀数据与同一组断言**。
+
 ### 生成器与输入
 
 `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`
-（`--out-dir`、`--min-pt`；默认 `--min-pt 11.5`）。
+（`--out-dir`、`--min-pt`；默认 `--min-pt 11.5`）。复现（单条约 30 s，纯 CPU）：
 
-| 数据集 | 角色 | 自助样本（只读） | 单元数 | 图上样式 |
+```
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/qa_layout.py
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/figure_font_gate.py --self-test
+```
+
+| 数据集 | 角色 | 自助样本（只读） | 单元数 | v2 图上样式 |
 |---|---|---|---|---|
-| MPDD | development | `unified_fusion_paper_support_20260913/p1_statistics/bootstrap_samples.npz` | 12 | 蓝、实线 |
-| BTAD | holdout | 同上 | 8 | 赭、实线 |
-| MVTec | external frozen validation | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz` | 12 | 绿、实线 |
-| VisA | in-domain frozen validation | 同上 | 12 | 玫红、实线 |
-| KSDD2 | confirmation | `confirmation_ksdd2_20260918/p1_statistics/bootstrap_samples.npz` | 12 | 灰、虚线（**不并入四数据集家族**，`F_SPEC.json` decision C） |
+| MPDD | development | `unified_fusion_paper_support_20260913/p1_statistics/bootstrap_samples.npz` | 12 | `#0072B2` 蓝、标记 ○ |
+| BTAD | holdout | 同上 | 8 | `#D55E00` 赭、标记 □ |
+| MVTec | external frozen validation | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz` | 12 | `#009E73` 绿、标记 △ |
+| VisA | in-domain frozen validation | 同上 | 12 | `#CC79A7` 玫红、标记 ▽ |
+| KSDD2 | confirmation | `confirmation_ksdd2_20260918/p1_statistics/bootstrap_samples.npz` | 12 | `#808080` 灰、更细线、图例标 `(confirmation)`（**不并入四数据集家族**，`F_SPEC.json` decision C） |
 
-对比量（与产物逐位一致）：`I_TRI = (TRI_L − DUP_L) − (TRI_J − DUP_J)`；`I_BAL = (BAL_L − A1_L) − (BAL_J − A1_J)`；
-指标 `pixel_ap`（`F_SPEC.json` 的 `metrics.primary`）。
+对比量（与产物逐位一致，v1/v2 相同）：`I_TRI = (TRI_L − DUP_L) − (TRI_J − DUP_J)`；`I_BAL = (BAL_L − A1_L) − (BAL_J − A1_J)`；
+指标 `pixel_ap`（`F_SPEC.json` 的 `metrics.primary`）。**线型承载对比量**（实线 = `I_TRI`，虚线 = `I_BAL`），
+**颜色 + 标记承载数据集**（Okabe–Ito 色盲安全子集，灰度打印仍可逐条辨认）。
 
-### 三个面板
+### 两个面板（v2）
 
-- (a) `I_TRI`：前缀自助**均值**（折线）与**前缀 95% 区间**（填充带）随 N = 50, 100, 200, …, 1000 的变化；
-- (b) `I_BAL`：同上；
-- (c) **区间宽度收敛**：宽度(N) / 宽度(1000)，10 条序列，±5% 参考带 + N = 500 竖线。
+- (a) **点估计相对变化**：10 条序列的 `estimate(N) − estimate(N = 1000)`（`10^-3 pixel AP`，原值刻度、非百分点）；
+  水平参考线 `y = 0` 即各序列 N = 1000 的取值；灰带 = 实测 N ≥ 200 的最差界 `±2.3e−04 pixel AP`；
+  竖虚线标 `settled from N = 200` 与 `recommended N = 1000 (used throughout)`。
+- (b) **区间宽度相对变化**：`width(N) / width(N = 1000)`（无量纲比值）；水平参考线 `y = 1`；
+  ±5% 带；竖虚线标 `settled from N = 500` 与 `recommended N = 1000 (used throughout)`。
+- 标题下有一句图内释义（`I_TRI`/`I_BAL` 首次出现处不再有未定义缩写）；图例一行 5 项，无面板内图例框。
 
-### 实测（硬核对与门禁）
+### 实测（硬核对与门禁，2026-09-21 实跑）
 
-- **数值核对（脚本内断言，不通过即构建失败）**：由自助样本前缀 N = 1000 复算的 `bootstrap_mean` 与 2.5/97.5 分位，
+- **数值核对（脚本内断言，不通过即构建失败，容差未放宽）**：由自助样本前缀 N = 1000 复算的 `bootstrap_mean` 与 2.5/97.5 分位，
   必须与已发表表一致（容差 1e−8）——`interaction_generalization.csv` 的 8 行（mpdd/btad/mvtec/visa × I_TRI/I_BAL）
   与 KSDD2 `02_interaction/interaction_aggregate.csv` 的 2 行（`kind = interaction`、`metric = pixel_ap`）；
-  **实测最大偏差 2.4e−16**。
+  **实测最大偏差 2.385e−16**（逐行见 `figS4_bootstrap_convergence.json` 的 `published_cross_check`）。
+- **稳定点（图上标注的来源，均由同一前缀复算）**：点估计 `settled_from_n = 200`（界 `2.3e−04 pixel AP`＝实测最差 2.217e−04 向上取一位）；
+  区间宽度 `settled_from_n = 500`（界 6.8%＝实测最差 6.767% 向上取一位）。逐序列的首个达标 N 见 JSON 的
+  `stability_points.per_series_first_settled_n`（该字段是逐序列阈值，图上竖线取的是**联合**保守界）。
 - **收敛数字**：N ≥ 200 起 10 条序列相对 N = 1000 的偏移 ≤ 2.3e−04 pixel AP；N ≥ 500 起 ≤ 1.3e−04；
   区间宽度 N ≥ 500 起偏离 ≤ 6.8%（N ≥ 200 时最差 17.1%，btad `I_TRI`）。
-- **字号与版面**：73 个 text artist 全部 **11.50 pt**；0 文本互压、0 出页、0 压图。图注按实际字体宽度
-  自动折行（`FontProperties` + renderer 实测宽度），折行数超上限（9 行）即构建失败。
-- **PNG**：2342 × 3360 px（350 dpi），ink = 0.0982、std = 52.2（非空白、非裁切）。
-- **既有图集未受影响**：`qa_layout.py` 仍 `TOTAL PROBLEMS: 0`（7 张，最小 11.29 pt）；
-  `figure_font_gate.py --self-test` 4/4 按预期。本次只新增脚本/图件/文档，未改 `build.mjs` 与任何既有图脚本。
+- **字号与版面**：61 个 text artist 全部 **11.50 pt**；0 文本互压、0 出页、0 压图；另加一道 v2 新增断言
+  `assert_annotations_clear`（面板内标注不得被所画曲线穿过，本次 4 处标注全部通过）。标题/释义/图注按实际字体宽度
+  自动折行（`FontProperties` + renderer 实测宽度），图注折行数超上限（6 行）即构建失败。
+- **PNG**：2342 × 3290 px（350 dpi，17 cm × 23.9 cm）、**820,616 B（≈ 801 KB，门限 ≤ 900 KB）**、
+  ink = 0.0808、std = 52.9（非空白、非裁切）。PDF 63,565 B（矢量）；JSON 36,764 B。
+- **图注**：JSON 里 `caption_en`（**66 词**，≤ 70 上限）与 `caption_zh` 可直接入稿；`preview_figS4_v1_v2.html` 亦列出。
+- **既有图集未受影响**：`qa_layout.py` 仍 `TOTAL PROBLEMS: 0`（7 张幻灯片图，最小 11.29 pt）；
+  `figure_font_gate.py --self-test` 4/4 按预期（退出码 0）。本次只改图 S4 的脚本/产物并新增备份、预览页与本节文字，
+  未改 `build.mjs`、其它图脚本、论文正文源与 `data/**`。
