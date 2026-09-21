@@ -1,0 +1,34 @@
+{
+  "method": "winclip_plus",
+  "status": "completed",
+  "finished_utc": "2026-09-21T18:13:37.899703+00:00",
+  "units_expected": 143,
+  "units_done": 143,
+  "protocol": {
+    "method": "winclip_native_240",
+    "family": "vision-language few-shot (WinCLIP+)",
+    "source": "D:\\STUDY\\My_github\\sci_project\\methods\\winclip\\WinClip-master\\WinCLIP\\model.py",
+    "harness": "D:\\STUDY\\My_github\\sci_project\\methods\\winclip\\WinClip-master\\eval_WinCLIP_matrix.py",
+    "backbone": "ViT-B-16-plus-240",
+    "pretrained": "laion400m_e32",
+    "img_resize": 240,
+    "img_cropsize": 240,
+    "resolution": 240,
+    "scales": [
+      2,
+      3
+    ],
+    "batch_size": 16,
+    "dataset_resize": 1024,
+    "precision": "fp16 (forced inside WinClipAD.__init__)",
+    "support": "frozen project manifest (same support sets as every other compared method)",
+    "upstream_quirks_reproduced": [
+      "images are resized to 1024x1024 before the model transform",
+      "support images are converted BGR->RGB, query images are not"
+    ],
+    "dumped_map": "per-image 240x240 score map after the method's own scale fusion and bilinear upsampling",
+    "rect": "whole original image, [0,1]x[0,1]: transforms.Resize((240,240)) stretches the image to a square and CenterCrop(240) is then a no-op"
+  },
+  "failures": [],
+  "units_csv": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_ext_20260921\\winclip_plus\\winclip_plus_units.csv"
+}

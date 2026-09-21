@@ -1,0 +1,142 @@
+{
+  "created_utc": "2026-09-21T16:10:00+00:00",
+  "plan": "docs/BASELINE_EXPANSION_PLAN_20260921.md P1 (SubspaceAD, WinCLIP+, optional AnomalyCLIP zero-shot)",
+  "gate_definition": "A candidate may join the shared-region comparison only if, for every unit (dataset x seed x K x category) it can emit ONE anomaly score map PER TEST IMAGE together with the image identities, so the map can be resampled onto the intersection region by s8_common_region.py. An image-level score used as a stand-in for a per-image map is explicitly NOT acceptable.",
+  "frozen_table": {
+    "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv",
+    "sha256_before": "3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB",
+    "bytes": 232684,
+    "rows": 864,
+    "note": "read-only reference for this workstream; never rewritten here"
+  },
+  "methods": {
+    "SubspaceAD_native_fp16": {
+      "verdict": "pass",
+      "verdict_basis": "empirical: a real per-image npz was produced and its sample_ids were proven to match the canonical B-cache order exactly",
+      "evidence_source": [
+        "methods/SubspaceAD/main.py L1098-L1121 builds one anomaly map per test image (`anomaly_maps[j]` -> `post_process_map(...)` -> `anomaly_map_final`), i.e. the score field is per-image, not per-category",
+        "methods/SubspaceAD/src/subspacead/post_process/scoring.py L137 `calculate_anomaly_scores` returns one score PER PATCH TOKEN -> reshapeable to the (h_p, w_p) token grid",
+        "methods/SubspaceAD/src/subspacead/core/extractor.py L209 `extract_tokens` returns (fused_tokens, (h_p, w_p), saliency)"
+      ],
+      "dump": {
+        "writer": "scripts/baseline_expansion_20260921/ext_run_subspacead.py",
+        "path_schema": "05_baselines_ext_20260921/subspacead/region_maps/subspacead_native_fp16/<dataset>_s<seed>_k<shot>_<category>.npz",
+        "keys": ["patch_maps", "sample_ids", "grid", "image_res", "frame", "k_components", "reference_ids"],
+        "map_key": "patch_maps",
+        "map_shape": "[n_test_images, h_p, w_p] float32 (token-grid reconstruction residual)",
+        "sample_ids": "absolute image paths inside data/<dataset> root; proven to map 1:1 onto the canonical B-cache ids",
+        "schema_alignment": "same keys used by 05_baselines/region_maps/anomalydino_canvas/*.npz (patch_maps + sample_ids), which is what s8_common_region.py reads",
+        "official_post_process_omitted": "the dumped map is pre-`post_process_map` (no resize/blur). The shared-region protocol explicitly applies no extra method-specific smoothing, exactly as for the AnomalyDINO rows.",
+        "smoke_artifact": "05_baselines_ext_20260921/subspacead/region_maps/subspacead_native_fp16/mpdd_s0_k1_bracket_black.npz"
+      },
+      "smoke": {
+        "command": ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_subspacead.py --units mvtec_s0_k1_bottle --image-res 256 --limit-images 8 --no-dump",
+        "result": "completed: 8 query images in 3.4 s = 0.4168 s/img, peak GPU 2266.2 MB, token grid 18x18",
+        "npz_verification": {
+          "npz": "05_baselines_ext_20260921/subspacead/region_maps/subspacead_native_fp16/mpdd_s0_k1_bracket_black.npz",
+          "patch_maps_shape": [79, 18, 18],
+          "patch_maps_dtype": "float32",
+          "all_finite": true,
+          "value_range": [7.793832778930664, 399.241455078125],
+          "ids_match_canonical": true,
+          "n_unresolvable_paths": 0
+        }
+      },
+      "rect_normalised_original_coords": [[0.0, 1.0], [0.0, 1.0]],
+      "rect_justification": "the HF image processor is called with do_resize=True, size={height:image_res,width:image_res}, do_center_crop=False (docrop is a separate flag and stays off), i.e. every image is stretched to a square image_res x image_res before patch embedding, so the (h_p,w_p) grid spans the whole original image. A full-image rect is a superset of every frozen method's rect and therefore does NOT shrink the shared intersection.",
+      "resolution_decision": {
+        "chosen_image_res": 256,
+        "upstream_few_shot_script_uses": 672,
+        "reason": "measured on this machine: at image_res=672 the same single unit could not finish 12 query images in 15+ minutes (GPU 5797/6144 MiB, WDDM paging; the plan warns about 250 s/img under eviction), while at 256 the unit runs at 0.42 s/img with a 2266 MB peak. image_res=256 is also the configuration of the project's existing SubspaceAD runs (scripts/validation_handoff_20260911/e3_subspacead_full.py never overrides main.py's --image_res default of 256).",
+        "status": "recorded deviation, NOT a silent downgrade; both the resolution and the fact that it differs from the upstream 672 script are stored in DONE.json and must appear in the table note"
+      },
+      "other_deviations": [
+        "support identities from the frozen project manifest instead of upstream random.shuffle(train)[:k] (house convention: one support set per unit across all compared methods)",
+        "upstream aug_count=30 rotate augmentation of the few-shot script is off (VRAM budget)",
+        "fp16 (--smoke_half equivalent), as in the project's existing SubspaceAD runs"
+      ]
+    },
+    "WinCLIP_native_240": {
+      "verdict": "pass_source_verified",
+      "verdict_basis": "the repository's own patched official entry point already writes exactly this artifact; the new runner only reuses the official model API and the same key names",
+      "evidence_source": [
+        "methods/winclip/WinClip-master/eval_WinCLIP_matrix.py L64-L73 np.savez_compressed(..., anomaly_maps=score_maps, sample_ids=np.asarray(sample_ids)) under --dump-predictions -> per-image maps, not only image scores",
+        "methods/winclip/WinClip-master/WinCLIP/model.py L246-L269 score_visual_features returns ONE 240x240 map per image (textual x visual harmonic fusion over the windowed scales, F.interpolate to out_size)",
+        "methods/winclip/WinClip-master/WinCLIP/model.py L44-L49 transform = Resize((img_resize,img_resize)) + CenterCrop(img_cropsize), with img_resize = img_cropsize = 240",
+        "prior use in this repository: outputs/unified/winclip_visa_seed_{0,1,2}_shot_{1,2,4}/per_image.csv (produced by scripts/run_winclip_unified.ps1 through that dump path)"
+      ],
+      "dump": {
+        "writer": "scripts/baseline_expansion_20260921/ext_run_winclip.py",
+        "path_schema": "05_baselines_ext_20260921/winclip_plus/region_maps/winclip_native_240/<dataset>_s<seed>_k<shot>_<category>.npz",
+        "keys": ["anomaly_maps", "sample_ids", "frame", "resolution", "reference_ids"],
+        "map_key": "anomaly_maps",
+        "map_shape": "[n_test_images, 240, 240] float32",
+        "sample_ids": "absolute image paths inside data/<dataset> root",
+        "schema_alignment": "anomaly_maps + sample_ids is the same pair the frozen PatchCore loader reads from the official prediction npz"
+      },
+      "rect_normalised_original_coords": [[0.0, 1.0], [0.0, 1.0]],
+      "rect_justification": "transforms.Resize((240, 240)) stretches the image to a square before the model and the following transforms.CenterCrop(240) is a no-op, so the 240x240 map spans the whole original image.",
+      "empirical_smoke": {
+        "status": "pass",
+        "command": ".venv-winclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_winclip.py --units mvtec_s0_k1_bottle",
+        "result": "completed: 83 query images in 15.15 s = 0.18 s/img; model reports self.grid_size (15, 15); exit code 0",
+        "npz_verification": {
+          "npz": "05_baselines_ext_20260921/winclip_plus/region_maps/winclip_native_240/mvtec_s0_k1_bottle.npz",
+          "anomaly_maps_shape": [83, 240, 240],
+          "anomaly_maps_dtype": "float32",
+          "all_finite": true,
+          "value_range": [-0.00012851161591243, 0.03094906359910965],
+          "ids_match_canonical": true,
+          "n_unresolvable_paths": 0
+        }
+      }
+    },
+    "AnomalyCLIP_zeroshot_518": {
+      "verdict": "pass_with_provenance_caveat",
+      "verdict_basis": "empirical: a real per-image npz was produced and its sample_ids were proven to match the canonical B-cache order exactly; the runner builds the score field with the official AnomalyCLIP_lib / prompt_ensemble calls of test.py L43-L112",
+      "evidence_source": [
+        "methods/AnomalyCLIP-main/test.py L96-L112 builds one anomaly map per test image and L126-L137 dumps them",
+        "methods/AnomalyCLIP-main/AnomalyCLIP_lib/model_load.py L222 get_similarity_map / L230 compute_similarity",
+        "methods/AnomalyCLIP-main/utils.py L14-L24 get_transform: Resize((518,518)) + CenterCrop(518)"
+      ],
+      "dump": {
+        "writer": "scripts/baseline_expansion_20260921/ext_run_anomalyclip.py",
+        "path_schema": "05_baselines_ext_20260921/anomalyclip_zs/region_maps/anomalyclip_zeroshot_518/<dataset>_s0_k1_<category>.npz",
+        "keys": ["patch_maps", "sample_ids", "grid", "image_size", "frame", "checkpoint"],
+        "map_key": "patch_maps",
+        "map_shape": "[n_test_images, 37, 37] float32",
+        "note": "the official formula (sim_abnormal + 1 - sim_normal)/2 evaluated on the native 37x37 patch grid, before the official bilinear upsampling to 518 (equivalent because bilinear interpolation is linear and interpolate(1) = 1); the official gaussian_filter(sigma=4) on the 518 map is not applied, exactly as for every other row of the shared-region table"
+      },
+      "smoke": {
+        "status": "pass",
+        "command": ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_anomalyclip.py --units mvtec_s0_k1_bottle",
+        "result": "completed: 83 query images in 57.42 s = 0.69 s/img; peak GPU 2626.6 MB overall",
+        "npz_verification": {
+          "npz": "05_baselines_ext_20260921/anomalyclip_zs/region_maps/anomalyclip_zeroshot_518/mvtec_s0_k1_bottle.npz",
+          "patch_maps_shape": [83, 37, 37],
+          "all_finite": true,
+          "value_range": [0.0005950927734375, 0.9994383454322815],
+          "ids_match_canonical": true,
+          "n_unresolvable_paths": 0
+        }
+      },
+      "rect_normalised_original_coords": [[0.0, 1.0], [0.0, 1.0]],
+      "single_config": "no seed loop and no K loop: 36 units = 36 categories at (seed 0, K 1); the method's protocol has no support set, so seed and K are not part of its definition. Its rows therefore exist for 36 of the 144 unit rows of the other methods.",
+      "checkpoint_rule_and_caveat": {
+        "used": {
+          "mvtec": "checkpoints/9_12_4_multiscale_visa/epoch_15.pth",
+          "visa+mpdd+btad": "checkpoints/9_12_4_multiscale/epoch_15.pth"
+        },
+        "rule": "never evaluate a dataset with a prompt learner fitted on itself (upstream zero-shot convention, methods/AnomalyCLIP-main/test.sh)",
+        "caveat": "PROVENANCE UNRESOLVED: docs/BASELINE_EXPANSION_PLAN_20260921.md 1.3-1.4 records these as re-trained by this project, while the vendored results/9_12_4_multiscale/zero_shot/log.txt carries a 2024-12 upstream run of the same protocol and the directory ships only 'epoch_15.pth' when test.sh asks for epoch_15.pth. If the checkpoints are project-trained rather than the upstream release, the column must be labelled 'auxiliary-domain trained, zero-shot on the target' and needs the author's sign-off."
+      }
+    }
+  },
+  "gate_result": "SubspaceAD: PASS (empirical). WinCLIP+: PASS (source + empirical). AnomalyCLIP zero-shot: PASS with a checkpoint-provenance caveat that needs an author decision. No method was dropped from P1.",
+  "region_identity_finding": "All three new methods have rect [0,1]x[0,1] because each of them stretches the image to a square (SubspaceAD: HF processor do_resize to image_res x image_res with do_center_crop=False; WinCLIP: transforms.Resize((240,240)) + CenterCrop(240); AnomalyCLIP: Resize((518,518)) + CenterCrop(518)). Their rectangles are supersets of every frozen method's rectangle, so the shared intersection is unchanged: 36/36 (dataset, category) groups have identical region_rect and region_grid to the frozen common_region_geometry.json, and the frozen six columns were reproduced with 0 mismatches in both the joint nine-method run and the six-method replay (see EXT_CHECKS.json).",
+  "constraints_respected": [
+    "one heavy GPU method at a time (single 6 GiB card, 4-5 GiB usable host RAM)",
+    "the frozen 864-row table is never written to; its sha256 is re-read after every stage",
+    "no unit is ever silently skipped: failures are appended to <method>/<method>_failures.json and to _RUN_LOG.txt"
+  ]
+}

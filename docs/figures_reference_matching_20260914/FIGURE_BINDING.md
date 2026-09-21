@@ -424,3 +424,17 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
 - **既有图集未受影响**：`qa_layout.py` 仍 `TOTAL PROBLEMS: 0`（7 张幻灯片图，最小 11.29 pt）；
   `figure_font_gate.py --self-test` 4/4 按预期（退出码 0）。本次只改图 S4 的脚本/产物并新增备份、预览页与本节文字，
   未改 `build.mjs`、其它图脚本、论文正文源与 `data/**`。
+
+## 八、2026-09-21 外部基线扩展表（**无图绑定**）
+
+`docs/BASELINE_EXPANSION_PLAN_20260921.md` 的 P1（SubspaceAD、WinCLIP+、AnomalyCLIP zero-shot）本轮只产出
+**表与逐图 npz，不产出任何新图**，因此**本文件第一节的图号—图源表不加行、不改行**。登记如下，避免后续误以为
+"扩展表已有对应图"：
+
+| 项 | 值 |
+|---|---|
+| 产物 | `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/baseline_common_region_ext.csv`（1188 行 = 冻结 864 + 新方法 324） |
+| 新的正文图号 | **无**（本轮不出图；新方法也**未**并入正文 Table 11） |
+| 是否被现有图脚本消费 | **否**。`build_fig7_multimethod_samples.py` 的 `--region-table` 默认仍指向 `05_baselines/baseline_common_region.csv`，本图集实际出图用的是 `05_baselines_multi_dataset/baseline_common_region.csv`（6 列）。若将来要用 9 列版出图，需显式传 `--region-table …/05_baselines_ext_20260921/baseline_common_region_ext.csv` 与 `--geometry …/common_region_geometry_region_parts.json`（**本轮未做，也未验证**；逐样本数据在新方法侧位于 `…/05_baselines_ext_20260921/<method>/region_maps/**`，与该脚本现在读取的三处来源不同） |
+| 一致性 | 新方法覆盖矩形均为 `[0,1]²`，36/36 个 (dataset, category) 的共同区域与冻结版 `region_rect`/`region_grid` **完全相同**；旧 6 列在联合重算与单独重放中各 864 行、**0 处不一致**。证据 `…/05_baselines_ext_20260921/EXT_CHECKS.json` |
+| 索引 | 详见 `docs/ARTIFACT_INDEX.md` §六 |

@@ -1,0 +1,80 @@
+{
+  "workstream": "docs/BASELINE_EXPANSION_PLAN_20260921.md P1 (SubspaceAD, WinCLIP+, AnomalyCLIP zero-shot)",
+  "status": "done",
+  "last_update": "2026-09-21T20:05:00+00:00",
+  "methods": [
+    {
+      "method": "subspacead",
+      "method_label": "SubspaceAD_native_fp16",
+      "unit_index": 144,
+      "units_total": 144,
+      "started_at": "2026-09-21T16:03:18+00:00",
+      "finished_at": "2026-09-21T17:08:26+00:00",
+      "elapsed_min": 65.1,
+      "eta_min": 0.0,
+      "status": "done",
+      "failures": 0,
+      "npz_files_on_disk": 144,
+      "note": "rows=144 failures=0"
+    },
+    {
+      "method": "winclip_plus",
+      "method_label": "WinCLIP_native_240",
+      "unit_index": 143,
+      "units_total": 143,
+      "started_at": "2026-09-21T17:12:14+00:00",
+      "finished_at": "2026-09-21T18:13:37+00:00",
+      "elapsed_min": 61.1,
+      "eta_min": 0.0,
+      "status": "done",
+      "failures": 0,
+      "npz_files_on_disk": 144,
+      "note": "53 min of this run covered the resume batch; the first unit was already dumped by the preflight smoke, hence DONE.json's 143/143 while 144 npz files are on disk"
+    },
+    {
+      "method": "anomalyclip_zs",
+      "method_label": "AnomalyCLIP_zeroshot_518",
+      "unit_index": 35,
+      "units_total": 35,
+      "started_at": "2026-09-21T18:16:07+00:00",
+      "finished_at": "2026-09-21T19:14:52+00:00",
+      "elapsed_min": 58.7,
+      "eta_min": 0.0,
+      "status": "done",
+      "failures": 0,
+      "npz_files_on_disk": 36,
+      "note": "single configuration by construction (no seed loop, no K loop): 36 units = 36 categories at (seed 0, K 1). DONE.json records 35/35 because the preflight smoke unit was already dumped; 36 npz files are on disk"
+    }
+  ],
+  "post_processing": [
+    {
+      "step": "ext_common_region --mode eval (9 methods jointly, 144 units, 4 workers)",
+      "status": "done",
+      "rows": 1188,
+      "log": "05_baselines_ext_20260921/logs/ext_common_region_eval.log"
+    },
+    {
+      "step": "ext_common_region --mode eval --methods (frozen six replayed alone, 144 units)",
+      "status": "done",
+      "rows": 864,
+      "log": "05_baselines_ext_20260921/logs/ext_common_region_replay.log"
+    },
+    {
+      "step": "ext_common_region --mode assemble",
+      "status": "done",
+      "rows": 1188,
+      "checks": "05_baselines_ext_20260921/EXT_CHECKS.json"
+    }
+  ],
+  "how_to_resume": {
+    "one_method_at_a_time": true,
+    "commands": [
+      ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_subspacead.py --image-res 256 --skip-existing",
+      ".venv-winclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_winclip.py --skip-existing",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_run_anomalyclip.py --skip-existing",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_common_region.py --mode eval --workers 4",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts\\baseline_expansion_20260921\\ext_common_region.py --mode assemble"
+    ],
+    "note": "--units <unit key> runs a single unit; unit keys are <dataset>_s<seed>_k<shot>_<category>"
+  }
+}

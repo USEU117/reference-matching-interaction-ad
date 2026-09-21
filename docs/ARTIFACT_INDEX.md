@@ -159,3 +159,74 @@
 | 旧主线（不要混用） | `docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md`、`docs/AI_HANDOFF_REPRESENTATION_MATCHING_INTERACTION_AND_ACCEPTANCE_20260914_CN.md` |
 | 数据集划分与角色政策 | `data/splits/*/manifest.json`；角色映射见 `scripts/evaluate_a1_complete_metrics.py` 与 `docs/DYNAMIC_FUSION_DESIGN_REVIEW_AND_NEXT_PLAN.md` |
 | 过期索引的就地核查记录（只读） | `NEW/STALE_20260919.md`、`EXT/STALE_20260919.md`（列明被脚本读回、故不就地改写的过期字段与"重生而非手改"的建议） |
+
+---
+
+## 六、2026-09-21 外部基线扩展（EXT 表；新方法**不改**正文 Table 11）
+
+> 依据：`docs/BASELINE_EXPANSION_PLAN_20260921.md` §3 的 **P1**。**P0（文献参照表）与 P2（AdaptCLIP 等）本轮未做。**
+> 目录别名：`EXTB = experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/`。
+
+| 项 | 实读值 / 路径 |
+|---|---|
+| 扩展表 | `EXTB/baseline_common_region_ext.csv` —— **1188 行** = 旧表 864 行（**逐行照抄冻结值**，`source_table` 列注明来源、`note` 列写"frozen value, copied verbatim (not recomputed)"）+ 324 行新方法 |
+| 每方法行数 | A1_J / A1_L / anomalydino_canvas / anomalydino_canvas_rotation / PatchCore_local128 / PatchCore_official224 各 144（冻结列）；`SubspaceAD_native_fp16` 144、`WinCLIP_native_240` 144、`AnomalyCLIP_zeroshot_518` **36**（零样本无 seed/K 循环，只有 s0 k1 单配置） |
+| 一致性检查 | `EXTB/EXT_CHECKS.json`：旧表 sha256 前后一致（`3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`，`frozen_table_unchanged: true`）；**旧 6 列在"九方法联合交集"里重算 864 行、0 处不一致**；**旧 6 列单独重放 864 行、0 处不一致** |
+| 共同区域未变 | `EXTB/common_region_geometry_region_parts.json` vs `05_baselines_multi_dataset/common_region_geometry.json`：**36/36 个 (dataset, category) 的 `region_rect` 与 `region_grid` 完全相同**（三新方法都把图拉成正方形 → 覆盖矩形 `[0,1]²` 是旧方法矩形的超集） |
+| 重算版（单列，不复用旧表） | `EXTB/recomputed_intersection/`（`baseline_common_region_recomputed_all_methods.csv` 1188 行、同目录 `NOTE.json` 说明"与冻结区域逐位相同"） |
+| 硬门前置验证 | `EXTB/PREFLIGHT.json`：SubspaceAD PASS（实测 npz）、WinCLIP+ PASS（官方 dump 路径 + 实测 npz）、AnomalyCLIP PASS（实测 npz）+ **检查点来源待作者拍板** |
+| 逐图产物 | `EXTB/{subspacead,winclip_plus,anomalyclip_zs}/region_maps/<variant>/<dataset>_s<seed>_k<shot>_<category>.npz`（分别 144 / 144 / 36 个）；schema 对齐 `05_baselines/region_maps/anomalydino_canvas/*.npz`（`sample_ids` + 逐图 map，`sample_ids` 经脚本核对与 canonical B 缓存顺序**逐一致**） |
+| 运行台账 | `EXTB/PROGRESS.json`（三方法最终状态）、`EXTB/_RUN_LOG.txt`（逐单元追加，方法/单元/耗时/状态）、`EXTB/logs/*.log`（各方法与两次共同区域评测的原始 stdout） |
+| 单元汇总 | `EXTB/{subspacead,winclip_plus,anomalyclip_zs}/<method>_units.csv`、`EXTB/EXT_UNITS_SUMMARY.json`、`EXTB/EXT_MACRO_SUMMARY.json`；每方法 `DONE.json`（status / 时间 / 协议 / 单元数） |
+| 复现命令 | 见下方"复现"表；`--skip-existing` 可断点续跑，`--units <dataset>_s<seed>_k<shot>_<category>` 可单单元重跑 |
+
+### 6.1 方法与协议（实读自各自 `DONE.json`）
+
+| 方法列 | 家族 / 协议 | 原生长度 | 显式偏差（必须写进表注） | 单元数 | 实测耗时 | 峰值显存 |
+|---|---|---|---|---|---|---|
+| `SubspaceAD_native_fp16` | 冻结正常建模（子空间重构） | DINOv2-g、layers −12…−18 均值、PCA ev 0.99、reconstruction 打分、fp16 | **分辨率 256 而非官方 few-shot 脚本的 672**（672 在 6 GB 卡上实测 ≥15 min 未跑完 12 张图，WDDM 换出；256 也是本仓既有 SubspaceAD 记录的配置）；**关闭官方 aug_count=30 旋转增强**；支持集取冻结 manifest 而非官方 `random.shuffle` | 144 | 65.1 min | 2266 MB |
+| `WinCLIP_native_240` | 视觉—语言 few-shot | open_clip ViT-B/16-plus-240、img_resize=cropsize=resolution=240、scales (2,3)、batch 16、fp16（模型内部强制） | 支持集取冻结 manifest 而非官方 `seeds_*`；**按原样复现上游两处行为**：先缩到 1024×1024 再进模型 transform、支持图做 BGR→RGB 而查询图不做 | 144 | 61.1 min | 1155 MB |
+| `AnomalyCLIP_zeroshot_518` | 零样本视觉—语言 | CLIP ViT-L/14@336px、image_size 518、features_list [24]、DPAM_layer 20、batch 1 | 检查点按上游零样本惯例选用（MVTec 用 VisA 训练版、其余用 MVTec 训练版）；**检查点来源未核实**（见 PREFLIGHT.json）；单配置，无 seed/K 循环 | 36 | 58.7 min | 2627 MB |
+
+### 6.2 与旧 6 列数值可对照的摘要（**不是排名**）
+
+每格 = 该 (dataset, seed, K) 内该类别的宏观 pixel AP；下表为 16 个单元格（AnomalyCLIP 为 4 格，单配置）的平均。完整逐格见 `EXTB/EXT_MACRO_SUMMARY.json`。
+
+| 方法列 | 单元格数 | 平均宏观 pixel AP | 同表内位置（陈述，非排名） |
+|---|---:|---:|---|
+| `controlled_A1_L` / `controlled_A1_J` | 16 / 16 | 0.4876 / 0.4808 | 冻结列，本轮未变 |
+| `anomalydino_canvas_rotation` / `anomalydino_canvas` | 16 / 16 | 0.4540 / 0.4419 | 冻结列，本轮未变 |
+| `SubspaceAD_native_fp16`（新） | 16 | **0.4314** | 落在旧 6 列区间**之内**，与 AnomalyDINO 两列同一水平带 |
+| `PatchCore_native_official224`（冻结） | 16 | 0.3526 | 冻结列 |
+| `AnomalyCLIP_zeroshot_518`（新） | 4 | **0.3258** | 落在 PatchCore 两配置之间；仅 4 格、且是零样本单配置，**不可与 K 循环方法作同支持集配对** |
+| `PatchCore_native_local128`（冻结） | 16 | 0.2764 | 冻结列 |
+| `WinCLIP_native_240`（新） | 16 | **0.1804** | 低于旧 6 列区间；已交叉核实非本流程引入（见 6.3） |
+
+### 6.3 WinCLIP 低 pixel AP 的交叉核实（只读）
+
+`EXTB/winclip_native_frame_crosscheck.json`：把本轮的 WinCLIP 图**不做共同区域重采样**、直接在 240×240 原帧上与 canonical 掩码池化，得到的逐类 pixel AUROC 与仓库既有 `outputs/unified/winclip_visa_seed_0_shot_1/per_category.csv` **12/12 类一致（最大绝对差 2.2e−3，典型 1e−4）**——说明本轮产物与仓库既有 WinCLIP 行是**同一批图**。同一份既有产物里 WinCLIP 的逐类 pixel AP 本来就低（0.0016–0.396），故扩展表里的低值不是新流程的 artefact。
+
+### 6.4 复现
+
+```powershell
+# 1) 逐方法出逐图 map（同一时刻只跑一个方法；--skip-existing 断点续跑）
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_run_subspacead.py --image-res 256 --skip-existing
+.venv-winclip\Scripts\python.exe    scripts\baseline_expansion_20260921\ext_run_winclip.py --skip-existing
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_run_anomalyclip.py --skip-existing
+# 2) 共同区域评测（九方法联合交集）与旧 6 列重放（各自独立 parts 目录，互不覆盖）
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_common_region.py --mode eval --workers 4
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_common_region.py --mode eval --methods --workers 4 --parts experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_ext_20260921\region_parts_replay --rows-name recomputed_old_rows.csv
+# 3) 组装扩展表 + 一致性检查（--frozen-sha-before 传运行前实测的 sha256）
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_common_region.py --mode assemble --frozen-sha-before 3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB
+# 4) 汇总与交叉核实
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_summary.py --mode units
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\ext_summary.py --mode macro --path experiments\dynamic_fusion\representation_matching_interaction_20260914\05_baselines_ext_20260921\baseline_common_region_ext.csv
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\check_winclip_against_repo_rows.py --dataset visa --seed 0 --shot 1
+.venv-anomalyclip\Scripts\python.exe scripts\baseline_expansion_20260921\verify_region_map.py <npz> --dataset <ds> --seed <s> --category <cat>
+```
+
+### 6.5 边界
+
+- 本轮**未改**任何已发布产物：`05_baselines_multi_dataset/baseline_common_region.csv` sha256 运行前后同为 `3C83AB00…A0B8BB`；未重跑 `s8_common_region.py`（新评测脚本 `import` 它并复用其几何/指标实现，只扩充 `specs`）。
+- `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 Table 11 与 §4.2.7 的 6 个数字**不需要**改动（新方法未进入正文表）。
+- 图件：本轮**未出新图**，故 `FIGURE_BINDING.md` 只加了"无图绑定"的登记行，不改任何既有图的行。

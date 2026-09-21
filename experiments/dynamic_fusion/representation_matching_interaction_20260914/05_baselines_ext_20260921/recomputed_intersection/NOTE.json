@@ -1,0 +1,30 @@
+{
+  "what_this_is": "The three new methods evaluated JOINTLY with the frozen six in one single intersection, i.e. the 'recomputed intersection' variant requested by the 2026-09-21 plan step 4. The files here are copies of the joint run, placed in their own directory so that nothing published is overwritten.",
+  "files": {
+    "baseline_common_region_recomputed_all_methods.csv": {
+      "sha256": "8A444B46D4E27CB3F679AAD0B8B63F0108EA6C8A9CD8CF8CB1D5AEAF3A56EECC",
+      "rows": 1188,
+      "rows_per_method": {
+        "controlled_A1_J": 144,
+        "controlled_A1_L": 144,
+        "anomalydino_canvas": 144,
+        "anomalydino_canvas_rotation": 144,
+        "PatchCore_native_local128": 144,
+        "PatchCore_native_official224": 144,
+        "SubspaceAD_native_fp16": 144,
+        "WinCLIP_native_240": 144,
+        "AnomalyCLIP_zeroshot_518": 36
+      },
+      "source_in_the_workstream": "05_baselines_ext_20260921/baseline_common_region_new_methods.csv"
+    },
+    "common_region_geometry_recomputed.json": "geometry of the joint run (per unit: participating methods, their rectangles, the intersection and the grid)",
+    "S8_EXT_SUMMARY_recomputed.json": "the same top-level counters the joint run printed"
+  },
+  "key_finding": "The recomputed intersection is IDENTICAL to the frozen one on all 36 (dataset, category) groups: region_rect and region_grid match the frozen 05_baselines_multi_dataset/common_region_geometry.json for 36/36 units, zero differences. Reason: all three new methods cover the whole original image (rect [0,1]x[0,1], because each of them stretches the image to a square before its backbone), so they are supersets of every frozen method's rectangle and cannot shrink the intersection.",
+  "consequence": [
+    "The six frozen method columns in the extended table are the frozen values to the digit; this was verified twice (see EXT_CHECKS.json): once on the six methods recomputed inside the joint nine-method run (864 rows, 0 mismatches) and once on the six methods replayed alone (864 rows, 0 mismatches).",
+    "The caveat in docs/BASELINE_EXPANSION_PLAN_20260921.md 1.2 ('a unit that gains PatchCore/AnomalyDINO later gets a smaller region and a different number') does NOT apply to these three additions, because none of them restricts the region. It WOULD apply to a method whose map covers only a centre crop (e.g. a PatchCore-style Resize+CenterCrop protocol).",
+    "The extended table therefore needs no 'do not subtract from Table 11' warning for the frozen columns on numerical grounds; the warning is still carried because the new columns are computed on the shared region and are not comparable to a method's own native frame."
+  ],
+  "NOT_to_be_confused_with": "The frozen table 05_baselines_multi_dataset/baseline_common_region.csv (864 rows, sha256 3c83ab004420a4f836102cabc5f8248debfebc742d8e9602fed0881823a0b8bb) is a different artefact and was not touched."
+}

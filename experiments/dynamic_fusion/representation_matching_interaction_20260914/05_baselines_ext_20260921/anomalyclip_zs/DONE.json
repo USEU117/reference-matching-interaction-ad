@@ -1,0 +1,30 @@
+{
+  "method": "anomalyclip_zs",
+  "status": "completed",
+  "finished_utc": "2026-09-21T19:14:52.067176+00:00",
+  "units_expected": 35,
+  "units_done": 35,
+  "protocol": {
+    "method": "anomalyclip_zeroshot_518",
+    "family": "zero-shot vision-language (AnomalyCLIP)",
+    "source": "D:\\STUDY\\My_github\\sci_project\\methods\\AnomalyCLIP-main\\test.py",
+    "harness": "D:\\STUDY\\My_github\\sci_project\\methods\\AnomalyCLIP-main\\test.sh",
+    "backbone": "ViT-L/14@336px",
+    "image_size": 518,
+    "features_list": [
+      24
+    ],
+    "dpam_layer": 20,
+    "depth": 9,
+    "n_ctx": 12,
+    "t_n_ctx": 4,
+    "checkpoint_mvtec": "D:\\STUDY\\My_github\\sci_project\\methods\\AnomalyCLIP-main\\checkpoints\\9_12_4_multiscale_visa\\epoch_15.pth",
+    "checkpoint_others": "D:\\STUDY\\My_github\\sci_project\\methods\\AnomalyCLIP-main\\checkpoints\\9_12_4_multiscale\\epoch_15.pth",
+    "checkpoint_rule": "never evaluate a dataset with a prompt learner fitted on itself (upstream zero-shot convention)",
+    "single_config": "no seed and no K loop; one row per (dataset, category)",
+    "dumped_map": "per-image 37x37 patch field (sim_abnormal + 1 - sim_normal)/2, the official formula before the official bilinear upsampling to 518",
+    "rect": "whole original image, [0,1]x[0,1]: utils.get_transform resizes to (518,518) and CenterCrop(518) is then a no-op"
+  },
+  "failures": [],
+  "units_csv": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_ext_20260921\\anomalyclip_zs\\anomalyclip_zs_units.csv"
+}
