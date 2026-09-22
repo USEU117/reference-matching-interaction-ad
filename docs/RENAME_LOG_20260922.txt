@@ -1,0 +1,51 @@
+RENAME LOG - 2026-09-22 22:16:44 (local, Asia/Shanghai)
+script   : tools/rename_folder_to_reference_matching_interaction_ad.ps1
+RepoRoot : D:\STUDY\My_github
+
+--- state BEFORE ---
+old_path                 : D:\STUDY\My_github\sci_project
+old_path exists          : True
+old_path is junction     : False
+old_path target          : (none)
+new_path                 : D:\STUDY\My_github\reference-matching-interaction-ad
+new_path exists          : True
+new_path is junction     : True
+new_path target          : D:\STUDY\My_github\sci_project
+already_desired_state    : False
+
+--- git ---
+HEAD                     : a88763364800e1ab545eb9e1e0bd216a2f9b9abd
+branch                   : main
+status --porcelain count : 3
+status --porcelain sha256: dfa19593f37598242a9c781d253f1f1e69264bb2ac110d3bc3934f94540b92e3
+remote -v                : origin	https://github.com/USEU117/reference-matching-interaction-ad.git (fetch) | origin	https://github.com/USEU117/reference-matching-interaction-ad.git (push)
+
+--- occupancy ---
+processes inside repo    : (none)
+python processes         : (none)
+
+--- git status --porcelain (verbatim) ---
+?? .trae/
+?? docs/RENAME_LOG_20260922.txt
+?? "docs/manuscript_reference_matching_20260914/\350\256\272\346\226\207\346\200\273\350\247\210_\345\237\272\347\241\200\347\220\206\350\247\243_20260917.md"
+
+--- state AFTER (filled in at the end) ---
+did_rename               : True
+rollback_performed       : False
+checks_total             : 9
+checks_failed            : 0
+git status count after   : 3
+git status sha256 after  : dfa19593f37598242a9c781d253f1f1e69264bb2ac110d3bc3934f94540b92e3
+final: old is junction   : True
+final: new is junction   : False
+
+checklist:
+  [PASS] old-name: docs/HANDOVER_20260919.md readable :: D:\STUDY\My_github\sci_project\docs\HANDOVER_20260919.md
+  [PASS] old-name: data/splits/mpdd/manifest.json readable :: D:\STUDY\My_github\sci_project\data\splits\mpdd\manifest.json
+  [PASS] old-name: .venv-anomalyclip\Scripts\python.exe present :: D:\STUDY\My_github\sci_project\.venv-anomalyclip\Scripts\python.exe
+  [PASS] old-name interpreter: import torch :: 2.0.0+cu118
+  [PASS] git status --porcelain count unchanged :: before=3 after=3
+  [PASS] git status --porcelain content unchanged (sha256) :: before=dfa19593f37598242a9c781d253f1f1e69264bb2ac110d3bc3934f94540b92e3 after=dfa19593f37598242a9c781d253f1f1e69264bb2ac110d3bc3934f94540b92e3
+  [PASS] same file via old & new name: identical size :: docs\HANDOVER_20260919.md old=48611 new=48611
+  [PASS] final layout: physical dir at NEW name (not a junction) :: D:\STUDY\My_github\reference-matching-interaction-ad junction=False
+  [PASS] final layout: OLD name is a junction pointing at NEW name :: target=D:\STUDY\My_github\reference-matching-interaction-ad
