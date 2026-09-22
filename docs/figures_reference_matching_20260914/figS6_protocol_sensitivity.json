@@ -1,0 +1,275 @@
+{
+  "figure": "figS6_protocol_sensitivity",
+  "panels": [
+    "(a) BTAD (holdout)",
+    "(b) MPDD (development)",
+    "(c) MVTec AD (external frozen)",
+    "(d) VisA (in-domain frozen)"
+  ],
+  "definition": "macro pixel AP = mean over the categories of each (dataset, seed, shot) cell, then mean over the four cells; read from the frozen `pixel_ap` column of baseline_common_region_ext.csv",
+  "connectors": [
+    {
+      "a": "controlled_A1_J",
+      "b": "controlled_A1_L",
+      "kind": "matching rule"
+    },
+    {
+      "a": "PatchCore_native_local128",
+      "b": "PatchCore_native_official224",
+      "kind": "resolution"
+    },
+    {
+      "a": "anomalydino_canvas",
+      "b": "anomalydino_canvas_rotation",
+      "kind": "augmentation"
+    }
+  ],
+  "macro_pixel_ap_per_method_dataset": {
+    "AnomalyCLIP_zeroshot_518|btad": 0.4108469771657348,
+    "AnomalyCLIP_zeroshot_518|mpdd": 0.27241957813633966,
+    "AnomalyCLIP_zeroshot_518|mvtec": 0.4262163849513179,
+    "AnomalyCLIP_zeroshot_518|visa": 0.19377377672713406,
+    "PatchCore_native_local128|btad": 0.288634063384456,
+    "PatchCore_native_local128|mpdd": 0.1649452765580006,
+    "PatchCore_native_local128|mvtec": 0.3966323793688994,
+    "PatchCore_native_local128|visa": 0.25544488607287685,
+    "PatchCore_native_official224|btad": 0.3759984898006809,
+    "PatchCore_native_official224|mpdd": 0.22754087047893984,
+    "PatchCore_native_official224|mvtec": 0.49553176820993905,
+    "PatchCore_native_official224|visa": 0.3111341391176463,
+    "SubspaceAD_native_fp16|btad": 0.5869380638742002,
+    "SubspaceAD_native_fp16|mpdd": 0.31939564263945347,
+    "SubspaceAD_native_fp16|mvtec": 0.4988195042125594,
+    "SubspaceAD_native_fp16|visa": 0.32029771093616605,
+    "WinCLIP_native_240|btad": 0.11371998993849027,
+    "WinCLIP_native_240|mpdd": 0.18870540306740982,
+    "WinCLIP_native_240|mvtec": 0.30791338946527463,
+    "WinCLIP_native_240|visa": 0.11122412706945214,
+    "anomalydino_canvas|btad": 0.561361155296042,
+    "anomalydino_canvas|mpdd": 0.3130261350942156,
+    "anomalydino_canvas|mvtec": 0.564262639990549,
+    "anomalydino_canvas|visa": 0.3290922693671087,
+    "anomalydino_canvas_rotation|btad": 0.5840074100554,
+    "anomalydino_canvas_rotation|mpdd": 0.3214130665715962,
+    "anomalydino_canvas_rotation|mvtec": 0.5637112001423592,
+    "anomalydino_canvas_rotation|visa": 0.3468956570560585,
+    "controlled_A1_J|btad": 0.6379596704422642,
+    "controlled_A1_J|mpdd": 0.36114895208698644,
+    "controlled_A1_J|mvtec": 0.5530036904264852,
+    "controlled_A1_J|visa": 0.3712611433041947,
+    "controlled_A1_L|btad": 0.6473663662522084,
+    "controlled_A1_L|mpdd": 0.369833100398981,
+    "controlled_A1_L|mvtec": 0.5570381857333546,
+    "controlled_A1_L|visa": 0.376259746214341
+  },
+  "within_method_config_gaps": {
+    "PatchCore(local128 vs official224)": {
+      "method_a": "PatchCore_native_local128",
+      "method_b": "PatchCore_native_official224",
+      "delta_definition": "pixel_ap(a) - pixel_ap(b)",
+      "n_units": 144,
+      "mean_abs_delta_macro_ap": 0.10000623154540028,
+      "median_abs_delta_macro_ap": 0.08738002848122856,
+      "max_abs_delta_macro_ap": 0.3444616884787461,
+      "per_dataset_mean_delta": {
+        "btad": {
+          "n_units": 12,
+          "mean_delta": -0.08736442641622488,
+          "min_delta": -0.2703015610934823,
+          "max_delta": 0.0340517534042547,
+          "n_positive": 3
+        },
+        "mpdd": {
+          "n_units": 24,
+          "mean_delta": -0.06259559392093927,
+          "min_delta": -0.3444616884787461,
+          "max_delta": 0.031485013633508044,
+          "n_positive": 1
+        },
+        "mvtec": {
+          "n_units": 60,
+          "mean_delta": -0.09889938884103952,
+          "min_delta": -0.3122843503618272,
+          "max_delta": 0.15373949211197202,
+          "n_positive": 8
+        },
+        "visa": {
+          "n_units": 48,
+          "mean_delta": -0.05568925304476951,
+          "min_delta": -0.24190719563767177,
+          "max_delta": 0.11227923861985822,
+          "n_positive": 13
+        }
+      },
+      "macro_gap_per_dataset": {
+        "btad": -0.08736442641622488,
+        "mpdd": -0.06259559392093925,
+        "mvtec": -0.09889938884103966,
+        "visa": -0.05568925304476946
+      }
+    },
+    "AnomalyDINO(canvas vs +rotation)": {
+      "method_a": "anomalydino_canvas",
+      "method_b": "anomalydino_canvas_rotation",
+      "delta_definition": "pixel_ap(a) - pixel_ap(b)",
+      "n_units": 144,
+      "mean_abs_delta_macro_ap": 0.025586827408326497,
+      "median_abs_delta_macro_ap": 0.014889908874604084,
+      "max_abs_delta_macro_ap": 0.15880670399422084,
+      "per_dataset_mean_delta": {
+        "btad": {
+          "n_units": 12,
+          "mean_delta": -0.022646254759357904,
+          "min_delta": -0.05708576433802415,
+          "max_delta": -0.006096351595844984,
+          "n_positive": 0
+        },
+        "mpdd": {
+          "n_units": 24,
+          "mean_delta": -0.008386931477380557,
+          "min_delta": -0.07067987173069465,
+          "max_delta": 0.03691734222798518,
+          "n_positive": 4
+        },
+        "mvtec": {
+          "n_units": 60,
+          "mean_delta": 0.0005514398481898478,
+          "min_delta": -0.15880670399422084,
+          "max_delta": 0.14734419977856233,
+          "n_positive": 26
+        },
+        "visa": {
+          "n_units": 48,
+          "mean_delta": -0.017803387688949807,
+          "min_delta": -0.11407255289985752,
+          "max_delta": 0.029918615981630037,
+          "n_positive": 14
+        }
+      },
+      "macro_gap_per_dataset": {
+        "btad": -0.022646254759357998,
+        "mpdd": -0.008386931477380566,
+        "mvtec": 0.0005514398481898386,
+        "visa": -0.01780338768894979
+      }
+    },
+    "Ours(A1_J vs A1_L)": {
+      "method_a": "controlled_A1_J",
+      "method_b": "controlled_A1_L",
+      "delta_definition": "pixel_ap(a) - pixel_ap(b)",
+      "n_units": 144,
+      "mean_abs_delta_macro_ap": 0.009822556731518405,
+      "median_abs_delta_macro_ap": 0.008794764747748984,
+      "max_abs_delta_macro_ap": 0.05638402746500737,
+      "per_dataset_mean_delta": {
+        "btad": {
+          "n_units": 12,
+          "mean_delta": -0.009406695809944096,
+          "min_delta": -0.020124013295425902,
+          "max_delta": -0.0018647813509929945,
+          "n_positive": 0
+        },
+        "mpdd": {
+          "n_units": 24,
+          "mean_delta": -0.008684148311994528,
+          "min_delta": -0.05638402746500737,
+          "max_delta": 0.006611527968924724,
+          "n_positive": 5
+        },
+        "mvtec": {
+          "n_units": 60,
+          "mean_delta": -0.004034495306869486,
+          "min_delta": -0.024842794290407644,
+          "max_delta": 0.016269483307221555,
+          "n_positive": 23
+        },
+        "visa": {
+          "n_units": 48,
+          "mean_delta": -0.004998602910146357,
+          "min_delta": -0.031456344929783775,
+          "max_delta": 0.020556002281041486,
+          "n_positive": 17
+        }
+      },
+      "macro_gap_per_dataset": {
+        "btad": -0.009406695809944243,
+        "mpdd": -0.008684148311994544,
+        "mvtec": -0.00403449530686939,
+        "visa": -0.00499860291014631
+      }
+    }
+  },
+  "selected_between_method_gaps": {
+    "SubspaceAD_native_fp16 - anomalydino_canvas": {
+      "mean_abs_gap_macro_ap": 0.026546027583082096,
+      "per_dataset": {
+        "btad": 0.025576908578158197,
+        "mpdd": 0.006369507545237851,
+        "mvtec": -0.06544313577798966,
+        "visa": -0.008794558430942678
+      },
+      "units_a": 144,
+      "units_b": 144
+    },
+    "SubspaceAD_native_fp16 - anomalydino_canvas_rotation": {
+      "mean_abs_gap_macro_ap": 0.0241094299501588,
+      "per_dataset": {
+        "btad": 0.0029306538188001996,
+        "mpdd": -0.0020174239321427145,
+        "mvtec": -0.06489169592979982,
+        "visa": -0.026597946119892468
+      },
+      "units_a": 144,
+      "units_b": 144
+    },
+    "anomalydino_canvas - controlled_A1_J": {
+      "mean_abs_gap_macro_ap": 0.044537288910035694,
+      "per_dataset": {
+        "btad": -0.07659851514622218,
+        "mpdd": -0.04812281699277082,
+        "mvtec": 0.011258949564063814,
+        "visa": -0.04216887393708596
+      },
+      "units_a": 144,
+      "units_b": 144
+    }
+  },
+  "rank_flip_counts": {
+    "anomalydino_canvas": {
+      "n_paired_units": 144,
+      "n_sign_flips": 37,
+      "fraction": 0.2569444444444444
+    },
+    "anomalydino_canvas_rotation": {
+      "n_paired_units": 144,
+      "n_sign_flips": 31,
+      "fraction": 0.2152777777777778
+    },
+    "SubspaceAD_native_fp16": {
+      "n_paired_units": 144,
+      "n_sign_flips": 48,
+      "fraction": 0.3333333333333333
+    },
+    "WinCLIP_native_240": {
+      "n_paired_units": 144,
+      "n_sign_flips": 30,
+      "fraction": 0.20833333333333334
+    },
+    "AnomalyCLIP_zeroshot_518": {
+      "n_paired_units": 36,
+      "n_sign_flips": 5,
+      "fraction": 0.1388888888888889
+    }
+  },
+  "caption_en": "Protocol sensitivity of the external-method comparison. Each row is one method under its own published native configuration, and the two dots joined by a line are the same method under two configurations, so the connector length is that method's protocol lever. Measured from the frozen per-unit pixel AP already on disk, PatchCore's own two configurations differ by 0.100 macro pixel AP on average (144 units), i.e. 3.8x more than the 0.026 separating SubspaceAD 256 fp16 from AnomalyDINO canvas, and switching only PatchCore's configuration reverses which of the two is ahead on 33.3% of units. The values are therefore context, not a ranking: no ordering, interval, significance test or state-of-the-art claim is made here.",
+  "caption_zh": "外部方法对比表的协议敏感度。每一行是一个方法按各自已发表原生配置的读数；由一条线连接的两点是同一方法的两个配置，连线长度即为该方法的协议杠杆。按盘上逐单元 pixel AP 实测：PatchCore 自身两个配置平均相差 0.100 宏观 pixel AP（144 个单元），比 SubspaceAD 256 fp16 与 AnomalyDINO canvas 之间的 0.026 大 3.8 倍；仅切换 PatchCore 的配置，就让二者谁在前的结论在 33.3% 的单元上翻转。因此本图是上下文参照，不构成排名，也不作排序、区间、显著性检验或 SOTA 主张。",
+  "sources": [
+    "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_harmonised_20260922/protocol_leverage.json",
+    "05_baselines_ext_20260921/baseline_common_region_ext.csv"
+  ],
+  "outputs": [
+    "docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.png",
+    "docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.pdf"
+  ],
+  "note": "no qa_layout.py layout file is emitted on purpose: the figure is not one of the 7 slide masters, so adding it would change qa_layout.py's scope.  It is gated by figure_font_gate (min font pt, text/text, text/axes, text/page)."
+}

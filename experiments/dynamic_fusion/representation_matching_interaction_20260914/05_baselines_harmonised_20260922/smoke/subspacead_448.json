@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-09-22T17:40:50.939789+00:00",
+  "question": "can SubspaceAD be run at the harmonised short side 448 on this 6 GiB card, with the same official modules as the published SubspaceAD column?",
+  "candidate": "SubspaceAD_native_fp16",
+  "unit": {
+    "dataset": "btad",
+    "seed": 0,
+    "shot": 1,
+    "category": "01"
+  },
+  "image_res": 448,
+  "limit_images": 2,
+  "no_dump": true,
+  "source_runner": "scripts/baseline_expansion_20260921/ext_run_subspacead.py",
+  "model_load_s": 25.1,
+  "verdict": "completed",
+  "row": {
+    "method": "subspacead_native_fp16",
+    "dataset": "btad",
+    "seed": 0,
+    "shot": 1,
+    "category": "01",
+    "n_images": 2,
+    "n_references": 1,
+    "truncated": true,
+    "grid": "32x32",
+    "image_res": 448,
+    "fp16": true,
+    "pca_k": 335,
+    "seconds": 1.64,
+    "s_per_image": 0.8181,
+    "peak_gpu_mb": 2433.5,
+    "map_key": "patch_maps",
+    "post_process": "none (raw token-grid residual; the shared-region protocol resamples it)"
+  }
+}

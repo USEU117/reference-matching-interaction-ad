@@ -42,9 +42,9 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | A01 | **图像级指标未与像素级并列报告**：无 image AUROC / image AP 的系统表；仅在 §4.2.4 举一例 | C2/C5/C7（"图像级池化与像素排序回答不同问题"） | 正文仅 `results.md:53` 一处（BAL D L image AP 0.9372 vs A1 L 0.9468）；产物**已有**图像级字段：`05_baselines/patchcore/*/summary.csv`（`image_auroc,image_ap`）、`05_baselines/anomalydino_*/anomalydino_native_macro_*.csv`（`macro_image_auroc,macro_image_ap`）、`01_geometry/units/btad_s1_k8/*/metrics.csv` | **仅写作**（+一次小聚合） | 聚合脚本 + 1 表：CPU 分钟级（数据已落盘，无需重算分数） | 中 | **补**（写作层，零重跑；可正面回应"像素级优势是否等同图像级优势"） |
 | A02 | 表 11/12 表注未**逐方法**给出协议（分辨率/画布/旋转/参考库构造）；SubspaceAD 256 vs 官方 672 的偏离未写入 | C8；P10 | `tables.json:446`（表 11 仅写 "Methods differ in backbone, resolution and augmentation"）；`tables.json:548`（表 12 有 Protocol 列但为粗标签）；`05_baselines_ext_20260921/PREFLIGHT.json` 的 `resolution_decision`（672 在 6 GB 卡 12 图 ≥15 min 未完成、5797/6144 MiB） | **仅写作** | 写作 + 表注扩写：小时级（事实已在 PREFLIGHT/DONE.json） | 高 | **补**（P10 明确要求写进协议列与补充材料；审稿人必问） |
-| A03 | **"为何所有对比方法无需针对该数据集训练"无成体系说明**（当前只有零散一句） | C1/C17；T02；导师要求⑤ | `manuscript.md:162`（"全部冻结，故不适用训练曲线"）、`manuscript.md:202-206`、`results.md:190`；`tables.json:110-113`（`0 target-trainable parameters`）；权重/检查点事实见 `submission_repro_20260827/config/frozen_a1.json`、`05_baselines_ext_20260921/PREFLIGHT.json` | **仅写作** | 一段（中英）+ 引用盘上清单：小时级 | 高 | **补**（导师本轮明确要求；同时纠正 P01"无训练≠零计算"） |
+| A03 | **"为何所有对比方法无需针对该数据集训练"无成体系说明**（当前只有零散一句） | C1/C17；T02；外部评审要求⑤ | `manuscript.md:162`（"全部冻结，故不适用训练曲线"）、`manuscript.md:202-206`、`results.md:190`；`tables.json:110-113`（`0 target-trainable parameters`）；权重/检查点事实见 `submission_repro_20260827/config/frozen_a1.json`、`05_baselines_ext_20260921/PREFLIGHT.json` | **仅写作** | 一段（中英）+ 引用盘上清单：小时级 | 高 | **补**（外部评审本轮明确要求；同时纠正 P01"无训练≠零计算"） |
 | A04 | **跨方法稳定性比较缺失**：无 "共同性能指标 × 共同扰动条件" 下 PatchCore/AnomalyDINO/SubspaceAD/WinCLIP+/AnomalyCLIP 各配置的性能稳定性 | T03（替换图是否比较了所有方法的稳定性）、T02 | S4 只做 bootstrap 数值稳定性（`figures.json:86`）；Table 17 只覆盖本文 S 交互的 8 种子（`tables.json:1135`）；四个外部配置仅有 4 个条件单元（`EXT_CHECKS.json:9-19`），**无逐扰动结果** | **需新计算** | 需为每个方法定义共同指标+扰动并重跑逐单元：按 `PREFLIGHT.json` 冒烟 0.42 s/img(SubspaceAD@256)、0.18 s/img(WinCLIP)、0.69 s/img(AnomalyCLIP) 外推，144 单元 ≈ **1–3 h GPU/方法/条件**（单卡 6 GB 串行）；六方法两条件 ≈ **半天–1 天 GPU** | 中 | **不补**（理由：与本文"交互效应"主张无关；AI 辅助评审已接受用适用稳定性图替代并只要求说明对比标准，见 T03；若外部评审坚持，须先定义纵/横轴再评估） |
-| A05 | **完整多方法对比图未进正文**（F05）：代表性检测图只在附件/PPT | C7/C8；导师要求⑥ | `figures.json` 无 multimethod 键；`manuscript.md:247` 仅以文字提到 "accompanying figure deck … 36 category-level comparisons"；图源在 `.tmp_complete_figures_20260920/qualitative/fig7_multimethod_*`（渲染产物已在盘） | **仅写作/图件**（选代表图入正文） | 选图 + 图注：小时级（PNG 已渲染，无需 GPU） | 高 | **补**（导师⑥明确"检测结果图是视觉评价的主要参考，应放实验结果分析"；素材已在盘） |
+| A05 | **完整多方法对比图未进正文**（F05）：代表性检测图只在附件/PPT | C7/C8；外部评审要求⑥ | `figures.json` 无 multimethod 键；`manuscript.md:247` 仅以文字提到 "accompanying figure deck … 36 category-level comparisons"；图源在 `.tmp_complete_figures_20260920/qualitative/fig7_multimethod_*`（渲染产物已在盘） | **仅写作/图件**（选代表图入正文） | 选图 + 图注：小时级（PNG 已渲染，无需 GPU） | 高 | **补**（外部评审⑥明确"检测结果图是视觉评价的主要参考，应放实验结果分析"；素材已在盘） |
 | A06 | **"所有案例都有两种输出"过宽**（F06）：逐类别附录无各方法预测轮廓 | AI 辅助评审"两种输出"要求 | 主文 5 案例有 J/L 热图 + L 轮廓（`figures.json:34-44`）；附录逐类别为 query+GT+六列热图（`figures.json:44` 末句）；逐方法轮廓未生成 | **需计算**（对多方法列做与主文同规则的阈值化后处理） | 阈值化+重渲染：与 A05 同一批图，**小时级 GPU/CPU**（后处理，非训练） | 中 | **部分补**：正文 5 案例已满足；附录按"两种输出"**重新界定覆盖范围或声明限制**（写作，低成本），是否补齐全部方法轮廓交作者 |
 | A07 | **seed / 支持集方差只覆盖 MPDD 与 BTAD** | C11 / abstract "support-set analyses reveal meaningful variation" | `tables.json:1135-1191`（Table 17：8 seeds，仅 MPDD/BTAD，canonical masks）；MVTec AD/VisA 有 12 条件但无跨种子方差表；KSDD2 有 12 条件 | **仅写作**（可用已有逐条件数据算 SD）+ 若要 8-seed 版则**需计算** | 写作版：CPU 分钟级；8-seed 版：按 S5 外推 ≈ **数小时 GPU/数据集** | 中 | **补（写作版）**：至少报已有 seed 条件的离散度（成本极低）；8-seed 扩展**不补**（无主张依赖） |
 | A08 | **full-pixel 无区间**（R-18）：全像素列只有点估计 | C4/C5/C16；已登记限制 | `tables.json:722`（"No full-pixel confidence intervals were computed"）；`results.md:105`（限制第四条） | **需新计算**（全像素池化上做 1000 次配对自助） | 全像素池 + 1000 重采样 × 4 数据集 × 多条件：**>1 天 CPU/内存密集**，无现成产物 | 低 | **不补**（已作为限制登记并已按措辞约束写入；补它改变不了任何主结论方向） |
@@ -107,7 +107,7 @@
 | P03（S4 不证明训练收敛） | 复核一致：S4 图注已明写 "not training convergence"（`figures.json:86`）→ 已满足 |
 | P05/P06（同机证据范围、阶段计时边界） | 复核一致：§4.2.14 已限定计时边界；缺 query-only 分布与多数据集 → 对应 A09（不补） |
 | P08（稳定性计划书数值逻辑矛盾） | 复核：属文档层面矛盾（`REFERENCE_FIG_CONVERGENCE_PLAN.md` ~148 行），**不改变任何实验产物**；仍按"确认前不搬入论文"处理 |
-| F05（完整多方法对比图未进正文） | 复核一致 → 对应 A05（建议补，导师⑥同向） |
+| F05（完整多方法对比图未进正文） | 复核一致 → 对应 A05（建议补，外部评审⑥同向） |
 | F06（"所有案例都有两种输出"过宽） | 复核一致 → 对应 A06（部分补） |
 
 ---
@@ -119,3 +119,63 @@
 3. **AnomalyCLIP 检查点来源（A14）**无法从盘上判定，需作者确认后决定 Table 12 该列标注。
 4. **图像级指标的聚合口径**（逐类别/逐条件宏平均 vs replicate mean）未在盘上找到与主文像素级同口径的图像级区间产物 ⇒ A01 若要做**区间**仍需少量新算；本表只建议"点值并列"。
 5. 本轮未复核 `experiments/**` 下与本文无关的历史工作流的失败登记，仅核查本文所用工作流。
+
+---
+
+## 七 2026-09-23 终检：A18 之前各条状态复核 + B 线（统一输入几何子集）新增欠缺
+
+> 口径：只读复核与登记；**本轮未跑实验、未用 GPU、未改任何数值**。所有"仍缺/已满足"都给出盘上实读凭据。
+> 新增条目续用 A 编号（A18–A23），与 B 线产物 `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_harmonised_20260922/**` 及 `docs/METHOD_COMPARISON_HANDOFF_20260922.md` 交叉引用。
+
+### 7.1 A01–A17 逐条状态（2026-09-23 复核）
+
+| 编号 | 2026-09-22 判定 | 2026-09-23 状态 | 凭据（实读） |
+| --- | --- | --- | --- |
+| A01 图像级指标未并列 | 补（零重跑） | **仍缺** | 权威源 `results.md` 仅在 `:53`（举例）、`:65`、`:69`、`:163`（"image-level bootstrap"措辞）处提及图像级，**仍无系统并列表**；产物侧图像级字段仍在（`05_baselines/patchcore/*/summary.csv` 的 `image_auroc,image_ap` 等） |
+| A02 表 11/12 逐方法协议表注 | 补（写作） | **主表仍缺；B 线已用另一种方式覆盖一部分** | 表 11/12 表注未改（`tables.json` 的 `baselines`/`baselines_ext`）；B 线把协议写进**新增子集表**的列名 + 表注模板 + `PREFLIGHT.json` 三处（见 `METHOD_COMPARISON_HANDOFF_20260922.md` §5.1）。**注意**：子集表**尚未入正文**，因此 A02 对正文的缺口不变 |
+| A03 "为何对比方法无需目标域训练"无成体系说明 | 补（写作） | **仍缺（稿未落）** | `manuscript.md` grep `no target-domain` / `preparation computation` / `zero-computation` = **0**；T12 的中英段落仍只存在于 `docs/论文与图件问题汇总_仅复核_20260921.md` §八 T12 |
+| A04 跨方法稳定性比较 | 不补 | **不补（结论不变）** | 无新证据；`METHOD_COMPARISON_HANDOFF_20260922.md` §6 未新增跨方法扰动实验 |
+| A05 完整多方法对比图未进正文 | 补（图件） | **仍缺** | `figures.json` 仍无 multimethod 键；36 张 `fig7_multimethod_*` 仍在 PPT 第 23–58 页 |
+| A06 "两种输出"覆盖范围 | 部分补（写作） | **仍缺（写作稿未落）** | 正文 5 案例不变；附录逐类别仍为 query+GT+六列热图 |
+| A07 seed / 支持集方差只覆盖 MPDD 与 BTAD | 补（写作版） | **仍缺（写作稿未落）** | `tables.json` Table 17 仍仅 MPDD/BTAD；未新增 MVTec/VisA/KSDD2 跨种子离散度句 |
+| A08 full-pixel 无区间 | 不补 | **不补（结论不变）** | `tables.json:722` 的限制句未改 |
+| A09 同机证据范围受限 | 不补 | **不补（结论不变）** | §4.2.14 边界句未改 |
+| A10 S5 首轮离群未披露 | 补（一句话） | **仍缺** | `results.md:184` 只报重测值 `24.190`，全文 grep `30.527` = **0**（首轮 30.527 s 仍未披露） |
+| A11 共享操作多条件消融 | 不补 | **不补（结论不变）** | S2 仍为单条件、无区间 |
+| A12 权重最优性不成立 | 不补（已限定） | **不补（已限定）** | 限定句未改 |
+| A13 复现性：无最短路径/无权重哈希 | 补（写作+打包） | **仍缺** | `docs/MODEL_WEIGHTS.md` **不存在**（`Test-Path` = False）；`REMEDIATION_PLAN_20260920.md` 的 P1-1…P1-7 **全部仍未执行**（勾选清单未变） |
+| A14 AnomalyCLIP 检查点来源未核实 | 登记待作者 | **仍待作者** | `05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat` 未变；本轮未从盘上判定 |
+| A15 与近期方法对照满足 3–4 个口径 | 不补（已满足） | **已满足（不变）** | 5 家族对照仍在 Table 12 |
+| A16 统计口径已说明 | 不补（已满足） | **已满足（不变）** | 主表统计说明句未改 |
+| A17 共同区域口径已写进正文 | 不补（已满足） | **已满足（不变）**；B 线另加一层证据 | 正文覆盖率句未改；B 线 `harmonised_common_region.csv` 的 36/36 单元 `region_grid` 与冻结表**完全相同**（`region_mode = frozen`） |
+
+**小结（2026-09-23）**：A01/A02（正文部分）/A03/A05/A06/A07/A10/A13 共 8 项**仍缺且均为"仅写作/仅图件/打包"类，零 GPU**；A04/A08/A09/A11 维持"不补"；A12/A15/A16/A17 维持"已满足/已限定"；A14 仍待作者。**没有任何一项因 B 线而失效。**
+
+### 7.2 B 线带来的新增欠缺（A18–A23）
+
+| 编号 | 欠缺内容 | 支撑哪条主张/表图 | 现状证据（盘上） | 补齐所需 | 成本量级（实测锚点外推） | 优先级 | 建议：补 / 不补（理由） |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| A18 | **统一几何子集只覆盖 36/144 单元**（4 数据集 × 全部 36 类 × **seed 0 × K = 1**），非四数据集完整协议 | 子集表 A / 图 S6 的"严格化 A" | `HARM/harmonised_common_region.csv` = 180 行 = 5 方法列 × 36 单元；`PREFLIGHT.json → harmonised_run` | 需为表 11/12 的其余 108 单元补跑 PatchCore@448 | **实测锚点**：PatchCore@448 = 4 个 group / **52.4 min**（819.8 / 396.8 / 900.2 / 1027.2 s）⇒ 线性外推 144 单元约 **3.5 h GPU**（单卡 6 GiB 串行） | 中 | **不补**（子集定位本身就是"1/4 子集"，已写进表注模板与 `HARMONISED_SUMMARY.json`；补满只提高分辨率、不改变任何结论） |
+| A19 | **区间只对 `pixel_ap` 计算**；`pixel_auroc` 只有宏平均点值 | 子集表 B | `HARM/harmonised_macro.csv` 列头只有 `interval_pixel_ap_lo/hi`；`HARMONISED_SUMMARY.json` 的 `interval` 字段只描述一种区间 | 复用同一 stride-8 抽样流改度量后复跑 `harmonised_common_region.py --mode eval` | CPU 级（B = 1000、stride-8，脚本已支持；未实测时长） | 低 | **不补（登记）**：AUROC 是次要指标，点值已在表内；若作者要求，属低成本可补项 |
+| A20 | **WinCLIP+ / AnomalyCLIP 的 448 版本未跑**，属**代码级**排除（检查点/网络绑 240、变换与 37×37 网格绑 518） | 子集准入清单 | `HARM/PREFLIGHT.json`；`METHOD_COMPARISON_HANDOFF_20260922.md` §6.4 | 需插值位置编码 / 改 patch 网格 ⇒ 得到的不再是"发布的那个检查点配置" | 不是"跑一次"的成本：需改模型实现并重验，且会改变该列口径（可能数天级） | 低 | **不补**（会破坏"各自原生配置"的可比性；已在文档写明排除理由是代码级绑定点） |
+| A21 | **SubspaceAD@448 仅有 2 图冒烟**（未做全量） | 子集准入清单的排除依据 | `HARM/smoke/subspacead_448.json`：btad/01、2 张查询图，峰值 **2433.5 MB**、**0.8181 s/图**、32×32 网格 | 全量 36 单元 | 按其 0.8181 s/图 × 各单元查询图数外推（未实测全量）；显存不是障碍 | 低 | **不补**（排除理由是**输入规则**——方形拉伸，而非显存或成本；跑全量也不会让它进子集） |
+| A22 | **统一几何下 PatchCore 塌缩为一列**，子集内无法再展示"同一方法两配置"的协议敏感度 | 子集表 A / §1.3 协议杠杆 | `METHOD_COMPARISON_HANDOFF_20260922.md` §3.5；§7.4 已登记 | 需另立一列（例如 448 与 224 并列）→ 重跑 | 同 A18：约 **3.5 h GPU**（PatchCore@448 实测 52.4 min/36 单元） | 低 | **不补**（协议敏感度已由**图 S6** 与 `protocol_leverage.json` 的 0.1000 / 0.0265 / 33.3% 承担；子集表刻意只留一列） |
+| A23 | **图 S6 未进入正文 docx** | 新增补充图 | 2026-09-23 python-docx 实测 `Figure S6 mentions: 0`；`figures.json` 无 S6 键 | 需在 `figures.json` 增设 S6 条目并重建 docx（页数/表数需复测） | 写作 + 一次重建：分钟级（脚本已存在，门禁已过） | 中 | **登记待作者**（是否把 S6 收进补充材料由作者定；编号不与 S1–S5 冲突，见 `FIGURE_BINDING.md` §十） |
+
+### 7.3 B 线已满足、无需补的部分（避免重复建项）
+
+| 项 | 凭据 |
+| --- | --- |
+| 复用列与冻结表**逐格一致**（可作"评估口径未漂移"的强证据） | `HARM/HARMONISED_SUMMARY.json → reused_column_parity_vs_frozen_table` 最大绝对差 **0.0**（A1 两列 + AnomalyDINO 两列） |
+| 子集区域与冻结表**逐单元相同** | 36/36 个 (dataset, category) 的 `region_grid` = 392×392，`region_mode = frozen` |
+| 协议杠杆数字可复算、且**只读** | `HARM/protocol_leverage.json` ← 只读聚合 `baseline_common_region_ext.csv` 的 `pixel_ap` 列；未重算分数图、未用 GPU |
+| 图 S6 四道字号/版面门禁 | 2026-09-23 复跑：102 个 text artist 全部 **11.50 pt**、0 互压、0 压图、0 出页；重渲染 PNG 与在盘 PNG 逐字节相同（`0C6F801C…`） |
+| 冻结表与扩展表未被触碰 | `baseline_common_region.csv` `3C83AB004420A4F8…`、`baseline_common_region_ext.csv` `1C77012971A4C2EB…` 与 `data/splits/*/manifest.json` 本轮前后一致 |
+
+### 7.4 本节未做 / 不确定
+
+1. 本节**未跑任何新实验、未用 GPU**；除文档外未改任何数值。
+2. A18/A22 的"3.5 h"是**线性外推**（锚点：PatchCore@448 实测 52.4 min / 36 单元），未实测 144 单元。
+3. A19 的 CPU 时长**未实测**（脚本支持，但本轮未跑）。
+4. A23 是否入稿、以及补充材料的最终图号编排，属作者决定。
+

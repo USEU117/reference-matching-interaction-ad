@@ -1,0 +1,130 @@
+{
+  "created_utc": "2026-09-22T17:41:00+00:00",
+  "workstream": "harmonised (single input geometry) subset of the method-comparison table; see docs/METHOD_COMPARISON_PRESENTATION_PLAN_20260922.md",
+  "frozen_inputs": {
+    "frozen_six_column_table": {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv",
+      "sha256_before": "3c83ab004420a4f836102cabc5f8248debfebc742d8e9602fed0881823a0b8bb",
+      "sha256_after": "3c83ab004420a4f836102cabc5f8248debfebc742d8e9602fed0881823a0b8bb",
+      "unchanged": true,
+      "rows": 864,
+      "bytes": 232684,
+      "role": "read-only reference; the harmonised subset also borrows its per-category region rectangle"
+    },
+    "extended_table": {
+      "path": "experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/baseline_common_region_ext.csv",
+      "sha256": "1c77012971a4c2eba52512a8d7850c0da072b8107fffe316a74e3c39df73ec4b",
+      "rows": 1188,
+      "role": "read-only; source of every protocol-leverage number in protocol_leverage.json"
+    }
+  },
+  "gate_definition": [
+    "a column may join the harmonised subset only if it can emit one anomaly score map per test image together with the image ids (the same gate as the 2026-09-21 extension), and",
+    "its INPUT RULE can be set to the subset's rule - aspect-preserving resize with short side 448 - without changing model, weights, or post-processing semantics (a square *stretch* is a different rule and is therefore excluded), and",
+    "after the change it is still the published method (no newly invented variant)."
+  ],
+  "region_rule": "region = intersection of the participating rectangles AND of the frozen table's own region_rect for that (dataset, category), so every cell is directly comparable with Table 11/12 and the only remaining change is the input geometry",
+  "candidates": {
+    "controlled_A1_J": {
+      "verdict": "include",
+      "basis": "native: the controlled canvas is already short side 448 (s8_common_region.controlled_rect); per-image maps reused",
+      "evidence": "unified_fusion_paper_support_20260913/{p1_matrix,p3_external}/units/**, 01_geometry/units/btad_s*/03__rev_correct/patch_scores.npz"
+    },
+    "controlled_A1_L": {
+      "verdict": "include",
+      "basis": "same pipeline as controlled_A1_J: the second matching rule of the same controlled construction; per-image maps reused",
+      "evidence": "same npz files as controlled_A1_J"
+    },
+    "anomalydino_canvas": {
+      "verdict": "include",
+      "basis": "native: smaller_edge = 448 canvas (SPEED_VRAM_BENCH protocol column); per-image maps reused",
+      "evidence": "05_baselines/region_maps/anomalydino_canvas/*.npz"
+    },
+    "anomalydino_canvas_rotation": {
+      "verdict": "include",
+      "basis": "native: same input geometry as canvas (the 8-rotation augmentation only changes the reference bank); per-image maps reused",
+      "evidence": "05_baselines/region_maps/anomalydino_canvas_rotation/*.npz"
+    },
+    "PatchCore_harmonised448": {
+      "verdict": "include (re-run)",
+      "basis": "official vendored PatchCore with only the dataset geometry changed: --resize 448 --imagesize 448, everything else identical to the official224 recipe",
+      "evidence": "patchcore_raw/harmonised448/**/predictions/*.npz; patchcore_harmonised448/DONE.json"
+    },
+    "SubspaceAD_native_fp16": {
+      "verdict": "exclude - input rule",
+      "basis": "its geometry is a square STRETCH (whole image resized to image_res x image_res, rect [0,1]^2), i.e. anisotropic sampling, not an aspect-preserving short side; mixing it in would add a second geometric difference",
+      "measured_evidence": "smoke/subspacead_448.json - it DOES run at 448 on this card (btad/01, 2 query images: peak_gpu_mb 2433.5, token grid 32x32, 0.8181 s/img), so the exclusion is about the input rule, not about memory"
+    },
+    "WinCLIP_native_240": {
+      "verdict": "exclude - input rule + checkpoint bound to 240",
+      "basis": "transforms.Resize((240,240)) + CenterCrop(240) is the same square-stretch family, and the backbone is ViT-B-16-plus-240 with img_resize = img_cropsize = 240, so running at 448 would interpolate positional embeddings and no longer be the published checkpoint configuration",
+      "evidence": "methods/winclip/WinClip-master/WinCLIP/model.py (valid_backbones = ['ViT-B-16-plus-240'], transform resize/crop 240); 05_baselines_ext_20260921/winclip_plus/DONE.json",
+      "not_run": "no 448 run was attempted; the exclusion is code-level"
+    },
+    "AnomalyCLIP_zeroshot_518": {
+      "verdict": "exclude - input rule + transform bound to 518 + single zero-shot configuration",
+      "basis": "official get_transform is Resize((518,518)) + CenterCrop(518) and the 37x37 patch grid belongs to that 518 checkpoint; it also has no seed/K loop, so it does not share the unit definition of the other columns",
+      "evidence": "05_baselines_ext_20260921/PREFLIGHT.json -> AnomalyCLIP_zeroshot_518",
+      "not_run": "no 448 run was attempted; the exclusion is code-level"
+    },
+    "PatchCore_native_local128": {
+      "verdict": "collapses into PatchCore_harmonised448",
+      "basis": "both frozen PatchCore columns are native configurations of the same method; under one input geometry they become one column. The 0.1000 macro pixel AP separating them is the protocol lever itself."
+    },
+    "PatchCore_native_official224": {
+      "verdict": "collapses into PatchCore_harmonised448",
+      "basis": "see PatchCore_native_local128"
+    }
+  },
+  "harmonised_run": {
+    "units": "4 dataset groups x all 36 categories x seed 0 x K=1 = 36 category units (one quarter of the 144-unit full grid)",
+    "input_geometry": "aspect-preserving short side 448 for every member",
+    "gpu_jobs": [
+      {
+        "name": "patchcore_harmonised448",
+        "command": ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/run_patchcore_harmonised.py --datasets btad mpdd mvtec visa --seeds 0 --shots 1",
+        "units_done": 4,
+        "units_expected": 4,
+        "failures": 0,
+        "wall_clock_s_per_group": {"btad_s0_k1": 819.8, "mpdd_s0_k1": 396.8, "mvtec_s0_k1": 900.2, "visa_s0_k1": 1027.2},
+        "wall_clock_total_min": 52.4,
+        "device_peak_mb_per_group": {"btad_s0_k1": 2647.0, "mpdd_s0_k1": 2470.0, "mvtec_s0_k1": 2490.0, "visa_s0_k1": 2569.0},
+        "device_idle_mb_per_group": {"btad_s0_k1": 1740.0, "mpdd_s0_k1": 1524.0, "mvtec_s0_k1": 1499.0, "visa_s0_k1": 1500.0},
+        "own_device_increment_mb": {"btad_s0_k1": 907.0, "mpdd_s0_k1": 946.0, "mvtec_s0_k1": 991.0, "visa_s0_k1": 1069.0},
+        "memory_note": "device-wide 1 Hz nvidia-smi sample; the idle baseline (other applications) is subtracted to give the method's own increment"
+      },
+      {
+        "name": "smoke_subspacead_448",
+        "command": ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/smoke_subspacead_448.py --image-res 448 --limit-images 2",
+        "result": "completed: peak 2433.5 MB, 0.8181 s/img over 2 images, token grid 32x32",
+        "purpose": "test the exclusion of SubspaceAD on the input rule rather than on feasibility"
+      }
+    ],
+    "gpu_time_total_min": 55.4,
+    "gpu_time_budget_min": 120,
+    "constraints_respected": [
+      "one GPU job at a time (single 6 GiB card); no CPU stand-in for GPU work",
+      "the frozen 864-row table hash was re-read after the run and is unchanged",
+      "no unit was silently skipped: per-unit lines in _RUN_LOG.txt, per-method DONE.json, failures would have been written to patchcore_harmonised448_failures.json (none occurred)"
+    ]
+  },
+  "artefacts": {
+    "table": "harmonised_common_region.csv",
+    "macro_table": "harmonised_macro.csv",
+    "summary": "HARMONISED_SUMMARY.json",
+    "geometry": "common_region_geometry_harmonised.json",
+    "protocol_leverage": "protocol_leverage.json",
+    "run_log": "_RUN_LOG.txt",
+    "progress": "PROGRESS.json",
+    "per_method_done": "patchcore_harmonised448/DONE.json",
+    "raw_predictions": "patchcore_raw/harmonised448/<dataset>_s0_k1/predictions/*.npz",
+    "figure": "docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.{png,pdf,json}",
+    "reproduce": [
+      ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/analyse_protocol_leverage.py",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/run_patchcore_harmonised.py --datasets btad mpdd mvtec visa --seeds 0 --shots 1",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/harmonised_common_region.py --mode eval --bootstrap 1000 --workers 4",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/harmonised_common_region.py --mode assemble",
+      ".venv-anomalyclip\\Scripts\\python.exe scripts/harmonised_20260922/build_figS6_protocol_sensitivity.py"
+    ]
+  }
+}

@@ -44,7 +44,7 @@ Memory-based methods retain observed normal descriptors for local comparison. Pa
 
 Recent work expands these choices beyond adding encoders. FEAD enriches sparse normal patterns through conditional feature transformation and multi-frequency modeling [17]. K-NG studies few-shot online detection using an evolving Neural Gas representation [18]. PGAD combines global invariance, multiscale local evidence and score calibration [19], and FastRef refines normal prototypes at test time [20]. SubspaceAD models frozen descriptors through a principal subspace [21], while DCP-SFR preserves shallow defect information in deep representations [22]. These approaches highlight the roles of reference coverage, cue retention and adaptation. These methods address valuable limitations of sparse supports, yet changes to memory coverage or prototype adaptation also change which normal evidence a query can retrieve. Their overall improvements therefore answer a broader question than the effect of replacing one frozen descriptor. We hold the support identities and bank construction fixed to obtain that narrower comparison. The cost is that the study does not capture benefits from adaptive memories or target-specific feature learning.
 
-Contrastive Language–Image Pretraining (CLIP) provides transferable visual and textual representations [23]. WinCLIP combines prompt ensembles and local visual features for zero- and few-shot detection [24]. AnomalyCLIP learns object-agnostic normality and abnormality prompts [8], PromptAD learns from normal target samples [25], and InCTRL uses in-context residual learning with sample prompts [26]. AA-CLIP introduces anomaly-aware alignment [27], FAPrompt develops fine-grained abnormality prompts [28], and UniVAD extends training-free reference-based detection across domains [29]. Their supervision, adaptation and inference paths differ. The AnomalyCLIP visual branch, denoted C, uses only visual descriptors; text scores and learned prompt outputs do not enter anomaly scoring. This makes the scoring paths comparable as visual descriptor branches. However, the inherited checkpoint still carries its training-data provenance, so removing text at inference does not turn an in-domain dataset into an unseen-domain test.
+Contrastive Language–Image Pretraining (CLIP) provides transferable visual and textual representations [23]. WinCLIP combines prompt ensembles and local visual features for zero- and few-shot detection [24]. AnomalyCLIP learns object-agnostic normality and abnormality prompts [8], PromptAD learns from normal target samples [25], and InCTRL uses in-context residual learning with sample prompts [26]. AA-CLIP introduces anomaly-aware alignment [27], FAPrompt develops fine-grained abnormality prompts [28], and UniVAD extends training-free reference-based detection across domains [29]. Their supervision, adaptation and inference paths differ. The AnomalyCLIP visual branch, denoted **C**, uses only visual descriptors; text scores and learned prompt outputs do not enter anomaly scoring. This makes the scoring paths comparable as visual descriptor branches. However, the inherited checkpoint still carries its training-data provenance, so removing text at inference does not turn an in-domain dataset into an unseen-domain test.
 
 Sea-CLIP is especially relevant because it combines CLIP and DINOv2 representations for few-shot detection and includes shared-reference-like and independent nearest-neighbor evidence [7]. M3DM integrates RGB and point-cloud features with multiple memories [30], and CIF uses hypergraph structural commonality to guide multimodal reference memories [31]. The architectural analysis in 3D-ADNAS examines conditional benefits of fusion modules and fusion stages [9]. These studies establish encoder combination and fusion design as existing approaches. Sea-CLIP is the closest practical motivation: combining CLIP and DINOv2 is already feasible, and reference selection already participates in such systems. A comparison of complete architectures, however, also changes feature processing or decoding. To interpret the contribution of an additional descriptor, its weight and support candidates must be controlled separately from those architectural choices.
 
@@ -68,7 +68,7 @@ $$
 
 Here $x_i^c$ is support image $i$ of category $c$, and the query may be normal or anomalous. Category labels specify the relevant support bank; no target defect class is predicted. We use $p$ for a query patch, $r$ for an aligned support-patch index that contains both support-image identity and spatial position, and $b$ for a visual branch. The same index $r$ denotes the corresponding support location in every branch after spatial alignment. It does not require a query patch to match the same spatial coordinate in its support image.
 
-The outputs are a continuous pixel anomaly map $A_t$ and an image-level score $s_{\mathrm{img},t}$, where the matching-rule label $t$ is J or L. A displayed defect contour is derived from the map using a visualization threshold, as specified in Section 3.6. Test labels and masks are used only for offline evaluation and example selection. Dataset roles are distinguished in Section 4.1.1.
+The outputs are a continuous pixel anomaly map $A_t$ and an image-level score $s_{\mathrm{img},t}$, where the matching-rule label $t$ is **J** (joint matching) or **L** (independent matching). A displayed defect contour is derived from the map using a visualization threshold, as specified in Section 3.6. Test labels and masks are used only for offline evaluation and example selection. Dataset roles are distinguished in Section 4.1.1.
 
 ### 3.2 Framework Overview
 
@@ -76,9 +76,9 @@ Support-bank construction and query scoring use the same frozen visual paths. Ea
 
 ![Figure 1 part 1](docs/paper_complete_review_20260920/figures/fig1_framework.png)
 
-Figure 1. Controlled framework and representation comparisons. (a) K normal support images form a fixed, aligned reference bank. (b) The query follows the same frozen feature path. J selects one shared reference row; L selects a row independently in each branch. Shared resizing and Gaussian smoothing produce the continuous map $A_t$, whose maximum is the image score. The second image panel is a thresholded display of the same map, not another learned output. (c) DUP isolates reweighting; TRI and BAL define the representation effects and their matching interactions. B and C denote DINOv2-B and AnomalyCLIP visual features; S and D denote DINOv2-S and WideResNet50-2. The displayed map is the archived A1 J result for MPDD metal_plate/test/scratches/026.png at seed 0 and K = 1. Multiple support thumbnails illustrate the general input, not that example's support count. The contour uses 256-bin Otsu thresholding solely for visualization.
+Figure 1. Controlled framework and representation comparisons. (a) K normal support images form a fixed, aligned reference bank. (b) The query follows the same frozen feature path. J (joint matching) selects one shared reference row; L (independent matching) selects a row independently in each branch. Shared resizing and Gaussian smoothing produce the continuous map $A_t$, whose maximum is the image score. The second image panel is a thresholded display of the same map, not another learned output. (c) The duplicate-weight control DUP isolates reweighting; the equal-weight replacement TRI and the balanced replacement BAL define the representation effects and their matching interactions. B and C denote DINOv2-B and AnomalyCLIP visual features; S and D denote DINOv2-S and WideResNet50-2. The displayed map is the archived A1 (dual-encoder anchor) J result for MPDD metal_plate/test/scratches/026.png at seed 0 and K = 1. Multiple support thumbnails illustrate the general input, not that example's support count. The contour uses 256-bin Otsu thresholding solely for visualization.
 
-The anchor combines DINOv2-B with the AnomalyCLIP visual path. Controlled variants duplicate the B descriptor or replace that copy with a different frozen encoder. Shared resizing and smoothing convert patch scores to the continuous output map, whose spatial maximum gives the image score. Both matching rules are evaluated as fixed experimental conditions. Figure 2 shows their candidate selection. All encoders and fusion weights remain unchanged during target inference.
+The anchor combines DINOv2-B with the AnomalyCLIP visual path. Controlled variants duplicate the **B** descriptor (the DINOv2-B visual encoder) or replace that copy with a different frozen encoder. Shared resizing and smoothing convert patch scores to the continuous output map, whose spatial maximum gives the image score. Both matching rules are evaluated as fixed experimental conditions. Figure 2 shows their candidate selection. All encoders and fusion weights remain unchanged during target inference.
 
 ### 3.3 Normal Reference Matching
 
@@ -114,22 +114,22 @@ For every candidate, each branch distance is at least its own minimum; weighting
 
 ![Figure 2 part 1](docs/paper_complete_review_20260920/figures/fig2_matching.png)
 
-Figure 2. Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) J requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas L lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization. (c) The ordering constraint $L(p)$ less than or equal to $J(p)$ follows from minimizing over a less restricted reference assignment. The gap is a raw-score difference, not an AP improvement.
+Figure 2. Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) J (joint matching) requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas L (independent matching) lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization. (c) The ordering constraint $L(p)$ less than or equal to $J(p)$ follows from minimizing over a less restricted reference assignment. The gap is a raw-score difference, not an AP improvement.
 
 ### 3.4 Representation Constructions and Weight Controls
 
-Branch labels B, S, C and D denote DINOv2-B, DINOv2-S, the AnomalyCLIP visual descriptor and WideResNet50-2, respectively. Table 1 defines the dual-branch anchor A1, duplicate control DUP, equal-weight replacement TRI and balanced replacement BAL. Branch and construction labels, matching-rule identifiers and descriptive subscripts are upright; scalar variables and score functions are italic; feature vectors and full maps are bold italic.
+Branch labels **B** (DINOv2-B visual encoder), **S** (DINOv2-S visual encoder), **C** (AnomalyCLIP visual branch) and **D** (WideResNet50-2 branch) denote the four frozen encoders. Table 1 defines the dual-encoder anchor **A1**, the duplicate-weight control **DUP**, the equal-weight replacement **TRI** and the balanced replacement **BAL**. Branch and construction labels, matching-rule identifiers and descriptive subscripts are upright; scalar variables and score functions are italic; feature vectors and full maps are bold italic.
 
 Table 1. Fixed representation constructions and the purpose of each control.
 
-| Construction | Distance weights | Controlled comparison |
-| --- | --- | --- |
-| A1 | B 1/2; C 1/2 | Dual-visual anchor |
-| DUP | B 1/3; B copy 1/3; C 1/3 | Reweight existing information; no new encoder |
-| TRI | B 1/3; S or D 1/3; C 1/3 | Replace the duplicate at fixed slot weights |
-| BAL | B 1/4; S or D 1/4; C 1/2 | Preserve C and total non-C weights |
+| Construction | Full name | Distance weights | Controlled comparison |
+| --- | --- | --- | --- |
+| A1 | Dual-encoder anchor (DINOv2-B + AnomalyCLIP visual) | B 1/2; C 1/2 | Dual-visual anchor |
+| DUP | Duplicate-weight control (copy of B, no new encoder) | B 1/3; B copy 1/3; C 1/3 | Reweight existing information; no new encoder |
+| TRI | Equal-weight replacement (S or D in the copied slot) | B 1/3; S or D 1/3; C 1/3 | Replace the duplicate at fixed slot weights |
+| BAL | Balanced replacement (S or D in a quarter slot) | B 1/4; S or D 1/4; C 1/2 | Preserve C and total non-C weights |
 
-Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight.
+Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight. B, S, C and D denote the frozen DINOv2-B, DINOv2-S, AnomalyCLIP visual and WideResNet50-2 branches; J and L denote joint and independent reference matching.
 
 Comparing DUP with A1 changes only how the fixed weights are split, without adding a new representation. DUP is also numerically equivalent to a two-branch B/C construction with weights two thirds and one third. Replacing the copied B descriptor in DUP with S produces TRI at identical slot weights. TRI minus DUP therefore measures the effect of that representation replacement rather than the entire difference between two and three encoders.
 
@@ -139,7 +139,7 @@ Figure 3 summarizes the constructions and their paired contrasts.
 
 ![Figure 3 part 1](docs/paper_complete_review_20260920/figures/fig3_constructions.png)
 
-Figure 3. Fixed representation constructions and the contrasts built from them. (a) A1, DUP, TRI and BAL with their distance weights; a slot keeps the same colour across panels. (b) A1 to DUP changes only how the fixed weights are split, raising the effective B weight from 1/2 to 2/3 and lowering the C weight from 1/2 to 1/3, with no new representation added, and is therefore the weight-confounding control; DUP to TRI puts a real encoder into the slot at an unchanged weight; A1 to BAL keeps the non-C family total and the C weight equal. (c) The four contrasts estimated in this paper. The TRI-to-A1 difference moves both factors at once and is never attributed to S alone. The extra slot is instantiated by five frozen encoders: S and D were pre-specified, while E1, E2 and E3 were added after the S and D results were known and are exploratory transfer checks. These are analysis configurations in one frozen pipeline, not trained networks.
+Figure 3. Fixed representation constructions and the contrasts built from them. (a) A1 (dual-encoder anchor), DUP (duplicate-weight control), TRI (equal-weight replacement) and BAL (balanced replacement) with their distance weights; a slot keeps the same colour across panels. (b) A1 to DUP changes only how the fixed weights are split, raising the effective B (DINOv2-B) weight from 1/2 to 2/3 and lowering the C (AnomalyCLIP visual) weight from 1/2 to 1/3, with no new representation added, and is therefore the weight-confounding control; DUP to TRI puts a real encoder into the slot at an unchanged weight; A1 to BAL keeps the non-C family total and the C weight equal. (c) The four contrasts estimated in this paper. The TRI-to-A1 difference moves both factors at once and is never attributed to S (DINOv2-S) alone. The extra slot is instantiated by five frozen encoders: S and D (WideResNet50-2) were pre-specified, while E1, E2 and E3 were added after the S and D results were known and are exploratory transfer checks. These are analysis configurations in one frozen pipeline, not trained networks.
 
 ### 3.5 Representation Effects and Their Matching Interaction
 
@@ -198,24 +198,24 @@ Table 2 records the frozen feature paths and the shared processing choices; Figu
 
 The common lattice follows the B canvas. Inputs are resized with preserved aspect ratio to a short side of 448 pixels and cropped from the top left to dimensions divisible by 14. The C grid is mapped to the retained image extent. On BTAD category 03, the resized extent is 448 by 597 pixels and the retained canvas is 448 by 588. The corrected BTAD analysis maps both predictions and masks through the corresponding coordinates; extensions using the historical canonical mask convention are identified separately. Geometric consistency does not imply identical receptive fields or learned semantic alignment between encoders.
 
-The D branch was specified before its results were generated. It uses ImageNet-pretrained WideResNet50-2, bilinearly resamples layer2 and layer3 to the B lattice, concatenates their 512- and 1024-channel outputs, and normalizes the resulting 1536-dimensional descriptor. Its query-feature cache is stored in float16 and converted to float32 for normalization and scoring; this storage choice is recorded in the reproduction manifest. Branch dimensions are listed separately in Table 2. Exploratory slots additionally use original DINO ViT-S/8 (E1), ConvNeXt-Tiny (E2), and Swin-Tiny (E3). They follow the same mapping and unit-normalization steps. KolektorSDD2 uses its prespecified 630 by 224 canvas for B, S and D; C retains its own input path before spatial mapping. All encoder parameters remain frozen, so target optimizer, learning rate, training epochs, and training-loss curves are not applicable.
+The D branch was specified before its results were generated. It uses ImageNet-pretrained WideResNet50-2, bilinearly resamples layer2 and layer3 to the B lattice, concatenates their 512- and 1024-channel outputs, and normalizes the resulting 1536-dimensional descriptor. Its query-feature cache is stored in float16 and converted to float32 for normalization and scoring; this storage choice is recorded in the reproduction manifest. Branch dimensions are listed separately in Table 2. Exploratory slots additionally use original DINO ViT-S/8 (**E1**), ConvNeXt-Tiny (**E2**), and Swin-Tiny (**E3**). They follow the same mapping and unit-normalization steps. KolektorSDD2 uses its prespecified 630 by 224 canvas for B, S and D; C retains its own input path before spatial mapping. All encoder parameters remain frozen, so target optimizer, learning rate, training epochs, and training-loss curves are not applicable.
 
 Table 2. Frozen feature paths and shared model configuration.
 
-| Component | Input and retained feature path | Descriptor / target training |
-| --- | --- | --- |
-| B | DINOv2 ViT-B/14; final patch features; short side 448 | 768 dimensions; frozen |
-| S | DINOv2 ViT-S/14; final patch features; short side 448 | 384 dimensions; frozen |
-| C | CLIP ViT-L/14 visual + DPAM; 518 × 518; retain layer 24 after projection | 768 dimensions; frozen |
-| D | WideResNet50-2; ImageNet1K V1; layer2 + layer3 on B canvas | 512 + 1024 = 1536; frozen |
-| E1 | Original DINO ViT-S/8; final patch features | 384 dimensions; frozen |
-| E2 | ConvNeXt-Tiny; two retained stages | 576 dimensions; frozen |
-| E3 | Swin-Tiny; two retained stages | 576 dimensions; frozen |
-| Alignment | Common B grid; bilinear mapping; align_corners false | 32 × 32 for a 448 × 448 canvas |
-| Normalization | Per-branch unit normalization; joint coefficients are square roots of distance weights | No learned scale or fusion parameter |
-| Memory and scoring | All aligned support patches; exact nearest-neighbor matching | Fixed bank per category, seed and K |
-| Output | Resize to retained H × W canvas; Gaussian standard deviation 4 pixels | Continuous map; maximum image score |
-| Optimization | No target loss, optimizer, learning rate or training epochs | 0 target-trainable parameters |
+| Component | Full name | Input and retained feature path | Descriptor / target training |
+| --- | --- | --- | --- |
+| B | DINOv2-B visual encoder (frozen) | DINOv2 ViT-B/14; final patch features; short side 448 | 768 dimensions; frozen |
+| S | DINOv2-S visual encoder (frozen) | DINOv2 ViT-S/14; final patch features; short side 448 | 384 dimensions; frozen |
+| C | AnomalyCLIP visual branch (frozen) | CLIP ViT-L/14 visual + DPAM; 518 × 518; retain layer 24 after projection | 768 dimensions; frozen |
+| D | WideResNet50-2 branch (frozen) | WideResNet50-2; ImageNet1K V1; layer2 + layer3 on B canvas | 512 + 1024 = 1536; frozen |
+| E1 | Original DINO ViT-S/8 encoder (frozen, exploratory) | Original DINO ViT-S/8; final patch features | 384 dimensions; frozen |
+| E2 | ConvNeXt-Tiny encoder (frozen, exploratory) | ConvNeXt-Tiny; two retained stages | 576 dimensions; frozen |
+| E3 | Swin-Tiny encoder (frozen, exploratory) | Swin-Tiny; two retained stages | 576 dimensions; frozen |
+| Alignment | Shared canvas alignment | Common B grid; bilinear mapping; align_corners false | 32 × 32 for a 448 × 448 canvas |
+| Normalization | Shared per-branch normalization | Per-branch unit normalization; joint coefficients are square roots of distance weights | No learned scale or fusion parameter |
+| Memory and scoring | Shared memory and scoring | All aligned support patches; exact nearest-neighbor matching | Fixed bank per category, seed and K |
+| Output | Shared output mapping | Resize to retained H × W canvas; Gaussian standard deviation 4 pixels | Continuous map; maximum image score |
+| Optimization | No target optimization | No target loss, optimizer, learning rate or training epochs | 0 target-trainable parameters |
 
 C requests layers 6, 12, 18 and 24, uses a DPAM layer setting of 20 and retains the final patch tensor. No text scores enter the model. The fixed KolektorSDD2 canvas is 630 high × 224 wide; other inputs follow the B canvas. D is prespecified; E1–E3 are exploratory.
 
@@ -342,13 +342,13 @@ BTAD illustrates a different situation. The TRI replacement effects are +1.553 p
 
 The first page of Figure 4 plots the eight S effects by dataset, allowing the two rules to be compared within each contrast.
 
-![Figure 4 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig4a_representation_effects.png)
+![Figure 4 part 1](docs/paper_complete_review_20260920/figures/fig4a_representation_effects.png)
 
-Figure 4. Absolute representation effects for S. Panels show observed effects in MPDD and corrected-geometry BTAD with individual 95% paired image-bootstrap intervals. MPDD uses seeds 0–2 and BTAD seeds 0, 1, with K = 1, 2, 4, 8. Units are AP percentage points. These absolute effects differ from the matching interactions shown on the continuation page.
+Figure 4. Absolute representation effects for S (DINOv2-S). Panels show observed effects in MPDD and corrected-geometry BTAD with individual 95% paired image-bootstrap intervals. MPDD uses seeds 0–2 and BTAD seeds 0, 1, with K = 1, 2, 4, 8. Units are AP percentage points. These absolute effects differ from the matching interactions shown on the continuation page.
 
-![Figure 4 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png)
+![Figure 4 part 2](docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png)
 
-Figure 4 continued. Matched-scope encoder interactions. All five encoders use seeds 0, 1 and K = 1, 4 in this comparison; points are observed condition means and bars are 98.75% paired intervals with a separate four-comparison family for each encoder. E1–E3 are exploratory substitutions. The different primary S scope and wider encoder scope remain separately identified in the tables.
+Figure 4 continued. Matched-scope encoder interactions. All five encoders use seeds 0, 1 and K = 1, 4 in this comparison; points are observed condition means and bars are 98.75% paired intervals with a separate four-comparison family for each encoder. E1–E3 are exploratory substitutions. The different primary S (DINOv2-S) scope and wider encoder scope remain separately identified in the tables.
 
 #### 4.2.4 Direct Interaction and Encoder Dependence
 
@@ -417,11 +417,11 @@ These comparisons support encoder dependence on BTAD under the matched scope. On
 
 Figure 5(a) shows the seed-averaged S interaction against the nested support budget. On MPDD both contrasts strengthen as K grows: the TRI interaction rises from +0.41 percentage points at one support to +0.75, +0.88 and +1.01 at two, four and eight supports, and BAL rises from +0.37 to +0.83. On the corrected BTAD revision the same contrast weakens and changes sign, moving from +0.20 points at one support to +0.09 at two, −0.14 at four and −0.23 at eight, where the interval no longer includes zero. The curves therefore support a budget-dependent description, not a monotone law that more normal references consistently amplify the benefit of independent matching.
 
-![Figure 5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig5a_budget_seed.png)
+![Figure 5 part 1](docs/paper_complete_review_20260920/figures/fig5a_budget_seed.png)
 
 Figure 5. Sensitivity to support budget and seed. (a) Seed-averaged bootstrap means across nested K budgets, using the MPDD study revision and corrected BTAD revision. (b) Observed interaction points for eight support seeds; seeds 0–2 have separate query blocks and seeds 3–7 share a cached block. The seed extension uses canonical BTAD masks. Filled and open markers distinguish these groups. Lines connect evaluated settings and do not imply independent samples or a fitted trend. Units are AP percentage points.
 
-![Figure 5 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig5b_categories.png)
+![Figure 5 part 2](docs/paper_complete_review_20260920/figures/fig5b_categories.png)
 
 Figure 5 continued. (c) Category-level TRI interactions as bootstrap means with individual 95% intervals. MPDD uses the study revision and BTAD the corrected revision. This exploratory comparison has no multiplicity adjustment across categories.
 
@@ -437,7 +437,7 @@ Figures 6 and 7 show five MPDD cases from seed 0 and four normal supports, with 
 
 ![Figure 6 part 1](docs/paper_complete_review_20260920/figures/qualitative_improvements_part1.png)
 
-Figure 6. Three selected MPDD improvements for A1 L relative to A1 J at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. J/L heatmaps share one full-map min-max range per row. The cyan L contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.
+Figure 6. Three selected MPDD improvements for A1 L (the dual-encoder anchor under independent matching) relative to A1 J (joint matching) at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. J/L heatmaps share one full-map min-max range per row. The cyan L contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.
 
 ![Figure 6 part 2](docs/paper_complete_review_20260920/figures/qualitative_improvements_part2.png)
 
@@ -447,7 +447,7 @@ The heatmaps for each case use one common minimum and maximum over its J and L m
 
 ![Figure 7 part 1](docs/paper_complete_review_20260920/figures/qualitative_mpdd_matching_degradations.png)
 
-Figure 7. Two selected MPDD degradations under the same A1 comparison and display protocol as Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. The cases illustrate matching behaviour at the anchor and are not direct evidence of the representation interaction. A companion per-sample comparison set, generated from the same common valid region as Table 11, places selected samples beside the native baselines at seed 0 with K = 4: MPDD (six method columns, six categories), BTAD (six, three), MVTec AD (six, fifteen) and VisA (six, twelve). Each class shows the three test images with the largest spread of per-sample pixel AP, the panels of a row share one colour scale, and in the current set every method column carries data for every displayed unit; a column whose per-sample dump did not cover a unit would be retained as n/a rather than dropped. The set is archived with the figure sources.
+Figure 7. Two selected MPDD degradations under the same A1 (dual-encoder anchor) comparison and display protocol as Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. The cases illustrate matching behaviour at the anchor and are not direct evidence of the representation interaction. A companion per-sample comparison set, generated from the same common valid region as Table 11, places selected samples beside the native baselines at seed 0 with K = 4: MPDD (six method columns, six categories), BTAD (six, three), MVTec AD (six, fifteen) and VisA (six, twelve). Each class shows the three test images with the largest spread of per-sample pixel AP, the panels of a row share one colour scale, and in the current set every method column carries data for every displayed unit; a column whose per-sample dump did not cover a unit would be retained as n/a rather than dropped. The set is archived with the figure sources.
 
 Improved AP does not imply an accurate defect boundary at an arbitrary operating threshold. The small contours in the examples may cover only the strongest part of a scratch or mismatch, while secondary activations can remain elsewhere in the map. The degradation cases in Figure 7 likewise show that independent matching can change the relative responses unfavorably even though its raw patch distances are no larger. These observations motivate keeping continuous localization evidence, thresholded visualization, and deployment segmentation accuracy as separate claims. No ground-truth outline is substituted for a predicted output.
 
@@ -484,9 +484,9 @@ Table 12. Extension of Table 11 with three further external families under their
 | PatchCore 128 / 256 | native, frozen normal modelling | 0.1649 | 0.2886 | 0.3966 | 0.2554 |
 | SubspaceAD 256 fp16 | native, frozen normal modelling | 0.3194 | 0.5869 | 0.4988 | 0.3203 |
 | WinCLIP+ 240 | native, vision-language few-shot | 0.1887 | 0.1137 | 0.3079 | 0.1112 |
-| AnomalyCLIP zero-shot 518 | native, zero-shot (single condition) | 0.2724 | 0.4108 | 0.4262 | 0.1938 |
+| AnomalyCLIP zero-shot 518 | native, zero-shot (auxiliary-domain-trained prompt learner; single condition) | 0.2724 | 0.4108 | 0.4262 | 0.1938 |
 
-Category-macro pixel AP on the intersection of the regions the participating methods actually score. The six upper configurations are the frozen values of Table 11, copied row by row and not recomputed; the three added families keep their native input resolutions and protocols, stated in the Protocol column, and are therefore not compared under the controlled support protocol. Adding a method can change the common region, and a method whose scored extent is a subregion of the others would change the frozen values above when the table is recomputed; for the three families added here the joint recomputation was carried out and reproduced the frozen rows to the digit (864 rows, zero mismatches; 36 of 36 region rectangles identical), because each of them covers the full original image. The AnomalyCLIP row is a single native configuration with no seed or support-budget loop and is not paired with the four-condition rows. Methods differ in backbone, resolution, augmentation and training provenance, so the table provides context and is not a ranking.
+Category-macro pixel AP on the intersection of the regions the participating methods actually score. The six upper configurations are the frozen values of Table 11, copied row by row and not recomputed; the three added families keep their native input resolutions and protocols, stated in the Protocol column, and are therefore not compared under the controlled support protocol. Adding a method can change the common region, and a method whose scored extent is a subregion of the others would change the frozen values above when the table is recomputed; for the three families added here the joint recomputation was carried out and reproduced the frozen rows to the digit (864 rows, zero mismatches; 36 of 36 region rectangles identical), because each of them covers the full original image. The AnomalyCLIP row is a single native configuration with no seed or support-budget loop and is not paired with the four-condition rows. It uses an auxiliary-domain-trained prompt learner and is zero-shot on the target domain: the learner was fitted on an auxiliary dataset (VisA for the MVTec AD column and MVTec AD for the other three datasets, following the upstream convention of never fitting a learner on the dataset it evaluates), with no target-dataset fitting; its checkpoint provenance is recorded in methods/AnomalyCLIP-main/checkpoints/ and in experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/PREFLIGHT.json. Methods differ in backbone, resolution, augmentation and training provenance, so the table provides context and is not a ranking.
 
 Table 13 reports the runtime stages for which instrumentation is available. Reference rotation increases AnomalyDINO's recorded processing time along with its AP. The D extension separately records approximately 55.4 seconds of query encoding, 8.3 seconds of reference encoding, and 266.3 seconds of controlled scoring across its archived scope, with feature reuse between configurations. Its recorded peak allocated GPU memory is approximately 417.7 MiB. Those stage totals are partially instrumented and do not constitute a synchronized complete-run latency or the simultaneous memory footprint of all encoders.
 
@@ -690,9 +690,9 @@ The resulting design guidance is to evaluate representation composition and refe
 
 ## Data and Code Availability
 
-MPDD, BTAD, MVTec AD, VisA and KolektorSDD2 are distributed by their respective providers [1, 2, 3, 4, 33]. The local study archive retains support manifests, feature specifications, geometry revisions, prediction caches, per-condition metrics, bootstrap outputs and analysis scripts. A local reproduction package includes the analysis entry points, dependency records, support manifests and figure bindings. Raw datasets and feature caches remain separate. A permanent public archive for the complete current study has not yet been established.
+MPDD, BTAD, MVTec AD, VisA and KolektorSDD2 are distributed by their respective providers [1, 2, 3, 4, 33]. The local study archive retains support manifests, feature specifications, geometry revisions, prediction caches, per-condition metrics, bootstrap outputs and analysis scripts. A local reproduction package includes the analysis entry points, dependency records, support manifests and figure bindings. Raw datasets and feature caches remain separate.
 
-Licensing is split three ways. The code is released under the MIT Licence (repository root `LICENSE`, Copyright (c) 2026 LiYuening). The derived artefacts released with the package - derived tables, figures and the manuscript sources - carry the same licence as the code; any item that the root `LICENSE` does not explicitly cover remains for the authors to confirm. Dataset licences are separate and are not covered by the code licence, and the datasets themselves are not redistributed here. The public location of the reproduction package has not been finalized and will be provided upon publication, so no repository URL or archive DOI is claimed at this stage.
+Licensing is split three ways. The code is released under the MIT Licence (repository root `LICENSE`, Copyright (c) 2026 LiYuening). The derived artefacts released with the package - derived tables, figures and the manuscript sources - carry the same licence as the code; any item that the root `LICENSE` does not explicitly cover remains for the authors to confirm. Dataset licences are separate and are not covered by the code licence, and the datasets themselves are not redistributed here. The public repository holding the code and the reproduction materials is https://github.com/USEU117/reference-matching-interaction-ad; a permanent archive DOI for the complete study has not yet been established.
 
 Funding: [[FUNDING]]. Competing interests: The authors declare no competing interests. Ethics: Not applicable; the study analyses industrial image data only, with no human or animal subjects.
 
@@ -779,27 +779,27 @@ Figure S1. Frozen encoder branches and their shared scoring path. (a) B and S ar
 
 Figure S2. Exploratory shared-operation ablations. (a) The interaction under each ablation, shown as dataset means. (b) The absolute mean pixel AP that the same ablations move, over the four constructions under the joint rule. The operations every construction shares are removed one at a time: ABL-S drops the Gaussian smoothing of the patch scores, ABL-N drops the per-branch normalization and scores with squared Euclidean distance, and ABL-C replaces score-level fusion with naive concatenation, which can move only the BAL contrast because the coefficients equal the weights for equal slots. The scope is a single condition, seed 0 with K = 1, and one run per ablation, so no interval exists and none is drawn; the panel is therefore exploratory and does not show that a shared operation has been validated.
 
-![Figure S3 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_c_to_b_shift.png)
+![Figure S3 part 1](docs/paper_complete_review_20260920/figures/panel_c_to_b_shift.png)
 
 Figure S3. Supporting geometry audit. Approximate minus coordinate-corrected C-grid positions for BTAD category 03 and the square MPDD bracket-black example. The non-square canvas introduces a horizontal displacement; the square example has zero displacement. These are coordinate diagnostics, not additional performance measurements.
 
-![Figure S3 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_canvas_coverage.png)
+![Figure S3 part 2](docs/paper_complete_review_20260920/figures/panel_canvas_coverage.png)
 
-Figure S3 continued. B/S canvas and PatchCore-224 center crop in original image coordinates for the same two geometry examples. Rectangles are computed from the frozen preprocessing transforms.
+Figure S3 continued. The B/S (DINOv2-B / DINOv2-S) canvas and PatchCore-224 center crop in original image coordinates for the same two geometry examples. Rectangles are computed from the frozen preprocessing transforms.
 
-![Figure S3 part 3](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases.png)
-
-Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
-
-![Figure S3 part 4](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p2.png)
+![Figure S3 part 3](docs/paper_complete_review_20260920/figures/panel_interaction_cases.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S3 part 5](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p3.png)
+![Figure S3 part 4](docs/paper_complete_review_20260920/figures/panel_interaction_cases_p2.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S3 part 6](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p4.png)
+![Figure S3 part 5](docs/paper_complete_review_20260920/figures/panel_interaction_cases_p3.png)
+
+Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
+
+![Figure S3 part 6](docs/paper_complete_review_20260920/figures/panel_interaction_cases_p4.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
@@ -811,8 +811,8 @@ Figure S4. Numerical stability of stored bootstrap estimates, not training conve
 
 Figure S4 continued. The same stored prefixes shown at their absolute scale: prefix means and individual 95% percentile intervals of the two interaction contrasts, in 10^-3 pixel AP. On the displayed prefixes of at least 500 replicates the largest mean deviation from the 1000-replicate value is approximately 0.00013 pixel AP and the largest relative interval-width deviation is 6.8%, while at prefixes of at least 200 the latter can still reach 17.1%. These are individual 95% intervals and do not replace the multiplicity-adjusted intervals used for the principal conclusions.
 
-![Figure S5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/figS5_speed_vram.png)
+![Figure S5 part 1](docs/paper_complete_review_20260920/figures/figS5_speed_vram.png)
 
-Figure S5. Timed inference stages and in-process GPU allocation on three MPDD categories (bracket_black, bracket_brown and bracket_white), seed 0 and K = 1, 4: six units, 216 unique queries and 432 query visits. One warm-up and three timed repeats are run per unit. (a) Bars stack the medians of repeat-level stage sums across six units; circles and whiskers show the median and observed min–max of their total across three repeats, not confidence intervals. Stage medians need not sum exactly to the median total. (b) Bars show the median PyTorch allocated-memory peak across 18 timed unit runs, with observed min–max. MiB denotes 2^20 bytes. A1 holds B and C in the same process. ADino denotes AnomalyDINO, rot. reference rotation, and PC PatchCore at the indicated native input resolution. All six configurations use the same instrumentation, but retain their native preprocessing and model protocols. Timing includes reference/query preprocessing, encoding and scoring; model loading, dataset setup, metric evaluation and result writes are excluded. PatchCore score time is the fit-plus-predict residual after measured preprocessing and encoding. These are timed-stage sums, not independently timed complete-process wall-clock or query-only latency.
+Figure S5. Timed inference stages and in-process GPU allocation on three MPDD categories (bracket_black, bracket_brown and bracket_white), seed 0 and K = 1, 4: six units, 216 unique queries and 432 query visits. One warm-up and three timed repeats are run per unit. (a) Bars stack the medians of repeat-level stage sums across six units; circles and whiskers show the median and observed min–max of their total across three repeats, not confidence intervals. Stage medians need not sum exactly to the median total. (b) Bars show the median PyTorch allocated-memory peak across 18 timed unit runs, with observed min–max. MiB denotes 2^20 bytes. A1 (dual-encoder anchor) holds B (DINOv2-B) and C (AnomalyCLIP visual) in the same process. ADino denotes AnomalyDINO, rot. reference rotation, and PC PatchCore at the indicated native input resolution. All six configurations use the same instrumentation, but retain their native preprocessing and model protocols. Timing includes reference/query preprocessing, encoding and scoring; model loading, dataset setup, metric evaluation and result writes are excluded. PatchCore score time is the fit-plus-predict residual after measured preprocessing and encoding. These are timed-stage sums, not independently timed complete-process wall-clock or query-only latency.
 
 The accompanying figure deck includes the complete set of 36 category-level comparisons with the native methods, using the same shared-region evaluation as Table 11. These selected examples supplement the aggregate results; they are not an independently sampled performance estimate. Their source records preserve the sample identities, per-image AP and common-region geometry.

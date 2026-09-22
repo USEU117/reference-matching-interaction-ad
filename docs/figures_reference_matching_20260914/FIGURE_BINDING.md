@@ -465,3 +465,20 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
   重出命令：`node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs`
   （该脚本从 `figures.json` 生成 58 页 PPT + `FIGURE_SLIDE_INDEX.json` + `图件与PPT页码索引.md`，页数与页码均不变）。
 
+## 十、2026-09-22 图 S6（协议敏感度；**未入正文 docx**）
+
+**编号复核：S6 未被占用。** 本图集既有编号止于 **S5**（S4 为两页合并图，见 §一 / §九），S1–S5 与图 1–8 的对照表内容一字未改；S6 为本目录新增的独立补充图。
+
+| 项 | 值 |
+|---|---|
+| 文件 | `docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.{png,pdf,json}`（PNG SHA-256 `0C6F801C8020DDC41E4B894BB8C0A3ECF49650EE52D4A21D839E6A4DAF871520`，645,557 B） |
+| 生成脚本 | `scripts/harmonised_20260922/build_figS6_protocol_sensitivity.py`（`--leverage`、`--out-dir`、`--min-pt`） |
+| 冻结数据来源 | `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_harmonised_20260922/protocol_leverage.json`（只读聚合 `05_baselines_ext_20260921/baseline_common_region_ext.csv` 的 `pixel_ap` 列；**未重算任何分数图、未用 GPU**） |
+| 内容 | 4 个数据集面板（BTAD/MPDD/MVTec/VisA），每面板每个方法一行；同一方法的两个原生配置用连线相连，连线长度＝该方法的**协议杠杆**；面板内标注该数据集的 PatchCore 自身配置差与 SubspaceAD↔AnomalyDINO 家族差 |
+| 门禁（2026-09-23 复跑实测） | `figure_font_gate` 四道断言全部通过：102 个 text artist **全部 11.50 pt**、0 文本互压、0 文本压图、0 出页（`--min-pt` 默认 11.5）。重渲染到临时目录后 PNG 与在盘 PNG **逐字节相同**（`0C6F801C…`），证明在盘产物与脚本一致 |
+| 为什么**没有** `qa_layout.py` 版面 | 该图不属于 `qa_layout.py` 覆盖的 7 张幻灯片母版图；新增版面文件会改变该门禁的范围，故**刻意不生成**（脚本 docstring 已写明） |
+| 图注 | JSON 的 `caption_en`（英文，可直接入稿）与 `caption_zh` 与 `docs/METHOD_COMPARISON_HANDOFF_20260922.md` §2.1 给出的两段**逐字一致**；图注明写"context, not a ranking" |
+| 未入正文 | **正文 docx 不含 Figure S6**（`Figure S6 mentions: 0`，2026-09-23 python-docx 实测）；若要入稿需改 `figures.json` 并重建 docx |
+| 边界 | 未改任何既有图（图 1–8、S1–S5）与任何已发布数值；`baseline_common_region.csv` `3C83AB00…`、`baseline_common_region_ext.csv` `1C770129…` 前后一致 |
+
+

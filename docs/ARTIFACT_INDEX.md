@@ -48,7 +48,7 @@
 | `experiments/dynamic_fusion/freeze/a1_mpdd_w05/freeze_manifest.json`（+ `freeze_verification.json`） | A1 冻结配置清单（**旧主线**，仍有效） | 属 2026-08 主线，别与 09-14 主线混用 |
 | `outputs/dynamic_fusion/generalization_mvtec_visa_20260915/CODE_AMENDMENT.md` | 冻结脚本就地追加改动的记录 | 计划 AD-3 要求 |
 | `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256` | 投稿复现包版本化证据哈希 | 内容未逐一核对（**待确认**其是否覆盖 09-19 新增产物） |
-| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 18 / figures 8 / equations 12 / references 34 |
+| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 18 / figures 8 / equations 12 / references 34。**该 2026-09-14 链已于 2026-09-21 标 superseded**（见该目录 `SUPERSEDED_20260921.md`）；当前权威交付稿由 `scripts/paper_complete_review_20260920/build.py` 生成，2026-09-23 实测 **20 表 / 22 内嵌图 / 12 编号公式 / 34 文献 / 47 页 / 17,200 词**。18/8 只对该旧链成立，**不得当作当前值** |
 
 ### 2.2 已过期 / 会误导（引用前先看说明）
 
@@ -230,3 +230,26 @@
 - 本轮**未改**任何已发布产物：`05_baselines_multi_dataset/baseline_common_region.csv` sha256 运行前后同为 `3C83AB00…A0B8BB`；未重跑 `s8_common_region.py`（新评测脚本 `import` 它并复用其几何/指标实现，只扩充 `specs`）。
 - `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 **Table 11 的 6 个数字与表注冻结未改**（新方法未并入 Table 11），扩展表另立为**正文 Table 12**（`tables.json` 的 `baselines_ext` 键；表号顺延后原 Table 12–19 → 现 Table 13–20，全文共 20 表）。正文指引句在 `scripts/paper_complete_review_20260920/results.md` §4.2.7。
 - 图件：本轮**未出新图**，故 `FIGURE_BINDING.md` 只加了"无图绑定"的登记行，不改任何既有图的行。
+
+---
+
+## 七、2026-09-22 统一输入几何子集（harmonised subset）与新图 S6
+
+> 依据：需求"把我们的方法和成熟方法做对比，如何呈现 + 规划 + 实验"。方案见 `docs/METHOD_COMPARISON_PRESENTATION_PLAN_20260922.md`，
+> 写作说明见 `docs/METHOD_COMPARISON_HANDOFF_20260922.md`。目录别名：`HARM = experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_harmonised_20260922/`。
+
+| 项 | 实读值 / 路径 |
+|---|---|
+| 子集表 | `HARM/harmonised_common_region.csv` —— **180 行 = 5 方法列 × 36 类别单元**（4 数据集 × 全部类别 × seed 0 × K 1），列结构与既有共同区域表逐列对齐 |
+| 方法列 | `controlled_A1_J`、`controlled_A1_L`、`anomalydino_canvas`、`anomalydino_canvas_rotation`（四列**复用**既有逐图产物）、`PatchCore_harmonised448`（本轮**重跑**：官方 PatchCore 仅改 `--resize 448 --imagesize 448`） |
+| 宏平均与区间 | `HARM/harmonised_macro.csv`、`HARM/HARMONISED_SUMMARY.json`（图像级配对自助 B=1000，stride-8 子样本，2.5/97.5 百分位；沿用 `reference_coupling_pilot_v1/complete_statistics.weighted_auroc_ap`） |
+| 口径一致性 | 复用四列与冻结表**逐格完全相同**（`reused_column_parity_vs_frozen_table` 最大绝对差 **0.0**）；36/36 个 (dataset, category) 的 `region_grid` 与冻结表**相同**（`region_mode = frozen`，区域额外取冻结表 region_rect 以保证逐格可比） |
+| 协议杠杆实算 | `HARM/protocol_leverage.json`：PatchCore 同方法两原生配置 mean\|Δ\| **0.1000**（144 单元；中位 0.0874、最大 0.3445） vs 不同家族 SubspaceAD↔AnomalyDINO-canvas **0.0265**（3.8 倍）；仅切换 PatchCore 配置的胜负翻转 48/144（33.3%，对 SubspaceAD） |
+| 硬门前置 + GPU 台账 | `HARM/PREFLIGHT.json`：准入判据（逐图 map + "保持长宽比、短边 448"输入规则）；`SubspaceAD_native_fp16`/`WinCLIP_native_240`/`AnomalyCLIP_zeroshot_518` **排除**（拉伸规则 / 检查点绑定 240 / 绑定 518）；PatchCore@448 实测 4/4 group、**52.4 min**、设备峰值 2647 MB（自身增量 0.91–1.07 GB）、零失败 |
+| 冒烟（排除依据） | `HARM/smoke/subspacead_448.json`：SubspaceAD@448 **可跑**（btad/01、2 图：峰值 2433.5 MB、32×32 网格、0.8181 s/图）——排除理由是输入规则而非显存 |
+| 逐图产物 | `HARM/patchcore_raw/harmonised448/<dataset>_s0_k1/predictions/*.npz`（4 group，`anomaly_maps` + `sample_ids`） |
+| 运行台账 | `HARM/{_RUN_LOG.txt,PROGRESS.json,logs/}`、`HARM/patchcore_harmonised448/DONE.json`、`HARM/patchcore_harmonised448_units.csv` |
+| 新图 | `docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.{png,pdf,json}`（编号 S6，既有图集止于 S5；`figure_font_gate` 四道断言通过：102 个文本 11.50 pt、0 互压、0 压图、0 出页；**未**新增 `qa_layout.py` 版面以免改动该门禁范围） |
+| 脚本 | `scripts/harmonised_20260922/{analyse_protocol_leverage,run_patchcore_harmonised,harmonised_common_region,build_figS6_protocol_sensitivity,smoke_subspacead_448}.py` |
+| 边界 | 冻结表 sha256 前后同为 `3C83AB00…A0B8BB`；扩展表 sha256 `1C770129…F73EC4B` 未改；既有逐图产物、`data/**`、权威稿与 `tables.json`/`figures.json` **未改动**；本轮**未**改正文表 11/12 |
+| 复现 | 见 `docs/METHOD_COMPARISON_HANDOFF_20260922.md` §5.2（五条命令：杠杆实算 → PatchCore@448 → eval/assemble → 图 S6 → 冒烟） |

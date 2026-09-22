@@ -1,0 +1,19 @@
+{
+  "method": "patchcore_harmonised448",
+  "status": "completed",
+  "finished_utc": "2026-09-22T17:38:03.580291+00:00",
+  "units_expected": 4,
+  "units_done": 4,
+  "protocol": {
+    "source": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\methods\\patchcore\\patchcore-inspection-main",
+    "entry_point": "bin/run_patchcore.py --dump_predictions",
+    "geometry": "--resize 448 --imagesize 448",
+    "official224_recipe": "wideresnet50 layer2+layer3, pretrain/target embed dim 1024, patchsize 3, anomaly_scorer_num_nn 1, approx_greedy_coreset p=0.1, CPU FAISS, batch_size 1",
+    "difference_from_official224_column": "ONLY the dataset geometry (--resize/--imagesize)",
+    "support": "frozen project manifest views under data/patchcore_closeout/<group> (read-only)",
+    "dumped_map": "per-image score map at imagesize x imagesize (`anomaly_maps` + `sample_ids`)",
+    "rect_rule": "short side resized to --resize, then centered crop --imagesize; the same rule s8_common_region.patchcore_rect applies"
+  },
+  "failures": [],
+  "units_csv": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_harmonised_20260922\\patchcore_harmonised448\\patchcore_harmonised448_units.csv"
+}

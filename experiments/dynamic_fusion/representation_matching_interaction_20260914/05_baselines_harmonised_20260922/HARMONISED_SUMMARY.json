@@ -1,0 +1,319 @@
+{
+  "created_utc": "2026-09-22T18:07:55.339286+00:00",
+  "table": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_harmonised_20260922\\harmonised_common_region.csv",
+  "rows": 180,
+  "methods": [
+    "PatchCore_harmonised448",
+    "anomalydino_canvas",
+    "anomalydino_canvas_rotation",
+    "controlled_A1_J",
+    "controlled_A1_L"
+  ],
+  "reused_column_parity_vs_frozen_table": {
+    "definition": "max |pixel_ap(harmonised) - pixel_ap(frozen)| over the units where the harmonised column reuses the same per-image maps on the same region; a non-zero value would mean the evaluator drifted",
+    "max_abs_delta_per_method": {
+      "anomalydino_canvas": 0.0,
+      "anomalydino_canvas_rotation": 0.0,
+      "controlled_A1_J": 0.0,
+      "controlled_A1_L": 0.0
+    }
+  },
+  "groups": [
+    {
+      "dataset": "btad",
+      "seed": 0,
+      "shot": 1,
+      "n_categories": 3
+    },
+    {
+      "dataset": "mpdd",
+      "seed": 0,
+      "shot": 1,
+      "n_categories": 6
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 1,
+      "n_categories": 15
+    },
+    {
+      "dataset": "visa",
+      "seed": 0,
+      "shot": 1,
+      "n_categories": 12
+    }
+  ],
+  "macro_table": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_harmonised_20260922\\harmonised_macro.csv",
+  "unit_definition": "one row per (method, dataset, seed, shot, category); s0/k1 subset",
+  "protocol": {
+    "input_geometry": "short side 448 for every member (controlled canvas / AnomalyDINO smaller_edge=448 / PatchCore --resize 448 --imagesize 448)",
+    "region": "intersection of the participating methods' rectangles, resampled once onto one grid (linear for scores, nearest for GT)",
+    "region_mode": "frozen - the region of the frozen comparison table is imposed as well, so every cell is directly comparable with Table 11/12 and only the input geometry differs",
+    "metric": "s8_common_region.pooled_ap_auroc (rank-based, pixel-pooled)",
+    "aggregation": "macro over categories within each unit",
+    "interval": "image-level paired bootstrap, B=1000, stride-8 subsample, percentiles 2.5/97.5"
+  },
+  "frozen_table": {
+    "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "rows": 864,
+    "sha256": "3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB"
+  },
+  "region_vs_frozen": {
+    "btad|01": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "btad|02": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "btad|03": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.5835777126099707,
+      "frozen_fraction": 0.5835777126099707,
+      "identical_region": true
+    },
+    "mpdd|bracket_black": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mpdd|bracket_brown": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mpdd|bracket_white": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mpdd|connector": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mpdd|metal_plate": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mpdd|tubes": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|bottle": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|cable": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|capsule": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|carpet": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|grid": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|hazelnut": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|leather": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|metal_nut": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|pill": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|screw": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|tile": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|toothbrush": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|transistor": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|wood": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "mvtec|zipper": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.765625,
+      "frozen_fraction": 0.765625,
+      "identical_region": true
+    },
+    "visa|candle": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.7003558718861209,
+      "frozen_fraction": 0.7003558718861209,
+      "identical_region": true
+    },
+    "visa|capsules": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.5104166666666666,
+      "frozen_fraction": 0.5104166666666666,
+      "identical_region": true
+    },
+    "visa|cashew": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.7209598640900403,
+      "frozen_fraction": 0.7209598640900403,
+      "identical_region": true
+    },
+    "visa|chewinggum": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.6456368935367737,
+      "frozen_fraction": 0.6456368935367737,
+      "identical_region": true
+    },
+    "visa|fryum": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.5104166666666666,
+      "frozen_fraction": 0.5104166666666666,
+      "identical_region": true
+    },
+    "visa|macaroni1": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.5104166666666666,
+      "frozen_fraction": 0.5104166666666666,
+      "identical_region": true
+    },
+    "visa|macaroni2": {
+      "harmonised_grid": "392x392",
+      "frozen_grid": "392x392",
+      "harmonised_fraction": 0.5104166666666666,
+      "frozen_fraction": 0.5104166666666666,
+      "identical_region": true
+    },
+    "visa|pcb1": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.5983254459410267,
+      "frozen_fraction": 0.5983254459410267,
+      "identical_region": true
+    },
+    "visa|pcb2": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.5983254459410267,
+      "frozen_fraction": 0.5983254459410267,
+      "identical_region": true
+    },
+    "visa|pcb3": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.47180103550295865,
+      "frozen_fraction": 0.47180103550295865,
+      "identical_region": true
+    },
+    "visa|pcb4": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.6299199738690185,
+      "frozen_fraction": 0.6299199738690185,
+      "identical_region": true
+    },
+    "visa|pipe_fryum": {
+      "harmonised_grid": "392x393",
+      "frozen_grid": "392x393",
+      "harmonised_fraction": 0.6819058641975307,
+      "frozen_fraction": 0.6819058641975307,
+      "identical_region": true
+    }
+  },
+  "note": "a subset table under a single shared input geometry; the differences it contains are NOT a ranking (method and protocol are deliberately collapsed here, the opposite of the frozen native-protocol table)",
+  "table_note_en": "Harmonised subset. This table covers only the methods that can share ONE input geometry: the two matching rules of the controlled A1 (canvas short side 448), AnomalyDINO canvas and canvas+rotation (native smaller_edge = 448), and PatchCore re-run at --resize 448 --imagesize 448 (its official224 recipe otherwise; under the single geometry PatchCore's two native configurations collapse into this one column). Unified protocol X = aspect-preserving short side 448 + the frozen table's own shared region + one rank-based pixel-pooled metric. Subset = 4 datasets x all categories x seed 0 x K = 1 (36 category units, one quarter of Tables 11/12). It is NOT the same table as Table 11 (native protocols, frozen) or Table 12 (nine-column extension, frozen): those are unchanged, and this subset is a supplementary reading in which the protocol is deliberately flattened. It is NOT a ranking: no cross-method significance test was run and no state-of-the-art claim is made; the intervals are marginal. Because the region is imposed from the frozen table, every cell here is directly comparable with the same unit of Tables 11/12, and the only systematic change is the input geometry.",
+  "table_note_zh": "统一输入几何子集。本表只覆盖能共享同一输入几何的方法：受控 A1 的两个匹配规则（画布短边 448）、AnomalyDINO 的 canvas 与 canvas+rotation（原生 smaller_edge = 448）、以及在 448 短边下重跑的官方 PatchCore（--resize 448 --imagesize 448，其余沿用 official224 配方；统一几何下 PatchCore 原有的两个原生配置塌缩为本列）。统一协议 X = 保持长宽比的短边 448 + 冻结表的同一共同区域 + 同一 rank-based 像素池化指标。子集范围 = 4 数据集 × 全部类别 × seed 0 × K = 1（36 个类别单元，是表 11/12 的 1/4）。本表与表 11（原生协议、冻结）和表 12（九列扩展、冻结）不是同一张表：那两张保持原样，本表是协议被刻意抹平后的补充读数。本表不构成排名：未做跨方法显著性检验、不做 SOTA 主张，区间为边际区间。由于区域取自冻结表，本表每个格子可与表 11/12 的同单元逐格对照，唯一系统变化量就是输入几何。"
+}

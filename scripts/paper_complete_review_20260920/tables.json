@@ -3,126 +3,148 @@
     "caption": "Fixed representation constructions and the purpose of each control.",
     "headers": [
       "Construction",
+      "Full name",
       "Distance weights",
       "Controlled comparison"
     ],
     "rows": [
       [
         "A1",
+        "Dual-encoder anchor (DINOv2-B + AnomalyCLIP visual)",
         "B 1/2; C 1/2",
         "Dual-visual anchor"
       ],
       [
         "DUP",
+        "Duplicate-weight control (copy of B, no new encoder)",
         "B 1/3; B copy 1/3; C 1/3",
         "Reweight existing information; no new encoder"
       ],
       [
         "TRI",
+        "Equal-weight replacement (S or D in the copied slot)",
         "B 1/3; S or D 1/3; C 1/3",
         "Replace the duplicate at fixed slot weights"
       ],
       [
         "BAL",
+        "Balanced replacement (S or D in a quarter slot)",
         "B 1/4; S or D 1/4; C 1/2",
         "Preserve C and total non-C weights"
       ]
     ],
     "widths": [
-      2.4,
-      6,
-      8.6
+      1.8,
+      4.6,
+      3.4,
+      7.2
     ],
-    "note": "Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight.",
+    "note": "Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight. B, S, C and D denote the frozen DINOv2-B, DINOv2-S, AnomalyCLIP visual and WideResNet50-2 branches; J and L denote joint and independent reference matching.",
     "bold_rows": [
       0
     ],
     "left_cols": [
       0,
       1,
-      2
+      2,
+      3
     ]
   },
   "models": {
     "caption": "Frozen feature paths and shared model configuration.",
     "headers": [
       "Component",
+      "Full name",
       "Input and retained feature path",
       "Descriptor / target training"
     ],
     "rows": [
       [
         "B",
+        "DINOv2-B visual encoder (frozen)",
         "DINOv2 ViT-B/14; final patch features; short side 448",
         "768 dimensions; frozen"
       ],
       [
         "S",
+        "DINOv2-S visual encoder (frozen)",
         "DINOv2 ViT-S/14; final patch features; short side 448",
         "384 dimensions; frozen"
       ],
       [
         "C",
+        "AnomalyCLIP visual branch (frozen)",
         "CLIP ViT-L/14 visual + DPAM; 518 × 518; retain layer 24 after projection",
         "768 dimensions; frozen"
       ],
       [
         "D",
+        "WideResNet50-2 branch (frozen)",
         "WideResNet50-2; ImageNet1K V1; layer2 + layer3 on B canvas",
         "512 + 1024 = 1536; frozen"
       ],
       [
         "E1",
+        "Original DINO ViT-S/8 encoder (frozen, exploratory)",
         "Original DINO ViT-S/8; final patch features",
         "384 dimensions; frozen"
       ],
       [
         "E2",
+        "ConvNeXt-Tiny encoder (frozen, exploratory)",
         "ConvNeXt-Tiny; two retained stages",
         "576 dimensions; frozen"
       ],
       [
         "E3",
+        "Swin-Tiny encoder (frozen, exploratory)",
         "Swin-Tiny; two retained stages",
         "576 dimensions; frozen"
       ],
       [
         "Alignment",
+        "Shared canvas alignment",
         "Common B grid; bilinear mapping; align_corners false",
         "32 × 32 for a 448 × 448 canvas"
       ],
       [
         "Normalization",
+        "Shared per-branch normalization",
         "Per-branch unit normalization; joint coefficients are square roots of distance weights",
         "No learned scale or fusion parameter"
       ],
       [
         "Memory and scoring",
+        "Shared memory and scoring",
         "All aligned support patches; exact nearest-neighbor matching",
         "Fixed bank per category, seed and K"
       ],
       [
         "Output",
+        "Shared output mapping",
         "Resize to retained H × W canvas; Gaussian standard deviation 4 pixels",
         "Continuous map; maximum image score"
       ],
       [
         "Optimization",
+        "No target optimization",
         "No target loss, optimizer, learning rate or training epochs",
         "0 target-trainable parameters"
       ]
     ],
     "widths": [
-      2.3,
-      9.1,
-      5.6
+      1.7,
+      4.6,
+      6.5,
+      4.2
     ],
     "note": "C requests layers 6, 12, 18 and 24, uses a DPAM layer setting of 20 and retains the final patch tensor. No text scores enter the model. The fixed KolektorSDD2 canvas is 630 high × 224 wide; other inputs follow the B canvas. D is prespecified; E1–E3 are exploratory.",
     "bold_rows": [],
     "left_cols": [
       0,
       1,
-      2
+      2,
+      3
     ]
   },
   "protocol": {
@@ -530,7 +552,7 @@
       ],
       [
         "AnomalyCLIP zero-shot 518",
-        "native, zero-shot (single condition)",
+        "native, zero-shot (auxiliary-domain-trained prompt learner; single condition)",
         "0.2724",
         "0.4108",
         "0.4262",
@@ -545,7 +567,7 @@
       2.1,
       2.1
     ],
-    "note": "Category-macro pixel AP on the intersection of the regions the participating methods actually score. The six upper configurations are the frozen values of Table 11, copied row by row and not recomputed; the three added families keep their native input resolutions and protocols, stated in the Protocol column, and are therefore not compared under the controlled support protocol. Adding a method can change the common region, and a method whose scored extent is a subregion of the others would change the frozen values above when the table is recomputed; for the three families added here the joint recomputation was carried out and reproduced the frozen rows to the digit (864 rows, zero mismatches; 36 of 36 region rectangles identical), because each of them covers the full original image. The AnomalyCLIP row is a single native configuration with no seed or support-budget loop and is not paired with the four-condition rows. Methods differ in backbone, resolution, augmentation and training provenance, so the table provides context and is not a ranking.",
+    "note": "Category-macro pixel AP on the intersection of the regions the participating methods actually score. The six upper configurations are the frozen values of Table 11, copied row by row and not recomputed; the three added families keep their native input resolutions and protocols, stated in the Protocol column, and are therefore not compared under the controlled support protocol. Adding a method can change the common region, and a method whose scored extent is a subregion of the others would change the frozen values above when the table is recomputed; for the three families added here the joint recomputation was carried out and reproduced the frozen rows to the digit (864 rows, zero mismatches; 36 of 36 region rectangles identical), because each of them covers the full original image. The AnomalyCLIP row is a single native configuration with no seed or support-budget loop and is not paired with the four-condition rows. It uses an auxiliary-domain-trained prompt learner and is zero-shot on the target domain: the learner was fitted on an auxiliary dataset (VisA for the MVTec AD column and MVTec AD for the other three datasets, following the upstream convention of never fitting a learner on the dataset it evaluates), with no target-dataset fitting; its checkpoint provenance is recorded in methods/AnomalyCLIP-main/checkpoints/ and in experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/PREFLIGHT.json. Methods differ in backbone, resolution, augmentation and training provenance, so the table provides context and is not a ranking.",
     "bold_rows": [
       0,
       1
