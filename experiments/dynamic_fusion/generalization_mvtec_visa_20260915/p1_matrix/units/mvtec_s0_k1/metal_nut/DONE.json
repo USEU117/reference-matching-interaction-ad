@@ -1,0 +1,218 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-17T04:06:38.029972+00:00",
+  "dataset": "mvtec",
+  "seed": 0,
+  "shot": 1,
+  "category": "metal_nut",
+  "grid": [
+    32,
+    32
+  ],
+  "n_images": 115,
+  "configurations": 30,
+  "reference_images": 1,
+  "timing": {
+    "load_s": 6.0310000000026776,
+    "score_s": 7.359000000004016,
+    "metric_s": 11.328000000001339,
+    "total_s": 25.406000000002678
+  },
+  "inputs": {
+    "B": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\B\\mvtec_s0_k8\\metal_nut.npz",
+    "S": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\S\\mvtec_s0_k8\\metal_nut.npz",
+    "C": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\C\\mvtec_s0_k8\\metal_nut.npz"
+  },
+  "engine": {
+    "device": "cpu",
+    "fallback": null,
+    "chunk": 256,
+    "n": 115,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 117760,
+    "reference_rows": 1024,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      32
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.9329928610590894,
+        "pixel_ap": 0.6464837716467565,
+        "image_auroc": 0.9721407624633431,
+        "image_ap": 0.9936955246399872,
+        "image_f1_max": 0.9625668449197862
+      },
+      "S": {
+        "pixel_auroc": 0.9637432939727705,
+        "pixel_ap": 0.7151684975491426,
+        "image_auroc": 0.9780058651026392,
+        "image_ap": 0.9940760216046056,
+        "image_f1_max": 0.9789473684210526
+      },
+      "C": {
+        "pixel_auroc": 0.9529397798315293,
+        "pixel_ap": 0.749414571474435,
+        "image_auroc": 0.9828934506353861,
+        "image_ap": 0.9959903929737097,
+        "image_f1_max": 0.9738219895287958
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9559513233158194,
+        "pixel_ap": 0.7324624716330406,
+        "image_auroc": 0.9926686217008798,
+        "image_ap": 0.9983385367841925,
+        "image_f1_max": 0.9837837837837837
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.96099595993764,
+        "pixel_ap": 0.7379319158846306,
+        "image_auroc": 0.9946236559139785,
+        "image_ap": 0.998743613300155,
+        "image_f1_max": 0.9841269841269841
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.96444284142587,
+        "pixel_ap": 0.7580839181839087,
+        "image_auroc": 0.9975562072336266,
+        "image_ap": 0.99943148114635,
+        "image_f1_max": 0.989247311827957
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.948866348303257,
+        "pixel_ap": 0.7036224286647035,
+        "image_auroc": 0.9843597262952101,
+        "image_ap": 0.9965157772786966,
+        "image_f1_max": 0.968421052631579
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9559513233158194,
+        "pixel_ap": 0.7324624716330406,
+        "image_auroc": 0.9926686217008798,
+        "image_ap": 0.9983385367841925,
+        "image_f1_max": 0.9837837837837837
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.948866348303257,
+        "pixel_ap": 0.7036224286647035,
+        "image_auroc": 0.9843597262952101,
+        "image_ap": 0.9965157772786966,
+        "image_f1_max": 0.968421052631579
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9595697666720939,
+        "pixel_ap": 0.7407798600290616,
+        "image_auroc": 0.9941348973607038,
+        "image_ap": 0.9986488520199198,
+        "image_f1_max": 0.9837837837837837
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.9505058580390935,
+        "pixel_ap": 0.7049471383481799,
+        "image_auroc": 0.987781036168133,
+        "image_ap": 0.9972525814232166,
+        "image_f1_max": 0.9735449735449735
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.965934491354709,
+        "pixel_ap": 0.7505591421397912,
+        "image_auroc": 0.9956011730205278,
+        "image_ap": 0.9989656403876579,
+        "image_f1_max": 0.989247311827957
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9701321319017976,
+        "pixel_ap": 0.7742997105971743,
+        "image_auroc": 0.9970674486803519,
+        "image_ap": 0.9993098085641932,
+        "image_f1_max": 0.9893617021276596
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "27e8a77fccd2d59a669d694f02ace659d970a7eb70c6252952b3ff0dc37c399c"
+}

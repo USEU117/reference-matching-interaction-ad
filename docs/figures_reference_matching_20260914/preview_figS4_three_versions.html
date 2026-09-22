@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>图 S4 三版并排对照：v1 / v2 / stability（权威稿）</title>
+<style>
+  :root { --ink:#1E2E38; --muted:#5E717C; --line:#D8DEE3; --bg:#FFFFFF; --accent:#0072B2; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px 28px 48px; background:var(--bg); color:var(--ink);
+         font-family:"Segoe UI","Microsoft YaHei",Arial,sans-serif; font-size:14px; line-height:1.55; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  h2 { font-size:16px; margin:26px 0 8px; padding-bottom:4px; border-bottom:1px solid var(--line); }
+  p.sub { color:var(--muted); margin:0 0 18px; }
+  .cols { display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+  .col { flex:1 1 320px; min-width:300px; border:1px solid var(--line); border-radius:6px; padding:12px; }
+  .col h3 { margin:0 0 6px; font-size:15px; }
+  .tag { display:inline-block; font-size:12px; padding:1px 7px; border-radius:9px; margin-left:6px;
+         background:#EEF3F7; color:var(--muted); }
+  .col img { display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:4px;
+             background:#fff; margin-bottom:10px; }
+  .meta { font-size:12.5px; color:var(--muted); margin:8px 0 0; }
+  .meta code { color:var(--ink); }
+  table { border-collapse:collapse; width:100%; margin:6px 0 4px; font-size:13px; }
+  th, td { border:1px solid var(--line); padding:5px 8px; text-align:left; vertical-align:top; }
+  th { background:#F4F7F9; font-weight:600; }
+  td.num { white-space:nowrap; }
+  .ok { color:#0F7A4A; font-weight:600; }
+  .warn { color:#B26A00; font-weight:600; }
+  .bad { color:#A6321F; font-weight:600; }
+  ul { margin:6px 0 0 18px; padding:0; }
+  li { margin:2px 0; }
+  .cap { border:1px solid var(--line); border-radius:6px; padding:10px 12px; background:#FAFCFD; }
+  .cap .en { font-family:"Times New Roman",Georgia,serif; font-size:14.5px; }
+  .cap .zh { color:var(--muted); margin-top:6px; }
+  footer { margin-top:28px; color:var(--muted); font-size:12.5px; }
+</style>
+</head>
+<body>
+
+<h1>图 S4 三版并排对照：v1 / v2 / stability</h1>
+<p class="sub">
+  文件：<code>docs/figures_reference_matching_20260914/preview_figS4_three_versions.html</code>　|　
+  生成日期：2026-09-21　|　
+  页面只引用本地相对文件（无外链、无 CDN）　|　
+  <b>三版同源</b>：都只使用已冻结的 <code>bootstrap_samples.npz</code> 前缀（N = 50→1000），<b>未新增采样、未改任何数值</b>。
+</p>
+
+<div class="cols">
+  <div class="col">
+    <h3>v1<span class="tag">3 面板</span><span class="tag">旧配色</span></h3>
+    <img src="figS4_bootstrap_convergence.v1.png" alt="图 S4 v1：三面板自助收敛曲线">
+    <p class="meta">
+      文件：<code>figS4_bootstrap_convergence.v1.png</code><br>
+      像素：<code>2342 × 3360</code>（350 dpi，17 cm × 24.4 cm）　体积：<code>665,788 B</code>（≈ 650 KB）<br>
+      最小字号：<code>11.50 pt</code>（73 个 text artist）<br>
+      面板：(a) I_TRI 水平值 ± 95% 带 / (b) I_BAL / (c) 区间宽度比<br>
+      另存：<code>….v1.pdf</code>（61,149 B）、<code>….v1.json</code>（30,519 B）
+    </p>
+  </div>
+  <div class="col">
+    <h3>v2<span class="tag">2 面板</span><span class="tag">色盲友好</span></h3>
+    <img src="figS4_bootstrap_convergence.png" alt="图 S4 v2：两面板自助收敛曲线，带渐近参考线与稳定点标注">
+    <p class="meta">
+      文件：<code>figS4_bootstrap_convergence.png</code><br>
+      像素：<code>2342 × 3290</code>（350 dpi，17 cm × 23.9 cm）　体积：<code>820,616 B</code>（≈ 801 KB，门限 ≤ 900 KB）<br>
+      最小字号：<code>11.50 pt</code>（61 个 text artist）<br>
+      面板：(a) 点估计相对 N = 1000 的变化 / (b) 区间宽度相对变化<br>
+      另存：<code>figS4_bootstrap_convergence.pdf</code>（63,565 B，矢量）、<code>…json</code>（36,764 B）
+    </p>
+  </div>
+  <div class="col">
+    <h3>stability（权威稿原图）<span class="tag">4 面板 / 2 页</span><span class="tag">无门禁</span></h3>
+    <img src="../paper_complete_teacher_review_20260920/figures/figS4_bootstrap_stability.png" alt="权威稿图 S4 第 1 页：前缀均值与 95% 区间带">
+    <img src="../paper_complete_teacher_review_20260920/figures/superseded/figS4_bootstrap_stability_part2.png" alt="权威稿图 S4 第 2 页：区间宽度比（已去重，移入 superseded）">
+    <p class="meta">
+      文件：<code>figS4_bootstrap_stability.png</code>（第 1 页）+ <code>figS4_bootstrap_stability_part2.png</code>（第 2 页）<br>
+      像素：<code>2342 × 2065</code> + <code>2342 × 1995</code>　体积：<code>222,375 B</code> + <code>268,122 B</code>（合计 490,497 B）<br>
+      最小字号：<code>11 pt</code>（脚本 rcParams <code>font.size=11</code>，全部 text 显式 11 pt；<b>无字号/互压断言</b>）<br>
+      面板：(a)(b) 前缀均值 + 95% 区间带（I_TRI、I_BAL）/ (c)(d) 区间宽度比（I_TRI、I_BAL）<br>
+      生成脚本：<code>scripts/paper_complete_teacher_review_20260920/figure_sources/plot_supplementary_figures.py</code>（<code>build_s4_estimate_figure</code> L131、<code>build_s4_width_figure</code> L211）
+    </p>
+  </div>
+</div>
+
+<h2>一、量测对照（实读盘上文件）</h2>
+<table>
+  <tr><th>项目</th><th>v1</th><th>v2</th><th>stability（权威稿）</th><th>判定</th></tr>
+  <tr><td>数据来源</td><td colspan="3" class="num">三者同为 <code>docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.json</code> 的冻结前缀表（stability 的脚本 L26 硬指向该 JSON）</td><td class="ok">同源</td></tr>
+  <tr><td>面板数</td><td class="num">3</td><td class="num">2</td><td class="num">4（分 2 页）</td><td>v2 最疏朗</td></tr>
+  <tr><td>页数</td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td>—</td></tr>
+  <tr><td>PNG 像素</td><td class="num">2342 × 3360</td><td class="num">2342 × 3290</td><td class="num">2342 × 2065 / 2342 × 1995</td><td class="ok">同 350 dpi / 17 cm 栏宽</td></tr>
+  <tr><td>PNG 体积</td><td class="num">665,788 B</td><td class="num">820,616 B</td><td class="num">490,497 B（两页合计）</td><td class="ok">均在门限内</td></tr>
+  <tr><td>最小字号（印刷尺寸）</td><td class="num">11.50 pt / 73</td><td class="num">11.50 pt / 61</td><td class="num">11 pt（无断言）</td><td class="warn">v2 更稳</td></tr>
+  <tr><td>文本互压 / 出页面 / 压图</td><td class="num">0 / 0 / 0</td><td class="num">0 / 0 / 0（+4 处标注不与曲线相交）</td><td class="num">未断言</td><td class="warn">v2 有门禁记录</td></tr>
+  <tr><td>数值断言（N = 1000 复算 vs 已发表表，容差 1e−8）</td><td class="num">10 行，最大偏差 2.4e−16</td><td class="num">10 行，最大偏差 2.4e−16</td><td class="num">10 行（由 <code>validate_s4</code> 断言）</td><td class="ok">全部通过</td></tr>
+  <tr><td>头号数字</td><td colspan="3" class="num">N ≥ 500：点估计偏离 ≤ 1.3e−04 pixel AP、区间宽度偏离 ≤ 6.8%；N ≥ 200：宽度最差 17.1%</td><td class="ok">三版一致</td></tr>
+</table>
+
+<h2>二、内容差异（画的是什么量）</h2>
+<table>
+  <tr><th>内容</th><th>v1</th><th>v2</th><th>stability</th><th>重复/互补</th></tr>
+  <tr><td>点估计的绝对值（水平 + 95% 带）</td><td>有（(a)(b) 分对比量）</td><td><b>无</b></td><td>有（(a)(b) 分对比量）</td><td class="warn">v1 与 stability 重复</td></tr>
+  <tr><td>点估计相对 N = 1000 的偏差</td><td>无</td><td><b>有</b>（10 序列合一面板）</td><td>无</td><td class="ok">v2 独有</td></tr>
+  <tr><td>区间宽度比（W_N / W_1000）</td><td>有（(c)）</td><td>有（(b)，10 序列）</td><td>有（(c)(d) 分对比量）</td><td class="bad">三版都有，属重复内容</td></tr>
+  <tr><td>N = 1000 渐近参考线 / 稳定点竖线</td><td>无</td><td><b>有</b>（N = 200 与 N = 500）</td><td>只有 ±5% 灰带与 N = 500 虚线（第 2 页）</td><td class="ok">v2 更直接支持正文阈值</td></tr>
+  <tr><td>配色可灰度辨认</td><td>否（(c) 只靠颜色）</td><td><b>是</b>（Okabe–Ito + 线型承载对比量 + 标记承载数据集）</td><td>否（靠颜色 + 线型，标记仅区分数据集）</td><td class="ok">v2 更稳</td></tr>
+  <tr><td>KSDD2 确认集语义</td><td>灰虚线</td><td>灰虚线 + 更细线 + 图例写 <code>KSDD2 (confirmation)</code></td><td>灰虚线（图注说明不入家族）</td><td class="ok">v2 更明确</td></tr>
+</table>
+
+<h2>三、判定：互补（不是纯重复）</h2>
+<ul>
+  <li><b>重复部分</b>：区间宽度比面板（v1 的 (c)、v2 的 (b)、stability 的 (c)(d)）——三者同量同数，属重复。</li>
+  <li><b>互补部分</b>：stability 的 (a)(b) 画的是<b>绝对水平</b>（读者能看到两个交互量本身有多大，例如 VisA ≈ +0.009、MPDD ≈ +0.008 pixel AP）；v2 的 (a) 画的是<b>相对 N = 1000 的偏差</b>（读者能一眼看到"平没平"并读到阈值 N = 200 / N = 500）。两者回答的问题不同，各自补对方所缺。</li>
+  <li><b>可追溯性</b>：v2 有四道字号/互压断言 + <code>assert_annotations_clear</code>，并有 <code>preview_figS4_v1_v2.html</code> 的门禁留档；stability 版无此记录。</li>
+</ul>
+
+<h2>四、本轮采用的处理：合并为一张图 S4（两页）</h2>
+<p class="sub">依据：上表判定"互补"⇒ 按合并分支执行；<b>不新绘图、不重算</b>，直接复用两张已渲染 PNG（数值零改动）。</p>
+<table>
+  <tr><th>图 S4</th><th>采用哪张现成 PNG</th><th>像素</th><th>内容</th><th>来源</th></tr>
+  <tr>
+    <td>第 1 页（收敛）</td>
+    <td class="num"><code>figures/figS4_bootstrap_convergence.png</code></td>
+    <td class="num">2342 × 3290</td>
+    <td>(a) 点估计相对 N = 1000 偏差（10 序列）+ N ≥ 200 灰带；(b) 区间宽度相对变化（10 序列）+ ±5% 带 + N = 500 虚线</td>
+    <td>本目录 v2（复制入权威稿 <code>figures/</code>，同时带 <code>.pdf</code>）</td>
+  </tr>
+  <tr>
+    <td>第 2 页（稳定性）</td>
+    <td class="num"><code>figures/figS4_bootstrap_stability.png</code></td>
+    <td class="num">2342 × 2065</td>
+    <td>(a)(b) 前缀均值 + 95% 百分位区间带（I_TRI、I_BAL），绝对尺度</td>
+    <td>权威稿现成，位置与文件名不变</td>
+  </tr>
+  <tr>
+    <td><b>移入 <code>figures/superseded/</code></b></td>
+    <td class="num"><code>figS4_bootstrap_stability_part2.png / .pdf</code></td>
+    <td class="num">2342 × 1995</td>
+    <td>(c)(d) 区间宽度比 —— 与第 1 页 (b) <b>内容重复</b></td>
+    <td>去重后可回溯（不删）</td>
+  </tr>
+</table>
+<p class="sub">
+  <b>排版宽度取 16 cm</b>（原 17 cm）：17 cm 时第 1 页图高 23.9 cm，加图注（≈ 2.5 cm）会超过可用页高 25.70 cm（实读模板 A4：页 21.00 × 29.70 cm，四边页边距 2.00 cm），会逼出"图与图注分页"；16 cm → 图高 22.5 cm，安全。
+  两页宽度统一 16 cm。
+</p>
+
+<h2>五、落地位置（已改的源与产物）</h2>
+<table>
+  <tr><th>文件</th><th>改前</th><th>改后</th></tr>
+  <tr><td><code>scripts/paper_complete_teacher_review_20260920/figures.json</code> 的 <code>stability</code></td><td>parts = [stability, stability_part2]，无 <code>width</code>（默认 17）</td><td>parts = [convergence, stability]，<code>width: 16</code>；图注改为两页分述</td></tr>
+  <tr><td><code>docs/paper_complete_teacher_review_20260920/figures/</code></td><td>figS4_bootstrap_stability{,_part2}.png</td><td>+ <code>figS4_bootstrap_convergence.png/.pdf</code>；<code>_part2.*</code> → <code>superseded/</code></td></tr>
+  <tr><td><code>docs/paper_complete_teacher_review_20260920/FIGURE_SLIDE_INDEX.json</code> 第 20、21 条</td><td>stability + stability_part2</td><td>convergence + stability（与重跑 <code>build_deck.mjs</code> 会生成的样式一致）</td></tr>
+  <tr><td><code>docs/paper_complete_teacher_review_20260920/图件与PPT页码索引.md</code> 第 20、21 行</td><td>stability + stability_part2</td><td>convergence + stability</td></tr>
+</table>
+<p class="sub"><b>已知连带影响</b>：已交付的图件 PPT 第 20–21 页内嵌的是<b>合并前</b>的两页渲染（PPTX 内嵌位图，不受源文件移动影响）；本次<b>未重出 PPT</b>，故论文图 S4 与 PPT 第 20–21 页不再逐像素一致。重出方式：<code>node scripts/paper_complete_teacher_review_20260920/figure_sources/build_deck.mjs</code>（需本机 codex 运行时里的 <code>@oai/artifact-tool</code>）。</p>
+
+<h2>六、可入稿图注（合并后，两页）</h2>
+<div class="cap">
+  <div class="en"><b>Figure S4.</b> Numerical stability of stored bootstrap estimates, not training convergence. Prefixes of 50, 100, 200, 300, 400, 500, 600, 700, 800, 900 and 1000 stored replicates are reused without new draws, and the same frozen arrays underlie both pages. (a) Change of each prefix estimate from its 1000-replicate value, in 10<sup>-3</sup> pixel AP, for the ten dataset–contrast series; the grey band marks the measured N ≥ 200 bound and the dotted line the recommended N = 1000. (b) Width of each individual 95% percentile interval relative to its width at 1000 replicates for the same ten series; the grey band marks a relative difference of 5% and the dotted line marks N = 500. MPDD is development, BTAD holdout, MVTec AD external frozen validation, VisA in-domain validation, and KSDD2 separate confirmation; these roles and their inferential families are not pooled. This diagnostic concerns Monte Carlo stability conditional on the stored data, not adequacy of sampling or model training.</div>
+  <div class="en" style="margin-top:8px"><b>Figure S4 continued.</b> The same stored prefixes shown at their absolute scale: prefix means and individual 95% percentile intervals of the two interaction contrasts, in 10<sup>-3</sup> pixel AP. On the displayed prefixes of at least 500 replicates the largest mean deviation from the 1000-replicate value is approximately 0.00013 pixel AP and the largest relative interval-width deviation is 6.8%, while at prefixes of at least 200 the latter can still reach 17.1%. These are individual 95% intervals and do not replace the multiplicity-adjusted intervals used for the principal conclusions.</div>
+  <div class="zh">中文对照：第 1 页＝"收敛"视角（点估计与区间宽度相对 N = 1000 的偏差，标出 N = 200 / N = 500 实测稳定点）；第 2 页＝"稳定性"视角（前缀均值与 95% 区间带的绝对尺度）。仅使用已冻结 replicate 数组的前缀，未新增采样；KSDD2（灰色虚线）为确认集，不属四数据集家族。</div>
+</div>
+
+<footer>
+  三版源文件：<code>figS4_bootstrap_convergence.v1.{png,pdf,json}</code>、<code>figS4_bootstrap_convergence.{png,pdf,json}</code>（本目录）；
+  stability 版在 <code>docs/paper_complete_teacher_review_20260920/figures/</code>。
+  绑定与实测明细见 <code>FIGURE_BINDING.md</code> 图 S4 行与第七、第八节；差异审计与"唯一可编辑源"见 <code>docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md</code>；
+  「为什么没有 loss 收敛曲线」见 <code>docs/REFERENCE_FIG_CONVERGENCE_PLAN.md</code>。
+  v1/v2 两版的历史对照仍保留在 <code>preview_figS4_v1_v2.html</code>。
+</footer>
+
+</body>
+</html>

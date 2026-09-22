@@ -228,5 +228,5 @@
 ### 6.5 边界
 
 - 本轮**未改**任何已发布产物：`05_baselines_multi_dataset/baseline_common_region.csv` sha256 运行前后同为 `3C83AB00…A0B8BB`；未重跑 `s8_common_region.py`（新评测脚本 `import` 它并复用其几何/指标实现，只扩充 `specs`）。
-- `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 Table 11 与 §4.2.7 的 6 个数字**不需要**改动（新方法未进入正文表）。
+- `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 **Table 11 的 6 个数字与表注冻结未改**（新方法未并入 Table 11），扩展表另立为**正文 Table 12**（`tables.json` 的 `baselines_ext` 键；表号顺延后原 Table 12–19 → 现 Table 13–20，全文共 20 表）。正文指引句在 `scripts/paper_complete_teacher_review_20260920/results.md` §4.2.7。
 - 图件：本轮**未出新图**，故 `FIGURE_BINDING.md` 只加了"无图绑定"的登记行，不改任何既有图的行。

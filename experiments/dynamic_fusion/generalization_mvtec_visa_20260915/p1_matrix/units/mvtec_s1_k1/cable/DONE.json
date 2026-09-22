@@ -1,0 +1,218 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-17T05:01:50.334369+00:00",
+  "dataset": "mvtec",
+  "seed": 1,
+  "shot": 1,
+  "category": "cable",
+  "grid": [
+    32,
+    32
+  ],
+  "n_images": 150,
+  "configurations": 30,
+  "reference_images": 1,
+  "timing": {
+    "load_s": 7.703000000001339,
+    "score_s": 10.906000000002678,
+    "metric_s": 18.593999999997322,
+    "total_s": 38.140999999995984
+  },
+  "inputs": {
+    "B": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\B\\mvtec_s1_k8\\cable.npz",
+    "S": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\S\\mvtec_s1_k8\\cable.npz",
+    "C": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\C\\mvtec_s1_k8\\cable.npz"
+  },
+  "engine": {
+    "device": "cpu",
+    "fallback": null,
+    "chunk": 256,
+    "n": 150,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 153600,
+    "reference_rows": 1024,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      32
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.9141796360355117,
+        "pixel_ap": 0.5407981374150537,
+        "image_auroc": 0.8483883058470765,
+        "image_ap": 0.913082519016748,
+        "image_f1_max": 0.8217821782178217
+      },
+      "S": {
+        "pixel_auroc": 0.9459456740733602,
+        "pixel_ap": 0.5849258251925119,
+        "image_auroc": 0.8643178410794603,
+        "image_ap": 0.919747983422119,
+        "image_f1_max": 0.8379888268156424
+      },
+      "C": {
+        "pixel_auroc": 0.9013279962960455,
+        "pixel_ap": 0.31485350016800256,
+        "image_auroc": 0.795352323838081,
+        "image_ap": 0.8622160623790793,
+        "image_f1_max": 0.7947598253275109
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9445433356956547,
+        "pixel_ap": 0.5651273667688861,
+        "image_auroc": 0.8819340329835083,
+        "image_ap": 0.9320997925385324,
+        "image_f1_max": 0.8361581920903954
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9492733593887825,
+        "pixel_ap": 0.5882010346058215,
+        "image_auroc": 0.864505247376312,
+        "image_ap": 0.9229176093693982,
+        "image_f1_max": 0.8290155440414507
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9556711847133048,
+        "pixel_ap": 0.5918923275789048,
+        "image_auroc": 0.8794977511244377,
+        "image_ap": 0.9297035367159611,
+        "image_f1_max": 0.8426395939086293
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9345703003464391,
+        "pixel_ap": 0.5579664581265695,
+        "image_auroc": 0.8693778110944528,
+        "image_ap": 0.9236890504351756,
+        "image_f1_max": 0.8341708542713568
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9445433356956547,
+        "pixel_ap": 0.5651273667688861,
+        "image_auroc": 0.8819340329835083,
+        "image_ap": 0.9320997925385324,
+        "image_f1_max": 0.8361581920903954
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9345703003464391,
+        "pixel_ap": 0.5579664581265695,
+        "image_auroc": 0.8693778110944528,
+        "image_ap": 0.9236890504351756,
+        "image_f1_max": 0.8341708542713568
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9419808614087473,
+        "pixel_ap": 0.5583040636683201,
+        "image_auroc": 0.8682533733133433,
+        "image_ap": 0.9240563379329183,
+        "image_f1_max": 0.8248587570621468
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.9321457858821547,
+        "pixel_ap": 0.5532513645323766,
+        "image_auroc": 0.8622563718140929,
+        "image_ap": 0.9205126494436183,
+        "image_f1_max": 0.820754716981132
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9487150715886778,
+        "pixel_ap": 0.5899672309436006,
+        "image_auroc": 0.8688155922038979,
+        "image_ap": 0.9224214314830761,
+        "image_f1_max": 0.8324873096446701
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9549247156061996,
+        "pixel_ap": 0.590489509250361,
+        "image_auroc": 0.8774362818590704,
+        "image_ap": 0.9269293483495469,
+        "image_f1_max": 0.84
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s1_k1\\cable\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "27e8a77fccd2d59a669d694f02ace659d970a7eb70c6252952b3ff0dc37c399c"
+}

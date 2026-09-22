@@ -1,0 +1,218 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-17T06:21:20.645070+00:00",
+  "dataset": "mvtec",
+  "seed": 2,
+  "shot": 1,
+  "category": "transistor",
+  "grid": [
+    32,
+    32
+  ],
+  "n_images": 100,
+  "configurations": 30,
+  "reference_images": 1,
+  "timing": {
+    "load_s": 7.875,
+    "score_s": 12.156999999999243,
+    "metric_s": 19.68800000000192,
+    "total_s": 40.82800000000134
+  },
+  "inputs": {
+    "B": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\B\\mvtec_s2_k8\\transistor.npz",
+    "S": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\S\\mvtec_s2_k8\\transistor.npz",
+    "C": "experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\canonical\\C\\mvtec_s2_k8\\transistor.npz"
+  },
+  "engine": {
+    "device": "cpu",
+    "fallback": null,
+    "chunk": 256,
+    "n": 100,
+    "grid": [
+      32,
+      32
+    ],
+    "query_rows": 102400,
+    "reference_rows": 1024,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      32
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.8775273843473099,
+        "pixel_ap": 0.41085773740839765,
+        "image_auroc": 0.9025,
+        "image_ap": 0.8849734558113187,
+        "image_f1_max": 0.8043478260869567
+      },
+      "S": {
+        "pixel_auroc": 0.9151814897711087,
+        "pixel_ap": 0.4838631653453622,
+        "image_auroc": 0.8833333333333333,
+        "image_ap": 0.8281733243552369,
+        "image_f1_max": 0.7999999999999999
+      },
+      "C": {
+        "pixel_auroc": 0.8444476436917565,
+        "pixel_ap": 0.3427593006404207,
+        "image_auroc": 0.8658333333333333,
+        "image_ap": 0.850882239356664,
+        "image_f1_max": 0.7532467532467533
+      },
+      "A1_J": {
+        "pixel_auroc": 0.8819838528932686,
+        "pixel_ap": 0.42002739453995597,
+        "image_auroc": 0.9295833333333334,
+        "image_ap": 0.9074393308542467,
+        "image_f1_max": 0.875
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.8949827630564958,
+        "pixel_ap": 0.4558040226858296,
+        "image_auroc": 0.9345833333333333,
+        "image_ap": 0.910953809667778,
+        "image_f1_max": 0.875
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.894759758388364,
+        "pixel_ap": 0.44934130725756755,
+        "image_auroc": 0.9325,
+        "image_ap": 0.9124357536429606,
+        "image_f1_max": 0.8536585365853658
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.8805637227533196,
+        "pixel_ap": 0.4201308313362718,
+        "image_auroc": 0.9154166666666667,
+        "image_ap": 0.8962756635338993,
+        "image_f1_max": 0.8378378378378379
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.8819838528932686,
+        "pixel_ap": 0.42002739453995597,
+        "image_auroc": 0.9295833333333334,
+        "image_ap": 0.9074393308542467,
+        "image_f1_max": 0.875
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.8805637227533196,
+        "pixel_ap": 0.4201308313362718,
+        "image_auroc": 0.9154166666666667,
+        "image_ap": 0.8962756635338993,
+        "image_f1_max": 0.8378378378378379
+      },
+      "A1_L": {
+        "pixel_auroc": 0.8931439694830394,
+        "pixel_ap": 0.4338450330829757,
+        "image_auroc": 0.9158333333333333,
+        "image_ap": 0.8991546929811215,
+        "image_f1_max": 0.8266666666666667
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.8870617620891101,
+        "pixel_ap": 0.42557714770831,
+        "image_auroc": 0.9091666666666667,
+        "image_ap": 0.890414112837971,
+        "image_f1_max": 0.825
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9109695863091188,
+        "pixel_ap": 0.4768727186760082,
+        "image_auroc": 0.9295833333333333,
+        "image_ap": 0.9047596804517338,
+        "image_f1_max": 0.8536585365853658
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9137902408904557,
+        "pixel_ap": 0.47879316504610603,
+        "image_auroc": 0.9341666666666666,
+        "image_ap": 0.9133947910497563,
+        "image_f1_max": 0.8536585365853658
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s2_k1\\transistor\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "27e8a77fccd2d59a669d694f02ace659d970a7eb70c6252952b3ff0dc37c399c"
+}
