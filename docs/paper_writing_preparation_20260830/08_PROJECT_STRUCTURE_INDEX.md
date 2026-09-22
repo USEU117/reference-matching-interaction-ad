@@ -5,7 +5,7 @@
 No physical relocation is performed because experiment scripts, manifests and hashes may depend on existing paths. Use this map as the organizational layer.
 
 ```text
-sci_project/
+<repo-root>/
 ├─ docs/
 │  ├─ paper_writing_preparation_20260830/   # current writing hub (incl. task books 11–21, R0 summaries)
 │  ├─ introduction_research_20260825/       # literature archive; partly outdated framing

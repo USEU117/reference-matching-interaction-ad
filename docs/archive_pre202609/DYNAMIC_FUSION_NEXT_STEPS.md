@@ -2,7 +2,7 @@
 
 更新日期：2026-08-19
 
-项目：`D:\STUDY\My_github\sci_project`
+项目：`<repo-root>`
 
 当前基线提交：`ac5c2f1`（本地 `main`，当前比 `origin/main` 超前 1 个提交）
 
@@ -433,7 +433,7 @@ tests/test_v4_freeze.py
 ### 9.1 接手后的只读命令
 
 ```powershell
-Set-Location D:\STUDY\My_github\sci_project
+Set-Location <repo-root>
 git status --short --branch
 git log -3 --oneline --decorate
 Get-Content docs\CURRENT_DYNAMIC_FUSION_STATUS.md -Raw

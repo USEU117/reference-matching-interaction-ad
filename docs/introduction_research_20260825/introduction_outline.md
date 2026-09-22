@@ -1,6 +1,6 @@
 # Suggested Introduction outline
 
-建议篇幅：SCI-I 期刊正文约 6–8 个段落、900–1400 英文词；最终按目标期刊调整。
+建议篇幅：目标期刊 期刊正文约 6–8 个段落、900–1400 英文词；最终按目标期刊调整。
 
 ## Paragraph 1 — Industrial motivation and problem definition
 

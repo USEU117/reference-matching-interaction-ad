@@ -4,7 +4,7 @@
 
 > **状态更新（2026-09-14 收尾轮次，取代本稿中的"待验证"表述）**
 > 本稿撰写时列为"仍待统计验证"的两项均已完成，证据见
-> [`experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md`](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md)：
+> [`experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md`](<repo-root>/experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md)：
 > 1. **直接交互已给出区间估计**：MPDD 上有统计支持（`I_TRI` +0.00772、`I_BAL` +0.00595，
 >    95% 与 98.75% 家族区间不含零，且达到 0.005 宏 pixel AP 的实用尺度）；BTAD 上区间含零，
 >    无证据表明其新增表征收益依赖匹配方式。
@@ -300,7 +300,7 @@ BTAD03 的 B/S 实际变换包含按比例缩放及裁剪；旧掩码直接缩�
 
 ## 数据与代码 Data and Code Availability
 
-代码和复现材料应包含固定支持清单、配置表、匹配规则、坐标版本、指标与统计说明、图表源文件及生成关系。按老师要求，公开项目名与论文主题相关，不含 SCI；确定正式名称后统一摘要、正文、README 和复现包链接。本轮仅撰写提纲，不修改或发布远程仓库。
+代码和复现材料应包含固定支持清单、配置表、匹配规则、坐标版本、指标与统计说明、图表源文件及生成关系。按老师要求，公开项目名与论文主题相关，不含期刊层级字样；确定正式名称后统一摘要、正文、README 和复现包链接。本轮仅撰写提纲，不修改或发布远程仓库。
 
 作者、单位、基金、利益冲突及数据使用声明依据真实信息补充，不生成未经作者确认的声明。旧实验包与新主题材料分版本保留。
 
@@ -380,14 +380,14 @@ https://arxiv.org/abs/2412.17297
 
 ### 课堂与项目材料
 
-- [完整课堂要求审核定稿版](D:/STUDY/My_github/sci_project/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912_审核定稿版.md)
-- [课堂逐字稿](D:/STUDY/My_github/sci_project/docs/lesson_notes_20260912/20260912_课堂逐字稿_腾讯会议自动转写.md)
-- [此前课程规范与原稿组织](D:/STUDY/My_github/sci_project/docs/manuscript_revision_20260905/00_两次课程要求汇总与论文生成计划.md)
-- [已完成英文初稿](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx)
-- [你指定的简明提纲](D:/STUDY/My_github/sci_project/docs/PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md)
-- [最新交互研究交接](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_REPRESENTATION_MATCHING_INTERACTION_AND_ACCEPTANCE_20260914_CN.md)
-- [此前证据审阅](D:/STUDY/My_github/sci_project/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)
-- [已修正成对效应汇总](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/paper_evidence_closeout_20260914/01_statistics/AGGREGATED_EFFECTS.csv)
-- [交互研究新目录的几何阶段记录](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/S0_SUMMARY.json)
+- [完整课堂要求审核定稿版](<repo-root>/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912_审核定稿版.md)
+- [课堂逐字稿](<repo-root>/docs/lesson_notes_20260912/20260912_课堂逐字稿_腾讯会议自动转写.md)
+- [此前课程规范与原稿组织](<repo-root>/docs/manuscript_revision_20260905/00_两次课程要求汇总与论文生成计划.md)
+- [已完成英文初稿](<repo-root>/docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx)
+- [你指定的简明提纲](<repo-root>/docs/PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md)
+- [最新交互研究交接](<repo-root>/docs/AI_HANDOFF_REPRESENTATION_MATCHING_INTERACTION_AND_ACCEPTANCE_20260914_CN.md)
+- [此前证据审阅](<repo-root>/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)
+- [已修正成对效应汇总](<repo-root>/experiments/dynamic_fusion/paper_evidence_closeout_20260914/01_statistics/AGGREGATED_EFFECTS.csv)
+- [交互研究新目录的几何阶段记录](<repo-root>/experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/S0_SUMMARY.json)
 
 另参考同项目任务“探索项目创新优化方向”的最新主题讨论。本提纲优先采用最新交接和实际产物状态，不继续沿用 9 月 12 日清单中“第三分支尚未实现”的历史状态；课堂的真实性、格式和证据要求继续保留。

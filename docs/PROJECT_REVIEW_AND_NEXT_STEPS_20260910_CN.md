@@ -2,7 +2,7 @@
 
 审阅日期：2026-09-10，2026-09-11 完成收尾。审阅基准：Git `0da9b8f`，包含 9 月 10 日基线调研与图件、9 月 9 日创新收口材料。本文面向论文作者及后续接手验证的 AI 助手。
 
-**2026-09-11 执行交接更新：** 用户随后明确提出编码器组合、第三分支、文本、动态融合与完整强基线的验证问题。已整合为 [AI 执行交接与验收任务书](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。后续实验顺序、触发条件及验收以该文件为准；本文保留现状审阅依据。
+**2026-09-11 执行交接更新：** 用户随后明确提出编码器组合、第三分支、文本、动态融合与完整强基线的验证问题。已整合为 [AI 执行交接与验收任务书](<repo-root>/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。后续实验顺序、触发条件及验收以该文件为准；本文保留现状审阅依据。
 
 最新优先级为：先核验输入与 A1，再拆解 DINO B/S 和原生/当前管线，比较三个单支、三个双支及一组三支，同时补近期完整基线。此前 35 族探索不代表编码器组合已全面比较，也不证明当前 B+C 最优。新的文本/动态方案须有区别于旧实验的信息或机制；任务完成与算法过门分开验收。
 
@@ -36,7 +36,7 @@ A1 使用 DINOv2 与 AnomalyCLIP 来源的 CLIP **视觉分支**，将网格对�
 
 “Calibrated”在当前英文稿中已经限定为确定性的网格与幅值对齐，不是概率校准，也不是学习出来的门控。论文也已经说明这是集成与分析工作，不能把拼接、双线性插值等通用操作本身宣称为新算子。目标域不训练与源域从未使用异常数据是不同陈述，AnomalyCLIP 来源及数据角色仍需保留披露。
 
-证据入口：[METHOD_SPEC_V2](D:/STUDY/My_github/sci_project/submission_repro_20260827/METHOD_SPEC_V2.md)、[实际融合与检索实现](D:/STUDY/My_github/sci_project/scripts/evaluate_a1_feature_fusion.py)、[当前英文稿](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/English_content.md)。
+证据入口：[METHOD_SPEC_V2](<repo-root>/submission_repro_20260827/METHOD_SPEC_V2.md)、[实际融合与检索实现](<repo-root>/scripts/evaluate_a1_feature_fusion.py)、[当前英文稿](<repo-root>/docs/manuscript_english_polished_20260906/English_content.md)。
 
 ### 2.2 四数据集的匹配对照是最坚实的结果
 
@@ -51,7 +51,7 @@ A1 使用 DINOv2 与 AnomalyCLIP 来源的 CLIP **视觉分支**，将网格对�
 
 四数据集共 36 个配置的宏平均 Pixel-AP 差值均为正。这个结论有价值，但有三个边界：类别层面仍有退化；BTAD 的 Image-AP 和 Image-F1-max 均值下降；9 个配置共用测试集，不是 9 个独立数据集。旧材料中更大的 MPDD +0.0486、BTAD +0.0766 混入了 DINO 管线变化，不能替代这里的纯融合对照。
 
-证据：[P1-E 完整指标](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md)、[P1-A 统计与置信区间](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md)。
+证据：[P1-E 完整指标](<repo-root>/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md)、[P1-A 统计与置信区间](<repo-root>/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md)。
 
 **匹配消融基线与完整算法基线必须同时存在。** 前者回答“加入第二分支是否有用”；后者回答“这套系统是否值得采用”。当前英文稿已经报告原生 AnomalyDINO 的平均 Pixel-AP 在 MVTec / VisA 上为 0.5710 / 0.4117，高于 DCFnet 的 0.5546 / 0.3725；ReMP-AD 也有更强的 MVTec 补充结果，但协议和配置覆盖不同。因此不宜写成全面超越已有方法或 SOTA。
 
@@ -68,7 +68,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 代表性观察：WZ 有较大平均增益但最差类别退化明显；伪正常扩库 PA 有小幅、较平稳收益但达不到宏平均门槛；连通区域均值池化等会明显破坏定位。可以把它们组织成“哪些机制失败、失败在哪里、下一步因此需要什么信息”的补充分析，而不是罗列 35 个缩写作为主要算法贡献。
 
-证据：[最新轴线台账](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md)、[9/9 论文负结果材料](D:/STUDY/My_github/sci_project/docs/paper_writing_preparation_20260830/38_BREADTH_NEGATIVE_PORTFOLIO_AND_LIMITATION_ANALYSIS_CN_20260909.md)。
+证据：[最新轴线台账](<repo-root>/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md)、[9/9 论文负结果材料](<repo-root>/docs/paper_writing_preparation_20260830/38_BREADTH_NEGATIVE_PORTFOLIO_AND_LIMITATION_ANALYSIS_CN_20260909.md)。
 
 ### 2.5 需要纠正的“完成”口径
 
@@ -82,7 +82,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 | followup neighborhood | 明确为重复方向而未运行，是合理停止，不是新实验成果 |
 | 汇总闭环 | followup 的 SUMMARY、overnight 的 FINAL_AUDIT 与 resolution_gap 等预期产物仍缺；已有报告与实验不因此作废，但“计划全部完成”不成立 |
 
-这些事项应在交接台账中关闭或改为“未完成 / 不再执行”，无需为了凑齐旧计划再启动计算。逐项证据见 [创新审计附录](D:/STUDY/My_github/sci_project/docs/project_review_20260910/innovation_audit.md)。
+这些事项应在交接台账中关闭或改为“未完成 / 不再执行”，无需为了凑齐旧计划再启动计算。逐项证据见 [创新审计附录](<repo-root>/docs/project_review_20260910/innovation_audit.md)。
 
 ## 3. 最需要补齐的论文缺口
 
@@ -90,15 +90,15 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 **1. 给后续写作者一个唯一入口。** 根目录 `NEXT_ACTIONS.md` 仍以“当前真实待办”描述 8/19 状态，其中还有已不适用于最终论文的 V3.3 路线；环境表把部分已经有结果的方法写成 Not started；旧结构索引仍推荐 8/27 中文稿。历史文件可以保留，但首页应明确“已被哪份文件取代”。否则下一位助手很容易恢复已关闭路线，或把历史结果写回正文。
 
-**2. 明确后处理的操作顺序。** `METHOD_SPEC_V2.md` 第 19 行的“gaussian_filter(sigma=4) + INTER_LINEAR resize”容易被理解为先平滑再放大。实际 `dists2map` 是先 `cv2.resize(..., INTER_LINEAR)`，再在放大后的图上做 `gaussian_filter(sigma=4)`。32 网格上的 σ=4 与 448 图上的 σ=4 含义明显不同。应按实际冻结实现澄清说明、公式和图注；不要为了迁就文字改变历史算法。相关文件有哈希时需要同步记录版本变更。[代码位置](D:/STUDY/My_github/sci_project/methods/anomalydino/src/utils.py:14)
+**2. 明确后处理的操作顺序。** `METHOD_SPEC_V2.md` 第 19 行的“gaussian_filter(sigma=4) + INTER_LINEAR resize”容易被理解为先平滑再放大。实际 `dists2map` 是先 `cv2.resize(..., INTER_LINEAR)`，再在放大后的图上做 `gaussian_filter(sigma=4)`。32 网格上的 σ=4 与 448 图上的 σ=4 含义明显不同。应按实际冻结实现澄清说明、公式和图注；不要为了迁就文字改变历史算法。相关文件有哈希时需要同步记录版本变更。[代码位置](<repo-root>/methods/anomalydino/src/utils.py:14)
 
-**3. 给 35 族探索补齐“数据使用方式”列。** 仅使用正常支持图像、使用其他类别正常样本、使用未标注测试图像、合成样本诊断、人工查看缺陷掩码后做的分析，不属于同一种协议。已确认 PA 会从全体 query patch 的无标签距离中筛选扩库，再对每张查询排除其自身，保留其他测试图像的 patch。它属于 transductive / test-time 扩库，不能与 A1 的归纳式 few-shot 协议混写。负结果可保留，但不能统一写成全部仅用支持集。[PA 实现](D:/STUDY/My_github/sci_project/scripts/innovation_breadth_20260908/probe_breadth6.py:105)
+**3. 给 35 族探索补齐“数据使用方式”列。** 仅使用正常支持图像、使用其他类别正常样本、使用未标注测试图像、合成样本诊断、人工查看缺陷掩码后做的分析，不属于同一种协议。已确认 PA 会从全体 query patch 的无标签距离中筛选扩库，再对每张查询排除其自身，保留其他测试图像的 patch。它属于 transductive / test-time 扩库，不能与 A1 的归纳式 few-shot 协议混写。负结果可保留，但不能统一写成全部仅用支持集。[PA 实现](<repo-root>/scripts/innovation_breadth_20260908/probe_breadth6.py:105)
 
 **4. 收紧“穷尽 / 最优 / 数学无效”的措辞。** 推荐统一为“在给定特征、数据、候选参数和门槛内未发现稳定提升”。严格单调函数作用于最终已完成后处理的分数时保持排序；有限经验 CDF 可能制造并列分数，非线性变换与插值、平滑也一般不交换。因此不能不加条件地将所有 CDF、conformal 或校准方式称为严格 AP 不变量。
 
-**5. 绑定完整图件包。** 9/10 名为 `All_Figures` 的新包实际上只有 Fig. 1–3、Fig. S1–S2 共五张方法图，而当前正文仍引用实证 Figure 4–6。收尾出现的 teacher revision 目录也只见这五类方法 PNG，不能据此判定实证图已补入。实证图并非完全没有，旧包中已有；缺的是把方法新图、实证图、图源数据和正文引用绑定成同一版本。不要直接把方法子包当作整篇论文的全部图件。[论文审计依据](D:/STUDY/My_github/sci_project/docs/project_review_20260910/paper_audit.md)
+**5. 绑定完整图件包。** 9/10 名为 `All_Figures` 的新包实际上只有 Fig. 1–3、Fig. S1–S2 共五张方法图，而当前正文仍引用实证 Figure 4–6。收尾出现的 teacher revision 目录也只见这五类方法 PNG，不能据此判定实证图已补入。实证图并非完全没有，旧包中已有；缺的是把方法新图、实证图、图源数据和正文引用绑定成同一版本。不要直接把方法子包当作整篇论文的全部图件。[论文审计依据](<repo-root>/docs/project_review_20260910/paper_audit.md)
 
-**6. 修复当前证据索引的完整性。** 本轮逐项哈希核对发现，`VERSIONED_EVIDENCE.sha256` 中的 `CURRENT_DYNAMIC_FUSION_STATUS.md` 和 8/27 中文稿已有内容更新，与保存的哈希不一致，其余清单项相符。这首先是文档版本漂移，不能据此说实验数值失效；但旧索引不能证明当前文件完整性。应在正式版本定稿后重新生成索引，并区分冻结源码提交、历史验收提交和本轮审阅提交。[复现审计依据](D:/STUDY/My_github/sci_project/docs/project_review_20260910/repro_audit.md)
+**6. 修复当前证据索引的完整性。** 本轮逐项哈希核对发现，`VERSIONED_EVIDENCE.sha256` 中的 `CURRENT_DYNAMIC_FUSION_STATUS.md` 和 8/27 中文稿已有内容更新，与保存的哈希不一致，其余清单项相符。这首先是文档版本漂移，不能据此说实验数值失效；但旧索引不能证明当前文件完整性。应在正式版本定稿后重新生成索引，并区分冻结源码提交、历史验收提交和本轮审阅提交。[复现审计依据](<repo-root>/docs/project_review_20260910/repro_audit.md)
 
 ### P1：补近期完整方法对照，回答竞争力问题
 
@@ -116,7 +116,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 本轮只读硬件查询确认本机是 RTX 3060 Laptop、6 GB 显存、约 15.8 GiB 系统内存。因此 giant 编码器及多大模型组合先做单类别资源探测，再决定顺序加载、CPU 卸载或使用其他算力。硬件适配若改变精度、输入、骨干或算法步骤，需记录为配置差异，不能只保留原方法名称。
 
-详细工作量与候选筛选已经在 [9/10 对照算法规划](D:/STUDY/My_github/sci_project/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx) 中。本次建议优先交付两类互补的近期完整基线，以及一项现有基线的覆盖补齐；具体最终方法数量仍取决于目标期刊和结果，而非先定一个凑数指标。
+详细工作量与候选筛选已经在 [9/10 对照算法规划](<repo-root>/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx) 中。本次建议优先交付两类互补的近期完整基线，以及一项现有基线的覆盖补齐；具体最终方法数量仍取决于目标期刊和结果，而非先定一个凑数指标。
 
 ### P1：先纳入已有机制对照，再选择缺失的组件消融
 
@@ -129,9 +129,9 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 独立检索：s_late(q)  = 0.5 min_m d_D(q,m) + 0.5 min_n d_C(q,n)
 ```
 
-二者区别是是否允许两分支用不同正常 patch 解释同一个查询。相同条件下，平滑前有 `s_joint >= s_late`，但这并不推出联合检索的 AP 更高。R1 使用同一冻结缓存及后处理，分别计算 DINO / CLIP 最近邻距离再求均值；相对 A1，K=2/4 的宏平均 ΔPixel-AP 为 **+0.005517 / +0.003942**，最差类别为 **−0.011574 / −0.016827**。这说明独立检索平均在这两个开发配置上反而有小幅平均收益，但达不到 +0.01 门槛，不能证明 A1 的共同匹配机制普遍更优，也不足以晋升为新主线。[R1 实现](D:/STUDY/My_github/sci_project/scripts/innovation_breadth_20260908/probe_breadth.py:142)
+二者区别是是否允许两分支用不同正常 patch 解释同一个查询。相同条件下，平滑前有 `s_joint >= s_late`，但这并不推出联合检索的 AP 更高。R1 使用同一冻结缓存及后处理，分别计算 DINO / CLIP 最近邻距离再求均值；相对 A1，K=2/4 的宏平均 ΔPixel-AP 为 **+0.005517 / +0.003942**，最差类别为 **−0.011574 / −0.016827**。这说明独立检索平均在这两个开发配置上反而有小幅平均收益，但达不到 +0.01 门槛，不能证明 A1 的共同匹配机制普遍更优，也不足以晋升为新主线。[R1 实现](<repo-root>/scripts/innovation_breadth_20260908/probe_breadth.py:142)
 
-最小下一步是引用这项已有结果，注明 seed=0、MPDD 六类和双 shot 的范围；只有需要更广主张时才扩展配置，并可增加最近邻身份分歧诊断。它适合作为现有论文的机制说明，而非“首次提出”的新算法。另一个容易误写的地方：两分支已经单位归一化且固定等权时，最终联合 L2 只是固定范数缩放；单独去掉它通常不会改变排序，不能把这种等价变换包装为性能贡献。[实现依据](D:/STUDY/My_github/sci_project/scripts/evaluate_a1_feature_fusion.py:96)
+最小下一步是引用这项已有结果，注明 seed=0、MPDD 六类和双 shot 的范围；只有需要更广主张时才扩展配置，并可增加最近邻身份分歧诊断。它适合作为现有论文的机制说明，而非“首次提出”的新算法。另一个容易误写的地方：两分支已经单位归一化且固定等权时，最终联合 L2 只是固定范数缩放；单独去掉它通常不会改变排序，不能把这种等价变换包装为性能贡献。[实现依据](<repo-root>/scripts/evaluate_a1_feature_fusion.py:96)
 
 其他消融按论点选择，不必全做：分支归一化、CLIP 网格对齐方式、DPAM 特征来源。每次只改变一个有实际数值作用的因素，出现退化也如实报告。
 
@@ -150,7 +150,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 环境 freeze 中含本机绝对 wheel 路径，权重也引用本机缓存；它们是有价值的历史环境快照，但不是外部机器可直接安装的依赖锁定文件。最小交付应补齐第三方固定提交、权重校验、wheel 官方获取方式、双环境安装顺序，以及 CPU / GPU 各自最小命令。无需因此重导出全部特征。
 
-历史 81、122、123、141 个测试通过记录来自不同时间或范围，其中也存在文档不一致。统一一份带日期、解释器及明确 `tests` 范围的记录即可，不要把这些数字混成当前 HEAD 的验收结果。另应把较新的 MPDD / BTAD 许可核查同步到正式发布说明；冻结旧包保留历史身份，正式 release 使用新的文件清单与哈希。详细入口和差异见 [复现审计附录](D:/STUDY/My_github/sci_project/docs/project_review_20260910/repro_audit.md)。（**2026-09-20 追注**：测试计数已收敛——仓库根新增 `pytest.ini` 界定正式范围，实测 260 passed / 0 failed；`141/141` 已就地标注为历史快照。见 `tests/README.md`。）
+历史 81、122、123、141 个测试通过记录来自不同时间或范围，其中也存在文档不一致。统一一份带日期、解释器及明确 `tests` 范围的记录即可，不要把这些数字混成当前 HEAD 的验收结果。另应把较新的 MPDD / BTAD 许可核查同步到正式发布说明；冻结旧包保留历史身份，正式 release 使用新的文件清单与哈希。详细入口和差异见 [复现审计附录](<repo-root>/docs/project_review_20260910/repro_audit.md)。（**2026-09-20 追注**：测试计数已收敛——仓库根新增 `pytest.ini` 界定正式范围，实测 260 passed / 0 failed；`141/141` 已就地标注为历史快照。见 `tests/README.md`。）
 
 ## 4. 创新突破：保留哪些方向
 
@@ -200,7 +200,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 图件方面，9/10 PPTX 的已有验收文件明确只检查包结构、布局和字体使用策略，未验算公式或完成原生 PowerPoint 字体渲染验证。这不是图件已知错误，但不能把结构 PASS 当作科学内容与投稿排版都已验收。本次查看了新主图 PNG，流程与当前方法整体相符；整篇最终排版仍应单独校读。
 
-参考文献也需要一次实际合并：当前正文为 33 条编号文献，工作 BibTeX 为 30 条，两者不是同一个最终列表；作者拼写、2026 年出版信息、DOI 和正文编号应以正式来源逐条对应。Markdown 中的可编辑公式提取占位不是公式缺失的证明，最终应检查 DOCX 的实际公式和导出页面。方法规格中的 `DAPM` / 正文 `DPAM` 拼写也应统一。上述属于最终稿整合任务，不能用“正文没有 TODO”代替完成。[论文材料审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/paper_audit.md)
+参考文献也需要一次实际合并：当前正文为 33 条编号文献，工作 BibTeX 为 30 条，两者不是同一个最终列表；作者拼写、2026 年出版信息、DOI 和正文编号应以正式来源逐条对应。Markdown 中的可编辑公式提取占位不是公式缺失的证明，最终应检查 DOCX 的实际公式和导出页面。方法规格中的 `DAPM` / 正文 `DPAM` 拼写也应统一。上述属于最终稿整合任务，不能用“正文没有 TODO”代替完成。[论文材料审计](<repo-root>/docs/project_review_20260910/paper_audit.md)
 
 如目标是偏方法创新的投稿，当前“固定融合 + 稳健评估”的新颖性风险仍然存在，需要更强机制或实证差异；如目标更重视应用与可复现性，应据此收敛贡献定位。具体期刊、篇幅、格式与作者声明要求尚需在投稿包中明确，本文不据现有材料预测录用结果。
 
@@ -208,19 +208,19 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 | 材料 | 用途 |
 |---|---|
-| [英文内容 9/6](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/English_content.md) | 当前英文论述核对入口 |
-| [中文对照 9/7](D:/STUDY/My_github/sci_project/docs/manuscript_chinese_review_20260907/中文对照内容.md) | 中文审阅与内容对齐 |
-| [冻结方法](D:/STUDY/My_github/sci_project/submission_repro_20260827/METHOD_SPEC_V2.md) | 方法参数；注意本文指出的顺序歧义 |
-| [完整指标](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md) | 主结果数值及指标边界 |
-| [统计](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md) | CI、配置与统计单位 |
-| [9/9 创新收口](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md) | 已探索方向、门槛和停止记录 |
-| [9/9 论文分析材料](D:/STUDY/My_github/sci_project/docs/paper_writing_preparation_20260830/38_BREADTH_NEGATIVE_PORTFOLIO_AND_LIMITATION_ANALYSIS_CN_20260909.md) | 待整合与收紧措辞的负结果材料 |
-| [9/10 基线规划](D:/STUDY/My_github/sci_project/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx) | 后续完整算法验证计划 |
-| [9/10 新主图](D:/STUDY/My_github/sci_project/docs/main_figure_redraw_20260910/DCFnet_Main_Figure_20260910.png) | 当前方法总图候选 |
-| [9/10 方法图集](D:/STUDY/My_github/sci_project/docs/figures_redraw_20260910/DCFnet_All_Figures_20260910.pdf) | 主图、融合、记忆及编码器说明 |
-| [工作区新增扩展图集](D:/STUDY/My_github/sci_project/docs/figures_teacher_revision_20260910/DCFnet_Figures_Expanded_20260910.pdf) | 基准提交之外的 teacher revision 材料；需选定版本并独立验收 |
-| [本轮创新审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/innovation_audit.md) | 逐轮数值、真实/合成/工程分类、未完成项与证据路径 |
-| [本轮论文审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/paper_audit.md) | 当前正文、图件、引用与投稿材料的逐项缺口 |
-| [本轮复现审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/repro_audit.md) | 调用链、当前哈希核查、历史验收、环境与发布边界 |
+| [英文内容 9/6](<repo-root>/docs/manuscript_english_polished_20260906/English_content.md) | 当前英文论述核对入口 |
+| [中文对照 9/7](<repo-root>/docs/manuscript_chinese_review_20260907/中文对照内容.md) | 中文审阅与内容对齐 |
+| [冻结方法](<repo-root>/submission_repro_20260827/METHOD_SPEC_V2.md) | 方法参数；注意本文指出的顺序歧义 |
+| [完整指标](<repo-root>/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md) | 主结果数值及指标边界 |
+| [统计](<repo-root>/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md) | CI、配置与统计单位 |
+| [9/9 创新收口](<repo-root>/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md) | 已探索方向、门槛和停止记录 |
+| [9/9 论文分析材料](<repo-root>/docs/paper_writing_preparation_20260830/38_BREADTH_NEGATIVE_PORTFOLIO_AND_LIMITATION_ANALYSIS_CN_20260909.md) | 待整合与收紧措辞的负结果材料 |
+| [9/10 基线规划](<repo-root>/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx) | 后续完整算法验证计划 |
+| [9/10 新主图](<repo-root>/docs/main_figure_redraw_20260910/DCFnet_Main_Figure_20260910.png) | 当前方法总图候选 |
+| [9/10 方法图集](<repo-root>/docs/figures_redraw_20260910/DCFnet_All_Figures_20260910.pdf) | 主图、融合、记忆及编码器说明 |
+| [工作区新增扩展图集](<repo-root>/docs/figures_teacher_revision_20260910/DCFnet_Figures_Expanded_20260910.pdf) | 基准提交之外的 teacher revision 材料；需选定版本并独立验收 |
+| [本轮创新审计](<repo-root>/docs/project_review_20260910/innovation_audit.md) | 逐轮数值、真实/合成/工程分类、未完成项与证据路径 |
+| [本轮论文审计](<repo-root>/docs/project_review_20260910/paper_audit.md) | 当前正文、图件、引用与投稿材料的逐项缺口 |
+| [本轮复现审计](<repo-root>/docs/project_review_20260910/repro_audit.md) | 调用链、当前哈希核查、历史验收、环境与发布边界 |
 
 后续验证任务建议直接以“任务、冻结输入、唯一改动、数据可用范围、指标、停止条件、产物位置”七项开头。优先执行已经收敛的计划，确保每一轮新增计算能回答一个尚未解决的问题。

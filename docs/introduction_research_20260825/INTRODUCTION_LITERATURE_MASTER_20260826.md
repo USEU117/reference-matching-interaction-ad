@@ -2,7 +2,7 @@
 
 更新时间：2026-08-26  
 检索范围：截至 2026 年已公开的 CVPR、ICCV、WACV、ICLR、ECCV、AAAI、Pattern Recognition、Expert Systems with Applications 及公开预印本。  
-用途：为 SCI-I 论文 Introduction、Related Work、Motivation 和公平性讨论提供统一资料包。
+用途：为 目标期刊 论文 Introduction、Related Work、Motivation 和公平性讨论提供统一资料包。
 
 ## 0. 与项目已有资料的整合关系
 

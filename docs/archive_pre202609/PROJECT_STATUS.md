@@ -500,7 +500,7 @@ CPU analysis has now completed the shot-, seed- and category-level comparison.
 - `outputs/dynamic_fusion/analysis_20260809/dynamic_fusion_scientific_analysis_20260809.xlsx`
 - `outputs/logs/promptad_mvtec_resumable_queue/status.json`
 
-### English SCI-style initial manuscript completed on 2026-08-10
+### English academic-style initial manuscript completed on 2026-08-10
 
 - Rewrote the available evidence as an English journal manuscript rather than
   translating the Chinese draft sentence by sentence.

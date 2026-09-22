@@ -1,6 +1,6 @@
 # Few-Shot Industrial Anomaly Detection — Reference-Matching × Representation Interaction
 
-> The repository is now named reference-matching-interaction-ad (https://github.com/USEU117/reference-matching-interaction-ad); the previous sci_project URL redirects to it. The section below is the current project description.
+> The repository is now named reference-matching-interaction-ad (https://github.com/USEU117/reference-matching-interaction-ad); the previous repository address redirects to it. The section below is the current project description.
 
 ## English
 

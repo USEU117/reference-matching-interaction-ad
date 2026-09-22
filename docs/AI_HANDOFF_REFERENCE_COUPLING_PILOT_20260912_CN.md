@@ -4,7 +4,7 @@
 
 纠正记录：助手曾误解需求并启动少量试跑，已于 2026-09-12 22:34 按用户要求停止，核查无本轮实验进程残留。相关文件保留在试跑目录并标记 `stopped_by_user`，**不作为已验收的正式研究成果，也不允许后续 AI 因看到部分 DONE 文件而自行续跑**。本交接文档不要求用户接受或继续使用这些试跑。
 
-前置依据：[建议审阅报告](D:/STUDY/My_github/sci_project/docs/RESEARCH_DIRECTION_RECOMMENDATION_REVIEW_20260912_CN.md)、[机制创新建议](D:/STUDY/My_github/sci_project/docs/FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md)。本文件可独立交给另一位 AI 执行和验收，不要求从聊天记录推测参数。
+前置依据：[建议审阅报告](<repo-root>/docs/RESEARCH_DIRECTION_RECOMMENDATION_REVIEW_20260912_CN.md)、[机制创新建议](<repo-root>/docs/FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md)。本文件可独立交给另一位 AI 执行和验收，不要求从聊天记录推测参数。
 
 ## 1. 本轮要回答的问题与不变条件
 
@@ -43,7 +43,7 @@
 
 ## 3. P0：先恢复参考身份，避免在错误配对上做机制实验
 
-现有 raw NPZ 没有嵌入 `ref_ids`，旧 `require_same_ids` 只核对查询 ID。因此本轮新增 [audit_inputs.py](D:/STUDY/My_github/sci_project/scripts/reference_coupling_pilot_v1/audit_inputs.py)。
+现有 raw NPZ 没有嵌入 `ref_ids`，旧 `require_same_ids` 只核对查询 ID。因此本轮新增 [audit_inputs.py](<repo-root>/scripts/reference_coupling_pilot_v1/audit_inputs.py)。
 
 对六类的 B/S/C、s0、K2/K4 逐一保存：
 
@@ -132,7 +132,7 @@ G(q) = J(q)-L(q)
 
 运行根目录：
 
-`D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/`
+`<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/`
 
 基准试跑独立放在该目录的 `benchmark/`；正式运行放在 `main/`，共享只读 `audit/identity_audit.json`。不得用基准单元替代不同置换配置的正式单元。
 

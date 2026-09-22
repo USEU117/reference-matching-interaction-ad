@@ -4,7 +4,7 @@
 
 审阅对象：[用户提供的建议](C:/Users/lynle/Downloads/RESEARCH_DIRECTION_RECOMMENDATION_FOR_CODEX_20260912_CN.md)。文件 SHA256：`7BB3BD4E6080E1FF312699BA0BF2916F8D0481FF0A3D4F4786AFEF1638F3ADA3`。附件是待评估的方案，其中“给 Codex 的直接任务建议”不等于本轮已经授权执行全部实验。
 
-关联：[上一版机制创新建议](D:/STUDY/My_github/sci_project/docs/FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md)、[固定融合完整规划](D:/STUDY/My_github/sci_project/docs/FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md)。本审阅收紧其中部分归因和新颖性措辞，保留历史文件。
+关联：[上一版机制创新建议](<repo-root>/docs/FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md)、[固定融合完整规划](<repo-root>/docs/FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md)。本审阅收紧其中部分归因和新颖性措辞，保留历史文件。
 
 ## 1. 总判断
 
@@ -165,12 +165,12 @@ lambda ∈ {0, 0.25, 0.5, 0.75, 1}
 
 | 核查项 | 实际情况 | 对执行的影响 |
 |---|---|---|
-| 原始 J/L 端点的已有结果 | R1 MAP_mean 相对 A1：K2 +0.005516753、K4 +0.003941738，均为 MPDD s0 宏 P-AP 增量；见 [K2 结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_breadth_20260908/RESULTS_s0_k2.json:65)、[K4 结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_breadth_20260908/RESULTS_s0_k4.json:65) | 独立 NN 平均已略优于联合 NN，提供弱动机；尚未定位到正常区域，也未证明三支失效原因 |
-| 加权融合实现 | [common.py](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/common.py:149) 将传入系数直接乘特征块，再 joint L2；精确检索为 FAISS IndexFlatL2，距离除 2 | 参数是特征缩放，不是有效距离权重。家族平衡需要显式开平方，并新增 B+B+C 的 A1 等价检查；不能原样传入 1/4、1/4、1/2 |
+| 原始 J/L 端点的已有结果 | R1 MAP_mean 相对 A1：K2 +0.005516753、K4 +0.003941738，均为 MPDD s0 宏 P-AP 增量；见 [K2 结果](<repo-root>/experiments/dynamic_fusion/innovation_breadth_20260908/RESULTS_s0_k2.json:65)、[K4 结果](<repo-root>/experiments/dynamic_fusion/innovation_breadth_20260908/RESULTS_s0_k4.json:65) | 独立 NN 平均已略优于联合 NN，提供弱动机；尚未定位到正常区域，也未证明三支失效原因 |
+| 加权融合实现 | [common.py](<repo-root>/scripts/validation_handoff_20260911/common.py:149) 将传入系数直接乘特征块，再 joint L2；精确检索为 FAISS IndexFlatL2，距离除 2 | 参数是特征缩放，不是有效距离权重。家族平衡需要显式开平方，并新增 B+B+C 的 A1 等价检查；不能原样传入 1/4、1/4、1/2 |
 | 缓存覆盖 | MPDD B/C 有 s0–2、K1/2/4；DINO-S 仅现有 s0/K2/K4 | 第一阶段可直接复用；新三支跨 seed/K 需补 S 缓存 |
-| 支持集合嵌套 | [MPDD manifest](D:/STUDY/My_github/sci_project/data/splits/mpdd/manifest.json:4) 声明 nested，逐类别逐 seed 核验 K1⊂K2⊂K4 成立 | MPDD 不必因为“未知是否嵌套”重建旧支持集；K8/16 和其他数据域仍需独立核验 |
-| 支持行身份 | `require_same_ids` 只校验查询 sample_ids；raw NPZ 无 ref_ids，见 [E0 输入审计](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E0/input_manifest.json:26)；当前使用全部 ref_patch_features，没有 coreset | **置换前先补参考图像及 patch 行顺序的可追溯校验。** 不能把查询对齐当成支持行已对齐；必要时从导出日志/manifest 重建，无法核实时进行受限重导出 |
-| 指标和调度 | [指标实现](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/common.py:179) 当前像素评价含 stride-8；[组合脚本](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/run_controlled_matrix.py:261) 固定 MPDD 等假设，没有区域 J/L/G 输出 | 新增区域统计与通用适配；关键小缺陷/区域结论用全像素复核，不能只看 stride-8 AUPRO |
+| 支持集合嵌套 | [MPDD manifest](<repo-root>/data/splits/mpdd/manifest.json:4) 声明 nested，逐类别逐 seed 核验 K1⊂K2⊂K4 成立 | MPDD 不必因为“未知是否嵌套”重建旧支持集；K8/16 和其他数据域仍需独立核验 |
+| 支持行身份 | `require_same_ids` 只校验查询 sample_ids；raw NPZ 无 ref_ids，见 [E0 输入审计](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E0/input_manifest.json:26)；当前使用全部 ref_patch_features，没有 coreset | **置换前先补参考图像及 patch 行顺序的可追溯校验。** 不能把查询对齐当成支持行已对齐；必要时从导出日志/manifest 重建，无法核实时进行受限重导出 |
+| 指标和调度 | [指标实现](<repo-root>/scripts/validation_handoff_20260911/common.py:179) 当前像素评价含 stride-8；[组合脚本](<repo-root>/scripts/validation_handoff_20260911/run_controlled_matrix.py:261) 固定 MPDD 等假设，没有区域 J/L/G 输出 | 新增区域统计与通用适配；关键小缺陷/区域结论用全像素复核，不能只看 stride-8 AUPRO |
 
 本次检索到的项目结果中没有附件所要求的复制控制/配对干预新实验；现有机制汇总仍引用 R1/E1–E4，不可将 9 月 12 日的文档或 QA 更新时间当成已完成验证。
 
@@ -178,9 +178,9 @@ lambda ∈ {0, 0.25, 0.5, 0.75, 1}
 
 ## 8. 与当前论文和老师要求的关系
 
-当前 [英文稿](D:/STUDY/My_github/sci_project/docs/manuscript_revision_20260905/English_content.md:1) 标题与摘要是 DCFnet 双视觉固定融合检测器，核心结果是相对 matched DINO 控制的定位收益。其方法解释了联合距离，但尚未提供本建议要求的机制归因。
+当前 [英文稿](<repo-root>/docs/manuscript_revision_20260905/English_content.md:1) 标题与摘要是 DCFnet 双视觉固定融合检测器，核心结果是相对 matched DINO 控制的定位收益。其方法解释了联合距离，但尚未提供本建议要求的机制归因。
 
-[课堂审核定稿清单 P02–P05](D:/STUDY/My_github/sci_project/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912_审核定稿版.md:38) 的实际边界是：
+[课堂审核定稿清单 P02–P05](<repo-root>/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912_审核定稿版.md:38) 的实际边界是：
 
 - 大量常规实验不能单独成为方法创新；具有独特问题、设计和发现的实证贡献可以谨慎讨论。
 - 当前方法贡献需要解释真实设计的价值、区别和证据；常规拼接/归一化不会自动成为新模块。

@@ -584,7 +584,7 @@ def build_doc() -> Path:
     configure_document(doc)
     props = doc.core_properties
     props.title = "When Should Visual and Language Evidence Be Fused? A Leakage-Safe Study of Uncertainty Routing for Few-Shot Industrial Anomaly Detection"
-    props.subject = "English SCI-style manuscript draft V0.3"
+    props.subject = "English academic-style manuscript draft V0.3"
     props.author = ""
     props.keywords = (
         "industrial anomaly detection; few-shot learning; vision-language model; "

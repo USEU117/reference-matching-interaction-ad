@@ -2,7 +2,7 @@
 
 日期：2026-09-12。状态：**研究建议与待执行协议草案；本次仅核查已有代码、结果和文献，没有运行新的算法实验。**
 
-配套任务书：[AI 实验交接与验收](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。最新已执行记录：[交接轮结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/FINAL_REPORT_CN.md)。本补充作为 E7 的新候选方向，**不修改已冻结协议、历史判定或结果文件**；运行前另立 `E7-F` 协议及输出目录。
+配套任务书：[AI 实验交接与验收](<repo-root>/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。最新已执行记录：[交接轮结果](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/FINAL_REPORT_CN.md)。本补充作为 E7 的新候选方向，**不修改已冻结协议、历史判定或结果文件**；运行前另立 `E7-F` 协议及输出目录。
 
 ## 1. 老师和用户的想法
 
@@ -27,11 +27,11 @@
 | DINO-B | 0.338797 | 0.313435 | −0.025363 |
 | DINO-S | 0.315717 | 0.322206 | +0.006489 |
 
-数据来自 [E1 逐配置指标](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E1/metrics_per_config.csv)，实现入口为 [受控矩阵脚本](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/run_controlled_matrix.py:79)。这是**具体硬筛选实现的结果**，不等于所有主体处理失败，也不是 A1 双分支输入增强的实验证据。该变体同时提供另一种图像聚合分数；讨论上表像素指标时，不把图像聚合方式当作像素变化原因。
+数据来自 [E1 逐配置指标](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E1/metrics_per_config.csv)，实现入口为 [受控矩阵脚本](<repo-root>/scripts/validation_handoff_20260911/run_controlled_matrix.py:79)。这是**具体硬筛选实现的结果**，不等于所有主体处理失败，也不是 A1 双分支输入增强的实验证据。该变体同时提供另一种图像聚合分数；讨论上表像素指标时，不把图像聚合方式当作像素变化原因。
 
-另一个 `official_native_B/S` 单元明确关闭了 masking 和 rotation，不能把它的结果当作“官方前景方法已完整验证”。见 [官方推理适配器](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/e1_native_official.py:66)。
+另一个 `official_native_B/S` 单元明确关闭了 masking 和 rotation，不能把它的结果当作“官方前景方法已完整验证”。见 [官方推理适配器](<repo-root>/scripts/validation_handoff_20260911/e1_native_official.py:66)。
 
-旧 [E7 未触发记录](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E7/DECISION.md) 将缺少可部署部件分割方法列为限制。接手者应区分：**已有粗前景 PCA 入口，不等于已有可靠多部件分割系统；缺少 SAM 等新权重，也不等于不能先做粗前景诊断。** 先查明旧掩码的失效方式，再决定是否引入新分割器。
+旧 [E7 未触发记录](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E7/DECISION.md) 将缺少可部署部件分割方法列为限制。接手者应区分：**已有粗前景 PCA 入口，不等于已有可靠多部件分割系统；缺少 SAM 等新权重，也不等于不能先做粗前景诊断。** 先查明旧掩码的失效方式，再决定是否引入新分割器。
 
 ## 3. 为什么可能有效，以及哪里容易出问题
 

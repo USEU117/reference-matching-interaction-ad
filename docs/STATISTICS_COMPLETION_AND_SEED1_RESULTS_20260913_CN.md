@@ -29,10 +29,10 @@
 
 新增代码（只写 `scripts/reference_coupling_pilot_v1/`，未改动 `run.py`/`engine.py`/`diagnostics.py`）：
 
-- [complete_statistics.py](D:/STUDY/My_github/sci_project/scripts/reference_coupling_pilot_v1/complete_statistics.py)：阶段 A 独立统计入口。
-- [test_complete_statistics.py](D:/STUDY/My_github/sci_project/scripts/reference_coupling_pilot_v1/test_complete_statistics.py)：9 项测试。
-- [replicate_seed1_bc.py](D:/STUDY/My_github/sci_project/scripts/reference_coupling_pilot_v1/replicate_seed1_bc.py)：阶段 B0 审计 + B1 复核入口。
-- [test_replicate_seed1_bc.py](D:/STUDY/My_github/sci_project/scripts/reference_coupling_pilot_v1/test_replicate_seed1_bc.py)：7 项测试。
+- [complete_statistics.py](<repo-root>/scripts/reference_coupling_pilot_v1/complete_statistics.py)：阶段 A 独立统计入口。
+- [test_complete_statistics.py](<repo-root>/scripts/reference_coupling_pilot_v1/test_complete_statistics.py)：9 项测试。
+- [replicate_seed1_bc.py](<repo-root>/scripts/reference_coupling_pilot_v1/replicate_seed1_bc.py)：阶段 B0 审计 + B1 复核入口。
+- [test_replicate_seed1_bc.py](<repo-root>/scripts/reference_coupling_pilot_v1/test_replicate_seed1_bc.py)：7 项测试。
 
 `pytest -q scripts/reference_coupling_pilot_v1` = **37 passed**。
 

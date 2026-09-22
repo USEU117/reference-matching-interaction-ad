@@ -41,7 +41,7 @@
 ## 3. 项目目录
 
 ```text
-sci_project/
+<repo-root>/
 ├── PLAN.md                         # 本文件：阶段计划与命令
 ├── PROJECT_STATUS.md               # 当前状态、阻塞项、下一动作
 ├── README.md                       # 项目入口

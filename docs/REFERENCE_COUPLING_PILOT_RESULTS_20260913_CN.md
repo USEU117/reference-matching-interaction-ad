@@ -1,6 +1,6 @@
 # 参考耦合机制试探 v1：执行与结果交接（2026-09-13）
 
-本文件是任务书 [AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md) 的执行交接：哪些任务完成、哪些只是诊断性试探、下一步具体补什么，以及当前论文**允许**与**不允许**写的结论。
+本文件是任务书 [AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md](<repo-root>/docs/AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md) 的执行交接：哪些任务完成、哪些只是诊断性试探、下一步具体补什么，以及当前论文**允许**与**不允许**写的结论。
 
 协议：`reference_coupling_pilot_v1`（预注册文件 `main_v2/PROTOCOL.json`，未覆盖）。数据集：MPDD，参考 seed=0，K=2/4，六类。本轮是**探索性完整小矩阵**，不是跨 seed、跨域确认性研究。
 

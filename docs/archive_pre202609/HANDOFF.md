@@ -55,7 +55,7 @@
 ## 3. 目录结构
 
 ```
-sci_project/
+<repo-root>/
 ├── configs/                    # 配置文件 (YAML 协议、GPU队列配置)
 ├── data/
 │   ├── splits/                 # 数据集划分 (mpdd/, btad/)

@@ -1,6 +1,6 @@
 # 项目清理审计（重复 / 时效性 / 精简）— 2026-09-22
 
-> 范围：全仓（`D:\STUDY\My_github\sci_project`），Windows / PowerShell，只读扫描 + 白名单删除 + 时效性更新。
+> 范围：全仓（`<repo-root>`），Windows / PowerShell，只读扫描 + 白名单删除 + 时效性更新。
 > 基线：`HEAD = 85d3207`，`main → origin/main` 且已同步（`origin/main..HEAD` = 0），10 tags，工作区除本任务新增/删除项外无其他改动。
 > 交付原则：**只执行可证明信息无损失的删除**（每条都给逐字节同哈希或"内容可再生"的凭据）；拿不准的一律只列清单。
 > 未做：git 提交、推送、GPU、实验、任何已发布产物的修改。
@@ -191,7 +191,7 @@
 | 13 | `docs/ISSUE_REGISTER_20260920.md:38` | `…已同步（HEAD de25a22）` | `…已同步（HEAD 85d3207，2026-09-22 复测；de25a22 为首次记录时的 HEAD）` | git 实测 |
 | 14 | `docs/REMEDIATION_PLAN_20260920.md:13` | `…（HEAD de25a22，2026-09-22 实测）` | `…（HEAD 85d3207，2026-09-22 复测；de25a22 为该条首次记录时的 HEAD）` | 同上 |
 | 15 | `docs/REMEDIATION_PLAN_20260920.md:140` | `12. 是否同意推送本地 main（超前远端 15 个提交）并推送 tags。` | `12. ~~…~~ —— **已办结**（2026-09-22 实测 origin/main..HEAD = 0，tags 已在远端）。` | `git rev-list --count origin/main..HEAD` = 0；10 tags 已在远端 |
-| 16 | `docs/SUBMISSION_METADATA.md:40` | `远端 USEU117/sci_project（拟改名 USEU117/reference-matching-interaction）` | `远端**已改名**为 USEU117/reference-matching-interaction-ad（旧地址自动重定向）；本地 origin 已指向新 URL` | `README.md:3`（HEAD `85d3207` 提交信息即"state the repository's actual name rather than the intended one"）；`git remote -v` |
+| 16 | `docs/SUBMISSION_METADATA.md:40` | `远端 USEU117/<旧仓库名>（拟改名 USEU117/reference-matching-interaction）` | `远端**已改名**为 USEU117/reference-matching-interaction-ad（旧地址自动重定向）；本地 origin 已指向新 URL` | `README.md:3`（HEAD `85d3207` 提交信息即"state the repository's actual name rather than the intended one"）；`git remote -v` |
 | 17 | `docs/GITHUB_METADATA.md:5` | `改名前后对照：…（远端改名由人手动做）` | 追加「**远端改名已完成**：本地 origin 已指向新 URL，`origin/main..HEAD` = 0；§3 网页步骤保留作记录，重跑无意义」 | 同上 |
 | 18 | `docs/paper_complete_teacher_review_20260920/论文与图件最终验收报告_20260920.md:36` 后 | `…但尚未达到导师曾建议的约 10 个公开方法规模` | 保留原句 + 追加「**2026-09-22 追注**：外部方法家族 2 → **5**（PatchCore、AnomalyDINO、SubspaceAD、WinCLIP+、AnomalyCLIP 零样本），单列 Table 12；导师 09-22 明确"近两三年三四个比较先进的方法比较合适"，"约 10 个"不再是缺口，P2 结案」 | `论文与图件问题汇总` §八 T06/T07；`ISSUE_REGISTER` R-20 刷新行；`REMEDIATION_PLAN` §执行状态 |
 | 19 | `scripts/limitation_closure_20260915/_night2_20260918/ACCEPTANCE_20260920.md:51` | `…（HEAD de25a22）。…（当前 HEAD de25a22；…）` | `…（HEAD 85d3207；本条首次记录时为 de25a22）。…（工作区有收口改动，未提交、未推送）` | git 实测 |
@@ -206,7 +206,7 @@
 | `docs/论文与图件问题汇总_仅复核_20260921.md:11,133,217,260` | `16,892 词`（09-21 晚实测） | 该轮次记录；同文件 §八"2026-09-22 权威稿重建结果"已给当前值 `16,969 词`；文件自定"前文不改写" |
 | `docs/论文与图件问题汇总_仅复核_20260921.md:100（F07）、149、BASELINE_EXPANSION_PLAN_20260921.md:3,4,132` | `约10个`、`只有两个外部家族` | 均已在原文中自我更正（F07「应予纠正」、line 4「F07 已更正」）；且 `line 3` 是**引用触发句**（引用不该改写） |
 | `docs/DYNAMIC_FUSION_NEXT_STEPS.md:7` | `当前基线提交 ac5c2f1 …超前 origin/main 1 个提交` | 2026-08 旧主线文档（`ARTIFACT_INDEX.md` §2.2 已声明"不代表当前结论"），"当前"是其当时的当前 |
-| `docs/HANDOFF.md:58`、`PLAN.md:44`、`tools/rename_folder_to_reference_matching_interaction.ps1`、`AI_HANDOFF_*.md` 中的 `sci_project` | 路径字样 | 是**本地物理路径**（磁盘目录确实仍叫 `sci_project`，`D:\STUDY\My_github\reference-matching-interaction` 是指向它的 junction）。仓库**名**的表述 README 已正确 |
+| `docs/HANDOFF.md:58`、`PLAN.md:44`、`tools/rename_folder_to_reference_matching_interaction.ps1`、`AI_HANDOFF_*.md` 中的 `<旧物理目录名>` | 路径字样 | 是**本地物理路径**（磁盘目录确实仍叫 `<旧物理目录名>`，`D:\STUDY\My_github\reference-matching-interaction` 是指向它的 junction）。仓库**名**的表述 README 已正确。**2026-09-22 追注**：`AI_HANDOFF_*.md`、`HANDOFF.md`、`PLAN.md` 等人类可读文档中的该字样本轮已中性化；`tools/rename_folder_to_reference_matching_interaction.ps1` 因功能依赖（它执行的就是从该旧目录名改名）**保留原样**，见 `docs/SCI_STRING_AUDIT_20260922.md` |
 | `docs/manuscript_review_20260906/01_…md:47`、`docs/manuscript_revision_20260905/00_…md:131`、`docs/project_review_20260910/paper_audit.md`、`ACCEPTANCE_20260920.md:28-29` | `9 张表`、`8 幅图`、`46 张页面图`、`19 个表格` | 各自轮次的交付记录（09-05/09-06/09-10/09-20），属历史 |
 | `docs/ISSUE_REGISTER_20260920.md:60`（R-11 首行）、`:147-153` | `超前远端 15 提交`、`未推送` | 09-20 原始登记；同文件 §〇ter 已加 09-22 刷新行判定"已解决" |
 | `docs/ISSUE_REGISTER_20260920.md:61`（R-12 `dist/` 未跟踪且未被 `.gitignore` 覆盖） | — | **该现象已不成立**：`.gitignore:73` 现为 `dist/`。本轮只在报告登记，未改该表（避免与"原文不改写 + 刷新行"体例冲突），**建议作者在 §〇ter 补一行 R-12 刷新** |

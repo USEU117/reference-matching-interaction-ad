@@ -1,4 +1,4 @@
-# SCI Paper Writing Preparation Hub (2026-08-30)
+# Paper Writing Preparation Hub (2026-08-30)
 
 本目录是当前 A1 主论文的唯一写作入口。它不替代实验、复现包或历史记录，只把这些材料组织成可直接用于英文论文写作的工作台。
 

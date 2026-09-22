@@ -44,9 +44,9 @@
 > 中英图注（英文 66 词）。**数值、前缀、对比量定义、容差全部未改**，10 行断言仍全部通过（最大偏差 2.4e−16）；
 > v1 产物备份为 `figS4_bootstrap_convergence.v1.{png,pdf,json}`，逐条对比见 `preview_figS4_v1_v2.html`。
 
-- 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（页数未在本次重建中重新测量；8 张正文图 + 4 张补充图（S1—S4，2026-09-20 起）；S4 尚未并入正文 docx）
-- 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](file:///d:/STUDY/My_github/sci_project/docs/manuscript_reference_matching_20260914/figures)
-- 可编辑母版：[figures_reference_matching_20260914.pptx](file:///d:/STUDY/My_github/sci_project/docs/figures_reference_matching_20260914/figures_reference_matching_20260914.pptx)（7 页）
+- 论文正文：[Reference_Matching_Interaction_English_Draft_20260914.docx](docs/manuscript_reference_matching_20260914/Reference_Matching_Interaction_English_Draft_20260914.docx)（页数未在本次重建中重新测量；8 张正文图 + 4 张补充图（S1—S4，2026-09-20 起）；S4 尚未并入正文 docx）
+- 正文插图目录（本稿实际嵌入的副本）：[manuscript_reference_matching_20260914/figures](docs/manuscript_reference_matching_20260914/figures)
+- 可编辑母版：[figures_reference_matching_20260914.pptx](docs/figures_reference_matching_20260914/figures_reference_matching_20260914.pptx)（7 页）
 - 数据根目录：`experiments/dynamic_fusion/representation_matching_interaction_20260914/`
 - 绘图脚本目录：`scripts/figures_reference_matching_20260914/`
 - 本轮合并日期：**2026-09-15**（图集重建 2026-09-18；2026-09-19 补图 4 的 MVTec/VisA 四数据集行、图 7 的 VisA 12 类与 MVTec 15 类与全部方法列）
@@ -367,7 +367,7 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
 也就没有 loss–iteration 曲线；为它画一条曲线等于编造过程。图 S4 承接导师原来的真实意图
 「结果/估计是否收敛、是否稳定」，用**已经落盘的自助样本前缀**回答，不新采样、不重算任何统计量。
 完整说明（含可直接写进论文/回复审稿人的英中段落）见
-[`docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`](file:///d:/STUDY/My_github/sci_project/docs/REFERENCE_FIG_CONVERGENCE_PLAN.md)。
+[`docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`](docs/REFERENCE_FIG_CONVERGENCE_PLAN.md)。
 
 **v1 → v2（2026-09-21，只动版面/标注/配色）**：v1 为 3 面板（(a) I_TRI 水平 ± 区间带、(b) I_BAL 同、(c) 宽度比），
 `2342 × 3360 px`、`665,788 B`、73 个 text artist；备份在 `figS4_bootstrap_convergence.v1.{png,pdf,json}`（同目录）。

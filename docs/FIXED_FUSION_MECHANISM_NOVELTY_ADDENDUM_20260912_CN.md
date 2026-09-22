@@ -2,7 +2,7 @@
 
 日期：2026-09-12。状态：**研究建议与文献边界核查；本轮没有执行新增模型实验。文中机制均为待检验假设。**
 
-配套入口：[固定融合研究定位与完整实验规划](D:/STUDY/My_github/sci_project/docs/FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md)、[原交接任务书](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。本文件补充“怎样让受控比较产生独特发现”，不替换原报告，不修改冻结 A1 或历史结果。
+配套入口：[固定融合研究定位与完整实验规划](<repo-root>/docs/FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md)、[原交接任务书](<repo-root>/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。本文件补充“怎样让受控比较产生独特发现”，不替换原报告，不修改冻结 A1 或历史结果。
 
 ## 1. 推荐收敛为一个问题
 
@@ -75,7 +75,7 @@ L(q) = sum_j w_j min_r d_j(q,r)       # 各支独立近邻
 G(q) = J(q) - L(q) >= 0
 ```
 
-这条不等式是基础事实，项目正文已有两种几何的解释，R1 已有独立 NN 的 MAP_mean。**G、近邻重合率或再跑一遍 MAP_mean 本身都不能算新创新。** 见[原创新审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/innovation_audit.md:95)和[已有实现](D:/STUDY/My_github/sci_project/scripts/innovation_breadth_20260908/probe_breadth.py:142)。
+这条不等式是基础事实，项目正文已有两种几何的解释，R1 已有独立 NN 的 MAP_mean。**G、近邻重合率或再跑一遍 MAP_mean 本身都不能算新创新。** 见[原创新审计](<repo-root>/docs/project_review_20260910/innovation_audit.md:95)和[已有实现](<repo-root>/scripts/innovation_breadth_20260908/probe_breadth.py:142)。
 
 ### 4.2 真正新增的干预
 
@@ -109,7 +109,7 @@ G(q) = J(q) - L(q) >= 0
 
 ### 5.1 先利用现有缓存做可行性检查
 
-建议新建独立实验名称 `fixed_fusion_mechanism_v1`。本轮没有创建实验运行目录。复用[受控组合脚本](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/run_controlled_matrix.py)和[共同评分模块](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/common.py)，通过新脚本调用，不覆盖旧结果。
+建议新建独立实验名称 `fixed_fusion_mechanism_v1`。本轮没有创建实验运行目录。复用[受控组合脚本](<repo-root>/scripts/validation_handoff_20260911/run_controlled_matrix.py)和[共同评分模块](<repo-root>/scripts/validation_handoff_20260911/common.py)，通过新脚本调用，不覆盖旧结果。
 
 第一阶段只用已有 MPDD 六类、seed 0、K2/K4 缓存：
 
@@ -168,7 +168,7 @@ UIP-AD 的 PDF 由搜索索引读取到方法及动机正文，直接访问遇�
 > 剩余可主张的增量只能限定为：**冻结编码器 + 少样本工业定位下，把有效权重与新增表征分离，
 > 并对「参考匹配模式 × 新增/替换视觉表征分支」给出带重复种子与区间估计的直接交互，
 > 再用第二个编码器检验其是否只属于原组合**。证据与逐篇出处见
-> [`experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv`](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv)
+> [`experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv`](<repo-root>/experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/literature_verification_20260914.csv)
 > 与同目录 `multi_view_neighborhood_prior_art.csv`。
 
 正式写稿前须对上述近邻工作全文逐项核查，并记录任务、训练监督、分支定义、是否控制权重、参考配对干预、K 交互和失败分析；若发现重合，应调整贡献范围。

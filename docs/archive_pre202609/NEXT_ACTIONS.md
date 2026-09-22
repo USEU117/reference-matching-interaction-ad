@@ -48,7 +48,7 @@
 - `outputs/dynamic_fusion/figures/20260809_scientific_analysis/`
 - `outputs/dynamic_fusion/analysis_20260809/dynamic_fusion_scientific_analysis_20260809.xlsx`
 
-## P2：论文初稿材料（已完成中文 V0.1 与英文 SCI 风格 V0.2）
+## P2：论文初稿材料（已完成中文 V0.1 与英文 学术风格 V0.2）
 
 - [x] 根据已完成材料搭建论文方法、实验、结果、消融、失败案例和局限性章节。
 - [x] 将 DynamicFusion 的局部定位收益与总体图像级失败同时写清楚。

@@ -86,7 +86,7 @@ D: 剩余空间            : 约 190 GB
 ### 3.1 VisA 矩阵剩余 69 个单元（75/144 已完成）
 
 ```powershell
-cd D:\STUDY\My_github\sci_project
+cd <repo-root>
 Start-Process -FilePath 'powershell.exe' -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass',
   '-File','scripts\limitation_closure_20260915\run_visa_parallel.ps1',
   '-Concurrency','3','-Device','cuda','-Python','.venv-anomalyclip\Scripts\python.exe' -WindowStyle Hidden
@@ -544,7 +544,7 @@ rev_correct 版本（faithful GT + 坐标正确重网格）需要新代码路径
 ```powershell
 # 启动（分离进程，启动后可以直接关闭终端）
 Start-Process powershell -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-File',
-  'D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\night_run_20260917.ps1' -WindowStyle Hidden
+  '<repo-root>\scripts\limitation_closure_20260915\night_run_20260917.ps1' -WindowStyle Hidden
 
 # 只做环境预检，不启动任何实验
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts\limitation_closure_20260915\night_run_20260917.ps1 -PreflightOnly

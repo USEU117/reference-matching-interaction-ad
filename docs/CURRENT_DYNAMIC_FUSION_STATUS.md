@@ -137,7 +137,7 @@
 5. **P1-E 完整指标主表**：✅ 已聚合。`p1_e_complete_metrics.*` 汇总四数据集36份报告、72个method-config rows和六项指标，输入哈希齐全；相对P0 Pixel-AP最大差 `3e-6`。重要边界：四数据集稳定提升针对Pixel-AP；BTAD Image-AP约 `−0.0131`、Image-F1-max约 `−0.0237`，不得宣称所有检测/定位指标全面提升。
 6. **定性图**：✅ 已完成（R4）。`scripts/build_a1_qualitative_figures.py` 从 P1-B 固定 sample IDs + compact concat/DINO maps + 合法本地原图/GT 生成 7 张固定成功/失败案例图（含 DINO-only 与 A1 对照、逐图 Pixel-AP）；图文件本地保存于 `outputs/p1_b_figures/`（gitignored，含不可再分发原图），包内 `evidence/p1/p1_b_figures_manifest.*` 记录选择规则、source IDs 与文件哈希；未据图调参。
 7. **发布人工 Gate**：代码 LICENSE 已选 **MIT**；MPDD 官方仓库为 CC BY-NC-SA 4.0，BTAD 原作者仓库链接确认 CC BY-SA 4.0。数据原图和第三方权重继续不进入 compact 包；最终公开前仍需刷新 release notice、哈希和归档 URL。
-8. **P2/P3**：上述准备完成后重写论文，再实时核验目标 SCI 四区期刊的最新分区、scope 与格式。
+8. **P2/P3**：上述准备完成后重写论文，再实时核验目标 应用/实证型期刊的最新分区、scope 与格式。
 
 P1-A/B/D 已同时包含机器可读 JSON/CSV、Markdown 表、生成脚本、输入 source pointer 与无测试标签调参声明。P1-C 的预热端到端稳态 benchmark 与峰值进程 RAM 已实测并入包（`scripts/p1_c_benchmark.py`，MVTec bottle s0/k1：DINO 0.0631s / CLIP 0.3047s / concat 0.0471s，端到端 0.4146s、2.412 img/s，峰值进程 RAM 3980.9MB）。
 

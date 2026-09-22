@@ -2,13 +2,13 @@
 
 本审计只读完成，未修改论文、图源或实验，未运行 GPU。版本判定以正文和最新材料为准，不以旧总状态页为准。
 
-收尾补核（2026-09-11）：后续创新审计确认 R1 `MAP_mean` 已实现同一冻结缓存和后处理下的独立分支 NN 平均，相对 A1 的 k2/k4 宏 ΔPixel-AP 为 +0.005517/+0.003942，均未达到既定 +0.01 门槛。依据为 [probe_breadth.py](D:/STUDY/My_github/sci_project/scripts/innovation_breadth_20260908/probe_breadth.py:142)。因此当前正文的“拼接检索/分数融合对照尚未完成”已被这项后续开发实验部分关闭，应先整合已有证据，无需重复运行；分支归一化、网格对齐、DPAM 的独立组件消融及更广验证仍有缺口。
+收尾补核（2026-09-11）：后续创新审计确认 R1 `MAP_mean` 已实现同一冻结缓存和后处理下的独立分支 NN 平均，相对 A1 的 k2/k4 宏 ΔPixel-AP 为 +0.005517/+0.003942，均未达到既定 +0.01 门槛。依据为 [probe_breadth.py](<repo-root>/scripts/innovation_breadth_20260908/probe_breadth.py:142)。因此当前正文的“拼接检索/分数融合对照尚未完成”已被这项后续开发实验部分关闭，应先整合已有证据，无需重复运行；分支归一化、网格对齐、DPAM 的独立组件消融及更广验证仍有缺口。
 
 ## 版本判定
 
-- 当前完整英文正文是 [`docs/manuscript_english_polished_20260906/English_content.md`](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/English_content.md:1)，共 451 行；最新日期的中文审阅稿是 [`docs/manuscript_chinese_review_20260907/中文对照内容.md`](D:/STUDY/My_github/sci_project/docs/manuscript_chinese_review_20260907/中文对照内容.md:1)，与英文正文保持同一正文结构。因此当前可审阅稿应视为 2026-09-06 英文稿 + 2026-09-07 中文对照稿。
-- 英文修改说明确认实验数据未改、保留 9 张表、8 幅图和 8 个编号公式，但也明确目标期刊尚未确定、当前仍是统一格式审阅初稿（[`docs/manuscript_english_polished_20260906/本轮修改说明.md`](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/本轮修改说明.md:3)）。
-- 2026-09-10 的新图包 [`docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx`](D:/STUDY/My_github/sci_project/docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx) 及其 PDF/PNG 目前只有 Fig. 1–3、Fig. S1–S2 五张方法图；验证记录也只报告 5 页 ([`.tmp_allfig_20260910/validation-v2.json`](D:/STUDY/My_github/sci_project/.tmp_allfig_20260910/validation-v2.json:7))。
+- 当前完整英文正文是 [`docs/manuscript_english_polished_20260906/English_content.md`](<repo-root>/docs/manuscript_english_polished_20260906/English_content.md:1)，共 451 行；最新日期的中文审阅稿是 [`docs/manuscript_chinese_review_20260907/中文对照内容.md`](<repo-root>/docs/manuscript_chinese_review_20260907/中文对照内容.md:1)，与英文正文保持同一正文结构。因此当前可审阅稿应视为 2026-09-06 英文稿 + 2026-09-07 中文对照稿。
+- 英文修改说明确认实验数据未改、保留 9 张表、8 幅图和 8 个编号公式，但也明确目标期刊尚未确定、当前仍是统一格式审阅初稿（[`docs/manuscript_english_polished_20260906/本轮修改说明.md`](<repo-root>/docs/manuscript_english_polished_20260906/本轮修改说明.md:3)）。
+- 2026-09-10 的新图包 [`docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx`](<repo-root>/docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx) 及其 PDF/PNG 目前只有 Fig. 1–3、Fig. S1–S2 五张方法图；验证记录也只报告 5 页 ([`.tmp_allfig_20260910/validation-v2.json`](<repo-root>/.tmp_allfig_20260910/validation-v2.json:7))。
 
 ## 已存在且可安全使用的证据
 

@@ -43,7 +43,7 @@
 
 ## 3. 本地已完成多少，哪些还不够
 
-主证据入口：[最新交接轮报告](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/FINAL_REPORT_CN.md)、[原交接任务书](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。本次只读核查文件与指标，没有重新运行模型。
+主证据入口：[最新交接轮报告](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/FINAL_REPORT_CN.md)、[原交接任务书](<repo-root>/docs/AI_HANDOFF_VALIDATION_AND_INNOVATION_20260911_CN.md)。本次只读核查文件与指标，没有重新运行模型。
 
 ### 3.1 可以保留的扎实基础
 
@@ -67,7 +67,7 @@ B=DINOv2-B；S=DINOv2-S；C=当前 CLIP 视觉 patch。下表均为 MPDD s0 K2/K
 | S+C | 2 | 0.333207 | −0.032810 |
 | B+S+C | 3 | 0.353675 | −0.012343 |
 
-来源：[E2 指标](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E2/metrics_per_config.csv)、[E4 指标](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E4/metrics_per_config.csv)。C 原生 37 网格额外参照为 0.290332，不能替代同网格组成单支。
+来源：[E2 指标](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E2/metrics_per_config.csv)、[E4 指标](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E4/metrics_per_config.csv)。C 原生 37 网格额外参照为 0.290332，不能替代同网格组成单支。
 
 可以说：在这些预定组合和两个配置内，B+C 最好，加入 S 后退化约 1.23 个百分点。不能说：第三视觉普遍无用、任何三分支都不如两支、文本一定无效，或者已找到准确率上限。
 
@@ -85,7 +85,7 @@ B/S 都属于 DINOv2 家族，因此这里只有两个表征家族。B/S 高相�
 | SubspaceAD 完整但协议不同 | 243 单元不等于同条件比较完成 | 锁定支持 ID、统一原图映射/评价再进入主比较，保留原生结果 |
 | E8 名称含 end-to-end，内容以阶段为主 | 不能支撑完整系统成本边界 | 补原图→全部编码器→输出的真实延迟 |
 
-成本核查：[E8 摘要](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/validation_handoff_20260911/E8/end_to_end_cost_summary.json) 中编码器计时只列 DINO B/S；`mean_query_p50_ms` 为缓存检索、resize、Gaussian 路径。A1 约 102 ms、三支约 123 ms **不是两/三个编码器从原图出发的完整时延**。CLIP 前向和完整显存共存/加载策略仍需统一测量；同进程历史峰值 RAM 也不能直接当每个方法独立峰值。
+成本核查：[E8 摘要](<repo-root>/experiments/dynamic_fusion/validation_handoff_20260911/E8/end_to_end_cost_summary.json) 中编码器计时只列 DINO B/S；`mean_query_p50_ms` 为缓存检索、resize、Gaussian 路径。A1 约 102 ms、三支约 123 ms **不是两/三个编码器从原图出发的完整时延**。CLIP 前向和完整显存共存/加载策略仍需统一测量；同进程历史峰值 RAM 也不能直接当每个方法独立峰值。
 
 记录层面还存在小缺口：E3 索引曾声称每包都有 `PROTOCOL.json`，实际 E3 此文件缺失；部分 Markdown 旧表仍写 AnomalyDINO MVTec 8 配置，最新重建后应为 9 配置、宏 P-AP 约 0.570974。后续同步索引、CSV 与正文，但不把这些文档差异写成算法错误。
 
@@ -232,7 +232,7 @@ D 不需要立刻与全部文本子集交叉。先检查三视觉结论是否随
 
 **稿件结构：** 研究问题→受控协议→现有 A1 与两类固定融合定义→分支/模态矩阵→机制与失败条件→成本权衡→局限。A1 保留为主要基准/具体实例；新分支只有实际运行后才进入结果图。完整研究型定位下，需要改题目、摘要、贡献段与讨论，不能只在旧“新方法 SOTA”叙述后追加三支表。
 
-老师的 [课堂修改记录](D:/STUDY/My_github/sci_project/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912.md) 明确：实验多不自动成为核心创新；多分支可讨论但首创性未成立；三分支对比放实验分析。用户现在的新意图可支持另立研究协议，但不能据此推断老师已经认可研究型论文的全部定位。
+老师的 [课堂修改记录](<repo-root>/docs/lesson_notes_20260912/DCFnet_课堂修改要求与执行清单_20260912.md) 明确：实验多不自动成为核心创新；多分支可讨论但首创性未成立；三分支对比放实验分析。用户现在的新意图可支持另立研究协议，但不能据此推断老师已经认可研究型论文的全部定位。
 
 建议最终贡献只有三项，均在证据成立后定稿：
 
@@ -255,7 +255,7 @@ D 不需要立刻与全部文本子集交叉。先检查三视觉结论是否随
 | P3 | 完整成本与必要基线修正 | 含 CLIP/T 与所有前后处理的原图端到端计时；原生与 matched 分表 |
 | P4 | 新研究稿与图表 | 分支数/K 曲线、边际贡献热图、邻居冲突分析、Pareto 与同样本失败图；没有训练的 A1 不画虚构 loss 曲线 |
 
-执行可复用 [受控组合脚本](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/run_controlled_matrix.py)、[共同评分模块](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/common.py)、[bootstrap 脚本](D:/STUDY/My_github/sci_project/scripts/validation_handoff_20260911/bootstrap_primary.py)。它们当前有 MPDD/s0/K2/K4 与分支名称等固定假设，不能只换命令行就假定支持四数据集和文本；复制/新增通用适配器，保持旧结果可复现。
+执行可复用 [受控组合脚本](<repo-root>/scripts/validation_handoff_20260911/run_controlled_matrix.py)、[共同评分模块](<repo-root>/scripts/validation_handoff_20260911/common.py)、[bootstrap 脚本](<repo-root>/scripts/validation_handoff_20260911/bootstrap_primary.py)。它们当前有 MPDD/s0/K2/K4 与分支名称等固定假设，不能只换命令行就假定支持四数据集和文本；复制/新增通用适配器，保持旧结果可复现。
 
 建议新增运行目录 `experiments/dynamic_fusion/fixed_fusion_study_20260912/`，本次未创建该实验目录。交付至少包括：`PROTOCOL.json`、方法身份/数据/成本注册表、逐类和逐配置 CSV、预测/特征 manifest、配对统计、命令与日志、未完成原因、`FINAL_REPORT_CN.md`。报告逐项回答：哪些添加有增益、哪些冗余、文本收益在哪一级、是否跨 K/域、成本是否值得、证据还不能说明什么。
 

@@ -207,7 +207,7 @@ def main():
 
     doc.core_properties.title = "少样本工业异常检测项目总览"
     doc.core_properties.subject = "V1-V3 方案演进与当前结论"
-    doc.core_properties.author = "SCI Project"
+    doc.core_properties.author = "Reference Matching Interaction"
     OUT.parent.mkdir(parents=True, exist_ok=True)
     doc.save(OUT)
     print(OUT)

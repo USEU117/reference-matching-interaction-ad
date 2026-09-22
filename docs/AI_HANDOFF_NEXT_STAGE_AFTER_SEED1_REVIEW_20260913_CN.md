@@ -1,10 +1,10 @@
 # 最新结果审阅与下一阶段执行交接
 
-日期：2026-09-13。项目：`D:/STUDY/My_github/sci_project`。
+日期：2026-09-13。项目：`<repo-root>`。
 
 ## 1. 使用说明与当前结论
 
-本文件承接 [统计与独立复核交接](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_STATISTICS_AND_INDEPENDENT_REPLICATION_20260913_CN.md)，根据其后新完成的结果更新任务优先级。**旧文档中的阶段 A、B0、B1 已有结果，不应因旧文档仍写“待做”就重复运行。**
+本文件承接 [统计与独立复核交接](<repo-root>/docs/AI_HANDOFF_STATISTICS_AND_INDEPENDENT_REPLICATION_20260913_CN.md)，根据其后新完成的结果更新任务优先级。**旧文档中的阶段 A、B0、B1 已有结果，不应因旧文档仍写“待做”就重复运行。**
 
 用户本次要求查看结果、分析现状并生成下一步交接文档。本轮没有启动模型推理、特征导出或新的 bootstrap；只读取文件，对已保存的逐类指标及复制数组作轻量汇总。以下实验计划需后续获得执行指令才能启动。用户此前希望保留 Codex Plus 额度；不要把“五小时用量窗口”理解成必须连续计算五小时。
 
@@ -29,10 +29,10 @@
 
 直接阅读：
 
-- [新增执行报告](D:/STUDY/My_github/sci_project/docs/STATISTICS_COMPLETION_AND_SEED1_RESULTS_20260913_CN.md)：总体成果，存在第 5 节列出的表述问题。
-- [seed0 统计验收](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/statistics_completion_20260913/verification.json)：21 方法点估计 1008 项对照最大差约 `4.44e-16`；原九个方法两个 K 各 36000 项复制级对照误差为 0。
-- [seed0 配对差值](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/statistics_completion_20260913/paired_deltas.csv)、[seed1 配对差值](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/replication_seed1_bc_20260913/paired_deltas.csv)：优先于报告文字。
-- [本次轻量复核数据](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/review_20260913/RESULTS_REVIEW_FOR_NEXT_STAGE.json)：逐类差值、留一类别宏均值、新补列的既有复制对比，以及源文件 SHA256。
+- [新增执行报告](<repo-root>/docs/STATISTICS_COMPLETION_AND_SEED1_RESULTS_20260913_CN.md)：总体成果，存在第 5 节列出的表述问题。
+- [seed0 统计验收](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/statistics_completion_20260913/verification.json)：21 方法点估计 1008 项对照最大差约 `4.44e-16`；原九个方法两个 K 各 36000 项复制级对照误差为 0。
+- [seed0 配对差值](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/statistics_completion_20260913/paired_deltas.csv)、[seed1 配对差值](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/replication_seed1_bc_20260913/paired_deltas.csv)：优先于报告文字。
+- [本次轻量复核数据](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/review_20260913/RESULTS_REVIEW_FOR_NEXT_STAGE.json)：逐类差值、留一类别宏均值、新补列的既有复制对比，以及源文件 SHA256。
 
 执行报告记载测试 37 passed，本次未重跑测试。当前分析依据实际 CSV、小型复制 NPZ 和验收记录，不代表本次独立重算了所有大缓存哈希或重放全部预测。
 

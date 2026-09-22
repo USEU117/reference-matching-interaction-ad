@@ -2,7 +2,7 @@
 
 - 日期：2026-09-20（Asia/Shanghai）
 - 范围：外部只读审计结论的逐条归档；证据均为本次在盘上实读所得（命令 / 文件 / 实测值），未验证的显式标注。
-- 仓库：`d:\STUDY\My_github\sci_project`；证据采集时的 HEAD `841b478`（annotated tag `final-20260920` 的 peeled commit 即此提交）。
+- 仓库：`<repo-root>`；证据采集时的 HEAD `841b478`（annotated tag `final-20260920` 的 peeled commit 即此提交）。
 - 约定：**本文档只登记问题**；处置动作与验收标准见 `docs/REMEDIATION_PLAN_20260920.md`。
 
 ## 〇、审计认定"已真正补齐"的事实（本登记不列为问题，仅作为基线）

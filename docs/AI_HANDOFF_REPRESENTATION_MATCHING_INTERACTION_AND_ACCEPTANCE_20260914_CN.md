@@ -2,7 +2,7 @@
 
 编写时间：2026-09-14 上午，依据 11:37 后检查到的项目状态。
 
-项目：`D:/STUDY/My_github/sci_project`。
+项目：`<repo-root>`。
 
 ## 0. 用户意图与任务边界
 
@@ -344,6 +344,6 @@ NEW/
 5. 经合理配置、统一评价后，与成熟方法相比效果和资源代价如何？
 6. 与最近似论文相比，新增的可核实知识是什么，哪些表述仍不能使用？
 
-最终用一页中文概述这些答案，并给出机器表索引和未完成清单。**完成标准是这些问题得到可复核的回答，而不是必须获得正向交互、最优三分支或SCI录用保证。**
+最终用一页中文概述这些答案，并给出机器表索引和未完成清单。**完成标准是这些问题得到可复核的回答，而不是必须获得正向交互、最优三分支或录用保证。**
 
-相关文档：[最新完整项目交接](D:/STUDY/My_github/sci_project/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)、[论文大纲与通俗说明](D:/STUDY/My_github/sci_project/docs/PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md)。本文件按今天上午新增产物更新剩余任务，不覆盖历史记录。
+相关文档：[最新完整项目交接](<repo-root>/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)、[论文大纲与通俗说明](<repo-root>/docs/PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md)。本文件按今天上午新增产物更新剩余任务，不覆盖历史记录。

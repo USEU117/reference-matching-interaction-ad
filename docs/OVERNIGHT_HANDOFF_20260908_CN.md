@@ -7,7 +7,7 @@
 1. **确定性较高的工程优化：全量 memory 的 FP16 / INT8 存储压缩。** 基本保留异常排序与 AP，且不删除 memory 单元。
 2. **值得继续研究的质量问题：细节分辨率、完整上下文与异常排序的取舍。** 合成小缺陷收益明确，真实像素定位收益尚未成立，不能直接升级主方法。
 
-项目根目录：`D:/STUDY/My_github/sci_project`。本夜未修改冻结 A1、历史原始实验结果和论文主表。
+项目根目录：`<repo-root>`。本夜未修改冻结 A1、历史原始实验结果和论文主表。
 
 ## 已取得的成果
 
@@ -65,7 +65,7 @@
 
 ## 复现入口
 
-全部脚本位于：`D:/STUDY/My_github/sci_project/scripts/innovation_overnight_20260908/`。
+全部脚本位于：`<repo-root>/scripts/innovation_overnight_20260908/`。
 
 运行环境：现有 `.venv-anomalyclip/Scripts/python.exe`。各方向目录均保存协议、JSON结果和中文结论；运行前先读协议，不必重跑全部实验。
 

@@ -1,6 +1,6 @@
 # 五个研究方向的论文整合与支撑实验交接
 
-日期：2026-09-13。项目根目录：`D:/STUDY/My_github/sci_project`。
+日期：2026-09-13。项目根目录：`<repo-root>`。
 
 ## 0. 用户要求与交接边界
 
@@ -70,7 +70,7 @@
 
 ## 3. 已有成果：可以直接复用什么
 
-主索引：[最终结果汇总](D:/STUDY/My_github/sci_project/docs/CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md)、[通俗成果报告](D:/STUDY/My_github/sci_project/docs/INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md)。
+主索引：[最终结果汇总](<repo-root>/docs/CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md)、[通俗成果报告](<repo-root>/docs/INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md)。
 
 实验根目录：`experiments/dynamic_fusion/reference_coupling_pilot_20260912/`。
 

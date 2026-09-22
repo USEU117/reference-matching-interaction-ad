@@ -224,6 +224,6 @@ L(q) = Σ_b w_b min_r d_b(q,r)       每个分支分别选择参考行
 
 ## 六、写作依据
 
-- [此前中文母稿](D:/STUDY/My_github/sci_project/docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md)：沿用章节组织，不沿用过时的结论强度与数据口径。
-- [最新项目交接与证据审阅](D:/STUDY/My_github/sci_project/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)：当前结果、待修问题与剩余验证依据。
-- [五方向整合与原支撑实验计划](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_UNIFIED_PAPER_AND_SUPPORT_EXPERIMENTS_20260913_CN.md)：研究问题和公平对照的设计来源。
+- [此前中文母稿](<repo-root>/docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md)：沿用章节组织，不沿用过时的结论强度与数据口径。
+- [最新项目交接与证据审阅](<repo-root>/docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md)：当前结果、待修问题与剩余验证依据。
+- [五方向整合与原支撑实验计划](<repo-root>/docs/AI_HANDOFF_UNIFIED_PAPER_AND_SUPPORT_EXPERIMENTS_20260913_CN.md)：研究问题和公平对照的设计来源。

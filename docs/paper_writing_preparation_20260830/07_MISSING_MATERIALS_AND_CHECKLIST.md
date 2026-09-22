@@ -122,7 +122,7 @@ confirmation 4/6 正）。据此：
 
 1. 文本图像级 +0.0249 降级为 seed0 exploratory observation；不进入论文贡献/主方法。
 2. GLSD 双输出系统未冻结；TCRR 未开发；BTAD/MVTec 未验证；外部验证开关保持默认关闭。
-3. 投稿主路不变：A1 双视觉固定融合 + 严格实证/负结果边界（等级：中等偏弱，SCI 四区应用/实证型）。
+3. 投稿主路不变：A1 双视觉固定融合 + 严格实证/负结果边界（等级：中等偏弱，应用/实证型）。
 4. 下一可执行项回到"锁定目标期刊 → 完成 A1 英文 Method/Experiments/Results → 投稿前清单"。
 
 证据：`experiments/dynamic_fusion/innovation_v7_global_text/01_mpdd_full/PHASE1_DECISION.md`

@@ -38,7 +38,7 @@ matched DINO-only control 除去 CLIP 分支和 concat，其余参考图、KNN�
 
 ## 5. 推荐贡献表述
 
-以下三点足以支撑一篇定位克制的 SCI 论文：
+以下三点足以支撑一篇定位克制的 论文：
 
 1. **Controlled evidence.** We isolate the effect of adding a second frozen visual representation through a matched DINO-only control under an otherwise identical normal-memory pipeline.
 2. **Cross-dataset robustness and boundary analysis.** We evaluate 36 seed/shot configurations over four industrial datasets, report complete image- and pixel-level metrics, and characterize both consistent pixel-level gains and category-specific negative transfer.

@@ -8,7 +8,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 
 
-OUT = Path(r"D:\保研\SCI\少样本工业异常检测项目进度报告_2026-07-30.docx")
+OUT = Path(r"<local-docs>\少样本工业异常检测项目进度报告_2026-07-30.docx")
 
 
 def set_run_font(run, name="Calibri", size=11, color="000000", bold=None, italic=None):
@@ -236,7 +236,7 @@ def build():
         ["报告信息", "内容"],
         [
             ("报告日期", "2026年7月30日"),
-            ("项目目录", r"D:\STUDY\My_github\sci_project"),
+            ("项目目录", r"<repo-root>"),
             ("数据集", "MVTec AD（15类）和 VisA（12类）"),
             ("第一阶段目标", "完成1/2/4-shot、3-seed基准复现和统一评测"),
             ("当前阶段", "PromptAD VisA 4-shot、seed 0正在运行"),

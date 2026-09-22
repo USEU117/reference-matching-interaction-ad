@@ -1,6 +1,6 @@
 # AI 执行交接：视觉分支组合、强基线与创新验证
 
-版本：1.0｜编写日期：2026-09-11｜项目：`D:\STUDY\My_github\sci_project`
+版本：1.0｜编写日期：2026-09-11｜项目：`<repo-root>`
 
 本文件将项目现状审阅与用户后续关于双分支、第三分支、文本、动态融合和最优组合的问题合并为执行任务书。**目标是得到可复核的答案，不是保证得到正结果，也不是证明 A1 必须最好。** 本轮仅完善文档，以下新实验尚未因本文而执行。
 
@@ -54,7 +54,7 @@
 
 原生 AnomalyDINO 的 MVTec / VisA 平均 P-AP 为 0.5710 / 0.4117，已高于 A1 的 0.5546 / 0.3725；它使用 ViT-S/14 及自身管线，不能当作同一 matched DINO。ReMP-AD 的 MVTec 补充结果为 0.5790，但只有不同协议下的三组 shot 结果，不是九配置同条件比较。
 
-依据：[冻结方法](D:/STUDY/My_github/sci_project/submission_repro_20260827/METHOD_SPEC_V2.md)、[完整指标](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md)、[当前正文基线表](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/English_content.md:263)。
+依据：[冻结方法](<repo-root>/submission_repro_20260827/METHOD_SPEC_V2.md)、[完整指标](<repo-root>/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md)、[当前正文基线表](<repo-root>/docs/manuscript_english_polished_20260906/English_content.md:263)。
 
 ### 2.2 哪些已经做过，不可重新包装
 
@@ -72,7 +72,7 @@
 | PA 伪正常扩库 | 使用其他未标注测试图的 patch，排除查询自身；是 transductive | 与严格仅 K 正常支持样本的方法分组 |
 | T1/T2、多尺度、存储探针 | 部分只到合成/支持侧；不能统一写成真实门验证 | 使用原始 JSON 的具体状态；FP16/INT8 容量节省不等于运行加速 |
 
-历史证据入口：[V3.3-clean](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/v3_3_clean/gate_20260817/gate.md)、[动态/固定](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/v3_direction_a/a1_dynamic_vs_fixed_20260817/dynamic_vs_fixed.md)、[S1-HGLC](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_v6_dgsafe/s1_hglc/S1_HGLC_DECISION.md)、[v7](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_v7_global_text/01_mpdd_full/PHASE1_DECISION.md)、[v8 外部结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_v8_tcrr_probe/R3_OVERALL_DECISION.md)、[创新审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/innovation_audit.md)。
+历史证据入口：[V3.3-clean](<repo-root>/experiments/dynamic_fusion/v3_3_clean/gate_20260817/gate.md)、[动态/固定](<repo-root>/experiments/dynamic_fusion/v3_direction_a/a1_dynamic_vs_fixed_20260817/dynamic_vs_fixed.md)、[S1-HGLC](<repo-root>/experiments/dynamic_fusion/innovation_v6_dgsafe/s1_hglc/S1_HGLC_DECISION.md)、[v7](<repo-root>/experiments/dynamic_fusion/innovation_v7_global_text/01_mpdd_full/PHASE1_DECISION.md)、[v8 外部结果](<repo-root>/experiments/dynamic_fusion/innovation_v8_tcrr_probe/R3_OVERALL_DECISION.md)、[创新审计](<repo-root>/docs/project_review_20260910/innovation_audit.md)。
 
 ## 3. 执行范围、优先级与完成定义
 
@@ -234,7 +234,7 @@ G2 必须六配置及全部类别齐全；G3 必须每数据集九配置及全�
 
 **目的：** 回答实际竞争力，不以基线能否输给 A1 作为选择或复现成功条件。
 
-优先执行 [9/10 基线规划](D:/STUDY/My_github/sci_project/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx)。推荐 SubspaceAD 的冻结子空间建模与 UniVAD 的部件/结构方案；同时审计已有 ReMP-AD、AdaptCLIP 的覆盖和配置，优先复用合格输出。
+优先执行 [9/10 基线规划](<repo-root>/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx)。推荐 SubspaceAD 的冻结子空间建模与 UniVAD 的部件/结构方案；同时审计已有 ReMP-AD、AdaptCLIP 的覆盖和配置，优先复用合格输出。
 
 官方来源：[SubspaceAD](https://github.com/CLendering/SubspaceAD)、[UniVAD](https://github.com/FantasticGNU/UniVAD)、[ReMP-AD](https://github.com/cshcma/ReMP-AD)、[AdaptCLIP](https://github.com/gaobb/AdaptCLIP)。执行时固定具体提交和权重，不把默认分支的后续变化混入同一实验。
 
@@ -363,12 +363,12 @@ E5-I 的 seed/shot 稳定性标志也相应使用 I-AP/I-AUROC，不能沿用不
 
 | 已有入口 | 可复用能力 | 限制 / 要注意的地方 |
 |---|---|---|
-| [DINO 特征导出](D:/STUDY/My_github/sci_project/scripts/export_anomalydino_mpdd_features.py) | MPDD/BTAD；`--model-name dinov2_vits14` 或 `dinov2_vitb14`；输出 raw patch cache | 默认是 S，复现 A1 必须显式 B；B/S 使用不同输出目录；其他数据集需适配 |
-| [CLIP 视觉特征导出](D:/STUDY/My_github/sci_project/scripts/export_anomalyclip_mpdd_features.py) | MPDD/BTAD；checkpoint、features-list、image-size、prompt 配置 | 产物标记 `anomalyclip_text` 是旧命名，实际导出视觉 patch；不得由字符串推断用了文本分数 |
-| [A1 评估](D:/STUDY/My_github/sci_project/scripts/evaluate_a1_feature_fusion.py) | dino / clip / concat，CLIP 对齐 DINO，静态两支 | CLI/报告身份硬编码；`clip` 单支保留其原网格；没有三支或动态入口；必须新写具名 adapter，不能把 S 假装成 CLIP |
-| [原生 AnomalyDINO VisA 入口](D:/STUDY/My_github/sci_project/scripts/run_anomalydino_unified.ps1) | `-Seed`、`-Shot`、`-Objects`，预测转换与统一评估 | 固定 VisA 路径与 S/448 缓存；不是通用 MPDD/B-S 因子实验入口 |
-| [compact CPU 重算](D:/STUDY/My_github/sci_project/submission_repro_20260827/recompute_tables.py) | 四数据集 compact 验证与指标复算 | `--verify-only` 只做结构检查；真实重算需要合法获取的 GT；使用新 output-dir |
-| [R1 独立检索平均](D:/STUDY/My_github/sci_project/scripts/innovation_breadth_20260908/probe_breadth.py) | 可复用已完成对照及评分逻辑 | 其探索目录不是新增任意分支的标准接口 |
+| [DINO 特征导出](<repo-root>/scripts/export_anomalydino_mpdd_features.py) | MPDD/BTAD；`--model-name dinov2_vits14` 或 `dinov2_vitb14`；输出 raw patch cache | 默认是 S，复现 A1 必须显式 B；B/S 使用不同输出目录；其他数据集需适配 |
+| [CLIP 视觉特征导出](<repo-root>/scripts/export_anomalyclip_mpdd_features.py) | MPDD/BTAD；checkpoint、features-list、image-size、prompt 配置 | 产物标记 `anomalyclip_text` 是旧命名，实际导出视觉 patch；不得由字符串推断用了文本分数 |
+| [A1 评估](<repo-root>/scripts/evaluate_a1_feature_fusion.py) | dino / clip / concat，CLIP 对齐 DINO，静态两支 | CLI/报告身份硬编码；`clip` 单支保留其原网格；没有三支或动态入口；必须新写具名 adapter，不能把 S 假装成 CLIP |
+| [原生 AnomalyDINO VisA 入口](<repo-root>/scripts/run_anomalydino_unified.ps1) | `-Seed`、`-Shot`、`-Objects`，预测转换与统一评估 | 固定 VisA 路径与 S/448 缓存；不是通用 MPDD/B-S 因子实验入口 |
+| [compact CPU 重算](<repo-root>/submission_repro_20260827/recompute_tables.py) | 四数据集 compact 验证与指标复算 | `--verify-only` 只做结构检查；真实重算需要合法获取的 GT；使用新 output-dir |
+| [R1 独立检索平均](<repo-root>/scripts/innovation_breadth_20260908/probe_breadth.py) | 可复用已完成对照及评分逻辑 | 其探索目录不是新增任意分支的标准接口 |
 
 原始 feature NPZ 至少含 `patch_features[N,H,W,D]`、`ref_patch_features[R,H,W,D]`、`sample_ids[N]`、`grid_size`、`dataset/role/branch/seed/shot`，并可能携带 GT。旧 raw cache **没有 ref_ids**；新 adapter 需加入 `ref_ids`、真实 encoder ID、checkpoint hash、preprocess/geometry、feature tap、normalization、dtype 和 manifest hash，或使用一一绑定的 sidecar。GT 字段只传 evaluator，不能传给模型选择/gate。
 
@@ -377,7 +377,7 @@ compact map 包已有 `sample_ids`、`concat_patch_map`、`dino_patch_map`、`gr
 **新代码建议位置（待创建，不是现成可执行程序）：**
 
 ```text
-D:\STUDY\My_github\sci_project\scripts\validation_handoff_20260911\
+<repo-root>\scripts\validation_handoff_20260911\
     preflight.py
     build_feature_manifest.py
     run_controlled_matrix.py
@@ -392,7 +392,7 @@ D:\STUDY\My_github\sci_project\scripts\validation_handoff_20260911\
 以下 PowerShell 从项目根目录执行；**示例不表示本轮已经执行。** 先确认对应环境和工具可用。未展示的矩阵命令由接手者实现后写入 `commands.json`，禁止把计划中的命令写成已完成日志。
 
 ```powershell
-Set-Location -LiteralPath 'D:\STUDY\My_github\sci_project'
+Set-Location -LiteralPath '<repo-root>'
 git rev-parse HEAD
 git status --short
 nvidia-smi --query-gpu=name,memory.total,memory.used,utilization.gpu --format=csv,noheader
@@ -510,11 +510,11 @@ outputs/validation_handoff_20260911/
 | 顺序 | 文件 | 用途 |
 |---|---|---|
 | 1 | 本文件 | 本轮实验顺序、用户意图和验收协议 |
-| 2 | [项目现状与突破口审阅](D:/STUDY/My_github/sci_project/docs/PROJECT_REVIEW_AND_NEXT_STEPS_20260910_CN.md) | 现状、论文缺口与原始研究建议；后续优先级以本文件为准 |
-| 3 | [方法规格](D:/STUDY/My_github/sci_project/submission_repro_20260827/METHOD_SPEC_V2.md) / [冻结配置](D:/STUDY/My_github/sci_project/submission_repro_20260827/config/frozen_a1.json) | 固定 A1 身份；注意历史命名、权重与后处理措辞 |
-| 4 | [完整指标](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md) / [统计](D:/STUDY/My_github/sci_project/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md) | 既有数值与统计边界 |
-| 5 | [创新审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/innovation_audit.md) / [轴线台账](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md) | 避免重复已闭合探针；不继承“穷尽”之类过强措辞 |
-| 6 | [论文审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/paper_audit.md) / [复现审计](D:/STUDY/My_github/sci_project/docs/project_review_20260910/repro_audit.md) | 图件、入口、哈希、依赖和历史验收边界 |
-| 7 | [英文稿](D:/STUDY/My_github/sci_project/docs/manuscript_english_polished_20260906/English_content.md) / [中文稿](D:/STUDY/My_github/sci_project/docs/manuscript_chinese_review_20260907/中文对照内容.md) | 回填论述；正式 DOCX/图件另做版本和渲染核验 |
+| 2 | [项目现状与突破口审阅](<repo-root>/docs/PROJECT_REVIEW_AND_NEXT_STEPS_20260910_CN.md) | 现状、论文缺口与原始研究建议；后续优先级以本文件为准 |
+| 3 | [方法规格](<repo-root>/submission_repro_20260827/METHOD_SPEC_V2.md) / [冻结配置](<repo-root>/submission_repro_20260827/config/frozen_a1.json) | 固定 A1 身份；注意历史命名、权重与后处理措辞 |
+| 4 | [完整指标](<repo-root>/submission_repro_20260827/evidence/p1/p1_e_complete_metrics.md) / [统计](<repo-root>/submission_repro_20260827/evidence/p1/p1_a_bootstrap_ci.md) | 既有数值与统计边界 |
+| 5 | [创新审计](<repo-root>/docs/project_review_20260910/innovation_audit.md) / [轴线台账](<repo-root>/experiments/dynamic_fusion/innovation_breadth_20260908/AXIS_LEDGER_AND_CLOSURE_CN.md) | 避免重复已闭合探针；不继承“穷尽”之类过强措辞 |
+| 6 | [论文审计](<repo-root>/docs/project_review_20260910/paper_audit.md) / [复现审计](<repo-root>/docs/project_review_20260910/repro_audit.md) | 图件、入口、哈希、依赖和历史验收边界 |
+| 7 | [英文稿](<repo-root>/docs/manuscript_english_polished_20260906/English_content.md) / [中文稿](<repo-root>/docs/manuscript_chinese_review_20260907/中文对照内容.md) | 回填论述；正式 DOCX/图件另做版本和渲染核验 |
 
 **接手执行指令：** 以本文件为任务书完成本地实验、证据和报告；先做 E0–E4 的规定范围，再按触发条件推进 E5–E7，完成 E8。遇到负结果就按门槛停止该路线，继续独立工作包；遇到真实资源或数据阻塞则保留日志并明确缺什么。不得把已经计划的验证写成已取得的成果，也不得为追求正结果绕过冻结和比较规则。

@@ -309,7 +309,7 @@ experiments/dynamic_fusion/innovation_v13_overnight_20260904/
 
 ## 14. 本地证据索引
 
-工作区根目录：`D:/STUDY/My_github/sci_project`。以下为仓库相对标识，供执行助手定位：
+工作区根目录：`<repo-root>`。以下为仓库相对标识，供执行助手定位：
 
 - `docs/paper_writing_preparation_20260830/21_INNOVATION_BREAKTHROUGH_PORTFOLIO_AND_ACCEPTANCE_CN_20260903.md`
 - `docs/paper_writing_preparation_20260830/22_POST_V11_RESULT_AUDIT_AND_NEW_INNOVATION_ROUTES_CN_20260903.md`

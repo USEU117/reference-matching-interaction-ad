@@ -143,9 +143,9 @@
 
 ## 数据依据
 
-- [详细结果汇总](D:/STUDY/My_github/sci_project/docs/CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md)
-- [真实三支公平对照与置信区间](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R1_seed1_triple/paired_deltas.csv)
-- [全像素关键结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R2_fullpixel/paired_deltas.csv)
-- [BTAD两类冻结复核](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R3_external/paired_deltas.csv)
+- [详细结果汇总](<repo-root>/docs/CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md)
+- [真实三支公平对照与置信区间](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R1_seed1_triple/paired_deltas.csv)
+- [全像素关键结果](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R2_fullpixel/paired_deltas.csv)
+- [BTAD两类冻结复核](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/controlled_fusion_next_stage_20260913/R3_external/paired_deltas.csv)
 
 本简明报告依据完成记录和机器表撰写，本轮未重跑实验、测试或全量数据审计。

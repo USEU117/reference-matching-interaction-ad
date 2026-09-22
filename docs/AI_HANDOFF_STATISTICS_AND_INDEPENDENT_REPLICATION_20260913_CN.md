@@ -1,6 +1,6 @@
 # 交接：补齐固定融合统计与独立复核
 
-日期：2026-09-13。项目根目录：`D:/STUDY/My_github/sci_project`。
+日期：2026-09-13。项目根目录：`<repo-root>`。
 
 ## 0. 用户意图、授权边界与本次停留位置
 
@@ -14,10 +14,10 @@
 
 ## 1. 先阅读哪些文件
 
-1. [原实验交接与验收协议](D:/STUDY/My_github/sci_project/docs/AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md)：冻结条件、置换定义、方法权重及科学边界。
-2. [创新建议审阅](D:/STUDY/My_github/sci_project/docs/RESEARCH_DIRECTION_RECOMMENDATION_REVIEW_20260912_CN.md)：研究方向的来源与可行性限制。
-3. [现有试探结果报告](D:/STUDY/My_github/sci_project/docs/REFERENCE_COUPLING_PILOT_RESULTS_20260913_CN.md)：本轮结果与工程问题；已做上述勘误，但不能仅凭报告概括验收。
-4. [运行记录](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/RUN_SUMMARY.json)、[原统计结果](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/ANALYSIS.json)、[原配对差值](D:/STUDY/My_github/sci_project/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/analysis_paired_deltas.csv)：以实际记录核查完成情况。
+1. [原实验交接与验收协议](<repo-root>/docs/AI_HANDOFF_REFERENCE_COUPLING_PILOT_20260912_CN.md)：冻结条件、置换定义、方法权重及科学边界。
+2. [创新建议审阅](<repo-root>/docs/RESEARCH_DIRECTION_RECOMMENDATION_REVIEW_20260912_CN.md)：研究方向的来源与可行性限制。
+3. [现有试探结果报告](<repo-root>/docs/REFERENCE_COUPLING_PILOT_RESULTS_20260913_CN.md)：本轮结果与工程问题；已做上述勘误，但不能仅凭报告概括验收。
+4. [运行记录](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/RUN_SUMMARY.json)、[原统计结果](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/ANALYSIS.json)、[原配对差值](<repo-root>/experiments/dynamic_fusion/reference_coupling_pilot_20260912/main_v2/analysis_paired_deltas.csv)：以实际记录核查完成情况。
 
 下文相对路径均相对于项目根目录。主要解释器为 `.venv-anomalyclip/Scripts/python.exe`。不要为本任务擅自升级现有依赖。
 

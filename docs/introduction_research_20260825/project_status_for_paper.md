@@ -16,7 +16,7 @@
 - MVTec AD：PatchCore、WinCLIP+、AnomalyDINO、PromptAD、DynamicFusion/A1 均已完成 9/9；每组要求 15 类、1,725 个测试样本、零 schema 错误。
 - MPDD：开发集，用于冻结配置和早期开发。
 - BTAD：冻结后的外部验证集，不用于回头调参。
-- 已有英文 SCI 风格稿 V0.2，但 Introduction 仍需要独立补强、引用清理和与当前 A1 结论对齐。
+- 已有英文 学术风格稿 V0.2，但 Introduction 仍需要独立补强、引用清理和与当前 A1 结论对齐。
 
 ## 可以在 Introduction 中提出的研究问题
 
