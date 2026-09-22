@@ -51,7 +51,7 @@ P4 跨层残差持续场（CL-RPF）
 
 以下是 21 号文档中的储备方案，但没有完成对应实验：
 
-- NR-MoE：需要 source-domain episodic 元训练和老师同意改变 training-free 协议；
+- NR-MoE：需要 source-domain episodic 元训练和AI 辅助评审同意改变 training-free 协议；
 - Meta-RSR：同样需要真实源域异常监督；
 - AARC：需要重新做高分辨率特征导出和 small-defect oracle；
 - Object-Set：应转 MVTec LOCO/组件逻辑异常协议；
@@ -416,7 +416,7 @@ Real-IAD 为每个样本提供五个视角并定义 sample-level evaluation。Mu
 
 ### 9.2 几何/表面法线分支
 
-Real-IAD-MVN 在 2026 年提出五视角高保真 surface-normal 数据，动机是 RGB 易受纹理/光照影响，稀疏点云又难检测微小几何缺陷。若老师允许改变传感器输入，一个比“双成熟 RGB 分支融合”更有说服力的方向是：
+Real-IAD-MVN 在 2026 年提出五视角高保真 surface-normal 数据，动机是 RGB 易受纹理/光照影响，稀疏点云又难检测微小几何缺陷。若AI 辅助评审允许改变传感器输入，一个比“双成熟 RGB 分支融合”更有说服力的方向是：
 
 - RGB 分支负责颜色、污染和纹理；
 - surface-normal 分支负责凹坑、刮痕和形变；
@@ -444,7 +444,7 @@ ADSeeker 已把视觉文档知识库、RAG、层次 sparse prompt 和 type-level
 | 5 | PSMF | 微缺陷跨 token-grid 相位的图像坐标持续性 | 中 | 中 | 低中 | 高可行副模块 |
 | 6 | PDMC | blind context 下中心 feature 的条件分布 | 低 | 高 | 中 | 仅 BC-MCR 复活路线 |
 | 7 | BAVA | 每次新视图的预期风险下降 | 低 | 很高 | 高 | 独立多视角论文 |
-| 8 | surface-normal | 物理几何互补 | 低 | 很高 | 高 | 老师同意换输入后考虑 |
+| 8 | surface-normal | 物理几何互补 | 低 | 很高 | 高 | AI 辅助评审同意换输入后考虑 |
 
 建议只并行准备，不并行消耗数据：先 MTCOA 与 CECW；若 CECW 无信息，立即转 NTOF；NTOF 的 normal-only R0 不过则转 PRS；只有前面出现明确机制信号，才做大规模三 seed 实验。
 
@@ -560,7 +560,7 @@ input_manifest.json
 不要再做第十三轮同协议搜索。此时有三种诚实选择：
 
 - A1 作为简洁强基线，论文重心转为跨数据集、few-shot 稳定性和系统负结果；
-- 获得老师许可，转 BAVA/Real-IAD 多视角新任务；
+- 获得AI 辅助评审许可，转 BAVA/Real-IAD 多视角新任务；
 - 获得真实工艺知识或几何模态，重新定义输入信息。
 
 ---

@@ -282,8 +282,8 @@ def main() -> int:
             "the study directory R and the closeout directory CLOSE are read-only inputs and are "
             "not part of this manifest",
             "the updated manuscript outline lives outside this directory: "
-            "docs/paper_outline_teacher_review_20260914/"
-            "新主题论文详细提纲_导师审阅版_20260914_更新版.docx (the teacher-reviewed original with "
+            "docs/paper_outline_review_20260914/"
+            "新主题论文详细提纲_外部评审版_20260914_更新版.docx (the reviewed original with "
             "the same name minus the suffix is deliberately left unchanged)",
         ],
     }

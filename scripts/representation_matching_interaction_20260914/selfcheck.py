@@ -488,9 +488,9 @@ def main() -> int:
                       round(fnum(r["stride1_difference_point"]), 5) for r in diff},
                      ensure_ascii=False))
 
-    outline_dir = ROOT / "docs/paper_outline_teacher_review_20260914"
-    outline_new = outline_dir / "新主题论文详细提纲_导师审阅版_20260914_更新版.docx"
-    outline_old = outline_dir / "新主题论文详细提纲_导师审阅版_20260914.docx"
+    outline_dir = ROOT / "docs/paper_outline_review_20260914"
+    outline_new = outline_dir / "新主题论文详细提纲_外部评审版_20260914_更新版.docx"
+    outline_old = outline_dir / "新主题论文详细提纲_外部评审版_20260914.docx"
     check("manuscript: the updated outline exists", outline_new.exists()
           and outline_new.stat().st_size > 40_000,
           f"{outline_new.name} {outline_new.stat().st_size if outline_new.exists() else 0} bytes")
@@ -504,7 +504,7 @@ def main() -> int:
         check("manuscript: the updated outline replaces the pending wording with results",
               "条件性交互" in body_new and "0.77 和 0.60" in body_new
               and "仍在验证" not in body_new and "当前直接交互推断尚未完成" not in body_new)
-        check("manuscript: the teacher-reviewed original was not overwritten",
+        check("manuscript: the reviewed original was not overwritten",
               "条件性交互" not in body_old and body_new != body_old,
               f"original document.xml {len(body_old)} chars, updated {len(body_new)} chars")
 

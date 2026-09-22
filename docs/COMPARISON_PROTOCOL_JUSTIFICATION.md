@@ -1,6 +1,6 @@
 # 对比口径的说明与辩护（为什么"不是所有方法在同一输入标准下跑"）
 
-> 用途：论文方法节/限制节的写法、导师汇报、以及回复"为什么不做完全统一的比较"这类质询。
+> 用途：论文方法节/限制节的写法、外部评审汇报、以及回复"为什么不做完全统一的比较"这类质询。
 > 所有数字实读自 `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_multi_dataset/baseline_common_region.csv`（864 数据行）与 `scripts/manuscript_build_20260914/results.md` §4.2.7。
 
 ## 一、先把"哪个比较"说清楚——本文其实有**两个**比较，统一程度不同
@@ -36,7 +36,7 @@
 
 **关键取舍**：宁可"**协议各自原生 + 公开声明 + 在共同区域上比**"，也不要"**强行同分辨率得到一个谁都不认识的方法**"。这正是该领域（PatchCore / WinCLIP / AnomalyDINO 等）的通行做法。
 
-## 四、已经做的四项"公平性防护"（可以直接讲给导师/审稿人）
+## 四、已经做的四项"公平性防护"（可以直接讲给外部评审/审稿人）
 
 1. **共同区域交集**：只在双方都有效的区域上比，并把覆盖比例写进正文（76.56% / 70.49%）。
 2. **两个原生配置都报**：PatchCore 报 local128 与 official224，AnomalyDINO 报 canvas 与 rotation——**把协议敏感性摊开给读者**，而不是挑一个好看的配置。
@@ -61,7 +61,7 @@
 
 > Because the two families answer different questions and are defined at different geometries: a patch-level memory-bank detector is defined by its own patch grid and coreset, an image-level or VLM-based detector by its own canvas. We therefore unify the evaluation instead — same units, same query sets, same region intersection, same metric and statistics — and report each method's protocol explicitly, including two native configurations for PatchCore and two for AnomalyDINO so that the protocol sensitivity is visible rather than hidden.
 
-## 七、如果导师仍要求"更严格的统一"，可行的两档（需你拍板）
+## 七、如果外部评审仍要求"更严格的统一"，可行的两档（需你拍板）
 
 | 档 | 做法 | 代价/风险 |
 |---|---|---|

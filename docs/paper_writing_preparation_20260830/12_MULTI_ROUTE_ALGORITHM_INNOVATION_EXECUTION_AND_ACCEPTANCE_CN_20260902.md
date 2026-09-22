@@ -488,7 +488,7 @@ e_D=\cos(d_i,d_i^T),\quad e_C=\cos(c_i,c_i^T).
 
 ### 9.1 权限 Gate
 
-该路线引入训练参数，会把论文从“zero-trainable-parameter”改成“lightweight normal-only adaptation”。开始前必须得到用户或导师明确同意，并在状态文档记录协议变化。未经同意，只能完成设计和合成 smoke，不能跑正式标签评估。
+该路线引入训练参数，会把论文从“zero-trainable-parameter”改成“lightweight normal-only adaptation”。开始前必须得到用户或外部评审明确同意，并在状态文档记录协议变化。未经同意，只能完成设计和合成 smoke，不能跑正式标签评估。
 
 ### 9.2 科学假设
 
@@ -637,7 +637,7 @@ FAGR 更适合与通过 Full Gate 的主记忆模块组合。它单独通过也�
 仅在以下条件同时满足时执行路线 E：
 
 - Wave 1/2 没有明显 Full Gate winner，或 NCPRA 在创新性上明显更有价值；
-- 用户/导师明确接受论文从零训练改为轻量 normal-only adaptation；
+- 用户/外部评审明确接受论文从零训练改为轻量 normal-only adaptation；
 - adapter 合成和 normal-only validation smoke 全部通过。
 
 ### Wave 4：Full MPDD 与单一 winner
@@ -768,7 +768,7 @@ FAGR 更适合与通过 Full Gate 的主记忆模块组合。它单独通过也�
 7. 若有 winner：独立 freeze manifest、method spec、reproduce 命令；
 8. 一次性冻结验证及最终 `PROMOTE/ARCHIVE` 决策；
 9. 英文 Method 草稿、伪代码、复杂度、消融表；
-10. 更新主张—证据矩阵和导师中文总览；
+10. 更新主张—证据矩阵和外部评审中文总览；
 11. 若全部失败：按路线总结为什么失败和不应继续什么；
 12. 不修改/删除 A1、RCEC 和历史负结果证据。
 

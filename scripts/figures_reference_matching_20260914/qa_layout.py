@@ -9,7 +9,7 @@ Checks, per slide:
 
 The legibility floor is expressed in print points, not in canvas units: the figure is
 placed at the manuscript's 17 cm width, so 1 canvas unit on the 1280-unit canvas is
-0.3765 pt.  The floor of 11 pt (the Times New Roman body size, teacher requirement
+0.3765 pt.  The floor of 11 pt (the Times New Roman body size, review requirement
 F09 / N01) therefore corresponds to 29.2 units, and informational text is laid out at
 >= 30 units.
 

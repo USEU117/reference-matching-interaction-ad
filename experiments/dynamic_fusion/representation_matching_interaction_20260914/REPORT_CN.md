@@ -23,7 +23,7 @@
 | 直接检验 S 与 D 的交互差值（原为"尚未检验"） | 完成：BTAD 上显著、MPDD 上不可区分 | `04_new_encoder/encoder_difference.csv`、`cross_encoder_comparison_v2.csv` |
 | 修正统计辅助表（第二轮） | 完成：S 的全像素点估计按**相同 seed/K 范围**重算（原先取全条件口径），K 对照列改为跨 seed 平均 | `encoder_difference.csv`、`03_robustness/interaction_fullpixel.csv` |
 | 多视图邻域一致性相关工作 | 完成：新增 4 篇一手入口（SCoNE AAAI-26、MUVAD AAAI-19、NC-Nets AAAI-21、ECMOD DASFAA-23），明确共同/独立参考这一操作**不是本文首创** | `06_paper/multi_view_neighborhood_prior_art.csv`、主张 L1/L4 |
-| 导师审阅版提纲更新 | 完成：摘要换成实际结果与数字并加口径说明；表格补齐行标签；新增编码器对比/差值两张表；补研究范围与资源/发布限制 | `docs/paper_outline_teacher_review_20260914/新主题论文详细提纲_导师审阅版_20260914_更新版.docx` |
+| 外部评审版提纲更新 | 完成：摘要换成实际结果与数字并加口径说明；表格补齐行标签；新增编码器对比/差值两张表；补研究范围与资源/发布限制 | `docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914_更新版.docx` |
 | 交付报告数字与机器表逐项复核 | 完成：复核 Q1/Q2/Q3/Q4/Q5 全部表格与正文数字；修正 5 处失配（见下方"验收修正记录"） | 本文件、`06_paper/claim_to_evidence.csv` |
 
 ### 验收修正记录（2026-09-14 复核，仅改报告文本，未改任何机器表或协议）
@@ -187,7 +187,7 @@
 | **统一共同有效区域** | `05_baselines/baseline_common_region.csv`、`baseline_common_region_summary.csv`、`common_region_geometry.json`、`S8_SUMMARY.json` |
 | 资源与复跑校验 | `05_baselines/resource_comparison_v2.csv`、`S9_SUMMARY.json`、`anomalydino_rerun_equality.json`、`patchcore_rerun_equality.json` |
 | S5 文献与主张 | `06_paper/literature_verification_20260914.csv`、`multi_view_neighborhood_prior_art.csv`、`claim_to_evidence.csv`、`literature_difference_verified_updated.csv`、`abstract_and_contributions_CN.md`、`fig2_effects_and_interaction.png`、`fig3_interaction_conditioned.png` |
-| 导师审阅版提纲（更新版） | `docs/paper_outline_teacher_review_20260914/新主题论文详细提纲_导师审阅版_20260914_更新版.docx`（导师审阅原件保持不变） |
+| 外部评审版提纲（更新版） | `docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914_更新版.docx`（外部评审审阅原件保持不变） |
 | 中期报告（历史快照） | `MIDTERM_REPORT_CN.md` |
 | 机器收口 | `STATUS.json`、`RUN_SUMMARY.json`、`FAILURES.json`、`ARTIFACT_MANIFEST.json`、`SELFCHECK.json`、`READONLY_PROOF.json` |
 

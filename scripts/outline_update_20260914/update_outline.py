@@ -1,6 +1,6 @@
-"""Rewrite the teacher-review outline with the completed evidence.
+"""Rewrite the review outline with the completed evidence.
 
-Input : docs/paper_outline_teacher_review_20260914/新主题论文详细提纲_导师审阅版_20260914.docx
+Input : docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914.docx
 Output: the same folder, filename suffixed with `_更新版`.  The original file is never touched.
 
 The rewrite is done by editing paragraph text in place (styles, numbering and the existing tables
@@ -27,9 +27,9 @@ from pathlib import Path
 import docx
 from docx.oxml.ns import qn
 
-FOLDER = Path(__file__).resolve().parents[2] / "docs/paper_outline_teacher_review_20260914"
-SRC = FOLDER / "新主题论文详细提纲_导师审阅版_20260914.docx"
-DST = FOLDER / "新主题论文详细提纲_导师审阅版_20260914_更新版.docx"
+FOLDER = Path(__file__).resolve().parents[2] / "docs/paper_outline_review_20260914"
+SRC = FOLDER / "新主题论文详细提纲_外部评审版_20260914.docx"
+DST = FOLDER / "新主题论文详细提纲_外部评审版_20260914_更新版.docx"
 
 
 def set_text(paragraph, text: str) -> None:
@@ -58,9 +58,9 @@ def clone_paragraph_before(anchor, style: str, text: str):
 
 EDITS: dict[int, str] = {}
 
-EDITS[1] = "少样本工业异常定位论文详细提纲　导师审阅版（更新版）　2026 年 9 月 14 日"
+EDITS[1] = "少样本工业异常定位论文详细提纲　外部评审版（更新版）　2026 年 9 月 14 日"
 EDITS[3] = (
-    "拟请老师重点审阅：这一具体研究问题及下面三项研究贡献能否形成论文主线。参考匹配的平均效应、"
+    "拟请AI 辅助评审重点审阅：这一具体研究问题及下面三项研究贡献能否形成论文主线。参考匹配的平均效应、"
     "新增表征与匹配方式的直接交互、新编码器迁移验证、新分支全像素点估计与基线共同有效区域评价"
     "均已完成；本版把原稿中「直接交互仍待统计验证」「主统计尚须按统一版本完成」等状态改为实际结果，"
     "并把仍属计划或缺失的条目单独列出，不以预期结果代替已完成发现。"
@@ -142,15 +142,15 @@ EDITS[41] = (
     "不能写新编码器整体更优。实用选择依据在资源与基线比较后限定，不提前写成普遍算法准则。"
 )
 EDITS[42] = (
-    "与老师原先意见的衔接。原稿希望形成「框架与模块」的贡献结构，但现阶段没有三个独立、原创且已验证的"
+    "与AI 辅助评审原先意见的衔接。原稿希望形成「框架与模块」的贡献结构，但现阶段没有三个独立、原创且已验证的"
     "新网络模块。本提纲按最新主题提出「分析表述—交互识别—条件性发现」三项研究贡献，并让每项对应明确"
-    "技术内容与证据。需要向老师明确：共同/独立参考这一操作本身在多视图异常检测中已是被研究对象"
+    "技术内容与证据。需要向AI 辅助评审明确：共同/独立参考这一操作本身在多视图异常检测中已是被研究对象"
     "（SCoNE、MUVAD、NC-Nets），本文的增量在设定、分离方式与估计形式，不在操作首创。若目标期刊或"
-    "老师仍要求新模块，需要在该研究问题下验证新的技术方案，不能把 ROI、DYT 或现有归一化操作换名后"
+    "AI 辅助评审仍要求新模块，需要在该研究问题下验证新的技术方案，不能把 ROI、DYT 或现有归一化操作换名后"
     "充作已完成创新。"
 )
 EDITS[44] = (
-    "沿用老师要求的「总述—四类工作—跨类总结」，正式稿相关工作约 25—28 篇、全文约 30—35 篇，"
+    "沿用AI 辅助评审要求的「总述—四类工作—跨类总结」，正式稿相关工作约 25—28 篇、全文约 30—35 篇，"
     "近三年文献占比争取达到约 70%。这些是写作规模目标，优先保证相关性和一手来源，不以数量填充。"
     "最终引用按首次出现排序。新增的第四类工作是多视图邻域一致性，用于避免只依据工业检测文献"
     "判断新颖性。"
@@ -258,7 +258,7 @@ EDITS[138] = (
 )
 EDITS[151] = (
     "交互已由候选发现转为已有直接证据的核心结果，且已用第二个编码器组合检验其是否只属于原组合。"
-    "需要向老师说明的关键边界是：共同/独立参考的操作不是本文首创（多视图异常检测已有研究），"
+    "需要向AI 辅助评审说明的关键边界是：共同/独立参考的操作不是本文首创（多视图异常检测已有研究），"
     "本文的增量在设定、分离方式与估计形式。剩余工作集中在表格统一、研究范围说明、正式相关工作补齐"
     "与资源/发布限制的如实交代，不再靠增加实验支撑贡献。"
 )

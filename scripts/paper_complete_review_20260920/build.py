@@ -9,7 +9,7 @@ from docx.oxml.ns import qn
 
 ROOT=Path(__file__).resolve().parents[2]
 TMP=Path(__file__).resolve().parent
-OUT=ROOT/'docs/paper_complete_teacher_review_20260920'
+OUT=ROOT/'docs/paper_complete_review_20260920'
 OUT.mkdir(parents=True,exist_ok=True)
 REF=ROOT/'docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx'
 SOURCE_SHA=hashlib.sha256(REF.read_bytes()).hexdigest()

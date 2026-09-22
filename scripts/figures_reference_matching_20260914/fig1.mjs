@@ -1,7 +1,7 @@
 /**
  * Figure 1 - shared detection framework.
  *
- * Teacher requirements applied:
+ * Review requirements applied:
  *  F01  one dense composition; the build path (a) and the query path (b) use two different
  *       background tints and have equal height
  *  F02  the support side shows several normal images of one category as a set with K

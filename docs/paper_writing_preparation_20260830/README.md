@@ -27,7 +27,7 @@
 8. [缺口与投稿前清单](07_MISSING_MATERIALS_AND_CHECKLIST.md)
 9. [项目结构与权威文件索引](08_PROJECT_STRUCTURE_INDEX.md)
 10. [BTAD/MVTec CLIP 图像单分支对照结果](09_BTAD_MVTEC_CLIP_ONLY_CONTROL_RESULTS.md)
-11. [导师会议版中文项目总览](10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md)
+11. [外部评审会议版中文项目总览](10_PROJECT_STATUS_REVIEW_CN_20260901.md)
 12. [论文图件包、英文图注与 Word 使用说明](figures_20260830/README.md)
 13. [图件完整性与视觉 QA 报告](figures_20260830/QA_REPORT.md)
 14. [BTAD 许可证证据记录](BTAD_LICENSE_EVIDENCE.md)
@@ -48,7 +48,7 @@
 发生冲突时，按以下顺序判断：
 
 1. `submission_repro_20260827/METHOD_SPEC_V2.md` 与 `submission_repro_20260827/evidence/`
-2. `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`（面向人的最新总览）
+2. `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`（面向人的最新总览）
 3. `docs/PRE_MANUSCRIPT_READINESS_AUDIT_20260827.md`
 4. `docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md`
 5. `docs/CURRENT_DYNAMIC_FUSION_STATUS.md`（算法历史和机器状态）

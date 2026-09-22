@@ -36,5 +36,5 @@ authority/背景：你入睡前指令"整夜持续监督、按结果动态调整
 
 ## 待办/已知遗留
 - `runs/main_all.json` 为正式 main 结果（600 步/fold v4）；controls 训练矩阵因 P5+M1 决定性失败未跑（按 §7 任一失败即停，避免"搜索续命"）。
-- Stage1 训练态控制（shuffled/no-support/symmetric/no_cross/dino_only/clip_only）代码已就绪（run_r3_ef_scaif.py --mode runs --variant <v>），若 supervisor 想复核机制可快速补跑。
+- Stage1 训练态控制（shuffled/no-support/symmetric/no_cross/dino_only/clip_only）代码已就绪（run_r3_ef_scaif.py --mode runs --variant <v>），若 reviewer 想复核机制可快速补跑。
 - 实验目录：`experiments/dynamic_fusion/innovation_v12_early_fusion/`（00~03 + FINAL_DECISION.md 结构完整）。

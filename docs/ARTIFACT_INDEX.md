@@ -119,7 +119,7 @@
 | `data/patchcore_closeout/`、`data/btad_patchcore_mvteclayout/` | PatchCore 本地缓存 | `baseline_common_region.csv` 的 `source` 列指向它们 |
 | `methods/` | vendored AnomalyDINO / AnomalyCLIP 源码 | 对 vendored 代码的补丁**无法用 git 记录**，只能文档化（`_night2_20260918/VENDORED_PATCH_anomalydino_backbones.md`） |
 | `*.npz` `*.npy` `*.pt` `*.log` | 全部特征/分数缓存、权重、日志 | 例外的两条白名单：`submission_repro_20260827/predictions_compact/maps/**/*.npz`、`submission_repro_20260827/logs/**/*.log` |
-| `/.tmp_*/`、`.qa_render_*/` | 本地 scratch/渲染 | **已澄清（2026-09-22）**：`FIGURE_BINDING.md` §3 已把正文构建入口更正为受控脚本 `scripts/manuscript_build_20260914/build.py`（原文注明"旧的 `.tmp_english_manuscript_20260914/build.py` 已废弃"），故此处原"待确认"不再成立。**例外**：`.tmp_complete_figures_20260920/`、`.tmp_figure_revision_20260920/` 仍是现役权威图件链的工作目录（`scripts/paper_complete_teacher_review_20260920/figure_sources/plot_primary.py` 读写），不得删除 |
+| `/.tmp_*/`、`.qa_render_*/` | 本地 scratch/渲染 | **已澄清（2026-09-22）**：`FIGURE_BINDING.md` §3 已把正文构建入口更正为受控脚本 `scripts/manuscript_build_20260914/build.py`（原文注明"旧的 `.tmp_english_manuscript_20260914/build.py` 已废弃"），故此处原"待确认"不再成立。**例外**：`.tmp_complete_figures_20260920/`、`.tmp_figure_revision_20260920/` 仍是现役权威图件链的工作目录（`scripts/paper_complete_review_20260920/figure_sources/plot_primary.py` 读写），不得删除 |
 | `experiments/**/staged_*/`、`experiments/**/predictions/` | 实验内暂存与预测副本 | — |
 | `__pycache__/` 等 | Python/IDE 缓存 | — |
 
@@ -228,5 +228,5 @@
 ### 6.5 边界
 
 - 本轮**未改**任何已发布产物：`05_baselines_multi_dataset/baseline_common_region.csv` sha256 运行前后同为 `3C83AB00…A0B8BB`；未重跑 `s8_common_region.py`（新评测脚本 `import` 它并复用其几何/指标实现，只扩充 `specs`）。
-- `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 **Table 11 的 6 个数字与表注冻结未改**（新方法未并入 Table 11），扩展表另立为**正文 Table 12**（`tables.json` 的 `baselines_ext` 键；表号顺延后原 Table 12–19 → 现 Table 13–20，全文共 20 表）。正文指引句在 `scripts/paper_complete_teacher_review_20260920/results.md` §4.2.7。
+- `05_baselines_ext_20260921/` 与 `05_baselines_multi_dataset/` **不是**同一张表：前者含 9 个方法列，其中 3 列为新方法；正文 **Table 11 的 6 个数字与表注冻结未改**（新方法未并入 Table 11），扩展表另立为**正文 Table 12**（`tables.json` 的 `baselines_ext` 键；表号顺延后原 Table 12–19 → 现 Table 13–20，全文共 20 表）。正文指引句在 `scripts/paper_complete_review_20260920/results.md` §4.2.7。
 - 图件：本轮**未出新图**，故 `FIGURE_BINDING.md` 只加了"无图绑定"的登记行，不改任何既有图的行。

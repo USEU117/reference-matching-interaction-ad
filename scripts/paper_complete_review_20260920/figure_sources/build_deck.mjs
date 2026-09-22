@@ -1,10 +1,10 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-const R='D:/STUDY/My_github/sci_project',T=R+'/.tmp_complete_figures_20260920',O=R+'/docs/paper_complete_teacher_review_20260920',F=O+'/figures';
+const R='D:/STUDY/My_github/sci_project',T=R+'/.tmp_complete_figures_20260920',O=R+'/docs/paper_complete_review_20260920',F=O+'/figures';
 const {Presentation,PresentationFile}=await import(pathToFileURL('C:/Users/lynle/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/@oai/artifact-tool/dist/artifact_tool.mjs').href);
 const ppt=Presentation.create({slideSize:{width:1280,height:1060}});
-const figures=JSON.parse(await fs.readFile(R+'/scripts/paper_complete_teacher_review_20260920/figures.json','utf8'));
+const figures=JSON.parse(await fs.readFile(R+'/scripts/paper_complete_review_20260920/figures.json','utf8'));
 const manifest=[];let n=0;
 for(const [key,f] of Object.entries(figures)){
   const label=f.label??String(++n);
@@ -20,7 +20,7 @@ for(const [i,item] of manifest.entries()){
  const slide=ppt.slides.add();slide.background.fill='#FFFFFF';item.slide=i+1;
  const blob=new Uint8Array(await fs.readFile(item.image));
  slide.images.add({blob,contentType:'image/png',alt:'Figure '+item.figure+' part '+item.part,fit:'contain',position:{left:12,top:12,width:1256,height:1036}});
- slide.speakerNotes.textFrame.setText('Figure '+item.figure+'; part '+item.part+'\n'+item.caption+'\nImage: '+item.image+'\nReproducible sources: scripts/paper_complete_teacher_review_20260920/');
+ slide.speakerNotes.textFrame.setText('Figure '+item.figure+'; part '+item.part+'\n'+item.caption+'\nImage: '+item.image+'\nReproducible sources: scripts/paper_complete_review_20260920/');
 }
 await (await PresentationFile.exportPptx(ppt)).save(T+'/all_images.pptx');
 await fs.writeFile(O+'/FIGURE_SLIDE_INDEX.json',JSON.stringify(manifest,null,2));

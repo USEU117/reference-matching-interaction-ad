@@ -1,6 +1,6 @@
 # 外部基线补齐规划（2026-09-21，只读调研，不含任何实验）
 
-> 触发：`docs/paper_complete_teacher_review_20260920/论文与图件最终验收报告_20260920.md` 第 36 行 —— 同机完整证据只有 **6 个配置**（本文 A1 两种匹配 × AnomalyDINO、PatchCore 两家族各 2 配置），"尚未达到导师曾建议的约 10 个公开方法规模"。
+> 触发：`docs/paper_complete_review_20260920/论文与图件最终验收报告_20260920.md` 第 36 行 —— 同机完整证据只有 **6 个配置**（本文 A1 两种匹配 × AnomalyDINO、PatchCore 两家族各 2 配置），"尚未达到外部评审曾建议的约 10 个公开方法规模"。
 > 边界：本文件只做**只读调研 + 规划**。未运行实验、未下载权重、未用 GPU、未修改任何既有文件；下表每个"有/无/缺"都指向实读路径，读不到就写"未验证"。补充口径：`docs/论文与图件问题汇总_仅复核_20260921.md` F07 已更正"约 10 个方法"是**举例而非固定缺口**，`docs/REMEDIATION_PLAN_20260920.md` R-20 把它登记为"限于两个方法家族"。本规划按"提高家族多样性"而非"凑数到 10"设计。
 
 ## 1. 现状盘点（实读）
@@ -98,7 +98,7 @@
 |---|---|
 | 动作 | 建一张**独立**的文献参照表（方法 / 年份 / 范式 / 原论文数据集与指标 / 原论文报告值 / 引用键 / 值所在页表 / 核对程度），逐值抄录并标页码；读不到就写"未核实" |
 | 写入位置 | 机器可读：`experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/external_literature_reference_20260921.csv`；写作版：`docs/external_baseline_reference_table_20260921.md`。**明确不进正文 Table 11**（`tables.json → "baselines"` 保持纯实测 6 列） |
-| 引用键对接 | `scripts/paper_complete_teacher_review_20260920/references.json` 现有 **34 条**，其中 `padim`(L79)、`patchcore`、`winclip`、`promptad`、`subspacead`、`univad`、`anomalyclip`、`anomalydino` 已存在可直接复用；**缺** `adaptclip`、`remp_ad`、`efficientad`、`glass` 四个键 ⇒ 本表新增这 4 条时同步补进 `references.json`，编号连续到 34+新增 |
+| 引用键对接 | `scripts/paper_complete_review_20260920/references.json` 现有 **34 条**，其中 `padim`(L79)、`patchcore`、`winclip`、`promptad`、`subspacead`、`univad`、`anomalyclip`、`anomalydino` 已存在可直接复用；**缺** `adaptclip`、`remp_ad`、`efficientad`、`glass` 四个键 ⇒ 本表新增这 4 条时同步补进 `references.json`，编号连续到 34+新增 |
 | 验收标准 / 回退 | 每条"原论文报告值"都能指到 页码/表号；`references.json` 键与本表 `引用键` 列**一一对应且无孤儿**；表中不出现任何本机未跑出的数字。纯文档、无风险；查不到原文数值的行保留并写"未核实"而不是留空 |
 | 预计耗时 | 2–4 h（无 GPU） |
 

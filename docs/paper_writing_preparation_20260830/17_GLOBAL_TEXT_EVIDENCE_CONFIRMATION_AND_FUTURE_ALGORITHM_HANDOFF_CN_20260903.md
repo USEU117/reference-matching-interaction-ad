@@ -577,7 +577,7 @@ reproduce_commands.md
 - `docs/paper_writing_preparation_20260830/README.md`
 - `docs/paper_writing_preparation_20260830/05_CLAIM_EVIDENCE_MATRIX.md`
 - `docs/paper_writing_preparation_20260830/07_MISSING_MATERIALS_AND_CHECKLIST.md`
-- `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`
+- `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`
 - `docs/CURRENT_DYNAMIC_FUSION_STATUS.md`
 - `docs/PAPER_DETAILED_CHINESE_DRAFT_20260827.md`（只写已经通过的事实）
 - 若进入新方法：英文 Method/Experiments/Results、图表计划和复现包规格。

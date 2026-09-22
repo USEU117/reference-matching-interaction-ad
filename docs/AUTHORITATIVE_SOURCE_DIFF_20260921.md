@@ -1,6 +1,6 @@
 # 权威稿 vs 我方旧稿：逐项差异审计（2026-09-21）
 
-> 权威稿 = `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`（46 页 / 19 表 / 8 主图 / S1–S5 / 34 文献）
+> 权威稿 = `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`（46 页 / 19 表 / 8 主图 / S1–S5 / 34 文献）
 > **2026-09-22 校**：该稿已重建，现为 **47 页 / 20 表 / 22 内嵌图（8 主图 + S1–S5）/ 12 编号公式 / 34 文献 / 16,969 词**，SHA-256 `F3CAE3B491A99F8649E8900756D60C75163DDAA43B715F73D271308038DC44ED`。本文件其余各处（§3 的 19 表、§3 与 §末的"约 10,993 词"等）均为 2026-09-21 轮次的历史值，按"过程记录不改写"保留。
 > 我方旧稿 = `scripts/manuscript_build_20260914/{manuscript.md,results.md,tables.json}` + `docs/manuscript_reference_matching_20260914/**`（38–39 页 / 18 表）→ **superseded**
 > 本次审计为**只读**：未改任何稿、未改任何实验数值。
@@ -13,20 +13,20 @@
 
 | 项 | 实读证据 |
 |---|---|
-| 构建脚本 | `scripts/paper_complete_teacher_review_20260920/build.py` |
-| 输入（**唯一可编辑源**） | `scripts/paper_complete_teacher_review_20260920/manuscript.md`、`results.md`、`tables.json`、`figures.json`、`references.json` |
+| 构建脚本 | `scripts/paper_complete_review_20260920/build.py` |
+| 输入（**唯一可编辑源**） | `scripts/paper_complete_review_20260920/manuscript.md`、`results.md`、`tables.json`、`figures.json`、`references.json` |
 | 版式模板 | `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx`（只读复用样式/页脚，脚本内含 SHA 断言） |
-| 输出 | `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx` + 同目录 `English_Manuscript_Source.md`（build.py:265）+ `scripts/…/build_validation.json` |
+| 输出 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx` + 同目录 `English_Manuscript_Source.md`（build.py:265）+ `scripts/…/build_validation.json` |
 | 表号/图号 | **由占位符出现顺序自动编号**（build.py:129–133、184），非手写数字；正文里的 "Table N" 是**硬编码字符串**，插表必须手工顺延（见第 3 步） |
 | 与我方旧稿构建方式的关系 | **完全不同**：我方是 `scripts/manuscript_build_20260914/build.py` + 各自的 `tables.json/figures.json`。两套 `manuscript.md/results.md/tables.json` 是**两份独立正文源**，不是同一文件的两版 |
 
-**后果（第 2 步的执行前提）**：S4/S5 差异、可得性节、正文数字都必须改 `scripts/paper_complete_teacher_review_20260920/*`，改完重跑 build.py；**直接编辑 `English_Manuscript_Source.md` 会被下一次构建覆盖**。
+**后果（第 2 步的执行前提）**：S4/S5 差异、可得性节、正文数字都必须改 `scripts/paper_complete_review_20260920/*`，改完重跑 build.py；**直接编辑 `English_Manuscript_Source.md` 会被下一次构建覆盖**。
 
 ---
 
 ## 1. BTAD 措辞统一（逐处 grep，命中清单）
 
-grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manuscript.md,results.md,tables.json,figures.json}` + 产物 `docs/paper_complete_teacher_review_20260920/English_Manuscript_Source.md`；同时全仓 grep 作对照。
+grep 范围：权威稿源 `scripts/paper_complete_review_20260920/{manuscript.md,results.md,tables.json,figures.json}` + 产物 `docs/paper_complete_review_20260920/English_Manuscript_Source.md`；同时全仓 grep 作对照。
 
 | 被禁字符串 | 权威稿命中 | 我方旧稿命中 | 全仓其余命中 |
 |---|---:|---:|---|
@@ -125,7 +125,7 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 |---|---|---|---|---|
 | `[[REPO_URL]]` / `[[ZENODO_DOI]]` / `[[LICENSE]]` 等 `[[…]]` 占位 | **0 处**（`grep "\[\["` 命中 0） | 0 处（`manuscript.md:229–237` 已写实） | 一致 | 不改 |
 | 永久归档口径 | `English_Source:669`"A permanent public archive for the complete current study has not yet been established."（**不编造 URL/DOI**） | `manuscript.md:237`"…claims no public package and no permanent archive at this time."（措辞更细） | 口径一致 | 保留权威稿写法 |
-| **许可三段**（代码 MIT / 派生产物同许可 / 数据集许可独立） | **缺失**——权威稿全文无 `licence`/`MIT`/`copyright` 任何字样 | **有**：`manuscript.md:237` 末段、`中文对照内容.md:798` | **我方对**（课程/期刊要求） | **第 2 步补入权威稿**（实读根 `LICENSE` = MIT License, Copyright (c) 2026 LiYuening） |
+| **许可三段**（代码 MIT / 派生产物同许可 / 数据集许可独立） | **缺失**——权威稿全文无 `licence`/`MIT`/`copyright` 任何字样 | **有**：`manuscript.md:237` 末段、`中文对照内容.md:798` | **我方对**（评审轮次/期刊要求） | **第 2 步补入权威稿**（实读根 `LICENSE` = MIT License, Copyright (c) 2026 LiYuening） |
 | 数据集许可明细（CC BY-NC-SA 4.0 / CC BY 4.0 …） | 无（只说"由各自提供方分发"） | 有（逐数据集） | 我方更全，但非本次硬要求 | 记入"需作者决定"（§9），本轮不加 |
 | 仓库内路径指引（`data/README.md`、`docs/specs/`、`ARTIFACT_INDEX.md`、`REPRODUCIBILITY_PACKAGE.md`） | 只提"local reproduction package" | 逐条给出 | 我方更可追溯 | 记入"需作者决定"（§9），本轮不加 |
 
@@ -136,7 +136,7 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 | 项 | 权威稿（整合稿） | 我方（figures_reference_matching_20260914） |
 |---|---|---|
 | 图 S4 产物 | `figS4_bootstrap_stability.png` + `figS4_bootstrap_stability_part2.png`（**2 页**） | `figS4_bootstrap_convergence.png`（v2，1 页）+ `.v1.*`（v1，1 页） |
-| 生成脚本 | `scripts/paper_complete_teacher_review_20260920/figure_sources/plot_supplementary_figures.py`（`build_s4_estimate_figure` L131、`build_s4_width_figure` L211） | `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py` |
+| 生成脚本 | `scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py`（`build_s4_estimate_figure` L131、`build_s4_width_figure` L211） | `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py` |
 | 数据源 | **`docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.json`**（该脚本 L26 硬指向此 JSON） | 同 | 
 | 面板 | 4 个 / 2 页：(a)(b) 前缀均值 + 95% 区间带（I_TRI、I_BAL）；(c)(d) 区间宽度比（I_TRI、I_BAL） | v2：2 个面板（(a) 点估计相对 N=1000 变化、(b) 区间宽度相对变化）；v1：3 个面板 |
 | 像素 / 体积 | 2342×2065（222,375 B）+ 2342×1995（268,122 B），合计 490,497 B | v2：2342×3290（820,616 B）；v1：2342×3360（665,788 B） |
@@ -157,7 +157,7 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 
 | # | 项 | 权威稿 | 我方旧稿 | 处置 |
 |---|---|---|---|---|
-| D1 | 构建链 | `scripts/paper_complete_teacher_review_20260920/build.py`（表/图按占位符顺序自动编号） | `scripts/manuscript_build_20260914/build.py` | 以权威稿链为准；旧链整目录 superseded |
+| D1 | 构建链 | `scripts/paper_complete_review_20260920/build.py`（表/图按占位符顺序自动编号） | `scripts/manuscript_build_20260914/build.py` | 以权威稿链为准；旧链整目录 superseded |
 | D2 | 图件集 | 8 主图 + S1–S5 + **36 张逐类别多方法附录**（PPT 58 页） | 8 主图 + S1–S4（无 36 类附录、无 S5） | 权威稿完整，保留 |
 | D3 | §4.2 小节编号 | 4.2.1–4.2.15（含 4.2.14 同步基准、4.2.15 稳定性） | 4.2.1–4.2.13 | 权威稿完整，不改 |
 | D4 | 文献数/公式数 | 34 条 / 12 个编号公式 / 142 原生数学对象 | 34 条 | 一致 |
@@ -217,7 +217,7 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 
 **对照页**：`docs/figures_reference_matching_20260914/preview_figS4_three_versions.html`（三版并排：v1 / v2 / stability，标注面板数、像素、体积、最小字号、内容差异）。
 
-**已知连带影响（本任务范围外，需作者决定）**：图件 PPT（`docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx`，58 页）第 20–21 页仍是旧两页 stability 渲染；本次**不重出 PPT**，故论文图 S4 与 PPT 第 20–21 页内容不再一致。见 §9-需决定 3。
+**已知连带影响（本任务范围外，需作者决定）**：图件 PPT（`docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx`，58 页）第 20–21 页仍是旧两页 stability 渲染；本次**不重出 PPT**，故论文图 S4 与 PPT 第 20–21 页内容不再一致。见 §9-需决定 3。
 
 ---
 
@@ -235,25 +235,25 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 
 ## 10. 【以后改论文只改这几个文件】唯一可编辑源（2026-09-21 起生效）
 
-**唯一权威稿 = `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`**（改前：46 页 / 19 表；**本轮改后：20 表 / 8 主图 / S1–S5 / 12 编号公式 / 142 原生数学对象 / 34 文献 / 约 10,993 词**；页数需 Word 导出复测）。
+**唯一权威稿 = `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`**（改前：46 页 / 19 表；**本轮改后：20 表 / 8 主图 / S1–S5 / 12 编号公式 / 142 原生数学对象 / 34 文献 / 约 10,993 词**；页数需 Word 导出复测）。
 
 要改论文正文，**只改下面这 5 个文件，然后跑一条命令**：
 
 | # | 文件（唯一可编辑源） | 管什么 |
 |---|---|---|
-| 1 | `scripts/paper_complete_teacher_review_20260920/manuscript.md` | 标题、作者元数据占位、摘要、引言、方法、结论、可得性节、**图表占位符顺序** |
-| 2 | `scripts/paper_complete_teacher_review_20260920/results.md` | §4.2 全部结果正文（经 `{{results}}` 注入） |
-| 3 | `scripts/paper_complete_teacher_review_20260920/tables.json` | 全部表格（表题/表头/行/表注/列宽/加粗行） |
-| 4 | `scripts/paper_complete_teacher_review_20260920/figures.json` | 全部图（图源路径、分页 parts、图注、图宽） |
-| 5 | `scripts/paper_complete_teacher_review_20260920/references.json` | 34 条参考文献 |
+| 1 | `scripts/paper_complete_review_20260920/manuscript.md` | 标题、作者元数据占位、摘要、引言、方法、结论、可得性节、**图表占位符顺序** |
+| 2 | `scripts/paper_complete_review_20260920/results.md` | §4.2 全部结果正文（经 `{{results}}` 注入） |
+| 3 | `scripts/paper_complete_review_20260920/tables.json` | 全部表格（表题/表头/行/表注/列宽/加粗行） |
+| 4 | `scripts/paper_complete_review_20260920/figures.json` | 全部图（图源路径、分页 parts、图注、图宽） |
+| 5 | `scripts/paper_complete_review_20260920/references.json` | 34 条参考文献 |
 
 构建命令（产出 docx + `English_Manuscript_Source.md` + `build_validation.json`）：
 
 ```powershell
-.venv-anomalyclip\Scripts\python.exe scripts\paper_complete_teacher_review_20260920\build.py
+.venv-anomalyclip\Scripts\python.exe scripts\paper_complete_review_20260920\build.py
 ```
 
-**不要直接编辑** `docs/paper_complete_teacher_review_20260920/English_Manuscript_Source.md`（构建产物，会被覆盖）。
+**不要直接编辑** `docs/paper_complete_review_20260920/English_Manuscript_Source.md`（构建产物，会被覆盖）。
 
 **已 superseded（保留备份、不再改）**：
 
@@ -261,18 +261,18 @@ grep 范围：权威稿源 `scripts/paper_complete_teacher_review_20260920/{manu
 |---|---|---|
 | `docs/manuscript_reference_matching_20260914/` | **superseded** | 38–39 页 / 18 表旧稿；见该目录 `SUPERSEDED_20260921.md` |
 | `scripts/manuscript_build_20260914/` | **superseded** | 旧稿构建链（`build.py` / `build_cn_docx.py` + 旧 `manuscript.md`/`results.md`/`tables.json`/`figures.json`/`references.json`）；**只作为差异审计与中文对照的历史参照，不再作为正文源** |
-| `docs/paper_complete_teacher_review_20260920/figures/superseded/`（新建） | 冗余件 | 图 S4 合并后被去重的 `figS4_bootstrap_stability_part2.png` |
+| `docs/paper_complete_review_20260920/figures/superseded/`（新建） | 冗余件 | 图 S4 合并后被去重的 `figS4_bootstrap_stability_part2.png` |
 
 ---
 
 ## 11. 重复 PPTX 清理（2026-09-21，已执行）
 
-| 文件（`docs/paper_complete_teacher_review_20260920/`） | 大小 | SHA256 前 16 位 | 是否被文档引用 | 处置 |
+| 文件（`docs/paper_complete_review_20260920/`） | 大小 | SHA256 前 16 位 | 是否被文档引用 | 处置 |
 |---|---:|---|---|---|
 | `All_Figures_Complete_20260920.pptx` | 71,604,011 B | `6EBD92E9B38A2958` | **是**：`docs/论文与图件问题汇总_仅复核_20260921.md:12`（记为"最新完整图件PPT，58 页，S4 在第 20、21 页"） | **保留** |
 | `All_Figures_Finalized_20260920.pptx` | 71,604,011 B | `6EBD92E9B38A2958` | 否 | **保留**（任务指定保留"语义最清楚"的名字） |
-| `Main_Figure_Editable_20260920.pptx` | 71,604,011 B | `6EBD92E9B38A2958` | 否——`docs/main_figure_teacher_revision_20260920/修改说明与验收记录.md:19` 提到的是**另一个目录**里的同名文件（707,734 B，SHA `069D6BA5…`），不是本目录这个 68.3 MB 同名文件 | **已删除**（释放 ≈ 68.3 MB） |
+| `Main_Figure_Editable_20260920.pptx` | 71,604,011 B | `6EBD92E9B38A2958` | 否——`docs/main_figure_revision_20260920/修改说明与验收记录.md:19` 提到的是**另一个目录**里的同名文件（707,734 B，SHA `069D6BA5…`），不是本目录这个 68.3 MB 同名文件 | **已删除**（释放 ≈ 68.3 MB） |
 
-**依据**：三者字节级完全相同（同 SHA、同大小），是同一份 58 页图件 deck 的三次拷贝；本目录中的 `Main_Figure_Editable_20260920.pptx` 是**误名拷贝**（真正的可编辑主图母版在 `docs/main_figure_teacher_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`，707,663 B）。删除后本目录仍保留两份完全相同的 deck 副本，无信息损失。
+**依据**：三者字节级完全相同（同 SHA、同大小），是同一份 58 页图件 deck 的三次拷贝；本目录中的 `Main_Figure_Editable_20260920.pptx` 是**误名拷贝**（真正的可编辑主图母版在 `docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`，707,663 B）。删除后本目录仍保留两份完全相同的 deck 副本，无信息损失。
 
 

@@ -355,7 +355,7 @@ E5-I 的 seed/shot 稳定性标志也相应使用 I-AP/I-AUROC，不能沿用不
 
 已有审核发现两份文档与 `VERSIONED_EVIDENCE.sha256` 不匹配；这反映文档漂移，不自动说明实验数字失效。81/122/123/141 测试计数来自不同日期或范围，正式交付给出一份明确解释器与 `tests` 范围的记录，不把历史记录冒充本轮运行。
 
-已出现多个后续图件目录：9/10 重绘、teacher revision，以及 9/11 contour notation。本文编写时只确认后者包含 PPTX/PDF 和五张方法 PNG，没有重新做其科学或原生 Office QA。不要按文件名中的 `final` 自动替换论文绑定版本。
+已出现多个后续图件目录：9/10 重绘、figure revision，以及 9/11 contour notation。本文编写时只确认后者包含 PPTX/PDF 和五张方法 PNG，没有重新做其科学或原生 Office QA。不要按文件名中的 `final` 自动替换论文绑定版本。
 
 **产物：** `paper_claim_evidence_map.csv`、`current_artifact_manifest.json`、`REPRODUCE.md`、`FINAL_REPORT_CN.md`。方法正结果、稳健负结果、工程收益、尚未验证假设各自注明证据级别。
 

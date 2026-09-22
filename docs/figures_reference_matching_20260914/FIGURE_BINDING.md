@@ -1,6 +1,6 @@
 # 图件绑定表（正文图号 ↔ 图源 ↔ 生成脚本 ↔ 冻结数据 ↔ 版本日期）
 
-本文件落实老师 2026-09-12 课堂要求「建正文图号 ↔ 图源 ↔ PPT 页 ↔ 脚本 ↔ 版本日期清单」，
+本文件落实AI 辅助评审 2026-09-12 评审会要求「建正文图号 ↔ 图源 ↔ PPT 页 ↔ 脚本 ↔ 版本日期清单」，
 并已按 2026-09-15 合并后的正式图集更新。**表内每一行都能在仓库里按路径找到实体**；
 找不到的图列在文末「未产出」一节并写明原因与阻塞条件。
 
@@ -67,14 +67,14 @@
 | 图 S2 | Supplementary Results | `figS2_shared_op_ablation.png`（+`.pdf`、`figS2_shared_op_ablation.json`） | `build_figS2_ablation.py` | `limitation_closure_20260915/E2_shared_op_ablation/ablation_metrics.csv` + `ablation_metrics_abl_s_L.csv`；**scope 仅 seed 0、K = 1**，图上与图注均标注为探索性 | 2026-09-18 |
 | 图 S3 | Supplementary Results | `figS3_extra_cases.png`（+`.pdf`、`figS3_extra_cases.json`） | `build_figS3_extra_cases.py` | `01_geometry/C_TO_B_COORDINATE_AUDIT.json`（坐标位移）与 `03_robustness/interaction_case_selection.csv`（8 个逐图案例） | 2026-09-19 |
 | 图 S3（图片面板） | Supplementary Results | `figS3_extra_cases_panels.png`（+`.pdf`；四张面板 `panel_c_to_b_shift.png`、`panel_canvas_coverage.png`、`panel_interaction_cases.png`、`panel_interaction_cases_p2.png`，各含 `.pdf`） | `build_figS3_extra_cases.py --embed-panels`；面板本身由 `scripts/representation_matching_interaction_20260914/freeze_s0.py`（`render_c_to_b_figure`、`boundary_figure`）与 `s2_robustness.py`（`render_cases`，逐图案例分两页）绘制 | 同图 S3；复现见第三节（`freeze_s0.py --figures-only`、`s2_robustness.py --render-cases-only`） | 2026-09-19 |
-| 图 S4（**权威稿正文版：2 页合并图，2026-09-21**） | Supplementary Results | 第 1 页 `figS4_bootstrap_convergence.png`（v2 收敛面板）+ 第 2 页 `figS4_bootstrap_stability.png`（绝对均值+95% 带）；三版并排对照 `preview_figS4_three_versions.html` | 第 1 页 = `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`；第 2 页 = `scripts/paper_complete_teacher_review_20260920/figure_sources/plot_supplementary_figures.py`（`build_s4_estimate_figure`） | 三份已冻结 `bootstrap_samples.npz` 的**前缀**（50→1000）：`unified_fusion_paper_support_20260913/p1_statistics/` 供 MPDD（12 单元）/BTAD（8）；`generalization_mvtec_visa_20260915/p1_statistics/` 供 MVTec/VisA（各 12）；`confirmation_ksdd2_20260918/p1_statistics/` 供 KSDD2（12，确认集，灰色虚线单列）。N = 1000 端与 `interaction_generalization.csv` 及 KSDD2 `02_interaction/interaction_aggregate.csv` 逐行核对（v1/v2 最大偏差均 2.4e−16，容差 1e−8 未放宽）。**替代 loss 收敛曲线**：方法无目标域训练、无优化过程，说明见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` | 2026-09-21（合并） |
+| 图 S4（**权威稿正文版：2 页合并图，2026-09-21**） | Supplementary Results | 第 1 页 `figS4_bootstrap_convergence.png`（v2 收敛面板）+ 第 2 页 `figS4_bootstrap_stability.png`（绝对均值+95% 带）；三版并排对照 `preview_figS4_three_versions.html` | 第 1 页 = `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`；第 2 页 = `scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py`（`build_s4_estimate_figure`） | 三份已冻结 `bootstrap_samples.npz` 的**前缀**（50→1000）：`unified_fusion_paper_support_20260913/p1_statistics/` 供 MPDD（12 单元）/BTAD（8）；`generalization_mvtec_visa_20260915/p1_statistics/` 供 MVTec/VisA（各 12）；`confirmation_ksdd2_20260918/p1_statistics/` 供 KSDD2（12，确认集，灰色虚线单列）。N = 1000 端与 `interaction_generalization.csv` 及 KSDD2 `02_interaction/interaction_aggregate.csv` 逐行核对（v1/v2 最大偏差均 2.4e−16，容差 1e−8 未放宽）。**替代 loss 收敛曲线**：方法无目标域训练、无优化过程，说明见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` | 2026-09-21（合并） |
 | 图 S4（历史版，已并入上图） | Supplementary Results | `figS4_bootstrap_convergence.png`（+`.pdf`、`figS4_bootstrap_convergence.json`）；**v1 备份** `figS4_bootstrap_convergence.v1.{png,pdf,json}`；对比预览 `preview_figS4_v1_v2.html` | `build_figS4_bootstrap_convergence.py`（**v2 版脚本**，2026-09-21 两面板改版；复现命令见第三节，实测明细见第七节） | 同上 | 2026-09-21（v1：2026-09-20） |
 | 图 S5 | Supplementary Results | `figS5_speed_vram.png`（+`.pdf`、`figS5_speed_vram.json`） | `scripts/figures_reference_matching_20260914/build_figS5_speed_vram.py` | `05_baselines/SPEED_VRAM_BENCH.json`（**144 条原始逐次测量**）+ `05_baselines/SPEED_VRAM_BENCH.csv`（汇总），两者由 `scripts/limitation_closure_20260915/bench_inference_speed_vram.py` 在 6 个固定单元上产出；计划与口径定义见 `docs/REFERENCE_FIG_SPEED_VRAM_PLAN.md` | 2026-09-20 |
 
 ## 二、版式契约（本图集的硬约束）
 
 - 正文契约：`docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx` 的 `Normal` = **Times New Roman 11 pt**；图宽 **17 cm**。
-- 老师口径（F09 / N01 主口径）：图内承载信息的文字，在实际嵌入尺寸下必须**≥ 正文**。
+- AI 辅助评审口径（F09 / N01 主口径）：图内承载信息的文字，在实际嵌入尺寸下必须**≥ 正文**。
 - 图 1—5、图 8、图 S1 的画布为 1280 × 900 单位，置于 17 cm 时 1 单位 = **0.3765 pt**，
   故最小信息字号取 **30 单位 ≈ 11.29 pt**；全图 Times New Roman。
 - 图 S2/S3 与图 6/7 由 matplotlib 以**稿件实际宽度 17 cm** 建立，因此脚本里写的字号即印刷字号；
@@ -160,7 +160,7 @@ node scripts/figures_reference_matching_20260914/build.mjs
 | 建议图号 | 状态 | 原因 |
 |---|---|---|
 | 多方法同样本对比图（≥3 样本，≈6—10 方法 + GT，本文与 GT 相邻） | **已产出（2026-09-18）** | 原阻塞条件已满足：改由 S8 的统一共同区域口径出图，生成器 `build_fig7_multimethod_samples.py`，MPDD 6 方法 × 6 类 × 3 样本、BTAD 6 方法 × 3 类 × 3 样本（列与样本见第六节）。本包每类覆盖 6 个方法列（A1_J/A1_L、AnomalyDINO canvas 与 rotation、PatchCore local128 与 official224）；这些 dump 现已全部落盘，mpdd/btad/visa/mvtec 均为 6 列（mvtec 已于 2026-09-19 16:20 按重算后的表重出）；缺列时仍按「n/a」降级并记入 JSON，不中断构建。 |
-| 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。老师口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
+| 真模块消融图（去模块 / 去分支） | **已产出（探索性）** | 改由 `figS2_shared_op_ablation.png` 承担：E2 消融去掉了三个共享操作（平滑、逐支归一化、分数级融合 vs 朴素拼接）中的一个。但数据 **只有 seed 0、K = 1**，单次运行、无区间，因此图上标注「exploratory」、不进入确认性主张。AI 辅助评审口径下的「DINO-only 不算消融」仍成立：单支 B/S/C 诊断不作为消融。 |
 | 四数据集（MVTec/VisA）交互行 | **已产出（2026-09-19）** | `generalization_mvtec_visa_20260915/p1_statistics/bootstrap_samples.npz`（2026-09-19 00:24，≈116 MB）与 `generalization_mvtec_visa_20260915/interaction_generalization.csv`（2026-09-19 00:34，2600 B，8 行 = 4 数据集 × I_TRI/I_BAL，`available` 全为 True、`n_replicates` = 1000）均已落盘。`seeds_extension_20260917/ANALYSIS_CHAIN.json` 仍是 2026-09-18 的旧链日志（记 `stats_v2_mvtec_visa`/`c5_generalization_interactions` 退出码非 0），**未反映夜跑结果**。图 4 的 (b) 面板已画出这四行：重跑 `node scripts/figures_reference_matching_20260914/build.mjs` 打印 `[fig4] band (b) now carries 8 rows …`（退出码 0），`layouts/fig4_effects_interaction.layout.json` 里第 5—8 行分别是 `MVTec I TRI`、`MVTec I BAL`、`VisA I TRI`、`VisA I BAL`，各带一条 `GEN` 车道（`i4-GEN-bar`…`i7-GEN-mark`）；`i4-GEN-bar` 的 bbox 右端 x = 659.33 + 102.35 = 761.68，与 `mvtec/I_TRI` 的 `bootstrap_mean` 0.0043247 按 (b) 轴 `470 + (v + 0.008)/0.03 × 710` 换算一致。 |
 | loss–epoch 收敛曲线 | 不适用（**替代图已产出：图 S4，2026-09-20；2026-09-21 改版为 v2 两面板**） | 冻结检索方法没有目标域训练，不能为该曲线编造数据。原用图 5（K 曲线）与图 8（资源）替代；2026-09-20 起由**图 S4**（`figS4_bootstrap_convergence`）承接「估计是否收敛/稳定」这一意图：它是已冻结自助样本**前缀**（N = 50→1000）下点估计与 95% 区间宽度的收敛曲线，不新采样、不重算。不适用的完整说明与可引用段落见 `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`。 |
 
@@ -364,7 +364,7 @@ copy 清单里一直显示 `not listed in FIGURE_BINDING.md`。现已在 `parse_
 ## 七、图 S4：自助收敛（2026-09-20 新增，2026-09-21 改版为 v2；替代不适用的 loss 收敛曲线）
 
 **它为什么存在**：本方法在目标域**不做任何训练**（冻结编码器 + 固定匹配规则），因此不存在优化目标，
-也就没有 loss–iteration 曲线；为它画一条曲线等于编造过程。图 S4 承接导师原来的真实意图
+也就没有 loss–iteration 曲线；为它画一条曲线等于编造过程。图 S4 承接外部评审原来的真实意图
 「结果/估计是否收敛、是否稳定」，用**已经落盘的自助样本前缀**回答，不新采样、不重算任何统计量。
 完整说明（含可直接写进论文/回复审稿人的英中段落）见
 [`docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`](docs/REFERENCE_FIG_CONVERGENCE_PLAN.md)。
@@ -436,7 +436,7 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
 |---|---|
 | 产物 | `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/baseline_common_region_ext.csv`（1188 行 = 冻结 864 + 新方法 324） |
 | 新的正文图号 | **无**（本轮不出图；新方法也**未**并入正文 Table 11） |
-| **正文落地（2026-09-21 补）** | 该扩展表已作为**权威稿正文 Table 12** 落地：表题 `Extension of Table 11 with three further external families under their own native protocols.`；表源 = `scripts/paper_complete_teacher_review_20260920/tables.json` 的 `baselines_ext` 键；正文指引句在 `results.md` §4.2.7（Table 11 讨论段之后、`{{table:baselines_ext}}` 之前）。表号顺延：原 Table 12–19 → 现 Table 13–20（共 **20 表**）。构建命令同 `scripts/paper_complete_teacher_review_20260920/build.py` |
+| **正文落地（2026-09-21 补）** | 该扩展表已作为**权威稿正文 Table 12** 落地：表题 `Extension of Table 11 with three further external families under their own native protocols.`；表源 = `scripts/paper_complete_review_20260920/tables.json` 的 `baselines_ext` 键；正文指引句在 `results.md` §4.2.7（Table 11 讨论段之后、`{{table:baselines_ext}}` 之前）。表号顺延：原 Table 12–19 → 现 Table 13–20（共 **20 表**）。构建命令同 `scripts/paper_complete_review_20260920/build.py` |
 | 表内数字溯源 | 新方法三列（`SubspaceAD 256 fp16` / `WinCLIP+ 240` / `AnomalyCLIP zero-shot 518`）= `…/05_baselines_ext_20260921/EXT_MACRO_SUMMARY.json` 的 `mean_macro_pixel_ap_per_dataset`（各 16 / 16 / 4 个单元的平均，已按 4 位小数入表）；冻结 6 列 = Table 11 数值**逐行照抄** |
 | 是否被现有图脚本消费 | **否**。`build_fig7_multimethod_samples.py` 的 `--region-table` 默认仍指向 `05_baselines/baseline_common_region.csv`，本图集实际出图用的是 `05_baselines_multi_dataset/baseline_common_region.csv`（6 列）。若将来要用 9 列版出图，需显式传 `--region-table …/05_baselines_ext_20260921/baseline_common_region_ext.csv` 与 `--geometry …/common_region_geometry_region_parts.json`（**本轮未做，也未验证**；逐样本数据在新方法侧位于 `…/05_baselines_ext_20260921/<method>/region_maps/**`，与该脚本现在读取的三处来源不同） |
 | 一致性 | 新方法覆盖矩形均为 `[0,1]²`，36/36 个 (dataset, category) 的共同区域与冻结版 `region_rect`/`region_grid` **完全相同**；旧 6 列在联合重算与单独重放中各 864 行、**0 处不一致**。证据 `…/05_baselines_ext_20260921/EXT_CHECKS.json` |
@@ -444,9 +444,9 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
 
 ## 九、2026-09-21 图 S4 合并（v2 收敛 + stability 绝对尺度，两页）
 
-**背景**：权威稿（`docs/paper_complete_teacher_review_20260920/`）原用 `figS4_bootstrap_stability` 两页（(a)(b) 前缀均值+95% 带、
+**背景**：权威稿（`docs/paper_complete_review_20260920/`）原用 `figS4_bootstrap_stability` 两页（(a)(b) 前缀均值+95% 带、
 (c)(d) 区间宽度比），与我方 `figS4_bootstrap_convergence`（v1/v2）**同源同数**（权威稿脚本
-`scripts/paper_complete_teacher_review_20260920/figure_sources/plot_supplementary_figures.py` 的 `S4_JSON` 正是
+`scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py` 的 `S4_JSON` 正是
 `docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.json`）。
 
 **判断**：互补（stability 的绝对水平面板 vs v2 的相对偏差面板各为对方所缺），仅"区间宽度比"面板重复 ⇒ **合并**。
@@ -454,14 +454,14 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
 
 | 图 S4（合并后） | 采用文件 | 说明 |
 |---|---|---|
-| 第 1 页（收敛） | `docs/paper_complete_teacher_review_20260920/figures/figS4_bootstrap_convergence.png`（+`.pdf`，由本目录 v2 复制） | v2 两面板：相对 N = 1000 的点估计偏差（含 N ≥ 200 灰带）、区间宽度相对变化（±5% 带、N = 500 虚线） |
-| 第 2 页（稳定性） | `docs/paper_complete_teacher_review_20260920/figures/figS4_bootstrap_stability.png` | 前缀均值 + 95% 百分位区间带（I_TRI、I_BAL），绝对尺度 |
-| 去重移出 | `docs/paper_complete_teacher_review_20260920/figures/superseded/figS4_bootstrap_stability_part2.{png,pdf}` | 原 (c)(d) 宽度比页，与第 1 页 (b) 内容重复；**保留可回溯，未删** |
+| 第 1 页（收敛） | `docs/paper_complete_review_20260920/figures/figS4_bootstrap_convergence.png`（+`.pdf`，由本目录 v2 复制） | v2 两面板：相对 N = 1000 的点估计偏差（含 N ≥ 200 灰带）、区间宽度相对变化（±5% 带、N = 500 虚线） |
+| 第 2 页（稳定性） | `docs/paper_complete_review_20260920/figures/figS4_bootstrap_stability.png` | 前缀均值 + 95% 百分位区间带（I_TRI、I_BAL），绝对尺度 |
+| 去重移出 | `docs/paper_complete_review_20260920/figures/superseded/figS4_bootstrap_stability_part2.{png,pdf}` | 原 (c)(d) 宽度比页，与第 1 页 (b) 内容重复；**保留可回溯，未删** |
 
 - **排版**：合并后按 **16 cm** 宽入稿（原 17 cm）。原因：第 1 页 2342×3290 px 在 17 cm 下高 23.9 cm，加图注 ≈ 2.5 cm 会超过模板可用页高
   25.70 cm（实读版式模板 A4：页 21.00 × 29.70 cm，四边页边距 2.00 cm），会逼出"图与图注分页"；16 cm → 高 22.5 cm。
 - **数值零改动**：两页都复用**已渲染好的 PNG**，未重跑绘图、未改任何前缀数据。
 - **连带影响**：已交付的图件 PPT 第 20–21 页内嵌的是合并前的两页位图；本轮**未重出 PPT**。
-  重出命令：`node scripts/paper_complete_teacher_review_20260920/figure_sources/build_deck.mjs`
+  重出命令：`node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs`
   （该脚本从 `figures.json` 生成 58 页 PPT + `FIGURE_SLIDE_INDEX.json` + `图件与PPT页码索引.md`，页数与页码均不变）。
 

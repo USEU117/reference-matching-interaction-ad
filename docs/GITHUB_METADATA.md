@@ -3,7 +3,7 @@
 - 日期：2026-09-21（Asia/Shanghai）
 - 用途：仓库改名收尾时，把下面各段**逐字复制**到 GitHub 网页对应字段。所有数字与链接均从盘上产物或本机 git 实读，未编造。
 - 改名前后对照：远端仓库已改名为 **`USEU117/reference-matching-interaction-ad`**（**远端改名已完成**：本地 `origin` 已指向新 URL，`origin/main..HEAD` = 0；旧地址自动重定向）。§3 的网页步骤保留作记录，重跑无意义。
-- 相关脚本：`tools/rename_folder_to_reference_matching_interaction.ps1`（本地物理目录改名，**本文件只给网页与命令行步骤，不执行任何动作**）。
+- 相关脚本：`tools/rename_folder_to_reference_matching_interaction_ad.ps1`（本地物理目录改名，**本文件只给网页与命令行步骤，不执行任何动作**；脚本的旧名/新名已参数化）。
 
 ---
 
@@ -75,7 +75,7 @@ mvtec-ad
 4. 把名称改为 **`reference-matching-interaction-ad`**，点 **Rename**。（GitHub 会在弹窗里提示影响范围，确认即可。）
 5. **重定向说明**：GitHub 自动为旧仓库地址建立重定向——旧的网页链接、`git clone`、`git fetch`/`push` 到旧 URL 都会被转到新仓库名。重定向**只在旧名没有被他人占用**时生效；如果之后有人新建了同名旧仓库名的仓库，重定向会失效。因此**建议尽快把本地与各处引用改成新 URL**（见第 4 节），不要长期依赖重定向。
 6. 顺带在 **Settings → General → Social preview** 上传一张预览图（可选，本仓库图源见 `docs/figures_reference_matching_20260914/`）。
-7. 网页改名**不会**改动本地磁盘上的任何目录名；本地物理目录的改名是另一件事（见 `tools/rename_folder_to_reference_matching_interaction.ps1`）。
+7. 网页改名**不会**改动本地磁盘上的任何目录名；本地物理目录的改名是另一件事（见 `tools/rename_folder_to_reference_matching_interaction_ad.ps1`）。
 
 ---
 

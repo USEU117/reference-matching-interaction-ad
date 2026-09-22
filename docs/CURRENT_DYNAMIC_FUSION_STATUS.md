@@ -4,7 +4,7 @@
 机器可读历史快照：`docs/current_dynamic_fusion_status.json`
 状态快照：`experiments/dynamic_fusion/reconciliation/dynamic_fusion_state_reconcile_20260818_v1/state.json`
 
-本文件保留算法路线和机器状态的权威历史记录。面向导师汇报和论文写作的最新、浅显总览为 `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`；最终方法细节以 `submission_repro_20260827/METHOD_SPEC_V2.md` 为准。旧历史报告（阶段七 2026-08-17、V3/V2 各版本）只读保留，不代表当前结论。
+本文件保留算法路线和机器状态的权威历史记录。面向外部评审汇报和论文写作的最新、浅显总览为 `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`；最终方法细节以 `submission_repro_20260827/METHOD_SPEC_V2.md` 为准。旧历史报告（阶段七 2026-08-17、V3/V2 各版本）只读保留，不代表当前结论。
 
 ---
 
@@ -146,7 +146,7 @@ P1-A/B/D 已同时包含机器可读 JSON/CSV、Markdown 表、生成脚本、�
 1. BTAD/MVTec CLIP-image-only：✅ 18/18 配置、六指标完成；A1 Pixel-AP 在两数据集全部 18 个配置中高于 CLIP-only。结果在 `experiments/dynamic_fusion/v3_direction_a/clip_only_controls_20260830/`。
 2. 数据许可：✅ BTAD 确认为 CC BY-SA 4.0；✅ MPDD 官方仓库为 CC BY-NC-SA 4.0。不得把 VT-ADL 代码的 MIT 许可证误写为 BTAD 数据许可证。
 3. 论文图件：✅ 11 张图完成，包括方法、协议、配置增益、类别边界、六指标、三分支、效率及成功/失败案例；定量图均有 SVG/PDF/600-dpi PNG，QA 通过。
-4. 中文导师会议总览：✅ `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`。
+4. 中文外部评审会议总览：✅ `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`。
 5. 当前阶段：A1 与 RCEC 结论均保持不变；用户于 2026-09-02 明确重新授权一个独立的 `innovation_v2` 多路线算法计划。新路线只在 MPDD 开发，在任何路线完成冻结验证前，A1 仍是当前论文方法；英文写作和期刊筛选可并行进行。
 
 ## 12. RCEC 创新方向实现与验收（2026-09-02，负结果归档）

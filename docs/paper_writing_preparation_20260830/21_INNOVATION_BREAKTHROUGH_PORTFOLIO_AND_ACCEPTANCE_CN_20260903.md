@@ -8,7 +8,7 @@
 
 ## 0. 先给结论
 
-老师指出“两个视觉分支本身都是成熟方法，只做融合可能创新偏薄”，这个判断是合理的，但不等于项目必须推倒重来。真正需要改变的是创新落点：不能再把“用了 DINO + CLIP、做了 concat/加权”本身当贡献，而要提出并验证一个现有分支没有回答的新科学问题。
+AI 辅助评审指出“两个视觉分支本身都是成熟方法，只做融合可能创新偏薄”，这个判断是合理的，但不等于项目必须推倒重来。真正需要改变的是创新落点：不能再把“用了 DINO + CLIP、做了 concat/加权”本身当贡献，而要提出并验证一个现有分支没有回答的新科学问题。
 
 综合仓库里已经完成的十轮以上探索、负结果边界和 2024—2026 年近邻论文，本项目目前最值得继续的三个突破口是：
 
@@ -440,7 +440,7 @@ R0：先用 evaluator 做 small-defect oracle，只有高分辨率相对 A1 的 
 
 ### 7.4 Object-Set Expert（独立逻辑异常论文方向）
 
-若老师允许扩展任务到 MVTec LOCO/装配异常，可用实例/组件集合的数量、存在性和二部匹配作为独立 expert，再由 normality regime 路由外观 A1 与逻辑 expert。
+若AI 辅助评审允许扩展任务到 MVTec LOCO/装配异常，可用实例/组件集合的数量、存在性和二部匹配作为独立 expert，再由 normality regime 路由外观 A1 与逻辑 expert。
 
 但 UniVAD 和 ObjectCore 已直接覆盖 component clustering/graph/bipartite matching；本项目必须提出新的“support-conditioned expert choice”或“跨视角组件守恒”机制。SPRG 在 MPDD 的节点稳定率只有 36%，因此不得继续在 MPDD 上硬做组件图。
 
@@ -487,7 +487,7 @@ A1 的图像分数直接取 map max，BTAD Image-AP/F1 边界明显。可从多�
 | BC-MCR blind-center repair | 中 | 中高 | 中低 | 中 | 与 reconstruction 近邻碰撞 | **第三优先** |
 | IC-Router | 高 | 中 | 中 | 中 | 退化为平滑/增强平均 | 作为 RSR 单一扩展 |
 | AARC resolution cascade | 中 | 中 | 中低 | 高 | 多尺度近邻拥挤、proposal 漏检 | small-defect oracle 通过才做 |
-| Meta-RSR | 中 | 高 | 中 | 高 | 不再 training-free | 老师接受新协议时做 |
+| Meta-RSR | 中 | 高 | 中 | 高 | 不再 training-free | AI 辅助评审接受新协议时做 |
 | Object-Set Expert | 低 | 中高 | 中 | 中高 | UniVAD/ObjectCore 近邻强 | 另立 LOCO 论文方向 |
 | E-Fuse conformal | 高 | 中/部署型 | 中 | 低 | K 太小、保证不成立 | winner 后做第二贡献 |
 | CP-Metric | 中 | 低中 | 低 | 中 | G²SF/PGBL 碰撞 | 不优先 |
@@ -603,7 +603,7 @@ outputs/dynamic_fusion/innovation_v11_regret_router/  # gitignored 大缓存
 
 ### Phase 4：若 RSR 失败，按证据分叉
 
-- Oracle 足够、伪 regret 不迁移：老师接受协议变化时转 Meta-RSR/NR-MoE；
+- Oracle 足够、伪 regret 不迁移：AI 辅助评审接受协议变化时转 Meta-RSR/NR-MoE；
 - Oracle 不足：停止 router，转 BC-MCR 创造结构专家；
 - Oracle 只在 small defect 明显：先做 AARC high-resolution oracle；
 - 只改善 image metric：单独做 Topo-Head，不改 pixel method；

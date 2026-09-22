@@ -8,7 +8,7 @@
 
 ## 2026-09-01 更新说明
 
-本文的方法主线和四数据集 A1 结论仍然有效。本次补入 8 月 27 日之后完成的内容：BTAD/MVTec 共 18 组 CLIP-image-only 六指标对照、BTAD 与 MPDD 许可核验、11 张论文图及图件 QA，以及当前投稿准备状态。用于向导师口头汇报时，优先阅读 `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`；本文继续作为论文中文母稿。
+本文的方法主线和四数据集 A1 结论仍然有效。本次补入 8 月 27 日之后完成的内容：BTAD/MVTec 共 18 组 CLIP-image-only 六指标对照、BTAD 与 MPDD 许可核验、11 张论文图及图件 QA，以及当前投稿准备状态。用于向外部评审口头汇报时，优先阅读 `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`；本文继续作为论文中文母稿。
 
 ## 一、建议题目
 
@@ -351,7 +351,7 @@ AnomalyCLIP 的来源是视觉—语言模型，但 A1 推理没有文本输入�
 - 跨方法对照：`submission_repro_20260827/evidence/p1/p1_r3_baseline_comparison.*`
 - Introduction 文献入口：`docs/introduction_research_20260825/INTRODUCTION_LITERATURE_MASTER_20260826.md`
 - BibTeX 草稿：`docs/introduction_research_20260825/references.bib`
-- 导师会议版中文总览：`docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`
+- 外部评审会议版中文总览：`docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`
 - BTAD/MVTec CLIP-only 控制：`docs/paper_writing_preparation_20260830/09_BTAD_MVTEC_CLIP_ONLY_CONTROL_RESULTS.md`
 - BTAD 许可证据：`docs/paper_writing_preparation_20260830/BTAD_LICENSE_EVIDENCE.md`
 - 论文图件与英文图注：`docs/paper_writing_preparation_20260830/figures_20260830/README.md`

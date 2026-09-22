@@ -61,5 +61,5 @@ A1 的深 层 0.5/0.5 concat 已吸收多层增益的绝大部分。任何试图
    负结果表，附 CONTROL_RESULTS.csv。
 2. 要救"跨分支交互"这一想法，证据表明：必须 (a) 训练与推理共用逐类 support 统计且 loss 显式
    奖励"条件化稀疏门"（而不是靠 seg 隐式）；或 (b) 换到 memory-retrieval 型（E6）在推理时
-   显式重排，而非训练残差。二者都需 supervisor 拍板后再预注册。
-3. doc 22 队列 PRS 仍为开放项，优先级建议由 supervisor 决定（doc 23 主线已闭环为负）。
+   显式重排，而非训练残差。二者都需 reviewer 拍板后再预注册。
+3. doc 22 队列 PRS 仍为开放项，优先级建议由 reviewer 决定（doc 23 主线已闭环为负）。

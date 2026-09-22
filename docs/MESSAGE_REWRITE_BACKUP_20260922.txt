@@ -1,0 +1,60 @@
+COMMIT-MESSAGE REWRITE BACKUP - 2026-09-22 (local, Asia/Shanghai)
+
+PURPOSE
+  Snapshot of every ref that matters, taken immediately before rewriting commit
+  MESSAGES across the public history. File trees / commit contents are NOT touched.
+
+PRE-REWRITE HEAD
+  the commit that carries this file; resolve it with:
+      git rev-parse backup/pre-message-rewrite-20260922
+  (it is the HEAD of main immediately before the message rewrite; the previous
+   HEAD, before the neutralisation commit, was c91d0935b4a4accacc67254021d020be71a11802)
+
+BACKUP BRANCH  (local only - do NOT push)
+  backup/pre-message-rewrite-20260922  ->  the pre-rewrite HEAD described above
+
+REFS COPIED ASIDE SO filter-branch -f CANNOT CLOBBER THEM
+  refs/backup/original-main-prev-rewrite -> c1f2ada378abc68793683aba55bfa1b44720b164
+    (this was refs/original/refs/heads/main, left over from an earlier message rewrite)
+
+TAGS AT BACKUP TIME (all are ancestors of main; old SHA -> new SHA after the rewrite)
+  name                          old-SHA
+  audit-closure-20260919        24ac00758d3fe55c177ef28d1105da8e63784bd1
+  b-interval-fix                65d14e432669bf9264d98e38b4041119ddc89299
+  closure-round-2-20260919      99da02c98d7b744c0b4d26ba717350f8e48ffa1b
+  final-20260920                74619098a9ead2eb9c4c66309a06410a1f130505
+  handover-20260919             537ca67f2e28edb9b6575e17d3fe5f685813a6e4
+  night-20260918                abd531c1b42a78da23bc264c77e46c00a4b5e16b
+  night-20260918-final          74c354764e12b7e1624028a7b5a996280d7da940
+  paper-materials-20260919      6b69082c5b49305a701d446ea7a8c040f0941ed4
+  reference-figures-20260920    3a438cd1fa48e48cbae52c7c1889d8c4b1f24b7a
+  submission-prep-20260920      cc05010f3f29f010a94fbb31d6fb6a466a2bb913
+
+OTHER LOCAL-ONLY REFS AT BACKUP TIME (never pushed by 'git push origin main --tags')
+  refs/original/refs/heads/main -> c1f2ada378abc68793683aba55bfa1b44720b164
+  refs/codex/turn-diffs/checkpoints/1e091d9c2b46222676df3e600c1dc4169d9e061fbc3e362219e1c84d8f2ac3bd/dedd11bce28e38c5dc016fcadeb5c2da45ba357893129b559ed9c1b346ce9f1e/1789039849481/f9e9c1eb-2cfb-4cc6-ae7e-b85d9d9a5b74 30011ae
+  refs/codex/turn-diffs/checkpoints/37ce9e1f80a364564b39c66ab9fe14ec8a345aa647c19f9e989dd3d4c0c5b55d/17f7794b4c5ae11831634c5636e5e79de71a9bd01478c6cda1ae369f066e9c55/1789274880458/7b696529-a08b-408d-8907-4c8687087af7 807fb66
+  refs/codex/turn-diffs/checkpoints/68029fdd3b34b11dd5295215b3be48ede5d8ddfcb25d88eaead2769513068414/1e1526ee3fd3ee5f7aaa53d7d053d95d13302c4045b26156338fe6c7ccb3e83d/1788748702564/97b2a430-a467-4779-a005-1c0909e37c02 0fd9af3
+  refs/codex/turn-diffs/checkpoints/b6ab46198853738d8c522e176c940d130773e05db764e94c3e23df0141be844b/447f0bc9df581694eaef689c6196a963a5c5dde5ab28b9d62b234df3699f547e/1788781389258/33f95a50-797d-429e-b39b-eed2018d27ab 5e48be6
+  refs/codex/turn-diffs/checkpoints/c356d9cc528bac86f0eda41fbce35e60cfa9f415454a83fdcf8acf60ef4c7a57/b3d32ad313cd7bea8e9c3d9a29aa952f9036dfbb2e9adaeb0f6753b9f4ecd207/1788745753621/f2ed7dc2-e3af-431a-b8d3-cb57a044d831 0fd9af3
+  refs/codex/turn-diffs/checkpoints/cfbd86de23a66a5ba3134ef8f7b0f5fb13afb51b1c770f989b1d6c4c1a4e4899/aeb08ae2746f4fee3e183b9054256976a4de0fd4a9468b3d7a9c22e043a8f21d/1789193808450/5fe2e4a2-5c86-4e65-b159-e19a334f39e4 302e9a6
+
+REMOTE AT BACKUP TIME
+  origin/main -> c91d0935b4a4accacc67254021d020be71a11802
+  origin url  -> https://github.com/USEU117/reference-matching-interaction-ad.git
+
+ROLLBACK (run only if the rewrite or the force-push goes wrong)
+  1) git branch -f main backup/pre-message-rewrite-20260922
+  2) git checkout main ; git reset --hard backup/pre-message-rewrite-20260922
+  3) restore every tag at the old SHA listed above:
+       git tag -f <name> <old-SHA>
+  4) git push --force-with-lease origin main
+     git push --force origin --tags
+  5) verify: git ls-remote origin main ; git status -sb
+  The pre-rewrite objects also survive locally in the reflog until 'git gc'.
+
+SCOPE OF THE REWRITE
+  - commits rewritten: every commit reachable from refs/heads/main and refs/tags/*
+  - substituted text: old project name tokens and the wording that pointed at
+    outside human guidance; file trees are untouched
+  - NOT rewritten (local-only scratch refs): refs/original/*, refs/codex/*, backup/*

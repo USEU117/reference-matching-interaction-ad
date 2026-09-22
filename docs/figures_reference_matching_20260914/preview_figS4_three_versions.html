@@ -70,14 +70,14 @@
   </div>
   <div class="col">
     <h3>stability（权威稿原图）<span class="tag">4 面板 / 2 页</span><span class="tag">无门禁</span></h3>
-    <img src="../paper_complete_teacher_review_20260920/figures/figS4_bootstrap_stability.png" alt="权威稿图 S4 第 1 页：前缀均值与 95% 区间带">
-    <img src="../paper_complete_teacher_review_20260920/figures/superseded/figS4_bootstrap_stability_part2.png" alt="权威稿图 S4 第 2 页：区间宽度比（已去重，移入 superseded）">
+    <img src="../paper_complete_review_20260920/figures/figS4_bootstrap_stability.png" alt="权威稿图 S4 第 1 页：前缀均值与 95% 区间带">
+    <img src="../paper_complete_review_20260920/figures/superseded/figS4_bootstrap_stability_part2.png" alt="权威稿图 S4 第 2 页：区间宽度比（已去重，移入 superseded）">
     <p class="meta">
       文件：<code>figS4_bootstrap_stability.png</code>（第 1 页）+ <code>figS4_bootstrap_stability_part2.png</code>（第 2 页）<br>
       像素：<code>2342 × 2065</code> + <code>2342 × 1995</code>　体积：<code>222,375 B</code> + <code>268,122 B</code>（合计 490,497 B）<br>
       最小字号：<code>11 pt</code>（脚本 rcParams <code>font.size=11</code>，全部 text 显式 11 pt；<b>无字号/互压断言</b>）<br>
       面板：(a)(b) 前缀均值 + 95% 区间带（I_TRI、I_BAL）/ (c)(d) 区间宽度比（I_TRI、I_BAL）<br>
-      生成脚本：<code>scripts/paper_complete_teacher_review_20260920/figure_sources/plot_supplementary_figures.py</code>（<code>build_s4_estimate_figure</code> L131、<code>build_s4_width_figure</code> L211）
+      生成脚本：<code>scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py</code>（<code>build_s4_estimate_figure</code> L131、<code>build_s4_width_figure</code> L211）
     </p>
   </div>
 </div>
@@ -148,12 +148,12 @@
 <h2>五、落地位置（已改的源与产物）</h2>
 <table>
   <tr><th>文件</th><th>改前</th><th>改后</th></tr>
-  <tr><td><code>scripts/paper_complete_teacher_review_20260920/figures.json</code> 的 <code>stability</code></td><td>parts = [stability, stability_part2]，无 <code>width</code>（默认 17）</td><td>parts = [convergence, stability]，<code>width: 16</code>；图注改为两页分述</td></tr>
-  <tr><td><code>docs/paper_complete_teacher_review_20260920/figures/</code></td><td>figS4_bootstrap_stability{,_part2}.png</td><td>+ <code>figS4_bootstrap_convergence.png/.pdf</code>；<code>_part2.*</code> → <code>superseded/</code></td></tr>
-  <tr><td><code>docs/paper_complete_teacher_review_20260920/FIGURE_SLIDE_INDEX.json</code> 第 20、21 条</td><td>stability + stability_part2</td><td>convergence + stability（与重跑 <code>build_deck.mjs</code> 会生成的样式一致）</td></tr>
-  <tr><td><code>docs/paper_complete_teacher_review_20260920/图件与PPT页码索引.md</code> 第 20、21 行</td><td>stability + stability_part2</td><td>convergence + stability</td></tr>
+  <tr><td><code>scripts/paper_complete_review_20260920/figures.json</code> 的 <code>stability</code></td><td>parts = [stability, stability_part2]，无 <code>width</code>（默认 17）</td><td>parts = [convergence, stability]，<code>width: 16</code>；图注改为两页分述</td></tr>
+  <tr><td><code>docs/paper_complete_review_20260920/figures/</code></td><td>figS4_bootstrap_stability{,_part2}.png</td><td>+ <code>figS4_bootstrap_convergence.png/.pdf</code>；<code>_part2.*</code> → <code>superseded/</code></td></tr>
+  <tr><td><code>docs/paper_complete_review_20260920/FIGURE_SLIDE_INDEX.json</code> 第 20、21 条</td><td>stability + stability_part2</td><td>convergence + stability（与重跑 <code>build_deck.mjs</code> 会生成的样式一致）</td></tr>
+  <tr><td><code>docs/paper_complete_review_20260920/图件与PPT页码索引.md</code> 第 20、21 行</td><td>stability + stability_part2</td><td>convergence + stability</td></tr>
 </table>
-<p class="sub"><b>已知连带影响</b>：已交付的图件 PPT 第 20–21 页内嵌的是<b>合并前</b>的两页渲染（PPTX 内嵌位图，不受源文件移动影响）；本次<b>未重出 PPT</b>，故论文图 S4 与 PPT 第 20–21 页不再逐像素一致。重出方式：<code>node scripts/paper_complete_teacher_review_20260920/figure_sources/build_deck.mjs</code>（需本机 codex 运行时里的 <code>@oai/artifact-tool</code>）。</p>
+<p class="sub"><b>已知连带影响</b>：已交付的图件 PPT 第 20–21 页内嵌的是<b>合并前</b>的两页渲染（PPTX 内嵌位图，不受源文件移动影响）；本次<b>未重出 PPT</b>，故论文图 S4 与 PPT 第 20–21 页不再逐像素一致。重出方式：<code>node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs</code>（需本机 codex 运行时里的 <code>@oai/artifact-tool</code>）。</p>
 
 <h2>六、可入稿图注（合并后，两页）</h2>
 <div class="cap">
@@ -164,7 +164,7 @@
 
 <footer>
   三版源文件：<code>figS4_bootstrap_convergence.v1.{png,pdf,json}</code>、<code>figS4_bootstrap_convergence.{png,pdf,json}</code>（本目录）；
-  stability 版在 <code>docs/paper_complete_teacher_review_20260920/figures/</code>。
+  stability 版在 <code>docs/paper_complete_review_20260920/figures/</code>。
   绑定与实测明细见 <code>FIGURE_BINDING.md</code> 图 S4 行与第七、第八节；差异审计与"唯一可编辑源"见 <code>docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md</code>；
   「为什么没有 loss 收敛曲线」见 <code>docs/REFERENCE_FIG_CONVERGENCE_PLAN.md</code>。
   v1/v2 两版的历史对照仍保留在 <code>preview_figS4_v1_v2.html</code>。

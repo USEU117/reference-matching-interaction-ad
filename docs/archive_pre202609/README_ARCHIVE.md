@@ -11,7 +11,7 @@
 | [`../HANDOVER_20260919.md`](../HANDOVER_20260919.md) | 交接正文：结论 / 证据链 / 踩坑 / 边界 |
 | [`../ARTIFACT_INDEX.md`](../ARTIFACT_INDEX.md) | 产物总索引：工作流 → 目录 → 产物 → 复现命令 → 状态 |
 
-配套（仍为当前口径）：[`../paper_complete_teacher_review_20260920/`](../paper_complete_teacher_review_20260920/)（权威稿与图件 PPT）、
+配套（仍为当前口径）：[`../paper_complete_review_20260920/`](../paper_complete_review_20260920/)（权威稿与图件 PPT）、
 [`../figures_reference_matching_20260914/FIGURE_BINDING.md`](../figures_reference_matching_20260914/FIGURE_BINDING.md)（图件绑定专表）、
 [`../REMEDIATION_PLAN_20260920.md`](../REMEDIATION_PLAN_20260920.md) / [`../ISSUE_REGISTER_20260920.md`](../ISSUE_REGISTER_20260920.md)。
 
@@ -46,7 +46,7 @@
 
 | 目录 | 说明 |
 |---|---|
-| `figures_package_20260917/` | 2026-09-17 的"图件打包视图"（6 个分组：主图 / 说明面板 / 定性案例 / 多方法案例 / 已取代 / 旧主题 DCFnet）。其中 118/127 个文件与现役权威图件目录 `docs/figures_reference_matching_20260914/`（或 `docs/figures_teacher_revision_20260910/`、`docs/main_figure_redraw_20260910/`、`docs/figures_redraw_20260910/`）**逐字节相同**；`05_superseded/` 的 9 个文件是仓内**唯一副本**（`FIGURE_BINDING.md` §五 按名字列出），因此整包归档而非直删 |
+| `figures_package_20260917/` | 2026-09-17 的"图件打包视图"（6 个分组：主图 / 说明面板 / 定性案例 / 多方法案例 / 已取代 / 旧主题 DCFnet）。其中 118/127 个文件与现役权威图件目录 `docs/figures_reference_matching_20260914/`（或 `docs/figures_expanded_20260910/`、`docs/main_figure_redraw_20260910/`、`docs/figures_redraw_20260910/`）**逐字节相同**；`05_superseded/` 的 9 个文件是仓内**唯一副本**（`FIGURE_BINDING.md` §五 按名字列出），因此整包归档而非直删 |
 
 ## 未归档（仍在原位，且**不得移动**）
 

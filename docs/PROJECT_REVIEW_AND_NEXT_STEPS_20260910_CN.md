@@ -8,7 +8,7 @@
 
 审阅方式：梳理项目入口、当前中英文稿、方法与关键实现、冻结证据包、近期创新台账、实验报告及图件材料，并复查四个候选基线的官方仓库。本轮主要是文件与证据审计，没有重新运行完整 GPU 实验；下述已完成实验的数值来自既有归档。不能将本次审阅表述为全部结果的独立复现。
 
-收尾补充：工作区另出现未跟踪的 `docs/figures_teacher_revision_20260910/`，包含扩展 PPTX/PDF 和五张方法 PNG。本轮只读查看了目录与主图，未修改这些文件；它属于基准提交之外的新图件材料，尚未与当前正文绑定，不能以旧验证 JSON 代替其验收。
+收尾补充：工作区另出现未跟踪的 `docs/figures_expanded_20260910/`，包含扩展 PPTX/PDF 和五张方法 PNG。本轮只读查看了目录与主图，未修改这些文件；它属于基准提交之外的新图件材料，尚未与当前正文绑定，不能以旧验证 JSON 代替其验收。
 
 ## 1. 当前判断
 
@@ -96,7 +96,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 
 **4. 收紧“穷尽 / 最优 / 数学无效”的措辞。** 推荐统一为“在给定特征、数据、候选参数和门槛内未发现稳定提升”。严格单调函数作用于最终已完成后处理的分数时保持排序；有限经验 CDF 可能制造并列分数，非线性变换与插值、平滑也一般不交换。因此不能不加条件地将所有 CDF、conformal 或校准方式称为严格 AP 不变量。
 
-**5. 绑定完整图件包。** 9/10 名为 `All_Figures` 的新包实际上只有 Fig. 1–3、Fig. S1–S2 共五张方法图，而当前正文仍引用实证 Figure 4–6。收尾出现的 teacher revision 目录也只见这五类方法 PNG，不能据此判定实证图已补入。实证图并非完全没有，旧包中已有；缺的是把方法新图、实证图、图源数据和正文引用绑定成同一版本。不要直接把方法子包当作整篇论文的全部图件。[论文审计依据](<repo-root>/docs/project_review_20260910/paper_audit.md)
+**5. 绑定完整图件包。** 9/10 名为 `All_Figures` 的新包实际上只有 Fig. 1–3、Fig. S1–S2 共五张方法图，而当前正文仍引用实证 Figure 4–6。收尾出现的 figure revision 目录也只见这五类方法 PNG，不能据此判定实证图已补入。实证图并非完全没有，旧包中已有；缺的是把方法新图、实证图、图源数据和正文引用绑定成同一版本。不要直接把方法子包当作整篇论文的全部图件。[论文审计依据](<repo-root>/docs/project_review_20260910/paper_audit.md)
 
 **6. 修复当前证据索引的完整性。** 本轮逐项哈希核对发现，`VERSIONED_EVIDENCE.sha256` 中的 `CURRENT_DYNAMIC_FUSION_STATUS.md` 和 8/27 中文稿已有内容更新，与保存的哈希不一致，其余清单项相符。这首先是文档版本漂移，不能据此说实验数值失效；但旧索引不能证明当前文件完整性。应在正式版本定稿后重新生成索引，并区分冻结源码提交、历史验收提交和本轮审阅提交。[复现审计依据](<repo-root>/docs/project_review_20260910/repro_audit.md)
 
@@ -218,7 +218,7 @@ R1–R12 主台账与额外 Web / FastRef 探针合计列出 35 个机制族；�
 | [9/10 基线规划](<repo-root>/docs/baseline_plan_20260910/DCFnet_近两年对照算法调研与实验规划_20260910.docx) | 后续完整算法验证计划 |
 | [9/10 新主图](<repo-root>/docs/main_figure_redraw_20260910/DCFnet_Main_Figure_20260910.png) | 当前方法总图候选 |
 | [9/10 方法图集](<repo-root>/docs/figures_redraw_20260910/DCFnet_All_Figures_20260910.pdf) | 主图、融合、记忆及编码器说明 |
-| [工作区新增扩展图集](<repo-root>/docs/figures_teacher_revision_20260910/DCFnet_Figures_Expanded_20260910.pdf) | 基准提交之外的 teacher revision 材料；需选定版本并独立验收 |
+| [工作区新增扩展图集](<repo-root>/docs/figures_expanded_20260910/DCFnet_Figures_Expanded_20260910.pdf) | 基准提交之外的 figure revision 材料；需选定版本并独立验收 |
 | [本轮创新审计](<repo-root>/docs/project_review_20260910/innovation_audit.md) | 逐轮数值、真实/合成/工程分类、未完成项与证据路径 |
 | [本轮论文审计](<repo-root>/docs/project_review_20260910/paper_audit.md) | 当前正文、图件、引用与投稿材料的逐项缺口 |
 | [本轮复现审计](<repo-root>/docs/project_review_20260910/repro_audit.md) | 调用链、当前哈希核查、历史验收、环境与发布边界 |

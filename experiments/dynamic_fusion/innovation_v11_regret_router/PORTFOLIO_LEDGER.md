@@ -18,7 +18,7 @@ doc 21 两条首选主线在本资产内均已被实验关闭：
 1. RSR 因专家池失衡（g3/g4）被 Oracle 门阻断；
 2. BC-MCR 因训练式盲中心无法检测"结构抹除为均值"的 missing 代理（g1–g5 全失败）被归档，
    真实异常验收永不触发。
-剩余可选项全部需要新前置：NR-MoE / Meta-RSR（source 元训练与老师协议变更）、
+剩余可选项全部需要新前置：NR-MoE / Meta-RSR（source 元训练与AI 辅助评审协议变更）、
 AARC（GPU 高分辨率 + small-defect oracle）、Object-Set（LOCO 新数据/新论文协议）、
 Topo-Head（仅 image metric，可低成本独立跑）。
 总体仍指向 doc 21 s12 最后一条与 Scenario E：停止算法搜索，以 A1 + 系统负结果收尾。

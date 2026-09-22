@@ -4,7 +4,7 @@
 
 最后整理：2026-09-14。**本文件是 `docs/` 的阅读入口；只做索引与状态标注，不替代任何实验报告。**
 
-> **当前状态指针（2026-09-22 追加，下表原文不改写）**：唯一权威交付稿 = `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`（47 页 / 20 表 / 22 内嵌图 / 16,969 词），唯一可编辑源 = `scripts/paper_complete_teacher_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}`；本文件下方"current"一栏中标为最新的交接/规格类文档，其**实验口径仍有效，但稿件口径已被 `docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md` 与 `docs/论文与图件问题汇总_仅复核_20260921.md` 取代**。目录状态、清单有效性与清理策略以 [ARTIFACT_INDEX.md](ARTIFACT_INDEX.md) 为准；本轮清理记录见 [PROJECT_CLEANUP_AUDIT_20260922.md](PROJECT_CLEANUP_AUDIT_20260922.md)。
+> **当前状态指针（2026-09-22 追加，下表原文不改写）**：唯一权威交付稿 = `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`（47 页 / 20 表 / 22 内嵌图 / 16,969 词），唯一可编辑源 = `scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}`；本文件下方"current"一栏中标为最新的交接/规格类文档，其**实验口径仍有效，但稿件口径已被 `docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md` 与 `docs/论文与图件问题汇总_仅复核_20260921.md` 取代**。目录状态、清单有效性与清理策略以 [ARTIFACT_INDEX.md](ARTIFACT_INDEX.md) 为准；本轮清理记录见 [PROJECT_CLEANUP_AUDIT_20260922.md](PROJECT_CLEANUP_AUDIT_20260922.md)。
 
 标注含义：
 
@@ -69,19 +69,19 @@
 | [`../experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md`](../experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md) | **最新结果**：六问回答、口径、限制、机器表索引；含"验收修正记录"节 |
 | [CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md](CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md) | R1–R4 受控矩阵汇总（384 行）；文首有 2026-09-14 后续更新标注 |
 | [REFERENCE_COUPLING_PILOT_RESULTS_20260913_CN.md](REFERENCE_COUPLING_PILOT_RESULTS_20260913_CN.md) | `reference_coupling_pilot_v1` 探索性完整小矩阵的执行与结果交接 |
-| [INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md](INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md) | 创新点成果简明版（导师/自读）；文首有三条 2026-09-14 状态更新 |
+| [INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md](INNOVATION_RESEARCH_PROGRESS_SIMPLE_20260913_CN.md) | 创新点成果简明版（外部评审/自读）；文首有三条 2026-09-14 状态更新 |
 
 ### 1.3 论文写作
 
 | 文档 | 说明 |
 |---|---|
-| [PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md](PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md) | 导师审阅版详细提纲（文首有 2026-09-14 状态更新，取代稿内"待验证"表述） |
+| [PAPER_OUTLINE_REVIEW_20260914_CN.md](PAPER_OUTLINE_REVIEW_20260914_CN.md) | 外部评审版详细提纲（文首有 2026-09-14 状态更新，取代稿内"待验证"表述） |
 | [PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md](PAPER_OUTLINE_AND_STORY_SIMPLE_20260914_CN.md) | 论文大纲与完整思路（通俗说明版） |
 | [FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md](FIXED_FUSION_MECHANISM_NOVELTY_ADDENDUM_20260912_CN.md) | 机制创新与近邻文献逐条边界；文末有 2026-09-14 收紧说明（J/L 与多编码器融合均有先例） |
 | [FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md](FIXED_FUSION_RESEARCH_POSITION_AND_PLAN_20260912_CN.md) | 研究定位与计划 |
 | [`../experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/`](../experiments/dynamic_fusion/representation_matching_interaction_20260914/06_paper/) | 主张—证据台账（`claim_to_evidence.csv`）、文献全文核实、摘要与贡献草稿、图件 |
 | [`../docs/manuscript_reference_matching_20260914/`](manuscript_reference_matching_20260914/) | 新主题主图、交互图与定性图件 |
-| [`../docs/paper_outline_teacher_review_20260914/`](paper_outline_teacher_review_20260914/) | 导师审阅版 docx（`_更新版` 为最新；原件保持不变） |
+| [`../docs/paper_outline_review_20260914/`](paper_outline_review_20260914/) | 外部评审版 docx（`_更新版` 为最新；原件保持不变） |
 
 ### 1.4 图件与复现包
 
@@ -108,16 +108,16 @@
 | [PAPER_DETAILED_CHINESE_DRAFT_20260827.md](PAPER_DETAILED_CHINESE_DRAFT_20260827.md)、[PAPER_SUBMISSION_HANDOFF_AND_REPRODUCIBILITY_PLAN_20260826.md](PAPER_SUBMISSION_HANDOFF_AND_REPRODUCIBILITY_PLAN_20260826.md)、[PRE_MANUSCRIPT_READINESS_AUDIT_20260827.md](PRE_MANUSCRIPT_READINESS_AUDIT_20260827.md)、[PROJECT_PROGRESS_AND_MANUSCRIPT_PLAN_FOR_SUPERVISOR_EN_20260827.md](PROJECT_PROGRESS_AND_MANUSCRIPT_PLAN_FOR_SUPERVISOR_EN_20260827.md) | 2026-08-26/27 的旧稿族：绑定的是"A1 双编码器固定融合 + 四数据集 9/9 全正"的旧主线，**不能直接沿用** |
 | [OVERNIGHT_HANDOFF_20260908_CN.md](OVERNIGHT_HANDOFF_20260908_CN.md) | 2026-09-08 夜间交接 |
 | [PROJECT_REVIEW_AND_NEXT_STEPS_20260910_CN.md](PROJECT_REVIEW_AND_NEXT_STEPS_20260910_CN.md)、[project_review_20260910/](project_review_20260910/) | 2026-09-10 的项目/论文/复现审计；图件结论已被 `figures_contour_notation_20260911` 取代 |
-| [lesson_notes_20260905/](lesson_notes_20260905/)、[lesson_notes_20260912/](lesson_notes_20260912/) | 课堂记录与修改清单（原始材料，保留） |
-| [paper_writing_preparation_20260830/](paper_writing_preparation_20260830/)（含 `10_…FOR_SUPERVISOR…`）、`11_…` 至 `38_…` 系列 | 2026-09-01 至 09-09 的探索路线组合与负结果集；**部分路线已被判决关闭**，不作为当前结论 |
+| [requirements_notes_20260905/](requirements_notes_20260905/)、[requirements_notes_20260912/](requirements_notes_20260912/) | 评审会记录与修改清单（原始材料，保留） |
+| [paper_writing_preparation_20260830/](paper_writing_preparation_20260830/)（含 `10_…REVIEW…`）、`11_…` 至 `38_…` 系列 | 2026-09-01 至 09-09 的探索路线组合与负结果集；**部分路线已被判决关闭**，不作为当前结论 |
 | `current_dynamic_fusion_status.json` | 机器快照，对应 `CURRENT_DYNAMIC_FUSION_STATUS.md` |
 
 ## 3. superseded —— 旧稿族与旧图件族
 
 | 目录 | 取代它的 |
 |---|---|
-| [manuscript_english_polished_20260906/](manuscript_english_polished_20260906/)、[manuscript_review_20260906/](manuscript_review_20260906/)、[manuscript_round2_20260906/](manuscript_round2_20260906/)、[manuscript_revision_20260905/](manuscript_revision_20260905/)、[manuscript_chinese_review_20260907/](manuscript_chinese_review_20260907/) | [manuscript_reference_matching_20260914/](manuscript_reference_matching_20260914/) 与 [PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md](PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md) |
-| [figures_redraw_20260910/](figures_redraw_20260910/)、[figures_teacher_revision_20260910/](figures_teacher_revision_20260910/)、[figures_revision_20260905/](figures_revision_20260905/)、[main_figure_redraw_20260910/](main_figure_redraw_20260910/) | [figures_contour_notation_20260911/](figures_contour_notation_20260911/)（当前方法图） |
+| [manuscript_english_polished_20260906/](manuscript_english_polished_20260906/)、[manuscript_review_20260906/](manuscript_review_20260906/)、[manuscript_round2_20260906/](manuscript_round2_20260906/)、[manuscript_revision_20260905/](manuscript_revision_20260905/)、[manuscript_chinese_review_20260907/](manuscript_chinese_review_20260907/) | [manuscript_reference_matching_20260914/](manuscript_reference_matching_20260914/) 与 [PAPER_OUTLINE_REVIEW_20260914_CN.md](PAPER_OUTLINE_REVIEW_20260914_CN.md) |
+| [figures_redraw_20260910/](figures_redraw_20260910/)、[figures_expanded_20260910/](figures_expanded_20260910/)、[figures_revision_20260905/](figures_revision_20260905/)、[main_figure_redraw_20260910/](main_figure_redraw_20260910/) | [figures_contour_notation_20260911/](figures_contour_notation_20260911/)（当前方法图） |
 | [introduction_research_20260825/](introduction_research_20260825/)、[baseline_plan_20260910/](baseline_plan_20260910/)、[few_shot_industrial_ad_progress_report_2026-07-30.docx](few_shot_industrial_ad_progress_report_2026-07-30.docx)、`few_shot_industrial_ad_project_overview*.docx` | 早期调研与汇报材料 |
 
 ---
@@ -127,7 +127,7 @@
 1. 本文件第 0 节 → 2. [PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md](PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md) →
 3. [`../experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md`](../experiments/dynamic_fusion/representation_matching_interaction_20260914/REPORT_CN.md) →
 4. [CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md](CONTROLLED_FUSION_FINAL_RESULTS_20260913_CN.md) →
-5. [PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md](PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md) →
+5. [PAPER_OUTLINE_REVIEW_20260914_CN.md](PAPER_OUTLINE_REVIEW_20260914_CN.md) →
 6. 需要逐条核对数字时进 `experiments/dynamic_fusion/*/` 的机器表。
 
 ## 5. 引用纪律（跨全部文档）

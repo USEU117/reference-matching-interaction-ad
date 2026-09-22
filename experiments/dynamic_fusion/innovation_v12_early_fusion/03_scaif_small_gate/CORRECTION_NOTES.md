@@ -96,7 +96,7 @@ P0-1 修复后稀疏梯度真实生效，优化器把门完全关掉 → 训练�
 且门全关意味着模块不工作 —— **停止本实现（缓存级 SCAIF），不进入 Stage 2，不做 Stage2 in-backbone bridge**。
 原“整族已证伪”结论仍保持受限（只覆盖本实现两个版本 v4/v5 + MPDD s0 dev），但不影响“本路线到此停止”的操作决策。
 
-## 6. 未决（不自动执行，等待 supervisor 决策）
+## 6. 未决（不自动执行，等待 reviewer 决策）
 - ~~doc 25 §6B 附项：Stage0 oracle 空信息控制审计~~ → **已执行**（2026-09-04）：
   02_stage0_probe/ORACLE_NULL_AUDIT.md + ORACLE_NULL_AUDIT_k{1,2,4}.json。
   real oracle Δ 复现 +0.3885；**scale 空信息对照 Δ=+0.65 > real**；a1copy=0；shuffle≈0/负

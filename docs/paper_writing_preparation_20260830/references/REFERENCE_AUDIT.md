@@ -47,7 +47,7 @@ Entries marked by comments in the BibTeX as “imported” must not be considere
 
 Six official-CVF-verified entries were added for manuscript preparation: RealNet, InCTRL,
 Real-IAD, ANoCo, DCP-SFR, and AnoPLe. The working database now contains 30 entries, of
-which 22 are dated 2024--2026 (73.3%). This meets the supervisor's provisional
+which 22 are dated 2024--2026 (73.3%). This meets the reviewer's provisional
 “at least 70% from the most recent three years” target when the current three-year
 window is interpreted as 2024--2026. The ratio must be recomputed after uncited entries
 are removed from the final manuscript bibliography.

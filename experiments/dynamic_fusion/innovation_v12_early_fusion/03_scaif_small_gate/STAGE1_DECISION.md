@@ -73,6 +73,6 @@ tubes −0.102/−0.078/−0.087。
 ## 6. 后续（不自动执行）
 - Stage 2（in-backbone bridge）：按 §7 不再进入。
 - doc 23 §6 其余路线（E2–E7）中，仅 **E6 memory 内交互/检索条件重排** 与 doc 22 队列的
-  **PRS** 仍有开放地位；其新颖性/对照成本需 supervisor 决策后再预注册。
+  **PRS** 仍有开放地位；其新颖性/对照成本需 reviewer 决策后再预注册。
 - 论文层面：本路线的负结果应进入 claim-evidence 矩阵（"early learnable cross-branch fusion does
   not beat frozen deep static concat on MPDD s0"），不包装为正。

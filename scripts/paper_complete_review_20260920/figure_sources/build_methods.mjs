@@ -375,7 +375,7 @@ function createSlide() {
   );
   setNotes(
     slide,
-    "Figure 2 method diagram. Source: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and docs/main_figure_teacher_revision_20260920/English_Manuscript_Source.md. The grid cells are schematic row identifiers, not measured distances. The symbols p, r, b, and w follow the manuscript notation. B and C are upright branch labels. The minimization operator min is upright. The candidate set is shared across branches.",
+    "Figure 2 method diagram. Source: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and docs/main_figure_revision_20260920/English_Manuscript_Source.md. The grid cells are schematic row identifiers, not measured distances. The symbols p, r, b, and w follow the manuscript notation. B and C are upright branch labels. The minimization operator min is upright. The candidate set is shared across branches.",
   );
 }
 

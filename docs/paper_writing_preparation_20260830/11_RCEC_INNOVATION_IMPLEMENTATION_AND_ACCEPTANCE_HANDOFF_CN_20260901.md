@@ -54,7 +54,7 @@ RCEC 的主要创新不是更换 DINOv2 或 AnomalyCLIP，而是显式利用正�
 
 - `submission_repro_20260827/METHOD_SPEC_V2.md`
 - `experiments/dynamic_fusion/freeze/a1_mpdd_w05/REPRODUCE.md`
-- `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_FOR_SUPERVISOR_CN_20260901.md`
+- `docs/paper_writing_preparation_20260830/10_PROJECT_STATUS_REVIEW_CN_20260901.md`
 
 历史 `METHOD_CARD.md` 中的 1152 维是已知旧错误，不得沿用；正确值为 `768+768=1536`。
 
@@ -908,4 +908,4 @@ three-shot mean delta = -0.007139
 5. **完成作者人工项。** 作者顺序、单位、通讯作者、基金、致谢、数据许可声明、代码开放时点和投稿声明仍需确认。
 6. **最后做一次论文证据同步。** 正式英文稿完成后，再更新主张—证据矩阵、图表编号、BibTeX、版本哈希和发布包说明。
 
-如果导师明确要求“必须增加新的算法创新”，不要继续调 RCEC 的 λ/k，也不要在 BTAD/MVTec/VisA 上救结果。应单独建立一个新的问题定义和预注册开发协议。可以考虑把“像素定位与图像判别解耦”作为新的 A1-ID 研究，但它主要针对 BTAD Image-AP/F1 的限制，不能冒充 RCEC 成功，也不能保证增强核心 Pixel-AP 创新。更大幅度的 trainable adapter、合成异常训练或替换 backbone 会改变零训练论文定位和实验成本，只有导师决定重开算法阶段后再做。
+如果外部评审明确要求“必须增加新的算法创新”，不要继续调 RCEC 的 λ/k，也不要在 BTAD/MVTec/VisA 上救结果。应单独建立一个新的问题定义和预注册开发协议。可以考虑把“像素定位与图像判别解耦”作为新的 A1-ID 研究，但它主要针对 BTAD Image-AP/F1 的限制，不能冒充 RCEC 成功，也不能保证增强核心 Pixel-AP 创新。更大幅度的 trainable adapter、合成异常训练或替换 backbone 会改变零训练论文定位和实验成本，只有外部评审决定重开算法阶段后再做。

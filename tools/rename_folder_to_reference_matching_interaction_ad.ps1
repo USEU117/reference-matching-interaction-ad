@@ -1,22 +1,24 @@
 <#
 .SYNOPSIS
-    One-shot, idempotent rename of the physical repository folder from
-    `sci_project` to `reference-matching-interaction`, keeping the OLD name
-    alive as a junction that points at the new name.
+    One-shot, idempotent rename of the physical repository folder from the OLD
+    name to the NEW name, keeping the OLD name alive as a junction that still
+    points at the renamed folder. Both names are parameters (-OldName /
+    -NewName); the defaults are the concrete names this repository uses.
 
 .DESCRIPTION
     ============================ BACKGROUND ============================
-    (1) On disk the PHYSICAL directory is still `sci_project`. The name
-        `reference-matching-interaction` is currently a JUNCTION that points
-        at `D:\STUDY\My_github\sci_project`. Both names therefore resolve to
-        the same files.
+    (1) On disk the PHYSICAL directory is still the OLD name (see -OldName,
+        default `sci_project`). The NEW name (see -NewName, default
+        `reference-matching-interaction-ad`) currently exists as a JUNCTION
+        that points at it. Both names therefore resolve to the same files.
 
     (2) We cannot simply rename the physical directory right now: the IDE
         (TRAE / the editor) holds the folder open, and Windows refuses to
         rename a directory that is in use. Hence this script must be run with
         the IDE closed (the preflight below enforces that).
 
-    (3) 892 tracked files hard-code the OLD ABSOLUTE PATH (verified with
+    (3) WHY THE OLD NAME IS KEPT (do NOT delete the old name): 892 tracked
+        files hard-code the OLD ABSOLUTE PATH (verified with
         `git grep -l --fixed-strings "sci_project"`). That set includes frozen
         inputs such as `data/splits/*/manifest.json`, whose SHA-256 values are
         frozen and must not change. A plain rename would break every one of
@@ -33,13 +35,13 @@
          junction state, `git HEAD`, the `git status --porcelain` line count
          (plus a hash of the full porcelain text so the post-rename check is
          exact) and `git remote -v`.
-      3. Delete the NEW-name junction -> rename the physical directory
-         `sci_project` -> `reference-matching-interaction` -> re-create the
-         OLD name as a junction pointing at the new name.
+      3. Delete the NEW-name junction -> rename the physical directory from
+         the OLD name to the NEW name -> re-create the OLD name as a junction
+         pointing at the new name.
       4. Run a verification checklist and print pass/fail per item.
       5. On any failure, roll back to the current state
-         (physical = `sci_project`, junction = `reference-matching-interaction`)
-         and print the manual recovery steps.
+         (physical directory = OLD name, junction = NEW name) and print the
+         manual recovery steps.
 
     NOTE ON ENCODING: this file is intentionally 100% ASCII. PowerShell 5.1
     decodes a BOM-less .ps1 as ANSI/GBK, so non-ASCII bytes (e.g. Chinese
@@ -52,26 +54,29 @@
 
 .PARAMETER OldName
     Current physical folder name. Default: sci_project
+    The old name is KEPT (re-created as a junction) after the rename: it must
+    stay resolvable because 892 tracked files and the frozen SHA-256 manifests
+    reference it verbatim.
 
 .PARAMETER NewName
-    Target folder name. Default: reference-matching-interaction
+    Target folder name. Default: reference-matching-interaction-ad
 
 .PARAMETER Force
     Skip the occupancy abort (still logs what was found). Use only when you are
     sure the blocking processes are harmless.
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -File tools\rename_folder_to_reference_matching_interaction.ps1
+    powershell -NoProfile -ExecutionPolicy Bypass -File tools\rename_folder_to_reference_matching_interaction_ad.ps1
 
 .EXAMPLE
-    .\tools\rename_folder_to_reference_matching_interaction.ps1 -RepoRoot 'D:\STUDY\My_github'
+    .\tools\rename_folder_to_reference_matching_interaction_ad.ps1 -RepoRoot 'D:\STUDY\My_github'
 #>
 
 [CmdletBinding()]
 param(
     [string]$RepoRoot = 'D:\STUDY\My_github',
     [string]$OldName  = 'sci_project',
-    [string]$NewName  = 'reference-matching-interaction',
+    [string]$NewName  = 'reference-matching-interaction-ad',
     [switch]$Force
 )
 
@@ -163,7 +168,7 @@ function Write-Utf8NoBom([string]$Path, [string]$Text) {
 # 1. preflight: state + occupancy
 # --------------------------------------------------------------------------- #
 
-Write-Host 'rename_folder_to_reference_matching_interaction.ps1' -ForegroundColor White
+Write-Host 'rename_folder_to_reference_matching_interaction_ad.ps1' -ForegroundColor White
 Write-Host ("RepoRoot = " + $RepoRoot)
 Write-Host ("OldPath  = " + $OldPath)
 Write-Host ("NewPath  = " + $NewPath)
@@ -286,7 +291,7 @@ $porcelainHash  = Get-StringSha256 $porcelainText
 
 $log = New-Object System.Collections.ArrayList
 [void]$log.Add('RENAME LOG - ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') + ' (local, Asia/Shanghai)')
-[void]$log.Add('script   : tools/rename_folder_to_reference_matching_interaction.ps1')
+[void]$log.Add('script   : tools/rename_folder_to_reference_matching_interaction_ad.ps1')
 [void]$log.Add('RepoRoot : ' + $RepoRoot)
 [void]$log.Add('')
 [void]$log.Add('--- state BEFORE ---')
@@ -470,7 +475,7 @@ if ($failed.Count -gt 0) {
 
 Write-Step '6/6 rollback recipe and next step'
 
-Write-Host 'ROLLBACK (restore physical = sci_project, junction = reference-matching-interaction):' -ForegroundColor Yellow
+Write-Host 'ROLLBACK (restore physical directory = OLD name, junction = NEW name):' -ForegroundColor Yellow
 Write-Host '  # 1) delete the junction that now lives at the OLD path'
 Write-Host ('  cmd /c rmdir "' + $OldPath + '"')
 Write-Host '  # 2) rename the physical directory back'
@@ -483,7 +488,7 @@ Write-Host '  # Automatic rollback by this script would have produced exactly th
 Write-Host ''
 Write-Host 'NEXT STEP: update the git remote URL for the renamed GitHub repository and push.' -ForegroundColor Cyan
 Write-Host ('  Set-Location "' + $NewPath + '"')
-Write-Host '  git remote set-url origin https://github.com/USEU117/reference-matching-interaction.git'
+Write-Host '  git remote set-url origin https://github.com/USEU117/reference-matching-interaction-ad.git'
 Write-Host '  git remote -v'
 Write-Host '  git fetch --prune origin'
 Write-Host '  git push origin main --tags        # author decision; check git status first'

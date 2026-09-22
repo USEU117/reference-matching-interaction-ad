@@ -1,6 +1,6 @@
 """Legibility gate for the matplotlib figures of this figure set.
 
-The manuscript places every figure at 17 cm width (teacher requirement F09 / N01: text that
+The manuscript places every figure at 17 cm width (review requirement F09 / N01: text that
 carries information must be at least the 11 pt Times New Roman body size). A figure built by
 these scripts is created at exactly that printed width, so a font size set on the figure is
 the font size printed in the manuscript, and no unit conversion is needed.

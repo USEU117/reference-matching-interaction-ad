@@ -23,7 +23,7 @@ for ax,title,yl in zip(axs,['(a) Matching interactions','(b) Mean pixel AP under
     ax.set_xticks(x,['Baseline','ABL-S','ABL-C','ABL-N']);ax.set_title(title,loc='left',fontweight='bold');ax.set_ylabel(yl);ax.grid(axis='y',alpha=.2);ax.set_axisbelow(True)
 axs[0].axhline(0,color='gray',lw=.8);fig.legend(*axs[0].get_legend_handles_labels(),loc='upper center',ncol=2,frameon=False);axs[1].set_ylim(0,.85);axs[1].legend(frameon=False,ncol=2,loc="upper right")
 save(fig,'figS2_shared_op_ablation')
-tab=json.loads((R/'scripts/paper_complete_teacher_review_20260920/tables.json').read_text(encoding='utf-8'))['resources']
+tab=json.loads((R/'scripts/paper_complete_review_20260920/tables.json').read_text(encoding='utf-8'))['resources']
 fig,axs=plt.subplots(1,2,figsize=(17/2.54,3.9));fig.subplots_adjust(left=.12,right=.98,top=.82,bottom=.24,wspace=.4)
 for i,ax in enumerate(axs):
     rr=tab['rows'][i*3:(i+1)*3];v=np.array([float(r[2]) for r in rr]);e=np.array([float(r[3]) for r in rr]);ax.bar(range(3),v,color='#2e6f9e',label='Processing');ax.bar(range(3),e,bottom=v,color='#b27c20',label='Evaluation');ax.set_xticks(range(3),['ADino','ADino\nrot.','PC 224']);ax.set_title(['(a) MPDD','(b) BTAD'][i],loc='left',fontweight='bold');ax.set_ylabel('Recorded stage time (s)');ax.grid(axis='y',alpha=.2);ax.set_axisbelow(True)

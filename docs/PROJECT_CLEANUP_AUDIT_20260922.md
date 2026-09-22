@@ -9,7 +9,7 @@
 
 ## 0. 约定的红线（本次全部遵守）
 
-未触碰：`experiments/**` 下的 csv/json/npz 汇总与逐图产物、`data/**`（含 `data/splits/*/manifest.json`）、权威稿 `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`、版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx`、`LICENSE`、`requirements_repro.txt`、`figure_sources/**`、`dist/**`。
+未触碰：`experiments/**` 下的 csv/json/npz 汇总与逐图产物、`data/**`（含 `data/splits/*/manifest.json`）、权威稿 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`、版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx`、`LICENSE`、`requirements_repro.txt`、`figure_sources/**`、`dist/**`。
 
 **删除前"三查"方法**（用于本报告每一条已执行项）：
 1. 全仓 grep 路径 / 文件名（排除 `.git`、`.venv*`、`methods/`、`outputs/`）；
@@ -51,11 +51,11 @@
 
 | 体积 | 份数 | 路径（同哈希） | 结论 |
 |---:|---:|---|---|
-| 68.85 MiB | 3 | `docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx`（tracked，现役 58 页 deck）／`.tmp_complete_figures_20260920/assembled.pptx`／`.tmp_revision_20260922/snapshot/All_Figures_before.pptx` | 前两份**已删** `.tmp` 副本（见 §已执行 #4/#8） |
+| 68.85 MiB | 3 | `docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx`（tracked，现役 58 页 deck）／`.tmp_complete_figures_20260920/assembled.pptx`／`.tmp_revision_20260922/snapshot/All_Figures_before.pptx` | 前两份**已删** `.tmp` 副本（见 §已执行 #4/#8） |
 | 68.29 MiB | 2 | `docs/.../All_Figures_Complete_20260920.pptx.bak_20260922`／`docs/.../All_Figures_Finalized_20260920.pptx`（tracked） | **已删** `.bak`（见 §已执行 #3） |
 | 26.44 MiB | 2 | `docs/.../Reference_Matching_Complete_English_20260920.docx`（**权威稿**）／`.tmp_revision_20260922/snapshot/Reference_Matching_before.docx` | **不删**（snapshot 是本次会话的手工快照，见 §建议清单） |
 | 11.54 MiB | 3 | `.tmp_contour_notation_20260911/draft.pptx`／`docs/figures_contour_notation_20260911/DCFnet_Figures_Contour_Notation_20260911_final.pptx`（tracked）／`dist/...` | **已删** `.tmp` 副本 |
-| 10.09 MiB | 4 | `.tmp_teacherfig_20260910/draft.pptx`／`docs/figures_teacher_revision_20260910/DCFnet_Figures_Expanded_20260910.pptx`（tracked）／`docs/figures_package_20260917/06_previous_theme_DCFnet/`／`dist/...` | **已删** `.tmp` 副本 |
+| 10.09 MiB | 4 | `.tmp_teacherfig_20260910/draft.pptx`／`docs/figures_expanded_20260910/DCFnet_Figures_Expanded_20260910.pptx`（tracked）／`docs/figures_package_20260917/06_previous_theme_DCFnet/`／`dist/...` | **已删** `.tmp` 副本 |
 | 7.71 MiB | 5 | `figS3_extra_cases_panels.png`：`docs/figures_package_20260917/01_main_figures/`、`docs/figures_reference_matching_20260914/`、`docs/manuscript_reference_matching_20260914/figures/` + `dist/` 两份 | 见 §建议清单 |
 | 6.95 MiB | 5 | `figS3_extra_cases_panels.pdf`：同上 5 处 | 见 §建议清单 |
 | 6.36 MiB | 3 | `.tmp_allfig_20260910/draft.pptx`／`docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx`（tracked）／`dist/...` | **已删** `.tmp` 副本 |
@@ -92,11 +92,11 @@
 
 | 路径 | 体积 | tracked | 被引用 | 建议 |
 |---|---:|---|---|---|
-| `docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx` | 68.85 MiB | 是 | `论文与图件问题汇总` F14、`图件与PPT页码索引.md` | **保留**（现役 58 页 deck，2026-09-22 重出，SHA `48DD9180…`） |
-| `docs/paper_complete_teacher_review_20260920/All_Figures_Finalized_20260920.pptx` | 68.29 MiB | 是 | `AUTHORITATIVE_SOURCE_DIFF_20260921.md:272`（明示"保留"） | **保留**（旧 deck，被指定为语义更清楚的名字保留） |
-| `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx` | 26.44 MiB | 否（`*.docx` 忽略） | 全部文档 | **保留（红线）** —— 权威稿 |
-| `docs/paper_complete_teacher_review_20260920/…docx.bak_20260922` | 26.40 MiB | 否 | `论文与图件问题汇总` §八 | **保留**（= 唯一"重建前"版本 `18694B90…`；该 docx 曾整份从盘上消失，见 F17，留作恢复点） |
-| `docs/paper_complete_teacher_review_20260920/…docx.bak_authoritative_20260921` | 25.89 MiB | 否 | `论文与图件问题汇总` §一/§七/§八 | **保留**（同上，09-21 权威版） |
+| `docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx` | 68.85 MiB | 是 | `论文与图件问题汇总` F14、`图件与PPT页码索引.md` | **保留**（现役 58 页 deck，2026-09-22 重出，SHA `48DD9180…`） |
+| `docs/paper_complete_review_20260920/All_Figures_Finalized_20260920.pptx` | 68.29 MiB | 是 | `AUTHORITATIVE_SOURCE_DIFF_20260921.md:272`（明示"保留"） | **保留**（旧 deck，被指定为语义更清楚的名字保留） |
+| `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx` | 26.44 MiB | 否（`*.docx` 忽略） | 全部文档 | **保留（红线）** —— 权威稿 |
+| `docs/paper_complete_review_20260920/…docx.bak_20260922` | 26.40 MiB | 否 | `论文与图件问题汇总` §八 | **保留**（= 唯一"重建前"版本 `18694B90…`；该 docx 曾整份从盘上消失，见 F17，留作恢复点） |
+| `docs/paper_complete_review_20260920/…docx.bak_authoritative_20260921` | 25.89 MiB | 否 | `论文与图件问题汇总` §一/§七/§八 | **保留**（同上，09-21 权威版） |
 
 > `docs/figures_package_*.zip`（任务提到的 177.82 MB 那个）**已不在盘上**：`docs/` 下无任何 `*.zip`。`.gitignore:80` 的 `docs/figures_package_*.zip` 现为无效规则（无害，可留）。
 
@@ -128,7 +128,7 @@
 | `docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md` | — | 1 | 09-14 | `docs/README.md`、`ARTIFACT_INDEX.md` §2.2 列"旧主线" | **保留**（历史证据，已声明不代表当前结论） |
 | `docs/OVERNIGHT_HANDOFF_20260908_CN.md`、`docs/.trae`/`docs/specs` 的 `night_run_handover_20260917.md` | 约 0.15 MiB | 3 | 09-08 / 09-17 | `ARTIFACT_INDEX.md` §五 | **保留**（`_night2_20260918` 验收链引用） |
 | `docs/REMEDIATION_PLAN_20260920.md` / `docs/ISSUE_REGISTER_20260920.md` | 约 0.1 MiB | 2 | 09-20（含 09-22 刷新节） | `README.md`、多处 | **保留**（当时在册的唯一问题台账） |
-| `docs/paper_complete_teacher_review_20260920/论文与图件最终验收报告_20260920.md` | 0.02 MiB | 1 | 09-20 | `BASELINE_EXPANSION_PLAN_20260921.md:3` | **保留**（本轮已加 09-22 追注，见 §D） |
+| `docs/paper_complete_review_20260920/论文与图件最终验收报告_20260920.md` | 0.02 MiB | 1 | 09-20 | `BASELINE_EXPANSION_PLAN_20260921.md:3` | **保留**（本轮已加 09-22 追注，见 §D） |
 | 根目录 `PLAN.md`（473 行）、`SECOND_STAGE_PLAN.md`、`NEXT_ACTIONS.md`、`HANDOFF.md`、`PROJECT_STATUS.md`、`GPU_OVERNIGHT_PLAN.md`、`AUTO_GPU_SCHEDULER.md` | 约 0.3 MiB | 7 | 2026-08 为主 | `PLAN.md` 被 `build_progress_report.py` 引用 | **需作者决定**：属 2026-08 旧主线计划，`docs/README.md` 已声明"不代表当前结论"。**建议**：整批移入 `docs/archive_pre20260920/`（保留可查），或删除；本轮不动 |
 | `docs/REPRODUCIBILITY_PACKAGE.md`、`docs/SUBMISSION_METADATA.md`、`docs/GITHUB_METADATA.md`、`docs/COMPARISON_PROTOCOL_JUSTIFICATION.md` | 约 0.1 MiB | 4 | 09-19 ~ 09-21 | `README.md`、`ARTIFACT_INDEX.md` | **保留**（仍是投稿前操作口径） |
 | `docs/dynamic_fusion_*.md`（11 个）+ `docs/analyze_*` / `cpu_*` / `project_state_reconciliation_20260809.md` / `v2_*` / `visa_*` | 约 0.5 MiB | 20+ | 2026-08 | 仅历史互引 | **需作者决定**：2026-07~08 旧探索线文档，`ARTIFACT_INDEX.md` §2.2 已标"勿据其结论写作"。建议同上归档 |
@@ -145,7 +145,7 @@
 
 | 目录 | 体积 | 文件数 | 最后修改 | 被引用（grep 实测） | 建议 |
 |---|---:|---:|---|---|---|
-| `.tmp_complete_figures_20260920/` | 311.1 MiB | 338 | 2026-09-22 | **是**：`scripts/paper_complete_teacher_review_20260920/figure_sources/plot_primary.py:7,11`（输出目录 + `import plot_fonts`） | **保留（现役工作目录，禁删）** |
+| `.tmp_complete_figures_20260920/` | 311.1 MiB | 338 | 2026-09-22 | **是**：`scripts/paper_complete_review_20260920/figure_sources/plot_primary.py:7,11`（输出目录 + `import plot_fonts`） | **保留（现役工作目录，禁删）** |
 | `.tmp_figure_revision_20260920/` | 15.9 MiB | 76 | 09-20 | **是**：同上 `plot_primary.py:9` 读 `tables.json` | **保留（禁删）** |
 | `.tmp_revision_20260922/` | 95.4 MiB | 6 | 09-22 | 仅本报告 | **需作者决定**：本次会话的 `snapshot/`（2 个与交付件逐字节相同的副本 + `论文与图件问题汇总` 副本）。**未删** |
 | `.tmp_english_manuscript_20260914/` | 8.5 MiB | 56 | 09-14 | `ARTIFACT_INDEX.md:122`（原写"待确认"）、`FIGURE_BINDING.md:146`（现写"**已废弃**"） | **保留**：`ARTIFACT_INDEX.md` 的原"待确认"已在 §D 就地更正；目录内小文本为历史源，体积小 |
@@ -154,7 +154,7 @@
 | `experiments/.../generalization_mvtec_visa_20260915/_maskfix_smoke/`、`_regression_check/` | 约 0 MiB | 各 1 | 09-15 | `ARTIFACT_INDEX.md` §4.2 行 131 | **未删**（同为 `experiments/` 红线区，且几乎不占空间） |
 | `experiments/.../seeds_extension_20260917/_smoke_canonical/` | 约 0 MiB | 1 | 09-17 | 同上 | 同上 |
 | `experiments/.../unified_fusion_paper_support_20260913/_smoke/` | 16.8 MiB | 13 | 09-13 | 同上 | 同上 |
-| `docs/figures_package_20260917/05_superseded/`、`docs/paper_complete_teacher_review_20260920/figures/superseded/` | 6.24 + 0.32 MiB | 9 + 2 | 09-14 ~ 09-20 | `FIGURE_BINDING.md`、`论文与图件问题汇总` F15 | **保留**（`docs/manuscript_reference_matching_20260914/figures/superseded/` 的 9 个同哈希副本**已删**，见 §已执行 #5） |
+| `docs/figures_package_20260917/05_superseded/`、`docs/paper_complete_review_20260920/figures/superseded/` | 6.24 + 0.32 MiB | 9 + 2 | 09-14 ~ 09-20 | `FIGURE_BINDING.md`、`论文与图件问题汇总` F15 | **保留**（`docs/manuscript_reference_matching_20260914/figures/superseded/` 的 9 个同哈希副本**已删**，见 §已执行 #5） |
 | `experiments/dynamic_fusion/{innovation_*,v2,v3*,v4_*,rcec_v1}/` | — | — | 2026-07~08 | `ARTIFACT_INDEX.md` §4.2 行 135 | **保留**（索引明写"保留作历史"） |
 
 ### C.4 C 节结论
@@ -171,7 +171,7 @@
 
 | # | 文件:行 | 改前（现值） | 改后 | 依据 |
 |---|---|---|---|---|
-| 1 | `README.md:44`（英文） | `Manuscript (English source plus Chinese parallel text) and figure sources: docs/manuscript_reference_matching_20260914/. Current build: 18 tables / 8 figures / 12 display equations / 34 references` | 改为指向权威稿 `docs/paper_complete_teacher_review_20260920/…docx` + `scripts/paper_complete_teacher_review_20260920/build.py`；**47 pages / 20 tables / 8 main figures plus S1–S5 (22 embedded images) / 12 equations / 34 references / 16,969 words**；旧链标注 superseded | 权威源已换链（`论文与图件问题汇总` §一、§八 T06/T07；`REMEDIATION_PLAN` §执行状态）；`16,969 词` 见 `论文与图件问题汇总` §八"2026-09-22 权威稿重建结果"（Word COM 实测） |
+| 1 | `README.md:44`（英文） | `Manuscript (English source plus Chinese parallel text) and figure sources: docs/manuscript_reference_matching_20260914/. Current build: 18 tables / 8 figures / 12 display equations / 34 references` | 改为指向权威稿 `docs/paper_complete_review_20260920/…docx` + `scripts/paper_complete_review_20260920/build.py`；**47 pages / 20 tables / 8 main figures plus S1–S5 (22 embedded images) / 12 equations / 34 references / 16,969 words**；旧链标注 superseded | 权威源已换链（`论文与图件问题汇总` §一、§八 T06/T07；`REMEDIATION_PLAN` §执行状态）；`16,969 词` 见 `论文与图件问题汇总` §八"2026-09-22 权威稿重建结果"（Word COM 实测） |
 | 2 | `README.md:85`（中文） | `论文当前稿……当前构建规模 18 表 / 8 图 / 12 公式 / 34 文献` | 同步改为 **47 页 / 20 表 / 8 主图 + S1–S5（22 内嵌图）/ 12 编号公式 / 34 文献 / 16,969 词**，旧链标 superseded | 同上 |
 | 3 | `docs/论文与图件问题汇总_仅复核_20260921.md:103`（F10） | `当前46页、19表适合资料审阅` | 保留原句 + 括注「**2026-09-22 校**：权威稿重建后实为 **47 页、20 表**」 | 同文档 §八；§四按该文档自定"原文保留"纪律，故用括注而非改写 |
 | 4 | `docs/论文与图件问题汇总_仅复核_20260921.md:271`（跨文档矛盾表 C 行） | `（HEAD de25a22）` | `（HEAD 85d3207，2026-09-22 复测；de25a22 为首次记录时的 HEAD）` | `git rev-list --count origin/main..HEAD` = 0，`git branch -vv` 显示 `main [origin/main]` |
@@ -193,7 +193,7 @@
 | 15 | `docs/REMEDIATION_PLAN_20260920.md:140` | `12. 是否同意推送本地 main（超前远端 15 个提交）并推送 tags。` | `12. ~~…~~ —— **已办结**（2026-09-22 实测 origin/main..HEAD = 0，tags 已在远端）。` | `git rev-list --count origin/main..HEAD` = 0；10 tags 已在远端 |
 | 16 | `docs/SUBMISSION_METADATA.md:40` | `远端 USEU117/<旧仓库名>（拟改名 USEU117/reference-matching-interaction）` | `远端**已改名**为 USEU117/reference-matching-interaction-ad（旧地址自动重定向）；本地 origin 已指向新 URL` | `README.md:3`（HEAD `85d3207` 提交信息即"state the repository's actual name rather than the intended one"）；`git remote -v` |
 | 17 | `docs/GITHUB_METADATA.md:5` | `改名前后对照：…（远端改名由人手动做）` | 追加「**远端改名已完成**：本地 origin 已指向新 URL，`origin/main..HEAD` = 0；§3 网页步骤保留作记录，重跑无意义」 | 同上 |
-| 18 | `docs/paper_complete_teacher_review_20260920/论文与图件最终验收报告_20260920.md:36` 后 | `…但尚未达到导师曾建议的约 10 个公开方法规模` | 保留原句 + 追加「**2026-09-22 追注**：外部方法家族 2 → **5**（PatchCore、AnomalyDINO、SubspaceAD、WinCLIP+、AnomalyCLIP 零样本），单列 Table 12；导师 09-22 明确"近两三年三四个比较先进的方法比较合适"，"约 10 个"不再是缺口，P2 结案」 | `论文与图件问题汇总` §八 T06/T07；`ISSUE_REGISTER` R-20 刷新行；`REMEDIATION_PLAN` §执行状态 |
+| 18 | `docs/paper_complete_review_20260920/论文与图件最终验收报告_20260920.md:36` 后 | `…但尚未达到外部评审曾建议的约 10 个公开方法规模` | 保留原句 + 追加「**2026-09-22 追注**：外部方法家族 2 → **5**（PatchCore、AnomalyDINO、SubspaceAD、WinCLIP+、AnomalyCLIP 零样本），单列 Table 12；外部评审 09-22 明确"近两三年三四个比较先进的方法比较合适"，"约 10 个"不再是缺口，P2 结案」 | `论文与图件问题汇总` §八 T06/T07；`ISSUE_REGISTER` R-20 刷新行；`REMEDIATION_PLAN` §执行状态 |
 | 19 | `scripts/limitation_closure_20260915/_night2_20260918/ACCEPTANCE_20260920.md:51` | `…（HEAD de25a22）。…（当前 HEAD de25a22；…）` | `…（HEAD 85d3207；本条首次记录时为 de25a22）。…（工作区有收口改动，未提交、未推送）` | git 实测 |
 
 **合计更新 19 处，涉及 8 个文件。**
@@ -206,7 +206,7 @@
 | `docs/论文与图件问题汇总_仅复核_20260921.md:11,133,217,260` | `16,892 词`（09-21 晚实测） | 该轮次记录；同文件 §八"2026-09-22 权威稿重建结果"已给当前值 `16,969 词`；文件自定"前文不改写" |
 | `docs/论文与图件问题汇总_仅复核_20260921.md:100（F07）、149、BASELINE_EXPANSION_PLAN_20260921.md:3,4,132` | `约10个`、`只有两个外部家族` | 均已在原文中自我更正（F07「应予纠正」、line 4「F07 已更正」）；且 `line 3` 是**引用触发句**（引用不该改写） |
 | `docs/DYNAMIC_FUSION_NEXT_STEPS.md:7` | `当前基线提交 ac5c2f1 …超前 origin/main 1 个提交` | 2026-08 旧主线文档（`ARTIFACT_INDEX.md` §2.2 已声明"不代表当前结论"），"当前"是其当时的当前 |
-| `docs/HANDOFF.md:58`、`PLAN.md:44`、`tools/rename_folder_to_reference_matching_interaction.ps1`、`AI_HANDOFF_*.md` 中的 `<旧物理目录名>` | 路径字样 | 是**本地物理路径**（磁盘目录确实仍叫 `<旧物理目录名>`，`D:\STUDY\My_github\reference-matching-interaction` 是指向它的 junction）。仓库**名**的表述 README 已正确。**2026-09-22 追注**：`AI_HANDOFF_*.md`、`HANDOFF.md`、`PLAN.md` 等人类可读文档中的该字样本轮已中性化；`tools/rename_folder_to_reference_matching_interaction.ps1` 因功能依赖（它执行的就是从该旧目录名改名）**保留原样**，见 `docs/SCI_STRING_AUDIT_20260922.md` |
+| `docs/HANDOFF.md:58`、`PLAN.md:44`、`tools/rename_folder_to_reference_matching_interaction_ad.ps1`、`AI_HANDOFF_*.md` 中的 `<旧物理目录名>` | 路径字样 | 是**本地物理路径**（磁盘目录确实仍叫 `<旧物理目录名>`，`D:\STUDY\My_github\reference-matching-interaction` 是指向它的 junction）。仓库**名**的表述 README 已正确。**2026-09-22 追注**：`AI_HANDOFF_*.md`、`HANDOFF.md`、`PLAN.md` 等人类可读文档中的该字样本轮已中性化；`tools/rename_folder_to_reference_matching_interaction_ad.ps1` 因功能依赖（它执行的就是从该旧目录名改名）**保留原样但已参数化**，见 `docs/SCI_STRING_AUDIT_20260922.md` |
 | `docs/manuscript_review_20260906/01_…md:47`、`docs/manuscript_revision_20260905/00_…md:131`、`docs/project_review_20260910/paper_audit.md`、`ACCEPTANCE_20260920.md:28-29` | `9 张表`、`8 幅图`、`46 张页面图`、`19 个表格` | 各自轮次的交付记录（09-05/09-06/09-10/09-20），属历史 |
 | `docs/ISSUE_REGISTER_20260920.md:60`（R-11 首行）、`:147-153` | `超前远端 15 提交`、`未推送` | 09-20 原始登记；同文件 §〇ter 已加 09-22 刷新行判定"已解决" |
 | `docs/ISSUE_REGISTER_20260920.md:61`（R-12 `dist/` 未跟踪且未被 `.gitignore` 覆盖） | — | **该现象已不成立**：`.gitignore:73` 现为 `dist/`。本轮只在报告登记，未改该表（避免与"原文不改写 + 刷新行"体例冲突），**建议作者在 §〇ter 补一行 R-12 刷新** |
@@ -243,22 +243,22 @@
 
 保留 `docs/figures_package_20260917/05_superseded/` 的同名副本（9/9 SHA-256 逐一致，`Compare-Object` 结果为空）。
 
-### #3 `docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx.bak_20260922` —— 68.287 MiB
+### #3 `docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx.bak_20260922` —— 68.287 MiB
 
-白名单 #1 + #2。**逐字节相同副本保留**：`docs/paper_complete_teacher_review_20260920/All_Figures_Finalized_20260920.pptx`（均 71,604,011 B，SHA-256 `6EBD92E9B38A295896ADAC821B17064173828C804794B2AE53D74D0E26C26C26`）。该同源关系由 `论文与图件问题汇总:243` 自己记录。
+白名单 #1 + #2。**逐字节相同副本保留**：`docs/paper_complete_review_20260920/All_Figures_Finalized_20260920.pptx`（均 71,604,011 B，SHA-256 `6EBD92E9B38A295896ADAC821B17064173828C804794B2AE53D74D0E26C26C26`）。该同源关系由 `论文与图件问题汇总:243` 自己记录。
 
 ### #4 `.tmp_*/draft.pptx` × 6 + `.tmp_complete_figures_20260920/assembled.pptx` —— 7 个文件，40.11 MiB + 68.85 MiB
 
 | 删除项 | 体积 | 保留的同哈希 tracked 副本 | SHA-256（前 16） |
 |---|---:|---|---|
 | `.tmp_contour_notation_20260911/draft.pptx` | 11.541 MiB | `docs/figures_contour_notation_20260911/DCFnet_Figures_Contour_Notation_20260911_final.pptx` | `070AA5E86BC021B3` |
-| `.tmp_teacherfig_20260910/draft.pptx` | 10.089 MiB | `docs/figures_teacher_revision_20260910/DCFnet_Figures_Expanded_20260910.pptx` | `EB1D965DD26650F9` |
+| `.tmp_teacherfig_20260910/draft.pptx` | 10.089 MiB | `docs/figures_expanded_20260910/DCFnet_Figures_Expanded_20260910.pptx` | `EB1D965DD26650F9` |
 | `.tmp_allfig_20260910/draft.pptx` | 6.360 MiB | `docs/figures_redraw_20260910/DCFnet_All_Figures_Editable_20260910_v2.pptx` | `0571440658E25788` |
-| `.tmp_dcfnet_figures_20260905/draft.pptx` | 3.193 MiB | `docs/figures_revision_20260905/DCFnet_主图与分图_课堂修订完整版_20260905_v2.pptx` | `63519A9B7350241C` |
+| `.tmp_dcfnet_figures_20260905/draft.pptx` | 3.193 MiB | `docs/figures_revision_20260905/DCFnet_主图与分图_修订完整版_20260905_v2.pptx` | `63519A9B7350241C` |
 | `.tmp_mainfig_20260910/draft.pptx` | 2.545 MiB | `docs/main_figure_redraw_20260910/DCFnet_Main_Figure_Editable_20260910.pptx` | `5F46E64AE107C87C` |
 | `.tmp_manuscript_english_polished_20260906/draft.pptx` | 3.193 MiB | `docs/manuscript_english_polished_20260906/DCFnet_Figure_Source_Polished_20260906_final.pptx` | `3665D550F574944D` |
 | `.tmp_manuscript_round2_20260906/draft.pptx` | 3.193 MiB | `docs/manuscript_round2_20260906/DCFnet_Editable_Figures_Second_Revision_20260906_v2.pptx` | `0036871E6EA62BE6` |
-| `.tmp_complete_figures_20260920/assembled.pptx` | 68.849 MiB | `docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx`（tracked） | `48DD91800B714331` |
+| `.tmp_complete_figures_20260920/assembled.pptx` | 68.849 MiB | `docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx`（tracked） | `48DD91800B714331` |
 
 (a) 引用：`assembled.pptx` / `draft.pptx` 全仓 grep **无脚本读写命中**（`assemble_deck.ps1` 只"写"不"读"）；(b) 校验文档：未被任何哈希清单记录；(c) 唯一副本：上表逐字节相同副本均在 tracked 的 `docs/**` 中保留。
 
@@ -374,7 +374,7 @@ git rev-list --count origin/main..HEAD ; git branch -vv ; git status --porcelain
 
 | 查项 | 结论 |
 |---|---|
-| (a) 全仓 grep 路径/文件名 | `presentation.json` 全仓命中**仅本审计报告**；`draft-raw.pptx` / `superseded-*.pptx` / `All_Figures_before.pptx` / `Reference_Matching_before.docx` 在报告外**零命中**（`docs/paper_complete_teacher_review_20260920/figures/multimethod/*.json` 引用的是 `.tmp_complete_figures_20260920\qualitative\*`，属**保留项**） |
+| (a) 全仓 grep 路径/文件名 | `presentation.json` 全仓命中**仅本审计报告**；`draft-raw.pptx` / `superseded-*.pptx` / `All_Figures_before.pptx` / `Reference_Matching_before.docx` 在报告外**零命中**（`docs/paper_complete_review_20260920/figures/multimethod/*.json` 引用的是 `.tmp_complete_figures_20260920\qualitative\*`，属**保留项**） |
 | (b) 校验文档哈希登记 | 未被 `VERSIONED_EVIDENCE.sha256`、`submission_repro_20260827/SHA256SUMS`、`论文与图件问题汇总`、`ISSUE_REGISTER`、`ACCEPTANCE_20260920`、`VALIDATION_20260918.*`、`ARTIFACT_INDEX`、`FIGURE_BINDING` 的任一条记录为当前值 |
 | (c) 逐字节同源 | `snapshot/` 两份**SHA-256 实算与现役交付件完全相同**（见下表）；`presentation.json` 是 `build.mjs` 的 `JSON.stringify(p.toProto())` 纯序列化中间件（`.tmp_contour_notation_20260911/build.mjs` 末行实读），同目录 `draft-raw.pptx` 才是可编辑源、`finalize.mjs` 只吃 `draft.pptx`，故删除 `.json` 不动任何链；`draft-raw.pptx`/`superseded-*.pptx` 是各轮 finalize 之前的候选件，其**成品均在 tracked 的 `docs/**` 保留**（§已执行 #4 已核过同源关系） |
 
@@ -387,7 +387,7 @@ git rev-list --count origin/main..HEAD ; git branch -vv ; git status --porcelain
 | 5 | `.tmp_manuscript_english_polished_20260906/presentation.json` | 42 559 203 | 同上 |
 | 6 | `.tmp_manuscript_round2_20260906/presentation.json` | 42 555 228 | 同上 |
 | 7 | `.tmp_mainfig_20260910/presentation.json` | 34 172 146 | 同上 |
-| 8 | `.tmp_revision_20260922/snapshot/All_Figures_before.pptx` | 72 193 447 | ≡ `docs/paper_complete_teacher_review_20260920/All_Figures_Complete_20260920.pptx`，SHA-256 均为 `48DD91800B714331…`（实算） |
+| 8 | `.tmp_revision_20260922/snapshot/All_Figures_before.pptx` | 72 193 447 | ≡ `docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx`，SHA-256 均为 `48DD91800B714331…`（实算） |
 | 9 | `.tmp_revision_20260922/snapshot/Reference_Matching_before.docx` | 27 724 755 | ≡ **权威稿** `docs/…/Reference_Matching_Complete_English_20260920.docx`，SHA-256 均为 `F3CAE3B491A99F86…`（实算） |
 | 10–19 | `draft-raw.pptx` ×7（`contour_notation` 12 095 989 / `teacherfig` 10 580 200 / `allfig` 6 670 820 / `dcfnet_figures` 3 349 057 / `manuscript_english_polished` 3 349 179 / `manuscript_round2` 3 349 110 / `mainfig` 2 668 796）＋ `superseded-v1.pptx` 6 668 948、`superseded-final-v1.pptx` 3 347 969、`superseded-first-figures.pptx` 3 348 210 | 55 428 278 | 各轮 finalize 之前的候选/被取代件；同目录 `build.mjs`/`build_figures.mjs` 与同目录 `*.json` 输入均在盘，成品在 tracked `docs/**` |
 | | **合计** | **694 688 387（662.51 MiB）** | |
@@ -432,7 +432,7 @@ metrics.csv, per_image.csv, progress.json, region_stats.csv, reference_permutati
 1. **保留处 = `docs/figures_reference_matching_20260914/`**。依据：`FIGURE_BINDING.md` 就在此目录；
    所有图脚本的 `--out-dir` 默认值、`sync_to_manuscript.py` 的 `DEFAULT_SRC`
    （`scripts/figures_reference_matching_20260914/sync_to_manuscript.py:31`）都指向它；
-   `scripts/paper_complete_teacher_review_20260920/figure_sources/{plot_extra.py:16, plot_supplementary_figures.py:26,
+   `scripts/paper_complete_review_20260920/figure_sources/{plot_extra.py:16, plot_supplementary_figures.py:26,
    build_methods.mjs:11}` **实读**它的 `figS2_*.json`、`figS4_*.json`、`style.mjs`。
 2. **`docs/manuscript_reference_matching_20260914/figures/` 不删**（108/108 与保留处逐字节相同，但**红线优先**）：
    - `scripts/manuscript_build_20260914/figures.json` 显式登记 `docs/manuscript_reference_matching_20260914/figures/*.png`
@@ -443,7 +443,7 @@ metrics.csv, per_image.csv, progress.json, region_stats.csv, reference_permutati
    ⇒ 属"任何被脚本读写的路径"，按红线**保留**，未尝试"移到保留处再删目录"。
 3. **`docs/figures_package_20260917/` → `docs/archive_pre202609/figures_package_20260917/`（`git mv`，127 个文件）**：
    108 个文件在保留处有逐字节同源；另 10 个 `06_previous_theme_DCFnet/**` 在
-   `docs/figures_teacher_revision_20260910/`、`docs/figures_redraw_20260910/`、`docs/main_figure_redraw_20260910/`
+   `docs/figures_expanded_20260910/`、`docs/figures_redraw_20260910/`、`docs/main_figure_redraw_20260910/`
    有逐字节同源（实算）；**剩 9 个只在包内存在**，且正是 `FIGURE_BINDING.md` §五 按名字列出的"已移入 superseded"
    清单（`main_figure_final_20260915.{png,pptx}`、`main_figure_reviewed_20260915.{png,pptx}`、
    `main_figure_fixed_support_matching_20260914.{png,pptx}`、`interaction_intervals.png`、`interaction_by_budget.png`、
@@ -503,7 +503,7 @@ metrics.csv, per_image.csv, progress.json, region_stats.csv, reference_permutati
 | U3 | `.tmp_*` 内 >1 MB 的成稿渲染 PDF（`manuscript_20260905` 5 个、`english_manuscript_20260914` 2 个、`manuscript_{review,round2,chinese_review,english_polished}_*` 各 1–2 个） | 约 26 MiB | 各轮成稿的 Word→PDF 渲染快照，非"构建中间件"；再生依赖本机 Word/WPS COM，且各轮 docx 已不在盘 ⇒ 判"拿不准"保留 |
 | U4 | `.tmp_complete_figures_20260920/**`（`qa_doc_sheets`/`qa_doc_final_sheets`/`qa_ppt_sheets` 及 `qualitative/`、`plots/`、`all_images.pptx`、`CambriaMath.ttf`、`word.pdf`） | 311.10 MiB | **现役权威图件链工作目录**（`ARTIFACT_INDEX.md:122` 声明"不得删除"；`plot_primary.py:7,9,11` 实读写，`build_deck.mjs:25` 写 `all_images.pptx`）。其中 `qa_doc_sheets/` 与 `qa_doc_final_sheets/` 互为逐字节副本（6 对），但属该轮 QA 证据且目录现役 ⇒ 未动 |
 | U5 | `.tmp_lesson_20260912/teacher_docx_extract.json`（1.33 MB） | 1.33 MB | 唯一抽取证据，源 docx 不在盘 ⇒ 保留（虽略超 1 MB 阈值） |
-| U6 | `docs/{PAPER_SUBMISSION_HANDOFF_AND_REPRODUCIBILITY_PLAN_20260826, PRE_MANUSCRIPT_READINESS_AUDIT_20260827, PROJECT_PROGRESS_AND_MANUSCRIPT_PLAN_FOR_SUPERVISOR_EN_20260827}.md` | 约 46 KB | 被 `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256`（第 3/11/12 行）**登记了 SHA-256 + 路径**；移动会使该哈希清单路径失效 ⇒ 三查(b) 拦下 |
+| U6 | `docs/{PAPER_SUBMISSION_HANDOFF_AND_REPRODUCIBILITY_PLAN_20260826, PRE_MANUSCRIPT_READINESS_AUDIT_20260827, PROJECT_PROGRESS_AND_MANUSCRIPT_PLAN_REVIEW_EN_20260827}.md` | 约 46 KB | 被 `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256`（第 3/11/12 行）**登记了 SHA-256 + 路径**；移动会使该哈希清单路径失效 ⇒ 三查(b) 拦下 |
 | U7 | `docs/remp_ad_adaptclip_audit.md`、`docs/reproduction_notes.md` | 约 17 KB | mtime 属 2026-07~08，但当前文档仍以它们为依据/出处：`docs/BASELINE_EXPANSION_PLAN_20260921.md:84`、`docs/论文与图件问题汇总_仅复核_20260921.md:157`、`docs/environment_matrix.md:72,75`（**这 3 个文件不在任务给的 6 个"当前状态类文档"清单内**，移动会造成未授权的断链）⇒ 保留原位 |
 | U8 | 其余 8 个 `_smoke*` 目录（合计 ≤65 KB） | 0.07 MiB | 全是唯一 json/csv 小证据（`export_report_*.json`、`PAPER_C_RUN_SUMMARY.json` 等），按任务 2 第 2 条必须留下 |
 | U9 | `dist/replication_package_20260920/` | 449.25 MiB | 已交付复现包（含 `SHA256SUMS`、`SOURCE_COMMIT.txt`），删即失交付物（沿用第一轮 S2 结论） |
@@ -529,16 +529,16 @@ metrics.csv, per_image.csv, progress.json, region_stats.csv, reference_permutati
 
 | 复核项 | 结果 |
 |---|---|
-| 权威稿 `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx` | **在盘**，SHA-256 `F3CAE3B491A99F86…`（= 09-22 重建版，未变） |
+| 权威稿 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx` | **在盘**，SHA-256 `F3CAE3B491A99F86…`（= 09-22 重建版，未变） |
 | 版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx` | **在盘**，SHA-256 `9DB99E60CD3024D1…` |
 | 现役 deck `All_Figures_Complete_20260920.pptx` / `All_Figures_Finalized_20260920.pptx` | **在盘**（72 193 447 / 71 604 011 B） |
-| `LICENSE`、`requirements_repro.txt`、`scripts/paper_complete_teacher_review_20260920/figure_sources/` | **在盘** |
+| `LICENSE`、`requirements_repro.txt`、`scripts/paper_complete_review_20260920/figure_sources/` | **在盘** |
 | `.tmp_complete_figures_20260920/{plot_fonts.py, plots/*, qualitative/fig7_multimethod_*}`、`.tmp_figure_revision_20260920/tables.json` | **全部在盘**（现役链未被触碰） |
 | `docs/figures_reference_matching_20260914/{FIGURE_BINDING.md, figS2_*.json, figS4_*.json}`、`docs/manuscript_reference_matching_20260914/figures/fig1_framework.png` | **全部在盘** |
 | `_smoke_round2/{smoke_d_branch.py, SMOKE_RESULTS.json, p0_support/support_manifest_ksdd2.json}`、`_smoke/units/**/metrics.csv` | **全部在盘** |
 | `.tmp_allfig_20260910/validation-v2.json`、`.tmp_contour_notation_20260911/revise.py`、`.tmp_teacherfig_20260910/prepare.py`、`.tmp_univad/probe_cosine.py`、`.tmp_crossref/verify_figure_manifest.py`、`.tmp_english_manuscript_20260914/build.py` | **全部在盘**（第一轮 S3 点名的"被文档引用的小文件"一个没少） |
 | `docs/archive_pre202609/{README_ARCHIVE.md, PLAN.md, DYNAMIC_FUSION_NEXT_STEPS.md, figures_package_20260917/05_superseded/main_figure_final_20260915.pptx}` | **在盘** |
-| 例外说明 | 复核脚本初版把 `figure_sources` 写成根目录路径（实为 `scripts/paper_complete_teacher_review_20260920/figure_sources/`）、把 `figures.json` 写成 `docs/manuscript_reference_matching_20260914/`（实为 `scripts/manuscript_build_20260914/figures.json`）——两处为**复核脚本自身的路径笔误**，与本次清理无关，已实读纠正 |
+| 例外说明 | 复核脚本初版把 `figure_sources` 写成根目录路径（实为 `scripts/paper_complete_review_20260920/figure_sources/`）、把 `figures.json` 写成 `docs/manuscript_reference_matching_20260914/`（实为 `scripts/manuscript_build_20260914/figures.json`）——两处为**复核脚本自身的路径笔误**，与本次清理无关，已实读纠正 |
 
 ## E.8 git status 摘要（供作者提交，**本轮未提交**）
 

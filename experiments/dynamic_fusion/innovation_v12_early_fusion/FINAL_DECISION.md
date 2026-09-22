@@ -19,7 +19,7 @@ authority: docs/.../23_LEARNABLE_AND_EARLY_FUSION_ROUTES_CN_20260903.md §8.1；
    - ≤300k 可学习跨分支门控残差：v4（实现缺陷）训练后 < A1 < static2；v5（bugfix）训练后 ≡ static2（门全关），均无增益。
 2. **Stage0 oracle headroom 不再是入场证据**：空信息审计（A1复制=0、A1缩放=+0.65>real、shuffle≈0）证明 +0.3885 主成分为 GT 边界特权+专家尺度差，非跨分支排序信息（`ORACLE_NULL_AUDIT.md`）。不再基于它推断可学习互补性或训练 router。
 3. **受限结论（不扩大为“整族已证伪”）**：负结果只覆盖“缓存级 SCAIF v4/v5 + MPDD s0 dev”这一实现家族子集；不扩展到任意 early-fusion 架构、其他数据集或训练协议。doc 26 §4 所列新方向（CL-RPF/PRS/共同坐标细节恢复/匹配目标/蒸馏）为**待证实假说**，各自需先过自身低成本控制与机制门，再谈三 seed/外部冻结确认。
-4. 继续开放、需 supervisor 决策后预注册的项（doc 26 §4/§6 顺序）：
+4. 继续开放、需 reviewer 决策后预注册的项（doc 26 §4/§6 顺序）：
    - **CL-RPF**（跨层正常偏离轨迹，复用已导出多层 cache，CPU probe，doc26 §4.1）——已列为本文件之后的第一步低成本验证；
    - **PRS**（双编码器扰动响应谱，doc26 §4.2）；
    - 共同坐标空间细节恢复（FeatUp/AnyUp 类，doc26 §4.3）；匹配目标驱动学习（§4.4）；关系蒸馏降成本（§4.5，需改论文目标）；
@@ -44,7 +44,7 @@ innovation_v12_early_fusion/
 └── FINAL_DECISION.md    （本文件）                                            ✓
 ```
 
-## 下一步（按 doc 26 §6 执行顺序；均待 supervisor / 下一指令）
+## 下一步（按 doc 26 §6 执行顺序；均待 reviewer / 下一指令）
 1. ~~短优化健康诊断（§6.2/§3A）~~ → 已执行：见 `03_scaif_small_gate/RUN_OPTIM_HEALTH.md`。
    acceptance：任务梯度可达交互通路（run B 全角色非零），但无 sparse 时固定 episode 任务误差
    仅微降（seg −0.0004/−0.0019），AP-on vs off 为负或 ~0 → **不再开完整训练**；根因在目标/正则

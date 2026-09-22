@@ -74,7 +74,7 @@ The outputs are a continuous pixel anomaly map $A_t$ and an image-level score $s
 
 Support-bank construction and query scoring use the same frozen visual paths. Each support image is encoded, spatially mapped to the common lattice, and normalized branch by branch. All support patches are retained, with one aligned row identity across branches. The bank is fixed for a category, support seed and $K$. A query follows the same feature path, searches that bank, and produces patch scores under one of the two matching rules. The query never updates the bank. Figure 1 shows the shared feature path, the two reference-selection rules and the weight-controlled representation comparisons.
 
-![Figure 1 part 1](docs/paper_complete_teacher_review_20260920/figures/fig1_framework.png)
+![Figure 1 part 1](docs/paper_complete_review_20260920/figures/fig1_framework.png)
 
 Figure 1. Controlled framework and representation comparisons. (a) K normal support images form a fixed, aligned reference bank. (b) The query follows the same frozen feature path. J selects one shared reference row; L selects a row independently in each branch. Shared resizing and Gaussian smoothing produce the continuous map $A_t$, whose maximum is the image score. The second image panel is a thresholded display of the same map, not another learned output. (c) DUP isolates reweighting; TRI and BAL define the representation effects and their matching interactions. B and C denote DINOv2-B and AnomalyCLIP visual features; S and D denote DINOv2-S and WideResNet50-2. The displayed map is the archived A1 J result for MPDD metal_plate/test/scratches/026.png at seed 0 and K = 1. Multiple support thumbnails illustrate the general input, not that example's support count. The contour uses 256-bin Otsu thresholding solely for visualization.
 
@@ -112,7 +112,7 @@ $$
 
 For every candidate, each branch distance is at least its own minimum; weighting and summing preserves that inequality, and minimizing the weighted sum does not reverse it. Equality holds when the branch minima admit a common minimizer. A positive gap measures the distance cost of imposing a common reference. Localization quality must be assessed separately, because average precision depends on the ordering of normal and anomalous pixels. The same distinction applies after common linear resizing and smoothing.
 
-![Figure 2 part 1](docs/paper_complete_teacher_review_20260920/figures/fig2_matching.png)
+![Figure 2 part 1](docs/paper_complete_review_20260920/figures/fig2_matching.png)
 
 Figure 2. Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) J requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas L lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization. (c) The ordering constraint $L(p)$ less than or equal to $J(p)$ follows from minimizing over a less restricted reference assignment. The gap is a raw-score difference, not an AP improvement.
 
@@ -137,7 +137,7 @@ BAL provides a complementary comparison. In the S experiment, the combined DINO 
 
 Figure 3 summarizes the constructions and their paired contrasts.
 
-![Figure 3 part 1](docs/paper_complete_teacher_review_20260920/figures/fig3_constructions.png)
+![Figure 3 part 1](docs/paper_complete_review_20260920/figures/fig3_constructions.png)
 
 Figure 3. Fixed representation constructions and the contrasts built from them. (a) A1, DUP, TRI and BAL with their distance weights; a slot keeps the same colour across panels. (b) A1 to DUP changes only how the fixed weights are split, raising the effective B weight from 1/2 to 2/3 and lowering the C weight from 1/2 to 1/3, with no new representation added, and is therefore the weight-confounding control; DUP to TRI puts a real encoder into the slot at an unchanged weight; A1 to BAL keeps the non-C family total and the C weight equal. (c) The four contrasts estimated in this paper. The TRI-to-A1 difference moves both factors at once and is never attributed to S alone. The extra slot is instantiated by five frozen encoders: S and D were pre-specified, while E1, E2 and E3 were added after the S and D results were known and are exploratory transfer checks. These are analysis configurations in one frozen pipeline, not trained networks.
 
@@ -342,11 +342,11 @@ BTAD illustrates a different situation. The TRI replacement effects are +1.553 p
 
 The first page of Figure 4 plots the eight S effects by dataset, allowing the two rules to be compared within each contrast.
 
-![Figure 4 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/fig4a_representation_effects.png)
+![Figure 4 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig4a_representation_effects.png)
 
 Figure 4. Absolute representation effects for S. Panels show observed effects in MPDD and corrected-geometry BTAD with individual 95% paired image-bootstrap intervals. MPDD uses seeds 0–2 and BTAD seeds 0, 1, with K = 1, 2, 4, 8. Units are AP percentage points. These absolute effects differ from the matching interactions shown on the continuation page.
 
-![Figure 4 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/fig4b_matched_encoders.png)
+![Figure 4 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png)
 
 Figure 4 continued. Matched-scope encoder interactions. All five encoders use seeds 0, 1 and K = 1, 4 in this comparison; points are observed condition means and bars are 98.75% paired intervals with a separate four-comparison family for each encoder. E1–E3 are exploratory substitutions. The different primary S scope and wider encoder scope remain separately identified in the tables.
 
@@ -417,11 +417,11 @@ These comparisons support encoder dependence on BTAD under the matched scope. On
 
 Figure 5(a) shows the seed-averaged S interaction against the nested support budget. On MPDD both contrasts strengthen as K grows: the TRI interaction rises from +0.41 percentage points at one support to +0.75, +0.88 and +1.01 at two, four and eight supports, and BAL rises from +0.37 to +0.83. On the corrected BTAD revision the same contrast weakens and changes sign, moving from +0.20 points at one support to +0.09 at two, −0.14 at four and −0.23 at eight, where the interval no longer includes zero. The curves therefore support a budget-dependent description, not a monotone law that more normal references consistently amplify the benefit of independent matching.
 
-![Figure 5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/fig5a_budget_seed.png)
+![Figure 5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig5a_budget_seed.png)
 
 Figure 5. Sensitivity to support budget and seed. (a) Seed-averaged bootstrap means across nested K budgets, using the MPDD study revision and corrected BTAD revision. (b) Observed interaction points for eight support seeds; seeds 0–2 have separate query blocks and seeds 3–7 share a cached block. The seed extension uses canonical BTAD masks. Filled and open markers distinguish these groups. Lines connect evaluated settings and do not imply independent samples or a fitted trend. Units are AP percentage points.
 
-![Figure 5 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/fig5b_categories.png)
+![Figure 5 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/fig5b_categories.png)
 
 Figure 5 continued. (c) Category-level TRI interactions as bootstrap means with individual 95% intervals. MPDD uses the study revision and BTAD the corrected revision. This exploratory comparison has no multiplicity adjustment across categories.
 
@@ -435,17 +435,17 @@ The stride-eight and full-pixel aggregate interaction directions agree for the S
 
 Figures 6 and 7 show five MPDD cases from seed 0 and four normal supports, with three improvements and two degradations for A1 L versus A1 J. The cases are selected by extreme stored per-image AP changes from the fixed closeout candidate list. Selection is based on localization performance, not on the average reduction in raw score. These panels illustrate the anchor's matching behavior; they are not a substitute for the direct representation interaction in Tables 7 and 9.
 
-![Figure 6 part 1](docs/paper_complete_teacher_review_20260920/figures/qualitative_improvements_part1.png)
+![Figure 6 part 1](docs/paper_complete_review_20260920/figures/qualitative_improvements_part1.png)
 
 Figure 6. Three selected MPDD improvements for A1 L relative to A1 J at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. J/L heatmaps share one full-map min-max range per row. The cyan L contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.
 
-![Figure 6 part 2](docs/paper_complete_teacher_review_20260920/figures/qualitative_improvements_part2.png)
+![Figure 6 part 2](docs/paper_complete_review_20260920/figures/qualitative_improvements_part2.png)
 
 Figure 6 continued. The third selected improvement, with the same scale, crop, and contour conventions.
 
 The heatmaps for each case use one common minimum and maximum over its J and L maps after resizing and smoothing. The L map is quantized into 256 bins, and Otsu's between-class-variance criterion selects a visualization threshold, taking the smallest maximizing bin if tied. The cyan contour traces the resulting predicted mask. It is derived entirely from the model score. For visual inspection only, a square crop is centered on the bounding box of the ground-truth defect mask, with side length clipped between 96 and 260 pixels after a 1.8-fold expansion; the same crop is applied to all columns. The ground truth determines this display region and the evaluation labels, but not the predicted mask.
 
-![Figure 7 part 1](docs/paper_complete_teacher_review_20260920/figures/qualitative_mpdd_matching_degradations.png)
+![Figure 7 part 1](docs/paper_complete_review_20260920/figures/qualitative_mpdd_matching_degradations.png)
 
 Figure 7. Two selected MPDD degradations under the same A1 comparison and display protocol as Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. The cases illustrate matching behaviour at the anchor and are not direct evidence of the representation interaction. A companion per-sample comparison set, generated from the same common valid region as Table 11, places selected samples beside the native baselines at seed 0 with K = 4: MPDD (six method columns, six categories), BTAD (six, three), MVTec AD (six, fifteen) and VisA (six, twelve). Each class shows the three test images with the largest spread of per-sample pixel AP, the panels of a row share one colour scale, and in the current set every method column carries data for every displayed unit; a column whose per-sample dump did not cover a unit would be retained as n/a rather than dropped. The set is archived with the figure sources.
 
@@ -505,7 +505,7 @@ Mean seconds per complete dataset condition over seeds 0 and 1 and K = 1 and 4; 
 
 Figure 8 shows the historical processing and evaluation stages for the two datasets in Table 13. These records remain distinct from the synchronized benchmark in Section 4.2.14.
 
-![Figure 8 part 1](docs/paper_complete_teacher_review_20260920/figures/fig8_resources.png)
+![Figure 8 part 1](docs/paper_complete_review_20260920/figures/fig8_resources.png)
 
 Figure 8. Historical processing and evaluation times from Table 13. Bars are mean seconds per complete dataset condition over seeds 0, 1 and K = 1, 4. Processing includes bank construction and retrieval for AnomalyDINO and an inseparable combined stage for PatchCore. Feature extraction is incompletely covered. These totals are historical stage measurements, not per-image latency; Figure S5 provides separately measured inference stages on three MPDD categories.
 
@@ -769,49 +769,49 @@ Funding: [[FUNDING]]. Competing interests: The authors declare no competing inte
 
 ## Supplementary Method Figures
 
-![Figure S1 part 1](docs/paper_complete_teacher_review_20260920/figures/figS1_encoders.png)
+![Figure S1 part 1](docs/paper_complete_review_20260920/figures/figS1_encoders.png)
 
 Figure S1. Frozen encoder branches and their shared scoring path. (a) B and S are DINOv2-B and DINOv2-S; C is the AnomalyCLIP visual branch; D concatenates WRN50-2 layer2 and layer3. The 448-pixel square input and 32 by 32 grid illustrate the square primary canvas; the BTAD-03 canvas is 32 by 42, and KSDD2 uses its separately specified geometry. (b) E1 is original DINO ViT-S/8, E2 ConvNeXt-Tiny and E3 Swin-Tiny; these substitutions were selected after S and D and are exploratory. (c) Bilinear mapping to the B grid with align_corners = False and per-position unit normalization define the common distance path. Encoders, weights and reference identities remain frozen; no target training, coreset, PCA or weight search is introduced.
 
 ## Supplementary Results Figures
 
-![Figure S2 part 1](docs/paper_complete_teacher_review_20260920/figures/figS2_shared_op_ablation.png)
+![Figure S2 part 1](docs/paper_complete_review_20260920/figures/figS2_shared_op_ablation.png)
 
 Figure S2. Exploratory shared-operation ablations. (a) The interaction under each ablation, shown as dataset means. (b) The absolute mean pixel AP that the same ablations move, over the four constructions under the joint rule. The operations every construction shares are removed one at a time: ABL-S drops the Gaussian smoothing of the patch scores, ABL-N drops the per-branch normalization and scores with squared Euclidean distance, and ABL-C replaces score-level fusion with naive concatenation, which can move only the BAL contrast because the coefficients equal the weights for equal slots. The scope is a single condition, seed 0 with K = 1, and one run per ablation, so no interval exists and none is drawn; the panel is therefore exploratory and does not show that a shared operation has been validated.
 
-![Figure S3 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_c_to_b_shift.png)
+![Figure S3 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_c_to_b_shift.png)
 
 Figure S3. Supporting geometry audit. Approximate minus coordinate-corrected C-grid positions for BTAD category 03 and the square MPDD bracket-black example. The non-square canvas introduces a horizontal displacement; the square example has zero displacement. These are coordinate diagnostics, not additional performance measurements.
 
-![Figure S3 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_canvas_coverage.png)
+![Figure S3 part 2](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_canvas_coverage.png)
 
 Figure S3 continued. B/S canvas and PatchCore-224 center crop in original image coordinates for the same two geometry examples. Rectangles are computed from the frozen preprocessing transforms.
 
-![Figure S3 part 3](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_interaction_cases.png)
+![Figure S3 part 3](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S3 part 4](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_interaction_cases_p2.png)
+![Figure S3 part 4](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p2.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S3 part 5](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_interaction_cases_p3.png)
+![Figure S3 part 5](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p3.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S3 part 6](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/panel_interaction_cases_p4.png)
+![Figure S3 part 6](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/panel_interaction_cases_p4.png)
 
 Figure S3 continued. Two of the eight frozen per-image interaction cases at seed 0 and K = 4. The original query, ground-truth display and four contrast maps are shown in aligned columns. The four raw patch-score maps in each row use one shared color range; they illustrate the contrast before final smoothing. The displayed interaction is in AP units, not percentage points. Cases are selected extremes and do not estimate population performance.
 
-![Figure S4 part 1](docs/paper_complete_teacher_review_20260920/figures/figS4_bootstrap_convergence.png)
+![Figure S4 part 1](docs/paper_complete_review_20260920/figures/figS4_bootstrap_convergence.png)
 
 Figure S4. Numerical stability of stored bootstrap estimates, not training convergence. Prefixes of 50, 100, 200, 300, 400, 500, 600, 700, 800, 900 and 1000 stored replicates are reused without new draws, and the same frozen arrays underlie both pages. (a) Change of each prefix estimate from its 1000-replicate value, in 10^-3 pixel AP, for the ten dataset-contrast series; the grey band marks the measured N >= 200 bound and the dotted line the recommended N = 1000. (b) Width of each individual 95% percentile interval relative to its width at 1000 replicates for the same ten series; the shaded grey band is a fixed reference band of 5% either side, not a pre-specified pass criterion, the dashed vertical line marks N = 500 and the dotted line the recommended N = 1000. The measured largest relative width deviation on prefixes of at least 500 replicates is 6.8%, and on the plotted grid every series stays inside that fixed reference band only from N = 700. MPDD is development, BTAD holdout, MVTec AD external frozen validation, VisA in-domain validation, and KSDD2 separate confirmation; these roles and their inferential families are not pooled. This diagnostic concerns Monte Carlo stability conditional on the stored data, not adequacy of sampling or model training.
 
-![Figure S4 part 2](docs/paper_complete_teacher_review_20260920/figures/figS4_bootstrap_stability.png)
+![Figure S4 part 2](docs/paper_complete_review_20260920/figures/figS4_bootstrap_stability.png)
 
 Figure S4 continued. The same stored prefixes shown at their absolute scale: prefix means and individual 95% percentile intervals of the two interaction contrasts, in 10^-3 pixel AP. On the displayed prefixes of at least 500 replicates the largest mean deviation from the 1000-replicate value is approximately 0.00013 pixel AP and the largest relative interval-width deviation is 6.8%, while at prefixes of at least 200 the latter can still reach 17.1%. These are individual 95% intervals and do not replace the multiplicity-adjusted intervals used for the principal conclusions.
 
-![Figure S5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_teacher_review_20260920/figures/figS5_speed_vram.png)
+![Figure S5 part 1](D:/STUDY/My_github/sci_project/docs/paper_complete_review_20260920/figures/figS5_speed_vram.png)
 
 Figure S5. Timed inference stages and in-process GPU allocation on three MPDD categories (bracket_black, bracket_brown and bracket_white), seed 0 and K = 1, 4: six units, 216 unique queries and 432 query visits. One warm-up and three timed repeats are run per unit. (a) Bars stack the medians of repeat-level stage sums across six units; circles and whiskers show the median and observed min–max of their total across three repeats, not confidence intervals. Stage medians need not sum exactly to the median total. (b) Bars show the median PyTorch allocated-memory peak across 18 timed unit runs, with observed min–max. MiB denotes 2^20 bytes. A1 holds B and C in the same process. ADino denotes AnomalyDINO, rot. reference rotation, and PC PatchCore at the indicated native input resolution. All six configurations use the same instrumentation, but retain their native preprocessing and model protocols. Timing includes reference/query preprocessing, encoding and scoring; model loading, dataset setup, metric evaluation and result writes are excluded. PatchCore score time is the fit-plus-predict residual after measured preprocessing and encoding. These are timed-stage sums, not independently timed complete-process wall-clock or query-only latency.
 

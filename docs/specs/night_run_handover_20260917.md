@@ -339,8 +339,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\limitation_closure_2
 
 # 附录 A：论文大纲逐项核对（2026-09-17 追加）
 
-核对对象：`docs/PAPER_OUTLINE_TEACHER_REVIEW_20260914_CN.md` 与
-`docs/paper_outline_teacher_review_20260914/新主题论文详细提纲_导师审阅版_20260914_更新版.docx`，
+核对对象：`docs/PAPER_OUTLINE_REVIEW_20260914_CN.md` 与
+`docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914_更新版.docx`，
 以及已生成的 `docs/manuscript_reference_matching_20260914/English_Manuscript_Source.md`。
 
 ## A.1 大纲「图表与补充材料安排」对照
@@ -393,7 +393,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\limitation_closure_2
 1. 按 A.2 补齐 5 个新小节（第三/第四编码器、四数据集、支持集方差、细网格几何、画布对应审计）。
 2. 重写摘要与结论，并把"未建立"的措辞按新证据改写（**不能**把泛化证据写成确认）。
 3. 中文件（`中文对照内容.md`、`论文精读讲解.md`）与两个 `.docx` 需同步重生成。
-4. 更新大纲的「当前证据状态」表后再送导师审阅。
+4. 更新大纲的「当前证据状态」表后再送外部评审审阅。
 
 ## B.3 图表类
 
@@ -566,7 +566,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\limitation_closure_2
 - **C.1 E1/E2/E3 的 K 范围**（仍是 seed {0,1} × K {1,4}，K2/K8 与 seed 2 为 out_of_scope）——需你拍板是"受限 scope 探索性对照"还是补跑；
 - **C.2 确认集**（工作流 F）——唯一无法事后补的项，仍未开始；
 - **C.4 跨方法共同有效区域 / 图 7**：今天查明 `s8_common_region.py` 还依赖 `05_baselines/region_maps/` 下 AnomalyDINO 与 PatchCore 的**逐样本区域图**，而 MVTec/VisA **没有**这类产物（`s8_common_region.py:182-208`）。所以它不是"加个 `CATS`"，而是要先在统一画布上补一遍原生基线导出；图 7 与它是同一件底层工作；
-- **图 6/图 7 字号 < 11 pt**（违反老师 F09/O5 口径）需重排布；
+- **图 6/图 7 字号 < 11 pt**（违反AI 辅助评审 F09/O5 口径）需重排布；
 - **BTAD-03 的 rev_correct 八种子版本**（需新代码路径）；
 ## D.9 夜跑实测对本文档的修正（2026-09-18 上午追加）
 

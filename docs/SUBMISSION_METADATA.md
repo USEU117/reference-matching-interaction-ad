@@ -1,9 +1,9 @@
 # 投稿元数据收集清单（2026-09-21）
 
-> 用途：投稿 / 提交导师前，把下面每一项**逐项填实**。**本文件不编造任何作者信息**；
+> 用途：投稿 / 提交外部评审前，把下面每一项**逐项填实**。**本文件不编造任何作者信息**；
 > 标注「**已填**」的两项是无需作者输入即可安全写定的，标注「**待作者填写**」的一律留空。
-> 权威稿：`docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`
-> 稿件源（改论文只改这几个）：`scripts/paper_complete_teacher_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}`；见 `docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md` §10。
+> 权威稿：`docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`
+> 稿件源（改论文只改这几个）：`scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}`；见 `docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md` §10。
 
 ---
 
