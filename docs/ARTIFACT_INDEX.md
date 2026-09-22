@@ -157,7 +157,7 @@
 | 图件 ↔ 数据绑定 | `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` |
 | 为什么没有 loss 收敛曲线 / 替代图 S4 | `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md`（另见 `FIGURE_BINDING.md` §一 图 S4 行与 §七） |
 | 旧主线（不要混用） | `docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md`、`docs/AI_HANDOFF_REPRESENTATION_MATCHING_INTERACTION_AND_ACCEPTANCE_20260914_CN.md` |
-| 数据集划分与角色政策 | `data/splits/*/manifest.json`；角色映射见 `scripts/evaluate_a1_complete_metrics.py` 与 `docs/DYNAMIC_FUSION_DESIGN_REVIEW_AND_NEXT_PLAN.md` |
+| 数据集划分与角色政策 | `data/splits/*/manifest.json`；角色映射见 `scripts/evaluate_a1_complete_metrics.py` 与 `docs/archive_pre202609/DYNAMIC_FUSION_DESIGN_REVIEW_AND_NEXT_PLAN.md`（**2026-09-22 由 `docs/` 根移入归档**） |
 | 过期索引的就地核查记录（只读） | `NEW/STALE_20260919.md`、`EXT/STALE_20260919.md`（列明被脚本读回、故不就地改写的过期字段与"重生而非手改"的建议） |
 
 ---
