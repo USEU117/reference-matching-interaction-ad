@@ -318,7 +318,9 @@ function createSlide() {
   addText(slide, "f2-j-row-c", "C", 48, 570, 64, 44, { size: BASE, bold: true, color: C.amberLine, align: "center" });
   addCells(slide, "f2-j-b", 116, 516, 8, 38, 4, 44, C.blueFill, C.blueLine, 2, C.blueFill);
   addCells(slide, "f2-j-c", 116, 570, 8, 38, 4, 44, C.amberFill, C.amberLine, 2, C.amberFill);
-  addRect(slide, "f2-j-shared-highlight", 113, 512, 42, 102, "none", C.violetLine, 3);
+  // The violet bracket marks the one shared reference row J minimises over, so it must wrap the
+  // same cell that both branch rows shade (index 2, the third candidate).
+  addRect(slide, "f2-j-shared-highlight", 113 + 2 * 42, 512, 42, 102, "none", C.violetLine, 3);
   addText(slide, "f2-j-note", "same row\nfor both", 454, 516, 154, 98, { size: BASE, align: "center" });
 
   addText(slide, "f2-l-row-b", "B", 664, 516, 64, 44, { size: BASE, bold: true, color: C.blueLine, align: "center" });
@@ -425,7 +427,7 @@ function createSlide() {
 
   section(slide, "b", "What the paired comparisons isolate", 384);
   const comparisons = [
-    { x: 32, title: "A1 → DUP", body: "Only B's effective weight changes, from 1/2 to 2/3." },
+    { x: 32, title: "A1 → DUP", body: "Only the weight split changes: B 1/2→2/3, C 1/2→1/3." },
     { x: 448, title: "DUP → TRI", body: "Replace the copied B at the same 1/3 slot weight." },
     { x: 864, title: "A1 → BAL", body: "Keep the non-C total and C weight equal at 1/2." },
   ];

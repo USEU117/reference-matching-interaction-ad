@@ -1,6 +1,6 @@
 # Few-Shot Industrial Anomaly Detection — Reference-Matching × Representation Interaction
 
-> Repository formerly named `sci_project` (now `reference-matching-interaction`). The pre-2026-09-20 project description (A1 dual-encoder fixed fusion) is archived verbatim in [docs/README_HISTORY_pre20260920.md](docs/README_HISTORY_pre20260920.md) and no longer represents the current conclusions.
+> The repository name and the local directory are planned to be unified as `reference-matching-interaction`; the rename has not taken effect yet, and the remote is still `sci_project` (<https://github.com/USEU117/sci_project>). The pre-2026-09-20 project description (A1 dual-encoder fixed fusion) is archived verbatim in [docs/README_HISTORY_pre20260920.md](docs/README_HISTORY_pre20260920.md) and no longer represents the current conclusions.
 
 ## English
 

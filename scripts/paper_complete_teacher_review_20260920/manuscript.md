@@ -108,7 +108,7 @@ Branch labels B, S, C and D denote DINOv2-B, DINOv2-S, the AnomalyCLIP visual de
 
 {{table:design}}
 
-Comparing DUP with A1 changes the effective weight of B without adding a new representation. DUP is also numerically equivalent to a two-branch B/C construction with weights two thirds and one third. Replacing the copied B descriptor in DUP with S produces TRI at identical slot weights. TRI minus DUP therefore measures the effect of that representation replacement rather than the entire difference between two and three encoders.
+Comparing DUP with A1 changes only how the fixed weights are split, without adding a new representation. DUP is also numerically equivalent to a two-branch B/C construction with weights two thirds and one third. Replacing the copied B descriptor in DUP with S produces TRI at identical slot weights. TRI minus DUP therefore measures the effect of that representation replacement rather than the entire difference between two and three encoders.
 
 BAL provides a complementary comparison. In the S experiment, the combined DINO family weight remains one half, while C retains one half, allowing the B allocation to be split between B and S. In the D experiment, BAL preserves the total non-C weight but should not be called a DINO-family-preserving construction, since D is a convolutional ImageNet encoder. The weights are fixed experimental choices. DUP reuses the exact cached B descriptor, ensuring that the duplicate introduces neither new information nor feature-extraction randomness.
 

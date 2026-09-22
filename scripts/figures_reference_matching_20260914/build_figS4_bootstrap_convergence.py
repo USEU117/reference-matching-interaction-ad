@@ -21,11 +21,13 @@ v2 layout (2026-09-21) - two panels instead of three, read as a convergence figu
     panel (b)  95% interval width(N) / width(N = 1000), all ten series
 
 In both panels the horizontal reference line is that series' value at N = 1000 (0 and 1 in the
-two transformed coordinates), and the vertical lines mark the measured stability points:
-N = 200 for the point estimates and N = 500 for the interval widths, plus the N = 1000 that the
-paper actually reports.  The contrast is carried by the line style (solid I_TRI, dashed I_BAL)
-and the dataset by colour *and* marker, so the figure survives colour-blind readers and
-greyscale printing.
+two transformed coordinates).  Panel (a) draws the measured N >= 200 bound; panel (b) draws a
+*fixed* +/-5% reference band, kept visually and textually separate from the measured 6.8% worst
+relative width deviation, so that the band cannot be read as a pre-specified pass criterion.  The
+vertical lines mark N = 200 / N = 500, the grid points from which those measured bounds hold
+jointly, plus the N = 1000 that the paper actually reports.  The contrast is carried by the line
+style (solid I_TRI, dashed I_BAL) and the dataset by colour *and* marker, so the figure survives
+colour-blind readers and greyscale printing.
 
 The metric is the frozen primary one, macro pixel AP (F_SPEC.json metrics.primary).  The
 cross-check is hard: the N = 1000 mean and 2.5/97.5 percentiles must reproduce the published
@@ -153,19 +155,20 @@ GRID = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 C_RANGE = (0.60, 1.15)  # fixed y limits of panel (b), relative interval width
 TOL = 1e-8
 RECOMMENDED_N = 1000  # the replicate count the paper reports
+REFERENCE_BAND = 0.05  # fixed +/-5% reference band of panel (b); not the measured pass bound
 
 CAPTION_EN = (
-    "Figure S4. Bootstrap convergence of the interaction (macro pixel AP). Only prefixes of the "
-    "frozen replicate arrays are used; no new sampling. The horizontal reference line marks each "
-    "series' N = 1000 value. Point estimates settle by N = 200 and interval widths by N = 500 "
-    "(within 6.8%); the paper reports N = 1000. KSDD2 (grey, dashed) is the confirmation set, "
-    "outside the four-dataset family."
+    "Figure S4. Bootstrap convergence of the interaction (macro pixel AP); only prefixes of the "
+    "frozen stored arrays are reused. The reference line is each series' N = 1000 value. Point "
+    "estimates stay within 2.3e-04 pixel AP from N = 200, and interval widths within a measured "
+    "6.8% from N = 500; the panel (b) grey band is a fixed +/-5% reference band, which every "
+    "series enters only from N = 700. KSDD2 is the confirmation set."
 )
 CAPTION_ZH = (
     "图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；"
-    "横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值；点估计自 N = 200 起稳定，"
-    "区间宽度自 N = 500 起收敛到 6.8% 以内；全文报告 N = 1000。KSDD2（灰色虚线）为确认集，"
-    "不属四数据集家族。"
+    "横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值。点估计自 N = 200 起与该值相差不超过 "
+    "2.3e-04 pixel AP，区间宽度的实测最大相对偏离为 6.8%（自 N = 500 起）；(b) 面板灰带为固定的 ±5% "
+    "参考带，全部序列要到 N = 700 才进入带内。KSDD2（灰色虚线）为确认集，不属四数据集家族。"
 )
 
 
@@ -390,6 +393,10 @@ def main() -> int:
     width_bound = ceil_decimal(width500 * 100, 1) / 100
     est_n = first_settled_n(stats, est_bound, "estimate")
     width_n = first_settled_n(stats, width_bound, "width")
+    # The +/-5% band drawn on panel (b) is a *fixed reference*, not the measured pass bound: the
+    # first grid point from which every series stays inside it is read off the same prefixes and
+    # reported separately, so the band and the observed 6.8% deviation cannot be confused.
+    reference_n = first_settled_n(stats, REFERENCE_BAND, "width")
     per_series = {}
     for (dataset, contrast), rows in sorted(stats.items()):
         per_series[f"{dataset}|{contrast}"] = {
@@ -402,8 +409,10 @@ def main() -> int:
             "width_max_rel_deviation_from_N_1000": round(
                 max(deviation(rows, i, "width") for i in range(len(GRID))), 6),
         }
-    print(f"[figS4] stability: estimate N >= {est_n} (<= {est_bound}), "
-          f"width N >= {width_n} (<= {100.0 * width_bound:.1f}%)")
+    print(f"[figS4] measured bounds: estimate N >= {est_n} (<= {est_bound}), "
+          f"width N >= {width_n} (<= {100.0 * width_bound:.1f}%); fixed +/-"
+          f"{100.0 * REFERENCE_BAND:.0f}% reference band entered by every series from N = "
+          f"{reference_n}")
 
     # ---- panel coordinates -------------------------------------------------------------------
     scale = 1000.0  # panel (a) is in 10^-3 pixel AP
@@ -474,19 +483,21 @@ def main() -> int:
     ax_a.axhline(0.0, color="#1E2E38", linewidth=1.0, zorder=2.0)
     ax_a.set_ylim(-y_pad_a, y_pad_a)
     ax_a.set_ylabel("estimate(N) - estimate(1000)\n(10^-3 pixel AP)")
-    ax_a.text(1.045 * 200, 0.92 * y_pad_a, f"settled from N = {est_n}",
+    ax_a.text(1.045 * 200, 0.92 * y_pad_a, f"measured bound {est_bound:.1e} from N = {est_n}",
               ha="left", va="center", fontsize=DEFAULT_PT, color="#2B2B2B")
     ax_a.text(1050, -0.88 * y_pad_a, f"recommended N = {RECOMMENDED_N} (used throughout)",
               ha="right", va="center", fontsize=DEFAULT_PT, color="#2B2B2B")
 
-    # panel (b): fixed limits, +/-5% reference band around the N = 1000 level (y = 1)
+    # panel (b): fixed limits, a *fixed* +/-5% reference band around the N = 1000 level (y = 1),
+    # annotated separately from the measured 6.8% worst-case relative width deviation
     ax_b.axhline(1.0, color="#1E2E38", linewidth=1.0, zorder=2.0)
-    ax_b.axhspan(0.95, 1.05, color="#E6EBEE", linewidth=0, zorder=0.6)
+    ax_b.axhspan(1.0 - REFERENCE_BAND, 1.0 + REFERENCE_BAND, color="#E6EBEE", linewidth=0, zorder=0.6)
     ax_b.set_ylim(*C_RANGE)
     ax_b.set_ylabel("95% interval width\n/ width at N = 1000")
     ax_b.set_xlabel("bootstrap replicates N (prefix of the frozen 1000 stored draws)")
-    ax_b.text(1.045 * width_n, 1.12, f"settled from N = {width_n}",
-              ha="left", va="center", fontsize=DEFAULT_PT, color="#2B2B2B")
+    ax_b.text(1.04 * width_n, 1.12,
+              f"measured max deviation {100.0 * width_bound:.1f}% from N = {width_n}",
+              ha="right", va="center", fontsize=DEFAULT_PT, color="#2B2B2B")
     ax_b.text(1050, 0.64, f"recommended N = {RECOMMENDED_N} (used throughout)",
               ha="right", va="center", fontsize=DEFAULT_PT, color="#2B2B2B")
 
@@ -501,7 +512,8 @@ def main() -> int:
     ax_b.text(
         0.0, 1.045,
         "(b) 95% interval width of pixel AP, relative to its N = 1000 value (ratio)\n"
-        "shaded band = +/-5%; KSDD2 (grey, dashed) = confirmation set, not a family member",
+        "grey band = the fixed +/-5% reference band; KSDD2 (grey, dashed) = confirmation set\n"
+        f"all series stay inside that reference band only from N = {reference_n}",
         transform=ax_b.transAxes, ha="left", va="bottom", fontsize=DEFAULT_PT,
         fontweight="bold", linespacing=1.35,
     )
@@ -571,12 +583,11 @@ def main() -> int:
     caption = [
         "No target-domain training, hence no loss-versus-iteration curve to plot.",
         "Prefix bootstrap: the first N of 1000 frozen draws are reused; nothing is resampled.",
-        f"Estimates: from N = {est_n} within {est_bound:.1e} pixel AP; from N = 500 within "
-        f"{worst500:.1e}.",
-        f"Interval widths: from N = {width_n} within {100.0 * width_bound:.1f}% of their "
-        f"N = 1000 value (at N = 200: {100.0 * width200:.1f}%).",
-        "KSDD2 (grey, dashed) is the confirmation set, outside the four-dataset family.",
-        "Per-N prefix table and the 10 published cross-checks: figS4_bootstrap_convergence.json.",
+        f"Panel (a): grey band = the measured bound {est_bound:.1e} pixel AP from N = {est_n}.",
+        "Panel (b): grey band = a fixed +/-5% reference band, not a pass criterion.",
+        f"Observed worst deviation {100.0 * width_bound:.1f}% from N = {width_n}; all series "
+        f"inside the reference band from N = {reference_n}.",
+        "Per-N table, the 10 cross-checks and the KSDD2 role: figS4_bootstrap_convergence.json.",
     ]
     wrapped = [line for entry in caption for line in wrap(entry)]
     max_lines = 6  # the caption block must stay below the x axis label of panel (b)
@@ -629,15 +640,26 @@ def main() -> int:
             "caption.  No value, replicate array, contrast definition or tolerance was changed; "
             "v1 of these files is kept as figS4_bootstrap_convergence.v1.{png,pdf,json}."
         ),
+        "annotation_revision": (
+            "2026-09-22: annotation and caption revision only - no plotted value, prefix, contrast "
+            "or tolerance changed.  Panel (b) now labels the shaded band as a fixed +/-5% reference "
+            "band and the vertical line as the measured worst relative width deviation "
+            f"({100.0 * width_bound:.1f}% from N = {width_n}), and states the first grid N from "
+            f"which every series stays inside that reference band (N = {reference_n}).  The "
+            "unconditional 'settled from' wording is replaced by descriptive wording; the headline "
+            "and both captions carry the same separation."
+        ),
         "v1_backup": [
             "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.png",
             "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.pdf",
             "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.json",
         ],
         "claim": (
-            "The reported interaction estimates and 95% interval widths are stable in the number of "
-            "bootstrap replicates kept on disk.  No target-domain training is involved and no loss "
-            "curve exists for this pipeline."
+            "On the prefixes stored on disk the reported interaction estimates and 95% interval "
+            "widths differ from their N = 1000 values by at most the measured bounds recorded below. "
+            "The +/-5% band drawn in panel (b) is a fixed reference band, not a pre-specified pass "
+            "criterion.  No target-domain training is involved and no loss curve exists for this "
+            "pipeline."
         ),
         "metric": METRIC,
         "contrasts": {name: f"({new}_L - {control}_L) - ({new}_J - {control}_J)"
@@ -647,7 +669,10 @@ def main() -> int:
             "a": ("point-estimate change from its N = 1000 value, 10^-3 pixel AP, all ten series; "
                   "reference line y = 0 and grey band = the measured N >= 200 bound"),
             "b": ("95% interval width relative to its N = 1000 value, all ten series; reference "
-                  "line y = 1 and shaded band = +/-5%"),
+                  "line y = 1 and shaded band = a fixed +/-"
+                  f"{100.0 * REFERENCE_BAND:.0f}% reference band (not a pass criterion), annotated "
+                  f"separately from the measured worst relative width deviation "
+                  f"{100.0 * width_bound:.1f}% from N = {width_n}"),
         },
         "style": {
             "palette": {d: c for d, _, _, c, _, _ in DATASETS},
@@ -691,6 +716,12 @@ def main() -> int:
                     "N >= 500, rounded up to one decimal of one percent"
                 ),
                 "settled_from_n": width_n,
+                "reference_band_relative": REFERENCE_BAND,
+                "reference_band_definition": (
+                    "fixed +/-5% band drawn on panel (b); it is a reference, not a pre-specified "
+                    "pass criterion, and it is narrower than the measured bound above"
+                ),
+                "first_n_inside_reference_band": reference_n,
             },
             "per_series_first_settled_n": per_series,
             "reading_note": (
@@ -722,6 +753,8 @@ def main() -> int:
             "max_abs_estimate_deviation_N_ge_500": worst500,
             "max_relative_width_deviation_N_ge_200": width200,
             "max_relative_width_deviation_N_ge_500": width500,
+            "reference_band_relative": REFERENCE_BAND,
+            "first_n_inside_5pct_reference_band": reference_n,
             "max_abs_cross_check_delta": max(c["max_abs_delta"] for c in checks),
         },
         "caption_en": CAPTION_EN,

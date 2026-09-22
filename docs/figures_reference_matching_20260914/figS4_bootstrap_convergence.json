@@ -2,12 +2,13 @@
   "figure": "figS4_bootstrap_convergence",
   "version": 2,
   "version_note": "v2 (2026-09-21) is a layout/annotation revision of v1: two panels instead of three, colour-blind safe palette with marker-encoded datasets, N = 1000 asymptote reference lines, annotated stability points, an in-figure gloss for I_TRI/I_BAL and a bilingual caption.  No value, replicate array, contrast definition or tolerance was changed; v1 of these files is kept as figS4_bootstrap_convergence.v1.{png,pdf,json}.",
+  "annotation_revision": "2026-09-22: annotation and caption revision only - no plotted value, prefix, contrast or tolerance changed.  Panel (b) now labels the shaded band as a fixed +/-5% reference band and the vertical line as the measured worst relative width deviation (6.8% from N = 500), and states the first grid N from which every series stays inside that reference band (N = 700).  The unconditional 'settled from' wording is replaced by descriptive wording; the headline and both captions carry the same separation.",
   "v1_backup": [
     "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.png",
     "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.pdf",
     "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.json"
   ],
-  "claim": "The reported interaction estimates and 95% interval widths are stable in the number of bootstrap replicates kept on disk.  No target-domain training is involved and no loss curve exists for this pipeline.",
+  "claim": "On the prefixes stored on disk the reported interaction estimates and 95% interval widths differ from their N = 1000 values by at most the measured bounds recorded below. The +/-5% band drawn in panel (b) is a fixed reference band, not a pre-specified pass criterion.  No target-domain training is involved and no loss curve exists for this pipeline.",
   "metric": "pixel_ap",
   "contrasts": {
     "I_TRI": "(TRI_L - DUP_L) - (TRI_J - DUP_J)",
@@ -28,7 +29,7 @@
   ],
   "panels": {
     "a": "point-estimate change from its N = 1000 value, 10^-3 pixel AP, all ten series; reference line y = 0 and grey band = the measured N >= 200 bound",
-    "b": "95% interval width relative to its N = 1000 value, all ten series; reference line y = 1 and shaded band = +/-5%"
+    "b": "95% interval width relative to its N = 1000 value, all ten series; reference line y = 1 and shaded band = a fixed +/-5% reference band (not a pass criterion), annotated separately from the measured worst relative width deviation 6.8% from N = 500"
   },
   "style": {
     "palette": {
@@ -91,7 +92,10 @@
     "interval_width": {
       "bound_relative": 0.068,
       "bound_definition": "measured worst |width(N)/width(N = 1000) - 1| over all ten series for N >= 500, rounded up to one decimal of one percent",
-      "settled_from_n": 500
+      "settled_from_n": 500,
+      "reference_band_relative": 0.05,
+      "reference_band_definition": "fixed +/-5% band drawn on panel (b); it is a reference, not a pre-specified pass criterion, and it is narrower than the measured bound above",
+      "first_n_inside_reference_band": 700
     },
     "per_series_first_settled_n": {
       "btad|I_BAL": {
@@ -1186,11 +1190,13 @@
     "max_abs_estimate_deviation_N_ge_500": 0.00012651730514320284,
     "max_relative_width_deviation_N_ge_200": 0.17133892017712907,
     "max_relative_width_deviation_N_ge_500": 0.06766906680896374,
+    "reference_band_relative": 0.05,
+    "first_n_inside_5pct_reference_band": 700,
     "max_abs_cross_check_delta": 2.38524477946811e-16
   },
-  "caption_en": "Figure S4. Bootstrap convergence of the interaction (macro pixel AP). Only prefixes of the frozen replicate arrays are used; no new sampling. The horizontal reference line marks each series' N = 1000 value. Point estimates settle by N = 200 and interval widths by N = 500 (within 6.8%); the paper reports N = 1000. KSDD2 (grey, dashed) is the confirmation set, outside the four-dataset family.",
-  "caption_zh": "图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值；点估计自 N = 200 起稳定，区间宽度自 N = 500 起收敛到 6.8% 以内；全文报告 N = 1000。KSDD2（灰色虚线）为确认集，不属四数据集家族。",
-  "caption_en_words": 66,
+  "caption_en": "Figure S4. Bootstrap convergence of the interaction (macro pixel AP); only prefixes of the frozen stored arrays are reused. The reference line is each series' N = 1000 value. Point estimates stay within 2.3e-04 pixel AP from N = 200, and interval widths within a measured 6.8% from N = 500; the panel (b) grey band is a fixed +/-5% reference band, which every series enters only from N = 700. KSDD2 is the confirmation set.",
+  "caption_zh": "图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值。点估计自 N = 200 起与该值相差不超过 2.3e-04 pixel AP，区间宽度的实测最大相对偏离为 6.8%（自 N = 500 起）；(b) 面板灰带为固定的 ±5% 参考带，全部序列要到 N = 700 才进入带内。KSDD2（灰色虚线）为确认集，不属四数据集家族。",
+  "caption_en_words": 76,
   "gates": {
     "min_font_pt_floor": 11.5,
     "min_font_pt_measured": 11.5,
@@ -1202,7 +1208,7 @@
   "outputs": [
     {
       "path": "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.png",
-      "bytes": 820616,
+      "bytes": 857202,
       "pixels": [
         2342,
         3290
@@ -1211,7 +1217,7 @@
     },
     {
       "path": "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.pdf",
-      "bytes": 63565,
+      "bytes": 63972,
       "vector": true
     }
   ],
@@ -1220,5 +1226,5 @@
     "prefixes of one fixed replicate array are not independent replications, so the curves are a stability check and not an estimate of bias",
     "no training, no optimisation and no model update is performed at any point"
   ],
-  "created_utc": "2026-09-21T06:43:14+00:00"
+  "created_utc": "2026-09-22T08:23:44+00:00"
 }
