@@ -10,7 +10,7 @@
 
 - **P0**：已完成状态不变。其中"改后重新出一次 docx"这条验收 2026-09-22 再次通过：`scripts/paper_complete_teacher_review_20260920/build.py` 退出码 0，实测 **20 表 / 22 内嵌图 / 12 公式 / 34 文献 / 47 页 / 16,969 词**（docx SHA-256 `F3CAE3B491A99F8649E8900756D60C75163DDAA43B715F73D271308038DC44ED`）。⚠️ P0 文中出现的 `scripts\manuscript_build_20260914` 是**已冻结的旧链**，权威交付稿走 `scripts\paper_complete_teacher_review_20260920/`（详见 `docs/论文与图件问题汇总_仅复核_20260921.md` §八"跨文档口径矛盾" A / B 两条）。
 - **P1 的"扩展基线"分支已完成**（不在本计划 R 编号内）：SubspaceAD 144/144、WinCLIP+ 144/144、AnomalyCLIP 零样本 36/36，零失败；`…/05_baselines_ext_20260921/baseline_common_region_ext.csv` 1188 行（SHA-256 `1C770129…`）已入正文 **Table 12**。**R-20 的"两个方法家族"提法随之过时**（现 5 个家族：PatchCore、AnomalyDINO、SubspaceAD、WinCLIP+、AnomalyCLIP 零样本）；末节针对 R-20 的措辞约束（禁 `SOTA` / `全面领先` / 排名）**继续有效**，冻结主表（Table 11）六列数值与表注一字未改。
-- **P2-5 推送（原"需作者点头"）已完成**：`git rev-list --count origin/main..HEAD` = **0**，`main` 跟踪 `origin/main` 且已同步（HEAD `de25a22`，2026-09-22 实测）。
+- **P2-5 推送（原"需作者点头"）已完成**：`git rev-list --count origin/main..HEAD` = **0**，`main` 跟踪 `origin/main` 且已同步（HEAD `85d3207`，2026-09-22 复测；`de25a22` 为该条首次记录时的 HEAD）。
 - **新增阻断项（建议编号 R-22）**：`build.py` 的版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx` 与交付 docx 本轮开始时**不在盘上**（`a08dc46` 把 `*.docx` 加入 `.gitignore` 后消失），`build.py` 首次执行即 `FileNotFoundError`；已按 SHA-256 逐字节恢复（`9DB99E60…` / `18694B90…`）后重建成功。**母本是不可由源重建的二进制输入**，建议移出忽略范围或保留受控副本并登记进 `ARTIFACT_INDEX.md`（详见 `docs/论文与图件问题汇总_仅复核_20260921.md` §八 F17）。
 - **图件侧收口（不在本计划编号内）**：F01（图2(b) 紫框与填色对齐）、F02（图3(b) 权重措辞，含图内／图注／正文）、P04（图 S4 的 ±5% 参考带与 6.8% 实测值分开表述，5% 判据下实测首个 N = 700）已改并重渲染；F14 的 58 页 PPT 已重出（SHA-256 `48DD9180…`，第 20/21 页＝收敛／稳定性）。数据未改：`baseline_common_region.csv` `3C83AB004420A4F8…` 前后一致。
 - **仍未动**：P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3（需作者）。
@@ -137,7 +137,7 @@
 9. 是否在审稿阶段公开代码（按期刊政策）。
 10. BTAD 口径确认：是否接受统一为"点估计接近零、区间跨零，不足以确定方向"。
 11. 是否同意为落 `manifest_sha256` 而回改仓库内 `VD1_MANIFEST.json`（会改动既有文件）。
-12. 是否同意推送本地 `main`（超前远端 15 个提交）并推送 tags。
+12. ~~是否同意推送本地 `main`（超前远端 15 个提交）并推送 tags~~ —— **已办结**（2026-09-22 实测 `origin/main..HEAD` = 0，tags 已在远端）。
 
 ---
 

@@ -37,7 +37,7 @@
 | 复现包 | 分析入口、依赖记录、支持集清单、图件绑定 | `manuscript.md:215` |
 | 公开归档 | **尚未建立**（原文：*A permanent public archive for the complete current study has not yet been established.*） | `manuscript.md:215` |
 | 许可 | 代码 MIT / 派生产物同许可 / 数据集许可独立（三段） | `manuscript.md:217` |
-| 仓库现状（仅内部记录，**未写入正文**） | 远端 `USEU117/sci_project`（拟改名 `USEU117/reference-matching-interaction`） | `docs/GITHUB_METADATA.md:5` |
+| 仓库现状（仅内部记录，**未写入正文**） | 远端**已改名**为 `USEU117/reference-matching-interaction-ad`（旧 `USEU117/sci_project` 地址自动重定向）；本地 `origin` 已指向新 URL，2026-09-22 实测 `origin/main..HEAD` = 0（HEAD `85d3207`） | `README.md:3`、`docs/GITHUB_METADATA.md` |
 
 ---
 

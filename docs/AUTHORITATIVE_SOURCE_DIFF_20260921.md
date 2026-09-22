@@ -1,6 +1,7 @@
 # 权威稿 vs 我方旧稿：逐项差异审计（2026-09-21）
 
 > 权威稿 = `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`（46 页 / 19 表 / 8 主图 / S1–S5 / 34 文献）
+> **2026-09-22 校**：该稿已重建，现为 **47 页 / 20 表 / 22 内嵌图（8 主图 + S1–S5）/ 12 编号公式 / 34 文献 / 16,969 词**，SHA-256 `F3CAE3B491A99F8649E8900756D60C75163DDAA43B715F73D271308038DC44ED`。本文件其余各处（§3 的 19 表、§3 与 §末的"约 10,993 词"等）均为 2026-09-21 轮次的历史值，按"过程记录不改写"保留。
 > 我方旧稿 = `scripts/manuscript_build_20260914/{manuscript.md,results.md,tables.json}` + `docs/manuscript_reference_matching_20260914/**`（38–39 页 / 18 表）→ **superseded**
 > 本次审计为**只读**：未改任何稿、未改任何实验数值。
 

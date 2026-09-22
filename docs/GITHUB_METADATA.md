@@ -2,7 +2,7 @@
 
 - 日期：2026-09-21（Asia/Shanghai）
 - 用途：仓库改名收尾时，把下面各段**逐字复制**到 GitHub 网页对应字段。所有数字与链接均从盘上产物或本机 git 实读，未编造。
-- 改名前后对照：远端仓库 `USEU117/sci_project` → `USEU117/reference-matching-interaction-ad`（远端改名由人手动做）。
+- 改名前后对照：远端仓库 `USEU117/sci_project` → **`USEU117/reference-matching-interaction-ad`**（**远端改名已完成**：本地 `origin` 已指向新 URL，`origin/main..HEAD` = 0；旧地址自动重定向）。§3 的网页步骤保留作记录，重跑无意义。
 - 相关脚本：`tools/rename_folder_to_reference_matching_interaction.ps1`（本地物理目录改名，**本文件只给网页与命令行步骤，不执行任何动作**）。
 
 ---

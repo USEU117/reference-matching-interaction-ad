@@ -4,6 +4,8 @@
 
 最后整理：2026-09-14。**本文件是 `docs/` 的阅读入口；只做索引与状态标注，不替代任何实验报告。**
 
+> **当前状态指针（2026-09-22 追加，下表原文不改写）**：唯一权威交付稿 = `docs/paper_complete_teacher_review_20260920/Reference_Matching_Complete_English_20260920.docx`（47 页 / 20 表 / 22 内嵌图 / 16,969 词），唯一可编辑源 = `scripts/paper_complete_teacher_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}`；本文件下方"current"一栏中标为最新的交接/规格类文档，其**实验口径仍有效，但稿件口径已被 `docs/AUTHORITATIVE_SOURCE_DIFF_20260921.md` 与 `docs/论文与图件问题汇总_仅复核_20260921.md` 取代**。目录状态、清单有效性与清理策略以 [ARTIFACT_INDEX.md](ARTIFACT_INDEX.md) 为准；本轮清理记录见 [PROJECT_CLEANUP_AUDIT_20260922.md](PROJECT_CLEANUP_AUDIT_20260922.md)。
+
 标注含义：
 
 - **current** —— 当前有效，可直接引用。

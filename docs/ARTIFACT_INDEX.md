@@ -63,7 +63,7 @@
 | `NEW/05_baselines/baseline_common_region.csv` | mpdd 144 + btad 72 = 216 行 | 已被 `NEW/05_baselines_multi_dataset/baseline_common_region.csv`（864 行、四数据集、6 方法列）取代；但仍是 `build_fig7_multimethod_samples.py` 的**默认** `--region-table`，出四数据集图要显式传新表 |
 | `NEW/05_baselines/S4_SUMMARY.json.bak_20260919`、`S9_SUMMARY.json.bak_20260919`、`resource_comparison{,_v2}.csv.bak_20260919`、`baseline_common_frame.csv.bak_20260919`、`baseline_common_frame_notes.csv.bak_20260919` | — | 09-19 修复前的备份，**非当前值** |
 | `NEW/04_new_encoder/...`、`05_baselines/...`、`05_extra_encoders/...` 下的 `*.bak*_20260919` | — | 备份文件，勿当产物引用 |
-| `docs/manuscript_reference_matching_20260914/*.bak{,2,3}_20260919` | — | 多轮重建的正文备份（docx 各 3–4 份） |
+| `docs/manuscript_reference_matching_20260914/*.bak{,2,3}_20260919` | — | 多轮重建的正文备份（docx 各 3–4 份）。**2026-09-22 已全部删除**（23 个 `*.bak*`，见 `docs/PROJECT_CLEANUP_AUDIT_20260922.md`）；该 2026-09-14 链的 docx 可由 `scripts/manuscript_build_20260914/build.py` + `build_cn_docx.py` 从同目录 `manuscript.md`/`中文对照内容.md` 重建 |
 | `NEW/ARTIFACT_MANIFEST.json` | `created_utc = 2026-09-14T13:22:43`；约 50 条 `bytes`/`sha256`；**未覆盖 09-15 起的新产物**（`05_baselines_multi_dataset/*`、`05_extra_encoders/wide_scope/*`、09-19 重渲染的图表等） | 该文件被 `finalize_new.py` 写入、被 `selfcheck.py` 当作模板清单读取 ⇒ **不要手改 sha**，应重跑 `finalize_new.py` 重生。详见 `NEW/STALE_20260919.md` |
 | `NEW/RUN_SUMMARY.json` | `created_utc = 2026-09-14`；`stages` 仅到 `S9_resource_measurement`；`artefact_count = 829`、`artefact_bytes = 8015572367`、`selfcheck = 71/71` | 现值（2026-09-20 实读）：`SELFCHECK.json` 记 `checks=71, passed=71, failed=[]`（两条既有失败已按判据修正消除）；09-15 起的新阶段（种子扩展、四数据集泛化、KSDD2 确认）未登记 ⇒ `RUN_SUMMARY.json` 仍应重生而非手改。详见 `NEW/STALE_20260919.md` |
 | `NEW/05_baselines/S4_SUMMARY.json → coverage` | 二数据集口径：`target_conditions=72`、`baseline_rows_matched=72`、`common_frame_rows=124` | 四数据集口径在 `NEW/05_baselines_multi_dataset/S8_SUMMARY.json`（`units_expected=144`、`units_completed=144`；共同区域表 864 行）。该文件被 `s5_paper_assets.py`、`finalize_new.py` **读回** ⇒ 不要手改 |
@@ -119,7 +119,7 @@
 | `data/patchcore_closeout/`、`data/btad_patchcore_mvteclayout/` | PatchCore 本地缓存 | `baseline_common_region.csv` 的 `source` 列指向它们 |
 | `methods/` | vendored AnomalyDINO / AnomalyCLIP 源码 | 对 vendored 代码的补丁**无法用 git 记录**，只能文档化（`_night2_20260918/VENDORED_PATCH_anomalydino_backbones.md`） |
 | `*.npz` `*.npy` `*.pt` `*.log` | 全部特征/分数缓存、权重、日志 | 例外的两条白名单：`submission_repro_20260827/predictions_compact/maps/**/*.npz`、`submission_repro_20260827/logs/**/*.log` |
-| `/.tmp_*/`、`.qa_render_*/` | 本地 scratch/渲染 | **但** `.tmp_english_manuscript_20260914/build.py` 是 `FIGURE_BINDING.md` §3 列出的正文构建入口 —— 该目录被忽略却在用，**待确认**是否应改为受控脚本 |
+| `/.tmp_*/`、`.qa_render_*/` | 本地 scratch/渲染 | **已澄清（2026-09-22）**：`FIGURE_BINDING.md` §3 已把正文构建入口更正为受控脚本 `scripts/manuscript_build_20260914/build.py`（原文注明"旧的 `.tmp_english_manuscript_20260914/build.py` 已废弃"），故此处原"待确认"不再成立。**例外**：`.tmp_complete_figures_20260920/`、`.tmp_figure_revision_20260920/` 仍是现役权威图件链的工作目录（`scripts/paper_complete_teacher_review_20260920/figure_sources/plot_primary.py` 读写），不得删除 |
 | `experiments/**/staged_*/`、`experiments/**/predictions/` | 实验内暂存与预测副本 | — |
 | `__pycache__/` 等 | Python/IDE 缓存 | — |
 
@@ -133,7 +133,7 @@
 | `GEN/_gpu_probe/`（`cpu/`、`cuda/`、`k8_*/`、`conc_*/`、`big_*/`） | 设备对照探针 | 保留（图 8 设备口径的备选证据）；`DEVICE_PARITY.json` 有效 |
 | `LC/_night_20260917/`、`LC/_night2_20260918/` | 夜跑状态/日志/门禁快照 | **保留**（交接与审计均引用；`VALIDATION_20260918.*`、`gate_phase*.json` 是验收证据） |
 | `experiments/dynamic_fusion/{innovation_*,v2,v3*,...}/` | 2026-07~08 的旧探索线（已关闭/负结果） | 保留作历史；**不属于当前主线**，勿据其结论写作 |
-| `*.bak{,2,3}_20260919` | 修改前备份 | 可保留，引用时勿当产物 |
+| `*.bak{,2,3}_20260919` | 修改前备份 | `docs/manuscript_reference_matching_20260914/` 下的一批已于 **2026-09-22 删除**（可再生 + 指向已被取代的旧链）；`experiments/` 下的 6 个（`NEW/05_baselines/*.bak_20260919`）按"不动实验目录"原则**保留** |
 | `data/kolektorsdd2_raw/` | 确认集数据（untracked，未进 gitignore 的显式条目，但因为是数据目录） | **不可删除**（F 的输入）；公开复现包需评估许可（CC BY-NC-SA 4.0，不可再分发） |
 
 ### 4.3 逐单元 npz（`units/*/*.npz`、`canonical/**/*.npz`）
