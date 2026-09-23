@@ -533,4 +533,68 @@
 | 3 | `.tmp_figure_revision_20260920/`（旧 tmp 表所在） | 只登记，**未删除** |
 | 4 | 全新克隆能否复现 deck 链 | deck 链依赖 artifact-tool + PowerPoint COM + presentation skill 缓存（本机路径），跨机需按 `figure_sources/README.md` 配置 |
 
+## 十、第三轮（2026-09-23）：DOI 归档步骤、K-09 全量符号审计、两处口径统一
+
+> 范围：① 归档 DOI 的**作者执行步骤 + 回填清单**（不写假 DOI）；② **K-09 全量**逐符号审计（原为抽查）；
+> ③ 统一两处"登记未改"的口径差异（figS4 的 KSDD2 端点 vs Table 14；Table 17 末列）。
+> 纪律：**未改任何实验数值**；三个冻结哈希与 `data/splits/*` 全程不变；**未改任何图**、**未重出 deck**；未提交、未推送。
+
+### 10.1 归档 DOI：只给步骤，不写 DOI
+
+- **稿件保持如实表述**：`manuscript.md:226` 仍为 "…a permanent archive DOI for the complete study has not yet been established."——本轮**未改该句**、未虚构任何 DOI。
+- **新增章节**：`docs/SUBMISSION_METADATA.md` 追加「**归档 DOI 获取步骤（作者执行）**」= 可操作路径（GitHub 打 tag → 建 Release → Zenodo 打开 GitHub 集成 → 取 concept/version DOI → 补齐元数据与许可）+ **8 条回填点清单**。
+- **未新造 DOI 的证据**：对 **git 跟踪的全部文件**检索 DOI 形态 `10.\d{4,9}/`（脚本 `.tmp_revision_20260923/doi_scan.py`）→ 总计 **259 处，全部是文献/预印本 DOI**，集中在 `references.json`（21）、`docs/**/English_content.md` 与 `English_Manuscript_Source.md`（各 14—23，均为参考文献表）、`curated_references.bib`（22）、历史文献笔记（6—8）。**稿件可编辑源 `manuscript.md`/`results.md`/`tables.json`/`figures.json` 命中 0**，`README.md` 命中 **0**，`docs/SUBMISSION_METADATA.md` 命中 1（即本节正文里为说明而对**模式本身**的引用）⇒ **没有任何指向本研究的 DOI 被写入**。
+- **将来回填点**：`manuscript.md:226`、`SUBMISSION_METADATA.md`（DOI 行）、`README.md:3/44/85`、`MASTER_TODO` §七 B 行、本清单 A-02 判据（详见 `SUBMISSION_METADATA.md` 的清单表）。
+
+### 10.2 K-09：152 个数学对象**逐符号**全量审计（原为抽查）→ 判定**通过**
+
+- **工具与产物**：`.tmp_revision_20260923/k09_math_audit.py` → `k09_math_runs.csv`（逐 run：对象序号/上下文/角色/`m:sty`/规范应为/判定）、`k09_math_audit.json`（汇总）。
+- **覆盖与计数**：**152 个 `m:oMath` / 413 个数学 run**；`m:sty` 分布 `i` 228 / `p` 148 / `bi` 25 / `b` 12（改前）。
+- **违规 2 处（同一根因），已修**：式 (11) 的 `s_{img,t} = max_u A_{t,u}` 与式 (12) 的 `1[A_{t,u} ≥ τ_vis]` 中 `A_{t,u}` 为斜体 `i`，而 `A` 是整幅输出图（同式首项 `A_t` 已粗斜体）⇒ 应 `bi`。改 `build.py` 的 `eq(11)`/`eq(12)` 两处 `sub('A',labelindex('t,u'),False,False)` → `(...,False,True)`，并同步 LaTeX 镜像字典 → `\boldsymbol{A}_{t,u}`。
+- **复测**：重建后重跑同一审计 → `n_math_objects = 152`、`n_objects_with_violation = 0`；`i` 228→226、`bi` 25→27（恰为 2 个 run），`p`/`b` 不变。
+- **灰区 4 项（无条文可判违规，登记不改）**：`$J(p)$`/`$L(p)$`（图 2 图注）与 `$K=1$`/`$K=4$` 把括号/等号并入斜体 run（式 (3)—(5) 与 12 个公式中它们直立）；`$R_b$` 直立算子（与 `Gauss`/`Resize`/`min`/`max` 同约定）。
+
+### 10.3 两处"登记未改"的口径统一（**只改表注/图注文字，数值一个不动**）
+
+| 项 | 判定 | 处置 | 改动文件 |
+|---|---|---|---|
+| figS4 的 KSDD2 端点 vs **Table 14** "Point" | **不是同一被定义量**：同一源 CSV 的 `bootstrap_mean`（+0.5438/+0.3442 pp，图取）与 `point_delta`（+0.5386/+0.3427 pp，表取），Δ=+0.0052/+0.0015 pp | **澄清，不改数值** | `figures.json` 的 `stability.caption`（点明端点 = bootstrap mean）；`tables.json` 的 `ksdd2_confirmation.note`（写明 "Point" = 条件平均观测差及差额上界） |
+| **Table 17** 末列 "Support / test uncertainty" | **定义可确定、表值无误**（非笔误）：= 逐 seed **复现均值的 sd**（配对 replicate 索引）÷ 中位个体 **95%** 自助半宽 = 0.4795/0.3655/0.6833/0.6489 → **0.48/0.37/0.68/0.65 = 表值**；改用表内 "SD across seeds" 列则得 0.51/0.37/0.69/0.65（≠ 表值） | **澄清，不改数值** | `tables.json` 的 `seed_variance.note`（写清公式、**95%** 层级、与 "SD across seeds" 列非同量）；`README.md:18/58` 同口径短语精确化 |
+
+复算脚本：`.tmp_revision_20260923/p3_evidence.py`；生成式源头：`scripts/limitation_closure_20260915/d3_seed_variance.py:316-318`。
+
+### 10.4 重建、复测与门禁（本轮实测）
+
+| 项 | 值 |
+|---|---|
+| 重建 | `build.py` 退出码 **0**；备份 `.bak_symbols_20260923`（改前 `5C5DA8D5…F4A89`，19,220,095 B） |
+| docx | `EB11FCA85B0B07DA495AC27235B88C038CD7A0ACC565EF6CA2E66BAB65ACE41`（19,220,393 B） |
+| 规模复测 | **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 编号公式 / 34 文献 / 19,394 词** |
+| 门禁 | `qa_layout.py`（现役 1280×1060 layout）**TOTAL PROBLEMS: 0**；`figure_font_gate.py --self-test` **4/4**；`pytest tests -q` **260 passed** |
+| deck | **未重出**（本轮无图件改动）；SHA `1AED6DDA…302D2C` 未变。**登记**：图 S4 的 deck 备注页与 `FIGURE_SLIDE_INDEX.json` 的 `caption` 仍是修订前图注（可视页与页码不变），下次任何图件改动时随同重出即可 |
+| 红线 | 冻结表 `3C83AB00…A0B8BB` ✓、扩展表 `1C770129…73EC4B` ✓、母本 `9DB99E60…8FB837` ✓；`git status --porcelain -- experiments data` **为空** |
+
+### 10.5 判定计数（替换 §8.5 / §9 之后的计数）
+
+| 分组 | 通过 | 部分通过 | 不通过 | 未核实 | 合计 |
+|---|---|---|---|---|---|
+| §1 A-01…A-28 | **28** | 0 | 0 | 0 | 28 |
+| §4 K-01…K-15 | **15**（K-09 本轮由"抽查/部分通过"升为**通过**） | 0 | 0 | 0 | 15 |
+| **合计** | **43** | **0** | **0** | **0** | **43** |
+
+| 项 | 值 |
+|---|---|
+| 阻断项 | **无**（三个冻结哈希与 `data/splits/*` 全程不变） |
+| **"需作者拍板"** | **只剩 1 项 = 作者元数据**（`[[AFFILIATIONS]]`/`[[CORRESPONDING_AUTHOR]]`/`[[FUNDING]]`/`[[COMPETING_INTERESTS_TO_BE_CONFIRMED]]`）；**归档 DOI 已转为"作者执行步骤已备"**（`docs/SUBMISSION_METADATA.md`） |
+| 是否可进入下一轮 | **可以**；本轮新增工作均在"文字/样式"层，不引入新数值 |
+
+### 10.6 未做 / 不确定（如实登记）
+
+| # | 项 | 说明 |
+|---|---|---|
+| 1 | deck 未重出 | 本轮无图件改动，按纪律只重建 docx；图 S4 的 **deck 备注页与索引 caption** 仍带修订前图注（可视内容与页码不变），重出链已备（`FIGURE_BINDING.md` §12.3） |
+| 2 | K-09 灰区 4 项 | `J(p)`/`L(p)`/`K=1`/`K=4` 的括号/等号斜体、`R_b` 直立算子：**无规范条文**可判违规，**未改**（若作者希望与公式内部约定完全统一，可另开一轮加 `sym()` 的 `X(y)`/`X=n` 分支） |
+| 3 | DOI | 平台与是否审稿阶段公开代码由作者定；本轮只给步骤与回填清单，**未写任何 DOI** |
+| 4 | `docs/MODEL_WEIGHTS.md` | 稿件 `manuscript.md:224` 引用了它，但该文件当前**不在盘**（`MASTER_TODO` E-07 登记为待做）；本轮未触 |
+
 **（报告结束）**

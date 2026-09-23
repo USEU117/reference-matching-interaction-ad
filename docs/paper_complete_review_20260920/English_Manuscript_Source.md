@@ -178,13 +178,13 @@ All differences are formed within matched conditions and each resampling replica
 The patch scores form the matrix $a_t$ on the common lattice, are bilinearly resized to the $H$ by $W$ output canvas, and are smoothed with a Gaussian of standard deviation four pixels; $u$ indexes an output pixel. The image score is the maximum map response:
 
 $$
-\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u A_{t,u}\tag{11}
+\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u \boldsymbol{A}_{t,u}\tag{11}
 $$
 
 The controlled evaluation restores patch scores to the retained image canvas, with dimensions $H$ by $W$; it is 448 by 448 for square images, 448 by 588 for BTAD category 03, and 630 pixels high by 224 pixels wide for KolektorSDD2. Ground truth follows the same resized and cropped image extent. Cross-method evaluation uses original-image coordinates, as described in Section 4.1.3. Pixel metrics use continuous scores. For illustrative contours only, thresholding produces
 
 $$
-\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[A_{t,u}\geq\tau_{\mathrm{vis}}]\tag{12}
+\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[\boldsymbol{A}_{t,u}\geq\tau_{\mathrm{vis}}]\tag{12}
 $$
 
 Here $\tau_{\mathrm{vis}}$ is a visualization rule, not a universal fixed operating threshold. The archived qualitative examples use min-max normalization followed by 256-bin Otsu thresholding. No test mask determines this threshold. Equation (12) defines a display operation; the evaluated model outputs remain the continuous anomaly map and image score. A deployment threshold would require separate calibration.
@@ -536,7 +536,7 @@ Table 14. Confirmation-set interactions on KolektorSDD2, whose expected directio
 | D | $I_{TRI}$ | +0.499 | [+0.212, +0.851] | Yes |
 | D | $I_{BAL}$ | +0.367 | [+0.128, +0.653] | Yes |
 
-AP percentage points, stride eight, 1000 paired replicates. One category and twelve support conditions (seeds 0, 1, 2 with K = 1, 2, 4 and 8). The frozen specification fixes the judgement as the 95% interval, so no family adjustment is applied to this confirmation set; the same four cells also exclude zero at 98.75%, which is recorded for transparency only. Each branch name is printed once for its two rows.
+AP percentage points, stride eight, 1000 paired replicates. One category and twelve support conditions (seeds 0, 1, 2 with K = 1, 2, 4 and 8). The frozen specification fixes the judgement as the 95% interval, so no family adjustment is applied to this confirmation set; the same four cells also exclude zero at 98.75%, which is recorded for transparency only. The Point column is the condition-averaged observed difference, the same convention as the point columns of the primary interaction tables; the replicate mean of the same four contrasts, which Figure S4 plots for this dataset, is a different summary of the same estimand and differs from this column by at most 0.005 points. Each branch name is printed once for its two rows.
 
 All four point estimates are positive and all four 95% intervals exclude zero, so the frozen expectation is met on this dataset. We record for transparency that the same four cells also exclude zero at 98.75%, but the frozen judgement remains the 95% interval. The confirmation set deliberately does not enter the four-dataset table below, whose adjustment family was fixed over exploratory cells.
 
@@ -599,7 +599,7 @@ Table 17. Descriptive variation across eight support seeds.
 | BTAD $I_{TRI}$ | +0.125 | 0.136 | No | 3 of 8 | 0.68 |
 | BTAD $I_{BAL}$ | +0.036 | 0.129 | No | 0 of 8 | 0.65 |
 
-AP percentage points. Seeds 0–2 retain separate query encodings; seeds 3–7 share a query block and vary the support set alone. The final column is the between-seed standard deviation divided by the median bootstrap half-width. Values are descriptive, use canonical BTAD masks, and do not replace the corrected-geometry primary analysis. Figure 5(b) shows the same per-seed series.
+AP percentage points. Seeds 0–2 retain separate query encodings; seeds 3–7 share a query block and vary the support set alone. The final column divides the between-seed standard deviation of the per-seed replicate means (paired at a common replicate index, so the test-image bootstrap cancels and only the support-set variation remains) by the median individual 95% bootstrap interval half-width across the eight seeds; it is therefore built on a different standard deviation from the SD across seeds column, which is the spread of the per-seed observed points. Values are descriptive, use canonical BTAD masks, and do not replace the corrected-geometry primary analysis. Figure 5(b) shows the same per-seed series.
 
 The eight-seed variance evidence covers MPDD and BTAD only; no corresponding cross-seed table is available for MVTec AD, VisA or KolektorSDD2. For the recorded MPDD series, the mean points and between-seed standard deviations are +0.679 and 0.221 for $I_{TRI}$ and +0.548 and 0.159 for $I_{BAL}$; both retain the same sign at every seed. The BTAD series have means of +0.125 and +0.036 with standard deviations of 0.136 and 0.129, respectively, and change sign. This variation describes sensitivity to the observed supports and complements the conditional image-bootstrap intervals; it is not an additional independent replication or a variance estimate for the other three datasets.
 
@@ -865,7 +865,7 @@ Figure S3 continued. Two of the eight frozen per-image interaction cases at seed
 
 ![Figure S4 part 1](docs/paper_complete_review_20260920/figures/figS4_bootstrap_convergence.png)
 
-Figure S4. Numerical stability of stored bootstrap estimates, not model training or an all-method stability comparison. The same prefixes of 50–1000 stored replicates underlie both pages; the prefixes are dependent and 1000 is a reference value, not a true parameter. (a) Change from the 1000-replicate estimate (10^-3 pixel AP); the grey band is the measured N >= 200 bound. (b) Individual 95% interval width relative to its 1000-replicate width. The fixed +/-5% reference band is not a prespecified pass criterion: the measured maximum deviation for N >= 500 is 6.8%, and every series remains inside the band only from N = 700 on this grid. KSDD2 is separate confirmation, outside the four-dataset family. These individual intervals do not replace the adjusted primary intervals.
+Figure S4. Numerical stability of stored bootstrap estimates, not model training or an all-method stability comparison. The same prefixes of 50–1000 stored replicates underlie both pages; the prefixes are dependent and 1000 is a reference value, not a true parameter. (a) Change from the 1000-replicate estimate (10^-3 pixel AP); the grey band is the measured N >= 200 bound. (b) Individual 95% interval width relative to its 1000-replicate width. The fixed +/-5% reference band is not a prespecified pass criterion: the measured maximum deviation for N >= 500 is 6.8%, and every series remains inside the band only from N = 700 on this grid. KSDD2 is separate confirmation, outside the four-dataset family; every value plotted here, its endpoints included, is the mean of the stored replicate distribution, so it is the bootstrap mean rather than the condition-averaged observed difference that the confirmation table reports as its point column. These individual intervals do not replace the adjusted primary intervals.
 
 ![Figure S4 part 2](docs/paper_complete_review_20260920/figures/figS4_bootstrap_stability.png)
 

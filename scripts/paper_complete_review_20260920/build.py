@@ -97,8 +97,8 @@ def eq(n):
         name='TRI' if n==8 else 'BAL';nd=[sub('I',[mr(name,True)]),mr(' = ',True),effect(name,'L'),mr(' − ',True),effect(name,'J')]
     elif n==10:nd=[sub('ΔI','q'),mr(' = ',True),sub('I',labelindex('q,D')),mr(' − ',True),sub('I',labelindex('q,S')),mr(',    ',True),mr('q'),mr(' ∈ {TRI, BAL}',True)]
     elif n==11:
-        nd=[sub('A','t',False,True),mr(' = ',True),sub('Gauss',[mr('σ'),mr('=4',True)],True),mr('(',True),sub('Resize',[mr('H'),mr('×',True),mr('W')],True),mr('(',True),sub('a','t',False,True),mr(')),   ',True),sub('s',labelindex('img,t')),mr(' = ',True),limit('max',[mr('u')]),sub('A',labelindex('t,u'),False,False)]
-    elif n==12:nd=[sub('M',labelindex('vis,t'),False,True)]+parg('u')+[mr(' = ',True),mr('1',True),mr('[',True),sub('A',labelindex('t,u'),False,False),mr(' ≥ ',True),sub('τ',[mr('vis',True)]),mr(']',True)]
+        nd=[sub('A','t',False,True),mr(' = ',True),sub('Gauss',[mr('σ'),mr('=4',True)],True),mr('(',True),sub('Resize',[mr('H'),mr('×',True),mr('W')],True),mr('(',True),sub('a','t',False,True),mr(')),   ',True),sub('s',labelindex('img,t')),mr(' = ',True),limit('max',[mr('u')]),sub('A',labelindex('t,u'),False,True)]
+    elif n==12:nd=[sub('M',labelindex('vis,t'),False,True)]+parg('u')+[mr(' = ',True),mr('1',True),mr('[',True),sub('A',labelindex('t,u'),False,True),mr(' ≥ ',True),sub('τ',[mr('vis',True)]),mr(']',True)]
     p=d.add_paragraph();p.paragraph_format.space_before=Pt(5);p.paragraph_format.space_after=Pt(8)
     p.paragraph_format.tab_stops.add_tab_stop(Cm(8.5),WD_TAB_ALIGNMENT.CENTER)
     p.paragraph_format.tab_stops.add_tab_stop(Cm(17),WD_TAB_ALIGNMENT.RIGHT)
@@ -267,7 +267,7 @@ assert all(fidelity.values()),fidelity
 assert all(page.values()),page
 assert SOURCE_SHA==hashlib.sha256(REF.read_bytes()).hexdigest()
 resolved=re.sub(r'\[@([^\]]+)\]',lambda m:'['+', '.join(str(n) for n in sorted({numbers[k.strip().lstrip('@')] for k in m[1].split(';')}))+']',text)
-equations={1:r'\mathcal{X}_c=\{\boldsymbol{x}_i^c:i=1,\ldots,K\}',2:r'd_b(p,r)=1-\boldsymbol{g}_{b,p}^{\mathsf{T}}\boldsymbol{g}_{b,r}',3:r'J(p)=\min_{r\in\mathcal{R}_c}\sum_b w_b d_b(p,r)',4:r'L(p)=\sum_b w_b\min_{r\in\mathcal{R}_c}d_b(p,r)',5:r'G(p)=J(p)-L(p)\geq0',6:r'E_{\mathrm{TRI},t}=P(\mathrm{TRI}_t)-P(\mathrm{DUP}_t)',7:r'E_{\mathrm{BAL},t}=P(\mathrm{BAL}_t)-P(\mathrm{A1}_t)',8:r'I_{\mathrm{TRI}}=E_{\mathrm{TRI},\mathrm{L}}-E_{\mathrm{TRI},\mathrm{J}}',9:r'I_{\mathrm{BAL}}=E_{\mathrm{BAL},\mathrm{L}}-E_{\mathrm{BAL},\mathrm{J}}',10:r'\Delta I_q=I_{q,\mathrm{D}}-I_{q,\mathrm{S}},\quad q\in\{\mathrm{TRI},\mathrm{BAL}\}',11:r'\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u A_{t,u}',12:r'\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[A_{t,u}\geq\tau_{\mathrm{vis}}]'}
+equations={1:r'\mathcal{X}_c=\{\boldsymbol{x}_i^c:i=1,\ldots,K\}',2:r'd_b(p,r)=1-\boldsymbol{g}_{b,p}^{\mathsf{T}}\boldsymbol{g}_{b,r}',3:r'J(p)=\min_{r\in\mathcal{R}_c}\sum_b w_b d_b(p,r)',4:r'L(p)=\sum_b w_b\min_{r\in\mathcal{R}_c}d_b(p,r)',5:r'G(p)=J(p)-L(p)\geq0',6:r'E_{\mathrm{TRI},t}=P(\mathrm{TRI}_t)-P(\mathrm{DUP}_t)',7:r'E_{\mathrm{BAL},t}=P(\mathrm{BAL}_t)-P(\mathrm{A1}_t)',8:r'I_{\mathrm{TRI}}=E_{\mathrm{TRI},\mathrm{L}}-E_{\mathrm{TRI},\mathrm{J}}',9:r'I_{\mathrm{BAL}}=E_{\mathrm{BAL},\mathrm{L}}-E_{\mathrm{BAL},\mathrm{J}}',10:r'\Delta I_q=I_{q,\mathrm{D}}-I_{q,\mathrm{S}},\quad q\in\{\mathrm{TRI},\mathrm{BAL}\}',11:r'\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u \boldsymbol{A}_{t,u}',12:r'\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[\boldsymbol{A}_{t,u}\geq\tau_{\mathrm{vis}}]'}
 for num,latex in equations.items():resolved=resolved.replace('{{eq:'+str(num)+'}}','$$\n'+latex+'\\tag{'+str(num)+'}\n$$')
 tn=0
 for match in list(re.finditer(r'\{\{table:([^}]+)\}\}',resolved)):

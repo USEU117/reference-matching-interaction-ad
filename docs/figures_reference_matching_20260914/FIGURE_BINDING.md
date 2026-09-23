@@ -644,6 +644,65 @@ powershell -File scripts/main_figure_20260920/run_pipeline.ps1
 **连带重出**：deck 重出后 `fig4b` 落在**第 5 页**，其内嵌位图 `ppt/media/image7.png` 与盘上 PNG **逐字节相同**；
 docx 重建后 `fig4b` 内嵌为 `word/media/image13.png`（同哈希）。
 
+## 十二、2026-09-23 第三轮：K-09 全量符号审计 + 两处"登记未改"口径统一
+
+> 本轮只改**可编辑源**的数学排版样式与**表注/图注文字**；**未改任何数值、未重渲染任何图**。
+> docx 已重建并复测；**无图件改动 ⇒ 未重出 deck**（见 12.3）。
+
+### 12.1 K-09：152 个数学对象**逐符号全量**审计（原为抽查）
+
+- **工具**：`.tmp_revision_20260923/k09_math_audit.py`（python-docx + OMML 遍历：`//m:oMath` → `m:r` → `m:rPr/m:sty`，并判定该 run 的结构角色）。原始输出：`k09_math_runs.csv`（逐 run）、`k09_math_audit.json`（汇总）。
+- **覆盖**：**152 个 `m:oMath` 对象 / 413 个数学 run**。角色分布：`plain` 161、`base_sub` 100、`subscript` 137、`base_subsup` 2、`superscript` 3、`base_lim` 3、`limit` 5、`nary_sub` 2。
+- **判定依据**（不新立规范，只用稿件自述规范 + 清单 K-09）：
+  - `manuscript.md:107`：分支与构造标签、匹配规则标识、描述性下标**直立**；标量变量与分数函数**斜体**；特征向量与整幅图**粗斜体**。
+  - 清单 K-09：`x`、向量 `g`、映射 `A/a/M` 粗斜体；标量函数 `J(p)`/`L(p)`/`G(p)` 斜体；`J`/`L` 作**规则标签**时直立。
+- **违规 2 处，均已修正**（同一根因：同一个整幅输出图 `A` 的两处下标形式漏了粗体）：
+
+| 位置 | 符号 | 改前 | 规范应为 | 改法 |
+|---|---|---|---|---|
+| 式 (11) `s_{img,t} = max_u A_{t,u}` | `A_{t,u}` | `i`（斜体） | `bi`（粗斜体；`A` 是连续异常图，其粗体形式 `A_t` 在同式首项） | `build.py` 的 `eq()` 里式 (11) 的第三个 `sub('A',labelindex('t,u'),False,False)` → `(...,False,True)` |
+| 式 (12) `M_{vis,t}(u) = 1[A_{t,u} ≥ τ_vis]` | `A_{t,u}` | `i` | `bi` | `build.py` 的 `eq()` 里式 (12) 的同一处 → `(...,False,True)` |
+
+- **同步 LaTeX 镜像**：`build.py` 的 `equations` 字典（生成 `English_Manuscript_Source.md` 用）同处改为 `\boldsymbol{A}_{t,u}`（式 11、式 12 各一处），使生成稿与 docx 一致。
+- **复测**：重建后重跑**同一审计脚本** → `n_math_objects = 152`、`n_objects_with_violation = 0`；样式计数 **`i` 228 → 226、`bi` 25 → 27**（恰为修正的 2 个 run），`p` 148、`b` 12 不变。
+- **灰区（规范条文未覆盖，登记不改，共 4 项）**：
+  1. `$J(p)$`、`$L(p)$`（图 2 图注）把**括号**并入斜体 run，而式 (3)—(5) 中同名函数的括号为直立；
+  2. `$K=1$`、`$K=4$`（`manuscript.md` / `results.md`）把**等号**并入斜体 run，而全部 12 个编号公式中等号直立；
+  3. `$R_b$`（分支张量到公共格点的映射）为直立 `R` + 斜体下标，与 `Gauss`/`Resize`/`min`/`max` 的**算子直立**约定一致（规范只把 `A/a/M` 列为粗斜体映射）。
+  以上均无条文可判"违规"，**未改**。
+
+### 12.2 两处"登记未改"口径统一（**只改表注/图注，数值一个不动**）
+
+| 项 | 判定 | 证据 | 处置（改哪一处） |
+|---|---|---|---|
+| **figS4 的 KSDD2 端点 vs Table 14 的 "Point"** | **不是同一被定义量**——是同一 CSV 的**两列**：`point_delta`（条件平均观测差）= +0.5386 / +0.3427 pp，`bootstrap_mean`（复现分布均值）= +0.5438 / +0.3442 pp，Δ = **+0.0052 / +0.0015 pp**。表 14 取前者，图 S4 取后者 | `experiments/dynamic_fusion/confirmation_ksdd2_20260918/02_interaction/interaction_aggregate.csv`（`ksdd2/study/pixel_ap/interaction` 两行的 `point_delta` 与 `bootstrap_mean` 两列俱在）；`.tmp_revision_20260923/p3_evidence.py` 输出 | **澄清，不改数值**：① `scripts/paper_complete_review_20260920/figures.json` 的 `stability.caption` 明确"图上所有值（含 KSDD2 端点）都是**复现分布均值（bootstrap mean）**，不是确认表点列的条件平均观测差"；② 同目录 `tables.json` 的 `ksdd2_confirmation.note` 写明 "The Point column is the condition-averaged observed difference … the replicate mean … differs from this column by at most 0.005 points" |
+| **Table 17 末列 "Support / test uncertainty"** | **定义可确定、表值无误**（非笔误）。八 seed 复算：分子取**逐 seed 复现均值的 sd**（配对同一 replicate 索引 ⇒ 抵消测试图自助） = 0.2098 / 0.1570 / 0.1337 / 0.1288，分母取**中位个体 95% 自助半宽** = 0.4375 / 0.4295 / 0.1957 / 0.1986 ⇒ 0.4795 / 0.3655 / 0.6833 / 0.6489 → **0.48 / 0.37 / 0.68 / 0.65 = 表值**。若误用表内 "SD across seeds" 列（0.2213 / 0.1592 / 0.1355 / 0.1292）则得 0.51 / 0.37 / 0.69 / 0.65（≠ 表值）。**区间层级是 95%，不是 99.375%** | 生成式即 `scripts/limitation_closure_20260915/d3_seed_variance.py:316-318`（`between / median(ci95_half_width)`）；复算脚本 `.tmp_revision_20260923/p3_evidence.py`；`interaction_seed_variance.json` 的 `ratio_support_to_test_uncertainty` = 0.4795 / 0.3655 / 0.6833 / 0.6489 | **澄清，不改数值**：`tables.json` 的 `seed_variance.note` 写清分子是"逐 seed 复现均值的 sd（配对 replicate 索引、抵消测试图自助）"、分母是"中位个体 **95%** 自助区间半宽"，并点明它与 "SD across seeds" 列**不是同一个 sd**；`README.md` 中英文两处同口径短语（"support sd / test-side median half-width = 0.480"）同步精确化 |
+
+### 12.3 本轮**未重出 deck**（边界与连带影响，登记）
+
+本轮**没有任何图件改动**（无 PNG/PDF 重渲染、`figures/` 目录逐字节未变），按纪律**未重出 63 页 deck**：
+`docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` **逐字节未变**，SHA-256 `1AED6DDABF8D6CDBFE53052A3B505B50BC06A07FE264006BF010B60E86302D2C`（72,415,480 B，63 页）。
+
+**连带影响（如实登记，非阻断）**：图 S4 在 deck 里的**备注页文字**与 `FIGURE_SLIDE_INDEX.json` 的 `caption` 字段仍是修订前的 S4 图注（**可视幻灯片内容与页码完全未变**）。
+**修复路径**（下次任何图件改动时随同执行即可）：
+```
+node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs
+powershell -File scripts/paper_complete_review_20260920/figure_sources/assemble_deck.ps1
+node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs
+```
+
+### 12.4 复测与门禁（2026-09-23 本轮实测）
+
+| 项 | 值 |
+|---|---|
+| docx | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`；SHA-256 **`EB11FCA85B0B07DA495AC27235B88C038CD7A0ACC565EF6CA2E66BAB65ACE41`**（19,220,393 B） |
+| 规模复测 | **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 编号公式 / 34 文献 / 19,394 词**（Word COM `ComputeStatistics` + python-docx） |
+| 备份（改前） | `…20260923.docx.bak_symbols_20260923` = `5C5DA8D5…F4A89`（19,220,095 B） |
+| 门禁 | `qa_layout.py --layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures --min-pt 11` → **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 11.29 pt）；`figure_font_gate.py --self-test` → **4/4**（"4 controls behaved as required"）；`pytest tests -q` → **260 passed** |
+| 红线 | 冻结表 `3C83AB00…A0B8BB` ✓、扩展表 `1C770129…73EC4B` ✓、版式母本 `9DB99E60…8FB837` ✓；`git status --porcelain -- experiments data` **为空** |
+| 图件 | 本轮**未改任何 PNG/PDF**；`figures/` 27 个内嵌图与 deck 位图均未变 |
+
+
 
 
 
