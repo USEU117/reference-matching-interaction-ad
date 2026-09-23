@@ -53,7 +53,7 @@
 | A11 | **共享操作未在多条件下消融**（S2 单条件、无区间） | C13；限制第六条 | `figures.json:58`（ABL-S/ABL-N/ABL-C，seed 0、K=1、单次运行，明确"exploratory、无区间"） | **需新计算** | 三消融 × 12 条件 × 区间：按 A1 单条件外推 ≈ **数小时 GPU** | 低 | **不补**（已在正文声明为探索性且不作为模块验证；补它引入新口径） |
 | A12 | **权重/最优性不成立**：无"全局最优权重"证据 | 已在正文限定 | `results.md:7`（"not evidence that the selected weights … are globally optimal"） | 不适用 | — | 低 | **不补**（已正确限定，无需证据升级） |
 | A13 | **复现性：无"从零到表"最短路径，无权重哈希**（R-03/R-04） | Data and Code Availability；§4.1.4 | `manuscript.md:200-206`（只述"reproduction uses manifests/specs/bootstrap streams"）；`manuscript.md:222-224`（"no repository URL or archive DOI is claimed"）；`submission_repro_20260827/` **有** `SHA256SUMS`、`SOURCE_COMMIT.txt`、`config/frozen_a1.json`，但**无** `MODEL_WEIGHTS.md`（权重 URL+revision+SHA256） | **仅写作 + 打包** | 权重清单 + 最短路径 + 源提交指针：**天级文档工作**（P1-1…P1-7 均未动） | 高 | **补**（投稿阻断项；审稿会问"给我一条能跑出表的路径"） |
-| A14 | **AnomalyCLIP 检查点来源未核实**，直接影响 Table 12 该列口径 | C8；P11 | `05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat`（自训 vs 上游 2024-12 日志未核）；`docs/BASELINE_EXPANSION_PLAN_20260921.md` 1.3–1.4 | **需作者确认**（非实验可解） | — | 高 | **登记待作者**（若确系自训，该列须标 "auxiliary-domain trained, zero-shot on the target"） |
+| A14 | **AnomalyCLIP 检查点来源** —— **已结案（2026-09-23）** | C8；P11 | `docs/reproduction_notes.md:13-23`（2026-07-25，与归档下载同日：检查点随上游源码归档提供，commit `3911738c…`，ZIP SHA256 `533ED87B…`）；`05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat`；30 个 `epoch_*.pth` mtime = `2025-07-08 03:59:38` | 不适用（非实验可解，已由第一手记录确证） | — | 高 | **已结案**：检查点属上游发布的辅助域训练权重，**非本项目训练**；该列口径 = `auxiliary-domain trained, zero-shot on the target`（已落 Table 12 协议列与表注） |
 | A15 | 与近期方法对照满足"3–4 个"口径 | C8；T07（已结案） | `tables.json:456-538`：AnomalyCLIP(ICLR 2024)、AnomalyDINO(2024)、WinCLIP+(NeurIPS 2023)、SubspaceAD(2025) + PatchCore | 不适用 | — | — | **不补**（复核确认已满足；T07 结案口径不变） |
 | A16 | 统计口径（配对自助的区间层级 + 多重比较校正）已说明 | 全部区间 | `manuscript.md:188-198`（1000 次配对图像级自助、条件化于已观测类别与支持清单、98.75%/99.375% Bonferroni 家族、"no simultaneous guarantee"）；`tables.json:380/548/1045/1298` 各表注 | 不适用 | — | — | **不补**（已满足） |
 | A17 | 共同区域口径（覆盖率）已写进正文 | C8 | `results.md:85`（76.56% / 70.49% / 76.56% / 59.07%，BTAD-03 ≈ 58.36%）；`tables.json:446` 表注 | 不适用 | — | — | **不补**（已满足；本轮以 `baseline_common_region.csv` 复算 mean=0.7656/0.7049/0.7656/0.5907 一致） |
@@ -116,7 +116,7 @@
 
 1. **未跑任何实验、未用 GPU**；除文档外未改动任何数值；`baseline_common_region.csv` 保持 `3C83AB00…`（本轮已实算复核）。
 2. **A04/A06/A08/A09/A11 的"若补"成本**只能按第一节锚点外推，未实测；且均需先定义"共同指标 × 共同扰动"口径才能评估。
-3. **AnomalyCLIP 检查点来源（A14）**无法从盘上判定，需作者确认后决定 Table 12 该列标注。
+3. **AnomalyCLIP 检查点来源（A14）**：**2026-09-23 已结案** —— 检查点随上游源码归档提供（`docs/reproduction_notes.md:13-23`，commit `3911738c…`，ZIP SHA256 `533ED87B…`），**非本项目训练**；Table 12 该列已改为准确表述。
 4. **图像级指标的聚合口径**（逐类别/逐条件宏平均 vs replicate mean）未在盘上找到与主文像素级同口径的图像级区间产物 ⇒ A01 若要做**区间**仍需少量新算；本表只建议"点值并列"。
 5. 本轮未复核 `experiments/**` 下与本文无关的历史工作流的失败登记，仅核查本文所用工作流。
 
@@ -144,12 +144,12 @@
 | A11 共享操作多条件消融 | 不补 | **不补（结论不变）** | S2 仍为单条件、无区间 |
 | A12 权重最优性不成立 | 不补（已限定） | **不补（已限定）** | 限定句未改 |
 | A13 复现性：无最短路径/无权重哈希 | 补（写作+打包） | **仍缺** | `docs/MODEL_WEIGHTS.md` **不存在**（`Test-Path` = False）；`REMEDIATION_PLAN_20260920.md` 的 P1-1…P1-7 **全部仍未执行**（勾选清单未变） |
-| A14 AnomalyCLIP 检查点来源未核实 | 登记待作者 | **仍待作者** | `05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat` 未变；本轮未从盘上判定 |
+| A14 AnomalyCLIP 检查点来源 | 登记待作者 | **已结案（2026-09-23）** | `docs/reproduction_notes.md:13-23`：检查点随上游源码归档提供（commit `3911738c…`，ZIP SHA256 `533ED87B…`）；30 个 `epoch_*.pth` 的 mtime = `2025-07-08 03:59:38`，本项目目录 2026-07-24 才建立 ⇒ **非本项目训练** |
 | A15 与近期方法对照满足 3–4 个口径 | 不补（已满足） | **已满足（不变）** | 5 家族对照仍在 Table 12 |
 | A16 统计口径已说明 | 不补（已满足） | **已满足（不变）** | 主表统计说明句未改 |
 | A17 共同区域口径已写进正文 | 不补（已满足） | **已满足（不变）**；B 线另加一层证据 | 正文覆盖率句未改；B 线 `harmonised_common_region.csv` 的 36/36 单元 `region_grid` 与冻结表**完全相同**（`region_mode = frozen`） |
 
-**小结（2026-09-23）**：A01/A02（正文部分）/A03/A05/A06/A07/A10/A13 共 8 项**仍缺且均为"仅写作/仅图件/打包"类，零 GPU**；A04/A08/A09/A11 维持"不补"；A12/A15/A16/A17 维持"已满足/已限定"；A14 仍待作者。**没有任何一项因 B 线而失效。**
+**小结（2026-09-23）**：A01/A02（正文部分）/A03/A05/A06/A07/A10/A13 共 8 项**仍缺且均为"仅写作/仅图件/打包"类，零 GPU**；A04/A08/A09/A11 维持"不补"；A12/A15/A16/A17 维持"已满足/已限定"；**A14 已结案**（检查点随上游源码归档提供，**非本项目训练**）。**没有任何一项因 B 线而失效。**
 
 ### 7.2 B 线带来的新增欠缺（A18–A23）
 

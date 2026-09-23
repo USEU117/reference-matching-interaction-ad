@@ -21,6 +21,7 @@
   - **本轮新增待办**：**F21 `build.py` 非字节可复现**（连跑三次 docx SHA 三个值；已还原为 `194681CF…`）；**F22 自检门禁 2/69 项失败**（大纲 docx 不在盘 + 冻结快照 3 处漂移；脚本会就地改写 `experiments/**` 两个 JSON，已还原）。
   - **仍未动**：本计划 **P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3** 全部未执行（勾选清单未变）。
   - **本计划"只作为论文限制保留"四条措辞继续有效**；下表 R-20 行的"限于两个方法家族"为 09-20 原始登记，现状为 **5 个外部家族**（刷新见 `docs/ISSUE_REGISTER_20260920.md` §〇ter）。
+- **2026-09-23｜A14 结案（本轮，纠正错误来源声明）**：AnomalyCLIP 检查点来源由第一手记录确证 —— **随上游源码归档提供**（`docs/reproduction_notes.md:13-23`，2026-07-25：commit `3911738c…`，ZIP SHA256 `533ED87B…`；30 个 `epoch_*.pth` 的 mtime 全为 `2025-07-08 03:59:38`），**不是本项目训练**。2026-09-20 之后"上游不含 checkpoint / 本项目自行训练"的表述**是错的，已在全仓逐处纠正**（`dist/.../weights/README.md`、`docs/REPRODUCIBILITY_PACKAGE.md` 及其包内副本、`docs/BASELINE_EXPANSION_PLAN_20260921.md`、`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md`、`docs/论文与图件问题汇总_仅复核_20260921.md` P11）。Table 12 协议列由最保守写法改为 **`native, zero-shot on the target domain (upstream auxiliary-domain-trained prompt learner)`**，表注删除"provenance recorded in … PREFLIGHT.json"式含糊说法；重建后复测 **47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 数学对象）/ 34 文献 / 17,221 词**（词数 17,200 → 17,221）。**P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3 仍未执行（勾选清单未变）。**
 
 ## 阶段总览
 

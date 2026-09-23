@@ -48,7 +48,7 @@
 | `experiments/dynamic_fusion/freeze/a1_mpdd_w05/freeze_manifest.json`（+ `freeze_verification.json`） | A1 冻结配置清单（**旧主线**，仍有效） | 属 2026-08 主线，别与 09-14 主线混用 |
 | `outputs/dynamic_fusion/generalization_mvtec_visa_20260915/CODE_AMENDMENT.md` | 冻结脚本就地追加改动的记录 | 计划 AD-3 要求 |
 | `docs/submission_reproducibility_20260826/VERSIONED_EVIDENCE.sha256` | 投稿复现包版本化证据哈希 | 内容未逐一核对（**待确认**其是否覆盖 09-19 新增产物） |
-| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 18 / figures 8 / equations 12 / references 34。**该 2026-09-14 链已于 2026-09-21 标 superseded**（见该目录 `SUPERSEDED_20260921.md`）；当前权威交付稿由 `scripts/paper_complete_review_20260920/build.py` 生成，2026-09-23 实测 **20 表 / 22 内嵌图 / 12 编号公式 / 34 文献 / 47 页 / 17,200 词**。18/8 只对该旧链成立，**不得当作当前值** |
+| `docs/manuscript_reference_matching_20260914/build_validation.json` | docx 构建校验 | tables 18 / figures 8 / equations 12 / references 34。**该 2026-09-14 链已于 2026-09-21 标 superseded**（见该目录 `SUPERSEDED_20260921.md`）；当前权威交付稿由 `scripts/paper_complete_review_20260920/build.py` 生成，2026-09-23 实测 **20 表 / 22 内嵌图 / 12 编号公式 / 34 文献 / 47 页 / 17,221 词**（A14 更正重建后复测；更正前 17,200 词）。18/8 只对该旧链成立，**不得当作当前值** |
 
 ### 2.2 已过期 / 会误导（引用前先看说明）
 
@@ -174,7 +174,7 @@
 | 一致性检查 | `EXTB/EXT_CHECKS.json`：旧表 sha256 前后一致（`3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`，`frozen_table_unchanged: true`）；**旧 6 列在"九方法联合交集"里重算 864 行、0 处不一致**；**旧 6 列单独重放 864 行、0 处不一致** |
 | 共同区域未变 | `EXTB/common_region_geometry_region_parts.json` vs `05_baselines_multi_dataset/common_region_geometry.json`：**36/36 个 (dataset, category) 的 `region_rect` 与 `region_grid` 完全相同**（三新方法都把图拉成正方形 → 覆盖矩形 `[0,1]²` 是旧方法矩形的超集） |
 | 重算版（单列，不复用旧表） | `EXTB/recomputed_intersection/`（`baseline_common_region_recomputed_all_methods.csv` 1188 行、同目录 `NOTE.json` 说明"与冻结区域逐位相同"） |
-| 硬门前置验证 | `EXTB/PREFLIGHT.json`：SubspaceAD PASS（实测 npz）、WinCLIP+ PASS（官方 dump 路径 + 实测 npz）、AnomalyCLIP PASS（实测 npz）+ **检查点来源待作者拍板** |
+| 硬门前置验证 | `EXTB/PREFLIGHT.json`：SubspaceAD PASS（实测 npz）、WinCLIP+ PASS（官方 dump 路径 + 实测 npz）、AnomalyCLIP PASS（实测 npz）；**检查点来源已结案（2026-09-23）：随上游源码归档提供，非本项目训练**（`docs/reproduction_notes.md:13-23`；该文件内 09-21 写的 `PROVENANCE UNRESOLVED` 注释为历史记录，未改） |
 | 逐图产物 | `EXTB/{subspacead,winclip_plus,anomalyclip_zs}/region_maps/<variant>/<dataset>_s<seed>_k<shot>_<category>.npz`（分别 144 / 144 / 36 个）；schema 对齐 `05_baselines/region_maps/anomalydino_canvas/*.npz`（`sample_ids` + 逐图 map，`sample_ids` 经脚本核对与 canonical B 缓存顺序**逐一致**） |
 | 运行台账 | `EXTB/PROGRESS.json`（三方法最终状态）、`EXTB/_RUN_LOG.txt`（逐单元追加，方法/单元/耗时/状态）、`EXTB/logs/*.log`（各方法与两次共同区域评测的原始 stdout） |
 | 单元汇总 | `EXTB/{subspacead,winclip_plus,anomalyclip_zs}/<method>_units.csv`、`EXTB/EXT_UNITS_SUMMARY.json`、`EXTB/EXT_MACRO_SUMMARY.json`；每方法 `DONE.json`（status / 时间 / 协议 / 单元数） |
@@ -186,7 +186,7 @@
 |---|---|---|---|---|---|---|
 | `SubspaceAD_native_fp16` | 冻结正常建模（子空间重构） | DINOv2-g、layers −12…−18 均值、PCA ev 0.99、reconstruction 打分、fp16 | **分辨率 256 而非官方 few-shot 脚本的 672**（672 在 6 GB 卡上实测 ≥15 min 未跑完 12 张图，WDDM 换出；256 也是本仓既有 SubspaceAD 记录的配置）；**关闭官方 aug_count=30 旋转增强**；支持集取冻结 manifest 而非官方 `random.shuffle` | 144 | 65.1 min | 2266 MB |
 | `WinCLIP_native_240` | 视觉—语言 few-shot | open_clip ViT-B/16-plus-240、img_resize=cropsize=resolution=240、scales (2,3)、batch 16、fp16（模型内部强制） | 支持集取冻结 manifest 而非官方 `seeds_*`；**按原样复现上游两处行为**：先缩到 1024×1024 再进模型 transform、支持图做 BGR→RGB 而查询图不做 | 144 | 61.1 min | 1155 MB |
-| `AnomalyCLIP_zeroshot_518` | 零样本视觉—语言 | CLIP ViT-L/14@336px、image_size 518、features_list [24]、DPAM_layer 20、batch 1 | 检查点按上游零样本惯例选用（MVTec 用 VisA 训练版、其余用 MVTec 训练版）；**检查点来源未核实**（见 PREFLIGHT.json）；单配置，无 seed/K 循环 | 36 | 58.7 min | 2627 MB |
+| `AnomalyCLIP_zeroshot_518` | 零样本视觉—语言 | CLIP ViT-L/14@336px、image_size 518、features_list [24]、DPAM_layer 20、batch 1 | 检查点按上游零样本惯例选用（MVTec 用 VisA 训练版、其余用 MVTec 训练版；均**随上游源码归档提供，非本项目训练**，见 `docs/reproduction_notes.md:13-23`，commit `3911738c…`、ZIP SHA256 `533ED87B…`）；辅助域不评估自身；单配置，无 seed/K 循环 | 36 | 58.7 min | 2627 MB |
 
 ### 6.2 与旧 6 列数值可对照的摘要（**不是排名**）
 

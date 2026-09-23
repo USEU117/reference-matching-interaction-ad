@@ -11,8 +11,8 @@
 
 | 层 | 状态 |
 |---|---|
-| 权威稿 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`，**47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 原生数学对象）/ 34 文献 / 17,200 词**，SHA-256 `194681CFCFEEF9F64D6D368C0F3FB70F7D19049F35A496063E99BBE3C9E5E625` |
-| 稿件侧 | 摘要与 Data and Code Availability 的 URL 已一致；命名温和版（`Full name` 列 + 首现加粗）已在盘并复测；Table 12 表注已按最保守表述 |
+| 权威稿 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`，**47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 原生数学对象）/ 34 文献 / 17,221 词**，SHA-256 `DDB6602E1AA792C60743D4354FE90BFFE923E4BFF796CEB36971BA2528E8353B` |
+| 稿件侧 | 摘要与 Data and Code Availability 的 URL 已一致；命名温和版（`Full name` 列 + 首现加粗）已在盘并复测；Table 12 协议列与表注已按**准确**表述（检查点随上游源码归档提供，**非本项目训练**） |
 | 实验侧 | 同口径 448 子集表 A/表 B + 协议杠杆实算 + 图 S6 全部落盘、过门禁；冻结表/扩展表/`data/**` 逐字节未变 |
 | 门禁 | `pytest` 260 passed；`qa_layout.py` 0 problem；`figure_font_gate --self-test` 4/4；`build.py` 退出 0；**`selfcheck.py` 67/69（2 项失败，见 §4）** |
 | git | `main...origin/main [ahead 2]`（HEAD `4d7f640`）；**未提交、未推送** |
@@ -125,9 +125,9 @@
 | 图 S6 四道门禁 | `…\python.exe scripts\harmonised_20260922\build_figS6_protocol_sensitivity.py --out-dir <.tmp 临时目录>` | 102 个 text artist **全部 11.50 pt**、0 文本互压、0 文本压图、0 出页；退出 0；重渲染 PNG 与在盘 PNG **逐字节相同**（`0C6F801C…`） | **通过** |
 | 图 S6 图注一致性 | python 读 `figS6_protocol_sensitivity.json` 比对 handoff §2.1 | `caption_en` / `caption_zh` **逐字一致** | **通过** |
 | 权威稿构建 | `…\python.exe scripts\paper_complete_review_20260920\build.py` | 退出 0；`build_validation.json` = tables 20 / figures 8 / equations 12 / math 142 / refs 34；生成 md 绝对路径残留 **0** | **通过（但见下条）** |
-| 权威稿字节可复现性 | 同一条命令连跑 3 次并比对 docx SHA-256 | `194681CF…`（运行前）→ `C6EE3A63…` → `81193BFA…`，**三次不同**；内容度量三次一致 | **不通过（新发现，需作者）**；已把 docx 还原为 `194681CF…` |
+| 权威稿字节可复现性 | 同一条命令连跑 3 次并比对 docx SHA-256 | `194681CF…`（运行前）→ `C6EE3A63…` → `81193BFA…`，**三次不同**；内容度量三次一致。**2026-09-23 晚**（A14 更正）重建后为 `DDB6602E…` | **不通过（新发现，需作者）**；运行前快照已备份为 `.bak_20260923` |
 | 权威稿内容复测（python-docx） | `.tmp_finalcheck_20260923\check_docx.py` | `tables 20` / `inline_shapes 22` / `native_math_objects 142` / `Full name` 表头行 **2** / 加粗首现 token `[C,J,L,B,B,S,C,D,A1,DUP,TRI,BAL,E1,E2,E3]` / `Figure S6` **0** / `Figure S4` 3 | **通过** |
-| 权威稿页数/词数（Word COM） | `.tmp_finalcheck_20260923\word_stats.ps1` | **47 页 / 17,200 词 / 100,569 字符** | **通过（词数口径已更正）** |
+| 权威稿页数/词数（Word COM） | `.tmp_finalcheck_20260923\word_stats.ps1` | **47 页 / 17,221 词 / 100,663 字符**（A14 更正重建后复测；更正前为 17,200 词 / 100,569 字符） | **通过（词数口径已同步刷新）** |
 | 仓库自检 | `…\python.exe scripts\representation_matching_interaction_20260914\selfcheck.py` | `checks=69 / passed=67 / failed=2`，退出 **1**；失败项 `manuscript: the updated outline exists`、`read-only inputs were not written during this delivery` | **不通过（需作者）**；脚本就地改写的 `experiments/**` 两个 JSON 已 `git checkout --` 逐字节还原 |
 | B 线口径一致性（只读） | python 读 `HARMONISED_SUMMARY.json` | `rows=180`；`region_vs_frozen` **36/36** `identical_region=true`；复用 4 列 `max_abs_delta = 0.0`；`frozen_table.rows=864`、`sha256` 前 8 位 `3C83AB00` | **通过** |
 | git 状态 | `git status -sb` | `## main...origin/main [ahead 2]`；14 个 tracked 修改、10 条未跟踪 | **如实记录：本地 2 个提交未推送**（按要求不提交、不推送） |
@@ -151,12 +151,14 @@
 | 1 | **`build.py` 非字节可复现**（F21） | 连跑三次 docx SHA 三个值；若要"可复现校验值"，需固定 docProps/时间戳或改为**内容**校验。本轮已把 docx 还原为 `194681CF…` |
 | 2 | **`selfcheck.py` 2 项失败**（F22） | ① 大纲 docx `docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914_更新版.docx` **不在盘**（从未入库，git 对象也没有；重建源 `.tmp_outline_20260914/{build.py,artifact.md,render_native.py}` 在盘）——是否重建/放回，或把该检查点改为"缺失即跳过并记 caveat"；② 冻结快照 3 处漂移（`_smoke` 下 2 个 `.npz` 缺失 + `REPORT_CN.md` 仅 mtime 变化）——是否把 `_smoke` 从冻结清单豁免 |
 | 3 | **`experiments/**` 内的过期指针** | `representation_matching_interaction_20260914/RUN_SUMMARY.json:50` 仍指向已不存在的 `docs/paper_outline_teacher_review_20260914/…docx`；`validation_handoff_20260911/E8/figure_version_binding.md` 等仍用旧目录名 `figures_teacher_revision_20260910`（该目录已改名为 `figures_expanded_20260910`）。红线区，**未改**；属"历史记录里的旧值" |
-| 4 | **A14 AnomalyCLIP 检查点来源** | 仍待作者；Table 12 表注已按最保守写法（`auxiliary-domain-trained prompt learner`） |
-| 5 | **A23 图 S6 是否入稿** | 若入稿需在 `figures.json` 增设 S6 条目并重建 docx（页数/表数需复测） |
-| 6 | **整批改名（T09 方案 A/B）** | 未执行；方案见 `docs/NAMING_MIGRATION_PLAN_20260922.md`。执行会连带 6 张图重渲染 + PPT/docx 重出 |
+| 4 | **A14 AnomalyCLIP 检查点来源**（**已结案 2026-09-23**） | 检查点**随上游源码归档提供**（commit `3911738c…`、ZIP SHA256 `533ED87B…`；`docs/reproduction_notes.md:13-23` 第一手记录 + 30 个 `epoch_*.pth` mtime `2025-07-08 03:59:38`），**非本项目训练**；Table 12 已改为 `native, zero-shot on the target domain (upstream auxiliary-domain-trained prompt learner)` + 准确表注。"上游不含 checkpoint / 本项目自行训练"的错说已全仓纠正 |
+| 5 | **A23 图 S6 入稿**（状态＝**未入稿**，登记待作者） | docx 内 `Figure S6` 命中 **0**；入稿的具体做法（路径 / 中英图注 / 插入位置 / 必须写明的限制）见 **§13.1** |
+| 6 | **整批改名（T09 方案 A/B）**（状态＝**只有方案、未执行**） | 方案见 `docs/NAMING_MIGRATION_PLAN_20260922.md`（§4 分步 **S0–S9** + 回退方案）。**用户指示：并入待办、暂不执行**。执行会连带 6 张图重渲染 + PPT/docx 重出 |
 | 7 | **提交信息层的旧仓库名（4 条提交，2 条含旧名）** | 需 `filter-repo` + 强推，**须作者书面授权**；方案见 `SCI_STRING_AUDIT_20260922.md` §4 |
 | 8 | **生成物中的绝对路径（fig7_multimethod JSON × 16、`FIGURE_SLIDE_INDEX.json`、`primary_sources.json`）** | 需改生成器后重出，本轮未做 |
 | 9 | **`19 表` / `46 页` / `未推送` 等历史值** | 按"历史记录不改写 + 加注"处理，已在前几轮加注；本轮只新增词数一条 |
+| 10 | **包内 `SHA256SUMS` 的 2 处既有漂移** | 本轮因 A14 更正改动了 `dist/replication_package_20260920/` 的 3 个文件，**已同步刷新其哈希**（不匹配项 5 → 2）。残留 2 处为本轮**之前**既有：`experiments/dynamic_fusion/seeds_extension_20260917/VD1_MANIFEST.json`（§7.3 第 5 条填值后未刷新清单）与 `requirements_lock.txt`。**未动**（不在本轮范围） |
+| 11 | **仍写着"来源未核实/provenance caveat"的 2 处（**未改，属红线区**）** | ① `experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat.caveat` 仍写 `PROVENANCE UNRESOLVED … re-trained by this project`；② `scripts/baseline_expansion_20260921/ext_run_anomalyclip.py:25-27` 的 docstring 同义。两者都是 **09-21 的审计留痕**（证据字段/代码注释），按 §12 红线**未改**；**A14 已结案，其结论以本节与 `docs/论文与图件问题汇总_仅复核_20260921.md` §八·续 A14 为准**。`docs/ARTIFACT_INDEX.md` §6/:189 的"待作者拍板/未核实"已就地更正为已结案 |
 
 ---
 
@@ -336,4 +338,95 @@ node scripts\figures_reference_matching_20260914\build.mjs
 | `data/**`、`LICENSE`、`requirements_repro.txt`、`figure_sources/**` 科学内容 | — | **不改** |
 | 表 11 六列数值与表注 | `tables.json → baselines` | **一字未改**，不得与表 12/表 A 混排 |
 | B 线数值 | `HARM/protocol_leverage.json` 的 0.1000 / 0.0265 / 3.8× / 33.3%（48/144） | 只读聚合，可复算；不得手改 |
+
+---
+
+## 13 交给下游 AI 的写作说明（**本轮不由我执行，由下游 AI 据此产出**）
+
+> 本节把"还差的写作/图件工作"写成**可执行指令**：每条给出 **要写什么 / 可用数据在哪 / 证据路径 / 注意不要写什么 / 优先级 / 是否零 GPU**。
+> 来源：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` §7.1（A01/A02/A03/A05/A06/A07/A10/A13 共 8 项"仍缺"，均为**零 GPU**）、`docs/论文与图件问题汇总_仅复核_20260921.md` §八 T12/T13 与 §八·续 A23/T09。
+> **全部条目通用红线**：不改任何实验数值；不改 `experiments/**` 证据字段、`data/**`、`LICENSE`、`requirements_repro.txt`、版式母本、`figure_sources/**` 科学内容；不动表 11 六列数值与表注；不写 SOTA / 排名 / "全面领先"。
+
+| 条目 | 主题 | 优先级 | 零 GPU |
+|---|---|---|---|
+| §13.1 A23 | 图 S6 入稿 | 中 | **是** |
+| A01 | 图像级指标与像素级并列 | 中 | **是** |
+| A02 | 表 11/12 逐方法协议（含 SubspaceAD 256 vs 官方 672） | **高** | **是** |
+| A03 | 为何对比方法无需目标域训练（可引 A14 上游权重结论） | **高** | **是** |
+| A05 | 检测/定性图摆放 | **高** | **是** |
+| A06 | "两种输出"的覆盖范围 | 中 | **是** |
+| A07 | 方差覆盖范围（仅 MPDD/BTAD） | 中 | **是** |
+| A10 | 图 S5 首轮离群 30.527 s 的披露 | 中 | **是** |
+| A13 | "从零到表"最短路径与权重哈希 | **高** | **是** |
+
+### 13.1 图 S6 入稿（A23；优先级 中；零 GPU）
+
+| 项 | 内容 |
+|---|---|
+| 路径 | `docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.{png,pdf,json}`；PNG SHA-256 `0C6F801C8020DDC41E4B894BB8C0A3ECF49650EE52D4A21D839E6A4DAF871520`（645,557 B）；PDF `A541E824D31CB7EE8F2826CD942809701F4896670786FD36D1791DCBC1CAECDA` |
+| 英文图注（**逐字**取自 JSON `caption_en`，可直接入稿） | `Protocol sensitivity of the external-method comparison. Each row is one method under its own published native configuration, and the two dots joined by a line are the same method under two configurations, so the connector length is that method's protocol lever. Measured from the frozen per-unit pixel AP already on disk, PatchCore's own two configurations differ by 0.100 macro pixel AP on average (144 units), i.e. 3.8x more than the 0.026 separating SubspaceAD 256 fp16 from AnomalyDINO canvas, and switching only PatchCore's configuration reverses which of the two is ahead on 33.3% of units. The values are therefore context, not a ranking: no ordering, interval, significance test or state-of-the-art claim is made here.` |
+| 中文对照（JSON `caption_zh`） | `外部方法对比表的协议敏感度。每一行是一个方法按各自已发表原生配置的读数；由一条线连接的两点是同一方法的两个配置，连线长度即为该方法的协议杠杆。按盘上逐单元 pixel AP 实测：PatchCore 自身两个配置平均相差 0.100 宏观 pixel AP（144 个单元），比 SubspaceAD 256 fp16 与 AnomalyDINO canvas 之间的 0.026 大 3.8 倍；仅切换 PatchCore 的配置，就让二者谁在前的结论在 33.3% 的单元上翻转。因此本图是上下文参照，不构成排名，也不作排序、区间、显著性检验或 SOTA 主张。` |
+| 建议插入位置 | **补充材料，排在 S5 之后**（既有图集编号止于 S5，S4 为两页合并图）；若作者要求进正文，建议放 **§4.2.7（外部方法上下文）末**，或 §4.2.6 之后 |
+| 入稿需同步的动作 | 在 `scripts/paper_complete_review_20260920/figures.json` 增设 S6 条目 → 重跑 `build.py` → 复测页数/表数（当前 **47 页 / 20 表**，入稿后须复测并记录）；同步 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md`（已登记 §十）与 `docs/ARTIFACT_INDEX.md` |
+| **必须写明的限制**（缺一条就会被审稿人抓） | ① **同口径 448 子集**：统一输入几何"短边 448"+ 同一共同区域 + 同一 rank-based 池化指标；② 该子集（表 A/表 B）只覆盖 **36/144 个类别单元**（4 数据集 × 全部 36 类 × seed 0 × K = 1，是表 11/12 的 **1/4**），**不得**写成"全量"或"四数据集完整协议"；③ **区间只对 `pixel_ap` 计算**（`pixel_auroc` 只有宏平均点值）；④ **不构成排名**：未做跨方法配对差异检验、未做 SOTA 主张；⑤ 图 S6 的杠杆数字（0.1000 / 0.0265 / 3.8× / 33.3% = 48/144）是**只读聚合**冻结表 `05_baselines_ext_20260921/baseline_common_region_ext.csv`（144 单元）得来，**不是新实验**；⑥ 拉伸族（SubspaceAD / WinCLIP+ / AnomalyCLIP）不在 448 子集内（代码级排除），故该子集**不能**读作"全体外部方法在统一协议下的横评" |
+| **不得写** | 把 0.100 与 0.026 的比值当作显著性证据；把它读成"某方法更好/更差"；把 36 单元说成全量 |
+
+### 13.2 八项零 GPU 写作类欠缺（逐条）
+
+#### A01 图像级指标与像素级并列（优先级 中；零 GPU 是）
+- **要写什么**：新增一张**图像级指标并列表**（image AUROC / image AP），与像素级（pixel AP / pixel AUROC）并列报告；配一句说明"图像级池化与像素排序回答不同问题"。
+- **可用数据在哪**：`experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines/patchcore/*/summary.csv`（列含 `image_auroc,image_ap`）、`05_baselines/anomalydino_*/anomalydino_native_macro_*.csv`（`macro_image_auroc,macro_image_ap`）、`01_geometry/units/btad_s1_k8/*/metrics.csv`。
+- **证据路径**：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` §二 A01（:43）与 §三 第 1 条；正文现有唯一举例 `scripts/paper_complete_review_20260920/results.md:53`。
+- **不要写**：不要声称图像级也有区间（盘上**只有点值**，无同口径图像级区间产物）；不要把图像级与像素级混成一个"综合优势"叙事。
+- **成本**：一次小聚合，CPU 分钟级。
+
+#### A02 表 11/12 逐方法协议（优先级 高；零 GPU 是）
+- **要写什么**：把每个方法的协议**逐方法**写进表 11/12 表注或补充材料：分辨率、画布/输入几何、是否旋转、参考库/coreset 构造；特别写清 **SubspaceAD 用 256 而非其官方 few-shot 脚本的 672**，并给出原因。
+- **可用数据在哪**：`experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_ext_20260921/PREFLIGHT.json` 的 `resolution_decision`（672 在 RTX 3060 6 GB 上 12 张图 ≥15 min 未跑完，峰值 5797/6144 MiB）与 `checkpoint_rule_and_caveat`；同目录 `DONE.json`；表 11 表注在 `tables.json` 的 `baselines` 键。
+- **证据路径**：`docs/论文与图件问题汇总_仅复核_20260921.md` **P10**（:174-178）；`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A02。
+- **不要写**：**不得**把 SubspaceAD 256 说成"官方配置"；**不得**写成"官方 672"；不要把表 11/12 说成"统一协议"（它们是**各自原生协议**，只有表 A/表 B 才是统一 448 几何）。
+- **成本**：写作 + 表注扩写，小时级（事实已在 PREFLIGHT/DONE.json）。
+
+#### A03 为何对比方法无需目标域训练（优先级 高；零 GPU 是）
+- **要写什么**：一段（中英）说明本文评估的配置在**目标域不做梯度优化**；对照方法多为冻结/免训练或继承上游检查点；参考构造、特征编码与打分属**准备计算**（不是"零计算"）。
+- **可用数据在哪**：`tables.json` 的 `models`（`0 target-trainable parameters`）；`submission_repro_20260827/config/frozen_a1.json`；`05_baselines_ext_20260921/PREFLIGHT.json` 的 `checkpoint_rule_and_caveat`。
+- **强证据（可引用 A14 本轮结论）**：AnomalyCLIP 检查点**随上游源码归档提供、非本项目训练** —— `docs/reproduction_notes.md:13-23`（commit `3911738c…`，ZIP SHA256 `533ED87B…`）+ 30 个 `epoch_*.pth` mtime `2025-07-08 03:59:38`；辅助域 = VisA / MVTec AD，按上游约定**从不评估自身训练集**，目标域零样本。用来回答"对比方法是否在本数据集上训练过"。
+- **现成段落**：`docs/论文与图件问题汇总_仅复核_20260921.md` §八 **T12**（:375 起，中英两段，可直接搬入）。
+- **不要写**："所有对比方法从未训练 / 无需任何准备 / 零计算 / 无超参数"（预训练编码器与继承检查点仍带训练来源；分辨率、保留层、支持预算、高斯 σ、阈值都是显式配置）。
+- **成本**：一段（中英）+ 引用盘上清单，小时级。
+
+#### A05 检测/定性图摆放（优先级 高；零 GPU 是）
+- **要写什么**：从 36 张逐类别多方法对比图里选 **2–3 张代表图**（跨数据集 + 跨缺陷类型；含 query、GT、各方法热图；**本文列与 GT 相邻**）放进 **§4.2.6 末或 §4.2.7**，其余留补充材料；写明**选择规则与色标规则**。
+- **可用数据在哪**：`docs/figures_reference_matching_20260914/fig7_multimethod_<dataset>_s0_k4_<category>.{png,pdf}`（mpdd 6 + btad 3 + mvtec 15 + visa 12 = **36**）；已交付 PPT 第 **23–58** 页。
+- **证据路径**：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A05/F05；`docs/论文与图件问题汇总_仅复核_20260921.md` §八 **T13**（外部评审⑥"检测结果图是视觉评价的主要参考，应放实验结果分析"）。
+- **不要写**："这是全部类别的完整展示"；不得借图新增数值或声称"图上更好"；不得重出图（PNG 已在盘）。
+- **成本**：选图 + 图注，小时级。
+
+#### A06 "两种输出"的覆盖范围（优先级 中；零 GPU 是）
+- **要写什么**：正文 5 个案例已有 J/L 热图 + L 轮廓；**附录逐类别目前是 query + GT + 六列热图，没有各方法轮廓**。故正文需**界定覆盖范围**（"两种输出"只对正文 5 案例成立）或将该缺口声明为限制；是否补齐全部方法轮廓由作者定。
+- **可用数据在哪**：`scripts/paper_complete_review_20260920/figures.json` 的 `cases_good`/`cases_bad`（:34-44）与其附录逐类别图注末句。
+- **证据路径**：`figures.json:34-44`；`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A06/F06。
+- **不要写**："所有案例都有两种输出"（**过宽，已登记 F06**）。
+- **成本**：写作分钟级；若补齐全部方法轮廓属后处理，另议（不在本轮）。
+
+#### A07 方差覆盖范围（优先级 中；零 GPU 是）
+- **要写什么**：如实写明 seed / 支持集方差的**覆盖范围** —— 跨种子方差**只有 MPDD 与 BTAD**（8 seeds）；**MVTec AD / VisA / KSDD2 无跨种子方差表**。至少报已有 seed 条件的离散度。
+- **可用数据在哪**：`tables.json` 的 `seed_variance`（Table 17，:1135-1191）与 `effects`（Table 4 的跨条件 SD 说明，:632）；MVTec/VisA 的 12 条件、KSDD2 的 12 条件数据（无方差表）。
+- **证据路径**：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A07 与 §三 第 4 条。
+- **不要写**：不要暗示 MVTec/VisA/KSDD2 也有跨种子方差；不要把 8-seed 结论外推到其他数据集。
+- **成本**：写作版 CPU 分钟级；8-seed 扩展版**不补**（无主张依赖）。
+
+#### A10 图 S5 首轮离群 30.527 s 的披露（优先级 中；零 GPU 是）
+- **要写什么**：一句话披露 S5 计时中 PatchCore 128 的**首轮离群 30.527 s** 与最终表采用的**重测 24.190 s**，并指向 recheck 产物。
+- **可用数据在哪**：`experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines/_bench_speed_vram/run_final.log:42` = **30.527 s**；`_bench_speed_vram/recheck/SPEED_VRAM_BENCH.csv` = **24.190 s**；`_bench_speed_vram/SPEED_VRAM_BENCH.pass1.json`；表 13/20 与图 S5。
+- **证据路径**：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A10 与 §三 第 5 条；正文现仅 `results.md:184` 报 24.190，全文 grep `30.527` = **0**。
+- **不要写**：不要把 min–max 当作完整离散度指标；不要把该计时写成端到端墙钟 / ms-per-image / FPS。
+- **成本**：一句话 + 指向 recheck，分钟级。
+
+#### A13 "从零到表"最短路径与权重哈希（优先级 高；零 GPU 是）
+- **要写什么**：在 Data and Code Availability / 复现小节给出 **① 最短路径**（装环境 → 放权重 → 跑哪些入口脚本 → 得到哪张表）与 **② 权重清单（URL / revision / SHA-256）**。现状：仓库**无** `docs/MODEL_WEIGHTS.md`（`Test-Path` = False），`docs/REMEDIATION_PLAN_20260920.md` 的 P1-1…P1-7 **全部未执行**。
+- **可用数据在哪**：**权威的 46 条权重清单（本机实读 SHA-256 + 目标路径 + 来源）在** `dist/replication_package_20260920/weights/README.md`（§1 项目内 35 + §2 环境缓存 11；其中 AnomalyCLIP 30 条已更正为"随上游源码归档提供"）；包级校验与加载步骤见 `dist/replication_package_20260920/README.md` §6/§7；另 `submission_repro_20260827/{SHA256SUMS,SOURCE_COMMIT.txt,config/frozen_a1.json}`。
+- **证据路径**：`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` A13 与 §三 第 7 条；`docs/REPRODUCIBILITY_PACKAGE.md` §7（包级校验方式）。
+- **不要写**：不要声称有 "archive DOI"（现无，正文已自述）；不要把旧包 `submission_repro_20260827/` 的 `SHA256SUMS` 当作权威链的校验值（它对应旧包）。
+- **成本**：天级文档工作（写作 + 打包）。
 

@@ -185,7 +185,9 @@ canonical `k8` 缓存不随包发布，必须重建（或单独从归档下载�
    的 `find_spec` + 仓库导入根逐个判定"第三方 / 仓库本地 / 无解"，得到"包内缺失的本地依赖"清单；
    据此补齐 `src/`、`configs/`、`methods/`（9 个方法目录的**源码与配置**，剔除权重 8.5 GB 与数据集 7.3 GB）。
 2. **权重不进包**：改为 `weights/README.md` —— 46 个权重逐个给出目标路径、字节数、**本机实读的 SHA-256**
-   （46/46 全部读到，无 `[[SHA256]]` 占位）与来源 URL；其中 32 个是本项目自训产物（公网不存在）。
+   （46/46 全部读到，无 `[[SHA256]]` 占位）与来源 URL；其中 **30 个（AnomalyCLIP）随上游源码归档提供**
+   （归档 commit `3911738c…`，ZIP SHA-256 `533ED87B…`；见 `docs/reproduction_notes.md:13-23`），
+   **2 个（AdaptCLIP / ReMP-AD）才是本项目训练产物**（后者公网不存在）。
 3. **环境**：`requirements_repro.txt` 头部明确它是"最小可复现约束集、**不是 lock**"，并给出
    `--index-url https://download.pytorch.org/whl/cu118` + `torch==2.0.0+cu118 / torchvision==0.15.1+cu118`
    的写法（版本与实读一致）与两个解释器的分工；另生成 `requirements_lock.txt`（`.venv-anomalyclip`
@@ -218,7 +220,7 @@ Get-Content .\SHA256SUMS | ForEach-Object {
 
 ### 7.5 本包仍未覆盖的（详见包内 `README.md` §7）
 
-- 数据本体（许可）、模型权重（体积 + 32 个项目自训权重不可下载）、canonical/units/outputs 缓存（≈659 GB）、GPU。
+- 数据本体（许可）、模型权重（体积 + 2 个项目训练权重（AdaptCLIP / ReMP-AD）不可下载；AnomalyCLIP 的 30 个检查点随上游源码归档提供）、canonical/units/outputs 缓存（≈659 GB）、GPU。
 - `CLAIM_EVIDENCE_LEDGER.csv` 有 10 条 `evidence_file` 引用指向 `00_audit/`、`01_statistics/`、
   `02_baselines/`、`03_paper/`、`04_recheck/` 下的文件，这些文件**在仓库里存在但不在包内**（原白名单未含）。
 - `patches/*.patch`（7 个，记录 vendored 方法相对上游的改动）未随包；包内 `methods/` 已是打过补丁的版本。

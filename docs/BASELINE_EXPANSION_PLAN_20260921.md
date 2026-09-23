@@ -34,7 +34,7 @@
 
 | 目录 | 文件数 | 体积 | 评测入口 | 仓内权重（>1 MB 实读） |
 |---|---:|---:|---|---|
-| `AnomalyCLIP-main/` | 124 | 660.8 MB | `test.py`、`test.sh`、`test_one_example.py` | **30 × 21.6 MB** `checkpoints/9_12_4_multiscale{,_visa}/epoch_*.pth`（本项目自训） |
+| `AnomalyCLIP-main/` | 124 | 660.8 MB | `test.py`、`test.sh`、`test_one_example.py` | **30 × 21.6 MB** `checkpoints/9_12_4_multiscale{,_visa}/epoch_*.pth`（**随上游源码归档提供，非本项目训练**） |
 | `adaptclip/` | 155 | 10.7 MB | `test.py`、`scripts/test_adaptclip.sh`、`scripts/train_adaptclip.sh` | 1 × 7.2 MB `adaptclip_checkpoints/12_4_128_train_on_visa_3adapters_batch8/epoch_15.pth` |
 | `SubspaceAD/` | 75 | 4,336.4 MB | `main.py`、`scripts/benchmark_few_shot.sh` 等 7 个官方脚本 | 1 × 4,335.4 MB `checkpoints/dinov2-with-registers-giant/model.safetensors` |
 | `winclip/` | 38,411 | 3,956.1 MB | `eval_WinCLIP.py`、`eval_WinCLIP_matrix.py`、`run_winclip.py` | 无（权重全在 `%USERPROFILE%\.cache`） |
@@ -52,7 +52,7 @@
 | OpenAI CLIP ViT-L-14-336（AnomalyCLIP/AdaptCLIP/ReMP-AD 用） | **有** | `…\.cache\clip\ViT-L-14-336px.pt` 890.8 MB，sha `3035c92b…1f02` |
 | DINOv2-g/14（SubspaceAD、UniVAD）、DINOv2-S/14、DINOv2-B/14、DINO ViT-S/8、WideResNet50-2 | **有** | SubspaceAD `model.safetensors` 4,335.4 MB（sha `c03832d4…5051`）；hub 缓存实测 4,335.5 / 84.2 / 330.3 / 82.7 / 131.8 MB **全部存在**，sha 与 46 条清单一致 |
 | UniVAD 组件（GroundingDINO + HQ-SAM） | **有** | `methods/univad_official/pretrained_ckpts/` 661.8 MB + 2,451.8 MB，sha 已核 |
-| AnomalyCLIP / AdaptCLIP / ReMP-AD 微调权重 | **有** | 见 §1.3；三者均为**本项目自训产物**，公网不可得（weights README §1.1–1.2 明写） |
+| AnomalyCLIP / AdaptCLIP / ReMP-AD 权重 | **有** | 见 §1.3；**AnomalyCLIP 的 30 个检查点随上游源码归档提供（commit `3911738c…`，ZIP SHA256 `533ED87B…`），不是本项目训练产物**；AdaptCLIP / ReMP-AD 两个为本项目训练产物，公网不可得（weights README §1.1–1.2 已按此更正） |
 | PromptAD | **未验证** | `.venv-promptad` 存在（`docs/environment_matrix.md` L16），但 `methods/` 下**无 promptad 源码**；权重未在 46 条清单中 |
 
 ### 1.5 基线运行脚本、产物命名与"最小改动路径"
@@ -88,7 +88,7 @@
 | **GLASS** | 需训练（特征 + 合成异常） | **否**（未验证是否存在同名实现） | **否** | 需 vendor + 训练 | 高 | 训练型，≥ 数天 | 低 | **不做**（除非作者指定） |
 | **UniVAD** | 组件/结构感知（GroundingDINO + RAM + CLIP + HQ-SAM） | 是（pinned commit，264/264 校验） | **是**（4 个组件全部落盘，合计 ≈ 7.9 GB） | 无 CUDA toolkit ⇒ `groundingdino._C` 走 PyTorch 参考实现；需逐类独立进程 | **很高**：阶段 2 只跑完 `bottle` 一类，余 14 类待跑；吞吐 0.77–1.4 s/图，被 WDDM 换出时 250 s/图 | 10² 小时量级（保守下界 20,344×1.0 s ≈ 5.6 h，仅阶段 2；含阶段 1 分割与换出风险） | 低 | **不做**（权重/编译**不是**阻塞，规模与吞吐才是） |
 
-> 说明：**"权重缺失且公网不可得"** 的只有 AnomalyCLIP/AdaptCLIP/ReMP-AD 三个**本项目自训**权重——但它们**本机已有**，所以不构成降级理由。真正降级的理由是"需训练且成本高"（PromptAD、EfficientAD、GLASS）或"无官方源码在仓"（PaDiM）。
+> 说明：**"权重缺失且公网不可得"** 的只有 AdaptCLIP / ReMP-AD 两个**本项目训练**权重（AnomalyCLIP 的检查点随上游源码归档提供，见 §1.3/§1.4，不属此列）——但它们**本机已有**，所以不构成降级理由。真正降级的理由是"需训练且成本高"（PromptAD、EfficientAD、GLASS）或"无官方源码在仓"（PaDiM）。
 
 ## 3. 分阶段计划
 
@@ -160,4 +160,4 @@
 | D3 | GPU 时间上限与选哪个训练基线 | P1 约半个工作日；P2 若含 AdaptCLIP 8–12 h；UniVAD/PromptAD 全矩阵为天/周量级。若做 P2，AdaptCLIP（权重已有、官方 1-shot）优于 PromptAD（需 vendor + 调优） |
 | D4 | 是否接受"文献参照 + 子集实测"的组合 | P0 表与 P1 EXT 表必须**分表**；正文须有一句显式声明，否则会被读成"混合来源混算" |
 | D5 | 是否接受重算正文 Table 11 | 若把新方法并入同一共同区域表，**Table 11 的 6 个数字与 §4.2.7 正文都会变**；本规划默认"新方法独立出表、Table 11 不动" |
-| D6 | 未验证项 | ① SubspaceAD/WinCLIP 官方入口能否 dump 逐图 map（未跑，未验证）；② AnomalyCLIP 官方 zero-shot 权重是否算"本机已有"（现只用 CLIP-L 基座 + 本地自训 ckpt，未验证官方 zs ckpt）；③ PaDiM 用的 torchvision ResNet18 是否已缓存；④ PromptAD 权重与源码位置；⑤ GLASS 是否存在任何本地实现 |
+| D6 | 未验证项 | ① SubspaceAD/WinCLIP 官方入口能否 dump 逐图 map（未跑，未验证）；② AnomalyCLIP 官方 zero-shot 权重是否算"本机已有"（现用 CLIP-L 基座 + **随上游源码归档提供**的 `9_12_4_multiscale{,_visa}` ckpt；**2026-09-23 已结案：即上游发布权重**）；③ PaDiM 用的 torchvision ResNet18 是否已缓存；④ PromptAD 权重与源码位置；⑤ GLASS 是否存在任何本地实现 |
