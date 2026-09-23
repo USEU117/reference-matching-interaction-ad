@@ -55,7 +55,7 @@
 
 | 正文图号 | 论文位置 | 图源 PNG | 生成脚本 | 冻结数据来源 | 版本日期 |
 |---|---|---|---|---|---|
-| 图 1 | §3.2 Overview | `fig1_framework.png` | `scripts/figures_reference_matching_20260914/fig1.mjs`（+ `make_assets.py` 生成光栅素材） | MPDD `metal_plate` train/good 000/001/029 与 test/scratches/026.png；分数图回放自 `submission_repro_20260827/predictions_compact/maps/mpdd/s0_k1/metal_plate.npz`，轮廓见 `assets/contours.json`（Otsu 可视化规则，不用 GT） | 2026-09-18 |
+| 图 1 | §3.2 Overview | `fig1_framework.png` | **`scripts/main_figure_20260920/`：`build_main.mjs` → `patch_math.py` → `finalize_figure.mjs` → `export_slide.ps1`**（2026-09-23 迁入版控；**复现命令** `powershell -File scripts/main_figure_20260920/run_pipeline.ps1`，全链逐字节复现 `C7618E16…`／2560 × 2120，见 §11.6）。旧 `scripts/figures_reference_matching_20260914/fig1.mjs`（+ `make_assets.py`）属 2026-09-14 链的 **1280 × 900 旧渲染**（`579A41B8…`，2560 × 1800），**已被取代，保留不删** | MPDD `metal_plate` train/good 000/001/029 与 test/scratches/026.png；分数图回放自 `submission_repro_20260827/predictions_compact/maps/mpdd/s0_k1/metal_plate.npz`，轮廓见 `assets/contours.json`（Otsu 可视化规则，不用 GT） | 2026-09-18（生成链 2026-09-23 迁入版控） |
 | 图 2 | §3.3 Matching rules | `fig2_matching.png` | `figs_methods.mjs` → `drawFigure2` | 结构示意图；格位明示「ordering only」，不含测量数值 | 2026-09-18 |
 | 图 3 | §3.4 Constructions | `fig3_constructions.png` | `figs_methods.mjs` → `drawFigure3` | `00_protocol/PROTOCOL.json` 的 A1/DUP/TRI/BAL 固定权重；X 槽由五个冻结编码器实例化（S、D、E1、E2、E3，维度取自 `s4_extra_encoders.py` 的 `feature_dim`） | 2026-09-18 |
 | 图 4 | §4.2.3—4.2.4 | `fig4_effects_interaction.png` | `figs_data.mjs` → `drawFigure4` | `02_interaction/representation_effects.csv`（S）、`04_new_encoder/representation_effects_new_encoder.csv`（D）、`05_extra_encoders/encoder_comparison_three.csv`（S、D、E1、E2、E3）、`generalization_mvtec_visa_20260915/interaction_generalization.csv`（MVTec/VisA 四数据集行，见第四节）；区间为源文件的未校正 95%；(b) 面板共 **8 行 = 4 数据集 × 2 对比**，MVTec/VisA 画作 `GEN` 车道 | 2026-09-19 |
@@ -510,8 +510,8 @@ frame 1280 × 900，`--figures-dir docs/figures_reference_matching_20260914`）�
 
 `.tmp_revision_20260923/active_layouts/` 的四份 `.layout.json` 是现役渲染的**原生版面导出**：
 `fig2_matching` / `fig3_constructions` / `figS1_encoders` 来自 `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`
-（`W=1280, H=1060`，导出 `layout-N.json`）；`fig1_framework` 来自 `.tmp_figure_revision_20260920/build_main.mjs`
-（`W=1280, H=1060`，导出 `layout.json`）。
+（`W=1280, H=1060`，导出 `layout-N.json`）；`fig1_framework` 来自 `scripts/main_figure_20260920/build_main.mjs`
+（`W=1280, H=1060`，导出 `layout.json`；2026-09-23 由 `.tmp_figure_revision_20260920/build_main.mjs` 迁入版控，见 §11.6）。
 
 | 图 | 现役 layout | problem 数 | 最小印刷字号 |
 |---|---|---|---|
@@ -575,6 +575,48 @@ frame 1280 × 900，`--figures-dir docs/figures_reference_matching_20260914`）�
   `L` 在现役图内一律称 independent（图 1 `matching-explanation` = `L  one row per branch`，图 2 `(b)` 同）；
   `I_TRI` / `I_BAL` 在正文与表格中为原生 `m:oMath` 下标对象（152 个），图 4 面板标题用 `$I_{\mathrm{TRI}}$` / `$I_{\mathrm{BAL}}$` 数学排版。
 - 结论：**无需修改**（本项为复核，非改动）。
+
+### 11.7 图 1 生成器迁入版控（2026-09-23）
+
+图 1 的生成链原位于被 `.gitignore` 排除的 `.tmp_figure_revision_20260920/`，使主框架图**无法从仓库复现**。现将整链迁入版控目录 `scripts/main_figure_20260920/`：
+
+| 迁移后路径 | 职责 | 依赖 |
+|---|---|---|
+| `scripts/main_figure_20260920/build_main.mjs` | 生成原生可编辑候选 `candidate.pptx` + `math_baselines.json` + `layout.json` + `figure_manifest.json` | node（v20 实测）；`@oai/artifact-tool`（`$env:ARTIFACT_TOOL`，默认本机缓存路径）；`scripts/figures_reference_matching_20260914/{style.mjs, assets.mjs, assets/*}`（均在版控内） |
+| `scripts/main_figure_20260920/patch_math.py` | 把 31 处原生下标 baseline 写入包内 XML → `candidate_math.pptx` | Python + `lxml`（`.venv-anomalyclip`） |
+| `scripts/main_figure_20260920/finalize_figure.mjs` | 终稿化 → `docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`（**受版控**） | presentation skill 缓存（`$env:PRESENTATION_SKILL`） |
+| `scripts/main_figure_20260920/export_slide.ps1` | PowerPoint COM 导出第 1 页 2560 × 2120 → 现役图件目录 `docs/paper_complete_review_20260920/figures/fig1_framework.png` | Microsoft PowerPoint |
+| `scripts/main_figure_20260920/run_pipeline.ps1` | 一键编排以上四步（`-SkipFinalize`、`-OutPath` 可覆盖） | 以上全部 |
+
+**复现命令**（仓库根目录）：
+
+```
+powershell -File scripts/main_figure_20260920/run_pipeline.ps1
+```
+
+**2026-09-23 实测**：从零跑整链（`build_main.mjs` → `patch_math.py` → `export_slide.ps1`）得到
+`fig1_framework.png` = `C7618E16B4CED2288D7A0DC392BE5578A3AB12BD3C4E210780B66B6D4941525A`（728,505 B，2560 × 2120），
+与现役入稿图**逐字节相同**、**逐像素相同**（max\|diff\| = 0）。中间产物在包内字节层面**不**逐字节相同
+（pptx 的随机 UUID/时间戳），但原生版面导出 `layout.json` 仅随机 ID 不同（长度 125,164 B 一致），
+且脚本直出光栅 `main_figure_export.png` 亦为 `C179C22E…`（与 2026-09-23 光栅中性验证同值）⇒ 差异属**渲染无关**。
+
+**登记（不删除）**：旧 `.tmp_figure_revision_20260920/`（含原 `build_main.mjs`、`export_pptx.ps1`、`render.py`、`finalize.mjs`、`patch_pptx.py`）
+**保留在盘**，留待作者处置；其中 `render.py` / `export_pptx.ps1` / 原 `finalize.mjs` 仍引用不存在的 `…revision_20260920` 目录名，
+**已被迁移后的脚本取代，勿再使用**。
+
+### 11.8 A-07 像素复核（图 2(b) 紫色框 vs 填色格，2026-09-23）
+
+对现役 `figures/fig2_matching.png`（2560 × 2120 = 1280 × 1060 版面 @2×）按颜色定位：
+
+| 元素 | 设计坐标（`build_methods.mjs`） | 实测像素包围盒 | 换算版面坐标 |
+|---|---|---|---|
+| 紫色框 `f2-j-shared-highlight`（`C.violetLine` = `#6E4E9E`） | `x = 113 + 2*42 = 197`，`y = 512`，`w = 42`，`h = 102` | `x ∈ [391, 480]`，`y ∈ [1021, 1230]` | `x ∈ [195.5, 240.0]`，`y ∈ [510.5, 615.0]` |
+| 填色格 `f2-j-b-2`（`C.blueFill` = `#DCEBF7`，`addCells(..., selected = 2)`） | `x = 116 + 2*(38+4) = 200`，`y = 516`，`w = 38`，`h = 44` | `x ∈ [402, 474]`，`y ∈ [1034, 1118]` | `x ∈ [201.0, 237.0]`，`y ∈ [517.0, 559.0]` |
+
+结论：两者 **x 方向重合 73 px = 填色格宽度的 100%**（同一列），紫色框在水平方向**完全包住**填色格，
+并**跨两行**（框高 210 px > 格高 85 px，即 `same row for both`）。与清单记载的 `x ∈ [195.5, 240.0]` 与 `x ∈ [200, 238]` 一致
+（后者实测边界略内收，是 1.4 px 描边占据外沿所致）。**A-07 判定：通过。**
+
 
 
 

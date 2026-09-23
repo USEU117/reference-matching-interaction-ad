@@ -253,3 +253,34 @@
 | 脚本 | `scripts/harmonised_20260922/{analyse_protocol_leverage,run_patchcore_harmonised,harmonised_common_region,build_figS6_protocol_sensitivity,smoke_subspacead_448}.py` |
 | 边界 | 冻结表 sha256 前后同为 `3C83AB00…A0B8BB`；扩展表 sha256 `1C770129…F73EC4B` 未改；既有逐图产物、`data/**`、权威稿与 `tables.json`/`figures.json` **未改动**；本轮**未**改正文表 11/12 |
 | 复现 | 见 `docs/METHOD_COMPARISON_HANDOFF_20260922.md` §5.2（五条命令：杠杆实算 → PatchCore@448 → eval/assemble → 图 S6 → 冒烟） |
+
+---
+
+## 八、2026-09-23 收尾轮追加
+
+> 本节**只追加**，不改上文任何行。范围：K-12 图源复审、A-07 / A-17 像素复核、图 1 生成器迁入版控、A-27 仓库自检。
+
+### 8.1 图 1 生成器迁入版控（消除主框架图复现缺口）
+
+| 项 | 实读值 / 路径 |
+|---|---|
+| 迁移前 | `.tmp_figure_revision_20260920/build_main.mjs`（**gitignored**，被 `.gitignore:30 /.tmp_*/` 排除） |
+| 迁移后目录 | `scripts/main_figure_20260920/`（**进入版控**）：`build_main.mjs`、`patch_math.py`、`finalize_figure.mjs`、`export_slide.ps1`、`run_pipeline.ps1` |
+| 依赖（不含重复） | `scripts/figures_reference_matching_20260914/{style.mjs, assets.mjs, assets/*.png, assets/contours.json}`（**已受版控**）；外部：node、`@oai/artifact-tool`、presentation skill 缓存、Microsoft PowerPoint COM、Python + `lxml` |
+| 输出路径 | 终图 → `docs/paper_complete_review_20260920/figures/fig1_framework.png`（**现役图件目录**）；可编辑母版 → `docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`（**已受版控**）；中间件留在 `.tmp_figure_revision_20260920/`（gitignored scratch） |
+| 禁忌词路径 | 迁移后脚本**不再**引用任何含禁忌词的目录名（原 `build_main.mjs:6`、`export_pptx.ps1:2`、`render.py:12`、原 `finalize.mjs:7` 共同指向的 `docs/main_figure_〈禁忌词〉_revision_20260920` 目录已随迁移弃用） |
+| 复现命令 | `powershell -File scripts/main_figure_20260920/run_pipeline.ps1` |
+| 2026-09-23 实测 | 整链跑通；输出 `fig1_framework.png` = `C7618E16B4CED2288D7A0DC392BE5578A3AB12BD3C4E210780B66B6D4941525A`（728,505 B，2560 × 2120），与入稿图**逐字节/逐像素相同**（max\|diff\| = 0） |
+| 旧目录处置 | `.tmp_figure_revision_20260920/` **只登记、不删除**；其 `render.py` / `export_pptx.ps1` / 原 `finalize.mjs` 仍指向不存在的 `…revision_20260920` 目录名，已被取代 |
+| 登记处 | `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` §一 图 1 行、§11.1、**§11.7** |
+
+### 8.2 A-27 仓库自检（含就地改写与还原）
+
+| 项 | 实读值 |
+|---|---|
+| 脚本 | `scripts/representation_matching_interaction_20260914/selfcheck.py`（就地改写 `experiments/dynamic_fusion/representation_matching_interaction_20260914/{READONLY_PROOF.json, SELFCHECK.json}`） |
+| 运行前 SHA-256 | `READONLY_PROOF.json` = `914312038FC72FD1B496FC5F9868FA1C37E8B7B09F8987186B507EE3E3D78B75`（25,994 B）；`SELFCHECK.json` = `C664A309BC6719DCB0D4E349C6608D89E01A703D3B6B9D8242985930BD5FF74E`（12,665 B） |
+| 备份 | `.bak_selfcheck_20260923/`（仓库根，被 `.gitignore:76 *.bak*` 覆盖） |
+| 运行结果 | **checks = 69，passed = 67，failed = 2**（退出码 1）；两条失败为**已登记既有失败**：① 冻结快照漂移（`unified_fusion_paper_support_20260913/_smoke/units/mpdd_s0_k2/bracket_black/{evaluation_scores,patch_scores}.npz` 缺失 + `REPORT_CN.md` 仅 mtime 变化）；② 旧提纲 `新主题论文详细提纲_外部评审版_20260914_更新版.docx` 不在盘（0 bytes） |
+| 还原 | 逐字节还原后两份 SHA-256 与运行前**完全一致**；`git status --porcelain -- experiments data` = **空** |
+

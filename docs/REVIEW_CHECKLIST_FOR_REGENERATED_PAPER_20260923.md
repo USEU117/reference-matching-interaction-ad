@@ -34,7 +34,7 @@
 | **A-04** | 命名：正文**每个单字母标识符首现**带全称且加粗/斜体强调 | python-docx 遍历 run，收集 `run.bold` 且长度 ≤3 的 token 集合 | 集合 = `{C,J,L,B,S,D,A1,DUP,TRI,BAL,E1,E2,E3}`；**若已执行整批改名**，判据改为"**无裸单字母**"：正文段落正则 `(?<![A-Za-z0-9_])[BSCDJL](?![A-Za-z0-9_])` 命中 **0**（例外：`ABL-C` 等已声明不参与改名的 token） | [U]T09；[S2]§八·续 T16；[S11]§0/§2 |
 | **A-05** | 图内**无重复总标题**（F03） | 检查位置：每张**入稿用** PNG（`docs\paper_complete_review_20260920\figures\*.png`）**顶部约 10% 区域**；命令：对该区域 OCR 或人工目视 | 顶部区域**不出现** `Figure N` 大标题与长副标题；图题只出现在 Word 正式图注；"带标题的讲解版"另存、不用于入稿 | [S2]§四 F03；[S3]F05（删图内标题）|
 | **A-06** | 图内符号/术语与正文一致（`L` 的称谓、`I_TRI`/`I_BAL` 排版） | `Select-String -Path $SRC\figures.json,$SRC\figure_sources\*.mjs -Pattern 'local matching'`；检查 `I_TRI`/`I_BAL` 是否为数学对象 | `L` **不得**被称为 `local`（一律 **independent matching**），"local matching"命中 **0**；`I_TRI`/`I_BAL` 用数学排版（Cambria Math/数学对象），不用纯文本式下划线 | [S2]§四 F04、§八 B-05；[S10]§10 |
-| **A-07** | 图 2(b) 高亮与图例**自洽**（F01） | `Select-String -Path $SRC\figure_sources\build_methods.mjs -Pattern 'f2-j-shared-highlight'`；`Get-FileHash docs\paper_complete_review_20260920\figures\fig2_matching.png` | 该行偏移量为 `113 + 2 * 42`；`fig2_matching.png` = `AB1EB3FD2B5172051F658929327BF7E81EE9F0FF16D9BC4DC2F753F269EFCBFB`；像素复核：紫框 x∈[195.5,240.0] 与填色格 x∈[200,238] 重合 | [S2]§四 F01、§八 2026-09-22 表 |
+| **A-07** | 图 2(b) 高亮与图例**自洽**（F01） | `Select-String -Path $SRC\figure_sources\build_methods.mjs -Pattern 'f2-j-shared-highlight'`；`Get-FileHash docs\paper_complete_review_20260920\figures\fig2_matching.png` | 该行偏移量为 `113 + 2 * 42`；`fig2_matching.png` = `5156E610A1041FB08640960ED202475E1DEA4CD5EC254A85610308B9576C58E6`（2026-09-23 重渲染后盘上实测；旧记 `AB1EB3FD…` 已过期）；**像素复核（2026-09-23 已完成）**：紫框 x∈[195.5,240.0] 与填色格 x∈[201.0,237.0] **x 方向重合 73 px = 格宽 100%**，框跨两行 ⇒ 同一列且重叠 | [S2]§四 F01、§八 2026-09-22 表；像素实测见 `FIGURE_BINDING.md §11.8` |
 | **A-08** | 图 3(b) 权重表述**准确**（F02） | `Select-String -Path $SRC\figure_sources\build_methods.mjs,$SRC\manuscript.md,$SRC\figures.json -Pattern 'Only the weight split changes'` | 新表述 3 处命中（图内 + 图注 + 正文）；旧表述（`only B`/`only the B weight`）= **0**；`fig3_constructions.png` = `57362409BC04B2C30800EA74A06299AC01D4EA546C6FA7AD4E203EE40F72D185` | [S2]§四 F02、§八 2026-09-22 表 |
 | **A-09** | 图 2 类别下标**正斜体一致**（F11） | 解压 pptx 后检索第 1/2 页 `slideN.xml` 中类别下标 `c` 的 run 属性 | 全部类别下标均为**斜体**（`i="1"`）；`i="0"` 的类别下标残留 = **0** | [S2]§四 F11；[S1]A-19 |
 | **A-10** | 图 2(c)/图 3(c) **空白占比/文字密度改善**（可量化） | 对 `fig2_matching.png`、`fig3_constructions.png` 逐行墨度扫描（`PIL`+`numpy`，阈值可自定并记录） | 图 2(c) 高度占比 ≤ **0.22**（改前约 0.30）、图 3(c) ≤ **0.28**（改前约 0.38）；(c) 区非空文本行 ≤ **4**；(c) 区 ink ratio ≥ **0.02**；且**未**用重复公式/装饰填充 | [S2]§二 T01；[S1]A-01 |
@@ -44,7 +44,7 @@
 | **A-14** | A1 对照行加粗且**注明不代表统计最优** | grep 表注 `not a claim of best performance` / `not a statistical superiority claim` / `not optimal`；检查 A1-J/A1-L 行 `run.bold = True` | A1 行整行加粗；**七张含 A1 加粗行的表（Table 1/4/5/8/11/20/21）表注均含**"粗体表示研究锚点、非最优/非统计最优"类说明 | [S3]E06；[S2]§五#6 |
 | **A-15** | 案例图**两种输出**且范围与措辞一致（F06） | `Select-String -Path $SRC\figures.json -Pattern 'two outputs\|contour\|all cases'` | 正文案例确实给出"热图 + 轮廓"两列；正文**界定覆盖范围**（"两种输出"只对正文案例成立）或声明为限制；**无**"所有案例都有两种输出"式表述 | [S2]§四 F06；[S1]B-02 |
 | **A-16** | 主图**可编辑**（PPT 内为原生形状/文字） | python-pptx：逐页统计 `Picture` 与 `AutoShape/TextBox` 数量 | 第 **1/2/3/15** 页含原生形状与文字（非整页单图）；其余 **59/63** 页为整页 PNG（**已知边界**，须在核对结论中如实标注） | [S2]§四"编辑性另行记录"；[S1]C-04 |
-| **A-17** | PPT 与论文**同版** | 核对 `FIGURE_SLIDE_INDEX.json`、`图件与PPT页码索引.md` 与 deck；导出 S4 两页 PNG 与 docx 内 S4 两页比对 | deck **63 页**；**第 23 页 = 收敛 v2、第 24 页 = 稳定性**（旧 `stability_part2` 已不在 deck）；两处索引一致 | [S1]C-01/C-03；[S2]§八 F14 |
+| **A-17** | PPT 与论文**同版** | 核对 `FIGURE_SLIDE_INDEX.json`、`图件与PPT页码索引.md` 与 deck；导出 S4 两页 PNG 与 docx 内 S4 两页比对 | deck **63 页**；**第 23 页 = 收敛 v2、第 24 页 = 稳定性**（旧 `stability_part2` 已不在 deck）；两处索引一致；**像素级比对（2026-09-23 已完成）**：deck 第 23 页内嵌位图 `ppt/media/image24.png` 与 `figures/figS4_bootstrap_convergence.png` **逐字节 + 逐像素相同**（`6AFA2E49…`，2342 × 2625）；第 24 页 `image25.png` 与 `figures/figS4_bootstrap_stability.png` 同样逐字节相同（`B06F095A…`，2342 × 2065）；两图均存在于 docx `word/media/` | [S1]C-01/C-03；[S2]§八 F14；像素实测见 `FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` 收尾轮 §C-2 |
 | **A-18** | **禁写清单**扫描 | `Select-String -Path docs\paper_complete_review_20260920\English_Manuscript_Source.md -Pattern 'SOTA\|state-of-the-art\|全面领先\|zero-computation\|zero-preparation\|hyperparameter-free\|end-to-end\|globally optimal\|true null\|essentially zero\|FPS'` | 命中 **0**；若有命中，逐条确认是否处于"不得写成…"的**否定语境**（否定句允许，肯定断言不允许） | [S10]§10；[S12]§4 |
 | **A-19** | 对比呈现纪律：表 11/12/同口径子集表均写"**不构成排名**" | grep `not a ranking` / `不构成排名`（`tables.json` 的 `baselines`/`baselines_ext` 表注 + 子集表表注） | 表 11 表注、表 12 表注、同口径子集表表注**各 ≥1 处** | [S10]§2.1#7/§9.3；[S12]§3.3 |
 | **A-20** | 表 11/12 **逐方法给协议**（含 SubspaceAD 256↔672） | `Select-String -Path $SRC\tables.json, experiments\...\05_baselines_ext_20260921\PREFLIGHT.json -Pattern '672\|256\|aug_count\|auxiliary-domain-trained'` | 逐方法写明分辨率/画布几何/是否旋转/参考库构造；**SubspaceAD 用 256 且说明偏离官方 672**（不得写成"官方配置"）；AnomalyCLIP 列写明 `upstream auxiliary-domain-trained … zero-shot on the target domain` | [S2]§三 P10、§八 T17；[S1]A-13 |
@@ -59,7 +59,7 @@
 | 编号 | 检查项 | 命令 | 判据 | 出处 |
 |---|---|---|---|---|
 | **A-26** | 单元测试 | `python -m pytest tests -q` | `260 passed`（0 failed） | [S10]§4 |
-| **A-27** | 仓库自检 | `python scripts\representation_matching_interaction_20260914\selfcheck.py`（**会就地改写 `experiments/**` 两个 JSON**） | 当前基线 `67/69`（2 项为已登记既有失败）；运行后**必须** `git checkout --` 还原其改写的两个 JSON | [S1]E-10；[S2]§八 F22 |
+| **A-27** | 仓库自检 | `python scripts\representation_matching_interaction_20260914\selfcheck.py`（**会就地改写 `experiments/**` 两个 JSON**） | 基线 `67/69`（2 项为已登记既有失败）——**2026-09-23 实跑复核一致**：`checks=69, passed=67, failed=2`（退出码 1）；运行前先备份并记 SHA-256，运行后**逐字节还原**并复测哈希（`READONLY_PROOF.json` `914312038FC72FD1…D78B75`、`SELFCHECK.json` `C664A309BC6719DC…0BD5FF74E`）+ `git status --porcelain -- experiments data` 为空 | [S1]E-10；[S2]§八 F22；实测见 `FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` 收尾轮 §C-4 |
 
 ---
 
@@ -179,6 +179,17 @@
 
 **附加纪律**：① 返修建议**不得**引入新数值、不得改写 `experiments/**` 证据字段与 `data/**`；② 若返修需重出图/PPT，必须一并列出"重渲染脚本 → 门禁 → 重出 deck → 重建 docx → 复测 **55 页/23 表/27 图**"链条；③ 若同一问题在新版本中仅**部分**修复，写"部分通过"并指明**未修复的部分**。
 
+### 5.4 收尾轮判定（2026-09-23，收口上一轮的 4 项"部分通过 / 未核实"）
+
+> 证据与命令输出见 `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` 的「收尾轮」一节；像素/哈希类证据的原始记录见 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` §11.7/§11.8 与 `docs/ARTIFACT_INDEX.md` §八。
+
+| 编号 | 上一轮 | **本轮判定** | 证据（2026-09-23 实测） |
+|---|---|---|---|
+| **A-07** | 部分通过（紫框与填色格的像素级重合未复核） | **通过** | 对现役 `fig2_matching.png`（2560 × 2120，`5156E610…`）按颜色定位：紫框 `#6E4E9E` 实测 `x ∈ [391, 480] px` = 版面 `x ∈ [195.5, 240.0]`；填色格 `#DCEBF7` 实测 `x ∈ [402, 474] px` = 版面 `x ∈ [201.0, 237.0]`。**x 方向重合 73 px = 格宽 100%**（同列）、框高 210 px > 格高 85 px（跨两行）⇒ 同一列且重叠 |
+| **A-17** | 部分通过（未把 deck 第 23/24 页与 docx 内 S4 两页做像素比对） | **通过** | deck 第 23 页内嵌位图 `ppt/media/image24.png` 与 `figures/figS4_bootstrap_convergence.png` **逐字节相同**（`6AFA2E49…`）、**逐像素相同**（max\|diff\| = 0，2342 × 2625）；第 24 页 `image25.png` 与 `figures/figS4_bootstrap_stability.png` 同样逐字节相同（`B06F095A…`，2342 × 2065）；两图均在 docx `word/media/` 内（`BYTE-IDENTICAL / pixel identical = True`）。索引：`FIGURE_SLIDE_INDEX.json` 63 条，S4 第 1/2 页 = slide 23/24 |
+| **A-27** | 未核实（未执行，避免就地改写 `experiments/**`） | **通过（67/69，2 项为已登记既有失败）** | 先记 SHA-256 并备份至 `.bak_selfcheck_20260923/` → 跑 `selfcheck.py` → **立即逐字节还原**。实跑 `checks=69, passed=67, failed=2`；失败项与登记完全一致：① 冻结快照漂移（`unified_fusion_paper_support_20260913/_smoke/units/mpdd_s0_k2/bracket_black/{evaluation_scores,patch_scores}.npz` 缺失 + `REPORT_CN.md` 仅 mtime 变化）；② 旧提纲 `新主题论文详细提纲_外部评审版_20260914_更新版.docx` 不在盘。还原后两份 SHA-256 与运行前**完全一致**，`git status --porcelain -- experiments data` **为空** |
+| **K-12** | 部分通过（revision23 图源变更需作者追认） | **已逐条复审；红线未破；发现 1 处"数据来源"类变更待作者裁决** | 冻结值 `3C83AB00…` / `1C770129…` / `9DB99E60…` 与 `data/splits/*` **全程不变**；`experiments/**` + `data/**` git 差异为空。revision23 图源逐文件复审：`build_methods.mjs`（仅标签/几何/正斜体）、`plot_extra.py`（仅路径与 `sys.path`）、`plot_supplementary_figures.py`（仅 `ROOT`/`OUT` 路径）、`build_figS4_bootstrap_convergence.py`（仅版几何 + `out_dir.resolve()`）均**未触碰数值**；**唯 `plot_primary.py` 把数据来源由 `.tmp_figure_revision_20260920/tables.json` 改为 `scripts/paper_complete_review_20260920/tables.json`**（两源 `encoders` 表数值不同），属"数据来源"类 ⇒ **须作者裁决，本轮不回退**（详见 `FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` 收尾轮 §A） |
+
 ---
 
 ## §6 来源索引
@@ -226,6 +237,16 @@
 | 版式母本被忽略规则排除后的复现路径 | **待作者** | 母本不可由源重建；干净克隆能否复现 Word 终稿待定 |
 | 图 S6 是否入稿、表 A/表 B 是否入正文 | **待作者拍板** | 入稿须写全 5 条（S6）/ 7 条（表 A/B）限制并复测页数/表数 |
 | 整批改名（方案 A/B）是否执行 | **待作者拍板** | 未执行时 A-04 按"首现强调"判据；执行时按"无裸单字母"判据 |
+
+---
+
+## §7 清单外新发现（不与 §1–§4 混排）
+
+| 编号 | 发现 | 证据（实读） | 严重度 | 处置 |
+|---|---|---|---|---|
+| **N-1** | **`plot_primary.py` 的数据来源被 revision23 换表，且入稿图 fig4b 与正文 Table 15 在"四条件口径"点值上不一致**：改前读 `.tmp_figure_revision_20260920/tables.json`（`encoders` 5 行：`S +0.767`、`D +0.974/+0.628/+0.622/+0.501`…），改后读 `scripts/paper_complete_review_20260920/tables.json`（`encoders` 8 行：`S (4) +0.695`、`D (4) +1.020/+0.686/+0.631/+0.524`…） | `git diff 51b3cec 01886e9 -- scripts/paper_complete_review_20260920/figure_sources/plot_primary.py`；复现实验：入稿 `fig4b_matched_encoders.png` = `057AF4D0…` **恰等于用旧 tmp 表渲染**、用现表渲染为 `AE1145D7…`；`fig4a/5a/5b` 三者逐字节可复现；docx Table 15 实读 `S (4) = +0.695`；正文 `results.md:39` 的 D 点值来自 Table 9（`d_interaction`），未受污染 | 中 | **已报告、未回退、未改图/改表**（遵硬约束）。作者二选一：(a) 重渲染 fig4b 只取 5 个 `(4)` 行并同步 y 轴刻度（**会改变入稿图**）；(b) 保持现图并登记为限制。详见 `FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §8.1 / §8.6 |
+
+**收尾后计数（2026-09-23）**：`通过 40 / 部分通过 2 / 不通过 0 / 未核实 0`（§1 = 27/0/0/0；§4 = 13/2/0/0，剩余两条为 **K-09**（符号体系仍为抽查，本轮范围外）与 **K-12**（4/5 文件可追认、1/5 属数据来源变更 → 见 N-1））。**剩余待作者项**：作者元数据（`[[AUTHORS]]`/`[[AFFILIATIONS]]`/`[[CORRESPONDING_AUTHOR]]`/`[[FUNDING]]`）、归档 DOI，以及上表 **N-1** 的二选一。
 
 ---
 

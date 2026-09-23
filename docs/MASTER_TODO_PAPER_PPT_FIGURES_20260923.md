@@ -196,10 +196,46 @@
 | 28 | **2026-09-23 呈现纪律补句**（A-14 / A-19 / C-02 / C-03） | `tables.json`：Table 4/5/8 表注补 `not a claim of best performance`（Table 1 同措辞，三处）；Table 11 表注**追加**"各配置按自身原生协议（分辨率/画布/旋转/参考库构造），本表提供背景而非排名"。`manuscript.md` §4.1.2 补"对照集合以正式基线清单为准，数量本身不是目标，约十个不是硬指标"。**六列数值与既有表注语义未改**（`baselines`/`baselines_ext` 的 `rows`/`headers` 与 `HEAD` 逐项 `identical=True`） |
 | 29 | **2026-09-23 Table 11 表注冻结解除 + 语义边界回正** | `finish_text_revision23.py:21` 的 `if k=='baselines':continue` 冻结已删除（改为登记式注释）；VisA 边界改回**明确域内**（`manuscript.md:172`：`VisA remains in-domain frozen validation … does not provide unseen-domain evidence`）；`results.md:142` 的越界表述 `neither the sign nor the interval separation … depends on that constant` → `the zero-exclusion judgement of the interaction is preserved under that constant` |
 | 30 | **2026-09-23 现役 1280×1060 版面门禁复跑 + 未引用媒体清理 + 孤儿删除 + 重建** | `qa_layout.py --layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures` → **TOTAL PROBLEMS: 0**（图 1 首轮 4 处，已按"只改盒几何、不改阈值、实测光栅中性"修复；修前/修后 PNG SHA 均为 `C179C22E…`）；`build.py` 新增 package 级未引用媒体清理（**pruned 8 个**，`word/media/*` 35 → 27，docx 32.5 MB → 19.17 MB）；孤儿 `figures/figS1_encoders_geometry.png` 登记后删除（见 `FIGURE_BINDING.md §11.5`）；重建后 **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 34 文献 / 19,253 词** |
+| 31 | **2026-09-23 收尾轮：图 1 生成器纳入版控** | 整链由 gitignored 的 `.tmp_figure_revision_20260920/build_main.mjs` 迁入 **`scripts/main_figure_20260920/`**（`build_main.mjs` → `patch_math.py` → `finalize_figure.mjs` → `export_slide.ps1` + `run_pipeline.ps1`）；输出改指现役图件目录；脚本内不再含禁忌词目录名。**复现命令** `powershell -File scripts/main_figure_20260920/run_pipeline.ps1`；实测输出 `fig1_framework.png` = `C7618E16B4CED2288D7A0DC392BE5578A3AB12BD3C4E210780B66B6D4941525A`（728,505 B，2560 × 2120），与入稿图**逐字节/逐像素相同**。登记见 `FIGURE_BINDING.md` §11.7、`ARTIFACT_INDEX.md` §八 8.1；旧目录**只登记、不删除** |
+| 32 | **2026-09-23 收尾轮：A-07 / A-17 像素复核 + A-27 自检 + K-12 图源逐文件复审** | A-07：紫框 `x ∈ [391, 480] px`（版面 `[195.5, 240.0]`）与填色格 `x ∈ [402, 474] px`（版面 `[201.0, 237.0]`）**同列且 100% 重合**，框跨两行 ⇒ **通过**。A-17：deck 第 23/24 页内嵌位图与 `figS4_bootstrap_convergence/stability.png` **逐字节 + 逐像素相同**（`6AFA2E49…`/`B06F095A…`），且均在 docx `word/media/` ⇒ **通过**。A-27：`selfcheck.py` 实跑 **67/69**（2 项已登记既有失败），跑后**逐字节还原**、哈希与运行前一致、`git status -- experiments data` 为空 ⇒ **通过**。K-12：`build_methods.mjs` / `plot_extra.py` / `plot_supplementary_figures.py` / `build_figS4_*` 仅标签/几何/样式（**未触碰数值**）；**`plot_primary.py` 属数据来源变更** → 见 **§7.3 N-1**。三冻结哈希与 `data/splits/*` 全程不变 |
 
 ---
 
-## 七、"需作者拍板"清单（本节为唯一决策入口）
+## 七、"需作者拍板"清单（**2026-09-23 收尾后仅保留 2 项**）
+
+| # | 待拍板事项 | 事实 / 选项 | 关联 |
+|---|---|---|---|
+| A | **作者元数据**（作者/单位/通讯/ORCID/资助）与 COI 是否保留现句 | 占位 `[[AUTHORS]]`/`[[AFFILIATIONS]]`/`[[CORRESPONDING_AUTHOR]]`/`[[FUNDING]]` 均在 `manuscript.md`；伦理与 COI 已有安全默认（本轮未动） | E-01…E-04 |
+| B | **归档 DOI 平台**与是否审稿阶段公开代码 | URL 已入摘要与可得性节；DOI 未建立；`manuscript.md:224` 现写 "a permanent archive DOI … has not yet been established"（本轮未动） | E-05、E-08 |
+
+> 原 §七 的其余 18 项**已移出"待拍板"**，逐条收尾状态见 **7.1**，原文行保留在 **7.2**（不改写）。
+
+### 7.1 原 §七 各行的收尾状态（2026-09-23）
+
+| 原 # | 收尾状态（不删除原行，仅标注） |
+|---|---|
+| 1 | **移出待拍板**：T09 整批改名**未执行**（温和版在位）；延期至 major revision，**非阻断** |
+| 2 | **已闭环**：图 S6 已入稿（清单 A-23 通过） |
+| 3 | **已闭环/部分延期**：8 项写作欠缺按现役稿落实（清单 §1 通过）；未落项见 §3 关联条目，**非阻断** |
+| 4 | **保留在 §七**（= A 行） |
+| 5 | **保留在 §七**（= B 行） |
+| 6 | **移出待拍板**：`build.py` 非字节可复现**已按"内容口径 + SHA 只作快照"写成文档**（E-09）；是否再改 `build.py` 由作者定，**非阻断** |
+| 7 | **已执行并复核**：`selfcheck.py` 于 2026-09-23 实跑 **67/69**（2 项已登记既有失败）并**逐字节还原**（清单 A-27 通过）。是否重建旧提纲 / 豁免 `_smoke` 快照仍可由作者定，**非阻断** |
+| 8 | **移出待拍板**：包内 `SHA256SUMS` 2 处漂移（E-11），**非阻断** |
+| 9 | **移出待拍板**：`PREFLIGHT.json` / `ext_run_anomalyclip.py` 的 09-21 留痕（E-12）——A14 已结案，留痕保留，**非阻断** |
+| 10 | **移出待拍板**：提交信息层重写需 `git filter-repo` + 强推（E-15），**非阻断**、须书面授权 |
+| 11 | **移出待拍板**：本地未推送提交（E-14），**非阻断** |
+| 12 | **移出待拍板**：表 A/表 B 与文献参照表是否入稿（D-13/D-14/A-17），**非阻断** |
+| 13 | **移出待拍板**：R-22 版式母本移出 `*.docx` 忽略范围（E-19），**非阻断** |
+| 14 | **移出待拍板**：清理第二轮改动是否提交（E-18），**非阻断** |
+| 15 | **移出待拍板**：生成物绝对路径与历史引用清理（B-08/E-16），**非阻断** |
+| 16 | **移出待拍板**：`methods/` 处置方案 (a)/(b)（E-08），**非阻断** |
+| 17 | **移出待拍板**：数据集许可明细（E-06），**非阻断** |
+| 18 | **移出待拍板**：BTAD 口径科研判断追认（已在稿），**非阻断** |
+| 19 | **移出待拍板**：`.tmp_revision_20260922/` 等 scratch 是否删（E-18），**非阻断** |
+| 20 | **移出待拍板**：三处重复图件集留哪一处（B-09/E-18），**非阻断** |
+
+### 7.2 原决策清单（**保留原文，状态见 7.1**）
 
 | # | 待拍板事项 | 事实 / 选项 | 关联 |
 |---|---|---|---|
@@ -223,6 +259,12 @@
 | 18 | **BTAD 口径的科研判断追认**（已按用户指示执行全文替换） | "点估计接近零、区间跨零，当前数据不足以确定交互方向"；作者需追认该定位（是否接受"非零效应"） | A 组口径（已在稿） |
 | 19 | **`.tmp_revision_20260922/` 现在只剩 4 个小文件（0.11 MiB）是否删**；`.tmp_*` 其余约 445 MiB 可回收面 | 纯 gitignored，属"作者意图" | E-18 关联 |
 | 20 | **三处重复图件集"留哪一处"**（清理审计 S1/S9） | 现役链只认 `docs/figures_reference_matching_20260914/`；`docs/manuscript_reference_matching_20260914/figures/` 被脚本读写（红线）；包视图已归档 | B-09、E-18 |
+
+### 7.3 本轮复审新增发现（**1 条，需作者裁决；属"清单外新发现"，不并入 §七**）
+
+| # | 新发现 | 事实 / 证据 | 选项 |
+|---|---|---|---|
+| **N-1** | **`plot_primary.py` 的数据来源被 revision23 换表；入稿图 fig4b 与 Table 15 在"四条件口径"的点值上不一致** | `git diff 51b3cec 01886e9` 显示该脚本把数据源由 `.tmp_figure_revision_20260920/tables.json` 改为 `scripts/paper_complete_review_20260920/tables.json`；两源 `encoders` 表不同（旧 5 行 `S +0.767` vs 新 8 行 `S (4) +0.695`）。实测：入稿 `fig4b_matched_encoders.png`（`057AF4D0…`）**恰等于用旧表渲染**，用现表渲染为 `AE1145D7…`；docx Table 15 显示新值。**已报告、未回退、未改图/改表**（遵硬约束） | **(a)** 重渲染 fig4b（只取 5 个 `(4)` 行 + 同步 y 轴刻度，**会改变入稿图**，需重出 deck/docx 并复测）；**(b)** 保持现图，把不一致登记为限制。详见 `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §8.1/§8.6、`REVIEW_CHECKLIST…` §7 N-1 |
 
 ---
 

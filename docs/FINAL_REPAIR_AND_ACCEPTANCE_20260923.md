@@ -311,4 +311,115 @@
 - **未提交、未推送**。
 - 本轮新建的**临时**测量脚本（gitignored）：`.tmp_revision_20260923/_font_scan.py`（matplotlib 字号静态核验）、`.tmp_revision_20260923/_final_check.py`（终检自动核查），命令与结论已写入本文件与 `FIGURE_BINDING.md`，可据此复跑。
 
+## 八、收尾轮（2026-09-23，第二次收口：把上一轮 4 项"部分通过 / 未核实"逐项结清）
+
+> 范围：清单 **A-07 / A-17 / A-27 / K-12**；另含"图 1 生成器纳入版控"。
+> 纪律：**未改任何实验数值与论文主张**；三个冻结哈希与 `data/splits/*` 全程不变；**未提交、未推送**。
+
+### 8.1 任务 1：K-12 revision23 图源变更逐条复审
+
+**定位**：revision23 的图源改动落在提交 `01886e9`（2026-09-23 16:52，"repair the new draft and verify it against the checklist"），基线为 `51b3cec`。全部相关文件**均在版控内**（`git ls-files` 命中），故用 `git diff 51b3cec 01886e9 -- <file>` 逐文件复审。实际路径与任务书所列略有差异：`plot_*.py` 位于 `scripts/paper_complete_review_20260920/figure_sources/`（非 `scripts/figures_reference_matching_20260914/`）。
+
+| 文件（盘上实际路径） | 改了什么 | 类别 | **是否触碰数值/数据来源** | 结论 |
+|---|---|---|---|---|
+| `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`（30 行） | ① 图内文案缩短：`f2-query-label`（"Query patch"→`Query\npatch`）、`f2-selection-note`、`f3-pairing-note`、`fs1-extra-note`；② 几何：`section(a, …, 18→28)`、`fs1` 两处文本框高 `52→60`、`f3-pairing-note` 盒 `y 994→998`/`h 54→42`、`f2-query-label` 盒高 `40→64`；③ 正/斜体：类别下标 `sub("c")`→`sub("c", true)`（F11/A-09）；④ `fs1` 的 B/C/S 行标签 `"ViT-B/14 · 448 input"`→`"ViT-B/14; 448"`（**数值 448 / 518 / 768 / 384 / 1536 / 1/2 / 1/3 / 2/3 全部未变**） | 仅标签 + 仅几何 + 仅样式 | **否** | **可追认** |
+| `scripts/paper_complete_review_20260920/figure_sources/plot_extra.py`（4 行） | `R` 由硬编码 `'D:/STUDY/My_github/sci_project'` 改为 `Path(__file__).resolve().parents[3]`；`sys.path` 由硬编码改为脚本目录（`plot_fonts` 同目录导入）。读取的数据源（`figS2_shared_op_ablation.json`、`scripts/…/tables.json` 的 `resources`）**两版相同** | 仅路径（可复现性修复） | **否** | **可追认** |
+| `scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py`（4 行） | `ROOT` 由 `parents[2]`→`parents[3]`、`OUT` 由脚本目录改为 `ROOT/.tmp_complete_figures_20260920/plots`（随脚本迁位而调整输出目录） | 仅路径 | **否** | **可追认** |
+| `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`（9 行） | `height_in 9.4→7.5`；`ax_a`/`ax_b` 位置与高度（`inches(5.00)/2.95` → `inches(4.05)/2.35`、`inches(1.08)/2.95` → `inches(0.60)/2.35`）；图例 `bbox_to_anchor` 随高度改；新增 `args.out_dir = args.out_dir.resolve()`（路径规整）。**无任何数值、阈值、统计口径改动** | 仅几何 + 仅路径 | **否** | **可追认** |
+| **`scripts/paper_complete_review_20260920/figure_sources/plot_primary.py`（6 行）** | ① `R`/`sys.path` 相对化（同 `plot_extra.py`）；② **把表格数据源由 `R/'.tmp_figure_revision_20260920/tables.json'` 改为 `R/'scripts/paper_complete_review_20260920/tables.json'`** | **数据来源** | **是（脚本读取的表发生替换）** | **❌ 需报告 / 需作者裁决（本轮不回退）** |
+
+**❌ 项的实测证据（fig4b）**：
+
+- `.tmp_figure_revision_20260920/tables.json` 与 `scripts/paper_complete_review_20260920/tables.json` **不同**：前者 18 个键、后者 23 个键；`effects` 的 `rows` 逐行**相同**（仅 caption/headers/widths/note 不同），但 **`encoders` 的 `rows` 不同**（旧 5 行 S/D/E1/E2/E3，新 8 行 S(4)/D(4)/E1(4)/E1(12)/E2(4)/E2(12)/E3(4)/E3(12)，且**四条件口径的数值本身也不同**，如 S：`+0.767` → `+0.695`，D：`+0.974/+0.628/+0.622/+0.501` → `+1.020/+0.686/+0.631/+0.524`）。
+- **复现实验**：直接跑现役 `plot_primary.py`，得 `fig4a_representation_effects.png` / `fig5a_budget_seed.png` / `fig5b_categories.png` 与入稿图**逐字节相同**；**唯 `fig4b_matched_encoders.png` 不同**（重渲染 `AE1145D7…` vs 入稿 `057AF4D0…`）。
+- **归因**：把两张表分别喂给同一段 `fig4b` 绘图码 —— 旧表 → `057AF4D0…`（**= 入稿图**，逐字节相同）；现表 → `AE1145D7…`。⇒ **入稿 fig4b 取自旧的 tmp 表**。
+- **时间线**：`encoders` 的 8 行新值在 `a887633`（2026-09-22）即已进入 `tables.json`，而 `fig4b` 自 `a887633` 起**未再重渲染**；revision23 只把读取路径改到现表（等于把脚本接回权威源，但**未重出图**，且 `fig4b` 的 y 轴刻度仍硬编码 5 档 `['E3','E2','E1','D','S']`，与现表 8 行不匹配——重跑会把 `E2(4)` 画到 `y=0`（标签 "E3"）、`E1(12)` 画到 `y=1`（标签 "E2"），并把 `E2(12)/E3(4)/E3(12)` 裁出 `ylim(-0.6, 4.6)`）。
+- **影响面**：入稿 docx 现为 **Table 15**（`encoders`）显示 `S (4) = +0.695` 等，而 **Figure 4 续页**图内点值仍是旧集（`+0.767` 等）⇒ **图与表在"四条件口径"的点值上不一致**。正文 `results.md:39` 引的四个 D 点值（`+0.974 / +0.628 / +0.622 / +0.501`）来自 **Table 9（`d_interaction`）**，与二者均可区分，故**文字未受污染**。
+- **处置**：按纪律**不回退、不改图、不改表**；作者需在两条路里选一条：(a) 重渲染 `fig4b`（限定为 5 个 `(4)` 行并同步 y 轴刻度，会**改变入稿图**）；(b) 保持现图、把该不一致作为**已登记限制**。已登记为 `REVIEW_CHECKLIST…` 的**清单外新发现 N-1**。
+
+**入稿图内可见标签/数字的交叉核对（不依赖 OCR）**：deck 的原生页即同源图内文字，直接解包 deck XML 取 `<a:t>` 比对 ——
+- **slide 2（图 2）**：`(a) One query patch and the common candidate set`、`r ∈ ℛ_c shared reference rows`、`Same candidate set. / Cells indicate rows, / not distances.`、`J: one shared reference row`、`L: one row per branch`、`Both branches use the same highlighted row.`、`The nearest row can differ by branch.`、`G(p) = J(p) − L(p) ≥ 0` … 与 `figures.json` 的 `matching.caption`（"cells are ordering indicators only and carry no measured value"）**语义一致**，候选格 **1–8** 与"`r = 1, ..., 8`"一致。
+- **slide 3（图 3）**：四张卡片权重 `1/2 · 1/2`、`1/3 · 1/3 · 1/3`、`1/4 · 1/4 · 1/2` 与 `figures.json` 的 `constructions.caption`（"B 1/2→2/3、C 1/2→1/3"、"保持非 C 合计与 C 权重 1/2"）**逐数一致**；文案 `Only the weight split changes: B 1/2→2/3, C 1/2→1/3.` 与 A-08 判据同句。
+- **slide 15（图 S1）**：`ViT-B/14; 448`、`32 × 32 native grid`、`768 dimensions`、`ViT-L/14; 518`、`37 × 37 native grid`、`384 dimensions`、`1536 dimensions`、`32 × 42 canvas; coordinate-correct C re-grid`、`No target-domain training, PCA, coreset, or weight search` 与 `figures.json` 的 `encoders_geo.caption`（`448`、`32 by 32`、`32 by 42`、E1/E2/E3 身份）**一致**；仅"`· 448 input`"被简写为"`; 448`"（数值不变）。
+- **图 S4**：`figures.json` 的 `stability.caption` 写"`N >= 500` 最大偏离 **6.8%**、`N = 700` 起全部落入 ±5%"，与数据快照 `figS4_bootstrap_convergence.json` 的 `headline`（`max_relative_width_deviation_N_ge_500 = 0.067669…`、`first_n_inside_5pct_reference_band = 700`、`reference_band_relative = 0.05`）**逐值一致**。
+
+⇒ **K-12 判定**：4 个文件**未触碰数值**（可追认）；**1 个文件（`plot_primary.py`）属"数据来源"类变更**，已按纪律停下报告、未回退。冻结基线（`3C83AB00…` / `1C770129…` / `9DB99E60…` / `data/splits/*`）**全程未变**。
+
+### 8.2 任务 2：A-07 / A-17 像素级比对（不用 OCR）
+
+**A-07（图 2(b) 紫框 vs 填色格）** —— 对 `docs/paper_complete_review_20260920/figures/fig2_matching.png`（2560 × 2120，SHA `5156E610…`）按颜色定位：
+
+| 元素 | 颜色 | 实测像素包围盒 | 换算版面（÷2，1280 × 1060） | 设计值 |
+|---|---|---|---|---|
+| 紫框 `f2-j-shared-highlight` | `#6E4E9E`（`C.violetLine`） | `x ∈ [391, 480]`，`y ∈ [1021, 1230]`（w 90，h 210，n = 3445） | `x ∈ [195.5, 240.0]`，`y ∈ [510.5, 615.0]` | `x = 113+2*42 = 197`，`y = 512`，`w = 42`，`h = 102` |
+| 填色格 `f2-j-b-2` | `#DCEBF7`（`C.blueFill`） | `x ∈ [402, 474]`，`y ∈ [1034, 1118]`（w 73，h 85，n = 5852） | `x ∈ [201.0, 237.0]`，`y ∈ [517.0, 559.0]` | `x = 116+2*(38+4) = 200`，`y = 516`，`w = 38`，`h = 44` |
+
+- **x 方向重合 = 73 px = 填色格宽度的 100%（同一列）**；紫框水平方向**完全包住**填色格；框高 210 px > 格高 85 px ⇒ **跨两行**（"same row for both"）⇒ 高亮与图例自洽。
+- 与清单记载 `x ∈ [195.5, 240.0]` / `x ∈ [200, 238]` 一致（后者实测内收 1 px，因 1.4 px 描边占据外沿）。**A-07 判定：通过。**
+
+**A-17（PPT 与论文同版）** —— 像素级：
+
+| 项 | 实测 |
+|---|---|
+| 索引 | `FIGURE_SLIDE_INDEX.json` = **63 条**；图 S4 第 1/2 页 = **slide 23 / 24**（`stability_part2` 已不在 deck） |
+| deck 第 23 页内嵌位图 | `ppt/media/image24.png`（2342 × 2625，`6AFA2E49…`）**与 `figures/figS4_bootstrap_convergence.png` 逐字节相同**；逐像素 **max\|diff\| = 0** |
+| deck 第 24 页内嵌位图 | `ppt/media/image25.png`（2342 × 2065，`B06F095A…`）**与 `figures/figS4_bootstrap_stability.png` 逐字节相同**；逐像素 **max\|diff\| = 0** |
+| 与 docx 的一致性 | 上述两张图件 PNG 的 SHA-256 **均存在于 docx `word/media/`**（`True / True`）⇒ deck 页 = 论文插图 |
+| 结构 | 第 23/24 页 `p:sp` 计数 = 0（整页位图），与"原生页仅 1/2/3/15"一致 |
+
+**A-17 判定：通过。**
+
+### 8.3 任务 3：fig1 生成器纳入版控
+
+- **迁移**：`.tmp_figure_revision_20260920/build_main.mjs`（gitignored）→ **`scripts/main_figure_20260920/`**（新目录，进入版控），连同其后续链路 `patch_math.py`、`finalize_figure.mjs`、`export_slide.ps1` 与编排 `run_pipeline.ps1`。
+- **依赖盘点**：版控内 —— `scripts/figures_reference_matching_20260914/{style.mjs, assets.mjs, assets/support_000_224.png, support_001_224.png, support_029_224.png, query_026_448.png, scoremap_concat_magma.png, contours.json}`；外部 —— node（实测 v20.19.0）、`@oai/artifact-tool`（`$env:ARTIFACT_TOOL`）、presentation skill 缓存（`$env:PRESENTATION_SKILL`）、Microsoft PowerPoint COM、Python + `lxml`（`.venv-anomalyclip`）。**未遗漏依赖。**
+- **输出路径**：终图默认写 **现役图件目录** `docs/paper_complete_review_20260920/figures/fig1_framework.png`；可编辑母版写 **已受版控**的 `docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`；中间件留在 `.tmp_figure_revision_20260920/`（gitignored scratch）。脚本内**不再出现**任何含禁忌词的目录名（原 `build_main.mjs:6` / `export_pptx.ps1:2` / `render.py:12` / 原 `finalize.mjs:7` 共同指向的 `docs/main_figure_〈禁忌词〉_revision_20260920` 已随迁移弃用）。
+- **复现命令**：`powershell -File scripts/main_figure_20260920/run_pipeline.ps1`
+- **可复现性实测**：整链从零跑通 ——
+
+| 步骤 | 产物 | 实测 |
+|---|---|---|
+| `build_main.mjs` | `.tmp_figure_revision_20260920/candidate.pptx` + `main_figure_export.png` | 脚本直出光栅 = `C179C22E…`，与 2026-09-23 光栅中性验证**同值**；pptx 包内字节不同（随机 UUID/时间戳），`layout.json` 长 125,164 B 且**仅随机 ID 不同** ⇒ 差异**属渲染无关** |
+| `patch_math.py` | `candidate_math.pptx` | `Patched 31 native subscript runs`（与 `accept.py` 期望的 31 一致）；与受版控母版**内容等价**（包内字节不同） |
+| `export_slide.ps1`（PowerPoint COM，2560 × 2120） | `_fig1_repro.png` | SHA-256 `C7618E16B4CED2288D7A0DC392BE5578A3AB12BD3C4E210780B66B6D4941525A`（728,505 B） |
+
+  **与入稿 `fig1_framework.png` 逐字节相同（`BYTE IDENTICAL = True`）且逐像素相同（max\|diff\| = 0，n_diff_px = 0）** ⇒ 图 1 **可从仓库复现**。
+- **登记处**：`FIGURE_BINDING.md` 图 1 行（补复现命令与脚本路径）+ §11.1 + **§11.7**；`ARTIFACT_INDEX.md` **§八 8.1**（只追加）。
+- **旧目录**：`.tmp_figure_revision_20260920/` **只登记、不删除**（留待作者）；其 `render.py` / `export_pptx.ps1` / 原 `finalize.mjs` 仍指向不存在的 `…revision_20260920` 目录名，已被迁移后的脚本取代。
+
+### 8.4 任务 4：A-27 仓库自检（跑完立即还原）
+
+1. **运行前**：`READONLY_PROOF.json` = `914312038FC72FD1B496FC5F9868FA1C37E8B7B09F8987186B507EE3E3D78B75`（25,994 B）；`SELFCHECK.json` = `C664A309BC6719DCB0D4E349C6608D89E01A703D3B6B9D8242985930BD5FF74E`（12,665 B）；两份已复制至 `.bak_selfcheck_20260923/`（被 `.gitignore:76 *.bak*` 覆盖）。
+2. **完整输出记录**：`.tmp_revision_20260923/selfcheck_output.txt`（脚本 stdout 全文）。汇总：**`{"checks": 69, "passed": 67, "failed": [...] }`，退出码 1**。
+3. **失败项（2 条，均为已登记既有失败）**：
+   - `read-only inputs were not written during this delivery` —— 冻结快照漂移：`experiments/dynamic_fusion/unified_fusion_paper_support_20260913/_smoke/units/mpdd_s0_k2/bracket_black/{evaluation_scores.npz, patch_scores.npz}` **缺失**（2 个 `.npz` 被全局 `*.npz` 忽略，盘上已无），加 `REPORT_CN.md` **仅 mtime 变化**（size 10029 → 10029）。
+   - `manuscript: the updated outline exists` —— 旧提纲 `新主题论文详细提纲_外部评审版_20260914_更新版.docx` **不在盘**（0 bytes）。
+4. **还原**：立即用备份逐字节覆盖两份 JSON；复测 SHA-256 **与运行前完全一致**（`914312038FC72FD1…D78B75` / `C664A309BC6719DC…0BD5FF74E`）；`git status --porcelain -- experiments data` = **空**。
+5. 旁证：同一时刻复测三个冻结哈希 —— `3C83AB00…A0B8BB` ✓、`1C770129…73EC4B` ✓、`9DB99E60…8FB837` ✓；`git status --porcelain -- data/splits` 为空。
+
+**A-27 判定：通过（67/69，2 项为已登记既有失败）**。
+
+### 8.5 新判定计数（替换 §3.3）
+
+| 分组 | 通过 | 部分通过 | 不通过 | 未核实 | 合计 |
+|---|---|---|---|---|---|
+| §1 A-01…A-27 | **27**（A-07 / A-17 / A-27 本轮由"部分/未核实"升为通过） | 0 | 0 | 0 | 27 |
+| §4 K-01…K-15 | 13 | 2（K-09 符号体系仍为抽查；**K-12 已逐文件复审**，4/5 文件可追认，1/5 属数据来源变更待裁决） | 0 | 0 | 15 |
+| **合计** | **40** | **2** | **0** | **0** | **42** |
+
+| 项 | 值 |
+|---|---|
+| 阻断项（冻结值 A-21/K-12/K-13、禁写 A-18、协议 C-03 口径） | **无**（三个冻结哈希与 `data/splits/*` 全程不变） |
+| 是否可进入下一轮（写作/投稿） | **可以**；**唯一新增待裁决项**为 §8.1 的 `plot_primary.py` 数据来源变更（清单外新发现 N-1），**不阻断**既有交付 |
+
+### 8.6 未做 / 不确定（如实登记）
+
+| # | 项 | 说明 |
+|---|---|---|
+| 1 | `plot_primary.py` 数据来源变更 | **已报告、未回退、未自行改图/改表**；作者需在"重渲染 fig4b（改图）"与"登记为限制"之间选一条 |
+| 2 | K-09 全符号审计 | 仍为抽查（未逐一遍历 152 个 `m:oMath` 的每个 `m:sty`）——本轮范围外 |
+| 3 | `.tmp_figure_revision_20260920/` 内中间件 | 因迁移后重跑而**被等价内容覆盖**（`candidate.pptx` / `candidate_math.pptx` / `math_baselines.json` / `layout.json` / `figure_manifest.json` / `main_figure_export.png`）；这些均为 gitignored scratch，且 `main_figure_export.png` 与 `figure_manifest.json` 复跑后同值；运行前版本存于 `.tmp_revision_20260923/_bak_*.{pptx,json}` |
+| 4 | `scripts/figures_reference_matching_20260914/style.mjs` 注释 | 该文件第 4 行注释含历史指导场景用语（非本轮引入、非公开交付文档）；本轮**未改**，登记备查 |
+| 5 | deck / docx | 本轮**无入稿图改动**，故**未重出** deck（63 页）、**未重建** docx（55 页 / 23 表 / 27 内嵌图）；`git status` 中 deck 与 docx 均未变 |
+
 **（报告结束）**
