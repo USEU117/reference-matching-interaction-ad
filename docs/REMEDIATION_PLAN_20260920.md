@@ -1,5 +1,7 @@
 # 投稿前解决计划（Remediation Plan）
 
+> 自 2026-09-23 起，交接以 `docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md` 为唯一入口（本文件保留为历史登记）。
+
 - 日期：2026-09-20（Asia/Shanghai）
 - 配套：问题编号一律引用 `docs/ISSUE_REGISTER_20260920.md`（R-01…R-21）。
 - 前提：本计划**只写动作**，执行前请确认允许改动既有文件与创建提交；未获授权时仅执行只读校验类动作。
