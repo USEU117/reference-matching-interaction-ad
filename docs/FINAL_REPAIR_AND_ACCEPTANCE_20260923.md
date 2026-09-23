@@ -595,6 +595,114 @@
 | 1 | deck 未重出 | 本轮无图件改动，按纪律只重建 docx；图 S4 的 **deck 备注页与索引 caption** 仍带修订前图注（可视内容与页码不变），重出链已备（`FIGURE_BINDING.md` §12.3） |
 | 2 | K-09 灰区 4 项 | `J(p)`/`L(p)`/`K=1`/`K=4` 的括号/等号斜体、`R_b` 直立算子：**无规范条文**可判违规，**未改**（若作者希望与公式内部约定完全统一，可另开一轮加 `sym()` 的 `X(y)`/`X=n` 分支） |
 | 3 | DOI | 平台与是否审稿阶段公开代码由作者定；本轮只给步骤与回填清单，**未写任何 DOI** |
-| 4 | `docs/MODEL_WEIGHTS.md` | 稿件 `manuscript.md:224` 引用了它，但该文件当前**不在盘**（`MASTER_TODO` E-07 登记为待做）；本轮未触 |
+| 4 | `docs/MODEL_WEIGHTS.md` | **2026-09-23 第四轮更正**：该文件**确实在盘且内容达标**（`Test-Path` = **True**；`docs/REPRODUCE_TO_TABLES.md` 亦为 **True**）。原记"不在盘"**有误**——它是更早一轮快照的过期结论：文件由 `scripts/paper_complete_review_20260920/finish_documentation23.py:31` 生成并已落盘，早期待办/验收状态**未随之刷新**。**未创建、未覆盖**该文件（第二轮不重复落盘）。逐条证据见 **§十一.5**。 |
+
+## 十一、第四轮（2026-09-23）：fig4b 图注口径同步 + S4 备注同步（deck 重出）+ 验收记录更正
+
+> 范围：① 修 `fig4b` 图注/来源描述与 Table 16 的口径不一致；② 与图 S4 的 **deck 备注/索引同步合并为一次 deck 重出**（63 页）；③ 更正 §10.6 第 4 项对 `docs/MODEL_WEIGHTS.md` 的误记。
+> 纪律：**未改任何实验数值**（表值、区间、点估计一个未动）；三个冻结哈希与 `data/splits/*` 全程不变；`git status --porcelain -- experiments data` 为空；**未提交、未推送**；**未触碰投稿信息**（作者/单位/通讯/资助/COI/DOI）。
+> **口径提示（本轮起生效，评审合理要求）**：**旧版验收 JSON 与早期待办状态不作为最新文件凭证**——它们只是某一时点的快照；文件是否存在、内容是否达标一律以**盘上实读 + 当轮实测**为准（§10.6 第 4 项的误记即由此产生）。
+
+### 11.1 第 1 项核实：fig4b 图注与图/表不一致（**真实存在**）
+
+| 核对对象 | 原文摘录 | 与图/表是否相符 |
+|---|---|---|
+| 图注（旧）`figures.json` → `effects.continuation_caption` | "All five encoders use seeds 0, 1 and K = 1, 4 in this comparison; **points are observed condition means** … The different primary S scope and wider encoder scope remain separately identified in the tables." | **不符**：范围只剩四条件；点估计名称写成 "observed condition means" |
+| Table 16 表注 `tables.json` → `encoders.note` | "each cell gives the **replicate mean** … **Cells marked (4) pool seeds 0 and 1 with K = 1 and 4** … **cells marked (12) pool seeds 0, 1, 2 with K = 1, 2, 4 and 8** … No family adjustment covers the additional encoders as a group" | 权威口径 |
+| Table 16 行 `encoders.rows` | 8 行：`S (4)/D (4)/E1 (4)/E1 (12)/E2 (4)/E2 (12)/E3 (4)/E3 (12)`；`S (4)` MPDD $I_{TRI}$ = `+0.695` | 图与表同为 8 行/双口径 |
+| `results.md:145` + `correspondence.note` | "its **replicate mean** is +0.695 … the point column of this table differs from that row only because it reports the **condition-averaged difference rather than the replicate mean**" | 旁证 `+0.695` 是 replicate mean |
+
+⇒ **核实结论：真实存在**（同一图注两处过时/错名）。评审另外两条也对：`plot_primary.py` 产出的 `primary_sources.json` 的 `fig4b` 描述同样写 "matched four-condition scope, observed means"。
+
+**评审建议图注逐条核对（不盲信）**：
+
+| 评审建议 | 盘上事实（表注/表行/正文） | 判定 |
+|---|---|---|
+| (4) = seeds 0,1 × K = 1,4 | `encoders.note`："Cells marked (4) pool seeds 0 and 1 with K = 1 and 4" | **正确** |
+| (12) = seeds 0,1,2 × K = 1,2,4,8 | `encoders.note`："cells marked (12) pool seeds 0, 1, 2 with K = 1, 2, 4 and 8" | **正确** |
+| 点 = bootstrap replicate mean | `encoders.note`："each cell gives the **replicate mean**"；`correspondence.note` 同 | **正确** |
+| 误差棒 = 98.75% 配对区间，"每个编码器与每个范围各自一个四比较族" | `encoders.note`："the 98.75% paired interval, the Bonferroni level for that encoder's **four cells**"；98.75% ⟺ Bonferroni over 4（$1-0.05/4$），(4) 与 (12) 两行各 4 格 | **正确** |
+| E1–E3 为探索性替换、**无**联合家族校正 | `encoders.note`："No family adjustment covers the additional encoders as a group, because E1, E2 and E3 were added after the S and D results were known" | **正确** |
+| "跨编码器比较应使用共享四条件范围"是稿件既有立场 | `results.md:123`："The four-condition scope uses seeds 0 and 1 with K equal to 1 and 4 **for every encoder, enabling paired encoder comparisons**"；`tables.json` → `protocol.note`："**Extra-encoder comparisons on MPDD/BTAD use the four D conditions**; their wider twelve-condition runs are exploratory" | **正确（既有立场）** |
+
+⇒ 除一处**为避免新增内联数学对象而改写的措辞**外，采纳评审建议（见 11.2）。
+
+### 11.2 第 1 项改动（只改说明文字，不动任何数值）
+
+| # | 文件 | 改前 → 改后 |
+|---|---|---|
+| 1 | `scripts/paper_complete_review_20260920/figures.json`（`effects.continuation_caption`，Word 图注与 deck 备注同源） | 改前："Figure 4 continued. **Matched-scope encoder interactions. All five encoders use seeds 0, 1 and K = 1, 4** in this comparison; points are **observed condition means** and bars are 98.75% paired intervals with **a separate four-comparison family for each encoder**. E1–E3 are exploratory substitutions. **The different primary S (DINOv2-S) scope and wider encoder scope remain separately identified in the tables.**"<br>改后："Figure 4 continued. **Encoder interactions under the shared four-condition scope and the wider twelve-condition scope. Rows marked (4) pool seeds 0 and 1 with K = 1 and 4; rows marked (12) pool seeds 0, 1 and 2 with support budgets 1, 2, 4 and 8.** Points are **bootstrap replicate means** and bars are 98.75% paired intervals, **a separate four-comparison family for each encoder and scope**. E1–E3 are exploratory substitutions; **no family adjustment covers these additional encoders as a group. Comparisons across encoders use the shared four-condition scope, while the twelve-condition rows describe the wider evaluation scope.**" |
+| 2 | `scripts/paper_complete_review_20260920/tables.json`（`encoders.note`，与图注同口径） | 仅一处措辞微调："the Bonferroni level for that encoder's four cells**.**" → "the Bonferroni level for that encoder's four cells **in that scope.**"（消除"四格族"归属的歧义；**任何数值、任何行、任何既有表注语义均未改**） |
+| 3 | `scripts/paper_complete_review_20260920/figure_sources/plot_primary.py`（`primary_sources.json` 的 `fig4b` 描述） | "matched four-condition scope, observed means and 98.75% intervals, separate family per encoder" → "shared four-condition scope (4) and wider twelve-condition scope (12), **bootstrap replicate means** and 98.75% intervals, **separate four-comparison family per encoder and scope**" |
+| 4 | `docs/…/figures/primary_sources.json` + `.tmp_complete_figures_20260920/plots/primary_sources.json` | 重跑 `plot_primary.py` + `portable_figure_metadata.py` 同步 |
+
+- **与评审建议的差异（仅 1 处，且为事实等价的措辞）**：评审建议写 "(12) … with **K = 1, 2, 4 and 8**"；本轮改为 "with **support budgets 1, 2, 4 and 8**"。原因：`build.py` 的 `inline()` 会把**每个独立 `K`** 转成一个原生数学对象，评审原句会新增第 2 个 `K`，使 docx 的 `m:oMath` 由 **152 → 153**，越过既定规模口径；改词后含**唯一**一个 `K`，native math **保持 152**。语义完全一致（K 即 support budget）。
+- **未采纳之外的建议**：无（其余各项与盘上事实一致，逐条通过）。
+
+### 11.3 重跑 `plot_primary.py`：fig4b 的 PNG **逐字节不变**（未停下）
+
+| 图 | 重渲染 SHA-256 | 盘上 SHA-256 | 判定 |
+|---|---|---|---|
+| `fig4a_representation_effects.png` | `83CEA0A3…D5136A5` | `83CEA0A3…D5136A5` | **逐字节相同** |
+| **`fig4b_matched_encoders.png`** | `FA2DE6E4EF31C65ECCFF509EEBCD7C86CBEA1209F338DDD5C72F71863A7FCC13` | 同 | **逐字节相同（未变，无需停下报告）** |
+| `fig5a_budget_seed.png` | `B7BF9F9B…A6A14D7A` | 同 | **逐字节相同** |
+| `fig5b_categories.png` | `01CEBA3D…62D0C71654` | 同 | **逐字节相同** |
+
+`docs/…/figures/primary_sources.json` 更新后 SHA-256 = `914523D28A24FBE5B7E1047ADBECC7A1E3B5D577A23F4E8953E22DAC7515F155`（仅 `fig4b` 描述文字变更；`fig5a/5b` 路径仍为仓库相对路径）。
+
+### 11.4 第 2 项核实与 deck 重出（63 页不变，索引/备注全部同步）
+
+**核实（真实存在）**：`FIGURE_SLIDE_INDEX.json` 的 slide 23（S4 第 1 页）`caption` 与 deck 第 23 页备注仍是**旧图注**——缺 `figures.json` 的 `stability.caption` 已加入的那句："; every value plotted here, its endpoints included, is the mean of the stored replicate distribution, so it is the bootstrap mean rather than the condition-averaged observed difference that the confirmation table reports as its point column"（对比第 24 页的 `continuation_caption` 无差异）。⇒ 属**说明版本不同步**，可视页与页码不变。
+
+**处置（与第 1 项合并为一次 deck 重出）**：
+```
+node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs      # 63 slides；重建 FIGURE_SLIDE_INDEX.json + 图件与PPT页码索引.md
+powershell -File scripts/paper_complete_review_20260920/figure_sources/assemble_deck.ps1   # Assembled 63 slides with native diagrams
+node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs   # finding_count = 0
+```
+
+| 项 | 实测 |
+|---|---|
+| deck 页数 | **63**（`slide_count=63`） |
+| deck SHA-256 / 体积 | **`5C47F8FFFD16CD6AA6937A669593AFC3863435F0BB8ACF095001CED3F31B842C`** / 72,415,664 B |
+| `finalize` finding_count | **0**（packageIntegrity + presentationLayout 双 0；`status: pass`；退出码 0） |
+| 重出前 deck | `1AED6DDA…302D2C`（72,415,480 B）→ 另存 **`.bak_caption_20260923`** |
+| **每页内嵌图 ↔ 盘上 PNG** | 59 个位图页**逐字节相同（59/59）**；其余 5 个 `ppt/media/*` 全部属**原生页 1**（图 1 的内嵌支持图），原生命令页 = **[1, 2, 3, 15]** |
+| 索引同步 | `FIGURE_SLIDE_INDEX.json` = **63 条**（SHA `DCA5C932…51CD386`）；**全部 63 页备注均含其现行图注（63/63）**；slide 5 = 新 fig4b 图注、slide 23 = 现行 S4 图注 |
+| 页码 md | `图件与PPT页码索引.md` **逐字节未变**（SHA `50BBD85F…3BE345FEC484A`）；页号/图号映射不变 |
+
+### 11.5 第 3 项核实：`docs/MODEL_WEIGHTS.md` **确实在盘且内容达标**（原记录有误）
+
+| 项 | 实测 |
+|---|---|
+| `Test-Path` | `docs/MODEL_WEIGHTS.md` = **True**；`docs/REPRODUCE_TO_TABLES.md` = **True**；`docs/SUBMISSION_METADATA.md` = **True** |
+| 生成来源 | `scripts/paper_complete_review_20260920/finish_documentation23.py:31`（`write_text(header+w)`）已落盘；早期待办/验收快照未随之刷新 |
+| 稿件引用要求 | `manuscript.md:224`："checkpoint paths and hashes are recorded in `docs/MODEL_WEIGHTS.md`"；`REPRODUCE_TO_TABLES.md:15` 指向同一文件取权重 |
+| 内容是否达标 | **达标**：该文件给出**逐权重清单**（目标路径 / 字节数 / **SHA-256** / 获取方式），覆盖 AnomalyCLIP 30 个检查点、AdaptCLIP/ReMP-AD、SubspaceAD、UniVAD 与 11 个环境缓存权重；注明权重**许可须与发布方分别核对**、本包**不分发权重**；并保留 46 项实读的机器可读 `sha  bytes  path` 块 |
+| 处置 | **改正验收记录**（§10.6 第 4 项已改）；**未创建、未覆盖**该文件 |
+
+### 11.6 重建 docx 与三项门禁（本轮实测）
+
+| 项 | 值 |
+|---|---|
+| 重建 | 备份 `…20260923.docx.bak_caption_20260923`（= 改前 `EB11FCA8…ACE41`，19,220,393 B）→ `build.py` 退出码 **0** |
+| docx SHA-256 / 体积 | **`9B3E15F56155FA4ABED5B5BF01A55FE22FF70DF7E063AD6B8C2180E844149245`** / 19,220,478 B |
+| 规模复测 | **55 页 / 23 表 / 27 内嵌图 / 152 原生数学对象 / 12 编号公式 / 34 文献 / 19,434 词** |
+| 与上一快照差异 | `EB11FCA8…`（19,220,393 B，19,394 词，152 数学对象）→ 本轮 `9B3E15F5…`（19,220,478 B，19,434 词，**152 数学对象不变**，+40 词 = fig4b 图注改写 + Table 16 表注 1 个限定词） |
+| `qa_layout.py`（现役 1280×1060 layout） | **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 11.29 pt） |
+| `figure_font_gate.py --self-test` | **4 controls behaved as required（4/4，退出码 0）** |
+| `pytest tests -q` | **260 passed, 1 warning**（42.44 s） |
+| 红线 | 冻结共同区域表 `3C83AB00…A0B8BB` ✓、扩展表 `1C770129…73EC4B` ✓、版式母本 `9DB99E60…8FB837` ✓；`git status --porcelain -- experiments data` **为空**、`-- data/splits` **为空** |
+| 受版本控制的改动集（改文档前实测） | **8 × `M`**：`scripts/…/{figures.json, tables.json, figure_sources/plot_primary.py}`、`docs/…/All_Figures_Complete_20260923.pptx`、`docs/…/FIGURE_SLIDE_INDEX.json`、`docs/…/figures/primary_sources.json`、`docs/…/figures/portable_metadata_revision23.json`、`docs/…/English_Manuscript_Source.md`；**`fig4b_matched_encoders.png` 不在其中**（内容未变，与前一轮的入稿值一致）；docx 被 `*.docx` 忽略，deck/docx 备份被 `*.bak*` 忽略 |
+
+### 11.7 本轮未做 / 不确定（如实登记）
+
+| # | 项 | 说明 |
+|---|---|---|
+| 1 | deck 备注中的绝对路径 | `build_deck.mjs` 写入的 `Image: D:\…\reference-matching-interaction-ad\…` 仍是**绝对路径**（生成器既有行为，对应 **B-08**，本轮**未改**）。改成相对路径须改生成器口径，非本轮范围 |
+| 2 | 投稿信息 | **未触碰**（作者/单位/通讯/ORCID/资助/COI/DOI/伦理 均按原样保留） |
+| 3 | 是否可直接投稿 | **不得据此称可直接投稿**：作者元数据 4 项占位与归档 DOI 仍未落实（§五、`docs/SUBMISSION_METADATA.md`）；本轮仅完成**说明文字层**的口径同步与验收记录更正 |
+| 4 | 评审第 4 项（作者信息/归档） | 属"投稿信息"，按任务边界**未处置**，原样保留 |
+| 5 | 本轮新建的临时测量脚本（gitignored，未提交） | `.tmp_revision_20260923/{verify_deck_caption.py, docx_stats.py, word_pages.ps1, _dump23.py, _fix_row.py}`：分别用于"deck 逐页内嵌图/备注核对""docx 规模与哈希""Word COM 页数/词数""单页备注抽取""MASTER_TODO 表格行修复"；命令与结论已写入本文件与 `FIGURE_BINDING.md` §十三，可据此复跑 |
 
 **（报告结束）**

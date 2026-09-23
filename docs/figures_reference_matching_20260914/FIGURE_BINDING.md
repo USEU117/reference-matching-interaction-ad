@@ -691,6 +691,8 @@ powershell -File scripts/paper_complete_review_20260920/figure_sources/assemble_
 node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs
 ```
 
+> **2026-09-23 第四轮已执行**：上述链已随 fig4b 图注同步**重出一次**（deck 63 页、`finding_count = 0`），图 S4 的 deck 备注与 `FIGURE_SLIDE_INDEX.json` 现已与 `figures.json` 一致 —— 详见 **§十三**。
+
 ### 12.4 复测与门禁（2026-09-23 本轮实测）
 
 | 项 | 值 |
@@ -701,6 +703,42 @@ node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs
 | 门禁 | `qa_layout.py --layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures --min-pt 11` → **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 11.29 pt）；`figure_font_gate.py --self-test` → **4/4**（"4 controls behaved as required"）；`pytest tests -q` → **260 passed** |
 | 红线 | 冻结表 `3C83AB00…A0B8BB` ✓、扩展表 `1C770129…73EC4B` ✓、版式母本 `9DB99E60…8FB837` ✓；`git status --porcelain -- experiments data` **为空** |
 | 图件 | 本轮**未改任何 PNG/PDF**；`figures/` 27 个内嵌图与 deck 位图均未变 |
+
+## 十三、2026-09-23 第四轮：fig4b 图注口径同步 + 图 S4 备注同步（**一次 deck 重出**）
+
+> 只改**图注/表注/来源描述文字**与**deck 备注**；**未改任何实验数值**、**未重渲染任何图**（`figures/` 27 个 PNG 逐字节未变）。
+> 三个冻结哈希与 `data/splits/*` 全程不变；`git status --porcelain -- experiments data` 为空。
+
+### 13.1 fig4b 图注与 Table 16 对齐（第 1 项）
+
+| 项 | 改前 | 改后 | 文件 |
+|---|---|---|---|
+| 图注 | "…**All five encoders use seeds 0, 1 and K = 1, 4** in this comparison; points are **observed condition means** … The different primary S scope and wider encoder scope remain separately identified in the tables." | "…**Encoder interactions under the shared four-condition scope and the wider twelve-condition scope. Rows marked (4) pool seeds 0 and 1 with K = 1 and 4; rows marked (12) pool seeds 0, 1 and 2 with support budgets 1, 2, 4 and 8.** Points are **bootstrap replicate means** and bars are 98.75% paired intervals, **a separate four-comparison family for each encoder and scope** … **no family adjustment covers these additional encoders as a group. Comparisons across encoders use the shared four-condition scope, while the twelve-condition rows describe the wider evaluation scope.**" | `scripts/paper_complete_review_20260920/figures.json`（`effects.continuation_caption`） |
+| 表注 | "the Bonferroni level for that encoder's **four cells**." | "the Bonferroni level for that encoder's **four cells in that scope**."（仅一处限定词；**数值/行/既有语义未改**） | 同目录 `tables.json`（`encoders.note`） |
+| 来源描述 | "matched four-condition scope, observed means and 98.75% intervals, separate family per encoder" | "shared four-condition scope (4) and wider twelve-condition scope (12), **bootstrap replicate means** and 98.75% intervals, **separate four-comparison family per encoder and scope**" | 同目录 `figure_sources/plot_primary.py` → `figures/primary_sources.json`（新 SHA `914523D2…15F155`） |
+
+- **口径来源**（逐条对盘上事实核对，均通过）：`tables.json` 的 `encoders.note`（(4)/(12) 范围、replicate mean、98.75% = 四格 Bonferroni、无联合族校正）、`encoders.rows`（8 行）、`results.md:123/145`、`correspondence.note`、`protocol.note`。
+- **与外部建议的唯一差异**：建议句在 (12) 处再写一次 "K = …"，本轮改为 "with **support budgets** …"（语义等价），以免 `build.py` 的 `inline()` 把第 2 个 `K` 转成新数学对象、使 docx 的 `m:oMath` 由 152 变 153。
+- **重渲染实测**：`plot_primary.py` 重跑后 `fig4a` `83CEA0A3…` / **`fig4b` `FA2DE6E4EF31C65ECCFF509EEBCD7C86CBEA1209F338DDD5C72F71863A7FCC13`** / `fig5a` `B7BF9F9B…` / `fig5b` `01CEBA3D…`，与盘上**逐字节相同**（fig4b **未变**，无需停下报告）。
+
+### 13.2 图 S4 备注/索引同步 = 与 13.1 合并的**一次** deck 重出（第 2 项）
+
+- **核实**：`FIGURE_SLIDE_INDEX.json` 的 slide 23 与 deck 第 23 页备注为**旧 S4 图注**，缺 `figures.json` 的 `stability.caption` 中的 "…is the **bootstrap mean** rather than the condition-averaged observed difference…" 一句 ⇒ **真实存在**（仅说明文字不同步，可视页与页码不变）。
+- **重出链**：`build_deck.mjs`（63 slides，重建索引/页码 md）→ `assemble_deck.ps1`（Assembled 63 slides with native diagrams）→ `finalize_deck.mjs`（`finding_count = 0`）。
+- **实测**：deck **63 页**，SHA-256 **`5C47F8FFFD16CD6AA6937A669593AFC3863435F0BB8ACF095001CED3F31B842C`**（72,415,664 B）；重出前 `1AED6DDA…302D2C` 另存 `.bak_caption_20260923`。
+- **每页内嵌图 ↔ 盘上 PNG**：**59 个位图页逐字节相同（59/59）**；deck 内 61 个 `ppt/media/*` 中另外 5 个全部属**原生页 1**（图 1 的内嵌支持图）⇒ 原生页 `[1, 2, 3, 15]`。
+- **索引/备注同步**：`FIGURE_SLIDE_INDEX.json` = **63 条**（SHA `DCA5C932F708C2DC278144556E5782AEA98574110D35D0287389D6A4751CD386`）；**63/63 页备注均含其现行图注**；`图件与PPT页码索引.md` **逐字节未变**（SHA `50BBD85F…3EC484A`）。
+- **未改**：deck 备注里 `Image:` 行仍是绝对路径（`build_deck.mjs` 既有行为，对应 **B-08**）。
+
+### 13.3 连带重建与复测
+
+| 项 | 值 |
+|---|---|
+| docx | **55 页 / 23 表 / 27 内嵌图 / 152 原生数学对象 / 12 编号公式 / 34 文献 / 19,434 词**；SHA-256 `9B3E15F56155FA4ABED5B5BF01A55FE22FF70DF7E063AD6B8C2180E844149245`（19,220,478 B）；备份 `.bak_caption_20260923` = `EB11FCA8…ACE41` |
+| 门禁 | `qa_layout.py`（现役 1280×1060 layout）**TOTAL PROBLEMS: 0**；`figure_font_gate.py --self-test` **4/4**；`pytest tests -q` **260 passed** |
+| 红线 | `3C83AB00…A0B8BB` ✓、`1C770129…73EC4B` ✓、`9DB99E60…8FB837` ✓；`experiments data` / `data/splits` git 差异均**为空** |
+
+逐条证据另见 `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §十一、`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md` §7 的 **N-2 / N-3**。
 
 
 
