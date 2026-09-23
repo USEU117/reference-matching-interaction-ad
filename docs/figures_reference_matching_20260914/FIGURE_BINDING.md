@@ -617,6 +617,33 @@ powershell -File scripts/main_figure_20260920/run_pipeline.ps1
 并**跨两行**（框高 210 px > 格高 85 px，即 `same row for both`）。与清单记载的 `x ∈ [195.5, 240.0]` 与 `x ∈ [200, 238]` 一致
 （后者实测边界略内收，是 1.4 px 描边占据外沿所致）。**A-07 判定：通过。**
 
+### 11.9 fig4b 重渲染（2026-09-23 收尾·选项 (a)：修正 revision23 的旧表偏差）
+
+**问题（N-1）**：`plot_primary.py` 原读 `.tmp_figure_revision_20260920/tables.json`（`encoders` 5 行，`S +0.767`）；revision23 把
+数据源改成 `scripts/paper_complete_review_20260920/tables.json`（`encoders` 8 行，`S (4) +0.695`），但入稿 `fig4b` **未随之重渲染**，
+图内四条件点值仍为旧集，与正文表格不一致。作者已批准**选项 (a)**：以**现行表为唯一数据源**重渲染 `fig4b`。
+
+> **编号说明**：N-1 记录与任务书写作"表 15"是 20260921 之前的旧编号。现役 docx（23 表）里 **encoders 表 = Table 16**
+> （Table 15 = 四数据集交互表）；本节的逐值核对以 **Table 16** 为准。
+
+| 项 | 值 |
+|---|---|
+| 生成脚本 | `scripts/paper_complete_review_20260920/figure_sources/plot_primary.py`（`fig4b` 段于 2026-09-23 改写：改按现行表 8 行组织） |
+| 数据源（现役，唯一） | `scripts/paper_complete_review_20260920/tables.json` 的 `encoders.rows`（**8 行**；与 docx **Table 16** 同源） |
+| 是否仍读旧 tmp 表 | **否**（脚本内已无 `.tmp_figure_revision_20260920/tables.json` 引用；隐式数据源已消除） |
+| 版面（保持原设计语言） | 2×2 面板（(a) MPDD $I_{TRI}$、(b) MPDD $I_{BAL}$、(c) BTAD $I_{TRI}$、(d) BTAD $I_{BAL}$），同配色（MPDD `#2e6f9e` / BTAD `#b27c20`）、同误差棒样式；y 轴**两组口径**：`(4)` 共享四条件（S/D/E1/E2/E3）在上、`(12)` 更宽十二条件（E1/E2/E3）在下，刻度标签如实写 `S (4)`…`E3 (12)` |
+| 画布 / 字号 | 17 cm 宽（`17/2.54` in × 7.0 in，350 dpi = **2342 × 2450 px**）；110 个 text artist **全部 11.0 pt**（≥ 11 pt 判据）；`figure_font_gate` 四道断言全过（0 文本互压、0 压图、0 出页） |
+| 现役 PNG | `docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png`，SHA-256 **`FA2DE6E4EF31C65ECCFF509EEBCD7C86CBEA1209F338DDD5C72F71863A7FCC13`**（163,123 B）；旧值 `057AF4D0…`（取自旧 tmp 表）**已作废** |
+| 复现命令 | `.venv-anomalyclip/Scripts/python.exe scripts/paper_complete_review_20260920/figure_sources/plot_primary.py`（写 `.tmp_complete_figures_20260920/plots/fig4b_matched_encoders.png`）→ 复制到现役图件目录 |
+| 未受影响（同脚本其它图） | `fig4a`/`fig5a`/`fig5b` 重渲染与盘上**逐字节相同**（`83CEA0A3…` / `B7BF9F9B…` / `01CEBA3D…`） |
+
+**逐值核对（验收判据）**：图内 8 行 × 4 面板 = **32 个点值/区间**与 docx **Table 16** 逐条相同（脚本判定 `ALL VALUES MATCH: True`）；
+面板 (a)–(d) 的落点 y 坐标与标签一一对应。表 16 内部无矛盾（8 行四列自洽）。详见
+`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md` §1 **A-28** 与 `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §九。
+
+**连带重出**：deck 重出后 `fig4b` 落在**第 5 页**，其内嵌位图 `ppt/media/image7.png` 与盘上 PNG **逐字节相同**；
+docx 重建后 `fig4b` 内嵌为 `word/media/image13.png`（同哈希）。
+
 
 
 

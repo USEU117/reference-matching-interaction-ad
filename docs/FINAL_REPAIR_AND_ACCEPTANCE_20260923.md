@@ -2,13 +2,16 @@
 
 > **本文件性质**：本轮（2026-09-23）"完善论文内容、注意格式、最后自己验收"的**执行记录 + 终检判定**。
 > **未做** git 提交 / 推送；**未跑实验**、**未用 GPU**；未改任何实验数值；`experiments/**` 证据字段与 `data/**` 未动。
-> **现役交付件**：
+> **现役交付件**（**2026-09-23 续：fig4b 重渲染后**，见 §九）：
 > - docx：`docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`
 >   **55 页 / 23 表 / 27 内嵌图 / 12 编号公式（152 原生数学对象）/ 34 文献 / 19,253 词**
->   SHA-256 `53D7FAD81CE05EE33DD91933B4D1D06A63C7F41852AA187FCC7F84A430A9F759`（19,170,499 B）
-> - deck：`docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` **63 页**（未改动，SHA `893F0F2A…2FB896`）
-> **备份**：`Reference_Matching_Complete_English_20260923.docx.bak_20260923`（返修前，32,489,505 B）
-> **核查依据**：`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md`（§1 27 条 / §4 15 条）
+>   SHA-256 `5C5DA8D5841ED230FBD9CC40B1520F13764CEB3E983EC02EEB09FF91700F4A89`（19,220,095 B）
+>   *上一快照（fig4b 重渲染前）*：`53D7FAD8…9F759`（19,170,499 B）
+> - deck：`docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` **63 页**
+>   SHA-256 `1AED6DDABF8D6CDBFE53052A3B505B50BC06A07FE264006BF010B60E86302D2C`（72,415,480 B）
+>   *上一快照（fig4b 重渲染前）*：`893F0F2A…2FB896`
+> **备份**：`Reference_Matching_Complete_English_20260923.docx.bak_20260923`（返修前，32,489,505 B）；本轮另存 `.bak_fig4b_20260923`（fig4b 重渲染前，19,170,499 B）
+> **核查依据**：`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md`（§1 **28 条**（含新增 A-28）/ §4 15 条）
 > **上一轮核查**：`docs/NEW_DRAFT_CHECK_AGAINST_CHECKLIST_20260923.md`
 
 ---
@@ -421,5 +424,113 @@
 | 3 | `.tmp_figure_revision_20260920/` 内中间件 | 因迁移后重跑而**被等价内容覆盖**（`candidate.pptx` / `candidate_math.pptx` / `math_baselines.json` / `layout.json` / `figure_manifest.json` / `main_figure_export.png`）；这些均为 gitignored scratch，且 `main_figure_export.png` 与 `figure_manifest.json` 复跑后同值；运行前版本存于 `.tmp_revision_20260923/_bak_*.{pptx,json}` |
 | 4 | `scripts/figures_reference_matching_20260914/style.mjs` 注释 | 该文件第 4 行注释含历史指导场景用语（非本轮引入、非公开交付文档）；本轮**未改**，登记备查 |
 | 5 | deck / docx | 本轮**无入稿图改动**，故**未重出** deck（63 页）、**未重建** docx（55 页 / 23 表 / 27 内嵌图）；`git status` 中 deck 与 docx 均未变 |
+
+## 九、N-1 结清（2026-09-23 续：fig4b 重渲染 = 作者批准的选项 (a)）
+
+> 范围：**只**重渲染 `fig4b` 并重出 deck / 重建 docx / 更新文档与清单；**未改任何实验数值与表格数值**。
+> 纪律：冻结表 `3C83AB00…`、扩展表 `1C770129…`、母本 `9DB99E60…`、`data/splits/*` 全程不变；`git status --porcelain -- experiments data` 为空；**未提交、未推送**。
+
+### 9.1 问题与处置
+
+`plot_primary.py` 的 `fig4b` 原取旧表（`.tmp_figure_revision_20260920/tables.json`，`encoders` **5 行**：`S +0.767`…）；revision23 把数据源接到现行表
+（`scripts/paper_complete_review_20260920/tables.json`，`encoders` **8 行**：`S (4) +0.695`…）但**未重出图**，于是入稿图 fig4b 与正文 encoders 表在"四条件口径"点值上不一致。
+作者批准**选项 (a)**：**以现行表为唯一数据源重渲染 fig4b**。
+
+> **编号更正**：N-1 原记录与任务书所写"表 15"是 **20260921 之前的旧编号**。现役 docx（23 表）实测：**Table 15 = 四数据集交互表**，
+> **Table 16 = encoders 表**（即 `S (4) = +0.695` 所在表）。本轮逐值核对以 **Table 16** 为准，未改任何表。
+
+### 9.2 改动（最小集）
+
+| # | 文件 | 改动 | 说明 |
+|---|---|---|---|
+| 1 | `scripts/paper_complete_review_20260920/figure_sources/plot_primary.py` | `fig4b` 段改写（约 10 行） | 由"固定 5 行 + 硬编码 5 档 y 刻度"改为**按现行表 8 行**组织：`(4)` 共享四条件（S/D/E1/E2/E3）在上、`(12)` 更宽十二条件（E1/E2/E3）在下；y 刻度如实标 `S (4)`…`E3 (12)`；并**过滤越界刻度标签**（自动刻度会在两栏之间的空白处印出 `-1`/`3` 之类标签并与邻栏标签互压）。配色/误差棒/2×2 版面保持原样 |
+| 2 | `docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png` | 重渲染写回 | 新 SHA **`FA2DE6E4EF31C65ECCFF509EEBCD7C86CBEA1209F338DDD5C72F71863A7FCC13`**（163,123 B，**2342 × 2450**）；旧值 `057AF4D0…` 作废 |
+| 3 | `docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` | 重出 deck | 63 页，SHA `1AED6DDA…302D2C`；fig4b 在**第 5 页** |
+| 4 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx` | 重建 | 55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 34 文献 / **19,253 词**；SHA `5C5DA8D5…F4A89` |
+
+- **数据源唯一性**：`plot_primary.py` 现只读 `scripts/paper_complete_review_20260920/tables.json`；**全仓库已无** `figure_sources/*.py` 引用 `.tmp_figure_revision_20260920/tables.json`（旧 tmp 目录仅留作历史，未删除）。
+- **改动隔离证明**：同脚本重渲染后 `fig4a`=`83CEA0A3…`、`fig5a`=`B7BF9F9B…`、`fig5b`=`01CEBA3D…`，**与盘上逐字节相同** ⇒ 本次改动**仅**影响 fig4b。
+
+### 9.3 逐值核对（验收判据：必须全部一致）
+
+对**新渲染的 fig4b 图内每个可见数值**（4 个面板 × 8 行 = **32 个点值**，及其 98.75% 区间）与 docx **Table 16** 逐条比对：
+
+| 面板 | 口径 | 图内（= 表内）点值 |
+|---|---|---|
+| (a) MPDD $I_{TRI}$ | `(4)` | S **+0.695**、D +1.020、E1 +0.811、E2 −0.018、E3 +1.253 |
+| (a) MPDD $I_{TRI}$ | `(12)` | E1 +0.995、E2 −0.038、E3 +1.397 |
+| (b) MPDD $I_{BAL}$ | `(4)` | S +0.547、D +0.686、E1 +0.488、E2 +0.076、E3 +0.745 |
+| (b) MPDD $I_{BAL}$ | `(12)` | E1 +0.747、E2 +0.036、E3 +0.939 |
+| (c) BTAD $I_{TRI}$ | `(4)` | S +0.029、D +0.631、E1 +0.583、E2 +0.278、E3 +0.488 |
+| (c) BTAD $I_{TRI}$ | `(12)` | E1 +0.441、E2 +0.178、E3 +0.298 |
+| (d) BTAD $I_{BAL}$ | `(4)` | S −0.052、D +0.524、E1 +0.224、E2 +0.422、E3 +0.465 |
+| (d) BTAD $I_{BAL}$ | `(12)` | E1 +0.174、E2 +0.226、E3 +0.180 |
+
+- **脚本判定**：`ALL VALUES MATCH: True`（32/32 逐值相同，含区间端点）；面板 (a)–(d) 的落点 y 坐标与 y 刻度标签一一对应。
+- **表 16 内部无矛盾**（8 行 × 4 列自洽；四条件与更宽口径两组并置，与表注一致）⇒ 无需停下报告。
+- **图内其它可见数值**：x 轴刻度（数值轴，非数据）；y 轴刻度为口径标签；图内无注释数字。**全部已覆盖**。
+
+### 9.4 字号与版面门禁（新图）
+
+| 项 | 实测 |
+|---|---|
+| 画布 | `17/2.54` in × 7.0 in，350 dpi = **2342 × 2450 px**（17 cm 宽） |
+| 最小字号 | **11.0 pt**（110 个 text artist 全部 11.0 pt；≥ 11 pt 判据） |
+| `figure_font_gate` 四道断言 | `assert_min_font_pt` / `assert_no_text_axes_overlap` / `assert_no_text_text_overlap` / `assert_text_inside_page` **全部通过**（0 互压、0 压图、0 出页） |
+
+### 9.5 全图数值一致性扫查（方法与结果）
+
+**方法**：不依赖 OCR —— 从**各图生成脚本的数据源**读值，与 docx **对应表**逐值比对（`fig4a/4b/8` 直接读 `tables.json`；另由图自带的数据快照/JSON 与表比对）。
+
+| 图 | 数据源 | 对应表 | 结果 | 证据 |
+|---|---|---|---|---|
+| fig4a | `tables.json[effects]` | Table 6 | **一致** | 8/8 值 + 区间逐条相同 |
+| **fig4b** | `tables.json[encoders]` | **Table 16** | **一致** | 32/32（本次修复项） |
+| fig8 | `tables.json[resources]` | Table 13 | **一致** | 6 组 Processing/Evaluation 柱逐条相同 |
+| fig5a(b) | `seeds_extension_20260917/interaction_by_seed.csv` | Table 17 | **一致** | 4/4：mean / SD / 同号 / 零排除计数全中（+0.679/0.221/Yes/7-of-8 等） |
+| figS4 | `figS4_bootstrap_convergence.json[published_cross_check]` | Table 15（四数据集） | **一致** | 8/8（+0.762、+0.615、−0.020、−0.087、+0.432、+0.402、+0.927、+0.810） |
+| figS4（KSDD2 端点） | 同上 | Table 14 | **定义量不同（已登记，未擅改）** | 图内端点 = bootstrap 均值 **+0.544 / +0.344**；表 14 "Point" = 条件平均观测差 **+0.539 / +0.343**（Δ = 0.005 / 0.001）。表 14 源 CSV 两列俱在，图取 replicate 均值、表取 point，属**不同定义量**（表 15 表注已声明该区分），**非 N-1 同类** |
+| figS6 | `protocol_leverage.json[macro_pixel_ap_per_method_dataset]` | Table 11 + Table 12 | **一致** | 9 配置 × 4 数据集 = 36/36 |
+| figS1 | `build_methods.mjs` 图内常量 | Table 2 / Table S2 | **一致** | 448 / 518 / 32×32 / 37×37 / 768 / 384 / 1536 / 32×42 与表内文本一致 |
+| fig1 / fig2 / fig3 | 结构示意图 | **无对应表** | **不可比（非缺陷）** | 无测量值；fig2 格位图注明 "ordering only" |
+| fig5a(a) / fig5b / figS2 | K 曲线 / 逐类 / 共享操作消融（图注均声明探索性） | **无对应表** | **不可比（非缺陷）** | docx 未表格化这些量 |
+
+**结论**：除已修复的 fig4b 外，**未发现同类（旧表/错源）不一致**；唯一需登记的是 figS4 的 KSDD2 端点与 Table 14 的**定义量差异**（**未停手、未擅改**，按 A-28 判据"须能由表注区分"记为已登记、非不通过）。
+
+### 9.6 deck / docx 复测与门禁
+
+| 口径 | 值 | 工具 |
+|---|---|---|
+| deck 页数 | **63** | finalize 收据 `slide_count=63`，`finding_count=0` |
+| deck SHA / 体积 | `1AED6DDA…302D2C` / 72,415,480 B | `Get-FileHash` |
+| deck 内嵌 fig4b | 第 5 页 `ppt/media/image7.png`，**与盘上 PNG 逐字节相同** | 解包比对 |
+| 索引 | `FIGURE_SLIDE_INDEX.json` **63 条**、`图件与PPT页码索引.md` **63 行**、原生页 `[1, 2, 3, 15]` | 脚本核对 |
+| docx 页数 / 表 / 内嵌图 | **55 / 23 / 27** | Word COM `ComputeStatistics(2)` / `Tables.Count` / `InlineShapes.Count` |
+| docx 数学对象 / 公式 / 文献 / 词数 | **152 / 12 / 34 / 19,253** | `//m:oMath` / `build_validation.json` / `[n]` 段落 / Word COM `ComputeStatistics(0)` |
+| docx 体积 / SHA | 19,220,095 B / `5C5DA8D5…F4A89` | 增量 +49,596 B ≈ fig4b 变大（113 KB → 163 KB） |
+| docx 内嵌 fig4b | `word/media/image13.png`（同哈希） | 解包比对 |
+| `qa_layout.py` | **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 11.29 pt） | 现役 1280×1060 layout |
+| `figure_font_gate.py --self-test` | **4 controls behaved as required**（4/4，退出码 0） | — |
+| `pytest tests -q` | **260 passed, 1 warning**（46.00 s） | — |
+
+### 9.7 红线复核
+
+| 项 | 值 |
+|---|---|
+| 冻结共同区域表 `05_baselines_multi_dataset/baseline_common_region.csv` | `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB` ✓ 未变 |
+| 扩展表 `05_baselines_ext_20260921/baseline_common_region_ext.csv` | `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B` ✓ 未变 |
+| 版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx` | `9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837` ✓ 未变 |
+| `git status --porcelain -- experiments data` | **空** |
+| `git status --porcelain -- data/splits` | **空** |
+| 受版本控制的改动集 | 恰 **3 个 M**：`docs/…/All_Figures_Complete_20260923.pptx`、`docs/…/figures/fig4b_matched_encoders.png`、`scripts/…/figure_sources/plot_primary.py`（docx 被 `*.docx` 忽略） |
+
+### 9.8 未做 / 不确定
+
+| # | 项 | 说明 |
+|---|---|---|
+| 1 | figS4 的 KSDD2 端点 vs Table 14 的定义量差异 | **已登记、未擅改**（若作者要求图端改用 point，须另开一轮：改 `build_figS4_bootstrap_convergence.py` 的口径会牵动 S4 全图） |
+| 2 | Table 17 末列 "Support / test uncertainty"（SD ÷ 半宽） | 由 CSV 复算为 0.51 / 0.37 / 0.69 / 0.65，表值 0.48 / 0.37 / 0.68 / 0.65——**派生列、非图内绘制量**，两处差为舍入/分母口径级；**未改** |
+| 3 | `.tmp_figure_revision_20260920/`（旧 tmp 表所在） | 只登记，**未删除** |
+| 4 | 全新克隆能否复现 deck 链 | deck 链依赖 artifact-tool + PowerPoint COM + presentation skill 缓存（本机路径），跨机需按 `figure_sources/README.md` 配置 |
 
 **（报告结束）**

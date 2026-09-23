@@ -20,11 +20,23 @@ for ax,ds,rows in zip(axs,['MPDD','BTAD'],[tables['effects']['rows'][:4],tables[
   val=float(row[2].replace('−','-'));lo,hi=nums(row[3]);ax.errorbar(val,3-i,xerr=[[val-lo],[hi-val]],fmt='o',color='#2e6f9e' if ds=='MPDD' else '#b27c20',capsize=3)
  ax.axvline(0,color='#89939a',lw=1);ax.set_yticks(range(4),[r'$𝐸_{\mathrm{BAL,L}}$',r'$𝐸_{\mathrm{BAL,J}}$',r'$𝐸_{\mathrm{TRI,L}}$',r'$𝐸_{\mathrm{TRI,J}}$']);ax.set_title(('(a) ' if ds=='MPDD' else '(b) ')+ds+' · S effects',loc='left',fontweight='bold');ax.set_xlabel('Effect (AP points)');ax.grid(axis='x',alpha=.2);ax.set_ylim(-.6,3.6)
 save(fig,'fig4a_representation_effects')
-fig,axs=plt.subplots(2,2,figsize=(17/2.54,5.9));fig.subplots_adjust(left=.12,right=.98,top=.92,bottom=.11,hspace=.65,wspace=.4)
+fig,axs=plt.subplots(2,2,figsize=(17/2.54,7.0));fig.subplots_adjust(left=.2,right=.98,top=.9,bottom=.135,hspace=.55,wspace=.5)
+enc=tables['encoders']['rows']
+# Two scope groups, read straight from the current table: the shared four-condition scope
+# (S, D, E1, E2, E3) sits above the wider twelve-condition scope (E1, E2, E3). y ticks carry the
+# (4)/(12) scope of each row so the panel mirrors the rows of the encoder table.
+def _enc_label(nm):
+ b,scope=nm.strip().split(' ',1);return b,scope.strip('()')
+Y4={'S':7,'D':6,'E1':5,'E2':4,'E3':3};Y12={'E1':1,'E2':0,'E3':-1}
+yp=[];yl=[]
+for row in enc:
+ b,scope=_enc_label(row[0]);yp.append((Y4 if scope=='4' else Y12)[b]);yl.append(b+' ('+scope+')')
 for j,ax in enumerate(axs.flat):
- for i,row in enumerate(tables['encoders']['rows']):
-  val,lo,hi=nums(row[j+1]);ax.errorbar(val,4-i,xerr=[[val-lo],[hi-val]],fmt='o',color='#2e6f9e' if j<2 else '#b27c20',capsize=3)
- ax.set_yticks(range(5),['E3','E2','E1','D','S']);ax.axvline(0,color='#89939a',lw=1);ax.grid(axis='x',alpha=.2);ax.set_title(f'({chr(97+j)}) '+('MPDD' if j<2 else 'BTAD')+' '+(r'$𝐼_{\mathrm{TRI}}$' if j%2==0 else r'$𝐼_{\mathrm{BAL}}$'),loc='left',fontweight='bold');ax.set_xlabel('Interaction (AP points)');ax.set_ylim(-.6,4.6)
+ for row,y in zip(enc,yp):
+  val,lo,hi=nums(row[j+1]);ax.errorbar(val,y,xerr=[[val-lo],[hi-val]],fmt='o',color='#2e6f9e' if j<2 else '#b27c20',capsize=3)
+ ax.set_yticks(yp,yl);ax.set_ylim(-2.2,8.2);ax.axhline(2,color='#d5d9dc',lw=.9);ax.axvline(0,color='#89939a',lw=1);ax.grid(axis='x',alpha=.2)
+ x0,x1=ax.get_xlim();ax.set_xticks([t for t in ax.get_xticks() if x0<=t<=x1])   # drop out-of-range ticks (they would print in the gutter between columns)
+ ax.set_title(f'({chr(97+j)}) '+('MPDD' if j<2 else 'BTAD')+' '+(r'$𝐼_{\mathrm{TRI}}$' if j%2==0 else r'$𝐼_{\mathrm{BAL}}$'),loc='left',fontweight='bold');ax.set_xlabel('Interaction (AP points)')
 save(fig,'fig4b_matched_encoders')
 def rows(p):return list(csv.DictReader(p.open(encoding='utf-8-sig')))
 D=R/'experiments/dynamic_fusion/representation_matching_interaction_20260914'
