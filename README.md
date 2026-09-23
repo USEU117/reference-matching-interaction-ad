@@ -26,7 +26,7 @@ Roles (do not mix): `mpdd = development`, `btad`/`mvtec` = external frozen valid
 - [docs/ARTIFACT_INDEX.md](docs/ARTIFACT_INDEX.md) — workflows A–I → directories → artifacts → commands → status
 - [docs/REPRODUCIBILITY_PACKAGE.md](docs/REPRODUCIBILITY_PACKAGE.md) — what to package, what to exclude, reproduction order
 - [docs/figures_reference_matching_20260914/FIGURE_BINDING.md](docs/figures_reference_matching_20260914/FIGURE_BINDING.md) — figure ↔ PNG ↔ script ↔ frozen data
-- [docs/ISSUE_REGISTER_20260920.md](docs/ISSUE_REGISTER_20260920.md) / [docs/REMEDIATION_PLAN_20260920.md](docs/REMEDIATION_PLAN_20260920.md) — open issues and remediation plan
+- [docs/ISSUE_REGISTER_20260920.md](docs/ISSUE_REGISTER_20260920.md) / [docs/REMEDIATION_PLAN_20260920.md](docs/REMEDIATION_PLAN_20260920.md) — open issues and remediation plan (historical; **all items merged into [docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md](docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md) §十一**)
 - [docs/specs/](docs/specs/) — frozen protocol and closure plan
 
 ### Reproducing

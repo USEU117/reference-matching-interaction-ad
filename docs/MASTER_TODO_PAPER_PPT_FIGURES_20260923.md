@@ -13,7 +13,7 @@
 | 3 | **图件命名与绑定位置**：以 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` 为准（正文图号 ↔ 图源 PNG ↔ 生成脚本 ↔ 冻结数据 ↔ PPT 页 ↔ 日期）；正文实际嵌入的副本在 `docs/paper_complete_review_20260920/figures/`。**2026-09-23 新增 §十一**：现役 revision23 入稿图集的口径、门禁复跑、哈希刷新与孤儿处置；**第三轮新增 §十二**：K-09 全量符号审计（152/152）、两处"登记未改"口径统一、本轮复测与门禁；**第四轮新增 §十三**：fig4b 图注与 Table 16 口径同步、图 S4 备注/索引一次重出、`docs/MODEL_WEIGHTS.md` 误记更正。 |
 | 4 | **PPT 位置与页数**：`docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` = **63 页**（第 1–27 页＝27 个图面板；第 28–63 页＝36 张逐类别多方法附录）；SHA-256 `5C47F8FFFD16CD6AA6937A669593AFC3863435F0BB8ACF095001CED3F31B842C`（72,415,664 B，2026-09-23 **第四轮**：fig4b 图注与图 S4 备注/索引**一次重出**同步；fig4b 现居**第 5 页**）。<br>**上一快照**：`1AED6DDA…302D2C`（72,415,480 B，fig4b 重渲染后，2026-09-23；另存 `.bak_caption_20260923`）。<br>**历史锚点**：`All_Figures_Complete_20260920.pptx` = 58 页（`48DD9180…`），保留在盘。 |
 | 5 | **PPT 内嵌的是位图**：仅第 **1/2/3/15** 页为原生形状（旧记 1/2/3/**12**，因新增面板使原生页后移）；其余 **59/63** 页为整页 PNG，**不随源文件更新**，改图必须用绘图脚本重渲染后**重出 deck**（F14 的教训）。 |
-| 6 | **字号门**：现役入稿图以 `--layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures` 复跑 `qa_layout.py` → **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 **11.29 pt**）；`figure_font_gate.py --self-test` **4/4**。正文契约 Times New Roman 11 pt、图宽 17 cm（图 S4 合并后按 16 cm 入稿）。旧记的 `figure_manifest.json` `minimumPrintPtAt17cm` = 11.294 pt 仍成立（同一换算）。 |
+| 6 | **字号门**：现役入稿图以 `--layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures` 复跑 `qa_layout.py` → **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 **11.29 pt**）；`figure_font_gate.py --self-test` **4/4**。正文契约 Times New Roman 11 pt、图宽 17 cm（**2026-09-23 实读**：python-docx 对现役 docx 的 27 个 `inline_shapes` 宽度集合 = `{17.0 cm}`，含图 S4；旧记"图 S4 合并后按 16 cm 入稿"为扩版前时点值，见 §六 #13 与 §11.4 N-4）。旧记的 `figure_manifest.json` `minimumPrintPtAt17cm` = 11.294 pt 仍成立（同一换算）。 |
 | 7 | **改稿纪律（必须）**：改源文件 → 跑 `build.py` → **复测**「**55 页 / 23 表 / 27 内嵌图 / 12 编号公式 / 152 数学对象 / 34 文献**（词数只作快照）」；图件改动 → 重跑 `qa_layout.py`（现役 layout，0 problem）+ `figure_font_gate.py --self-test`（4/4）；图件改动 → **重出 63 页 deck** 并同步页码索引。 |
 | 8 | **冻结基线（不得改）**：冻结共同区域表 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、扩展表 `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、`data/splits/*/manifest.json`、版式母本 `9DB99E60…`、**表 11 六列数值**（表注冻结已于 2026-09-23 由作者解除：仅**追加**"非排名 / 各方法原生协议"两处限定，既有表注文字与六列数值不变）。 |
 | 9 | **规模口径**：页数/表数/图数/公式数/文献数是稳定口径；docx 的 SHA-256 只是"某一次构建的快照"（F21）。词数最近一次 = **19,434**（2026-09-23 第四轮 fig4b 图注/S4 备注收口后重出；旧值 19,394 为第三轮、19,253 为 fig4b 重渲染后、17,221 为扩版前）。 |
@@ -57,7 +57,7 @@
 |---|---|---|---|---|---|---|---|
 | B-01 | 36 张逐类别多方法对比图**未进正文**（外部评审⑥：检测结果图应放结果分析） | `论文与图件问题汇总…:98`（F05）；`EXPERIMENT_GAP…:47`（A05）；`figures.json` 无 multimethod 键 | 从 36 张中选 **2–3 张代表图**（跨数据集 + 跨缺陷类型，含 query、GT、各方法热图，**本文列与 GT 相邻**）放进 §4.2.6 末或 §4.2.7；写明选择规则与色标规则；其余留补充材料（PNG 已在盘，**不需 GPU、不得重出**） | AI | 高 | 待做（零 GPU） | A-07 |
 | B-02 | "所有案例都有两种输出"过宽（附录逐类别无各方法轮廓） | `论文与图件问题汇总…:99`（F06）；`figures.json:34-44` | 正文**界定覆盖范围**（"两种输出"只对正文 5 案例成立）或声明为限制；是否补齐全部方法轮廓见 D-02 | AI | 中 | 待做（零 GPU） | D-02 |
-| B-03 | 图 S6（协议敏感度）**未入正文** | `论文与图件问题汇总…:539`；`FIGURE_BINDING.md §十`；python-docx 实测 `Figure S6` 命中 0 | 若入稿：在 `figures.json` 增设 S6 条目 → 重跑 `build.py` → 复测页数/表数；同步 `FIGURE_BINDING.md` §十与 `ARTIFACT_INDEX.md`；**须写明 5 条限制**（同口径 448 子集只覆盖 36/144、区间只 pixel_ap、不构成排名、杠杆数字是只读聚合、拉伸族不在子集内） | 作者 | 中 | 待拍板 | — |
+| B-03 | 图 S6（协议敏感度）**是否入正文** | `论文与图件问题汇总…:539`；`FIGURE_BINDING.md §十`；**2026-09-23 实读**：python-docx 对现役 docx（`…20260923.docx`）`'Figure S6' in p.text` 命中 **4**（旧记"命中 0"为扩版前时点值） | **已闭环（S6 已入稿）**：`figures.json` 已含 S6 条目，5 条限制写入 `Supplementary Protocol Tables` 与 Table S1 表注（同口径 448 子集只覆盖 36/144、区间只 pixel_ap、不构成排名、杠杆数字是只读聚合、拉伸族不在子集内）；与 §7.1 #2 一致 | AI | 中 | 已闭环（入稿） | — |
 | B-04 | 新 S4 图内重复出现总标题与长说明（与正式图注重复） | `论文与图件问题汇总…:96`（F03） | 论文插图用**无图内标题版**；带标题的"讲解版"另存不用于入稿 | AI | 中 | 待做 | 改动后须重出 PPT+docx |
 | B-05 | 新 S4 符号与术语未沿用正文（`I_TRI`/`I_BAL` 文本式公式；`L` 被称 local） | 同上 `:97`（F04） | 按正文数学排版与术语表统一；`L` 称 **independent**，不得称 local | AI | 中 | 待做 | B-04 |
 | B-06 | 若执行整批改名，6–12 张图需改图内标签并重渲染 | `NAMING_MIGRATION_PLAN_20260922.md:119-136`（§3.4） | 按 §3.4 清单改 `build_methods.mjs`、`plot_primary.py`、`plot_extra.py`、`plot_supplementary_figures.py`；**必须绕开 `C.*` 颜色命名空间**（`build_methods.mjs` 里 143 处 `C.xxx` 是颜色常量）；改后重跑字号门 | AI | 高 | 待拍板 | A-21 |
@@ -70,16 +70,16 @@
 
 ---
 
-## 三、C 组：PPT（58 页 deck 与索引）
+## 三、C 组：PPT（63 页 deck 与索引）
 
 | 编号 | 问题（一句话） | 证据 | **具体怎么改** | 负责人 | 优先级 | 状态 | 依赖 |
 |---|---|---|---|---|---|---|---|
-| C-01 | deck 与论文必须同步；任何图改动后旧 deck 即过期 | `论文与图件问题汇总…:204-206`（F14 教训）；`FIGURE_BINDING.md:445-466`（§九） | 重出链：`node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs` → `assemble_deck.ps1` → `finalize.mjs`；重出后核对 **58 页 / 0 finding**，第 20 页＝收敛（v2）、第 21 页＝稳定性 | AI | 高 | 待做（每次图改动后必做） | A-01、A-19、B-04、B-06 |
-| C-02 | 若执行 T09 整批改名，deck、主图母版与索引须一并重出 | `NAMING_MIGRATION_PLAN…:138-145`（§3.5） | 重出 58 页 deck（`All_Figures_Complete_20260920.pptx`）、`docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`（图 1 图内文字），页码不变则只复核索引 | AI | 高 | 待拍板 | A-21 |
+| C-01 | deck 与论文必须同步；任何图改动后旧 deck 即过期 | `论文与图件问题汇总…:204-206`（F14 教训）；`FIGURE_BINDING.md:445-466`（§九）；`All_Figures_Complete_20260923.pptx`（`5C47F8FF…`，72,415,664 B）、`FIGURE_SLIDE_INDEX.json` 实读 **63 条** | 重出链：`node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs` → `assemble_deck.ps1` → `finalize.mjs`；重出后核对 **63 页 / 0 finding**（2026-09-23 第四轮实测），第 **23** 页＝收敛（v2 合页）、第 **24** 页＝稳定性。**口径刷新**：旧记"58 页 / 第 20–21 页"为扩版前时点值，勿再据此判断 | AI | 高 | 待做（每次图改动后必做） | A-01、A-19、B-04、B-06 |
+| C-02 | 若执行 T09 整批改名，deck、主图母版与索引须一并重出 | `NAMING_MIGRATION_PLAN…:138-145`（§3.5） | 重出 deck（**现役 63 页** `All_Figures_Complete_20260923.pptx`；旧记的 58 页 `All_Figures_Complete_20260920.pptx` 为扩版前锚点）、`docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx`（图 1 图内文字），页码不变则只复核索引 | AI | 高 | 待拍板 | A-21 |
 | C-03 | 页码索引须与 deck 一致 | `docs/paper_complete_review_20260920/FIGURE_SLIDE_INDEX.json`、`图件与PPT页码索引.md` | 每次重出后复跑并核对（2026-09-22 实测：重出后 `图件与PPT页码索引.md` 哈希未变，证此前手写同步与真实结果一致） | AI | 中 | 待做 | C-01 |
-| C-04 | **可编辑性纪律**：deck 只有 4 页是原生形状 | `论文与图件问题汇总…:106` | 第 1/2/3/12 页可在 PowerPoint 直接改；其余 54 页为整页 PNG，改图**必须**用绘图脚本重渲染，不能指望在 PPT 里改数据 | 交接说明 | — | 纪律 | — |
-| C-05 | deck 第 23–58 页＝36 张逐类别附录，与 B-01/B-02 的口径需同步 | `图件与PPT页码索引.md:27-58`；`FINAL_ACCEPTANCE…:250` | 若 B-01 选代表图入正文、B-02 界定"两种输出"，附录页说明与图注须同步声明覆盖范围与色标规则 | AI | 中 | 待做 | B-01、B-02 |
-| C-06 | 两份同源 deck 现**已不同源**，易误用 | `FINAL_ACCEPTANCE…:128`；`PROJECT_CLEANUP_AUDIT_20260922.md:95-96` | 现役 = `All_Figures_Complete_20260920.pptx`（新，`48DD9180…`，72,193,447 B）；`All_Figures_Finalized_20260920.pptx`（旧，`6EBD92E9…`，71,604,011 B）仅作旧版锚点；重出时二者关系须写清或明确废弃其中一份 | AI | 低 | 待做 | C-01 |
+| C-04 | **可编辑性纪律**：deck 只有 4 页是原生形状 | `论文与图件问题汇总…:106` | 第 **1/2/3/15** 页可在 PowerPoint 直接改（**2026-09-23 校**：旧记 1/2/3/**12** 因新增面板使原生页后移）；其余 **59/63** 页为整页 PNG，改图**必须**用绘图脚本重渲染，不能指望在 PPT 里改数据 | 交接说明 | — | 纪律 | — |
+| C-05 | deck 第 28–63 页＝36 张逐类别附录，与 B-01/B-02 的口径需同步 | `图件与PPT页码索引.md:28-63`；`FINAL_ACCEPTANCE…:250`（**2026-09-23 校**：旧记"第 23–58 页"为 58 页 deck 时点值，现役 63 页 deck 附录为第 28–63 页） | 若 B-01 选代表图入正文、B-02 界定"两种输出"，附录页说明与图注须同步声明覆盖范围与色标规则 | AI | 中 | 待做 | B-01、B-02 |
+| C-06 | 两份同源 deck 现**已不同源**，易误用 | `FINAL_ACCEPTANCE…:128`；`PROJECT_CLEANUP_AUDIT_20260922.md:95-96` | **2026-09-23 校**：现役 deck = `All_Figures_Complete_20260923.pptx`（**63 页**，`5C47F8FF…`，72,415,664 B）；扩版前锚点 = `All_Figures_Complete_20260920.pptx`（58 页，`48DD9180…`，72,193,447 B）；更早存量 = `All_Figures_Finalized_20260920.pptx`（`6EBD92E9…`，71,604,011 B）仅作旧版锚点；重出时三者关系须写清或明确废弃旧份 | AI | 低 | 待做 | C-01 |
 
 ---
 
@@ -166,10 +166,10 @@
 
 | # | 已闭环项 | 凭据（提交号 / 文件 / 实测值） |
 |---|---|---|
-| 1 | F01 图2(b) 紫框与填色对齐 | `scripts/…/figure_sources/build_methods.mjs:323` = `addRect(slide,"f2-j-shared-highlight",113+2*42,…)`；重渲染 `fig2_matching.png` SHA `AB1EB3FD2B5172051F658929327BF7E81EE9F0FF16D9BC4DC2F753F269EFCBFB`（改前 `DA1E2251…`） |
-| 2 | F02 图3(b)"只有 B 权重变化"措辞更正（图内 + 图注 + 正文） | `build_methods.mjs:430`、`figure_sources/figures.json` 的 `constructions.caption`、`manuscript.md:111`；`fig3_constructions.png` SHA `57362409BC04B2C30800EA74A06299AC01D4EA546C6FA7AD4E203EE40F72D185` |
-| 3 | P04 图 S4 的 ±5% 参考带与实测 6.8% 分开表述 | `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py` 新增 `REFERENCE_BAND=0.05` 与 `first_settled_n`；**5% 判据下实测首个 N = 700**；JSON `headline.first_n_inside_5pct_reference_band = 700`；`max_relative_width_deviation_N_ge_500 = 0.067669…` 未改；门禁 61 个 text artist 全 11.50 pt；`figS4_bootstrap_convergence.png` SHA `C4D2D0A0…` |
-| 4 | F14 58 页 PPT 已重出（第 20/21 页＝收敛 v2 / 稳定性） | `All_Figures_Complete_20260920.pptx` SHA `48DD91800B714331…`（72,193,447 B，58 页，0 finding）；索引 `FIGURE_SLIDE_INDEX.json` `A943E389…`；`图件与PPT页码索引.md` 复跑后未变 |
+| 1 | F01 图2(b) 紫框与填色对齐 | `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs:323` = `addRect(slide, "f2-j-shared-highlight", 113 + 2 * 42, …)`（**2026-09-23 实读行号即 323**）；入稿副本 `docs/paper_complete_review_20260920/figures/fig2_matching.png` SHA **`5156E610A1041FB08640960ED202475E1DEA4CD5EC254A85610308B9576C58E6`**（252,820 B，2026-09-23 重渲染后盘上实测；旧记 `AB1EB3FD…` 已过期）。像素复核：紫框 `x∈[195.5,240.0]` 与填色格 `x∈[201.0,237.0]` 同列 100% 重合（清单 §5.4 A-07） |
+| 2 | F02 图3(b)"只有 B 权重变化"措辞更正（图内 + 图注 + 正文） | `build_methods.mjs:**432**`（= `"Only the weight split changes: B 1/2→2/3, C 1/2→1/3."`；**2026-09-23 实读，行号由旧记的 430 校正为 432**）、`figure_sources/figures.json` 的 `constructions.caption`、`manuscript.md:111`；入稿副本 `docs/paper_complete_review_20260920/figures/fig3_constructions.png` SHA **`3F309ADB57D294E740F0C11E5085248A2CBB854F0E4932734758CF3A9AEDE6FD`**（253,976 B；旧记 `57362409…` 已过期） |
+| 3 | P04 图 S4 的 ±5% 参考带与实测 6.8% 分开表述 | `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py` 新增 `REFERENCE_BAND=0.05` 与 `first_settled_n`；**5% 判据下实测首个 N = 700**；JSON `headline.first_n_inside_5pct_reference_band = 700`；`max_relative_width_deviation_N_ge_500 = 0.067669…` 未改；门禁 61 个 text artist 全 11.50 pt。**入稿副本**（`docs/paper_complete_review_20260920/figures/figS4_bootstrap_convergence.png`）SHA **`6AFA2E49D6BCA74486BE8C4795B668BF732D1491A7B2017D1F7917A81583C0BF`**（539,436 B）；参考目录旧副本 `docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.png` = `C4D2D0A0…`（857,202 B，已被入稿副本取代） |
+| 4 | F14 PPT 已重出（**时点：58 页**，第 20/21 页＝收敛 v2 / 稳定性） | `All_Figures_Complete_20260920.pptx` SHA `48DD91800B714331…`（72,193,447 B，58 页，0 finding）；索引 `FIGURE_SLIDE_INDEX.json` `A943E389…`；`图件与PPT页码索引.md` 复跑后未变。**2026-09-23 校**：现役 deck 已是 **63 页** `All_Figures_Complete_20260923.pptx`（`5C47F8FF…`，第 23/24 页＝图 S4 两页），本条为扩版前时点值 |
 | 5 | F15 三份同源 PPTX 已删其一；`.bak_20260922` 亦已删 | 原三份字节相同（71,604,011 B / `6EBD92E9…`）；删 `Main_Figure_Editable_20260920.pptx` 释放 ≈68.3 MB；`.bak_20260922` 于 09-22 清理删除（与 `All_Figures_Finalized_20260920.pptx` 逐字节相同） |
 | 6 | F17 权威 docx 与版式母本从 git 对象逐字节恢复 | `18694B90…` / `9DB99E60…` 与文档所记完全一致（成因：`a08dc46` 把 `*.docx` 加入 `.gitignore`） |
 | 7 | T11 摘要末句 GitHub URL 入稿 | `manuscript.md:11`；重建后 docx SHA `68477175EC6C3287…`；Word COM 47 页 / 17,200 词 |
@@ -178,9 +178,9 @@
 | 10 | A14 AnomalyCLIP 检查点来源**结案**（纠正"本项目自训"错说） | 第一手 `docs/reproduction_notes.md:13-23`（2026-07-25，与归档下载同日）：检查点随上游源码归档（commit `3911738c…`，ZIP SHA256 `533ED87B…`）；30 个 `epoch_*.pth` mtime 全为 `2025-07-08 03:59:38`，本项目目录 2026-07-24 才建立 ⇒ **非本项目训练**；正确口径＝"prompt learner 在辅助域按上游配方训练、目标域零样本"；已逐处纠正 `dist/…/weights/README.md`、`REPRODUCIBILITY_PACKAGE.md`（含包内副本）、`BASELINE_EXPANSION_PLAN_20260921.md`、`EXPERIMENT_GAP_ANALYSIS_20260922.md`、汇总 P11 等 |
 | 11 | T17 → A14 后 Table 12 协议列与表注改为**准确**表述 | 协议列 = `native, zero-shot on the target domain (upstream auxiliary-domain-trained prompt learner)`；表注删除"provenance recorded in … PREFLIGHT.json"；旧含糊写法命中 **0**、新表述命中 **3**；Table 12 **9 行数值一个未动** |
 | 12 | T18 / F18 B 线（统一输入几何子集）完成并过门禁 | `experiments/…/05_baselines_harmonised_20260922/**`（表 A 180 行、表 B、`HARMONISED_SUMMARY.json`、`protocol_leverage.json`、`PREFLIGHT.json`）+ `docs/figures_reference_matching_20260914/figS6_protocol_sensitivity.{png,pdf,json}`；协议杠杆 **0.1000**（PatchCore 自身两配置，144 单元）> 家族差异 **0.0265**，**3.8 倍**；仅切 PatchCore 配置使胜负翻转 **48/144 = 33.3%**；图 S6 四道门禁（102 artists 全 11.50 pt、0 互压/0 压图/0 出页）、PNG 重渲染逐字节相同（`0C6F801C…`）；复用 4 列与冻结表 max_abs_delta = **0.0** |
-| 13 | 图 S4 合并入 Word（v2 第 1 页 + stability 第 2 页，16 cm） | 数值零改动（复用已渲染 PNG）；重复的 `figS4_bootstrap_stability_part2` 移入 `figures/superseded/`；v2 第 1 页 PNG `6A542164…`（后经 P04 修订为 `C4D2D0A0…`） |
+| 13 | 图 S4 合并入 Word（v2 第 1 页 + stability 第 2 页，**时点宽 16 cm**） | 数值零改动（复用已渲染 PNG）；重复的 `figS4_bootstrap_stability_part2` 移入 `figures/superseded/`；v2 第 1 页 PNG `6A542164…`（后经 P04 修订为 `C4D2D0A0…`，再经入稿重渲染为 `6AFA2E49…`）。**2026-09-23 校**：现役 docx 内图 S4 两页与其余 25 图宽度同为 **17.0 cm**（16 cm 为 09-21 时点值） |
 | 14 | 扩展表入正文 Table 12（原 12–19 顺延为 13–20，全文 20 表） | `05_baselines_ext_20260921/baseline_common_region_ext.csv` 1188 行（= 冻结 864 逐行照抄 + 新 324），SHA `1C770129…`；表 11 六列数值与表注**一字未改** |
-| 15 | 权威稿重建（47 页 / 20 表 / 22 内嵌图 / 12 公式 / 142 数学对象 / 34 文献 / 17,221 词） | 当前 docx SHA `DDB6602E…`；备份 `.bak_20260923`、`.bak_20260922`、`.bak_authoritative_20260921`、`.bak_before_T11_20260922` 均在盘 |
+| 15 | 权威稿重建（**时点值 2026-09-22：47 页 / 20 表 / 22 内嵌图 / 12 公式 / 142 数学对象 / 34 文献 / 17,221 词**） | 该时点 docx = `…Reference_Matching_Complete_English_20260920.docx` SHA `DDB6602E1AA792C60743D4354FE90BFFE923E4BFF796CEB36971BA2528E8353B`（27,725,875 B，**2026-09-23 实读仍在盘**，作扩版前锚点）；备份 `.bak_20260923`、`.bak_20260922`、`.bak_authoritative_20260921`、`.bak_before_T11_20260922` 均在盘。**2026-09-23 时点值（现役）**：`…20260923.docx` = **55 页 / 23 表 / 27 内嵌图 / 12 公式 / 152 数学对象 / 34 文献 / 19,434 词**（`9B3E15F5…`，19,220,478 B） |
 | 16 | F19 旧绝对路径在权威源与生成物中中性化 | `figures.json` 14 处 `path`/`parts` + 2 个生成 md 共 12 处 → 仓库相对路径；改后三文件 grep `My_github` = 0。**未做**：生成物溯源 JSON（见 B-08） |
 | 17 | F20 禁忌词与"外部指导痕迹"复扫清零 | 改前 `docs/**` + `README.md` 共 **9 处 / 2 文件** → 改后 **0**；六个重点文件全部为 0 |
 | 18 | T14 仓库改名完成 | `git remote -v` = `https://github.com/USEU117/reference-matching-interaction-ad.git`；旧物理目录名现为 junction（`docs/RENAME_LOG_20260922.txt`，9/9 检查 PASS） |
@@ -201,6 +201,8 @@
 | 33 | **2026-09-23 续：N-1 结清（fig4b 重渲染 = 选项 (a)）+ 全图数值一致性扫查 + 清单新增 A-28 + 重出 deck/重建 docx** | **① fig4b 重渲染**：`plot_primary.py` 的 `fig4b` 段改按**现行表 8 行**组织（`(4)` 共享四条件在上、`(12)` 更宽口径在下，y 刻度如实标 `S (4)`…`E3 (12)`）→ 新 PNG `FA2DE6E4EF31C65ECCFF509EEBCD7C86CBEA1209F338DDD5C72F71863A7FCC13`（2342 × 2450，110 个 text artist **全 11.0 pt**，四道 `figure_font_gate` 全过）；脚本内**不再引用** `.tmp_figure_revision_20260920/tables.json`；`fig4a/5a/5b` 重渲染与盘上**逐字节相同**。**② 逐值核对**：图内 32 个点值/区间 vs docx encoders 表（**= Table 16**；N-1 里写的"表 15"为旧编号）**全部一致**。**③ 全图扫查**（fig4a↔T6、fig8↔T13、fig5a(b)↔T17、figS4↔T15/T14、figS6↔T11/T12）**均一致**；唯一登记项 = figS4 的 KSDD2 端点为 bootstrap 均值（+0.544/+0.344）而 T14 "Point" 为条件平均观测差（+0.539/+0.343）属**定义量不同**，未擅改。**④ 清单新增 A-28**（图内数值↔同文表格数值一致性）并给出首轮判定。**⑤ 重出 deck**：63 页，SHA `1AED6DDA…302D2C`（72,415,480 B），fig4b 在第 5 页且内嵌位图与盘上**逐字节相同**；索引 63 条 / 页码 md 63 行 / 原生页 `[1,2,3,15]`。**⑥ 重建 docx**：55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 公式 / 34 文献 / **19,253 词**；SHA `5C5DA8D5…F4A89`（19,220,095 B）；`fig4b` 内嵌 = `word/media/image13.png`。**⑦ 门禁**：`qa_layout.py` **0 problem**、`figure_font_gate --self-test` **4/4**、`pytest tests -q` **260 passed**。**红线**：冻结表 `3C83AB00…`、扩展表 `1C770129…`、母本 `9DB99E60…`、`data/splits`、`git status -- experiments data` 全程不变 |
 | 34 | **2026-09-23 第三轮（本轮）：K-09 全量符号审计 + 两处"登记未改"口径统一 + 重建复测** | **① K-09 全量（原为抽查）**：`.tmp_revision_20260923/k09_math_audit.py` 逐对象遍历 **152 个 `m:oMath` / 413 个数学 run**，按稿件自述符号规范判定 → **违规 2 处、均已修正**：式 (11) 与式 (12) 的 `A_{t,u}` 原为斜体（`i`），应为**粗斜体**（`bi`，`A` 是整幅输出图）；改 `build.py` 的 `eq(11)`/`eq(12)` 与 LaTeX 镜像字典（→ `\boldsymbol{A}_{t,u}`）。重建后重跑同一审计：**152 对象 / 0 违规**，样式计数 `i 228→226`、`bi 25→27`（恰为 2 个 run）。灰区 4 项（`J(p)`/`L(p)`/`K=1`/`K=4` 的括号与等号并入斜体 run、`R_b` 直立算子）无规范条文可判违规，**登记不改**。**② 两处口径统一（不改数值）**：figS4 的 KSDD2 端点 = `bootstrap_mean`、Table 14 "Point" = `point_delta`，**不同定义量**（源 CSV 两列俱在，Δ=+0.0052/+0.0015 pp）⇒ 图注 + 表 14 表注各补一句（`figures.json` / `tables.json`）；Table 17 末列经 CSV 八 seed 复算确认 = **逐 seed 复现均值的 sd ÷ 中位个体 95% 自助半宽** = 0.4795/0.3655/0.6833/0.6489 → 表值 **0.48/0.37/0.68/0.65**（用 "SD across seeds" 列则得 0.51/0.37/0.69/0.65）⇒ 表值无误、改写表注把公式与**95%** 层级写清。**③ 重建复测**：docx `EB11FCA8…ACE41`（19,220,393 B）= **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 公式 / 34 文献 / 19,394 词**；备份 `.bak_symbols_20260923`；`qa_layout.py` **0 problem**、`figure_font_gate --self-test` **4/4**、`pytest tests -q` **260 passed**；**无图件改动 ⇒ 未重出 deck**。登记见 `FIGURE_BINDING.md` §十二 |
 | 35 | **2026-09-23 第四轮：fig4b 图注口径同步 + 图 S4 备注同步（一次 deck 重出）+ 验收记录更正** | **① fig4b 图注**（`figures.json` 的 `effects.continuation_caption`）：由"All five encoders use seeds 0, 1 and K = 1, 4 … points are **observed condition means** … wider scope 仅另列于表"改为"shared four-condition scope 与 wider twelve-condition scope 并列、(4)=seeds 0,1×K=1,4、(12)=seeds 0,1,2×budgets 1,2,4,8、points 为 **bootstrap replicate means**、98.75% 配对区间且 **每个 encoder 与 scope 各一个四比较族**、E1–E3 探索性且 **无联合族校正**、跨编码器比较用共享四条件范围"；`tables.json` 的 `encoders.note` 同口径微调一处（"four cells" → "four cells **in that scope**"）；`plot_primary.py` 的 `primary_sources.json` 描述同步。**未改任何数值**；`tables.json` 的 `rows`/`headers` 未动。重跑 `plot_primary.py`：`fig4a/fig4b/fig5a/fig5b` 的 PNG **逐字节不变**（`fig4b` = `FA2DE6E4…FCC13`）。**② deck 一次重出**（63 页）：`build_deck.mjs` → `assemble_deck.ps1` → `finalize_deck.mjs`，`finding_count = 0`，新 SHA `5C47F8FF…B842C`（72,415,664 B）；**59 个位图页内嵌图与盘上 PNG 逐字节相同（59/59）**、其余 5 个媒体全属原生页 1（原生页 `[1,2,3,15]`）；`FIGURE_SLIDE_INDEX.json` 63 条、**63/63 页备注含现行图注**（slide 5 新 fig4b 图注、slide 23 现行 S4 图注）；`图件与PPT页码索引.md` 逐字节未变。**③ 重建 docx**：**55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 公式 / 34 文献 / 19,434 词**，SHA `9B3E15F5…9245`。**④ 验收记录更正**：`FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §10.6 第 4 项由"`docs/MODEL_WEIGHTS.md` 不在盘"改为"**在盘且达标**"（`Test-Path`=True，生成于 `finish_documentation23.py:31`），并新增"**旧版验收 JSON/早期待办状态不作为最新文件凭证**"口径。**⑤ 门禁**：`qa_layout.py` **0 problem**、`figure_font_gate --self-test` **4/4**、`pytest tests -q` **260 passed**；三冻结哈希与 `data/splits/*` 全程不变。详见 `FIGURE_BINDING.md` §十三、`FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §十一 |
+
+> **§六 凭据时效说明（2026-09-23 校，逐条复核后添加）**：本节各行是**某次构建/某轮收尾的时点快照**。凡涉及 docx/deck 的 SHA 与页/表/图/词数，一律以 **§现状** 的现役口径为准（docx `…20260923.docx` = 55 页 / 23 表 / 27 内嵌图 / 12 公式 / 152 数学对象 / 34 文献 / 19,434 词，`9B3E15F5…`；deck `All_Figures_Complete_20260923.pptx` = 63 页，`5C47F8FF…`）。本轮已**就地刷新**过期凭据：#1（fig2 哈希 `AB1EB3FD…`→`5156E610…`）、#2（fig3 哈希 `57362409…`→`3F309ADB…`，行号 430→432）、#3（figS4 哈希 `C4D2D0A0…`→`6AFA2E49…`）、#4（58 页 deck→63 页）、#13（图 S4 宽 16 cm→17 cm）、#15（47 页 / 20 表 / 22 图 →向现役口径并列）。**未逐一刷新**的其他行（如 #7、#11 的 47 页 docx、#12 的 B 线哈希）保留原值，均标注为历史时点，**不得据此判定当前交付件**。
 
 ---
 
@@ -280,8 +282,8 @@
 | **S2** | **正文与表格改动**：A-02…A-20 写作项 + A-06（T12 段落）+ A-13（Table 12 协议列/表注）+ A-17 表注口径 | S1 | `git checkout -- scripts/paper_complete_review_20260920`；docx 用 `.bak_20260923` 还原 |
 | **S3** | **图件改动与重渲染**：A-01（(c) 压缩）、A-19（下标样式）、B-04/B-05（S4 图内）、B-06（命名联动，若 S1 决定执行） | S2（命名定稿） | 还原 PNG + 图源脚本备份；重跑脚本即可重建 |
 | **S4** | **图件门禁复跑**：`qa_layout.py`（0 problem）、`figure_font_gate.py --self-test`（4/4）、图 S6 四道门禁 | S3 | 门禁失败 → 回到 S3 调版面；若 1 轮内调不好，**中止整批改名**，保留温和版交付 |
-| **S5** | **重建 docx 并复测**：`build.py` → 复测 47 页 / 20 表 / 22 内嵌图 / 12 编号公式 / 142 数学对象 / 34 文献 | S2 + S3 | 用 `.bak_20260923` 还原 docx；`build_validation.json` 由重建刷新 |
-| **S6** | **重出 58 页 deck + 同步索引**：`build_deck.mjs` → `assemble_deck.ps1` → `finalize.mjs`；核对 `FIGURE_SLIDE_INDEX.json` 与 `图件与PPT页码索引.md` | S3（S4 通过） | 直接还原旧 deck（`All_Figures_Finalized_20260920.pptx` 可作旧版锚点） |
+| **S5** | **重建 docx 并复测**：`build.py` → 复测 **55 页 / 23 表 / 27 内嵌图 / 12 编号公式 / 152 数学对象 / 34 文献**（2026-09-23 现役口径；旧记的 47 页 / 20 表 / 22 图 / 142 对象为扩版前时点值） | S2 + S3 | 用 `.bak_20260923` 还原 docx；`build_validation.json` 由重建刷新 |
+| **S6** | **重出 deck（现役 63 页）+ 同步索引**：`build_deck.mjs` → `assemble_deck.ps1` → `finalize.mjs`；核对 `FIGURE_SLIDE_INDEX.json` 与 `图件与PPT页码索引.md` | S3（S4 通过） | 直接还原旧 deck（`All_Figures_Complete_20260920.pptx` / `All_Figures_Finalized_20260920.pptx` 可作旧版锚点） |
 | **S7** | **复测与一致性**：`pytest tests -q`（260 passed）、冻结表/扩展表哈希、`data/splits` 清单、`selfcheck.py`（失败项按 S1 决策处置；**运行后须 `git checkout --` 还原其就地改写的两个 JSON**） | S5 + S6 | 冻结值不一致 → 立即停手并回退；`experiments/**` 用 `git checkout --` 还原 |
 | **S8** | **文档与元数据同步**：`README.md`、`docs/ARTIFACT_INDEX.md`、`FIGURE_BINDING.md`、`HANDOVER_20260919.md`、`SUBMISSION_METADATA.md` + 复现包重打（E-08）+ DOI 回填 | S7 | 文档类只增指针/刷新行，可逐文件回退 |
 
@@ -346,7 +348,7 @@
 | 2 | **`R1–R10` 两套含义** | `NAMING_MIGRATION_PLAN_20260922.md` §5 的 R1–R10 是**改名风险**；`ISSUE_REGISTER_20260920.md` 的 R-01–R-21 是**问题**。本表统一用 R-0x 指后者。 |
 | 3 | **`S` 两套含义** | `NAMING_MIGRATION_PLAN` 的 S0–S9 是**改名执行步骤**；`PROJECT_CLEANUP_AUDIT` 的 S1–S11 是**建议删除清单**；论文图号 S1–S6 是**补充图**。 |
 | 4 | **`A` 两套含义** | `EXPERIMENT_GAP_ANALYSIS_20260922.md` 的 A01–A23 是**实验欠缺**；`FIGURE_BINDING.md` §六/§九 的 `A1` 是**双编码器锚（方法名）**。 |
-| 5 | **表号两套并存（不互斥）** | `ACCEPTANCE_20260920.md` §一 #8 的 `tables 18 / figures 8` 属**已冻结旧链**（`scripts/manuscript_build_20260914/`）；权威链为 20 表 / 22 内嵌图。 |
+| 5 | **表号两套并存（不互斥）** | `ACCEPTANCE_20260920.md` §一 #8 的 `tables 18 / figures 8` 属**已冻结旧链**（`scripts/manuscript_build_20260914/`）；权威链为 **23 表 / 27 内嵌图**（2026-09-23 实读）。 |
 | 6 | **字号门两套覆盖对象** | `qa_layout.py` 的 `TOTAL PROBLEMS: 0` 覆盖 7 张母版图（最小 11.29 pt）；20260920 方法图的字号门是 `figure_manifest.json` 的 `minimumPrintPtAt17cm` = 11.294 pt。两处不可读成同一批图。 |
 | 7 | **同名字符串冲突（已过时）** | `ISSUE_REGISTER` R-11 "超前 15 提交"、R-20 "只两个方法家族"、`SCI_STRING_AUDIT` 的 `sci_project`、`论文与图件问题汇总` §一/§七 的 `18694B90…` / 16,892 词均为**历史值**（各文件已加刷新行/总注）。 |
 
@@ -361,3 +363,157 @@
 3. **权威链**（改稿只动这几个）：`scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}` + `build.py`；产物 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`（**55 页 / 23 表 / 27 内嵌图 / 12 公式 / 152 数学对象 / 34 文献 / 19,434 词**；旧 `…20260920.docx` 的 47 页 / 20 表 / 22 图 / 142 对象 / 17,221 词为扩版前历史值）。
 4. **已 superseded（勿改、勿据其写作）**：`docs/manuscript_reference_matching_20260914/`、`scripts/manuscript_build_20260914/`（见其 `SUPERSEDED_20260921.md`）；`docs/replication_package_20260920/` 是**交付副本**，不是编辑源。
 5. **文档地图**：图件绑定 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md`；页码索引 `docs/paper_complete_review_20260920/{FIGURE_SLIDE_INDEX.json, 图件与PPT页码索引.md}`；下游写作指令 `docs/FINAL_ACCEPTANCE_AND_HANDOFF_20260922.md` §13；命名方案 `docs/NAMING_MIGRATION_PLAN_20260922.md`；B 线写作说明 `docs/METHOD_COMPARISON_HANDOFF_20260922.md`；投稿元数据 `docs/SUBMISSION_METADATA.md`。
+
+---
+
+## 十一、历史文档收口映射（2026-09-23 新增）
+
+> **本节目的**：把此前两份"尚未收口的历史待办/问题文档"逐条清点，判定为 **已完成（给凭据）/ 仍待办（已并入本表，标新旧编号映射）/ 已作废（给理由）**，做到**不丢条目**。原文一律**不改写**，只在这两份文件顶部各加一行**收口声明**（本轮已加）。旧编号体系说明见 **§九 9.2 / 9.3**。
+
+### 11.1 `docs/论文与图件问题汇总_仅复核_20260921.md`
+
+**清点结果（共 68 个登记单元）**：**已完成/已闭环 22**、**仍待办（已并入）30**、**纪律/不补（已作废或降级）10**、**未使用 1**、**计划/校验类（由 §八 执行顺序承担）5**。逐条映射：
+
+| 旧编号 | 主题（一句话） | 判定 | 去向 |
+|---|---|---|---|
+| T01 | 图2(c)/图3(c) 占位过大 | 仍待办 | **A-01** |
+| T02 | 无 loss–epoch 曲线可展示 | 仍待办 | **A-02** |
+| T03 | 替代图 S4 未比较所有方法稳定性 | 仍待办 | **A-03** |
+| T04 | 机器/软件/输入/计时可比性说明缺失 | 仍待办 | **A-04**（= P05） |
+| T05 | 协议解释篇幅挤占主线 | 仍待办 | **A-05** |
+| T06 | 外部家族 2→5（"方法太少"落地） | 已完成 | **§六 #27** |
+| T07 | 外部评审 2026-09-22 口径（近两三年 3–4 个） | 已结案 | **D-12**（不做） |
+| T08 | 文献参照表是否纳入 | 降级可选 | **D-13**（待拍板） |
+| T09 | 命名规范（整批改名） | 仍待办（待拍板） | **A-21 + B-06 + C-02** |
+| T10 | long paper 篇幅与组织 | 仍待办 | **A-07** |
+| T11 | 摘要末句给仓库 URL | 已完成 | **§六 #7** |
+| T12 | "为何对比方法无需目标域训练"成体系说明 | 仍待办 | **A-06**（= EXPERIMENT_GAP A03） |
+| T13 | 检测/定性图进正文结果分析 | 仍待办 | **B-01 + B-02**（= A05/A06） |
+| T14 | 仓库改名 | 已完成 | **§六 #18** |
+| T15 | 摘要 URL 与 Data and Code 矛盾消除 | 已完成 | **§六 #8** |
+| T16 | 命名温和版落地 | 已完成 | **§六 #9** |
+| T17 | Table 12 协议列/表注改准确表述 | 已完成 | **§六 #11** |
+| T18 | B 线统一输入几何子集 | 已完成 | **§六 #12** + **B-03** |
+| P01 | 无目标域训练 ≠ 从未训练 | 仍待办 | **A-08** |
+| P02 | 冻结 ≠ 无超参数 | 仍待办 | **A-09** |
+| P03 | S4 不证明训练收敛/所有方法稳定 | 已满足 | 已满足（图注 "not training convergence"）；纪律 K-08/M-06 |
+| P04 | ±5% 参考带 vs 实测 6.8% | 已完成 | **§六 #3** |
+| P05 | 同机证据范围受限 | 仍待办 | **A-04** |
+| P06 | S5 阶段计时不可写成端到端 | 仍待办 | **A-10** |
+| P07 | 新比较说明 5 条论据不能直接搬入 | 仍待办 | **A-11** |
+| P08 | 稳定性计划书数值逻辑矛盾 | 待核实（未搬入） | **A-12** |
+| P09 | 扩展表表注措辞须与盘上证据一致 | 已完成 | **§六 #11**（条件式表述已落） |
+| P10 | SubspaceAD 256↔672 必须披露 | 仍待办 | **A-13**（= A02）；已落 Table S2 表注 |
+| P11 | AnomalyCLIP 检查点来源未核实 | 已结案 | **§六 #10**（A14） |
+| P12 | WinCLIP 低分已交叉核实、不得用于排名 | 纪律 | **§六 #28**（不排名） |
+| P13 | 区间只对 `pixel_ap` | 已核对无冲突 | **A-17**（表注口径） |
+| P14 | 词数口径 16,969→17,200 | 已完成 | **§六 #15**（后并入时点刷新） |
+| F01 | 图2(b) 高亮含义不一致 | 已完成 | **§六 #1** |
+| F02 | 图3(b)"只有 B 权重变化" | 已完成 | **§六 #2** |
+| F03 | 新 S4 图内重复总标题 | 仍待办 | **B-04** |
+| F04 | 新 S4 符号/术语未沿用正文 | 仍待办 | **B-05** |
+| F05 | 外部多方法对比图未进 Word | 仍待办 | **B-01** |
+| F06 | "所有案例都有两种输出"过宽 | 仍待办 | **B-02** |
+| F07 | 方法数量不能按"约 10 个"硬判缺项 | 纪律 | **§九 9.2**（F07 = 纪律） |
+| F08 | 旋转增强收益概括忽略例外 | 仍待办 | **A-18** |
+| F09 | 第二/第三贡献邻近重叠 | 仍待办 | **A-20** |
+| F10 | 结果章节持续追加、主线被切碎 | 仍待办 | **A-07**（= T10） |
+| F11 | 图2 类别下标正斜体不一致 | 仍待办 | **A-19** |
+| F12 | 逐图落盘硬门过，但各方法覆盖单元数不等 | 仍待办 | **A-13**（表注）/ **§九 9.1 #1** |
+| F13 | 共同区域"未变"是巧合非保证 | 纪律 | **§九 9.1 #2** |
+| F14 | 58 页 PPT 未重出 | 已完成（含扩版后 63 页） | **§六 #4**（时点值）+ **C-01** |
+| F15 | 三份同源 PPTX 已删其一 | 已完成 | **§六 #5** |
+| F16 | （编号保留） | 未使用 | **§九 9.2**（F16 未使用） |
+| F17 | 权威 docx 与版式母本不在盘 | 已完成 | **§六 #6** |
+| F18 | 图 S6 编号/登记/门禁 | 已完成 | **§六 #12** + **B-03** |
+| F19 | 旧绝对路径中性化 | 已完成（生成物溯源面另计） | **§六 #16 + B-08** |
+| F20 | 禁忌词与"外部指导痕迹"复扫清零 | 已完成 | **§六 #17** |
+| F21 | `build.py` 非字节可复现 | 待拍板 | **E-09** |
+| F22 | 自检门禁 2/69 失败 | 待拍板 | **E-10** |
+| A14 | AnomalyCLIP 检查点来源 | 已结案 | **§六 #10** |
+| A23 | 图 S6 是否入稿 | 已闭环（已入稿，docx 命中 4） | **B-03** |
+| A14/A23/T09 登记 | 登记块 | 见各行 | 已并入 A14→#10、A23→B-03、T09→A-21 |
+| §五 已落实 1–9 | Related Work 连续、贡献定位、主图多支持图、seed/K/配对、五案例、三线表、S2 探索性、11/9.5pt+17cm、符号体系 | 防回归 | **§四 K-01…K-15** |
+| §六 后续处理顺序 | 计划（仅供计划） | 计划 | **§八 推荐执行顺序** |
+| §七 校验 | 时点哈希（09-21） | 历史时点 | 见 **§现状** / §六 时效说明 |
+
+> **注**：§一（复核对象与版本关系）、§七（不修改原文件校验）为**版本/哈希登记**，不是独立待办；其 09-21 时点值由 **§现状** 取代（`18694B90…` / 47 页 / 16,892 词 → `9B3E15F5…` / 55 页 / 19,434 词）。
+
+### 11.2 `docs/REMEDIATION_PLAN_20260920.md`
+
+**清点结果（共 46 个登记单元）**：**已完成 9**、**仍待办（已并入）14**、**待拍板（已并入）12**、**纪律/限制保留 4**、**作者信息类 7**。逐条映射：
+
+| 旧编号 | 主题 | 判定 | 去向 / 总表编号 |
+|---|---|---|---|
+| P0-1 | 统一 BTAD 口径 | 已完成（科研判断追认待作者） | **§六 #19** / A 组口径（已在稿） |
+| P0-2 | 验收报告 69/71→71/71 | 已完成 | **§六 #19** |
+| P0-3 | `ARTIFACT_INDEX.md` B 行旧结论替换 | 已完成 | **§六 #19** |
+| P0-4 | `141/141` 标注为历史快照 | 已完成 | **§六 #19** |
+| P0 验收 | 结论性文本清零 + 重出 docx | 已完成 | **§六 #21** |
+| P1-1 | 补 `src/` + `configs/` + `methods/` | 仍待办 | **E-08**（① ） |
+| P1-2 | `requirements_repro.txt` 补 CUDA index | 仍待办 | **E-08**（② ） |
+| P1-3 | 新增 `docs/MODEL_WEIGHTS.md` | 已完成（原登记过期） | **E-07**（已在盘且达标） |
+| P1-4 | 生成 `SOURCE_COMMIT.txt` + `SHA256SUMS` | 仍待办 | **E-08**（④ ） |
+| P1-5 | 补 `paper_evidence_closeout_20260914/` 台账 | 仍待办 | **E-08**（⑤ ） |
+| P1-6 | 补 `seeds_extension_20260917/p0_support/` | 仍待办 | **E-08**（⑥ ） |
+| P1-7 | 回填 `VD1_MANIFEST.json` 的 `manifest_sha256` | 仍待办（会改既有文件） | **E-08**（⑦ ）+ **E-11** |
+| P1 验收 | 包内 `import industrial_ad` / 抽查 20 项 SHA / `+cu118` | 仍待办 | **E-08** |
+| P2-1 | 处置 3 个 tracked 修改 | 待拍板 | **E-18** |
+| P2-2 | 修测试 collection 失败 | 已完成 | **§六 #22**（`pytest.ini`，260 passed） |
+| P2-3 | `.gitignore` 处理 `dist/` | 已完成（现象消失） | **E-17**（`.gitignore:73` = `dist/`） |
+| P2-4 | 打新 tag 并核对 `SOURCE_COMMIT.txt` | 待拍板 | **E-18 / E-11** |
+| P2-5 | 推送（需作者点头） | 已完成（推送部分） | **§六 #20**（09-22 时点 `=0`；09-23 又超前 2 → **E-14**） |
+| P2-6 | 归档取得 DOI | 待作者 | **E-05** |
+| P2 验收 | `pytest` N passed / `git status` 干净 / tag 对齐 | 部分已完成 | **§六 #19/#22** + **E-14 / E-18** |
+| P3-1 | 作者/单位/通讯/ORCID | 待作者 | **E-01** |
+| P3-2 | 资助信息 | 待作者 | **E-02** |
+| P3-3 | 利益冲突声明 | 已填待过目 | **E-03** |
+| P3-4 | 伦理审查声明 | 已填 | **E-04** |
+| P3-5 | 数据/代码可得性（URL + DOI + 许可） | 部分待作者 | **E-05**（URL 已入稿 / DOI 待作者） |
+| P3-6 | 是否审稿阶段公开代码 | 待作者 | **E-05**（关联） |
+| 需作者信息 1–4 | 作者列表/资助/COI/伦理 | 待作者 | **E-01…E-04** |
+| 需作者信息 5 | 仓库地址 + 归档 DOI 平台 | 待作者 | **E-05** |
+| 需作者信息 6 | 发布包许可 | 待作者 | **E-06** |
+| 需作者信息 7 | `methods/` 处置方案 (a)/(b) | 待拍板 | **E-08** |
+| 需作者信息 8 | 预训练权重再分发许可 | 待拍板 | **E-08** |
+| 需作者信息 9 | 审稿阶段是否公开代码 | 待作者 | **E-05** |
+| 需作者信息 10 | BTAD 口径追认 | 已在稿 / 待追认 | A 组口径（§七 已移出） |
+| 需作者信息 11 | 是否回改 `VD1_MANIFEST.json` | 待拍板 | **E-08**（⑦ ）/ **E-11** |
+| 需作者信息 12 | 是否推送本地 `main` | 已办结（09-22）；09-23 复现 | **§六 #20** → **E-14** |
+| 限制 R-18 | full-pixel 只有点估计 | 纪律（限制保留） | **D-03** |
+| 限制 R-19 | 效率数据为部分阶段计时 | 纪律（限制保留） | **A-10 / D-04** |
+| 限制 R-20 | 外部对比"两个家族"（已过时→5 家族） | 纪律（限制保留、口径刷新） | **D-12** / §六 #27 |
+| 限制 R-21 | correspondence 只证明零排除保持 | 纪律（限制保留） | **§九 9.2**（R-21 = 纪律） |
+| 检查清单（checkbox） | P0-1…P3 勾选 | 汇总 | 见各行；未勾选项 = **E-07 / E-08 / E-14 / E-18 / E-05 / E-17** |
+
+> **注**：`REMEDIATION_PLAN` 的 `R-01…R-22` 与 `ISSUE_REGISTER_20260920.md` 同编号；`R-*`（问题）→ 本表 **E-08 / E-14 / E-17 / E-19** 等的映射见 **§九 9.2**。
+
+### 11.3 其他"仍自称入口/待办"的文档（第三份及以后）——已加指针
+
+> 全文检索（`docs/**` 与根目录）：**仅本表**自称"唯一交接入口"。下列文档含"接手入口/入口/待办/下一步"等表述，已按"**加指针、不改原文**"处理：
+
+| 文档 | 自称形态 | 处置（本轮已加） |
+|---|---|---|
+| `docs/README.md:3` | "接手入口（2026-09-19）：HANDOVER_20260919.md" | 顶部加指向本表的指针行 ✓ |
+| `docs/HANDOVER_20260919.md:6` | "配套索引：ARTIFACT_INDEX.md" | 顶部加指向本表的指针行 ✓ |
+| `docs/ARTIFACT_INDEX.md:5` | "配套：交接正文见 HANDOVER_20260919.md" | 顶部加指向本表的指针行 ✓ |
+| `docs/archive_pre202609/README_ARCHIVE.md:6-16` | "当前权威入口（只看这三处）" | 加指向本表的指针行 ✓ |
+| `README.md:29`（根） | "open issues and remediation plan → ISSUE_REGISTER / REMEDIATION_PLAN" | 将该行注明"待办已并入本表" ✓ |
+| `docs/README_HISTORY_pre20260920.md`、`docs/CURRENT_DYNAMIC_FUSION_STATUS.md` | 2026-08 旧主线"当前状态" | **不改**（`docs/README.md` §2 已标 historical）；仅登记 |
+| `docs/AI_HANDOFF_*_CN.md`（20260911–20260914，7 份）、`docs/PROJECT_HANDOFF_AND_INNOVATION_STATUS_20260914_CN.md`、`docs/PROJECT_REVIEW_AND_NEXT_STEPS_20260910_CN.md` | 历史任务书/评审，"接手入口" | **不改原文**（历史登记）；本轮不列入待办入口 |
+| `docs/ISSUE_REGISTER_20260920.md` | "问题归档"（非待办入口） | 保留；其 `R-*` 已由 **§九 9.2** 映射进本表 |
+
+### 11.4 证据缺口与口径刷新登记（本轮逐条复核）
+
+| # | 项 | 事实 / 处理 |
+|---|---|---|
+| **N-4** | 图 S4 入稿宽度：本表 §现状 #6 与 §六 #13 旧记"16 cm"，**现役 docx 实读 27 图全为 17.0 cm** | 已就地刷新（§现状 #6、§六 #13）；旧值为 09-21 时点 |
+| **N-5** | `MASTER_TODO` §三（C 组标题/C-01/C-02/C-04/C-05/C-06）、§八 S5/S6、§九 9.3#5 仍写"58 页 deck / 第 20–21 页 / 原生页 1/2/3/12 / 20 表 22 图" | 已就地刷新为 63 页 / 第 23–24 页 / 原生页 1/2/3/15 / 23 表 27 图 |
+| **N-6** | 本表 §六 #2 凭据行号 `build_methods.mjs:430` | 实读为 **:432**（已校正） |
+| 证据缺口-1 | **A-12**（稳定性计划书"加密 N 网格却使最大值变小"） | **出处待补**：`docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` 约 148 行的该段数值逻辑，本轮**未回原脚本/产物核实**（检索范围：`REFERENCE_FIG_CONVERGENCE_PLAN.md` 文本层面；未查 gen 脚本与 JSON）；**确认前不搬入论文** |
+| 证据缺口-2 | **B-09**（图 S3 p3/p4 未登记 + 两处图件目录不一致） | 部分可核：`docs/paper_complete_review_20260920/figures/` 内确有 `panel_interaction_cases_p3/p4`（PNG+PDF，见本轮目录清单），`docs/figures_reference_matching_20260914/` 内**无**；`FIGURE_BINDING.md §一/§四` 是否已补登记**未逐行核** |
+| 证据缺口-3 | **B-10**（Fig 5 记 "(a/b/c)" 三页 vs 盘上两页） | **未核实哪一方为准**（本轮仅确认 `docs/…/figures/` 有 `fig5a_budget_seed.png`、`fig5b_categories.png` 两页） |
+| 证据缺口-4 | **D-13**（文献参照表须补 4 个引用键） | 实读 `scripts/…/references.json` **无** `adaptclip`/`remp_ad`/`efficientad`/`glass` 键 → 该表**尚未做**，D-13 仍为待拍板（可选） |
+| 证据缺口-5 | **E-15 / E-19 / E-11 / E-12** 等红线区/历史提交层项 | 属"待作者拍板"，本轮**未重核**（不碰 `experiments/`、不重写历史）；状态沿用原登记 |
+
+> **计数（§十一）**：`论文与图件问题汇总` **68 项** = 已完成/闭环 22 + 仍待办 30 + 纪律/不补 10 + 未使用 1 + 计划/校验 5；`REMEDIATION_PLAN` **46 项** = 已完成 9 + 仍待办 14 + 待拍板 12 + 纪律/限制 4 + 作者信息 7。**仍待办/待拍板条目全部已在本表有对应编号，无遗漏**。新增登记 **N-4…N-6**（口径/凭据刷新，均已就地修正）+ **5 处证据缺口**（如实标注，见上表）。

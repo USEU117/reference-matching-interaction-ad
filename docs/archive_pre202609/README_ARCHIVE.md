@@ -5,6 +5,8 @@
 
 ## 当前权威入口（只看这三处）
 
+> **待办入口（2026-09-23 起，指针）**：[`../../docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md`](../MASTER_TODO_PAPER_PPT_FIGURES_20260923.md) —— 论文 / PPT / 图件**待办唯一入口**（下三处为"读什么"的入口，不承担待办汇总）。
+
 | 入口 | 作用 |
 |---|---|
 | [`../../README.md`](../../README.md) | 仓库主页：当前交付稿、当前构建规模、运行方式 |
@@ -46,7 +48,41 @@
 
 | 目录 | 说明 |
 |---|---|
-| `figures_package_20260917/` | 2026-09-17 的"图件打包视图"（6 个分组：主图 / 说明面板 / 定性案例 / 多方法案例 / 已取代 / 旧主题 DCFnet）。其中 118/127 个文件与现役权威图件目录 `docs/figures_reference_matching_20260914/`（或 `docs/figures_expanded_20260910/`、`docs/main_figure_redraw_20260910/`、`docs/figures_redraw_20260910/`）**逐字节相同**；`05_superseded/` 的 9 个文件是仓内**唯一副本**（`FIGURE_BINDING.md` §五 按名字列出），因此整包归档而非直删 |
+| `figures_package_20260917/` | 2026-09-17 的"图件打包视图"（6 个分组：主图 / 说明面板 / 定性案例 / 多方法案例 / 已取代 / 旧主题 DCFnet）。其中 118/127 个文件与现役权威图件目录 `docs/figures_reference_matching_20260914/`（或本目录 `figures/figures_expanded_20260910/`、`figures/main_figure_redraw_20260910/`、`figures/figures_redraw_20260910/`）**逐字节相同**；`05_superseded/` 的 9 个文件是仓内**唯一副本**（`FIGURE_BINDING.md` §五 按名字列出），因此整包归档而非直删 |
+
+## 归档清单（2026-09-23：历史图件目录与历史稿件/评审目录归并）
+
+> 由 [`../FOLDER_CONSOLIDATION_20260923.md`](../FOLDER_CONSOLIDATION_20260923.md) 记录；全部为 `git mv`（可逆），无删除。
+> **现役图件目录 `docs/figures_reference_matching_20260914/` 未动**；`docs/paper_complete_review_20260920/`、`docs/main_figure_revision_20260920/`、`docs/introduction_research_20260825/`、`docs/specs/` 亦未动。
+
+### 四、历史图件目录（5 个 → `figures/` 子目录）
+
+| 原路径 → 新路径 | 说明 |
+|---|---|
+| `docs/figures_contour_notation_20260911/` → `figures/figures_contour_notation_20260911/` | 旧方法图集（Fig1–FigS2 + PDF + PPTX） |
+| `docs/figures_expanded_20260910/` → `figures/figures_expanded_20260910/` | 2026-09-10 扩展图集 |
+| `docs/figures_redraw_20260910/` → `figures/figures_redraw_20260910/` | 2026-09-10 全图重绘 |
+| `docs/figures_revision_20260905/` → `figures/figures_revision_20260905/` | 2026-09-05 中文名图件与放置方案 |
+| `docs/main_figure_redraw_20260910/` → `figures/main_figure_redraw_20260910/` | 2026-09-10 DCFnet 主图（3 件） |
+
+### 五、历史稿件 / 评审目录（6 个）
+
+| 原路径 → 新路径 | 说明 |
+|---|---|
+| `docs/manuscript_revision_20260905/` → `manuscript_revision_20260905/` | 2026-09-05 两轮评审汇总与旧稿 |
+| `docs/manuscript_review_20260906/` → `manuscript_review_20260906/` | 2026-09-06 按需求逐项审核 |
+| `docs/manuscript_round2_20260906/` → `manuscript_round2_20260906/` | 2026-09-06 第二轮核查 |
+| `docs/manuscript_updated_20260919/` → `manuscript_updated_20260919/` | 2026-09-19 本轮重写与证据核对 |
+| `docs/project_review_20260910/` → `project_review_20260910/` | 2026-09-10 项目/论文/复现审计 |
+| `docs/requirements_notes_20260905/` → `requirements_notes_20260905/` | 2026-09-05 评审会记录与修改清单 |
+
+### 六、本轮**未移动**（仍在原位）
+
+`docs/manuscript_polished_20260919/`（版式母本，被现役 `scripts/paper_complete_review_20260920/build.py` 读取）、
+`docs/manuscript_reference_matching_20260914/`（被 `sync_to_manuscript.py` 写、`manuscript_build_20260914/figures.json` 读）、
+`docs/manuscript_english_polished_20260906/`、`docs/manuscript_chinese_review_20260907/`（被历史脚本按路径读取）、
+`docs/paper_writing_preparation_20260830/`（被 `scripts/build_manuscript_figure_package.py` 与 `configs/*` 读取）、
+`docs/requirements_notes_20260912/`、`docs/submission_reproducibility_20260826/`（任务清单外）。理由见上述 FOLDER_CONSOLIDATION 文档。
 
 ## 未归档（仍在原位，且**不得移动**）
 

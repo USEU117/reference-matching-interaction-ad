@@ -3,6 +3,7 @@
 > 用途：一张表定位**工作流 A–I → 目录 → 关键产物 → 复现命令 → 状态**，并记录清单类文件的有效性、命名歧义与清理策略。
 > 写作时点：2026-09-19（本地 Asia/Shanghai），工作区 HEAD = `2df436b`。所有路径与文件名均为**盘上实读**。
 > 配套：交接正文见 [`HANDOVER_20260919.md`](HANDOVER_20260919.md)（结论与数值、踩坑、边界）。
+> **待办入口（2026-09-23 起，指针）**：[`MASTER_TODO_PAPER_PPT_FIGURES_20260923.md`](MASTER_TODO_PAPER_PPT_FIGURES_20260923.md) —— 论文 / PPT / 图件**待办唯一入口**（本索引负责产物/目录，不承担待办汇总）。
 > 图件绑定另有专表：`docs/figures_reference_matching_20260914/FIGURE_BINDING.md`（本索引不重复其内容）。
 
 ---

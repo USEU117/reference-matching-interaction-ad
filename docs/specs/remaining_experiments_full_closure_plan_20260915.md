@@ -91,7 +91,7 @@ D: 剩余空间              : 387.5 GB
 | **mvtec** | **`external_frozen_validation`** | 旧项目已看过 → 不得称"未碰过的确认集" |
 | **visa** | **`in_domain_frozen_validation`** | AnomalyCLIP checkpoint = `9_12_4_multiscale_visa/epoch_15.pth`，**在 VisA 上训练过** → C 分支域内 |
 
-原文纪律（`docs/project_review_20260910/repro_audit.md:48`）："论文必须保持这一标签，不得把 VisA 写成独立外部泛化验证。"
+原文纪律（`docs/archive_pre202609/project_review_20260910/repro_audit.md:48`，2026-09-23 归档）："论文必须保持这一标签，不得把 VisA 写成独立外部泛化验证。"
 
 **用户已确认的定位**：MVTec/VisA 作为**泛化数据集**（非确认集）。因此本计划**不**承诺"未碰过数据集上的确认"，只在正文明确标注两处角色限制。
 
