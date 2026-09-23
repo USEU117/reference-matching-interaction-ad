@@ -211,8 +211,8 @@ function createSlide() {
 {
   const slide = createSlide();
   band(slide, "f2-band-a", 8, 292, C.bandCool);
-  band(slide, "f2-band-b", 308, 420, C.bandWarm);
-  band(slide, "f2-band-c", 736, 312, C.bandNeutral);
+  band(slide, "f2-band-b", 308, 500, C.bandWarm);
+  band(slide, "f2-band-c", 816, 232, C.bandNeutral);
 
   section(slide, "a", "One query patch and the common candidate set", 18);
   addBox(slide, "f2-query-patch", 34, 106, 126, 126, C.white, C.grayLine);
@@ -273,8 +273,8 @@ function createSlide() {
   );
 
   section(slide, "b", "Joint and independent matching", 314);
-  addBox(slide, "f2-joint-box", 32, 370, 600, 330, C.violetFill, C.violetLine, 1.8);
-  addBox(slide, "f2-independent-box", 648, 370, 600, 330, C.redFill, C.redLine, 1.8);
+  addBox(slide, "f2-joint-box", 32, 370, 600, 400, C.violetFill, C.violetLine, 1.8);
+  addBox(slide, "f2-independent-box", 648, 370, 600, 400, C.redFill, C.redLine, 1.8);
   addText(slide, "f2-joint-title", "J: one shared reference row", 46, 382, 572, 42, {
     size: 32,
     bold: true,
@@ -330,47 +330,49 @@ function createSlide() {
   addRect(slide, "f2-l-b-highlight", 729 + 2 * 42, 512, 42, 52, "none", C.blueLine, 3);
   addRect(slide, "f2-l-c-highlight", 729 + 5 * 42, 566, 42, 52, "none", C.amberLine, 3);
   addText(slide, "f2-l-note", "each branch\nkeeps its own row", 1070, 516, 162, 98, { size: BASE, align: "center" });
-  addText(slide, "f2-j-foot", "Both branches use the same highlighted row.", 44, 650, 576, 38, {
+  addText(slide, "f2-j-foot", "Both branches use the same highlighted row.", 44, 714, 576, 38, {
     size: BASE,
     color: C.muted,
     align: "center",
   });
-  addText(slide, "f2-l-foot", "The nearest row can differ by branch.", 660, 650, 576, 38, {
+  addText(slide, "f2-l-foot", "The nearest row can differ by branch.", 660, 714, 576, 38, {
     size: BASE,
     color: C.muted,
     align: "center",
   });
 
-  section(slide, "c", "The ordering constraint", 746);
+  // Keep the corrected Fig. 2(b) highlight and every matching-rule example above unchanged.
+  // The compact (c) panel carries only the ordering statement that completes those examples.
+  section(slide, "c", "The ordering constraint", 826);
   addMath(
     slide,
     "f2-gap-formula",
     [variable("G"), upright("("), variable("p"), upright(") ="), variable("J"), upright("("), variable("p"),
       upright(") −"), variable("L"), upright("("), variable("p"), upright(") ≥ 0")],
     36,
-    824,
+    878,
     430,
-    70,
+    52,
     { size: 36 },
   );
   addMath(
     slide,
     "f2-nonnegative-condition",
     [variable("w"), sub("b", true), upright(" ≥ 0 for every branch")],
-    504,
-    812,
-    704,
-    48,
+    480,
+    882,
+    728,
+    42,
     { size: BASE, align: "left", color: C.muted },
   );
   addText(
     slide,
     "f2-gap-explanation",
-    "Both rules minimize over the same candidate rows, so the shared-row minimum cannot be lower. This gap is a score difference, not a localization loss; pixel AP changes only if it changes patch ordering.",
-    504,
-    864,
-    712,
-    132,
+    "The shared-row minimum cannot be lower.\nG is a score gap; pixel AP follows patch ordering.",
+    480,
+    932,
+    728,
+    64,
     { size: BASE, color: C.ink },
   );
   setNotes(
@@ -383,8 +385,8 @@ function createSlide() {
 {
   const slide = createSlide();
   band(slide, "f3-band-a", 8, 356, C.bandCool);
-  band(slide, "f3-band-b", 372, 278, C.bandWarm);
-  band(slide, "f3-band-c", 650, 398, C.bandNeutral);
+  band(slide, "f3-band-b", 372, 382, C.bandWarm);
+  band(slide, "f3-band-c", 762, 286, C.bandNeutral);
 
   section(slide, "a", "Four constructions with fixed weights", 18);
   const cards = [
@@ -433,7 +435,7 @@ function createSlide() {
   ];
   for (let i = 0; i < comparisons.length; i += 1) {
     const item = comparisons[i];
-    addBox(slide, `f3-comparison-${i}`, item.x, 440, 384, 166, C.white, C.faint, 1.5);
+    addBox(slide, `f3-comparison-${i}`, item.x, 440, 384, 200, C.white, C.faint, 1.5);
     addText(slide, `f3-comparison-${i}-title`, item.title, item.x + 12, 452, 360, 48, {
       size: 34,
       bold: true,
@@ -449,22 +451,23 @@ function createSlide() {
     "f3-family-note",
     "BAL preserves C and total non-C weights.",
     42,
-    608,
+    662,
     1196,
     44,
     { size: BASE, color: C.muted, align: "center" },
   );
 
-  section(slide, "c", "Representation effects and matching interactions", 660);
-  addBox(slide, "f3-effects-box", 32, 720, 600, 216, C.white, C.violetLine, 1.6);
-  addBox(slide, "f3-interactions-box", 648, 720, 600, 216, C.white, C.redLine, 1.6);
-  addText(slide, "f3-effects-title", "Representation effect", 46, 730, 572, 42, {
+  // Keep the corrected Fig. 3(b) weight statement intact; (c) only summarizes its contrasts.
+  section(slide, "c", "Representation effects and matching interactions", 772);
+  addBox(slide, "f3-effects-box", 32, 826, 600, 164, C.white, C.violetLine, 1.6);
+  addBox(slide, "f3-interactions-box", 648, 826, 600, 164, C.white, C.redLine, 1.6);
+  addText(slide, "f3-effects-title", "Representation effect", 46, 836, 572, 36, {
     size: 32,
     bold: true,
     color: C.violetLine,
     align: "center",
   });
-  addText(slide, "f3-interactions-title", "Matching interaction", 662, 730, 572, 42, {
+  addText(slide, "f3-interactions-title", "Matching interaction", 662, 836, 572, 36, {
     size: 32,
     bold: true,
     color: C.redLine,
@@ -476,22 +479,22 @@ function createSlide() {
   const eBal = [variable("E"), sub("BAL"), sub(","), sub("t", true), upright(" = "),
     variable("P"), upright("("), upright("BAL"), sub("t", true), upright(")"), upright(" − "),
     variable("P"), upright("("), upright("A1"), sub("t", true), upright(")")];
-  addMath(slide, "f3-e-tri", eTri, 44, 784, 576, 58, { size: 30 });
-  addMath(slide, "f3-e-bal", eBal, 44, 858, 576, 58, { size: 30 });
+  addMath(slide, "f3-e-tri", eTri, 44, 884, 576, 40, { size: 30 });
+  addMath(slide, "f3-e-bal", eBal, 44, 940, 576, 40, { size: 30 });
   const iTri = [variable("I"), sub("TRI"), upright(" = "), variable("E"), sub("TRI"), sub(","), sub("L"),
     upright(" − "), variable("E"), sub("TRI"), sub(","), sub("J")];
   const iBal = [variable("I"), sub("BAL"), upright(" = "), variable("E"), sub("BAL"), sub(","), sub("L"),
     upright(" − "), variable("E"), sub("BAL"), sub(","), sub("J")];
-  addMath(slide, "f3-i-tri", iTri, 660, 784, 576, 58, { size: 30 });
-  addMath(slide, "f3-i-bal", iBal, 660, 858, 576, 58, { size: 30 });
+  addMath(slide, "f3-i-tri", iTri, 660, 884, 576, 40, { size: 30 });
+  addMath(slide, "f3-i-bal", iBal, 660, 940, 576, 40, { size: 30 });
   addText(
     slide,
     "f3-pairing-note",
-    "Under either matching rule, each paired contrast uses the same supports and queries. TRI versus A1 changes both the representation and the slot weights, so it is not an encoder-only effect.",
+    "Under either rule, paired contrasts use the same supports and queries.\nTRI versus A1 changes representation and slot weights.",
     40,
-    946,
+    994,
     1200,
-    86,
+    54,
     { size: BASE, color: C.muted, align: "center" },
   );
   setNotes(

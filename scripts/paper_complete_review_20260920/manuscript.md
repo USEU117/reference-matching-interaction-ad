@@ -1,6 +1,6 @@
 # Disentangling Representation Effects and Normal Reference Matching in Few-Shot Industrial Anomaly Localization
 
-[[AUTHORS]]
+Yuening Li
 
 [[AFFILIATIONS]]
 
@@ -28,9 +28,9 @@ The contributions are as follows.
 
 1. **A controlled decomposition of additional-representation value.** We construct an exact duplicate control that exposes the weight change hidden in an ordinary two-versus-three-branch comparison. Replacing the duplicate at fixed slot weights isolates the representation change, while a complementary construction preserves the combined weight of the original visual branch and the added branch while retaining the AnomalyCLIP branch weight. Together, these controls distinguish new descriptor information from redistribution of existing evidence and make the attribution of a fusion gain testable.
 
-2. **A paired characterization of representation–matching dependence.** We cross both representation constructions with joint and independent normal-reference matching on the same support bank. The resulting difference-in-differences quantifies how reference selection changes the effect of an added representation. Reporting this interaction alongside absolute representation effects separates two practically different outcomes: a useful representation with little established matching dependence, and a favorable matching interaction without a clear absolute gain. The contribution lies in this controlled formulation of the industrial fusion problem, using established matching operators and statistical contrasts.
+2. **An interaction design and definition for representation and matching.** We cross both representation constructions with joint and independent normal-reference matching on the same support bank. The resulting difference-in-differences defines how reference selection changes the effect of an added representation. Reporting this interaction alongside absolute representation effects separates two practically different outcomes: a useful representation with little established matching dependence, and a favorable matching interaction without a clear absolute gain. This contribution is the controlled experimental design and estimand, using established matching operators and statistical contrasts rather than a new learnable module.
 
-3. **Separation of representation gains from reference-sharing sensitivity.** We identify a separation between an encoder's absolute utility and its sensitivity to reference selection. On MPDD, adding DINOv2-S produces positive matching interactions without establishing a positive absolute effect under independent matching; on BTAD, its absolute effects are positive while the interaction direction remains unresolved. WideResNet50-2, additional datasets and a separately specified KolektorSDD2 confirmation extend the analysis beyond this contrast. These patterns explain why a favorable fusion score alone is insufficient to choose an encoder or a reference-sharing rule, and provide a concrete basis for evaluating those choices together.
+3. **Conditional empirical findings on absolute utility and matching sensitivity.** We identify a separation between an encoder's absolute utility and its sensitivity to reference selection. On MPDD, adding DINOv2-S produces positive matching interactions without establishing a positive absolute effect under independent matching; on BTAD, its absolute effects are positive while the interaction direction remains unresolved. WideResNet50-2, additional datasets and a separately specified KolektorSDD2 confirmation extend the analysis beyond this contrast. These conditional findings explain why a favorable fusion score alone is insufficient to choose an encoder or a reference-sharing rule, and provide evidence for evaluating those choices together without claiming a universal encoder advantage.
 
 The study centers on this attribution problem. Its dual-encoder anchor, A1, provides a fixed reference for controlled comparisons; the results support conditional design choices rather than a universal encoder ranking.
 
@@ -74,7 +74,7 @@ Support-bank construction and query scoring use the same frozen visual paths. Ea
 
 {{figure:framework}}
 
-The anchor combines DINOv2-B with the AnomalyCLIP visual path. Controlled variants duplicate the **B** descriptor (the DINOv2-B visual encoder) or replace that copy with a different frozen encoder. Shared resizing and smoothing convert patch scores to the continuous output map, whose spatial maximum gives the image score. Both matching rules are evaluated as fixed experimental conditions. Figure 2 shows their candidate selection. All encoders and fusion weights remain unchanged during target inference.
+The anchor combines DINOv2-B with the AnomalyCLIP visual path. Controlled variants duplicate the **B** descriptor (the DINOv2-B visual encoder) or replace that copy with a different frozen encoder. Shared resizing and smoothing convert patch scores to the continuous output map, whose spatial maximum gives the image score. Both matching rules are evaluated as fixed experimental conditions. Figure 2 shows their candidate selection. All encoders and fusion weights remain unchanged during target inference; this is a fixed experimental configuration, not a hyperparameter-free system.
 
 ### 3.3 Normal Reference Matching
 
@@ -181,7 +181,9 @@ The original D extension and the matched five-encoder comparison use seeds 0 and
 
 The primary matrix includes single-branch B, S and C and both matching rules for A1, DUP, TRI and BAL. Single-branch paths diagnose descriptor quality, while the eight combined configurations identify the two interaction contrasts. The D extension adds D-only scoring and its TRI/BAL variants. E1–E3 entered after the S and D results and are exploratory encoder substitutions. They test sensitivity to the added representation.
 
-AnomalyDINO and PatchCore provide native-method context [@anomalydino;@patchcore]. AnomalyDINO is evaluated with and without support rotation. PatchCore includes the 224-pixel input and 1024-dimensional projected-feature configuration as well as the earlier local 128-pixel and 256-dimensional configuration. Both are retained to reveal configuration sensitivity. Each method keeps its own preprocessing, features and search implementation, while support seeds and budgets are matched. This comparison assesses practical configurations and does not isolate the matching factor or constitute a comprehensive state-of-the-art benchmark.
+AnomalyDINO and PatchCore provide native-method context [@anomalydino;@patchcore]. AnomalyDINO is evaluated with and without support rotation. PatchCore includes the 224-pixel input and 1024-dimensional projected-feature configuration as well as an earlier local 128-pixel and 256-dimensional configuration. Both are retained to reveal configuration sensitivity. Each method keeps its own preprocessing, features and search implementation, while support seeds and budgets are matched where its protocol defines them. This comparison assesses practical configurations and does not isolate the matching factor or support a comprehensive cross-method ranking.
+
+Every configuration evaluated here omits gradient-based adaptation on the target data: encoders run in evaluation mode with fixed fusion weights and no target loss, optimizer or training epochs. This does not erase prior learning. The pretrained visual encoders and inherited checkpoints retain their upstream training provenance, and reference construction, feature encoding and scoring remain preparation computation. PatchCore builds a feature memory and coreset; the controlled pipeline, AnomalyDINO and SubspaceAD construct normal-reference statistics from the supplied supports; and WinCLIP+ uses frozen vision-language alignment and prompt ensembles. The separate zero-shot AnomalyCLIP baseline uses an upstream auxiliary-domain-trained prompt learner and evaluates the target domain zero-shot, following the upstream rule that a prompt learner is not evaluated on its own training domain. The verified upstream source archive supplies the thirty epoch checkpoint files used by this baseline; they were not trained by this project. In contrast, the **C** branch in the controlled A1 pipeline uses visual descriptors only: prompt weights and text scores do not enter its visual anomaly score. Thus, no target-domain gradient update should not be read as no previous training, no preparation work or no configuration choices; resolutions, retained layers, support budgets, smoothing and visualization thresholds remain fixed choices recorded in Table 2 and the protocol tables.
 
 #### 4.1.3 Metrics and Statistical Inference
 
@@ -199,17 +201,17 @@ Observed condition-averaged point estimates and bootstrap means are labelled sep
 
 #### 4.1.4 Implementation and Reproducibility
 
-The recorded machine has an NVIDIA GeForce RTX 3060 Laptop GPU with 6 GB VRAM, an Intel Core i9-12900H processor and 16 GB RAM. Encoders run in evaluation mode, with cached query features reused across controlled variants. Exact nearest-neighbor search implements Section 3, using Facebook AI Similarity Search (FAISS) where applicable [@faiss]. Feature extraction, reference construction and score evaluation are distinct computational stages; cached-stage times cannot be interpreted as end-to-end deployment latency.
+The recorded machine has an NVIDIA GeForce RTX 3060 Laptop GPU with 6 GB VRAM, an Intel Core i9-12900H processor and 16 GB RAM. Encoders run in evaluation mode, with cached query features reused across controlled variants. Exact nearest-neighbor search implements Section 3, using Facebook AI Similarity Search (FAISS) where applicable [@faiss]. Feature extraction, reference construction and score evaluation are distinct computational stages; cached-stage times cannot be interpreted as complete-process deployment latency.
 
 The primary BTAD tables use corrected category-03 coordinates. The four-dataset and eight-seed extensions retain their archived canonical-mask convention and are reported separately. Geometric audits verify the retained image extent and support nesting. Duplicate descriptors reuse the exact cached values. Reproduction uses support manifests, frozen branch specifications and paired bootstrap streams; no target loss is optimized and no test-mask feedback selects a normal reference.
 
-Resource reporting is restricted to measurements whose stages and devices are identifiable. VisA's extension includes mixed CPU/GPU execution and is excluded from speed or GPU-memory rankings. A separate synchronized benchmark now measures all six configurations on six MPDD units, including query feature extraction. Its reference preparation and query scoring boundary is stated in Section 4.2.14; the older stage records remain separate.
+Resource reporting is restricted to measurements whose stages and devices are identifiable. VisA's extension includes mixed CPU/GPU execution and is excluded from speed or GPU-memory rankings. A separate synchronized benchmark now measures all six configurations on six MPDD units, including query feature extraction. Its reference-preparation and query-scoring boundary is stated in Section 4.2.4; the older stage records remain separate.
 
 ### 4.2 Results and Analysis
 
 {{results}}
 
-## 5 Conclusion
+## 6 Conclusion
 
 This study separates the value of additional frozen visual representations from reweighting and normal-reference selection in few-shot industrial anomaly localization. Exact duplication and complementary fixed-weight replacements make the representation change explicit. Crossing these controls with joint and independent matching reveals whether its value depends on sharing a normal reference, beyond any absolute gain from the added encoder.
 
@@ -217,13 +219,13 @@ The results demonstrate why this distinction matters. DINOv2-S shows positive ma
 
 The resulting design guidance is to evaluate representation composition and reference selection together under explicit weight controls. Its scope remains conditional on the tested encoders, support sets and dataset provenance. Future work should extend prospective comparisons to additional production settings, test correspondence effects under broader prospective conditions, and evaluate calibrated thresholds and deployment costs across more datasets and operating conditions. These steps would connect the controlled attribution of fusion gains to practical inspection decisions.
 
-## Data and Code Availability
+## 7 Data and Code Availability
 
 MPDD, BTAD, MVTec AD, VisA and KolektorSDD2 are distributed by their respective providers [@mpdd;@btad;@mvtec;@visa;@ksdd2]. The local study archive retains support manifests, feature specifications, geometry revisions, prediction caches, per-condition metrics, bootstrap outputs and analysis scripts. A local reproduction package includes the analysis entry points, dependency records, support manifests and figure bindings. Raw datasets and feature caches remain separate.
 
 Licensing is split three ways. The code is released under the MIT Licence (repository root `LICENSE`, Copyright (c) 2026 LiYuening). The derived artefacts released with the package - derived tables, figures and the manuscript sources - carry the same licence as the code; any item that the root `LICENSE` does not explicitly cover remains for the authors to confirm. Dataset licences are separate and are not covered by the code licence, and the datasets themselves are not redistributed here. The public repository holding the code and the reproduction materials is https://github.com/USEU117/reference-matching-interaction-ad; a permanent archive DOI for the complete study has not yet been established.
 
-Funding: [[FUNDING]]. Competing interests: The authors declare no competing interests. Ethics: Not applicable; the study analyses industrial image data only, with no human or animal subjects.
+Funding: [[FUNDING]]. Competing interests: [[COMPETING_INTERESTS_TO_BE_CONFIRMED]]. Ethics: Not applicable; the study analyses industrial image data only, with no human or animal subjects.
 
 ## References
 
@@ -244,4 +246,4 @@ Funding: [[FUNDING]]. Competing interests: The authors declare no competing inte
 
 {{figure:speed_vram}}
 
-The accompanying figure deck includes the complete set of 36 category-level comparisons with the native methods, using the same shared-region evaluation as Table 11. These selected examples supplement the aggregate results; they are not an independently sampled performance estimate. Their source records preserve the sample identities, per-image AP and common-region geometry.
+The accompanying figure deck includes the complete set of 36 category-level comparisons with the native methods, using the same shared-region evaluation as Table 11. These selected examples show query images, ground truth and method score maps, but do not supply a predicted contour for every method. The two-output presentation of a continuous map plus a predicted contour applies only to the five main-text A1 cases in Figures 6 and 7. The category-level panels supplement the aggregate results; they are not an independently sampled performance estimate. Their source records preserve the sample identities, per-image AP and common-region geometry.

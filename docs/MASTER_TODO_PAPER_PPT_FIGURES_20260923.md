@@ -2,6 +2,7 @@
 
 > **本表自 2026-09-23 起是交接的唯一入口**。其余文档按"历史登记"保留（**不删除**），只在顶部各加一行指针；本表不重复它们的论证，只做汇总、指派与去重。
 > 编辑纪律：本表**不改任何实验数值**；`experiments/**` 证据字段、`data/**`、`LICENSE`、`requirements_repro.txt`、版式母本、`figure_sources/**` 科学内容为**红线**；冻结表/扩展表哈希见 **E-13**。
+> **验收清单**：论文/PPT/图件**重新生成后**的完整核对清单见 [`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md`](REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md)（可自动核查项 + 需人工判定项 + 防回归项 + 判定模板；使用方式见该文件 §0）。
 
 **现状（10 行内）**
 

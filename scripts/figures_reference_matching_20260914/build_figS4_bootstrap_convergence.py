@@ -57,7 +57,6 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
-from matplotlib.font_manager import FontProperties  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -162,13 +161,15 @@ CAPTION_EN = (
     "frozen stored arrays are reused. The reference line is each series' N = 1000 value. Point "
     "estimates stay within 2.3e-04 pixel AP from N = 200, and interval widths within a measured "
     "6.8% from N = 500; the panel (b) grey band is a fixed +/-5% reference band, which every "
-    "series enters only from N = 700. KSDD2 is the confirmation set."
+    "series enters only from N = 700. L denotes independent matching and J joint matching; KSDD2 "
+    "is the confirmation set."
 )
 CAPTION_ZH = (
     "图 S4. 交互量的自助收敛（宏观 pixel AP 原值）。仅使用已冻结 replicate 数组的前缀，未新增采样；"
     "横轴为自助重复次数 N。水平参考线为该序列在 N = 1000 的取值。点估计自 N = 200 起与该值相差不超过 "
     "2.3e-04 pixel AP，区间宽度的实测最大相对偏离为 6.8%（自 N = 500 起）；(b) 面板灰带为固定的 ±5% "
-    "参考带，全部序列要到 N = 700 才进入带内。KSDD2（灰色虚线）为确认集，不属四数据集家族。"
+    "参考带，全部序列要到 N = 700 才进入带内。L 指独立匹配，J 指联合匹配；KSDD2（灰色虚线）为确认集，"
+    "不属四数据集家族。"
 )
 
 
@@ -439,8 +440,10 @@ def main() -> int:
     def inches(value: float) -> float:
         return value / height_in
 
-    ax_a = fig.add_axes([0.115, inches(5.05), 0.865, inches(2.25)])
-    ax_b = fig.add_axes([0.115, inches(1.91), 0.865, inches(2.25)])
+    # Paper placement keeps the figure caption outside the raster.  The freed title and caption
+    # space enlarges both panels instead of repeating the manuscript prose inside the figure.
+    ax_a = fig.add_axes([0.115, inches(5.00), 0.865, inches(2.95)])
+    ax_b = fig.add_axes([0.115, inches(1.08), 0.865, inches(2.95)])
 
     # ---- series: panel (a) point-estimate change, panel (b) relative interval width ---------
     for dataset, _path, _role, colour, marker, _label in DATASETS:
@@ -503,17 +506,16 @@ def main() -> int:
 
     ax_a.text(
         0.0, 1.045,
-        "(a) Point-estimate change from its N = 1000 value (pixel AP, original metric scale)\n"
-        f"solid = I_TRI, dashed = I_BAL; grey band = +/-{est_bound:.1e}"
-        " (0 = the N = 1000 value)",
+        "(a) Difference from N = 1000 (10^-3 pixel AP)\n"
+        r"solid $I_{\mathrm{TRI}}$, dashed $I_{\mathrm{BAL}}$, grey band = "
+        f"+/-{est_bound:.1e}",
         transform=ax_a.transAxes, ha="left", va="bottom", fontsize=DEFAULT_PT,
         fontweight="bold", linespacing=1.35,
     )
     ax_b.text(
         0.0, 1.045,
-        "(b) 95% interval width of pixel AP, relative to its N = 1000 value (ratio)\n"
-        "grey band = the fixed +/-5% reference band; KSDD2 (grey, dashed) = confirmation set\n"
-        f"all series stay inside that reference band only from N = {reference_n}",
+        "(b) 95% interval-width ratio to N = 1000\n"
+        f"grey band = fixed +/-5% reference; all series inside from N = {reference_n}",
         transform=ax_b.transAxes, ha="left", va="bottom", fontsize=DEFAULT_PT,
         fontweight="bold", linespacing=1.35,
     )
@@ -532,72 +534,13 @@ def main() -> int:
         handles,
         [label for *_, label in DATASETS],
         loc="upper left",
-        bbox_to_anchor=(0.115, inches(8.22)),
+        bbox_to_anchor=(0.115, inches(9.05)),
         ncol=5,
         frameon=False,
         handlelength=1.6,
         columnspacing=1.0,
         borderaxespad=0.0,
     )
-
-    # Every free-text line is wrapped against the measured width of Times New Roman at the print
-    # size, so nothing can run off the 17 cm page (the gate re-checks it afterwards).
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    page_px = fig.canvas.get_width_height()[0]
-    left_px = 0.03 * page_px
-    limit_px = page_px - left_px
-
-    def line_width_px(text: str, bold: bool = False) -> float:
-        prop = FontProperties(
-            family=matplotlib.rcParams["font.family"], size=DEFAULT_PT,
-            weight="bold" if bold else "normal",
-        )
-        return renderer.get_text_width_height_descent(text, prop, False)[0]
-
-    def wrap(text: str, bold: bool = False) -> list:
-        lines, current = [], ""
-        for word in text.split(" "):
-            candidate = word if not current else f"{current} {word}"
-            if not current or line_width_px(candidate, bold) <= limit_px:
-                current = candidate
-            else:
-                lines.append(current)
-                current = word
-        lines.append(current)
-        return lines
-
-    title = wrap("Figure S4. Bootstrap convergence of the interaction: the reported estimates "
-                 "and interval widths have settled.", bold=True)
-    fig.text(0.03, inches(9.25), "\n".join(title), ha="left", va="top",
-             fontsize=DEFAULT_PT, fontweight="bold", linespacing=1.3)
-
-    # the in-figure gloss: no undefined abbreviation may appear on the figure
-    gloss = wrap("I_TRI and I_BAL are the two interaction contrasts, both in macro pixel AP: "
-                 "I_TRI = (TRI - DUP)_L - (TRI - DUP)_J and I_BAL = (BAL - A1)_L - (BAL - A1)_J, "
-                 "with L, J = local, joint matching rule.")
-    fig.text(0.03, inches(8.74), "\n".join(gloss), ha="left", va="top",
-             fontsize=DEFAULT_PT, color="#3A3A3A", linespacing=1.3)
-    print(f"[figS4] gloss: {len(gloss)} lines, title: {len(title)} lines")
-
-    caption = [
-        "No target-domain training, hence no loss-versus-iteration curve to plot.",
-        "Prefix bootstrap: the first N of 1000 frozen draws are reused; nothing is resampled.",
-        f"Panel (a): grey band = the measured bound {est_bound:.1e} pixel AP from N = {est_n}.",
-        "Panel (b): grey band = a fixed +/-5% reference band, not a pass criterion.",
-        f"Observed worst deviation {100.0 * width_bound:.1f}% from N = {width_n}; all series "
-        f"inside the reference band from N = {reference_n}.",
-        "Per-N table, the 10 cross-checks and the KSDD2 role: figS4_bootstrap_convergence.json.",
-    ]
-    wrapped = [line for entry in caption for line in wrap(entry)]
-    max_lines = 6  # the caption block must stay below the x axis label of panel (b)
-    if len(wrapped) > max_lines:
-        raise SystemExit(
-            f"[figS4] caption wrapped to {len(wrapped)} lines (max {max_lines}); shorten the wording"
-        )
-    fig.text(0.03, inches(0.10), "\n".join(wrapped), ha="left", va="bottom",
-             fontsize=DEFAULT_PT, color="#3A3A3A", linespacing=1.3)
-    print(f"[figS4] caption block: {len(wrapped)} lines")
 
     min_pt_measured = assert_min_font_pt(fig, args.min_pt, "figS4_bootstrap_convergence")
     assert_no_text_axes_overlap(fig, "figS4_bootstrap_convergence")
@@ -634,20 +577,21 @@ def main() -> int:
         "figure": "figS4_bootstrap_convergence",
         "version": 2,
         "version_note": (
-            "v2 (2026-09-21) is a layout/annotation revision of v1: two panels instead of three, "
-            "colour-blind safe palette with marker-encoded datasets, N = 1000 asymptote reference "
-            "lines, annotated stability points, an in-figure gloss for I_TRI/I_BAL and a bilingual "
-            "caption.  No value, replicate array, contrast definition or tolerance was changed; "
-            "v1 of these files is kept as figS4_bootstrap_convergence.v1.{png,pdf,json}."
+            "v2 (2026-09-21) is a two-panel layout/annotation revision of v1. The 2026-09-23 "
+            "paper-placement revision removes the redundant in-figure title, explanatory gloss and "
+            "long caption block, expands the two panels, and uses mathematical typesetting for the "
+            "interaction labels. The full bilingual captions remain JSON metadata. No value, "
+            "replicate array, contrast definition or tolerance was changed; v1 of these files is "
+            "kept as figS4_bootstrap_convergence.v1.{png,pdf,json}."
         ),
         "annotation_revision": (
-            "2026-09-22: annotation and caption revision only - no plotted value, prefix, contrast "
-            "or tolerance changed.  Panel (b) now labels the shaded band as a fixed +/-5% reference "
-            "band and the vertical line as the measured worst relative width deviation "
-            f"({100.0 * width_bound:.1f}% from N = {width_n}), and states the first grid N from "
-            f"which every series stays inside that reference band (N = {reference_n}).  The "
-            "unconditional 'settled from' wording is replaced by descriptive wording; the headline "
-            "and both captions carry the same separation."
+            "2026-09-23: paper-placement revision only - no plotted value, prefix, contrast or "
+            "tolerance changed. Panel (b) keeps the fixed +/-5% reference band separate from the "
+            "measured worst relative width deviation "
+            f"({100.0 * width_bound:.1f}% from N = {width_n}) and keeps the first grid N from "
+            f"which every series stays inside that reference band (N = {reference_n}). The "
+            "interaction labels use italic I with upright descriptive subscripts; L denotes "
+            "independent matching and J joint matching."
         ),
         "v1_backup": [
             "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.v1.png",

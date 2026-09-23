@@ -1,5 +1,6 @@
 from pathlib import Path
 import copy, re, json, csv, hashlib, zipfile
+from datetime import datetime, timezone
 from docx import Document
 from docx.shared import Cm, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_TAB_ALIGNMENT
@@ -24,7 +25,9 @@ for n in ['Normal','Title','Heading 1','Heading 2','Heading 3','Caption']:
     d.styles[n].font.name='Times New Roman'
 d.core_properties.title='Disentangling Representation Effects and Normal Reference Matching in Few-Shot Industrial Anomaly Localization'
 d.core_properties.subject='English manuscript based on the current representation and matching study'
-d.core_properties.author=''
+d.core_properties.author='Yuening Li'
+d.core_properties.created=datetime(2026,9,23,tzinfo=timezone.utc)
+d.core_properties.modified=datetime(2026,9,23,tzinfo=timezone.utc)
 d.core_properties.keywords='few-shot anomaly localization; frozen visual encoders; reference matching'
 
 def mr(t,roman=False,bold=False):
@@ -129,8 +132,10 @@ figures=json.loads((TMP/'figures.json').read_text(encoding='utf-8'))
 table_no=0;figure_no=0
 def table(key):
     global table_no
-    spec=tables[key];table_no+=1
-    cap=para(f'Table {table_no}. '+spec['caption'],'Caption');cap.paragraph_format.keep_with_next=True
+    spec=tables[key]
+    if 'label' not in spec:table_no+=1
+    label=spec.get('label',str(table_no))
+    cap=para(f'Table {label}. '+spec['caption'],'Caption');cap.paragraph_format.keep_with_next=True
     rows=[spec['headers']]+spec['rows']
     # Group repeated values (for example one dataset name per block) by showing the value once.
     prev={};disp=[]
@@ -223,8 +228,16 @@ for i,p0 in enumerate(paragraphs[:-1]):
     nxt=paragraphs[i+1]
     if nxt._p.xpath('.//m:oMath') and re.search(r'\(\d+\)$',nxt.text) and '\t' in nxt.text:
         p0.paragraph_format.keep_with_next=True
-dest=OUT/'Reference_Matching_Complete_English_20260920.docx' 
+dest=OUT/'Reference_Matching_Complete_English_20260923.docx' 
 d.save(dest)
+# Fix package timestamps; this affects packaging only, never numerical content.
+with zipfile.ZipFile(dest) as zin:
+    members={name:zin.read(name) for name in zin.namelist()}
+with zipfile.ZipFile(dest,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as zout:
+    for name in sorted(members):
+        zi=zipfile.ZipInfo(name,date_time=(2026,9,23,0,0,0))
+        zi.compress_type=zipfile.ZIP_DEFLATED
+        zout.writestr(zi,members[name])
 # Record preserved package structures; body, metadata and image relations are editable.
 with zipfile.ZipFile(REF) as a,zipfile.ZipFile(dest) as b:
     preserved=[n for n in a.namelist() if n in b.namelist() and (n.startswith('word/footer') or n.startswith('word/header') or n in ['word/numbering.xml','word/theme/theme1.xml'])]
@@ -239,8 +252,9 @@ equations={1:r'\mathcal{X}_c=\{\boldsymbol{x}_i^c:i=1,\ldots,K\}',2:r'd_b(p,r)=1
 for num,latex in equations.items():resolved=resolved.replace('{{eq:'+str(num)+'}}','$$\n'+latex+'\\tag{'+str(num)+'}\n$$')
 tn=0
 for match in list(re.finditer(r'\{\{table:([^}]+)\}\}',resolved)):
-    tn+=1;sp=tables[match[1]]
-    mt='Table '+str(tn)+'. '+sp['caption']+'\n\n'
+    sp=tables[match[1]]
+    if 'label' not in sp:tn+=1
+    mt='Table '+sp.get('label',str(tn))+'. '+sp['caption']+'\n\n'
     mt+='| '+' | '.join(sp['headers'])+' |\n| '+' | '.join(['---']*len(sp['headers']))+' |\n'
     for row in sp['rows']:mt+='| '+' | '.join(map(str,row))+' |\n'
     mt+='\n'+sp.get('note','')
