@@ -233,6 +233,25 @@ d.save(dest)
 # Fix package timestamps; this affects packaging only, never numerical content.
 with zipfile.ZipFile(dest) as zin:
     members={name:zin.read(name) for name in zin.namelist()}
+# Drop image parts that no part of the rebuilt package references. The layout master carries
+# eight unused template images (word/media/image1..8.png) whose relationships survive the
+# body reset; they are not referenced by any w:drawing, so they are removed here. Numerical
+# content and the 27 embedded figures are unaffected.
+rels_name='word/_rels/document.xml.rels'
+pruned_media=0
+if rels_name in members:
+    referenced={m.group(1).decode() for m in re.finditer(rb'r:(?:embed|link|id|pict|dm|lo|qs|cs|href)="([^"]+)"',members.get('word/document.xml',b''))}
+    rels_data=members[rels_name]
+    for m in list(re.finditer(rb'<Relationship\b[^>]*/>',rels_data)):
+        chunk=m.group(0)
+        if b'/image"' not in chunk:continue
+        hit=re.search(rb'Target="media/([^"]+)"',chunk)
+        rid=re.search(rb'Id="([^"]+)"',chunk)
+        if hit is None or rid is None or rid.group(1).decode() in referenced:continue
+        rels_data=rels_data.replace(chunk,b'',1)
+        members.pop('word/media/'+hit.group(1).decode(),None)
+        pruned_media+=1
+    members[rels_name]=rels_data
 with zipfile.ZipFile(dest,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as zout:
     for name in sorted(members):
         zi=zipfile.ZipInfo(name,date_time=(2026,9,23,0,0,0))
@@ -277,5 +296,5 @@ for match in list(re.finditer(r'\{\{figure:([^}]+)\}\}',resolved)):
 
 assert '{{' not in resolved
 (OUT/'English_Manuscript_Source.md').write_text(resolved,encoding='utf-8')
-(TMP/'build_validation.json').write_text(json.dumps({'source_sha256':SOURCE_SHA,'preserved_parts':fidelity,'page_fidelity':page,'tables':table_no,'figures':figure_no,'display_equations':12,'native_math_objects':len(d.element.xpath('//m:oMath')),'references':numbers,'words_approx':len(re.findall(r"\b[\w'-]+\b",text))},indent=2),encoding='utf-8')
+(TMP/'build_validation.json').write_text(json.dumps({'source_sha256':SOURCE_SHA,'preserved_parts':fidelity,'page_fidelity':page,'tables':table_no,'figures':figure_no,'display_equations':12,'native_math_objects':len(d.element.xpath('//m:oMath')),'references':numbers,'pruned_media_parts':pruned_media,'words_approx':len(re.findall(r"\b[\w'-]+\b",text))},indent=2),encoding='utf-8')
 print(dest)

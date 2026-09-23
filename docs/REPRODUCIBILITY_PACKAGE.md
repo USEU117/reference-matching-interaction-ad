@@ -1,3 +1,5 @@
+> 2026-09-23 当前复现入口见 `REPRODUCE_TO_TABLES.md`。现役源为 `scripts/paper_complete_review_20260920/`，旧 `manuscript_build_20260914/` 为历史链。版式母本必须保留，不能把所有 docx 一概排除；当前母本已受版本控制。下文体积及可执行性是历史快照。
+
 # 复现打包清单（REPRODUCIBILITY PACKAGE）
 
 > 用途：把"公开/交接时应打包什么、排除什么、为什么"写成一张可执行的清单，并给出外人复现的正确顺序。

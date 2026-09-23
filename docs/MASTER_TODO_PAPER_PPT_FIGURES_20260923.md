@@ -8,15 +8,15 @@
 
 | # | 现状 |
 |---|---|
-| 1 | **权威稿**：`docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx` = **47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 原生数学对象）/ 34 文献 / 17,221 词**；SHA-256 `DDB6602E1AA792C60743D4354FE90BFFE923E4BFF796CEB36971BA2528E8353B`（**非字节可复现**，见 E-09）。 |
+| 1 | **权威稿（现役）**：`docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx` = **55 页 / 23 表 / 27 内嵌图 / 12 编号公式（152 原生数学对象）/ 34 文献 / 19,253 词**；SHA-256 `53D7FAD81CE05EE33DD91933B4D1D06A63C7F41852AA187FCC7F84A430A9F759`（19,170,499 B，2026-09-23 重出；**非字节可复现**，见 E-09）。<br>**历史锚点**：`…Reference_Matching_Complete_English_20260920.docx` = 47 页 / 20 表 / 22 内嵌图 / 142 数学对象 / 17,221 词（`DDB6602E…`），已被上一行取代但**保留在盘**。 |
 | 2 | **唯一可编辑源**：`scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}` + 同目录 `build.py`；生成物 `docs/paper_complete_review_20260920/English_Manuscript_Source.md` **禁止直接编辑**（会被下次构建覆盖）。 |
-| 3 | **图件命名与绑定位置**：以 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` 为准（正文图号 ↔ 图源 PNG ↔ 生成脚本 ↔ 冻结数据 ↔ PPT 页 ↔ 日期）；正文实际嵌入的副本在 `docs/paper_complete_review_20260920/figures/`。 |
-| 4 | **PPT 位置与页数**：`docs/paper_complete_review_20260920/All_Figures_Complete_20260920.pptx` = **58 页**（第 1–22 页＝图 1–8 与 S1–S5；第 23–58 页＝36 张逐类别多方法附录）；新 deck SHA-256 `48DD9180…`（72,193,447 B，2026-09-22 重出）。 |
-| 5 | **PPT 内嵌的是位图**：仅第 1/2/3/12 页为原生形状；其余 54 页为整页 PNG，**不随源文件更新**，改图必须用绘图脚本重渲染后**重出 deck**（F14 的教训）。 |
-| 6 | **字号门**：`figure_manifest.json` 的 `minimumPrintPtAt17cm` = **11.294 pt**；正文契约 Times New Roman 11 pt、图宽 17 cm（图 S4 合并后按 16 cm 入稿）。 |
-| 7 | **改稿纪律（必须）**：改源文件 → 跑 `build.py` → **复测**「47 页 / 20 表 / 22 内嵌图 / 12 编号公式 / 142 数学对象 / 34 文献」；图件改动 → 重跑 `qa_layout.py` + `figure_font_gate.py --self-test`；图件改动 → **重出 58 页 deck** 并同步页码索引。 |
-| 8 | **冻结基线（不得改）**：冻结共同区域表 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、扩展表 `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、`data/splits/*/manifest.json`、版式母本 `9DB99E60…`、表 11 六列数值与表注。 |
-| 9 | **规模口径**：页数/表数/图数/公式数/文献数是稳定口径；docx 的 SHA-256 只是"某一次构建的快照"（F21）。词数最近一次 = **17,221**（A14 更正后重建）。 |
+| 3 | **图件命名与绑定位置**：以 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` 为准（正文图号 ↔ 图源 PNG ↔ 生成脚本 ↔ 冻结数据 ↔ PPT 页 ↔ 日期）；正文实际嵌入的副本在 `docs/paper_complete_review_20260920/figures/`。**2026-09-23 新增 §十一**：现役 revision23 入稿图集的口径、门禁复跑、哈希刷新与孤儿处置。 |
+| 4 | **PPT 位置与页数**：`docs/paper_complete_review_20260920/All_Figures_Complete_20260923.pptx` = **63 页**（第 1–27 页＝27 个图面板；第 28–63 页＝36 张逐类别多方法附录）；SHA-256 `893F0F2A7D3ED12D63EB5BA17A14F5FC38CB75FB3A073EE28A6821853D2FB896`。<br>**历史锚点**：`All_Figures_Complete_20260920.pptx` = 58 页（`48DD9180…`），保留在盘。 |
+| 5 | **PPT 内嵌的是位图**：仅第 **1/2/3/15** 页为原生形状（旧记 1/2/3/**12**，因新增面板使原生页后移）；其余 **59/63** 页为整页 PNG，**不随源文件更新**，改图必须用绘图脚本重渲染后**重出 deck**（F14 的教训）。 |
+| 6 | **字号门**：现役入稿图以 `--layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures` 复跑 `qa_layout.py` → **TOTAL PROBLEMS: 0**（图 1/2/3/S1，最小 **11.29 pt**）；`figure_font_gate.py --self-test` **4/4**。正文契约 Times New Roman 11 pt、图宽 17 cm（图 S4 合并后按 16 cm 入稿）。旧记的 `figure_manifest.json` `minimumPrintPtAt17cm` = 11.294 pt 仍成立（同一换算）。 |
+| 7 | **改稿纪律（必须）**：改源文件 → 跑 `build.py` → **复测**「**55 页 / 23 表 / 27 内嵌图 / 12 编号公式 / 152 数学对象 / 34 文献**（词数只作快照）」；图件改动 → 重跑 `qa_layout.py`（现役 layout，0 problem）+ `figure_font_gate.py --self-test`（4/4）；图件改动 → **重出 63 页 deck** 并同步页码索引。 |
+| 8 | **冻结基线（不得改）**：冻结共同区域表 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、扩展表 `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、`data/splits/*/manifest.json`、版式母本 `9DB99E60…`、**表 11 六列数值**（表注冻结已于 2026-09-23 由作者解除：仅**追加**"非排名 / 各方法原生协议"两处限定，既有表注文字与六列数值不变）。 |
+| 9 | **规模口径**：页数/表数/图数/公式数/文献数是稳定口径；docx 的 SHA-256 只是"某一次构建的快照"（F21）。词数最近一次 = **19,253**（2026-09-23 重出；旧值 17,221 为 2026-09-23 扩版前）。 |
 | 10 | **本轮窗口**：未跑实验、未用 GPU、未提交、未推送；全部条目分 **A–E 五组**，共 **70 条**（其中 6 条为"待拍板/纪律"性质）。 |
 
 ---
@@ -66,7 +66,7 @@
 | B-09 | **本表新发现**：`FIGURE_BINDING.md` 未登记图 S3 的第 5/6 页面板（`panel_interaction_cases_p3/p4`） | `图件与PPT页码索引.md:18-19`（PPT 第 18/19 页 = p3/p4）vs `FIGURE_BINDING.md §一`（S3 只列到 `_p2`）；`docs/paper_complete_review_20260920/figures/` 内确有 p3/p4，`docs/figures_reference_matching_20260914/` 内**无** | 补登记 §一/§四：写清 p3/p4 的生成脚本、冻结数据、门禁与为何两处目录不一致；核实是否需把 p3/p4 同步回 `figures_reference_matching_20260914/` | AI | 中 | 待做（本表新发现） | — |
 | B-10 | **本表新发现·未核实**：T13 把 Fig 5 记为 "(a/b/c)" 三页，盘上只有两页 | `论文与图件问题汇总…:399-413`（`budget_category(a/b/c)`）vs `docs/paper_complete_review_20260920/figures/` 只有 `fig5a_budget_seed.png`、`fig5b_categories.png`；PPT 第 6/7 页也只对两页 | 核对 `figures.json` 的 `budget_category` 分页键与 PPT 第 6/7 页，统一记法（**未核实哪一方为准**） | AI | 低 | 未核实 | — |
 
-> **已完成、勿重做（图件侧）**：F01（图2(b) 紫框已对齐 `build_methods.mjs:323`，`fig2` SHA `AB1EB3FD…`）、F02（图3(b) 权重措辞，`fig3` SHA `57362409…`）、P04（S4 ±5% 参考带 vs 6.8%，首个 N=700，`figS4` SHA `C4D2D0A0…`）、图 S6 生成与门禁（`0C6F801C…`）、图 6/7 字号 11.5 pt 修复、图 S3 版面修正。详见第五节。
+> **已完成、勿重做（图件侧）**：F01（图2(b) 紫框已对齐 `build_methods.mjs:323`，`fig2` SHA **`5156E610A1041FB08640960ED202475E1DEA4CD5EC254A85610308B9576C58E6`**（2026-09-23 重渲染后盘上实测；旧记 `AB1EB3FD…` 已过期））、F02（图3(b) 权重措辞，`fig3` SHA **`3F309ADB57D294E740F0C11E5085248A2CBB854F0E4932734758CF3A9AEDE6FD`**（旧记 `57362409…` 已过期））、P04（S4 ±5% 参考带 vs 6.8%，首个 N=700，`figS4_bootstrap_convergence` SHA **`6AFA2E49D6BCA74486BE8C4795B668BF732D1491A7B2017D1F7917A81583C0BF`**（旧记 `C4D2D0A0…` 已过期））、图 S6 生成与门禁（`0C6F801C…`）、图 6/7 字号 11.5 pt 修复、图 S3 版面修正。**哈希刷新依据**见 `FIGURE_BINDING.md §11.4`（9 处几何由 900 → 1060 单元重排而重渲染）。
 
 ---
 
@@ -193,6 +193,9 @@
 | 25 | `sci` 字符串中性化（人工撰写面） | 路径层 13 项（3 项身份泄露已 `git mv`）；A 类人工可读面清零；B 类 67 处 → **8 处**（3 个哈希登记文档按规则保留）；提交信息层见 E-15 |
 | 26 | 图 6/7 字号修复（7.1–9.3 pt → 11.50 pt）、图 S3 版面修正、图 S4 v2 改版、图 S6 编号无冲突登记 | `FIGURE_BINDING.md` §二/§四/§七/§十；`figure_font_gate.py --self-test` 4/4 |
 | 27 | 外部方法家族 2 → **5**（PatchCore、AnomalyDINO、SubspaceAD、WinCLIP+、AnomalyCLIP 零样本） | 三族 144/144 + 144/144 + 36/36，零失败零 OOM，GPU 合计约 185 min；"约 10 个方法"已由 F07/T07 更正为**举例非固定缺口** |
+| 28 | **2026-09-23 呈现纪律补句**（A-14 / A-19 / C-02 / C-03） | `tables.json`：Table 4/5/8 表注补 `not a claim of best performance`（Table 1 同措辞，三处）；Table 11 表注**追加**"各配置按自身原生协议（分辨率/画布/旋转/参考库构造），本表提供背景而非排名"。`manuscript.md` §4.1.2 补"对照集合以正式基线清单为准，数量本身不是目标，约十个不是硬指标"。**六列数值与既有表注语义未改**（`baselines`/`baselines_ext` 的 `rows`/`headers` 与 `HEAD` 逐项 `identical=True`） |
+| 29 | **2026-09-23 Table 11 表注冻结解除 + 语义边界回正** | `finish_text_revision23.py:21` 的 `if k=='baselines':continue` 冻结已删除（改为登记式注释）；VisA 边界改回**明确域内**（`manuscript.md:172`：`VisA remains in-domain frozen validation … does not provide unseen-domain evidence`）；`results.md:142` 的越界表述 `neither the sign nor the interval separation … depends on that constant` → `the zero-exclusion judgement of the interaction is preserved under that constant` |
+| 30 | **2026-09-23 现役 1280×1060 版面门禁复跑 + 未引用媒体清理 + 孤儿删除 + 重建** | `qa_layout.py --layout-dir .tmp_revision_20260923/active_layouts --figures-dir docs/paper_complete_review_20260920/figures` → **TOTAL PROBLEMS: 0**（图 1 首轮 4 处，已按"只改盒几何、不改阈值、实测光栅中性"修复；修前/修后 PNG SHA 均为 `C179C22E…`）；`build.py` 新增 package 级未引用媒体清理（**pruned 8 个**，`word/media/*` 35 → 27，docx 32.5 MB → 19.17 MB）；孤儿 `figures/figS1_encoders_geometry.png` 登记后删除（见 `FIGURE_BINDING.md §11.5`）；重建后 **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 34 文献 / 19,253 词** |
 
 ---
 
@@ -310,6 +313,6 @@
 2. **其余文档按"历史登记"保留，不删除**（含 GPT 生成的总结）。仅在以下两处已各加一行指针：
    - `docs/论文与图件问题汇总_仅复核_20260921.md`（登记表：T/P/F/A 编号的来源）
    - `docs/REMEDIATION_PLAN_20260920.md`
-3. **权威链**（改稿只动这几个）：`scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}` + `build.py`；产物 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260920.docx`（47 页 / 20 表 / 22 内嵌图 / 12 公式 / 34 文献）。
+3. **权威链**（改稿只动这几个）：`scripts/paper_complete_review_20260920/{manuscript.md, results.md, tables.json, figures.json, references.json}` + `build.py`；产物 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`（**55 页 / 23 表 / 27 内嵌图 / 12 公式 / 152 数学对象 / 34 文献 / 19,253 词**；旧 `…20260920.docx` 的 47 页 / 20 表 / 22 图 / 142 对象 / 17,221 词为扩版前历史值）。
 4. **已 superseded（勿改、勿据其写作）**：`docs/manuscript_reference_matching_20260914/`、`scripts/manuscript_build_20260914/`（见其 `SUPERSEDED_20260921.md`）；`docs/replication_package_20260920/` 是**交付副本**，不是编辑源。
 5. **文档地图**：图件绑定 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md`；页码索引 `docs/paper_complete_review_20260920/{FIGURE_SLIDE_INDEX.json, 图件与PPT页码索引.md}`；下游写作指令 `docs/FINAL_ACCEPTANCE_AND_HANDOFF_20260922.md` §13；命名方案 `docs/NAMING_MIGRATION_PLAN_20260922.md`；B 线写作说明 `docs/METHOD_COMPARISON_HANDOFF_20260922.md`；投稿元数据 `docs/SUBMISSION_METADATA.md`。

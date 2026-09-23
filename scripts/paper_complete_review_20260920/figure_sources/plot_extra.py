@@ -4,10 +4,10 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-R=Path('D:/STUDY/My_github/sci_project');T=R/'.tmp_complete_figures_20260920';O=T/'plots'
+R=Path(__file__).resolve().parents[3];T=R/'.tmp_complete_figures_20260920';O=T/'plots'
 plt.rcParams.update({'font.family':'Times New Roman','font.size':11.5,'mathtext.fontset':'stix','axes.spines.top':False,'axes.spines.right':False})
 import sys
-sys.path.insert(0,'D:/STUDY/My_github/sci_project/.tmp_complete_figures_20260920')
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from plot_fonts import configure_math
 configure_math()
 def save(fig,name):

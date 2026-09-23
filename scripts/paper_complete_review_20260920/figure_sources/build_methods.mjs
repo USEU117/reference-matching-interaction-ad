@@ -231,7 +231,7 @@ function createSlide() {
       );
     }
   }
-  addText(slide, "f2-query-label", "Query patch", 30, 238, 124, 40, { size: BASE, align: "center" });
+  addText(slide, "f2-query-label", "Query\npatch", 30, 228, 124, 64, { size: BASE, align: "center" });
   addMath(slide, "f2-query-index", [variable("p")], 158, 238, 28, 40, { size: BASE, align: "left" });
 
   addText(slide, "f2-branch-b", "branch B", 178, 116, 140, 42, {
@@ -254,7 +254,7 @@ function createSlide() {
   addMath(
     slide,
     "f2-candidate-set",
-    [variable("r"), upright(" ∈ ℛ"), sub("c"), upright("  shared reference rows")],
+    [variable("r"), upright(" ∈ ℛ"), sub("c", true), upright("  shared reference rows")],
     rowX,
     236,
     595,
@@ -264,7 +264,7 @@ function createSlide() {
   addText(
     slide,
     "f2-selection-note",
-    "The candidate set is the same in both branches.\nCells show row identity only.\nNo measured distances are shown.",
+    "Same candidate set.\nCells indicate rows,\nnot distances.",
     956,
     110,
     286,
@@ -288,7 +288,7 @@ function createSlide() {
     align: "center",
   });
 
-  const minR = [upright(" min"), sub("r", true), sub(" ∈ ℛ"), sub("c")];
+  const minR = [upright(" min"), sub("r", true), sub(" ∈ ℛ"), sub("c", true)];
   const sumB = [upright(" ∑"), sub("b", true)];
   addMath(
     slide,
@@ -305,7 +305,7 @@ function createSlide() {
     slide,
     "f2-independent-formula",
     [variable("L"), upright("("), variable("p"), upright(") ="), ...sumB,
-      variable(" w"), sub("b", true), upright(" min"), sub("r", true), sub(" ∈ ℛ"), sub("c"),
+      variable(" w"), sub("b", true), upright(" min"), sub("r", true), sub(" ∈ ℛ"), sub("c", true),
       variable(" d"), sub("b", true), upright("("), variable("p"), upright(","), variable("r"), upright(")")],
     664,
     432,
@@ -388,7 +388,7 @@ function createSlide() {
   band(slide, "f3-band-b", 372, 382, C.bandWarm);
   band(slide, "f3-band-c", 762, 286, C.bandNeutral);
 
-  section(slide, "a", "Four constructions with fixed weights", 18);
+  section(slide, "a", "Four constructions with fixed weights", 28);
   const cards = [
     { id: "A1", x: 32, note: "two-branch anchor", rows: [["B  DINOv2-B", "1/2", C.blueFill, C.blueLine], ["C visual", "1/2", C.amberFill, C.amberLine]] },
     { id: "DUP", x: 342, note: "copied B", rows: [["B  DINOv2-B", "1/3", C.blueFill, C.blueLine], ["B copy", "1/3", "#EEF5FA", C.blueLine], ["C visual", "1/3", C.amberFill, C.amberLine]] },
@@ -490,11 +490,11 @@ function createSlide() {
   addText(
     slide,
     "f3-pairing-note",
-    "Under either rule, paired contrasts use the same supports and queries.\nTRI versus A1 changes representation and slot weights.",
+    "Paired contrasts use the same supports and queries under either rule.",
     40,
-    994,
+    998,
     1200,
-    54,
+    42,
     { size: BASE, color: C.muted, align: "center" },
   );
   setNotes(
@@ -512,9 +512,9 @@ function createSlide() {
 
   section(slide, "a", "Primary branches and native feature widths", 18);
   const primary = [
-    { id: "B", title: "DINOv2-B", rows: ["ViT-B/14 · 448 input", "32 × 32 native grid", "768 dimensions"], fill: C.blueFill, line: C.blueLine },
-    { id: "C", title: "AnomalyCLIP", rows: ["ViT-L/14 · 518 input", "37 × 37 native grid", "768 dimensions"], fill: C.amberFill, line: C.amberLine },
-    { id: "S", title: "DINOv2-S", rows: ["ViT-S/14 · 448 input", "32 × 32 native grid", "384 dimensions"], fill: C.greenFill, line: C.greenLine },
+    { id: "B", title: "DINOv2-B", rows: ["ViT-B/14; 448", "32 × 32 native grid", "768 dimensions"], fill: C.blueFill, line: C.blueLine },
+    { id: "C", title: "AnomalyCLIP", rows: ["ViT-L/14; 518", "37 × 37 native grid", "768 dimensions"], fill: C.amberFill, line: C.amberLine },
+    { id: "S", title: "DINOv2-S", rows: ["ViT-S/14; 448", "32 × 32 native grid", "384 dimensions"], fill: C.greenFill, line: C.greenLine },
     { id: "D", title: "WRN50-2", rows: ["layer2 + layer3", "aligned to B grid", "1536 dimensions"], fill: C.greenFill, line: C.greenLine },
   ];
   const starts = [24, 336, 648, 960];
@@ -577,7 +577,7 @@ function createSlide() {
   addText(
     slide,
     "fs1-extra-note",
-    "E1–E3 were added after S and D; they are exploratory transfer checks. All encoders remain frozen.",
+    "E1–E3: exploratory checks after S and D; all encoders remain frozen.",
     42,
     556,
     1196,
@@ -606,7 +606,7 @@ function createSlide() {
     color: C.tealLine,
     align: "center",
   });
-  addText(slide, "fs1-special-case-text", "32 × 42 canvas; coordinate-correct C re-grid", 48, 948, 538, 52, {
+  addText(slide, "fs1-special-case-text", "32 × 42 canvas; coordinate-correct C re-grid", 48, 948, 538, 60, {
     size: BASE,
     align: "center",
   });
@@ -616,7 +616,7 @@ function createSlide() {
     color: C.greenLine,
     align: "center",
   });
-  addText(slide, "fs1-frozen-case-text", "No target-domain training, PCA, coreset, or weight search", 634, 948, 598, 52, {
+  addText(slide, "fs1-frozen-case-text", "No target-domain training, PCA, coreset, or weight search", 634, 948, 598, 60, {
     size: BASE,
     align: "center",
   });

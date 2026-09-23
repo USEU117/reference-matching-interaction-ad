@@ -4,11 +4,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
-R=Path('D:/STUDY/My_github/sci_project');T=R/'.tmp_complete_figures_20260920';O=T/'plots';O.mkdir(exist_ok=True)
+R=Path(__file__).resolve().parents[3];T=R/'.tmp_complete_figures_20260920';O=T/'plots';O.mkdir(exist_ok=True)
 plt.rcParams.update({'font.family':'Times New Roman','font.size':11,'axes.titlesize':11,'axes.labelsize':11,'xtick.labelsize':11,'ytick.labelsize':11,'legend.fontsize':11,'mathtext.fontset':'stix','axes.spines.top':False,'axes.spines.right':False,'savefig.dpi':350})
-tables=json.loads((R/'.tmp_figure_revision_20260920/tables.json').read_text(encoding='utf-8'))
+tables=json.loads((R/'scripts/paper_complete_review_20260920/tables.json').read_text(encoding='utf-8'))
 import sys
-sys.path.insert(0,'D:/STUDY/My_github/sci_project/.tmp_complete_figures_20260920')
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 from plot_fonts import configure_math
 configure_math()
 def save(fig,name):

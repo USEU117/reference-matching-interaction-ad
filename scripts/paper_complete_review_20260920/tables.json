@@ -34,10 +34,10 @@
       ]
     ],
     "widths": [
-      1.8,
-      4.6,
+      2.5,
+      4.4,
       3.4,
-      7.2
+      6.7
     ],
     "note": "Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight. B, S, C and D denote the frozen DINOv2-B, DINOv2-S, AnomalyCLIP visual and WideResNet50-2 branches; J and L denote joint and independent reference matching.",
     "bold_rows": [
@@ -53,7 +53,7 @@
   "models": {
     "caption": "Frozen feature paths and shared model configuration.",
     "headers": [
-      "Component",
+      "Item",
       "Full name",
       "Input and retained feature path",
       "Descriptor / target training"
@@ -200,7 +200,7 @@
       3.6,
       4.7
     ],
-    "note": "All S studies use K = 1, 2, 4 and 8. KolektorSDD2 uses the same four budgets for D. Supports are nested within seed and shared across paired methods. Extra-encoder comparisons on MPDD/BTAD use the four D conditions; their wider twelve-condition runs are exploratory. VisA is in-domain for the inherited C checkpoint.",
+    "note": "All S studies use K = 1, 2, 4 and 8. KolektorSDD2 uses the same four budgets for D. Supports are nested within seed and shared across paired methods. Extra-encoder comparisons on MPDD/BTAD use the four D conditions; their wider twelve-condition runs are exploratory. VisA retains the conservative in-domain role; the loaded prompt learner does not enter the visual-only C path (Section 4.1.1).",
     "bold_rows": [],
     "left_cols": [
       0
@@ -271,7 +271,7 @@
       3,
       7.2
     ],
-    "note": "Pixel AP percentage points, stride eight. The matching difference is formed within one construction, so it changes only the selection rule: a positive value means independent matching scores higher than joint matching. Values are condition-averaged observed differences and are shown next to, never replaced by, the bootstrap means. MPDD uses 12 support conditions (seeds 0, 1, 2) and corrected BTAD uses 8 (seeds 0, 1). Bold identifies the A1 anchor. These are descriptive summaries of the matching rule and are not part of the three adjusted families defined in Section 4.1.3, so no family-adjusted interval is claimed for them.",
+    "note": "Pixel AP percentage points, stride eight. The matching difference is formed within one construction, so it changes only the selection rule: a positive value means independent matching scores higher than joint matching. Values are condition-averaged observed differences and are shown next to, never replaced by, the bootstrap means. MPDD uses 12 support conditions (seeds 0, 1, 2) and corrected BTAD uses 8 (seeds 0, 1). Bold identifies the A1 anchor, not a claim of best performance. These are descriptive summaries of the matching rule and are not part of the three adjusted families defined in Section 4.1.3, so no family-adjusted interval is claimed for them.",
     "bold_rows": [
       0,
       4
@@ -465,7 +465,7 @@
       2.7,
       2.7
     ],
-    "note": "Category-macro pixel AP, averaged over seeds 0 and 1 and K = 1 and 4. All 864 method-category-condition rows are included. Average retained coverage is 76.56%, 70.49%, 76.56% and 59.07%, respectively. Methods differ in backbone, resolution and augmentation. Bold identifies A1, not a statistical superiority claim.",
+    "note": "Category-macro pixel AP, averaged over seeds 0 and 1 and K = 1 and 4. All 864 method-category-condition rows are included. Average retained coverage is 76.56%, 70.49%, 76.56% and 59.07%, respectively. Methods differ in backbone, resolution and augmentation. Each configuration is reported under its own native protocol, keeping its own input resolution, evaluation canvas, rotation setting and reference-bank construction, so the table provides context and is not a ranking. Bold identifies A1, not a statistical superiority claim.",
     "bold_rows": [
       0,
       1
@@ -651,7 +651,7 @@
       3,
       3
     ],
-    "note": "Pixel AP on the stride-eight canvas grid. SD is the sample standard deviation across the 12 MPDD or 8 BTAD fixed support conditions; it is not a confidence interval or variation across independent test datasets. BTAD uses corrected coordinates. The table contains the eight configurations required by the interaction; single-branch diagnostics are retained in the archive. Bold identifies the A1 anchor.",
+    "note": "Pixel AP on the stride-eight canvas grid. SD is the sample standard deviation across the 12 MPDD or 8 BTAD fixed support conditions; it is not a confidence interval or variation across independent test datasets. BTAD uses corrected coordinates. The table contains the eight configurations required by the interaction; single-branch diagnostics are retained in the archive. Bold identifies the A1 anchor, not a claim of best performance.",
     "bold_rows": [
       0,
       1
@@ -741,7 +741,7 @@
       3.1,
       3.1
     ],
-    "note": "All output-canvas pixels, seeds 0 and 1, K = 1 and 4. Each number averages category metrics and the four support conditions. No full-pixel confidence intervals were computed. The D-only row does not use the C branch. Bold identifies A1.",
+    "note": "All output-canvas pixels, seeds 0 and 1, K = 1 and 4. Each number averages category metrics and the four support conditions. No full-pixel confidence intervals were computed. The D-only row does not use the C branch. Bold identifies A1, not a claim of best performance.",
     "bold_rows": [
       1,
       2
@@ -1064,7 +1064,7 @@
       2.7,
       2.7
     ],
-    "note": "AP percentage points, stride eight, 1000 paired bootstrap replicates. The estimate is the mean of the replicate distribution, not the condition-averaged observed difference used in Table 7; on MPDD the two differ by 0.01 point. The 98.75% level is a Bonferroni adjustment over the four MPDD and BTAD cells and the 99.375% level over the eight cells this table covers. The BTAD row pools the study's canonical-mask series rather than the corrected geometry used in Section 4.2.4, which moves the point estimate by about 0.03 point without changing the judgement. Stride-one point estimates are now available for all four datasets (+0.787 and +0.601 points on MPDD, −0.045 and −0.115 on BTAD, +0.423 and +0.386 on MVTec AD, +0.896 and +0.760 on VisA, each pair ordered as $I_{TRI}$ then $I_{BAL}$). KolektorSDD2 is reported separately in Table 14 and is not part of this family. Each dataset name is printed once for its two rows.",
+    "note": "AP percentage points, stride eight, 1000 paired bootstrap replicates. The estimate is the mean of the replicate distribution, not the condition-averaged observed difference used in Table 7; on MPDD the two differ by 0.01 point. The 98.75% level is a Bonferroni adjustment over the four MPDD and BTAD cells and the 99.375% level over the eight cells this table covers. The BTAD row pools the study's canonical-mask series rather than the corrected geometry used in Section 4.2.1, which moves the point estimate by about 0.03 point without changing the judgement. Stride-one point estimates are now available for all four datasets (+0.787 and +0.601 points on MPDD, −0.045 and −0.115 on BTAD, +0.423 and +0.386 on MVTec AD, +0.896 and +0.760 on VisA, each pair ordered as $I_{TRI}$ then $I_{BAL}$). KolektorSDD2 is reported separately in Table 14 and is not part of this family. Each dataset name is printed once for its two rows.",
     "bold_rows": [],
     "left_cols": [
       0,
@@ -1382,6 +1382,364 @@
     "left_cols": [
       0
     ],
-    "note": "Time: median and observed min–max across three repeat-level sums of six units. Memory: median of 18 timed unit peaks. Seed 0; K = 1, 4; three MPDD categories; one warm-up per unit. Timing boundaries and native-protocol differences are specified in Section 4.2.14 and Figure S5. Bold marks the study anchors, not the fastest or best result."
+    "note": "Time: median and observed min–max across three repeat-level sums of six units. Memory: median of 18 timed unit peaks. Seed 0; K = 1, 4; three MPDD categories; one warm-up per unit. Timing boundaries and native-protocol differences are specified in Section 4.2.4 and Figure S5. Bold marks the study anchors, not the fastest or best result."
+  },
+  "image_metrics": {
+    "caption": "Image-level and pixel-level point estimates for the dual-encoder anchors under matched support conditions.",
+    "headers": [
+      "Dataset",
+      "Anchor",
+      "Image AUROC",
+      "Image AP",
+      "Pixel AUROC",
+      "Pixel AP"
+    ],
+    "rows": [
+      [
+        "MPDD",
+        "A1 J",
+        "0.7809",
+        "0.7999",
+        "0.9665",
+        "0.3596"
+      ],
+      [
+        "MPDD",
+        "A1 L",
+        "0.7848",
+        "0.8093",
+        "0.9696",
+        "0.3649"
+      ],
+      [
+        "BTAD",
+        "A1 J",
+        "0.9324",
+        "0.9414",
+        "0.9725",
+        "0.6339"
+      ],
+      [
+        "BTAD",
+        "A1 L",
+        "0.9321",
+        "0.9468",
+        "0.9736",
+        "0.6434"
+      ],
+      [
+        "MVTec AD",
+        "A1 J",
+        "0.9572",
+        "0.9773",
+        "0.9663",
+        "0.5548"
+      ],
+      [
+        "MVTec AD",
+        "A1 L",
+        "0.9582",
+        "0.9771",
+        "0.9677",
+        "0.5569"
+      ],
+      [
+        "VisA",
+        "A1 J",
+        "0.9029",
+        "0.9049",
+        "0.9736",
+        "0.3634"
+      ],
+      [
+        "VisA",
+        "A1 L",
+        "0.9041",
+        "0.9038",
+        "0.9761",
+        "0.3628"
+      ]
+    ],
+    "widths": [
+      3.0,
+      2.0,
+      3.0,
+      3.0,
+      3.0,
+      3.0
+    ],
+    "left_cols": [
+      0,
+      1
+    ],
+    "bold_rows": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "note": "Seeds 0 and 1; K = 1 and 4; equal category means followed by equal condition means. Categories: MPDD 6, BTAD 3, MVTec AD 15, VisA 12. Pixel metrics use the retained output canvas at stride eight; BTAD uses corrected coordinates. These are current controlled-pipeline point estimates, not the common-original-region metrics of Tables 11 and 12. No image-level confidence interval is available. Bold identifies the study anchors, not statistically optimal results."
+  },
+  "harmonised": {
+    "label": "S1",
+    "caption": "Restricted harmonised-geometry comparison at seed 0 and K = 1.",
+    "headers": [
+      "Dataset",
+      "Configuration",
+      "Pixel AP",
+      "Pixel AUROC",
+      "95% AP interval"
+    ],
+    "rows": [
+      [
+        "MPDD",
+        "A1 J",
+        "0.3123",
+        "0.9497",
+        "[0.2935, 0.3366]"
+      ],
+      [
+        "MPDD",
+        "A1 L",
+        "0.3167",
+        "0.9527",
+        "[0.2980, 0.3409]"
+      ],
+      [
+        "MPDD",
+        "AnomalyDINO",
+        "0.2846",
+        "0.9460",
+        "[0.2676, 0.3115]"
+      ],
+      [
+        "MPDD",
+        "AnomalyDINO + rotation",
+        "0.2929",
+        "0.9471",
+        "[0.2763, 0.3195]"
+      ],
+      [
+        "MPDD",
+        "PatchCore 448",
+        "0.2110",
+        "0.9466",
+        "[0.1978, 0.2272]"
+      ],
+      [
+        "BTAD",
+        "A1 J",
+        "0.6174",
+        "0.9722",
+        "[0.5594, 0.6642]"
+      ],
+      [
+        "BTAD",
+        "A1 L",
+        "0.6278",
+        "0.9738",
+        "[0.5701, 0.6735]"
+      ],
+      [
+        "BTAD",
+        "AnomalyDINO",
+        "0.5576",
+        "0.9617",
+        "[0.4992, 0.6058]"
+      ],
+      [
+        "BTAD",
+        "AnomalyDINO + rotation",
+        "0.5881",
+        "0.9655",
+        "[0.5354, 0.6315]"
+      ],
+      [
+        "BTAD",
+        "PatchCore 448",
+        "0.3725",
+        "0.9587",
+        "[0.3315, 0.4290]"
+      ],
+      [
+        "MVTec AD",
+        "A1 J",
+        "0.5582",
+        "0.9553",
+        "[0.5413, 0.5783]"
+      ],
+      [
+        "MVTec AD",
+        "A1 L",
+        "0.5612",
+        "0.9570",
+        "[0.5446, 0.5817]"
+      ],
+      [
+        "MVTec AD",
+        "AnomalyDINO",
+        "0.5611",
+        "0.9506",
+        "[0.5400, 0.5827]"
+      ],
+      [
+        "MVTec AD",
+        "AnomalyDINO + rotation",
+        "0.5582",
+        "0.9497",
+        "[0.5394, 0.5811]"
+      ],
+      [
+        "MVTec AD",
+        "PatchCore 448",
+        "0.5050",
+        "0.9228",
+        "[0.4860, 0.5246]"
+      ],
+      [
+        "VisA",
+        "A1 J",
+        "0.3439",
+        "0.9544",
+        "[0.3166, 0.3671]"
+      ],
+      [
+        "VisA",
+        "A1 L",
+        "0.3493",
+        "0.9579",
+        "[0.3215, 0.3721]"
+      ],
+      [
+        "VisA",
+        "AnomalyDINO",
+        "0.3032",
+        "0.9530",
+        "[0.2754, 0.3278]"
+      ],
+      [
+        "VisA",
+        "AnomalyDINO + rotation",
+        "0.3256",
+        "0.9549",
+        "[0.2978, 0.3502]"
+      ],
+      [
+        "VisA",
+        "PatchCore 448",
+        "0.3228",
+        "0.9525",
+        "[0.2960, 0.3468]"
+      ]
+    ],
+    "widths": [
+      2.5,
+      5,
+      2.5,
+      2.5,
+      4.5
+    ],
+    "left_cols": [
+      0,
+      1
+    ],
+    "bold_rows": [
+      0,
+      1,
+      5,
+      6,
+      10,
+      11,
+      15,
+      16
+    ],
+    "note": "Short side 448; frozen common valid region and the same rank-based pooling. This covers 36 of the 144 category-condition units. PatchCore 448 was recomputed; the other four configurations reuse compatible predictions. Additional crops may be required to respect the frozen intersection. SubspaceAD, WinCLIP+ and zero-shot AnomalyCLIP are excluded because their square-stretch input paths are outside this subset. Points use full-grid common-region pixels; intervals use stride-eight pixels and 1000 image-bootstrap replicates. Intervals apply only to pixel AP, are individual marginal 95% intervals, and are neither family-adjusted nor paired cross-method difference intervals. Pixel AUROC has point values only. This is not a ranking or a significance comparison. Bold identifies the study anchors, not optimal results; Tables 11 and 12 remain unchanged."
+  },
+  "method_protocols": {
+    "label": "S2",
+    "caption": "Input and reference protocols of the configurations in Tables 11 and 12.",
+    "headers": [
+      "Configuration",
+      "Input geometry",
+      "Augmentation",
+      "Reference construction / scoring"
+    ],
+    "rows": [
+      [
+        "A1 J",
+        "B: short side 448; C: square 518, mapped to B",
+        "None",
+        "All normal support descriptors; shared neighbor across branches"
+      ],
+      [
+        "A1 L",
+        "Same as A1 J",
+        "None",
+        "Same bank; independent branch neighbors"
+      ],
+      [
+        "AnomalyDINO",
+        "Short side 448; aspect-preserving canvas",
+        "None",
+        "Frozen DINOv2 patch memory"
+      ],
+      [
+        "AnomalyDINO + rotation",
+        "Same canvas",
+        "Support rotations",
+        "Rotated reference descriptors augment the patch memory"
+      ],
+      [
+        "PatchCore 128",
+        "Resize 144; center crop 128",
+        "None",
+        "Local compact memory/coreset configuration; 256-dimensional projected features"
+      ],
+      [
+        "PatchCore 224",
+        "Resize 256; center crop 224",
+        "None",
+        "Recorded upstream-style memory/coreset configuration; 1024-dimensional projected features"
+      ],
+      [
+        "SubspaceAD 256",
+        "Square stretch 256; fp16",
+        "None",
+        "Normal-support subspace; documented local setting"
+      ],
+      [
+        "WinCLIP+",
+        "Square stretch 240",
+        "No rotation",
+        "Frozen visual-language model, prompt ensemble and normal-reference features"
+      ],
+      [
+        "AnomalyCLIP zero-shot",
+        "Square stretch 518",
+        "No rotation",
+        "Auxiliary-domain-trained prompt learner; no target support bank"
+      ]
+    ],
+    "widths": [
+      3.4,
+      4.7,
+      2.5,
+      6.4
+    ],
+    "left_cols": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "bold_rows": [
+      0,
+      1
+    ],
+    "note": "These are the evaluated configurations, not interchangeable official recipes. SubspaceAD uses 256-pixel fp16 inputs without augmentation; its upstream few-shot script specifies 672 pixels and aug_count = 30. On the recorded 6 GB GPU, the 672-pixel attempt did not complete 12 query images in at least 15 minutes and reached 5797/6144 MiB. The local 256 setting is therefore explicitly a deviation. AnomalyCLIP uses inherited auxiliary-domain-trained prompt checkpoints, with MVTec-trained prompts for MPDD, BTAD and VisA and VisA-trained prompts for MVTec AD; target-domain evaluation is zero-shot. It has 36 units rather than the 144 support-conditioned units of the other configurations. Encoders are frozen and no target-domain gradient optimization is used. Memory, coreset or subspace construction remains preparation computation. Bold marks the study anchors, not optimal results."
   }
 }

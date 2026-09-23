@@ -15,7 +15,7 @@
 | `tables.json` → `models`（Table 2） | 新增 `Full name` 列：B/S/C/D/E1–E3 给描述性全称；Alignment/Normalization/Memory and scoring/Output/Optimization 五行给 "Shared …" / "No target optimization" 全称 |
 | `manuscript.md`（正文首现加粗 + 括注） | `:47` **C**；`:69` **J**/**L**；`:77` **B**；`:107` **B/S/C/D** + **A1/DUP/TRI/BAL**；`:162` **E1/E2/E3** |
 | `figures.json`（图注首现加全称） | framework(J/L/DUP/TRI/BAL/A1)、matching(J/L)、constructions(A1/DUP/TRI/BAL/B/C/S/D)、effects(S)、effects-continuation(S)、cases_good(A1/L/J)、cases_bad(A1)、extra_cases part2(B/S)、speed_vram(A1/B/C) |
-| 未动 | 图内标签、公式、PPT、任何数值（重建后 20 表 / 22 内嵌图 / 142 数学对象 / 34 文献 / 47 页） |
+| 未动 | 图内标签、公式、PPT、任何数值（**2026-09-23 校**：重建后规模已扩版为 **55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 34 文献 / 19,253 词**；本行原记的 20 表 / 22 内嵌图 / 142 数学对象 / 47 页为 2026-09-22 时点值，按"过程记录不改写"保留） |
 
 **2a 的验收口径**：只做"加列 + 首现强调 + 图注加全称"，**不改任何字母本身**，因此与本源方案（整批改名）是**叠加关系**，不是替代关系。
 

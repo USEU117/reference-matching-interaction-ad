@@ -22,9 +22,10 @@ interpolation is linear and `interpolate(1) = 1`).  The official `gaussian_filte
 on the 518x518 map is deliberately NOT applied, exactly as for the other rows of the shared
 region table, whose protocol applies no extra method-specific smoothing.
 
-Provenance caveat (raised in PREFLIGHT.json): the vendored checkpoints ship as a full
-epoch_1..epoch_N series and the plan records them as re-trained in this project; if so this
-column is not strictly zero-shot and must be labelled accordingly.
+Provenance resolution (2026-09-23): the thirty vendored epoch checkpoints match the
+checkpoints included in the retained upstream source ZIP, rather than project training.
+See docs/ANOMALYCLIP_CHECKPOINT_PROVENANCE_20260923.md and its byte-level manifest.
+The historical PREFLIGHT.json caveat remains preserved as an audit record.
 """
 from __future__ import annotations
 

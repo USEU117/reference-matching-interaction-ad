@@ -23,7 +23,15 @@
   - **本轮新增待办**：**F21 `build.py` 非字节可复现**（连跑三次 docx SHA 三个值；已还原为 `194681CF…`）；**F22 自检门禁 2/69 项失败**（大纲 docx 不在盘 + 冻结快照 3 处漂移；脚本会就地改写 `experiments/**` 两个 JSON，已还原）。
   - **仍未动**：本计划 **P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3** 全部未执行（勾选清单未变）。
   - **本计划"只作为论文限制保留"四条措辞继续有效**；下表 R-20 行的"限于两个方法家族"为 09-20 原始登记，现状为 **5 个外部家族**（刷新见 `docs/ISSUE_REGISTER_20260920.md` §〇ter）。
-- **2026-09-23｜A14 结案（本轮，纠正错误来源声明）**：AnomalyCLIP 检查点来源由第一手记录确证 —— **随上游源码归档提供**（`docs/reproduction_notes.md:13-23`，2026-07-25：commit `3911738c…`，ZIP SHA256 `533ED87B…`；30 个 `epoch_*.pth` 的 mtime 全为 `2025-07-08 03:59:38`），**不是本项目训练**。2026-09-20 之后"上游不含 checkpoint / 本项目自行训练"的表述**是错的，已在全仓逐处纠正**（`dist/.../weights/README.md`、`docs/REPRODUCIBILITY_PACKAGE.md` 及其包内副本、`docs/BASELINE_EXPANSION_PLAN_20260921.md`、`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md`、`docs/论文与图件问题汇总_仅复核_20260921.md` P11）。Table 12 协议列由最保守写法改为 **`native, zero-shot on the target domain (upstream auxiliary-domain-trained prompt learner)`**，表注删除"provenance recorded in … PREFLIGHT.json"式含糊说法；重建后复测 **47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 数学对象）/ 34 文献 / 17,221 词**（词数 17,200 → 17,221）。**P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3 仍未执行（勾选清单未变）。**
+  - **2026-09-23｜A14 结案（本轮，纠正错误来源声明）**：AnomalyCLIP 检查点来源由第一手记录确证 —— **随上游源码归档提供**（`docs/reproduction_notes.md:13-23`，2026-07-25：commit `3911738c…`，ZIP SHA256 `533ED87B…`；30 个 `epoch_*.pth` 的 mtime 全为 `2025-07-08 03:59:38`），**不是本项目训练**。2026-09-20 之后"上游不含 checkpoint / 本项目自行训练"的表述**是错的，已在全仓逐处纠正**（`dist/.../weights/README.md`、`docs/REPRODUCIBILITY_PACKAGE.md` 及其包内副本、`docs/BASELINE_EXPANSION_PLAN_20260921.md`、`docs/EXPERIMENT_GAP_ANALYSIS_20260922.md`、`docs/论文与图件问题汇总_仅复核_20260921.md` P11）。Table 12 协议列由最保守写法改为 **`native, zero-shot on the target domain (upstream auxiliary-domain-trained prompt learner)`**，表注删除"provenance recorded in … PREFLIGHT.json"式含糊说法；重建后复测 **47 页 / 20 表 / 22 内嵌图 / 12 编号公式（142 数学对象）/ 34 文献 / 17,221 词**（词数 17,200 → 17,221）。**P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3 仍未执行（勾选清单未变）。**
+
+## 执行状态（2026-09-23 刷新，只记状态变化，不上改原文）
+
+- **规模口径整体刷新**（扩版已由作者批准）：现役权威件为 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`（**55 页 / 23 表 / 27 内嵌图 / 12 编号公式 / 152 原生数学对象 / 34 文献 / 19,253 词**，SHA-256 `53D7FAD8…`）与 `All_Figures_Complete_20260923.pptx`（**63 页**，原生页 1/2/3/**15**）。本计划上文各处记的 **47 页 / 20 表 / 22 内嵌图 / 142 数学对象 / 17,221 词 / 58 页 deck** 均为 2026-09-22 时点值，按体例保留。逐条新值见 `docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md` §现状。
+- **P0 验收（对现役链）2026-09-23 再次通过**：`scripts/paper_complete_review_20260920/build.py` 退出码 0（同时新增 package 级未引用媒体清理，pruned 8 个媒体部件，docx 32.5 MB → 19.17 MB）。冻结值未动：冻结表 `3C83AB00…`、扩展表 `1C770129…`、版式母本 `9DB99E60…`，`git status --porcelain -- experiments data` 为空。
+- **呈现纪律四项补齐**（A-14 / A-19 / C-02 / C-03）：Table 4/5/8 表注补"非最优"限定；Table 11 表注**追加**"各方法原生协议 + 不构成排名"（表注冻结由作者于 2026-09-23 解除，**六列数值与既有表注语义未改**）；§4.1.2 补"对照集合以正式基线清单为准"。VisA 边界改回明确域内（`results.md`/`manuscript.md` 各一处）。
+- **图件门禁**：现役 1280×1060 layout 复跑 `qa_layout.py` → **TOTAL PROBLEMS: 0**；`figure_font_gate.py --self-test` **4/4**；孤儿 `figS1_encoders_geometry.png` 登记后删除。详见 `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` §十一。
+- **仍未动**：本计划 **P1-1…P1-7、P2-1、P2-3、P2-4、P2-6、P3** 全部未执行（勾选清单未变）。
 
 ## 阶段总览
 

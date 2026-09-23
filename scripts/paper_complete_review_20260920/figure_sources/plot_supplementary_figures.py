@@ -21,8 +21,8 @@ from matplotlib.patches import Patch  # noqa: E402
 from matplotlib.ticker import MultipleLocator  # noqa: E402
 
 
-ROOT = Path(__file__).resolve().parents[2]
-OUT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[3]
+OUT = ROOT / ".tmp_complete_figures_20260920/plots"
 S4_JSON = ROOT / "docs/figures_reference_matching_20260914/figS4_bootstrap_convergence.json"
 BENCH_JSON = (
     ROOT

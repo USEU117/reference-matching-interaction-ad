@@ -38,19 +38,19 @@
 | **A-08** | 图 3(b) 权重表述**准确**（F02） | `Select-String -Path $SRC\figure_sources\build_methods.mjs,$SRC\manuscript.md,$SRC\figures.json -Pattern 'Only the weight split changes'` | 新表述 3 处命中（图内 + 图注 + 正文）；旧表述（`only B`/`only the B weight`）= **0**；`fig3_constructions.png` = `57362409BC04B2C30800EA74A06299AC01D4EA546C6FA7AD4E203EE40F72D185` | [S2]§四 F02、§八 2026-09-22 表 |
 | **A-09** | 图 2 类别下标**正斜体一致**（F11） | 解压 pptx 后检索第 1/2 页 `slideN.xml` 中类别下标 `c` 的 run 属性 | 全部类别下标均为**斜体**（`i="1"`）；`i="0"` 的类别下标残留 = **0** | [S2]§四 F11；[S1]A-19 |
 | **A-10** | 图 2(c)/图 3(c) **空白占比/文字密度改善**（可量化） | 对 `fig2_matching.png`、`fig3_constructions.png` 逐行墨度扫描（`PIL`+`numpy`，阈值可自定并记录） | 图 2(c) 高度占比 ≤ **0.22**（改前约 0.30）、图 3(c) ≤ **0.28**（改前约 0.38）；(c) 区非空文本行 ≤ **4**；(c) 区 ink ratio ≥ **0.02**；且**未**用重复公式/装饰填充 | [S2]§二 T01；[S1]A-01 |
-| **A-11** | 图件**字号门禁** | `python scripts\figures_reference_matching_20260914\qa_layout.py`；`python scripts\figures_reference_matching_20260914\figure_font_gate.py --self-test`；`python scripts\harmonised_20260922\build_figS6_protocol_sensitivity.py --out-dir .tmp_check` | `qa_layout` 输出 `TOTAL PROBLEMS: 0`；self-test 输出 `4 controls behaved as required`；图 S2/S3/6/7/S6 每个 text artist ≥ **11.50 pt**；`figure_manifest.json → minimumPrintPtAt17cm` = **11.294** | [S9]§二；[S1]B-07/现状#6 |
-| **A-12** | 正文/表格/图宽**规格** | python-docx：`d.styles['Normal'].font`、表格单元格 run 字号、`sh.inline_shapes[i].width` | 正文 Times New Roman **11 pt**；表格单元 **9.5 pt**；正文插图宽 **17 cm**（图 S4 合并版按 **16 cm** 入稿） | [S2]§五#8；[S9]§二 |
+| **A-11** | 图件**字号门禁** | **必须针对现役入稿图**：`python scripts\figures_reference_matching_20260914\qa_layout.py --layout-dir .tmp_revision_20260923\active_layouts --figures-dir docs\paper_complete_review_20260920\figures --min-pt 11`（默认 `--layout-dir scripts/…/layouts` 跑的是 **1280×900 旧渲染**，结论不可用于现役图）；另跑 `figure_font_gate.py --self-test` | `qa_layout` 输出 `TOTAL PROBLEMS: 0`（现役 = 图 1/2/3/S1，最小 **11.29 pt**）；self-test 输出 `4 controls behaved as required`；matplotlib 图（图 4/5/8/S2/S4/S5/S6 与 6/7）按 17 cm 实宽绘制，每个 text artist ≥ **11.0 pt**（多数 11.50 pt） | [S9]§二；[S1]B-07/现状#6；`FIGURE_BINDING.md §11.2/§11.3` |
+| **A-12** | 正文/表格/图宽**规格** | python-docx：`d.styles['Normal'].font`、表格单元格 run 字号、`sh.inline_shapes[i].width` | 正文 Times New Roman **11 pt**；表格单元 **9.5 pt**；27 个正文插图宽均为 **17 cm** | [S2]§五#8；[S9]§二 |
 | **A-13** | 表格为**三线表** | 检查 docx 表格 XML 的 `tblBorders`/`tcBorders`（抽 3 张表） | 仅表级 top/bottom 与表头下横线；**无**竖线、无内部横线 | [S3]E06；[S2]§五#6 |
-| **A-14** | A1 对照行加粗且**注明不代表统计最优** | grep 表注 `not … optimal` / `rather than … optimal`；检查 A1-J/A1-L 行 `run.bold = True` | A1 行整行加粗；表注或图注含"粗体表示研究锚点、非最优/非统计最优"类说明 | [S3]E06；[S2]§五#6 |
+| **A-14** | A1 对照行加粗且**注明不代表统计最优** | grep 表注 `not a claim of best performance` / `not a statistical superiority claim` / `not optimal`；检查 A1-J/A1-L 行 `run.bold = True` | A1 行整行加粗；**七张含 A1 加粗行的表（Table 1/4/5/8/11/20/21）表注均含**"粗体表示研究锚点、非最优/非统计最优"类说明 | [S3]E06；[S2]§五#6 |
 | **A-15** | 案例图**两种输出**且范围与措辞一致（F06） | `Select-String -Path $SRC\figures.json -Pattern 'two outputs\|contour\|all cases'` | 正文案例确实给出"热图 + 轮廓"两列；正文**界定覆盖范围**（"两种输出"只对正文案例成立）或声明为限制；**无**"所有案例都有两种输出"式表述 | [S2]§四 F06；[S1]B-02 |
-| **A-16** | 主图**可编辑**（PPT 内为原生形状/文字） | python-pptx：逐页统计 `Picture` 与 `AutoShape/TextBox` 数量 | 第 1/2/3/12 页含原生形状与文字（非整页单图）；其余页为整页 PNG（**已知边界**，须在核对结论中如实标注） | [S2]§四"编辑性另行记录"；[S1]C-04 |
-| **A-17** | PPT 与论文**同版** | 核对 `FIGURE_SLIDE_INDEX.json`、`图件与PPT页码索引.md` 与 deck；导出第 20/21 页 PNG 与 docx 内 S4 两页比对 | deck **58 页**；**第 20 页 = 收敛 v2、第 21 页 = 稳定性**（旧 `stability_part2` 已不在 deck）；两处索引一致 | [S1]C-01/C-03；[S2]§八 F14 |
+| **A-16** | 主图**可编辑**（PPT 内为原生形状/文字） | python-pptx：逐页统计 `Picture` 与 `AutoShape/TextBox` 数量 | 第 **1/2/3/15** 页含原生形状与文字（非整页单图）；其余 **59/63** 页为整页 PNG（**已知边界**，须在核对结论中如实标注） | [S2]§四"编辑性另行记录"；[S1]C-04 |
+| **A-17** | PPT 与论文**同版** | 核对 `FIGURE_SLIDE_INDEX.json`、`图件与PPT页码索引.md` 与 deck；导出 S4 两页 PNG 与 docx 内 S4 两页比对 | deck **63 页**；**第 23 页 = 收敛 v2、第 24 页 = 稳定性**（旧 `stability_part2` 已不在 deck）；两处索引一致 | [S1]C-01/C-03；[S2]§八 F14 |
 | **A-18** | **禁写清单**扫描 | `Select-String -Path docs\paper_complete_review_20260920\English_Manuscript_Source.md -Pattern 'SOTA\|state-of-the-art\|全面领先\|zero-computation\|zero-preparation\|hyperparameter-free\|end-to-end\|globally optimal\|true null\|essentially zero\|FPS'` | 命中 **0**；若有命中，逐条确认是否处于"不得写成…"的**否定语境**（否定句允许，肯定断言不允许） | [S10]§10；[S12]§4 |
 | **A-19** | 对比呈现纪律：表 11/12/同口径子集表均写"**不构成排名**" | grep `not a ranking` / `不构成排名`（`tables.json` 的 `baselines`/`baselines_ext` 表注 + 子集表表注） | 表 11 表注、表 12 表注、同口径子集表表注**各 ≥1 处** | [S10]§2.1#7/§9.3；[S12]§3.3 |
 | **A-20** | 表 11/12 **逐方法给协议**（含 SubspaceAD 256↔672） | `Select-String -Path $SRC\tables.json, experiments\...\05_baselines_ext_20260921\PREFLIGHT.json -Pattern '672\|256\|aug_count\|auxiliary-domain-trained'` | 逐方法写明分辨率/画布几何/是否旋转/参考库构造；**SubspaceAD 用 256 且说明偏离官方 672**（不得写成"官方配置"）；AnomalyCLIP 列写明 `upstream auxiliary-domain-trained … zero-shot on the target domain` | [S2]§三 P10、§八 T17；[S1]A-13 |
 | **A-21** | **冻结值未漂移**（红线） | `Get-FileHash` 冻结表 / 扩展表 / 版式母本；`git status --porcelain -- data/splits` | 冻结表 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`；扩展表 `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`；母本 `9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837`；`data/splits` 输出为空 | [S10]§12；[S1]E-13 |
-| **A-22** | **规模口径**复测 | python-docx：tables / inline_shapes / native_math_objects / refs；Word COM：页数 | **20 表 / 22 内嵌图 / 142 数学对象 / 34 文献 / 47 页**；词数只作快照（不作阈值判定） | [S1]现状#10/已完成#15；[S10]§4 |
-| **A-23** | 图 S6 是否入稿且**口径一致** | `python -c "import docx;d=docx.Document(r'docs\paper_complete_review_20260920\Reference_Matching_Complete_English_20260920.docx');print(sum('Figure S6' in p.text for p in d.paragraphs))"` | 若**入稿**：命中 ≥1，且同时写明 5 条限制（同口径 448 子集 / 36-144 单元 / 区间只 pixel_ap / 不构成排名 / 拉伸族不在子集内）；若**不入稿**：命中 0 且正文不作引用 | [S1]B-03；[S10]§13.1 |
+| **A-22** | **规模口径**复测 | python-docx：tables / inline_shapes / native_math_objects / refs；Word COM：页数 | **23 表 / 27 内嵌图 / 152 数学对象 / 34 文献 / 55 页**；词数只作快照（不作阈值判定；2026-09-23 实测 19,253） | [S1]现状#10/已完成#15；[S10]§4 |
+| **A-23** | 图 S6 是否入稿且**口径一致** | `python -c "import docx;d=docx.Document(r'docs\paper_complete_review_20260920\Reference_Matching_Complete_English_20260923.docx');print(sum('Figure S6' in p.text for p in d.paragraphs))"` | 若**入稿**：命中 ≥1，且同时写明 5 条限制（同口径 448 子集 / 36-144 单元 / 区间只 pixel_ap / 不构成排名 / 拉伸族不在子集内）；若**不入稿**：命中 0 且正文不作引用 | [S1]B-03；[S10]§13.1 |
 | **A-24** | 图 S5 **首轮离群**是否披露 | `Select-String -Path $SRC\results.md -Pattern '30.527'` | 若已补：命中 ≥1（含 `30.527 s` 首轮与 `24.190 s` 重测的区分）；若未补：须作为限制登记且不得把 min–max 当完整离散度 | [S1]A-16；[S8]§二 A10 |
 | **A-25** | 生成物**旧绝对路径**残留（人工可读面） | `Select-String -Path $SRC\figures.json, docs\paper_complete_review_20260920\English_Manuscript_Source.md -Pattern 'My_github'` | 人工可读面命中 **0**；生成器溯源面（`fig7_multimethod_*.json` ×16、`FIGURE_SLIDE_INDEX.json`、`primary_sources.json`）若仍有残留，**登记为已登记未清项**，不得据此判"不通过" | [S1]B-08/#16；[S10]§6.8 |
 
@@ -173,11 +173,11 @@
 【要求】<本清单该条的判据原文>
 【差距】<差在哪：缺失 / 相反表述 / 数值不符>
 【建议改法】<最小改动：改哪个源文件、加哪一句、重跑哪条命令、需不需要重出图/PPT>
-【影响面】<是否触发重建 docx / 重出 58 页 deck / 复测规模口径；是否触及冻结值>
+【影响面】<是否触发重建 docx / 重出 63 页 deck / 复测规模口径；是否触及冻结值>
 【是否阻断】是 / 否
 ```
 
-**附加纪律**：① 返修建议**不得**引入新数值、不得改写 `experiments/**` 证据字段与 `data/**`；② 若返修需重出图/PPT，必须一并列出"重渲染脚本 → 门禁 → 重出 deck → 重建 docx → 复测 47 页/20 表/22 图"链条；③ 若同一问题在新版本中仅**部分**修复，写"部分通过"并指明**未修复的部分**。
+**附加纪律**：① 返修建议**不得**引入新数值、不得改写 `experiments/**` 证据字段与 `data/**`；② 若返修需重出图/PPT，必须一并列出"重渲染脚本 → 门禁 → 重出 deck → 重建 docx → 复测 **55 页/23 表/27 图**"链条；③ 若同一问题在新版本中仅**部分**修复，写"部分通过"并指明**未修复的部分**。
 
 ---
 

@@ -481,4 +481,100 @@ v2 见下；逐条「改前 → 改后」见 `preview_figS4_v1_v2.html`。**两�
 | 未入正文 | **正文 docx 不含 Figure S6**（`Figure S6 mentions: 0`，2026-09-23 python-docx 实测）；若要入稿需改 `figures.json` 并重建 docx |
 | 边界 | 未改任何既有图（图 1–8、S1–S5）与任何已发布数值；`baseline_common_region.csv` `3C83AB00…`、`baseline_common_region_ext.csv` `1C770129…` 前后一致 |
 
+## 十一、2026-09-23 权威稿（revision23）现役图集：门禁口径、哈希刷新与孤儿处置
+
+> 本节只做**登记与刷新**，不改任何图源、不重渲染、不改数值。它回应的是一份只读核查报告
+> `docs/NEW_DRAFT_CHECK_AGAINST_CHECKLIST_20260923.md` 的 A-11 / §6#1、#4、#11、#12。
+
+### 11.1 现役入稿图件与画布（与 §二 的 2026-09-15 口径**并存**，勿混读）
+
+| 项 | 值 |
+|---|---|
+| 现役入稿图件目录 | `docs/paper_complete_review_20260920/figures/`（27 个内嵌图位，`figures.json` 为唯一索引） |
+| 幻灯片母版型图（原生可编辑，**1280 × 1060** 单位，2× 导出 = 2560 × 2120 px） | 图 1 `fig1_framework`、图 2 `fig2_matching`、图 3 `fig3_constructions`、图 S1 `figS1_encoders` |
+| matplotlib 型图（**稿件宽 17 cm**、350 dpi = 2342 px 宽） | 图 4a/4b、图 5a/5b、图 8、图 S2、图 S4（两页）、图 S5、图 S6（两页）与各面板/逐类别附录 |
+| 换算关系 | 两种画布的**宽度单位都是 1280**，故 1 单位恒为 481.89/1280 = **0.3765 pt**；`30 单位 ≈ 11.29 pt`，`最低信息字号 ≥ 11 pt` 的判据不变。§二 记的 1280 × **900** 是 2026-09-15 母版的高度，高度由 900 → 1060 只改变版面排布，**不改变字号换算**。 |
+| 字号换算的独立对照 | matplotlib 图按 17 cm 实宽绘制，脚本里写的字号**即**印刷字号（`figure_font_gate.print_scale = 1.0`） |
+
+### 11.2 门禁复跑（2026-09-23，**针对现役入稿图**）
+
+旧命令 `qa_layout.py`（默认 `--layout-dir scripts/figures_reference_matching_20260914/layouts`，
+frame 1280 × 900，`--figures-dir docs/figures_reference_matching_20260914`）跑的是**旧渲染**，
+与现役入稿图逐张哈希不同。现役复跑命令（在仓库根目录执行）：
+
+```
+.venv-anomalyclip/Scripts/python.exe scripts/figures_reference_matching_20260914/qa_layout.py \
+  --layout-dir .tmp_revision_20260923/active_layouts \
+  --figures-dir docs/paper_complete_review_20260920/figures --min-pt 11
+```
+
+`.tmp_revision_20260923/active_layouts/` 的四份 `.layout.json` 是现役渲染的**原生版面导出**：
+`fig2_matching` / `fig3_constructions` / `figS1_encoders` 来自 `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`
+（`W=1280, H=1060`，导出 `layout-N.json`）；`fig1_framework` 来自 `.tmp_figure_revision_20260920/build_main.mjs`
+（`W=1280, H=1060`，导出 `layout.json`）。
+
+| 图 | 现役 layout | problem 数 | 最小印刷字号 |
+|---|---|---|---|
+| `fig1_framework` | `.tmp_figure_revision_20260920/layout.json`（1280 × 1060，138 元素） | **0** | 11.29 pt |
+| `fig2_matching` | `build_methods.mjs` → `layout-1.json`（1280 × 1060，133 元素） | **0** | 11.29 pt |
+| `fig3_constructions` | `build_methods.mjs` → `layout-2.json`（1280 × 1060，76 元素） | **0** | 11.29 pt |
+| `figS1_encoders` | `build_methods.mjs` → `layout-3.json`（1280 × 1060，65 元素） | **0** | 11.29 pt |
+| **TOTAL PROBLEMS** | — | **0** | — |
+
+复跑前的**首轮**现役门禁曾报 **4 处**（全在图 1）：`support-description` / `branch-label-1` /
+`query-path-steps` 三处 `TEXT-OVERFLOW`（保守折行模型 2 行 vs 盒高 1 行），以及
+`matching-explanation` vs `display-only` 一处 `TEXT-OVERLAP`（8425 px²）。修法**只改文本框几何**、
+不放宽任何阈值，且**经实测为光栅中性**：四处新盒与原盒**中心点相同**、对齐方式不变、且绘图源里
+文本一律 `wrap:'none'`，故文字落点逐像素不变——把修前/修后两次导出（`p.export({slide,format:'png',scale:2})`）
+逐字节比对，SHA-256 均为 `C179C22EF8361544578D469737C3B8F958A19FC4F3B834153538CFAD37662356`（**identical**）。
+因此现役 `fig1_framework.png`（`C7618E16…`）**无需重渲染**，deck 与 docx 均不受影响。
+
+`figure_font_gate.py --self-test`（2026-09-23 复跑）：**4 个对照全部符合预期**（退出码 0）。
+
+### 11.3 matplotlib 图的印刷字号（静态核验 + 构建期断言）
+
+| 生成脚本 | 覆盖图 | figsize 宽 | 最小字号（脚本字面量 = 印刷字号） |
+|---|---|---|---|
+| `scripts/paper_complete_review_20260920/figure_sources/plot_primary.py` | 图 4a / 4b / 5a / 5b / 8 | `17/2.54` in | **11.0 pt** |
+| `scripts/paper_complete_review_20260920/figure_sources/plot_extra.py` | 图 S2 / S4(稳定性页) / S5 | `17/2.54` in | **11.5 pt** |
+| `scripts/paper_complete_review_20260920/figure_sources/plot_supplementary_figures.py` | 图 S4(稳定性页) / S5 | `17/2.54` in | **11.0 pt** |
+| `scripts/figures_reference_matching_20260914/build_qualitative_figures.py` | 图 6 / 图 7 | `17/2.54` in | **12.0 pt** |
+| `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py` | 图 S4(收敛页) | `MANUSCRIPT_WIDTH_CM/2.54` in | 构建期 `assert_min_font_pt`，实测 **11.50 pt**（61 artists） |
+| `scripts/harmonised_20260922/build_figS6_protocol_sensitivity.py` | 图 S6 | `MANUSCRIPT_WIDTH_CM/2.54` in | 构建期 `assert_min_font_pt`，实测 **11.50 pt**（102 artists） |
+| `scripts/figures_reference_matching_20260914/build_figS2_ablation.py` | 图 S2 | `MANUSCRIPT_WIDTH_CM/2.54` in | 构建期 `assert_min_font_pt`，实测 **11.50 pt** |
+
+三处"构建期断言"型脚本的字号常量以 `FontProperties` 传入（非 `fontsize=` 字面量），故本表用
+它们各自构建记录里的实测量；三者均以 `assert_min_font_pt` 把门，低于下限即构建失败。
+
+### 11.4 记录哈希刷新（替换 §六 "已完成、勿重做" 与 `MASTER_TODO…:69` 的过期值）
+
+图 2/图 3/图 S4 因 2026-09-23 的 (b)/(c) 面板几何由 900 → 1060 单元重排而重渲染，盘上实测值为：
+
+| 图 | 旧记录（已过期） | **盘上实测（2026-09-23）** |
+|---|---|---|
+| `figures/fig2_matching.png` | `AB1EB3FD…` | **`5156E610A1041FB08640960ED202475E1DEA4CD5EC254A85610308B9576C58E6`** |
+| `figures/fig3_constructions.png` | `57362409…` | **`3F309ADB57D294E740F0C11E5085248A2CBB854F0E4932734758CF3A9AEDE6FD`** |
+| `figures/figS4_bootstrap_convergence.png` | `C4D2D0A0…` | **`6AFA2E49D6BCA74486BE8C4795B668BF732D1491A7B2017D1F7917A81583C0BF`** |
+| `figures/fig1_framework.png` | `C7618E16…`（未变） | `C7618E16B4CED2288D7A0DC392BE5578A3AB12BD3C4E210780B66B6D4941525A` |
+| `figures/figS1_encoders.png` | `FE182E11…`（未变） | `FE182E11F8679468797FB764F762123A4C60329B15F12D6A666DE527B3744418` |
+
+图 2 的 F01 机制未回退：`build_methods.mjs:323` 仍是
+`addRect(slide,"f2-j-shared-highlight",113+2*42,…)`；图 3 的 F02 措辞未回退。
+
+### 11.5 孤儿文件处置
+
+| 文件 | 引用检查 | 处置 |
+|---|---|---|
+| `docs/paper_complete_review_20260920/figures/figS1_encoders_geometry.png`（2560 × 2120，SHA-256 `CD1BC9121DD9421F36B8E7A1B8C9EEC654E5C2468506DD809B7F1680818D4A27`） | `figures.json` / `FIGURE_SLIDE_INDEX.json` / `图件与PPT页码索引.md` / `portable_metadata_revision23.json` / `primary_sources.json` / `REVISION_VALIDATION_20260923.json` **全部无引用**（全仓 grep 仅命中只读核查报告） | **登记后删除**（中间稿产物；`figures.json` 的 `encoders_geo` 键只指向 `figS1_encoders.png`，不受影响） |
+
+### 11.6 图内标题与符号复核（清单 §1 A-05 / A-06 / K-11）
+
+- **无重复总标题**：现役原生页（deck 第 1/2/3/15 页）经解压 deck XML 搜 `a:t` 含 `Figure \d` 均**无命中**；
+  `figure_sources/` 内 `suptitle` 仅出现在 `plot_extra.py:40,46` 的**删除型正则**里（把旧总标题替换为图例/去掉），无生效总标题。
+- **符号与术语一致**：`local matching` 在 `scripts/paper_complete_review_20260920/**` 与 `figures.json` 中 **0 命中**；
+  `L` 在现役图内一律称 independent（图 1 `matching-explanation` = `L  one row per branch`，图 2 `(b)` 同）；
+  `I_TRI` / `I_BAL` 在正文与表格中为原生 `m:oMath` 下标对象（152 个），图 4 面板标题用 `$I_{\mathrm{TRI}}$` / `$I_{\mathrm{BAL}}$` 数学排版。
+- 结论：**无需修改**（本项为复核，非改动）。
+
+
 

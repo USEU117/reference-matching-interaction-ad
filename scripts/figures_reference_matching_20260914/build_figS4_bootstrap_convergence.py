@@ -433,7 +433,7 @@ def main() -> int:
 
     # ---- figure ------------------------------------------------------------------------------
     width_in = MANUSCRIPT_WIDTH_CM / 2.54
-    height_in = 9.4
+    height_in = 7.5
     fig = plt.figure(figsize=(width_in, height_in), dpi=350)
     fig.patch.set_facecolor("white")
 
@@ -442,8 +442,8 @@ def main() -> int:
 
     # Paper placement keeps the figure caption outside the raster.  The freed title and caption
     # space enlarges both panels instead of repeating the manuscript prose inside the figure.
-    ax_a = fig.add_axes([0.115, inches(5.00), 0.865, inches(2.95)])
-    ax_b = fig.add_axes([0.115, inches(1.08), 0.865, inches(2.95)])
+    ax_a = fig.add_axes([0.115, inches(4.05), 0.865, inches(2.35)])
+    ax_b = fig.add_axes([0.115, inches(0.60), 0.865, inches(2.35)])
 
     # ---- series: panel (a) point-estimate change, panel (b) relative interval width ---------
     for dataset, _path, _role, colour, marker, _label in DATASETS:
@@ -534,7 +534,7 @@ def main() -> int:
         handles,
         [label for *_, label in DATASETS],
         loc="upper left",
-        bbox_to_anchor=(0.115, inches(9.05)),
+        bbox_to_anchor=(0.115, inches(7.25)),
         ncol=5,
         frameon=False,
         handlelength=1.6,
@@ -548,6 +548,7 @@ def main() -> int:
     assert_text_inside_page(fig, "figS4_bootstrap_convergence")
     n_notes = assert_annotations_clear(fig, "figS4_bootstrap_convergence")
 
+    args.out_dir = args.out_dir.resolve()
     args.out_dir.mkdir(parents=True, exist_ok=True)
     png = args.out_dir / "figS4_bootstrap_convergence.png"
     pdf = args.out_dir / "figS4_bootstrap_convergence.pdf"

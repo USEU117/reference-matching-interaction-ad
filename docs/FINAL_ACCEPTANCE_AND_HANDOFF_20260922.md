@@ -4,6 +4,8 @@
 > 方案与论证见 `docs/METHOD_COMPARISON_PRESENTATION_PLAN_20260922.md`；B 线的详细写作说明见 `docs/METHOD_COMPARISON_HANDOFF_20260922.md`（本文件不重复其论证，只做索引与纪律汇总）。
 > 本轮**未做 git 提交、未推送、未用 GPU、未跑新实验**；`baseline_common_region.csv` 与 `data/**` 全程未触碰。
 > 环境：Windows / PowerShell，解释器 `.venv-anomalyclip\Scripts\python.exe`。
+>
+> **2026-09-23 校（口径刷新）**：本节及下文各处记的 **47 页 / 20 表 / 22 内嵌图 / 142 数学对象 / 17,221 词 / 58 页 deck** 均为 **2026-09-22 时点值**，按"过程记录不改写"保留。现役权威件为 `Reference_Matching_Complete_English_20260923.docx`（**55 页 / 23 表 / 27 内嵌图 / 12 编号公式 / 152 数学对象 / 34 文献 / 19,253 词**，SHA-256 `53D7FAD8…`）与 `All_Figures_Complete_20260923.pptx`（**63 页**，原生页 1/2/3/**15**）；冻结阈值与纪律不变。逐条新值见 `docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md` §现状。
 
 ---
 
