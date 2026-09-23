@@ -117,3 +117,9 @@ git push origin main --tags
 - **Social preview 图**：**Settings → General → Social preview**。
 - **仓库头像/显示名等组织级字段**：属账号/组织设置，不在单个仓库页。
 - 仓库内文档里的链接一律写成**仓库相对路径**（新 README 已如此），因此改名后仓库内链接不需要跟着改。
+
+---
+
+## 6. 本轮上传变更（2026-09-23 收尾轮）
+
+- 入库唯一现役权威 docx（`.gitignore:83` 白名单 `!docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`）；`.gitignore` 新增 `.trae/`；新增根文件 `CITATION.cff`、`.gitattributes`、`THIRD_PARTY_NOTICES.md`；删除空目录 `docs/manuscript_reference_matching_20260914/figures/superseded/`；README 与元数据同步。详见 `docs/GITHUB_COMPLIANCE_AUDIT_20260923.md`。

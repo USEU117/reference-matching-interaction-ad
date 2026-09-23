@@ -159,6 +159,11 @@
 | E-17 | `ISSUE_REGISTER` R-12（`dist/` 未跟踪且未被忽略）现象已不成立 | `ISSUE_REGISTER…:61`；`PROJECT_CLEANUP_AUDIT…:212` | `.gitignore:73` 现为 `dist/`；按"原文不改写 + 刷新行"体例，建议在 `ISSUE_REGISTER` §〇ter 补一行 R-12 刷新（本轮未改） | AI | 低 | 待补登记 | — |
 | E-18 | 清理审计第二轮改动未提交 | `PROJECT_CLEANUP_AUDIT_20260922.md:543-561`（§E.8） | 待提交：3 个 `M`（`docs/README.md`、`docs/ARTIFACT_INDEX.md`、本审计报告）+ 158 条 `R`（归档重命名）+ 1 个新文件（`docs/archive_pre202609/README_ARCHIVE.md`）；建议提交信息见 §E.8；是否连 `.trae/` 一并纳入由作者定。**第一轮 42 文件删除已由作者提交 `ff6db31`** | 作者 | 中 | 待拍板 | — |
 | E-19 | 版式母本被 `*.docx` 忽略，干净克隆无法复现终稿（R-22 / F17） | `论文与图件问题汇总…:248-253`（F17）；`REMEDIATION_PLAN_20260920.md:14`；`ISSUE_REGISTER…:41` | 版式母本 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx`（`9DB99E60…`）是**不可由源重建的二进制输入**；建议移出 `*.docx` 忽略范围（或保留受控副本）并登记进 `docs/ARTIFACT_INDEX.md` | 作者 | 中 | 待拍板 | — |
+| E-20 | **现役 docx 是否留在 git 还是改走 Release** | **2026-09-23 收尾轮已入库**：`.gitignore:83` 加白名单 `!docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`，`git status` 显示 `??`（19,220,478 B，`9B3E15F5…`）；旧 docx 与 `.bak_*` 仍被忽略 | 留 git（现状：克隆即得权威稿）/ 移出转 Release（需改白名单）。记录见 `docs/GITHUB_COMPLIANCE_AUDIT_20260923.md` §4 | 作者 | 中 | 待拍板 | E-19 |
+| E-21 | **是否启用 Git LFS** | tracked 16,105 文件 / 3,308,895,330 B（≈3.31 GB）；`.git` ≈ 6.62 GiB；`>50 MB` 的 tracked 文件 **3** 个（三个 pptx：69.1 / 68.8 / 68.3 MiB），无 `>100 MB` 文件；现 **10** 个 tag | 启用会改写历史对象、成本较高；是否启用由作者定 | 作者 | 中 | 待拍板 | E-20 |
+| E-22 | **是否出 PDF** | 现役交付只有 docx（`…20260923.docx`）；投稿系统与长期归档常需 PDF | 是否出 PDF 由作者定（会新增一个二进制产物，是否入库需一并定） | 作者 | 低 | 待拍板 | — |
+| E-23 | **是否打 `v1.0.0`** | `git tag` = **10** 个，最新 `reference-figures-20260920`（2026-09-20，**早于 09-23 扩版/收口**）；扩版后无新 tag | 若打 `v1.0.0`，须与 `SOURCE_COMMIT.txt` 对齐 | 作者 | 中 | 待拍板 | E-20 |
+| E-24 | **`experiments/**` 与 `submission_repro_20260827/logs` 内本机绝对路径是否脱敏** | `git grep -l "My_github"` 命中 **1,503** 个 tracked 文件（含上述两处） | 两处属**红线/哈希登记**区：改动会使 `SHA256SUMS` / `VERSIONED_EVIDENCE.sha256` 失效；须作者书面决定是否单开一轮 | 作者 | 中 | 待拍板 | E-16 |
 
 ---
 
