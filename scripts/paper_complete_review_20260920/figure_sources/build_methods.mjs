@@ -212,7 +212,10 @@ function createSlide() {
   const slide = createSlide();
   band(slide, "f2-band-a", 8, 292, C.bandCool);
   band(slide, "f2-band-b", 308, 500, C.bandWarm);
-  band(slide, "f2-band-c", 816, 232, C.bandNeutral);
+  // The (c) band is sized to its content (one inequality plus two explanatory lines) instead of
+  // reserving a third of the canvas: 232 -> 176 units, and the explanation moves directly under
+  // the inequality it comments on. No decoration or repeated formula is added to fill space.
+  band(slide, "f2-band-c", 816, 176, C.bandNeutral);
 
   section(slide, "a", "One query patch and the common candidate set", 18);
   addBox(slide, "f2-query-patch", 34, 106, 126, 126, C.white, C.grayLine);
@@ -343,16 +346,16 @@ function createSlide() {
 
   // Keep the corrected Fig. 2(b) highlight and every matching-rule example above unchanged.
   // The compact (c) panel carries only the ordering statement that completes those examples.
-  section(slide, "c", "The ordering constraint", 826);
+  section(slide, "c", "The ordering constraint", 822);
   addMath(
     slide,
     "f2-gap-formula",
     [variable("G"), upright("("), variable("p"), upright(") ="), variable("J"), upright("("), variable("p"),
       upright(") −"), variable("L"), upright("("), variable("p"), upright(") ≥ 0")],
     36,
-    878,
+    866,
     430,
-    52,
+    46,
     { size: 36 },
   );
   addMath(
@@ -360,19 +363,19 @@ function createSlide() {
     "f2-nonnegative-condition",
     [variable("w"), sub("b", true), upright(" ≥ 0 for every branch")],
     480,
-    882,
+    870,
     728,
-    42,
+    38,
     { size: BASE, align: "left", color: C.muted },
   );
   addText(
     slide,
     "f2-gap-explanation",
-    "The shared-row minimum cannot be lower.\nG is a score gap; pixel AP follows patch ordering.",
+    "The shared-row minimum cannot be lower.\nScore magnitude does not determine pixel AP.",
     480,
-    932,
+    908,
     728,
-    64,
+    58,
     { size: BASE, color: C.ink },
   );
   setNotes(
@@ -386,7 +389,9 @@ function createSlide() {
   const slide = createSlide();
   band(slide, "f3-band-a", 8, 356, C.bandCool);
   band(slide, "f3-band-b", 372, 382, C.bandWarm);
-  band(slide, "f3-band-c", 762, 286, C.bandNeutral);
+  // (c) is sized to its content (two contrast boxes and the pairing note) instead of reserving
+  // nearly two fifths of the canvas: 286 -> 220 units. No decoration or repeated formula added.
+  band(slide, "f3-band-c", 762, 220, C.bandNeutral);
 
   section(slide, "a", "Four constructions with fixed weights", 28);
   const cards = [
@@ -458,16 +463,16 @@ function createSlide() {
   );
 
   // Keep the corrected Fig. 3(b) weight statement intact; (c) only summarizes its contrasts.
-  section(slide, "c", "Representation effects and matching interactions", 772);
-  addBox(slide, "f3-effects-box", 32, 826, 600, 164, C.white, C.violetLine, 1.6);
-  addBox(slide, "f3-interactions-box", 648, 826, 600, 164, C.white, C.redLine, 1.6);
-  addText(slide, "f3-effects-title", "Representation effect", 46, 836, 572, 36, {
+  section(slide, "c", "Representation effects and matching interactions", 766);
+  addBox(slide, "f3-effects-box", 32, 816, 600, 120, C.white, C.violetLine, 1.6);
+  addBox(slide, "f3-interactions-box", 648, 816, 600, 120, C.white, C.redLine, 1.6);
+  addText(slide, "f3-effects-title", "Representation effect", 46, 822, 572, 32, {
     size: 32,
     bold: true,
     color: C.violetLine,
     align: "center",
   });
-  addText(slide, "f3-interactions-title", "Matching interaction", 662, 836, 572, 36, {
+  addText(slide, "f3-interactions-title", "Matching interaction", 662, 822, 572, 32, {
     size: 32,
     bold: true,
     color: C.redLine,
@@ -479,22 +484,22 @@ function createSlide() {
   const eBal = [variable("E"), sub("BAL"), sub(","), sub("t", true), upright(" = "),
     variable("P"), upright("("), upright("BAL"), sub("t", true), upright(")"), upright(" − "),
     variable("P"), upright("("), upright("A1"), sub("t", true), upright(")")];
-  addMath(slide, "f3-e-tri", eTri, 44, 884, 576, 40, { size: 30 });
-  addMath(slide, "f3-e-bal", eBal, 44, 940, 576, 40, { size: 30 });
+  addMath(slide, "f3-e-tri", eTri, 44, 858, 576, 34, { size: 30 });
+  addMath(slide, "f3-e-bal", eBal, 44, 894, 576, 34, { size: 30 });
   const iTri = [variable("I"), sub("TRI"), upright(" = "), variable("E"), sub("TRI"), sub(","), sub("L"),
     upright(" − "), variable("E"), sub("TRI"), sub(","), sub("J")];
   const iBal = [variable("I"), sub("BAL"), upright(" = "), variable("E"), sub("BAL"), sub(","), sub("L"),
     upright(" − "), variable("E"), sub("BAL"), sub(","), sub("J")];
-  addMath(slide, "f3-i-tri", iTri, 660, 884, 576, 40, { size: 30 });
-  addMath(slide, "f3-i-bal", iBal, 660, 940, 576, 40, { size: 30 });
+  addMath(slide, "f3-i-tri", iTri, 660, 858, 576, 34, { size: 30 });
+  addMath(slide, "f3-i-bal", iBal, 660, 894, 576, 34, { size: 30 });
   addText(
     slide,
     "f3-pairing-note",
     "Paired contrasts use the same supports and queries under either rule.",
     40,
-    998,
+    940,
     1200,
-    42,
+    36,
     { size: BASE, color: C.muted, align: "center" },
   );
   setNotes(

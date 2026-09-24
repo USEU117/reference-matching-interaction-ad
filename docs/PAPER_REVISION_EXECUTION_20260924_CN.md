@@ -233,3 +233,140 @@
 ---
 
 *本记录为只读分析 + 写作/图件/文档层增量修改的记录，不含新实验、未用 GPU、未改任何冻结数值。所有行号、命中数与哈希均为 2026-09-24 盘上实读。*
+
+---
+
+## 十三、2026-09-24 第二轮：图件重渲染（A-01/A-19/B-04/B-05）、B 组核实（A-12/B-09/B-10）、C 组分类与预注册、重建复测
+
+> 本节**追加**于原记录之后，原 §〇—§九 一字未改。边界：**未跑任何新实验、未用 GPU 训练/推理、未改任何冻结数值或冻结哈希、未提交/未推送**；`experiments/**` 只读（本轮唯一的 `experiments` 相关动作是**读取** E 链产物与哈希，无写入）。
+> 事实依据一律为 **2026-09-24 盘上实读**；并**未回退/覆盖并行流程**的任何改动（本轮前 `build.py` 已被并行流程改为输出 `…_20260924.docx`、`references.json` 已被并行流程加到 37 条、deck 已被并行流程扩为 64 页 —— 本轮**沿用**这些状态，只做增量）。
+
+### 13.1 A 组：需重渲染项（全部执行）
+
+| 编号 | 结论 | 证据 |
+|---|---|---|
+| **A-01** 图 2(c)/图 3(c) 面板压缩 | **已执行** | 改 `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs` 的 (c) 带高与 (c) 内容纵向位置：图 2 **232 → 176 单位**、图 3 **286 → 220 单位**；解释移到其对应公式正下方；**未加装饰或重复公式**；(b) 面板高亮几何（F01/A-07 已逐像素核验的那一处）与所有文字语义**未动** |
+| **A-19** 图 2 类别下标 `c` 正斜体 | **复核后"已一致"，无需改字面量** | 逐符号实读 `methods.pptx` 与最终 deck：图 2（deck 第 2 页）独占 `c` run 的 XML 为 **i=1 ×3**；图 1（第 1 页）为 **i=1 ×2**；两者与正文 `\mathcal{R}_c` 的斜体下标一致。故 F11 所述"第 2 页 i=0"**在现役产物中不复现**（该现象存在于 2026-09-21 评审时的旧渲染） |
+| **B-04** 图 S4 图内重复总标题与长说明 | **复核后"已消除"** | `build_figS4_bootstrap_convergence.py` 无 `suptitle`、无 `fig.text`（全文 grep）；其 docstring 的 `version_note` 记 2026-09-23 版已删去图内总标题/长说明块；第 2 页 `figS4_bootstrap_stability.png` 的脚本亦无总标题。**入稿使用的即"无图内标题版"** |
+| **B-05** 图 S4 符号/术语未沿用正文（`L` 被称 local） | **复核后"已消除"** | 现役 S4 页 1 用数学排版 `$I_{\mathrm{TRI}}$` / `$I_{\mathrm{BAL}}$` 并在图内写 `L denotes independent matching`；`scripts/paper_complete_review_20260920/figure_sources/**` 与 `scripts/figures_reference_matching_20260914/**` 全文 grep **无**把 `L` 称为 local 的描述（`local` 仅作 PatchCore 的 `native_local128` 配置名）。**残余（仅登记，不改）**：S4 页 2 的对比量标签用 `$\mathrm{𝐼}_{...}$`，与页 1 的 `$I_{...}$` 字形略有差异，属可选统一项，未在本轮改动 |
+
+**重渲染产物与哈希**（`.tmp_complete_figures_20260920/methods/` → 现役图件目录；导出 2560 × 2120）：
+
+| 图 | 改前 SHA-256 | **改后 SHA-256** | 说明 |
+|---|---|---|---|
+| `figures/fig2_matching.png` | `69D22086387BD2AF57F396DB380895DF48F17DE461FB707C0FCE3E48127AECF1` | **`F60EBC88A561BDEC154E9A68F944790D88AE6193DD44B25031354781D13B3FB8`** | 仅 (c) 带与 (c) 内容位移 |
+| `figures/fig3_constructions.png` | `3F309ADB57D294E740F0C11E5085248A2CBB854F0E4932734758CF3A9AEDE6FD` | **`F44656C40A1E5959ABC0AE0BC433ECB6D26690D2870E8BE6F718F780D23EE03E`** | 仅 (c) 带与 (c) 内容位移 |
+| `figures/figS1_encoders.png` | `FE182E11F8679468797FB764F762123A4C60329B15F12D6A666DE527B3744418` | `FE182E11F8679468797FB764F762123A4C60329B15F12D6A666DE527B3744418` | **逐字节相同**，证明本轮改动对 S1 中性 |
+
+- 复现链（仓库根目录，全部退出码 0）：`node …/build_methods.mjs` → `.venv-anomalyclip\Scripts\python.exe …/patch_math.py`（`Patched 39 native subscript runs`）→ `powershell -File .tmp_complete_figures_20260920\methods\export_methods.ps1` → 复制 `fig2.png`/`fig3.png` 入现役图件目录。
+- 备份：`figures/fig2_matching.png.bak_preA01_20260924`、`figures/fig3_constructions.png.bak_preA01_20260924`、`.tmp_revision_20260924/build_methods.mjs.bak_preA01`。
+
+### 13.2 A 组门禁（实测）
+
+| 门禁 | 期望 | 实测 |
+|---|---|---|
+| `qa_layout.py --layout-dir .tmp_revision_20260924/active_layouts --figures-dir docs/paper_complete_review_20260920/figures --min-pt 11` | 0 problem | **TOTAL PROBLEMS: 0**（图 1/2/3/S1；最小 **11.29 pt**）。`active_layouts` 的四份 layout 由**本轮现役构建**导出：fig1 = `.tmp_revision_20260924/fig1/layout.json`，fig2/3/S1 = `methods/layout-1/2/3.json` |
+| `figure_font_gate.py --self-test` | 4/4 | `self-test passed: 4 controls behaved as required` |
+| 先前实测 `fig2 2 处 / figS1 6 处 TEXT-OVERFLOW` 复核 | — | **只在过期 layout 上复现**：若用**旧**目录 `.tmp_complete_figures_20260920/methods/qa_layout/*.layout.json`（含旧文案与旧几何）跑，会报 fig2 ×2（`f2-query-label`、`f2-selection-note`）与 figS1 ×6；用**现役** layout 跑为 **0**。即 2026-09-23 的几何重排已消除该批溢出，**非本轮回归** |
+
+### 13.3 deck 是否必须重出 —— 判定与实测
+
+**判定：必须重出**（图 2/图 3 的原生页内嵌在 deck 的第 2/3 页，图件内容已变）。已执行：
+
+```
+node scripts/paper_complete_review_20260920/figure_sources/build_deck.mjs   # Built 64 slides
+powershell -File scripts/paper_complete_review_20260920/figure_sources/assemble_deck.ps1  # Assembled 64 slides with native diagrams
+node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs  # finding_count = 0
+```
+
+| 项 | 改前 | 改后 |
+|---|---|---|
+| `All_Figures_Complete_20260924.pptx` | SHA `724F24E51CAF9F54E7776133AD5DC0C30CE5E88C9A27AF191AF04A9317EF6A74`、**64 页** | SHA **`CF889CACF7CE868DBC76AC05B0986D1E62F0A884113CCFC3F09F681EC8F9E137`**（72,418,403 B）、**64 页** |
+| 包完整性 / 版面门禁 | — | `finding_count = 0`（包完整性）、`finding_count = 0`（版面）；native 页 `[1, 2, 3, 16]`；字体族仅 `Times New Roman` + `Cambria Math` |
+| 位图页 ↔ 盘上 PNG | — | **60 / 60 逐字节相同**（64 页 − 4 原生页） |
+| 索引同步 | `FIGURE_SLIDE_INDEX.json` **63 条**（缺 `…visa_s0_k4_pipe_fryum`，与 md 的 64 行**不一致**） | **64 条**；`图件与PPT页码索引.md` **64 行**；两者不再互相矛盾（该 63/64 不一致由并行流程遗留，本轮重出后**自动修好**） |
+| 备份 | — | `.tmp_revision_20260924/All_Figures_Complete_20260924.pptx.bak_preA01` |
+
+**与任务书"页数须保持 63"的偏差（如实报告）**：任务书给定 deck 基线为 **63 页**，但**开工前盘上 deck 已是 64 页**（并行流程已把 64 页图集定为 `All_Figures_Complete_20260924.pptx`，`修订说明与验收_20260924.md` 亦记 64 页；差异 = 新增一页 `fig7_multimethod_visa_s0_k4_pipe_fryum`）。本轮重出**按当前 `figures.json` 与 36 张类别面板**生成，页数**保持 64**；**未**为了凑回 63 页而删页（那会回退并行流程的改动）。
+
+### 13.4 B 组：三条核实结论（原文摘录 + 判定）
+
+| 编号 | 原文摘录（盘上实读） | 判定 | 处置 |
+|---|---|---|---|
+| **A-12** 稳定性计划书"加密 N 网格却使最大值变小" | `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md:150`（现役）写的是**相反**结论："把 N 网格加密为每 25 个 replicate **不会改变或收紧**这个 **N ≥ 500** 上界，因为加密网格仍包含 N = 500；新增点只能维持或增大同一集合上的最大值。"评审记录（`论文与图件问题汇总_仅复核_20260921.md` P08）引用的"1.27×10⁻⁴ → 5.3×10⁻⁵"版本**已不在现役文本中**。回核数据侧：`figS4_bootstrap_convergence.json` 只有 11 点网格（50…1000），`headline` 的 `max_abs_estimate_deviation_N_ge_500 = 1.265e−04` 与 §4.4 表逐值一致 | **矛盾不成立**（属对旧措辞的误读；现役措辞已自洽） | 未改任何数据/计算/区间范围；仅在**该段末尾**加一句 2026-09-24 复核原委括注（**只改措辞、注明原委**） |
+| **B-09** 图 S3 第 5/6 页未登记 + 两处图件目录不一致 | `图件与PPT页码索引.md:24-29` = S3 **6 页**（`panel_c_to_b_shift`、`panel_canvas_coverage`、`panel_interaction_cases`、`_p2`、`_p3`、`_p4`）；`FIGURE_SLIDE_INDEX.json` S3 = 6 条（slide 18–23）；**`FIGURE_BINDING.md §一` 的"图 S3（图片面板）"行只登记 4 张**；盘上 `docs/figures_reference_matching_20260914/` **无** `_p3`/`_p4`，而 `docs/paper_complete_review_20260920/figures/` **有** | **不一致成立**；`_p3`/`_p4` 由**同一** `s2_robustness.py → render_cases`（`CASE_ROWS_PER_PAGE = 2`，8 案例 4 页）生成，只落在现役入稿目录 | **已补齐登记**（`FIGURE_BINDING.md` 新增 §十四：6 张面板逐项表 + 两目录差异说明）；**只加登记，未改数值、未复制文件** |
+| **B-10** T13 把 Fig 5 记为 "(a/b/c)" 三页 | `论文与图件问题汇总_仅复核_20260921.md:415` = `budget_category(a/b/c)`；`figures.json` 的 `budget_category.parts` = **2 个文件**（`fig5a_budget_seed.png`、`fig5b_categories.png`）；盘上同 2 个；deck 第 6/7 页同 2 页 | **以 2 页为准**；`(a/b/c)` 是**面板**记法（(a)(b) 第 1 页、(c) 第 2 页），不是页数 | **只改记法**：在 `论文与图件问题汇总_仅复核_20260921.md` 的 T13 行就地加"（**2 页 / 3 面板**…）"澄清；并在 `FIGURE_BINDING.md §十四` 登记 |
+
+### 13.5 C 组：分类、GPU 现状与预注册
+
+- **分类结果（详见新建 `docs/PREREGISTRATION_20260924_CN.md`）**：
+  - **文案/限制句类（零 GPU）**：**A09**（同机证据范围受限）与 **A18**（旋转增强收益的例外）经实读**已在现役稿** —— `results.md` §4.2.4 有 `No independent complete-process wall-clock measurement or query-only latency distribution is available.` 与 scope 限定；§4.2.7 有 `…but it is lower on MVTec AD (0.5643 to 0.5637).`。**无需新增文本**（分类结论 + 证据）。
+  - **真需新计算类**：**A04**（跨方法稳定性，估 **8–16 GPU 卡时**）、**A11**（共享操作多条件消融，估 **≈4–8 GPU 卡时**）、**A08**（stride-1 full-pixel 区间，登记为 **> 1 天 CPU/内存密集**）、**A22**（见下）。四者**均 > 2 h** → **只留预注册，不当场跑**。
+- **`nvidia-smi` 现状（12:43 实测）**：显存 **2450 / 6144 MiB**、**GPU-Util 0%**，占用进程全为桌面程序（微信 / TRAE / Edge / explorer / NVIDIA Overlay 等），**无 python / CUDA 计算进程**；node 有 6 个进程（并行流程工具链）。**GPU 实质空闲**，但不抢跑的原因不是资源而是**成本阈值与写权限协调**。
+- **A08 专项（既有登记核查）**：脚本 `scripts/limitation_closure_20260915/e1_fullpixel_ci.py` **在盘且属已登记 E 链**；但 `experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/` 里只有 **stride-4 与 stride-8** 的运行产物（`E1_STATUS_stride4.json` / `E1_STATUS_stride8.json`、`grid_sensitivity.csv`、`interaction_by_grid.csv`），**没有 stride-1（full-pixel）运行**。故 A08 的"full-pixel 无区间"在其本来意义上**仍存在**；命令/输入/预期产物/期望输出已写进预注册 §2.3。
+- **A22 定义回报**：两处编号**不是同一件事** —— `EXPERIMENT_GAP_ANALYSIS_20260922.md §7.2` 的 **A22 = "统一几何下 PatchCore 塌缩为一列"**（≈3.5 GPU 卡时，需重跑才能保留两列）；`MASTER_TODO… §12.3` 的 **"REVIEW_CHECKLIST A-22" = 一处"登记过期"计数提示**（旧口径 55 页/27 图/152 对象/19,434 词 → 现役口径）。前者归入预注册（>2h，只登记），后者属登记刷新（零 GPU）。
+- **当场跑了什么**：**没有跑任何 GPU 计算**（A04/A08/A11/A22 全部 > 2 h；A09/A18 属文案类且已在稿）。**没跑的原因**：估算超阈值 + 与并行流程的写权限协调。
+
+### 13.6 D 组：重建与复测（实测）
+
+| 项 | 20260923.docx（任务书给定起点，实读复核） | **重建后 20260924.docx** | Δ |
+|---|---|---|---|
+| 文件 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx` | 同名 20260924（`build.py` 现输出名，**由并行流程改定**） | — |
+| SHA-256 | `820E8CD629B782B2575C26782B96E69A4390377E3EC41E27FEE1C7E3C0F9488A` | **`77864633FD7672660243017B0A13C6F9A6860B519B99A1255B4A65205E2839F6`** | — |
+| 页数 / 词数 | **56 / 19,729** | **56 / 19,947** | 0 / **+218** |
+| 表数 / 内嵌图数 | 23 / 28 | **23 / 28** | 0 / 0 |
+| 数学对象 / 编号公式 / 文献 | 153 / 12 / 34 | **154 / 12 / 37** | **+1 / 0 / +3** |
+| 逐表跨页 | 23/23 单页 | **23/23 单页** | 0 |
+
+**偏差说明（如实报告，非本轮图件改动所致）**
+
+- **数学对象 153 → 154、文献 34 → 37、词数 19,729 → 19,947**：全部来自**并行流程**（`references.json` 新增 `hyperfsad`/`remem`/`duoad` 三条 → 34→37；`figures.json` 的 framework 图注加了 `$x_i^c$` 与 `For t = J or L` → 多 1 个 `m:oMath`；正文亦有并行流程的文字增删）。**不是**图 2/图 3 改动造成（图 2/3 是位图，不产生数学对象）。
+- **页数 56 未变**：图 2/图 3 高度未变（仍 17 cm 宽、2120 px 高），(c) 压缩只改图内空白分布。
+- **本轮重建相对"重建前 20260924.docx"（`A8E3C129…`）的差异，逐部件实测只有 2 个**：`word/media/image10.png`、`word/media/image11.png`（即图 2、图 3）——**其余部件逐字节相同**，证明本轮的图件改动是**最小增量**。
+- **docx 内嵌 28 图 ↔ `figures.json` 图源：28 / 28 逐字节相同**（实测）。
+
+**红线复验（实测）**
+
+| 红线 | 结果 | 证据 |
+|---|---|---|
+| 冻结共同区域表 `3C83AB00…A0B8BB` | **未变** | 实算 = `05_baselines_multi_dataset/baseline_common_region.csv`；`git status --porcelain -- experiments` 无该项 |
+| 冻结扩展表 `1C770129…73EC4B` | **未变** | `05_baselines_ext_20260921/baseline_common_region_ext.csv` 实算一致 |
+| 版式母本 `9DB99E60…8FB837` | **未变** | `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx` 实算一致（= `build_validation.json` 的 `source_sha256`） |
+| 表 11 六列 | **未变** | `tables.json` 的 `baselines.headers`/`rows` 与 `HEAD` **逐项相同**；`baselines_ext` 同 |
+| A1 control parity `k2 0.343706` / `k4 0.388328` | **未变** | `round13/RESULTS_s0_k2.json:44` 的 `frozen_ref = 0.343706`；`RESULTS_s0_k4.json:44` 的 `frozen_ref = 0.388328` |
+| `0 target-trainable parameters` | **仍在** | 重建后 docx 全文命中 True |
+| `SOTA` / `outperforms` / `全面领先` | **= 0** | docx 实测 0 / 0 / 0 |
+| `state-of-the-art` | **= 2，均否定语境** | ①"…makes no ordering, interval, significance-test or state-of-the-art claim." ②"The table is descriptive and makes neither a ranking nor a state-of-the-art claim." |
+| `local matching` | **= 0** | docx 实测 0（`independent matching` = 20） |
+| 区间跨零写法 | **未违例** | 本轮未新增任何结果叙述；预注册文档亦写明"区间跨零 → 写方向未定" |
+| `READONLY_PROOF.json` verdict | **未变** | = `no frozen read-only input was written` |
+| KSDD2 新探索 | **无** | 本轮未运行任何实验 |
+
+**门禁（实测）**
+
+| 门禁 | 期望 | 实测 |
+|---|---|---|
+| `qa_layout.py`（现役 layout，见 §13.2） | 0 problem | **TOTAL PROBLEMS: 0**（最小 11.29 pt） |
+| `figure_font_gate.py --self-test` | 4/4 | `self-test passed: 4 controls behaved as required` |
+| `pytest tests -q` | 260 passed | **260 passed, 1 warning in 45.10s** |
+| deck 页数 | （任务书）63 | **64**（与改前一致；偏差见 §13.3；native 页 [1,2,3,16]、位图页 60/60 逐字节一致） |
+
+### 13.7 本轮写入的文档
+
+| 文件 | 写入 |
+|---|---|
+| `docs/PREREGISTRATION_20260924_CN.md`（**新建**） | A04/A11/A08/A22 的预注册（问题、指标与区间口径、条件/扰动、样本与配对单位、成功判据、停止规则、GPU 成本估算、与三条口径是否冲突、以及结果不利时的处理）+ A09/A18 的文案类判定 |
+| `docs/figures_reference_matching_20260914/FIGURE_BINDING.md` | **仅在文末追加 §十四**（B-09 登记、B-10 记法、A-01 补记） |
+| `docs/REFERENCE_FIG_CONVERGENCE_PLAN.md` | **仅在该段末尾加一句复核原委括注**（A-12） |
+| `docs/论文与图件问题汇总_仅复核_20260921.md` | **仅 T13 行加一句记法澄清**（B-10） |
+| `docs/PAPER_REVISION_EXECUTION_20260924_CN.md` | 本 §十三（追加，不改上文） |
+| `docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md` | **仅在文末追加一节 §十三**（不改他人内容） |
+
+### 13.8 未做 / 不确定
+
+1. **A-19 / B-04 / B-05 未做任何"修改型"动作**，因为逐符号/逐脚本复核后**其前提在现役产物中不复现**（证据见 §13.1）。若作者仍要求"形式上也动一次"，需先确定想要的样式（例如把 `ℛ_c` 的 `c` 改为直立，则须**同时**改正文与图，属另一批改动）。
+2. **S4 页 2 的对比量字形**（`$\mathrm{𝐼}_{...}$` vs 页 1 的 `$I_{...}$`）仅登记，未改；重渲染页 2 的脚本会连带重生成 S5 与一页历史产物，风险 > 收益，故**未做**。
+3. **deck 64 页 vs 任务书 63 页**：未删页（删页等于回退并行流程的改动）。
+4. **docx 名与计数口径**：`build.py` 现输出 `…_20260924.docx`、文献 37 条、数学对象 154 个，均为**并行流程**改定，本轮沿用；`…_20260923.docx`（56/23/28/153/12/34/19,729）仍在盘，作为**本轮复测起点**的凭证。
+5. **图 2(c)/图 3(c) 压缩后画布底部留白增大**（图 2 带底 992、图 3 带底 982，画布 1060）。**未**改画布高度：methods.pptx 的 3 张原生页共用一个 slide size（1280 × 1060），改高会迫使图 S1 也重排并改动导出宽高比，超出 A-01 范围。
+6. **A04/A08/A11/A22 均未跑**，理由见 §13.5；命令与判据已在预注册里备好。

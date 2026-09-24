@@ -1,5 +1,7 @@
 # 图件绑定表（正文图号 ↔ 图源 ↔ 生成脚本 ↔ 冻结数据 ↔ 版本日期）
 
+> **2026-09-24 同步**：最新论文为 `Reference_Matching_Complete_English_20260924.docx`；图集为 `All_Figures_Complete_20260924.pptx`，28 个稿件面板 + 36 个类别附录 = 64 页。原生方法图页为 1/2/3/16。最新图注和页码以 `docs/paper_complete_review_20260920/FIGURE_SLIDE_INDEX.json` 为准；本文件后续旧日期计数保留作历史记录。
+
 本文件落实AI 辅助评审 2026-09-12 评审会要求「建正文图号 ↔ 图源 ↔ PPT 页 ↔ 脚本 ↔ 版本日期清单」，
 并已按 2026-09-15 合并后的正式图集更新。**表内每一行都能在仓库里按路径找到实体**；
 找不到的图列在文末「未产出」一节并写明原因与阻塞条件。
@@ -739,6 +741,48 @@ node scripts/paper_complete_review_20260920/figure_sources/finalize_deck.mjs
 | 红线 | `3C83AB00…A0B8BB` ✓、`1C770129…73EC4B` ✓、`9DB99E60…8FB837` ✓；`experiments data` / `data/splits` git 差异均**为空** |
 
 逐条证据另见 `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md` §十一、`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md` §7 的 **N-2 / N-3**。
+
+## 十四、2026-09-24 登记补齐（B-09 / B-10）与图 2/3 (c) 面板压缩补记（A-01）
+
+> 本节只做**登记**与**已在别处执行的版式改动**的补记；不改任何数值、不重渲染图 S3、不动任何实验产物。
+
+### 14.1 B-09：图 S3 第 5/6 页（`panel_interaction_cases_p3/p4`）登记 + 两处图件目录不一致
+
+逐项核对（2026-09-24 盘上实读）：
+
+| 来源 | 图 S3 分页记法 | 证据 |
+|---|---|---|
+| `docs/paper_complete_review_20260920/图件与PPT页码索引.md` | S3 = **6 页**（第 18–23 行）：`panel_c_to_b_shift` / `panel_canvas_coverage` / `panel_interaction_cases` / `_p2` / `_p3` / `_p4` | 由 `build_deck.mjs` 自动生成 |
+| `FIGURE_SLIDE_INDEX.json` | S3 = 6 条（part 1–6），slide 18–23 | 重建后全文 64 条 |
+| 本文档 §一「图 S3（图片面板）」行 | **只登记 4 张**（缺 `_p3` / `_p4`） | 本文件第 71 行 |
+| `docs/figures_reference_matching_20260914/`（§一 的名义图源目录） | 只有 `panel_interaction_cases.{png,pdf}` 与 `_p2.{png,pdf}`，**无 `_p3` / `_p4`** | 目录实读 |
+| `docs/paper_complete_review_20260920/figures/`（现役入稿目录） | **有** `panel_interaction_cases_p3.png` 与 `_p4.png`（deck 第 22/23 页内嵌） | 目录实读；deck 位图页与盘上 PNG 逐字节相同 |
+
+**判定**：逐图案例面板按 `s2_robustness.py` 的 `CASE_ROWS_PER_PAGE = 2`（8 案例）分页为 **4 页**，`_p3` / `_p4` 由**同一个** `render_cases` 生成；它们**只存在于现役入稿目录**，未同步回 §一 的名义图源目录，故"两处图件目录不一致"成立。**登记（以现役入稿目录为准）**：
+
+| 面板（生成器 `scripts/representation_matching_interaction_20260914/s2_robustness.py` → `render_cases`；`--embed-panels` 由 `build_figS3_extra_cases.py` 承接） | deck 页 | 仅现役入稿目录 |
+|---|---|---|
+| `panel_c_to_b_shift.png` | 18 | 否（两目录均有） |
+| `panel_canvas_coverage.png` | 19 | 否 |
+| `panel_interaction_cases.png` | 20 | 否 |
+| `panel_interaction_cases_p2.png` | 21 | 否 |
+| `panel_interaction_cases_p3.png` | 22 | **是** |
+| `panel_interaction_cases_p4.png` | 23 | **是** |
+
+### 14.2 B-10：图 5 的分页记法（2 页 / 3 面板）
+
+| 来源 | 记法 | 实读 |
+|---|---|---|
+| `figures.json` 的 `budget_category` | `parts = [fig5a_budget_seed.png, fig5b_categories.png]` | **2 页**；`caption` 写 (a)(b)，`continuation_caption` 写 (c) |
+| 盘上 `docs/paper_complete_review_20260920/figures/` | 只有 `fig5a_budget_seed.png`、`fig5b_categories.png` | **2 页** |
+| deck | 第 6 页 = `fig5a`、第 7 页 = `fig5b` | **2 页** |
+| `docs/论文与图件问题汇总_仅复核_20260921.md` T13 正文引用清单 | `budget_category(a/b/c)` | 这是**面板**记法，不是页数 |
+
+**判定**：以 `figures.json` / 盘上 / deck 三方一致的 **2 页**为准；`(a/b/c)` 指**三个面板**（(a)(b) 在第 1 页、(c) 在第 2 页）。已在 `论文与图件问题汇总_仅复核_20260921.md` 的 T13 行就地加一句记法澄清（只改记法，未动任何数值或图）。
+
+### 14.3 A-01 补记：图 2(c)/图 3(c) 面板压缩
+
+2026-09-24 对 `scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs` 的 (c) 带与 (c) 内容做**只减不增**的压缩（图 2 带高 232 → 176 单位；图 3 带高 286 → 220 单位；解释移到其对应公式正下方），**未加任何装饰或重复公式**，未改任何数值或文字语义。重渲染后 `figS1_encoders.png` 与盘上**逐字节相同**（`FE182E11…`）。门禁与哈希见 `docs/PAPER_REVISION_EXECUTION_20260924_CN.md` §十三。
 
 
 
