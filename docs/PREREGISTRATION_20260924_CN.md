@@ -94,3 +94,48 @@
 - **未改动**：任何冻结输入、`experiments/**` 既有产物、`data/**`、版式母本；本文件不产生新的计算产物。
 
 *本文件为预注册与分类登记，不含任何新计算。所有"已在稿"结论均为 2026-09-24 盘上实读。*
+
+---
+
+## 四、执行命令（2026-09-24 执行轮回填；本节为**追加**，上文各节一字未改）
+
+> **回填说明**：§2.1（A04）/§2.2（A11）/§2.4（A22）原文只有"口径与判据"，**未给可执行命令行**；§2.3（A08）给了命令行，但**与盘上脚本不符**（脚本没有 `--grid`）。本节由执行轮据**盘上实读**逐条补全/校正，**不改任何口径、判据、停止规则与成本估算**。执行工作目录 = `experiments/prereg_20260924/`（**新增**，含 `logs/`、`out/`、`state/`），队列脚本 `experiments/prereg_20260924/run_queue.ps1`，执行顺序 **A22 → A11 → A04 → A08**（单卡 6 GB，严格串行）。
+>
+> **可运行性预检结论（先于启动）**：A08 **可运行**；A22 / A11 / A04 **不可运行**（原因见下）。不可运行项**不执行**，状态落在 `state/<项>.json` 与 `state/progress.txt`。
+
+### 4.1 A08（可运行）— **命令被校正**
+
+§2.3 原写 `.venv-anomalyclip/Scripts/python.exe scripts/limitation_closure_20260915/e1_fullpixel_ci.py --mode run --grid fullpixel`，与脚本不符：
+
+- 脚本 `e1_fullpixel_ci.py` 的 argparse **没有 `--grid`**；网格由 `--stride` 选择（`--stride 1` = full-pixel，且为默认值），成本随 `1/stride^2`。
+- 产物名不是 §2.3 写的 `point_fullpixel.csv` / `E1_STATUS_fullpixel.json`，而是 `point_stride1.csv` / `E1_STATUS_stride1.json`（`point_<stride>.csv`）；`interaction_by_grid.csv` 由同目录 `e1_report.py`（而非 `e1_fullpixel_ci.py`）生成。
+
+补全后的确切命令（在仓库根目录执行）：
+
+```
+.venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_fullpixel_ci.py --mode run --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\prereg_20260924\out\A08
+.venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_report.py --dir experiments\prereg_20260924\out\A08 --strides 1
+```
+
+- **未执行 §2.3 建议的 `--mode verify` 与 `--mode validate`**：这两个模式的输出目录在脚本内**硬编码**为既有产物目录 `experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/`，会**覆盖既有** `V1_CHECKS.json` / `V1_3_END_TO_END.json`，与"不覆盖任何既有产物"冲突。故只跑 `run` 与 `report`，二者输出全部落在新目录。
+- **输入（只读，本轮实读已在盘）**：`experiments/dynamic_fusion/unified_fusion_paper_support_20260913/p1_matrix/units/mpdd_s{0,1,2}_k{1,2,4,8}/<cat>/patch_scores.npz`、`.../p3_external/units/btad_s{0,1}_k{1,2,4,8}/<cat>/patch_scores.npz`、`outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical/{B,S,C}/<ds>_s*_k8/<cat>.npz`、`.../p4_fullpixel/fullpixel_metrics.csv`（`--mode verify` 才会读该 csv）。
+- **输出目录**：`experiments/prereg_20260924/out/A08`（新）；预期产物 `replicate_stride1.npz`、`point_stride1.csv`、`E1_STATUS_stride1.json`、`interaction_by_grid.csv`、`E1_REPORT_SUMMARY.json`。
+- **成本**：§2.3 原估 **> 1 天 CPU / 内存密集**（未实测）——按该值执行；停止规则不变（物理内存占用 > 80% 或单数据集 > 3 h 即停），队列脚本已实现 80% 内存看门（超限自动终止该步并记录）。
+
+### 4.2 A22（**不可运行**）
+
+§2.4 要求的是"在统一几何子集内**并列** PatchCore 的两原生配置（448 与 224）"。盘上**没有**任何脚本实现该动作：B 线工具链（`scripts/harmonised_20260922/run_patchcore_harmonised.py`、`harmonised_common_region.py`）的 spec 与矩形规则都**假定短边 448**，且其表注明确写"统一几何下 PatchCore 两原生配置**塌缩为一列**"——这正是 A22 想取消的那个设计结果。要另立 224 列需**新写代码**，并会破坏该子表"单一输入几何"的前提；最接近的既有 driver 只会重出**已完成的 448 列**，且输出指向既有 `05_baselines_harmonised_20260922` 树。→ **不执行**（回填不出"不凭空改口径"的命令）。
+
+### 4.3 A11（**不可运行**）
+
+§2.2 要求"3 消融 × seed 0、1 × K = 1、2、4、8 = 8 条件 × 2 数据集 + 图像级配对 95% 区间"。既有脚本 `scripts/limitation_closure_20260915/e2_shared_op_ablation.py` 的 `run_ablations` **硬编码 `SEEDS[dataset][:1]`**（只跑首个 seed = 0），**无法产出预注册的 seed 1 半边**；脚本也**不含任何 bootstrap 区间**；其强制配套 `e2_abl_s_addendum.py` **无命令行参数**，输出目录写死在既有 `E2_shared_op_ablation/`（同理 `--mode check` 写 `V2_2_RESCALER_CHECK.json` 到该既有目录），会**覆盖既有产物**。→ **不执行**。
+
+### 4.4 A04（**不可运行**）
+
+§2.1 未给脚本；盘上检索（`scripts/**` 语义检索 + `stability|perturbation` 关键词）**无**任何"共同指标 × 共同扰动 × 六配置 + 图像级配对区间"的实现；且 `docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` §7.2 的 D-01 自述"**须先定义纵/横轴再评估**"。无口径即无从执行。→ **不执行**。
+
+### 4.5 本节未做 / 不确定
+
+1. 本节只补命令与预检结论，**未改** §一～§三的任何文字、判据或成本估算。
+2. A22/A11/A04 的"不可运行"是**盘上能力判定**（无脚本 / 脚本口径不符 / 会覆盖既有产物），不是"判定结果不重要"；若作者要执行，需先补脚本或改口径。
+3. A08 的**期望输出**（fullpixel 与 stride-8 的零排除判断逐行同号同判）需要 stride-8 侧可比产物；本轮**未**跑 `--mode validate`，该对照待 stride-8 侧产物齐备后进行。

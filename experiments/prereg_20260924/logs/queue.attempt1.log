@@ -1,0 +1,9 @@
+﻿2026-09-24 13:05:07 === queue start (A22 -> A11 -> A04 -> A08) base=D:\STUDY\My_github\sci_project\experiments\prereg_20260924 ===
+2026-09-24 13:05:07 A22 NOT RUNNABLE - no script implements the pre-registered protocol (second PatchCore native-224 column inside the single-geometry harmonised subset); existing harmonised drivers hard-code short side 448 and write only into the pre-existing 05_baselines_harmonised_20260922 tree
+2026-09-24 13:05:07 A11 NOT RUNNABLE - shipped script cannot produce the pre-registered grid (seed 1 hard-coded out: SEEDS[dataset][:1]) and computes no bootstrap intervals; its mandatory companion (e2_abl_s_addendum.py, and --mode check) writes into the pre-existing E2_shared_op_ablation directory and would overwrite existing artefacts
+2026-09-24 13:05:07 A04 NOT RUNNABLE - no script exists for a common-metric x common-perturbation cross-method stability run; the pre-registration records that the comparison axes are not yet defined (EXPERIMENT_GAP_ANALYSIS D-01), so there is nothing to execute without inventing a protocol
+2026-09-24 13:05:07 A08a_run_fullpixel START  "D:\STUDY\My_github\sci_project\.venv-anomalyclip\Scripts\python.exe" -u D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py --mode run --stride 1 --replicates 1000 --datasets mpdd btad --output D:\STUDY\My_github\sci_project\experiments\prereg_20260924\out\A08
+2026-09-24 13:06:08 A08a_run_fullpixel STOP RULE: physical RAM 87.5% used (>= 80%) - terminating
+2026-09-24 13:06:08 A08a_run_fullpixel END exit= 61s peak=2445MiB ram_kill=True
+2026-09-24 13:06:08 A08b_report SKIPPED - dependency A08a did not complete
+2026-09-24 13:06:08 === queue end ===

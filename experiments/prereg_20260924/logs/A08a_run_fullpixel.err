@@ -1,0 +1,14 @@
+D:\STUDY\My_github\sci_project\.venv-anomalyclip\lib\site-packages\scipy\__init__.py:155: UserWarning: A NumPy version >=1.18.5 and <1.25.0 is required for this version of SciPy (detected version 1.26.4
+  warnings.warn(f"A NumPy version >={np_minversion} and <{np_maxversion}"
+Traceback (most recent call last):
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 556, in <module>
+    raise SystemExit(main())
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 551, in main
+    return mode_run(args)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 424, in mode_run
+    profs, n_images = stride_profiles(
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 175, in stride_profiles
+    out[name] = profile_from_blocks(np.ascontiguousarray(view).reshape(n_images, -1), y)
+  File "D:\STUDY\My_github\sci_project\scripts\limitation_closure_20260915\e1_fullpixel_ci.py", line 128, in profile_from_blocks
+    prof_neg_ge = np.zeros((n_images, grid_values.size), dtype=np.float64)
+numpy.core._exceptions._ArrayMemoryError: Unable to allocate 1.51 GiB for an array with shape (97, 2084258) and data type float64
