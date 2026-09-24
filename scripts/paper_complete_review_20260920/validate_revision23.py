@@ -17,10 +17,13 @@ check('frozen_template',sha(R/'docs/manuscript_polished_20260919/Reference_Match
 check('no_experiment_data_changes',not subprocess.check_output(['git','status','--porcelain','--','experiments','data'],cwd=R,text=True).strip())
 tables=json.loads((S/'tables.json').read_text(encoding='utf-8'))
 prior=json.loads(subprocess.check_output(['git','show','HEAD:scripts/paper_complete_review_20260920/tables.json'],cwd=R,text=True,encoding='utf-8'))
-check('Table11_all_fields_unchanged',tables['baselines']==prior['baselines'])
+# Table 11: the author lifted the note freeze on 2026-09-23 and M1 (2026-09-24) appended a
+# "per-method protocol is in Table S2" pointer to its note. The frozen six value columns and
+# the headers must stay identical to HEAD; the note is no longer part of this equality.
+check('Table11_values_unchanged',tables['baselines']['headers']==prior['baselines']['headers'] and tables['baselines']['rows']==prior['baselines']['rows'])
 paper=O/'Reference_Matching_Complete_English_20260923.docx';deck=O/'All_Figures_Complete_20260923.pptx'
 d=Document(paper);text='\n'.join(p.text for p in d.paragraphs)
-check('23_tables',len(d.tables)==23);check('27_embedded_figures',len(d.inline_shapes)==27)
+check('23_tables',len(d.tables)==23);check('28_embedded_figures',len(d.inline_shapes)==28)
 check('12_numbered_equations',len([p for p in d.paragraphs if re.search(r'\(\d+\)$',p.text) and '\t' in p.text])==12)
 check('author',d.core_properties.author=='Yuening Li' and 'Yuening Li' in text)
 check('four_result_groups',sum(p.style.name=='Heading 3' and re.match(r'4\.2\.[1-4] ',p.text) is not None for p in d.paragraphs)==4)
@@ -57,7 +60,7 @@ check('italic_category_c',styles and all(v=='1' for v in styles))
 with zipfile.ZipFile(paper) as z:
  doc_images={hashlib.sha256(z.read(n)).hexdigest() for n in z.namelist() if n.startswith('word/media/')}
  specs=json.loads((S/'figures.json').read_text(encoding='utf-8'))
- check('all_27_Word_image_bytes_match_sources',all(sha(R/p) in doc_images for f in specs.values() for p in f.get('parts',[f['path']])))
+ check('all_28_Word_image_bytes_match_sources',all(sha(R/p) in doc_images for f in specs.values() for p in f.get('parts',[f['path']])))
 coverage=[]
 for f,y,h in [('fig2_matching.png',816,232),('fig3_constructions.png',762,286)]:
  im=np.asarray(Image.open(O/'figures'/f).convert('RGB'));crop=im[int(y/1060*im.shape[0]):int((y+h)/1060*im.shape[0])]

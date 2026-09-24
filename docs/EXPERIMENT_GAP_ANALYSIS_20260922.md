@@ -131,7 +131,7 @@
 
 | 编号 | 2026-09-22 判定 | 2026-09-23 状态 | 凭据（实读） |
 | --- | --- | --- | --- |
-| A01 图像级指标未并列 | 补（零重跑） | **仍缺** | 权威源 `results.md` 仅在 `:53`（举例）、`:65`、`:69`、`:163`（"image-level bootstrap"措辞）处提及图像级，**仍无系统并列表**；产物侧图像级字段仍在（`05_baselines/patchcore/*/summary.csv` 的 `image_auroc,image_ap` 等） |
+| A01 图像级指标未并列 | 补（零重跑） | **部分满足（2026-09-24 回填）** | 权威源 `results.md` 仅在 `:53`（举例）、`:65`、`:69`、`:163`（"image-level bootstrap"措辞）处提及图像级，**仍无系统并列表**；产物侧图像级字段仍在（`05_baselines/patchcore/*/summary.csv` 的 `image_auroc,image_ap` 等） |
 | A02 表 11/12 逐方法协议表注 | 补（写作） | **主表仍缺；B 线已用另一种方式覆盖一部分** | 表 11/12 表注未改（`tables.json` 的 `baselines`/`baselines_ext`）；B 线把协议写进**新增子集表**的列名 + 表注模板 + `PREFLIGHT.json` 三处（见 `METHOD_COMPARISON_HANDOFF_20260922.md` §5.1）。**注意**：子集表**尚未入正文**，因此 A02 对正文的缺口不变 |
 | A03 "为何对比方法无需目标域训练"无成体系说明 | 补（写作） | **仍缺（稿未落）** | `manuscript.md` grep `no target-domain` / `preparation computation` / `zero-computation` = **0**；T12 的中英段落仍只存在于 `docs/论文与图件问题汇总_仅复核_20260921.md` §八 T12 |
 | A04 跨方法稳定性比较 | 不补 | **不补（结论不变）** | 无新证据；`METHOD_COMPARISON_HANDOFF_20260922.md` §6 未新增跨方法扰动实验 |
@@ -150,6 +150,17 @@
 | A17 共同区域口径已写进正文 | 不补（已满足） | **已满足（不变）**；B 线另加一层证据 | 正文覆盖率句未改；B 线 `harmonised_common_region.csv` 的 36/36 单元 `region_grid` 与冻结表**完全相同**（`region_mode = frozen`） |
 
 **小结（2026-09-23）**：A01/A02（正文部分）/A03/A05/A06/A07/A10/A13 共 8 项**仍缺且均为"仅写作/仅图件/打包"类，零 GPU**；A04/A08/A09/A11 维持"不补"；A12/A15/A16/A17 维持"已满足/已限定"；**A14 已结案**（检查点随上游源码归档提供，**非本项目训练**）。**没有任何一项因 B 线而失效。**
+
+**小结（2026-09-24 复核刷新）**：本轮只就地回填 **A01 行状态**（见上表），其余各行原文不改写；下列各项经 2026-09-24 盘上实读已在现役稿落地（本轮未跑实验、未用 GPU、未改任何冻结数值）：
+
+- **A01（回填凭据）**：系统并列表已在稿 —— `results.md:165`（"**Image-level metrics.** Table 21 reports image AUROC and image AP alongside stride-eight pixel metrics…"）与 `results.md:167` 的 `{{table:image_metrics}}`；数据键 `tables.json:1387` 的 `image_metrics`（4 数据集 × 两 anchor，含 image AUROC / image AP / pixel AUROC / pixel AP 四列，共 8 行）。**仍未覆盖**：只列 two anchors（A1 J / A1 L），未扩到全部外部方法，且 `results.md:165` 明写 "no image-level interval is claimed"。故判定 **部分满足**，非"仍缺"。
+- **A02**：补充材料已给逐方法协议表（`manuscript.md:241` 的正文说明 + `manuscript.md:243` 的 `{{table:method_protocols}}`，含 SubspaceAD 256↔672 偏离）；主表表注缺"指向 S2"已在本轮补齐（`tables.json` 的 `baselines`/`baselines_ext` 两键 `note` 各追加一句，**六列数值与其余字段未动**）。
+- **A03**：成体系段落已落 `manuscript.md:186`（三点齐备：目标域不做梯度优化 / 预训练编码器与继承检查点仍带训练来源 / 参考库与特征编码属准备计算）。
+- **A05**：正文 Figure 7 续页原已有 3 张多方法类别面板（`results.md:69`）；本轮补入 BTAD category 01 一张（`figures.json` 的 `cases_bad.parts` / `part_captions`），四数据集在正文均有示例，面板总数 3→4。
+- **A06**：覆盖范围已界定 —— `manuscript.md:261`（"两种输出…只适用于 Figures 6/7 的五个正文 A1 案例"）与 `figures.json` 的 `cases_bad.caption` 同口径。
+- **A07**：方差覆盖范围已写明 —— `results.md:133`（"covers MPDD and BTAD only; no corresponding cross-seed table is available for MVTec AD, VisA or KolektorSDD2"）。
+- **A10**：首轮离群已披露 —— `results.md:159`（首轮 30.527 s / 重测 24.190 s，并指向 `_bench_speed_vram/recheck/`）。
+- **A13**：`docs/MODEL_WEIGHTS.md`（逐权重 目标路径 / 字节数 / SHA-256 / 获取方式）与 `docs/REPRODUCE_TO_TABLES.md`（重建路径）**均在盘**，`manuscript.md:224` 已引用两者，`manuscript.md:226` 已给公开仓库 URL。
 
 ### 7.2 B 线带来的新增欠缺（A18–A23）
 
