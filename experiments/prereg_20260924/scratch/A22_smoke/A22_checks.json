@@ -1,0 +1,49 @@
+{
+  "created_utc": "2026-09-25T11:02:13.351894+00:00",
+  "rows": 3,
+  "units": 1,
+  "columns": [
+    "PatchCore_harmonised448",
+    "PatchCore_native_official224",
+    "PatchCore_native_local128"
+  ],
+  "parity_vs_harmonised_table": {
+    "reference": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_harmonised_20260922\\harmonised_common_region.csv",
+    "reference_label": "harmonised 448 column",
+    "rows_compared": 1,
+    "max_abs_delta": 0.0,
+    "max_abs_delta_per_method": {
+      "PatchCore_harmonised448": 0.0
+    },
+    "pass_1e_9": true
+  },
+  "parity_vs_frozen_common_region_table": {
+    "reference": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "reference_label": "frozen native-protocol columns",
+    "rows_compared": 2,
+    "max_abs_delta": 0.0,
+    "max_abs_delta_per_method": {
+      "PatchCore_native_local128": 0.0,
+      "PatchCore_native_official224": 0.0
+    },
+    "pass_1e_9": true
+  },
+  "region": "imposed from 05_baselines_multi_dataset/common_region_geometry.json (the harmonised subset's own region) - no re-cut",
+  "interval": "image-level paired bootstrap, B=50, stride-8 subsample of the same region grid, percentiles 2.5/97.5, default_rng([seed, shot, replicate]) - the harmonised table's own convention",
+  "skipped": [],
+  "collapse_vs_parallel_summary": {
+    "mpdd": {
+      "n_units": 1,
+      "n_units_identical_448_vs_224": 0,
+      "n_units_identical_448_vs_128": 0,
+      "mean_delta_native224_minus_448": -0.0029070588917256028,
+      "median_delta_native224_minus_448": -0.0029070588917256028,
+      "mean_abs_delta_native224_minus_448": 0.0029070588917256028,
+      "max_abs_delta_native224_minus_448": 0.0029070588917256028,
+      "mean_delta_native128_minus_448": -0.003914934394883824,
+      "mean_abs_delta_native128_minus_448": 0.003914934394883824,
+      "max_abs_delta_native128_minus_448": 0.003914934394883824,
+      "n_units_native224_and_native128_same_side_of_448": 1
+    }
+  }
+}

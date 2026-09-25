@@ -1,0 +1,44 @@
+{
+  "id": "A04",
+  "state": "completed",
+  "question": "under ONE common metric and ONE common perturbation, do the six tested configurations move in the same direction (a direction statement, not a stability ranking)",
+  "axis_definition": {
+    "vertical_axis_metric": "frozen shared-region macro pixel_ap (s8_common_region primitive)",
+    "horizontal_axis_perturbation": [
+      "input geometry: common region - own native frame",
+      "reference augmentation (AnomalyDINO): rotation - no rotation, reported for both frames"
+    ],
+    "pairing_unit": "image (same draws for both levels; paired interval on the change)",
+    "sampling_stream": "default_rng([20260913, dataset_id, category_id, replicate])",
+    "family_correction": "Bonferroni 1 - 0.05/m, m = 6 configurations",
+    "sample": {
+      "datasets": [
+        "mpdd",
+        "btad"
+      ],
+      "seeds": [
+        0,
+        1
+      ],
+      "shots": [
+        1,
+        4
+      ],
+      "categories": "all"
+    }
+  },
+  "design_decisions_pending_ratification": [
+    "the vertical/horizontal axis definition itself (the pre-registration explicitly leaves it open: EXPERIMENT_GAP_ANALYSIS D-01)",
+    "'native frame' = each configuration's own rectangle with its own natural grid, evaluated through the shared s8 metric path (no registered uniform native-frame runner exists for all six configurations)",
+    "the stride-8 subsample for the interval while the point estimate stays on the full region grid (the shared-region table's own affordability convention), with the full grid used where the stride-8 subsample would drop every positive pixel (the 32x32 / 32x42 canvas patch grids; each row records its own bootstrap_stride)",
+    "the scope: MPDD + BTAD only, because the perturbation needs both levels and the registered native-frame artifact covers only those two datasets"
+  ],
+  "success_criterion": "section 2.1: at least 3/4 datasets with the intervals' direction agreeing with the point estimate and the configurations moving in the same direction.  With two datasets available the criterion is reported on those two and the reduced scope is stated, not silently widened.",
+  "no_ranking": "no configuration is ordered and no cross-configuration significance test is run; an interval that covers zero is reported as 'direction undecided', never as 'no effect'",
+  "products": {
+    "point_values": "A04_point_values.csv",
+    "stability": "A04_stability.csv",
+    "cross_config": "A04_cross_config.csv",
+    "checks": "A04_checks.json"
+  }
+}

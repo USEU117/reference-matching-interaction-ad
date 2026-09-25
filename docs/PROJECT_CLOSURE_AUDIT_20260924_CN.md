@@ -242,3 +242,91 @@
 7. **红线复核**：冻结哈希 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB` ✓、`1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B` ✓、`9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837` ✓；A1 control parity `k2 0.343706` / `k4 0.388328` 未变（`experiments/dynamic_fusion/innovation_breadth_20260908/*/RESULTS_s0_k2.json`、`…k4.json` 的 `frozen_ref`；`tests/test_freeze_a1_mpdd.py` 在 260 passed 内）；docx 含 `0 target-trainable parameters` ✓；**未 git add / commit**。
 8. **并发复查**：命名轮最后写盘 **2026-09-25 17:18:50**（`scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`）；17:53 / 17:57 / 18:09 / 18:23 四次进程抽查（`Win32_Process` python/pythonw/codex/node）**均无**计算进程；`results.md` 未再被覆盖（两处编辑复查仍在，mtime 17:59:34）。
 9. **未做 / 不确定**：① **未重出 `paper.pdf` 与 `.tmp_revision_20260925/preflight/`**——`export_review.ps1` 的 `Fields.Update()` + `ExportAsFixedFormat` 在本机两次长时间（>10 min）无输出，遂改跑**等价 Word COM**（`Repaginate` + `ComputeStatistics` + `Tables`）写 `word_review.json`（页/词/表/表页口径与脚本一致，实测 5.7 s）；② 位置 A 的宽度措辞按**给定原文**保留，但据盘上数据 BTAD `I_BAL` 的 stride-1 区间宽（0.004789）**略宽于** stride-8（0.004733）——属既有微差，**未改数值**，仅此登记。
+
+---
+
+## 九、A22 / A04 / A11 执行结果（**只追加**；上文各节一字未改）
+
+> 背景：作者批准执行 `docs/PREREGISTRATION_20260924_CN.md` 的 **A22 / A11 / A04** 三项。三项**全部纯 CPU**（复用盘上既有冻结 dump / canonical 特征 / 已有 map），**不触碰 GPU**；全部新产物落 `experiments/prereg_20260924/out/A{22,11,04}/`，**未覆盖** `E1_fullpixel_ci/`、`05_baselines*`、`E2_shared_op_ablation/` 等既有目录。数值与凭据详见 `PREREGISTRATION_20260924_CN.md` **§七（A22）** 与 **§八（A04）**；A11 见本节末尾与预注册文件后续追加节。
+
+### 9.1 A22（统一几何下 PatchCore 两原生配置并列）——**已完成（含证据）**
+
+- **口径/设计决定**：指标 = 冻结共同区域 macro `pixel_ap`；三列 = `PatchCore_harmonised448` / `native_official224` / `native_local128`；**零重跑、零 GPU**（复用盘上既有原生 dump，在同一冻结区域网格上重采样重算）；区间沿用统一几何子表自身约定（`default_rng([seed, shot, replicate])` + `weighted_auroc_ap`，stride-8，B=1000）。
+- **前提变更（待作者追认）**：把两张**原生几何**列并入"单一输入几何（短边 448）"子表——正是这条前提造成"两原生配置塌缩为一列"；区域不重裁、单元集不变（4 数据集 × 全部类别 × seed 0 × K = 1 = 36 类别单元），每行带 `geometry` 与 `NATIVE geometry - admitted only by the premise change` 注记，并写入 `A22_STATUS.json → premise_change_pending_ratification`。
+- **命令 / 成本**：`python scripts/prereg_20260924/a22_patchcore_second_column.py --output experiments/prereg_20260924/out/A22 --datasets btad mpdd mvtec visa --seeds 0 --shots 1 --bootstrap 1000`；**墙钟 2078 s（34.6 min）**，**显存 0 MiB**（对比 §2.4 估 ≈3.5 GPU 卡时）。
+- **产物**（`out/A22/`）：`A22_second_column.csv` **46,606 B**、`A22_second_column_macro.csv` **1,849 B**、`A22_collapse_vs_parallel.csv` **9,041 B**、`A22_checks.json` **4,163 B**、`A22_geometry.json` **16,840 B**、`A22_STATUS.json` **2,411 B**（SHA-256 前 16 见预注册 §7.3）。
+- **契约核对**：新列 `PatchCore_harmonised448` 与 `harmonised_common_region.csv` **36 行 max|Δ| = 0.0**；两原生列与 `baseline_common_region.csv` **72 行 max|Δ| = 0.0**（**逐行 bitwise 相等**）。
+- **结论**：36/36 单元上 448 与 224、448 与 128 **均不相等**（<1e-9 判据 0 个相同）⇒"塌缩"是**子表几何前提**所致，非数值巧合；与 Figure S6 契约**符号 4/4 一致**（128−224 四数据集同为负）。
+- **未做**：未计算"两列之差"的配对区间（§2.4 未登记）。
+
+### 9.2 A04（跨方法稳定性）——**已完成（含证据；口径待作者追认）**
+
+- **口径/设计决定（4 项待追认）**：纵轴 = 冻结共同区域 macro `pixel_ap`；横轴 = **输入几何**（共同区域 − 自身原生帧）+ 第二类**参考增强**（AnomalyDINO rotation − canvas）；六配置；样本 MPDD + BTAD × 全部类别 × seed 0、1 × K 1、4（4 组 / 36 类别单元 / 432 读数）；配对单位 = 图像；抽样流 `default_rng([20260913, dataset_id, category_id, replicate])`；个体 95% + Bonferroni 1−0.05/6。待追认项 = ① 纵横轴定义本身（`EXPERIMENT_GAP` D-01 自述未定）② "原生帧"实现 ③ 区间网格（近小网格改用全网格）④ 样本范围。
+- **命令 / 成本**：`python scripts/prereg_20260924/a04_cross_method_stability.py --output experiments/prereg_20260924/out/A04 --datasets mpdd btad --seeds 0 1 --shots 1 4 --bootstrap 1000`；**墙钟 520 s（8.7 min）**，**显存 0 MiB**（对比 §2.1 估 8–16 GPU 卡时）。脚本支持 `--resume`（首跑一处组装断言崩溃后**未重算已完成单元**）。
+- **产物**（`out/A04/`）：`A04_point_values.csv` **131,079 B / 432 行**、`A04_stability.csv` **16,398 B / 64 行**、`A04_cross_config.csv` **4,395 B / 8 行**、`A04_checks.json` **18,611 B**、`A04_STATUS.json` **2,569 B**；`units/` 检查点 **36 个**。
+- **契约核对**：六配置的**共同区域**读数与 `baseline_common_region.csv` **216 行 max|Δ| = 0.0**；原生帧侧与历史拼装的 `baseline_native_frame.csv` 为**诊断性**对照（PatchCore ≤1.3e-3；A1/AnomalyDINO 0.022–0.070，**如实登记、不声称复现**）。
+- **结论**：输入几何扰动下，四个画布帧配置（A1_J/A1_L/AnomalyDINO canvas/rotation）Δ 一致为正（32/32 配置-组为正，95% 多数排除零）；**两个 PatchCore 列 Δ≈0、区间跨零**（其原生帧就是冻结共同区域 = 官方 224 裁剪矩形，扰动近退化）。⇒ **§2.1 成功判据判为"扰动下方向不一致"**（8/8 组非六配置同向），按 §2.1"结果不利时的处理"**如实报告，未改口径、未缩范围、未把跨零写成零效应**；第二类扰动（参考增强）方向一致为负（15/16 格）。
+- **缺失（如实列出）**：MVTec AD / VisA 未纳入（登记的原生帧产物只覆盖 MPDD/BTAD）；未做 seed 扰动；未做跨配置显著性检验。
+
+### 9.3 A11（共享操作多条件消融）——**执行中；结果见追加节**
+
+- **口径/设计决定**：3 消融（ABL-S/ABL-N/ABL-C）+ baseline × seed 0、1 × K 1、2、4、8 = 8 条件 × 2 数据集（MPDD development / BTAD holdout），全部 32 个 cell/单元；消融实现**直接 import** 既有 `e2_shared_op_ablation`（`score_j` / `compose_l` / `SLOTS` / 权重组），区间实现与抽样流**直接 import** 既有 `e1_fullpixel_ci`（`replicate_weights` / `profile_from_blocks` / `pooled_ap_auroc_multi`，流 = `default_rng([20260913, dataset_id, category_id, replicate])`）；新脚本 `scripts/prereg_20260924/a11_shared_op_ablation_multi.py`（**不改**原脚本、**不写**既有 `E2_shared_op_ablation/`）。
+- **门禁**：`--mode check` 用既有 `e2` 模块重算归档 map，**21/21 pass，max|d| = 9.537e-07**（脚本自带 1e-6 容差）；单元级抽查与归档 `interaction_by_ablation.csv` 的单条件交互**逐格 max|Δ| = 1.7e-18**。
+- **队列**：`experiments/prereg_20260924/run_queue_a11.ps1`（2 个不相交 shard：`--datasets mpdd` / `--datasets btad`，均为 seed 0,1 × K 1,2,4,8；每单元 checkpoint + `--resume`；15 s 采样显存/系统内存；**RAM 停止规则改为连续 3 次 ≥96%**——首版 93% 单点阈值曾在 19:12:42 因一次瞬时 95.4% 误杀两 shard，已修正并如实登记）。
+- **截至 2026-09-25 20:45 实读**：`out/A11/units/` 已落 `mpdd_s0_k1`、`mpdd_s0_k2`、`btad_s0_k1` 三个单元 checkpoint（1.52 MB / 1.52 MB / 0.75 MB）；2 解释器在跑；`sum_peak_ws` ≈ 8.0 GB、`worst_peak_ws` ≈ 6.7 GB、`system_used` 峰值 82.8%（均低于停止规则）；**显存 0 MiB**（gpu_used 1.32 GB 为桌面基线）。**最终产物与结论见预注册文件后续追加节。**
+
+### 9.4 分类计数刷新（对照 §〇）
+
+| 归类 | §〇 原值 | 本轮之后 | 说明 |
+|---|---:|---:|---|
+| **已完成（有凭据）** | 13 组 / 43 项 | **15 组**（+A22、+A04） | A11 完成后为 16 组 |
+| **需作者决定** | 18 | **18**（A22/A04 的"是否执行"已由作者批准，但各自新增**待追认的设计决定**：A22 1 项、A04 4 项） | 见预注册 §7.1 / §8.1 |
+| **需新写脚本 / 新实验** | 5（A04/A11/A22/A06/E-08） | **3**（A11 执行中 / A06 / E-08） | A04、A22 已移出 |
+| **已作废 / 不补** | 13 组 | 13 组 | 未动 |
+| **仍无法核实** | 6 | 6 | 未动 |
+| **与本轮并行流程相关** | 1 | 1 | 未动 |
+
+- **§一 开放事项总表 #5（D-01/A04）、#6（D-05/A11）、#7（A-22）** 三项本轮**已执行**，不再属"作者（阈值外）"；其**待追认的设计决定**（见上表）成为新的作者项。
+- **红线**：三个冻结哈希实读未变；`E1_fullpixel_ci/`、`p4_fullpixel/`、`05_baselines*`、`E2_shared_op_ablation/` 均只读；**未 git add / commit**；新增文本禁用词自查 **0 命中**。
+- **出处**：`PREREGISTRATION_20260924_CN.md` §七 / §八（及 A11 追加节）；`MASTER_TODO_PAPER_PPT_FIGURES_20260923.md` §十七；脚本 `scripts/prereg_20260924/`。
+
+---
+
+## 八、2026-09-25 收尾追加（**只追加**）：paper.pdf 重出 + 措辞订正 + E-08 处置
+
+> 本节只记录本轮盘上实测，不改动上文任何文字。上文 **§七 第 9 条**的"未重出 `paper.pdf`"与"宽度措辞按给定原文保留"两处，**以本节为准**。
+
+### 8.1 paper.pdf 重出（已产出；引擎为 WPS，Word 路径失败）
+
+- **产物**：`docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.pdf`，**61 页 / 10,875,228 B / SHA-256 `89497729A950EF0DFB4AC9379B5E5664CAC106A561ADD9E2138C7B5B3C26718E`**；PDF 元数据 `Creator = WPS 文字`（`pypdf` 实读）。
+- **页数口径**：措辞订正后 docx 自身为 **61 页**（Word COM `ComputeStatistics(2)`，**4.9 s** 实测；词数 20,465 → **20,505**）；因此 PDF 61 页与 docx **一致**。任务书预设的"60 页"是**订正前**口径。23 张表仍全部单页（`start==end`）。
+- **Word 引擎失败（如实登记）**：`ExportAsFixedFormat` 在本机对该文档**始终不产出文件**。共 **5 次**尝试——2 参数形式、12 参数并关闭 `DocStructureTags`、`OptimizeFor` 打印/屏幕两种、默认打印机/PDF 打印机——每次 **11–45 分钟无输出、无异常**，Word 进程稳定占用约 **30–40% 单核**、无模态对话框（`tasklist /v` 窗口标题仅为 `HardwareMonitorWindow`）。对照证据：**同一 docx** 的 Word COM 统计过程 **4.9 s** 完成；**一页对照 docx** 经同一调用 **4.9 s** 导出成 PDF ⇒ PDF 子系统与文档模型均正常，仅该文档的导出停滞。超时后为腾出机器曾终止这些 Word 进程（诊断要素已记于本条）。
+- **可用工具链**：本机已装 **WPS Office**（`KWPS.Application` / `wps.exe` 注册于 App Paths，`New-Object -ComObject KWPS.Application` 实读成功）；`Get-Command` 探测 **未见** `soffice` / `pandoc` / `gswin64c`。`KWPS.Application` 打开该 docx 后 `ExportAsFixedFormat(path,17)` **11.5 s** 写出上述 PDF（脚本端到端 16.9 s，含 Word 统计）。
+- **配方落盘**：`scripts/paper_complete_review_20260920/export_review.ps1` 已改为 **`-Engine wps`（默认）**：WPS 出 PDF + Word COM 统计写 `word_review.json`；保留 `-Engine word` 分支（注释标明本机会停滞）；另写 `.tmp_revision_20260925/pdf_export.json`（`engine/elapsedSec/pdfBytes/docxPages`）。改前件 `export_review.ps1.bak_pre_pdf_1848`。**未改任何打印机默认设置**（`HKCU\...\Windows\Device` 实读仍为 `Lenovo LJ2206W`）。
+- **复现性提示**：WPS 输出含生成时间戳，**逐次重导 SHA 会变**（本轮两次同为 10,875,228 B，SHA `7C2F4337…` → `89497729…`），与既有 E-09 记录的 docx 非字节级可复现同源。
+
+### 8.2 措辞订正（过度概括 → 限定表述）
+
+- **落点**：`scripts/paper_complete_review_20260920/results.md:57`（`Read` 工具行号）。
+  - **原**：`… so the zero-exclusion judgements are unchanged, and these per-pixel intervals are narrower than on the sparse grid.`
+  - **新**：`… The zero-exclusion judgements for the two primary MPDD interactions and the two BTAD interactions are unchanged. At the 98.75% level their per-pixel intervals are narrower than the stride-eight intervals for the two MPDD interactions, whereas the two BTAD intervals are of comparable width to their stride-eight counterparts, one marginally narrower and the other wider by about 1%.`
+- **为何原句不准确（盘上 98.75% 区间宽实读）**：
+  - stride-1：`experiments/prereg_20260924/out/A08/interaction_by_grid.csv`（:2 MPDD `I_TRI` 0.006616、:3 `I_BAL` 0.005604；:9 BTAD `I_TRI` 0.004726、:10 `I_BAL` **0.004789**）。
+  - stride-8：`…/limitation_closure_20260915/E1_fullpixel_ci/interaction_by_grid.csv`（:2 MPDD `I_TRI` 0.008654、:3 `I_BAL` 0.008410）与 `…/A_btad03_corrected/interaction_dataset_stride8.csv`（:2 BTAD `I_TRI` 0.004788、:3 `I_BAL` **0.004724**）。
+  - 结论：MPDD 两项**更窄**；BTAD `I_TRI` **略窄**（0.004726 < 0.004788）、`I_BAL` **略宽约 1.4%**（0.004789 > 0.004724）⇒ "全部更窄"是过度概括。
+- **同时限定 `unchanged`**：`E_BAL_J`（MPDD 次要不平衡效应）在 stride 1/4 排除零、stride 8 跨零（`interaction_by_grid.csv` 的 `ci9875_excludes_zero` 实读），故"zero-exclusion judgements are unchanged"只允许**限定在两项主交互及其 BTAD 对应项**；紧随其后的 `One secondary effect …` 句保留。
+- **数值未动**：本处只改措辞，未改任何数字、表列、图件或文献。
+- **docx 内命中**（空白归一化 `re.sub(r"\s+"," ",text)`）：新句 `zero-exclusion judgements for the two primary MPDD interactions` ✓、`one marginally narrower and the other wider by about 1%` ✓；旧断言 `narrower than on the sparse grid` **已消失** ✓（`python-docx` 实读）。
+
+### 8.3 docx 复测与门禁（本轮实测）
+
+- **docx 复测**（`build.py` 重建同名件）：**61 页 / 23 表 / 28 内嵌图 / 154 原生数学对象 / 12 编号公式 / 37 文献 / 20,505 词**；SHA-256 **`E0D5462B347C4C44B5999D476DE26CFDCF35034438831D6A0861D004D8BA72F4`**（23,673,208 B）；改前备份 `…20260925.docx.bak_pre_wordingfix_1848`（23,673,134 B）。
+- **交付验收**：`.tmp_revision_20260925/check_delivery.py` **146/146 全过** → `{"passed":146,"pages":61,"words":20505,"references":37,"math_objects":154}`。
+- **三项门禁**：`qa_layout.py` **TOTAL PROBLEMS: 0**（最小 11.29 pt）；`figure_font_gate.py --self-test` **4/4**（`self-test passed: 4 controls behaved as required`）；`pytest tests -q` **260 passed**（1 warning，SciPy/NumPy 版本提示）。
+
+### 8.4 E-08 处置（最保守口径）与待决项
+
+- **处置**：复现包**只放 URL + revision + SHA-256 清单，不放权重本体**；清单直接引用 `docs/MODEL_WEIGHTS.md`（46 项，不重抄）。
+- **已补文档**：`docs/REPRODUCE_TO_TABLES.md` 新增"E-08 复现包：环境 → 权重获取 → splits → 运行 → 期望输出"小节；`docs/REPRODUCIBILITY_PACKAGE.md` 新增 **§8**（清单要点 + 待决项）。二者均改前备份 `…bak_pre_e08_1848`。
+- **待决项**：**D1** 权重本体不再分发（本轮按此处置）；**D2** 若作者同意再分发，需加入 46 个权重**本体** + 逐项许可 + `THIRD_PARTY_NOTICES.md` 条款 + `SHA256SUMS` 重打（本机实读合计 **12,858,068,253 B ≈ 12.0 GiB**）；**D3** 其余子项（`methods/` 的 (a)/(b) 方案、`VD1_MANIFEST.json` 的 `manifest_sha256` 回填）待拍板。
+- **纪律**：未把 `dist/`、权重、数据集加入 git；**未 `git add / commit`**；未改任何实验数值或冻结产物；本节新增文本不含禁用词，也未把"跨零"写成"零效应"。

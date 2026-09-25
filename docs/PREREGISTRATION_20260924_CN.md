@@ -215,3 +215,227 @@
 - **红线**：三个冻结哈希 `3C83AB00…` / `1C770129…` / `9DB99E60…` ✓；A1 parity `k2 0.343706` / `k4 0.388328` ✓；`0 target-trainable parameters` ✓；新增文本禁用词 0 命中；**未 git add / commit**。
 - **命名轮是否仍在写**：最后写盘 **17:18:50**；17:53 / 17:57 / 18:09 / 18:23 四次进程抽查**均无**计算进程；`results.md` 未被再次覆盖。
 - **未做**：未重出 `paper.pdf`/`preflight/`（Word COM `Fields.Update()`+`ExportAsFixedFormat` 本机两次 >10 min 无输出，改跑等价 `Repaginate`+`ComputeStatistics` 写 `word_review.json`）。详见 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §七`。
+
+---
+
+## 七-b、2026-09-25 第三轮追加（**只追加**；并行流程同一时刻另追加了 §七「A22 执行结果与验收」，本节编号顺延记为 **七-b**）：paper.pdf 重出、A08 区间措辞订正、E-08 处置
+
+> 本节只记录盘上实测，不改动 §一～§六 任何文字。§六 末行"未重出 `paper.pdf`"以本节为准。
+
+### 7b.1 paper.pdf 重出
+
+- 产物 `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.pdf`：**61 页 / 10,875,228 B / SHA-256 `89497729A950EF0DFB4AC9379B5E5664CAC106A561ADD9E2138C7B5B3C26718E`**（`pypdf` 实读，`Creator = WPS 文字`）。
+- **引擎**：Word COM `ExportAsFixedFormat` 在本机对该文档 5 次尝试均 **11–45 min 无输出**（同一 docx 的 Word 统计 4.9 s、一页对照文档导出 4.9 s，故仅该文档导出停滞）；改用本机已装 **WPS Office Writer COM**（`KWPS.Application`），**11.5 s** 产出上述 PDF。
+- **页数一致**：订正措辞后 docx 自身 = **61 页**（Word `ComputeStatistics(2)`，4.9 s；词数 20,465 → 20,505），与 PDF 61 页 **一致**（§六 记的 60 页为订正前口径）；23 张表仍全部单页。
+- 配方见 `scripts/paper_complete_review_20260920/export_review.ps1`（`-Engine wps` 默认 + Word 统计写 `word_review.json`）。
+
+### 7b.2 A08 区间措辞订正（**不改数值**）
+
+- **落点** `scripts/paper_complete_review_20260920/results.md:57`：
+  - 原 `… so the zero-exclusion judgements are unchanged, and these per-pixel intervals are narrower than on the sparse grid.`
+  - 新 `… The zero-exclusion judgements for the two primary MPDD interactions and the two BTAD interactions are unchanged. At the 98.75% level their per-pixel intervals are narrower than the stride-eight intervals for the two MPDD interactions, whereas the two BTAD intervals are of comparable width to their stride-eight counterparts, one marginally narrower and the other wider by about 1%.`
+- **依据（本轮 A08 产物与既有归档实读，均为 98.75% 区间宽）**：
+
+  | 对比 | stride-1（A08 `interaction_by_grid.csv`） | stride-8 | 结论 |
+  |---|---|---|---|
+  | MPDD `I_TRI` | 0.012114100900101545 − 0.0034603521163336275⁻¹ = **0.006616**¹ | **0.008654** | stride-1 更窄 |
+  | MPDD `I_BAL` | **0.005604**¹ | **0.008410** | stride-1 更窄 |
+  | BTAD `I_TRI` | **0.004726** | **0.004788** | stride-1 略窄 |
+  | BTAD `I_BAL` | **0.004789** | **0.004724** | stride-1 **略宽约 1.4%** |
+
+  ⁻¹ 表内 MPDD 的 stride-1 数值取自 `experiments/prereg_20260924/out/A08/interaction_by_grid.csv`（`ci9875_low/high`）；stride-8 取自 `experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/interaction_by_grid.csv`（MPDD）与 `…/A_btad03_corrected/interaction_dataset_stride8.csv`（BTAD）。
+- **`unchanged` 限定**：`E_BAL_J`（MPDD）在 stride 1/4 排除零、stride 8 跨零，故"zero-exclusion judgements are unchanged"只能限定在两项主交互及其 BTAD 对应项；§五 5.3 的"两项如实登记"仍成立。
+- **未改任何数值**：本节只订正措辞；strides 表、`point_stride1.csv` 与 `interaction_by_grid.csv` 均未改动。
+
+### 7b.3 E-08 处置（最保守口径）与待决项
+
+- **处置**：复现包**只放 URL + revision + SHA-256 清单，不放权重本体**（引用 `docs/MODEL_WEIGHTS.md` 46 项）。
+- **已补**：`docs/REPRODUCE_TO_TABLES.md` 的"E-08 复现包"小节；`docs/REPRODUCIBILITY_PACKAGE.md` **§8**。
+- **待决项**：D1 权重本体不再分发（本轮按此处置）；D2 若作者同意再分发，需加入 46 个权重本体 + 逐项许可 + `THIRD_PARTY_NOTICES.md` + `SHA256SUMS` 重打（12,858,068,253 B ≈ 12.0 GiB）；D3 其余子项（`methods/` (a)/(b)、`VD1_MANIFEST.json` 回填）待拍板。
+- **纪律**：未 git add/commit；未改实验数值与冻结产物；新增文本禁用词 0 命中；未把"跨零"写成"零效应"。
+
+---
+
+## 七、A22 执行结果与验收（2026-09-25 回填；本节为**追加**，上文各节一字未改）
+
+> §2.4 只写了"问题/指标/扰动/配对单位/成功判据/停止规则/成本"，未给可执行口径；§4.2 判"不可运行"，理由是"现工具链假定短边 448，另立列需新写代码并破坏单一几何前提"。本节记录按 §2.4 的登记口径**新写脚本**执行后的盘上实读结果。数值一律取自本目录产物，不重算、不改写。本文件新增文本**不含** `SOTA / outperforms / state-of-the-art / 全面领先` 类措辞，也不把"区间跨零"写成"零效应"。
+
+### 7.1 口径与设计决定（**含 1 项待作者追认**）
+
+- **问题（照抄 §2.4）**：统一几何（448）下，同一方法（PatchCore）的两原生配置是否仍显示协议敏感度，还是被"统一几何子集只有一列"的设计结果掩盖。
+- **指标**：冻结共同区域上的 macro `pixel_ap`（`scripts/representation_matching_interaction_20260914/s8_common_region.pooled_ap_auroc`，按类别池化后宏平均）——与统一几何子表、表 11/12 同一口径。
+- **三列**：`PatchCore_harmonised448`（`--resize 448 --imagesize 448`，该子表原有列）、`PatchCore_native_official224`（`--resize 256 --imagesize 224`）、`PatchCore_native_local128`（`--resize 144 --imagesize 128`）。后两列的 driver 与配方**照抄既有登记**（`scripts/harmonised_20260922/run_patchcore_harmonised.py` 的官方 224 配方，只改数据集几何），且**盘上早已有这两份原生预测 dump**，因此本轮**零重跑、零 GPU**：只把既有 dump 在**同一冻结区域网格**上重采样并重算。
+- **区域**：`05_baselines_multi_dataset/common_region_geometry.json` 的冻结区域；不重新裁切，保证每格与统一几何子表/表 11 同单元可比。实测该区域就是官方 224 的居中裁剪矩形（面积比 0.765625 = 0.875²），故原生 224 列与该区域**完全重合**，原生 128 列是其超集。
+- **配对单位 / 区间**：图像级配对自助；沿用**该子表自己的区间约定**（`default_rng([seed, shot, replicate])` + `complete_statistics.weighted_auroc_ap`，区域网格 stride-8 子采样，B = 1000，2.5/97.5 百分位）。**A22 未计算"两列之差"的配对区间**：§2.4 的登记要求是"两配置的差值与 Figure S6 的契约一致"，故差值只报**逐单元点差**并只作符号一致性核对，不主张差值的显著性。
+- **⚠ 待作者追认（本轮注册的设计决定）**：**前提变更**——把两张**原生几何**列并入"统一输入几何子集"。原表定义是"每一列都来自同一输入短边（448）"，正是这条前提让 PatchCore 的两原生配置塌缩为一列；要并列就必须放宽它。本轮的处理是：区域不重裁、指标与区间约定不变、单元集不变（4 数据集 × 全部类别 × seed 0 × K = 1，共 36 个类别单元），两新列在**每一行**都带 `geometry` 并在 `note` 标注 `NATIVE geometry - admitted only by the premise change`，同时把该决定写入 `A22_STATUS.json` 的 `premise_change_pending_ratification`。
+
+### 7.2 命令与成本（实测）
+
+```
+.venv-anomalyclip\Scripts\python.exe -u scripts\prereg_20260924\a22_patchcore_second_column.py ^
+    --output experiments\prereg_20260924\out\A22 --datasets btad mpdd mvtec visa --seeds 0 --shots 1 --bootstrap 1000
+```
+
+- **墙钟 2078 s（34.6 min）**（`logs\A22_run.out` 末行；文件 mtime 19:02:39 → 19:37:13）；**纯 CPU**。
+- **显存**：未创建 CUDA 上下文；同期设备占用 1345–1368 MiB 为桌面程序基线，**本项自身显存 0 MiB**。
+- **成本对照**：§2.4 按"必须重跑"估 **≈3.5 GPU 卡时**；实测因**复用既有 dump**而降为 0 GPU / 34.6 min CPU，成本估算**未改**，只登记实际值。
+
+### 7.3 产物清单（`experiments/prereg_20260924/out/A22/`，2026-09-25 实读）
+
+| 文件 | 字节 | SHA-256（前 16） |
+|---|---:|---|
+| `A22_second_column.csv` | 46,606 | `D55C205C4110A70F` |
+| `A22_second_column_macro.csv` | 1,849 | `31F38E7AF29F506A` |
+| `A22_collapse_vs_parallel.csv` | 9,041 | `DCA53DCF0D353D16` |
+| `A22_checks.json` | 4,163 | `11C6F829B8710804` |
+| `A22_geometry.json` | 16,840 | `5551BEA75F80BA34` |
+| `A22_STATUS.json` | 2,411 | `856BB2429DC46B5A` |
+
+- **结构完整性（实读）**：`A22_second_column.csv` = 1 表头 + **108 行**（= 36 单元 × 3 列）；列 `method,dataset,seed,shot,category,geometry,region_grid,region_fraction_of_canvas,pixel_ap,pixel_auroc,n_pixels,seconds,source,source_table,note`；`A22_second_column_macro.csv` = 1 + **12 行**（3 列 × 4 数据集）；`A22_collapse_vs_parallel.csv` = 1 + **36 行**。未发现空值/重复键（键 = `method|dataset|seed|shot|category`）。
+
+### 7.4 契约核对（**两个冻结表逐行精确相等**）
+
+| 对照 | 参考产物 | 比较行数 | max abs Δ | 判定 |
+|---|---|---:|---:|---|
+| 本列 `PatchCore_harmonised448` | `05_baselines_harmonised_20260922/harmonised_common_region.csv` | 36 | **0.0** | 与子表**逐行 bitwise 相等** |
+| 本列原生 224 / 原生 128 | `05_baselines_multi_dataset/baseline_common_region.csv` | 72 | **0.0** | 与冻结原生协议列**逐行 bitwise 相等** |
+
+⇒ 新列不是"另一套算法"，而是**同一区域、同一指标、同一 dump** 的重放；唯一变化量就是输入几何。
+
+### 7.5 结论数字：**"塌缩 vs 并列"对照**
+
+**（a）三列的点值与 95% 配对区间（4 数据集 × 全部类别 × seed 0 × K = 1，36 类别单元；宏平均）**
+
+| 数据集 | 统一 448（子表原列） | 原生 224（新列） | 原生 128（新列） |
+|---|---|---|---|
+| BTAD | **0.372539** [0.331455, 0.428973] | **0.335939** [0.292019, 0.379177] | **0.210898** [0.184220, 0.241501] |
+| MPDD | **0.210966** [0.197789, 0.227192] | **0.176388** [0.168358, 0.187745] | **0.153734** [0.143043, 0.166166] |
+| MVTec AD | **0.505010** [0.486022, 0.524596] | **0.473368** [0.451780, 0.495610] | **0.368120** [0.343492, 0.391675] |
+| VisA | **0.322758** [0.295954, 0.346805] | **0.271648** [0.243835, 0.296706] | **0.215113** [0.186978, 0.236211] |
+
+**（b）哪些单元"相同"、哪些"不同"（逐单元，共 36 单元）**
+
+| 量 | BTAD | MPDD | MVTec AD | VisA |
+|---|---:|---:|---:|---:|
+| 单元数 | 3 | 6 | 15 | 12 |
+| 448 与 224 **相等**（<1e-9）的单元 | **0 / 3** | **0 / 6** | **0 / 15** | **0 / 12** |
+| 448 与 128 **相等**（<1e-9）的单元 | **0 / 3** | **0 / 6** | **0 / 15** | **0 / 12** |
+| Δ(224−448) 均值 / 均值绝对 / 最大绝对 | −0.0366 / 0.0724 / 0.1316 | −0.0346 / 0.0346 / 0.1540 | −0.0316 / 0.0764 / 0.1867 | −0.0511 / 0.0979 / 0.2485 |
+| Δ(128−448) 均值 / 均值绝对 / 最大绝对 | −0.1616 / 0.1616 / 0.2167 | −0.0572 / 0.0572 / 0.1544 | −0.1369 / 0.1936 / 0.4834 | −0.1076 / 0.1874 / 0.3213 |
+| 两原生列落在 448 同一侧的单元 | 2 / 3 | 6 / 6 | 13 / 15 | 11 / 12 |
+
+- **"塌缩"是什么**：统一几何子表按设计只有一列（`PatchCore_harmonised448`），**不是**因为两原生配置数值相同——36/36 单元上 448 与 224、448 与 128 **均不相等**（判据 1e-9）。因此"塌缩"是**该子表的几何前提**造成的，不是数值巧合。
+- **"并列"读出什么**：把两原生几何列并排后，同一方法内部按输入几何分出的两档差异**逐单元存在且可量化**（上表 Δ 的均值绝对与最大绝对）。**区间纪律**：上表区间是**每一列各自的边际区间**，不是"两列之差"的区间；448 与 224 的边际区间在 **BTAD / MVTec AD / VisA 三个数据集上重叠**，**MPDD 上不重叠**（448 下限 0.197789 > 224 上限 0.187745）；448 与 128 的边际区间在**四个数据集上均不重叠**。边际区间是否重叠**不能**用来判断差值的符号或显著性（也**不得**把重叠写成"零效应"）：差值的配对区间**未在 A22 内计算**（§2.4 未登记该量，见 §7.7），故本项只按登记的成功判据做**符号一致性**核对。
+- **与 Figure S6 契约的方向一致性（§2.4 成功判据）**：S6（`protocol_leverage.json` 的 `PatchCore(local128 vs official224)`，144 单元、s0/s1 × K1/K4）给出 per-dataset mean Δ(128−224) = BTAD **−0.0874**、MPDD **−0.0626**、MVTec **−0.0989**、VisA **−0.0557**；本项在 36 单元等价子集上由三列宏平均得 Δ = BTAD **−0.1250**、MPDD **−0.0227**、MVTec **−0.1052**、VisA **−0.0565** ⇒ **四个数据集符号全部一致（4/4 同为负）**，**契约一致**；量级差异来自单元集不同（36 vs 144）与列口径（共同区域读数），**如实记录，不平滑**。
+- **口径纪律**：本项只报"同一方法内部按输入几何的差异"，**不构成排名**、不做跨方法比较、`0 target-trainable parameters` 未受影响（无任何目标域训练）。
+
+### 7.6 红线复核（实读）
+
+- 既有产物未改：`05_baselines_harmonised_20260922/**`、`05_baselines_multi_dataset/**`、`outputs/patchcore/**` 只读；本项全部写入 `experiments/prereg_20260924/out/A22/`。
+- 三个冻结哈希实读未变：`3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、`1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、`9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837`。
+- 本文件**未 git add / commit**；新增文本禁用词自查 **0 命中**。
+
+### 7.7 未做 / 不确定
+
+1. **未计算 448 与 224/128 之差的配对区间**（§2.4 未登记该量）；结论中凡涉及差的方向均只报点差与符号一致性。
+2. **未重新裁切区域**：若作者追认前提变更时希望改为"两原生列各自原生帧并列"，则区域与目标网格都要另定，属另一次执行。
+3. **前提变更待追认**（§7.1 末条）；追认前，本目录两新列只作**补充读数**，不得并入统一几何子表正文表。
+4. 本节只回填执行结果，**未改** §一～§六任何文字、判据、口径、产物名与成本估算。
+
+---
+
+## 八、A04 执行结果与验收（2026-09-25 回填；本节为**追加**，上文各节一字未改）
+
+> §2.1 把纵轴/横轴**留给执行方自行定义**（`EXPERIMENT_GAP_ANALYSIS_20260922` D-01 自述"须先定义纵/横轴"，§4.4 因此判"不可运行"）。本节先给出**选定口径**（全部标注"本轮注册的设计决定，待作者追认"），再记录新写脚本执行后的盘上实读。本文件新增文本**不含** `SOTA / outperforms / state-of-the-art / 全面领先` 类措辞，也不把"区间跨零"写成"零效应"。数值全部取自本目录产物。
+
+### 8.1 选定口径（**4 项待作者追认**）
+
+- **纵轴（指标）**：冻结共同区域上的 macro `pixel_ap`（`s8_common_region.pooled_ap_auroc`，像素按类别池化后宏平均）——与表 11/12 及统一几何子表同一口径。
+- **横轴（扰动）**：§2.1 登记了两类，逐类成对、不混用参考库：
+  1. **输入几何** = 每个配置各读两次：**自己的原生帧**（该配置自身矩形 + 自身自然网格，GT 从画布重采样上去）与**冻结共同区域**；Δ = 共同区域 − 原生帧。
+  2. **参考增强**（AnomalyDINO 一族）= `canvas_rotation − canvas`，原生帧与共同区域两种帧下各报一次。
+- **六个受测配置**：`controlled_A1_J`、`controlled_A1_L`、`PatchCore_native_local128`、`PatchCore_native_official224`、`anomalydino_canvas`、`anomalydino_canvas_rotation`。
+- **样本**：MPDD（development）+ BTAD（holdout）× 全部类别 × seed 0、1 × K = 1、4 = **4 组 / 36 个类别单元 / 432 个读数**。
+- **配对单位**：图像（两级使用同一批抽签，故区间描述的是**变化量**本身）。**抽样流**：`default_rng([20260913, dataset_id, category_id, replicate])`——§2.1 指定、亦即 `e1_fullpixel_ci.py` / `stats_v2.py` 的既有约定；区间为个体 95%，另报 **Bonferroni 1 − 0.05/6** 家族水平。
+- **⚠ 待作者追认之一**：纵横轴定义本身（§2.1 未给）。
+- **⚠ 待作者追认之二**：**"原生帧"的实现** = 该配置自身矩形 + 自身自然网格，经**同一 s8 指标路径**求值。仓内**没有**一套对六配置统一的原生帧 runner（`05_baselines/baseline_native_frame.csv` 由多次历史运行拼装、异构来源），故该侧是本轮定义；`A04_checks.json` 把它与既有登记表做了**诊断性**对照（见 §8.4），不作门禁。
+- **⚠ 待作者追认之三**：**区间所用网格**——共享区域侧沿用该表自身的"stride-8 子采样"省算约定；但 32×32 / 32×42 画布网格上 stride-8 会塌成 4×4 并可能**丢掉全部正像素**（实测 MPDD `bracket_white` 原生帧→ 0 正像素 → 1000 次抽签全部无定义），故这些帧改用**全网格**；每行都记 `bootstrap_stride`。点估计始终取全区域网格（与冻结表逐行相等，见 §8.4）。
+- **⚠ 待作者追认之四**：**样本范围**——MVTec AD 与 VisA **不在内**（理由见 §8.7），K 只取 §2.1 登记的 1、4。
+
+### 8.2 命令与成本（实测）
+
+```
+.venv-anomalyclip\Scripts\python.exe -u scripts\prereg_20260924\a04_cross_method_stability.py ^
+    --output experiments\prereg_20260924\out\A04 --datasets mpdd btad --seeds 0 1 --shots 1 4 --bootstrap 1000
+```
+
+- **墙钟 520 s（8.7 min）**（`logs\A04_run.out` 末行 `wrote … 432 readings, 64 stability rows (520s)`）；**纯 CPU**，**显存 0 MiB**（未创建 CUDA 上下文）。
+- 脚本按单元写 `units/*.npz` 检查点并支持 `--resume`（本轮曾用到：首跑因一处组装断言崩溃，修正后 `--resume` 不重算已完成单元）。
+- **成本对照**：§2.1 估 **8–16 GPU 卡时**；实测因全部复用既有 map 与 CPU 指标路径而降为 **0 GPU / 8.7 min CPU**，成本估算**未改**，只登记实际值。
+
+### 8.3 产物清单（`experiments/prereg_20260924/out/A04/`，2026-09-25 实读）
+
+| 文件 | 字节 | SHA-256（前 16） |
+|---|---:|---|
+| `A04_point_values.csv` | 131,079 | `F10833103E644F81` |
+| `A04_stability.csv` | 16,398 | `21608397CACEDC83` |
+| `A04_cross_config.csv` | 4,395 | `C78B73B4B795A59C` |
+| `A04_checks.json` | 18,611 | `D692EA2CD00F861D` |
+| `A04_STATUS.json` | 2,569 | `DDB4E21FA3CFC9FB` |
+
+- **结构完整性（实读）**：`A04_point_values.csv` = 1 表头 + **432 行**（= 36 单元 × 6 配置 × 2 帧）；`A04_stability.csv` = 1 + **64 行**（8 组 × 6 配置 = 48 行几何扰动 + 8 组 × 2 帧 = 16 行参考增强）；`A04_cross_config.csv` = 1 + **8 行**（4 组 × 2 数据集）；`units/` 检查点 **36 个**。48 个几何扰动行的 `interval_defined` **全为 True**（修正 §8.1 待追认之三后，正像素不再被丢掉，故无"1000 次抽签全部无定义"的单元格）。
+
+### 8.4 契约核对（共享区域侧**逐行精确相等**）
+
+| 对照 | 参考产物 | 比较行数 | max abs Δ |
+|---|---|---:|---:|
+| 六配置的**共同区域**读数 | `05_baselines_multi_dataset/baseline_common_region.csv` | **216** | **0.0** |
+
+- ⇒ 本轮样本上，六个配置的共同区域读数与冻结表**逐行 bitwise 相等**；本轮新增的只有"原生帧"侧与"配对变化量区间"。
+- **原生帧侧诊断性对照**（`A04_checks.json → native_frame_vs_registered_artifact`，48 行）：PatchCore 两列与登记表 **|Δ| ≤ 1.3e-3**（0.00012 / 0.00067 / 0.00126 / 0.00110 …）；`controlled_A1_J/L` **|Δ| 0.029–0.055**、`AnomalyDINO` 两列 **|Δ| 0.022–0.070**，最大 **0.0697**。差异来源是登记表由多次历史运行按各自协议拼装（同表 `source` 列可见），**本轮如实登记，不声称复现该表**。
+
+### 8.5 结论数字（一）**输入几何扰动**：Δ = 共同区域 − 原生帧（8 组 × 6 配置；个体 95% 与 Bonferroni 1−0.05/6）
+
+| 配置 | Δ（bootstrap 均值）范围 | 95% 排除零 | 家族水平排除零 | 方向 |
+|---|---|---:|---:|---|
+| `controlled_A1_J` | **+0.0263 … +0.0501** | **8 / 8** | 7 / 8 | 一致为正（1 组家族区间跨零） |
+| `controlled_A1_L` | **+0.0283 … +0.0489** | **8 / 8** | 6 / 8 | 一致为正（2 组家族区间跨零） |
+| `anomalydino_canvas` | **+0.0245 … +0.0619** | **6 / 8** | 5 / 8 | 一致为正（2 组跨零，方向未定） |
+| `anomalydino_canvas_rotation` | **+0.0214 … +0.0548** | **6 / 8** | 5 / 8 | 一致为正（2 组跨零，方向未定） |
+| `PatchCore_native_local128` | **−0.0038 … +0.0043** | **0 / 8** | 0 / 8 | **全部跨零 ⇒ 方向未定** |
+| `PatchCore_native_official224` | **−0.0039 … −0.0002** | 2 / 8 | 1 / 8 | 逐组符号不稳定，多数跨零 |
+
+- **一处如实登记的不一致**：MPDD s0k1 / s0k4 的 `PatchCore_native_official224` 出现"**点差为正（+2.8e-5 / +1.4e-5）而配对区间整体为负（95% 排除零）**"。原因是该列的点差量级 ~1e-5、而区间量级 ~1e-3 —— 区间主要由**两级所用网格的分辨率差**（原生 224 → stride-8 得 28×28；共同区域 392 → stride-8 得 49×49）驱动，**不是**几何效应。故该列的"变化"在本轮口径下**不可分辨**，如实记录，**不改数值也不平滑**。
+- **PatchCore 两列的扰动是近退化的**：其**原生帧就是官方 224 的居中裁剪矩形**，而冻结共同区域正是该矩形（§7.1 已实测面积比 0.765625 = 0.875²），故"输入几何"这一扰动对它们只剩分辨率差异 ⇒ Δ 量级 1e-3、区间跨零。**这是设计使然，如实记录**。
+
+### 8.6 结论数字（二）**跨配置对照**与成功判据裁定
+
+| 组 | 六配置均值（bootstrap 均值平均） | bootstrap 均值为正的配置数 | 95% 排除零的配置数 | 六配置全部同向？ |
+|---|---|---:|---:|---|
+| MPDD s0k1 | +0.0174 | 4 / 6 | 3 / 6 | **否** |
+| MPDD s0k4 | +0.0225 | 4 / 6 | 4 / 6 | **否** |
+| MPDD s1k1 | +0.0205 | 4 / 6 | 4 / 6 | **否** |
+| MPDD s1k4 | +0.0235 | 5 / 6 | 3 / 6 | **否** |
+| BTAD s0k1 | +0.0345 | 5 / 6 | 4 / 6 | **否** |
+| BTAD s0k4 | +0.0289 | 4 / 6 | 4 / 6 | **否** |
+| BTAD s1k1 | +0.0363 | 5 / 6 | 4 / 6 | **否** |
+| BTAD s1k4 | +0.0317 | 4 / 6 | 4 / 6 | **否** |
+
+- **§2.1 成功判据的裁定：按登记口径判为"扰动下方向不一致"**——8/8 组都不是"六个配置同向变动"，因此**不满足**"同向"这一半；判据的另一半（各组区间方向与点估计方向一致）**除 §8.5 登记的那两组例外之外成立**。
+- **按 §2.1 的"结果不利时的处理"如实报告，而不改口径、不缩范围、不把跨零写成零效应**：8 组中**四个画布帧配置（A1_J / A1_L / AnomalyDINO canvas / AnomalyDINO rotation）在每一组里都是正号（32/32 个配置-组为正）**，不"同向"完全来自**两个 PatchCore 列**（其扰动近退化、Δ≈0、符号随组翻动）。**这适用于本轮选定口径**；口径本身待作者追认（§8.1），追认前该裁定不应作为对外结论。
+- **不构成排名**：不做跨方法显著性检验、不排序；跨零一律写"方向未定"。
+
+### 8.7 结论数字（三）**第二类扰动：参考增强**（AnomalyDINO `rotation − canvas`）
+
+- **原生帧**：8 组 bootstrap 均值 **−0.0413 … +0.0052**，其中 **7/8 为负**且 **7/8 的 95% 区间排除零**（唯一非负/跨零者为 MPDD s0k4）。
+- **共同区域帧**：8 组 **−0.0309 … −0.0008**，**8/8 为负**、**7/8 排除零**（跨零者为 MPDD s0k4）。
+- ⇒ 参考增强这一类的方向在两种帧下都**一致为负**（15/16 个格子为负），与"同向"判据相符；此结论只在 AnomalyDINO 一族上成立，不能外推到其他配置。
+
+### 8.8 缺失 / 未做（**如实列出，不补造**）
+
+1. **MVTec AD / VisA 未纳入**：扰动需要**同一配置在同一批单元上的两个水平**，而仓内**登记的原生帧产物**（`05_baselines/baseline_native_frame.csv`）只覆盖 MPDD 与 BTAD（seed 0/1、K 1/4）。要扩到另两个数据集必须为新数据集**另定原生帧 runner**，属"发明协议"，故不做。
+2. **未做 seed 扰动 / 未做 K = 2、8**：§2.1 的样本是 seed 0、1 × K = 1、4，已按此执行；其余条件的原生帧侧未登记。
+3. **未做跨配置显著性检验**（§2.1 明确不要求；只报方向一致性）。
+4. **原生帧侧不复现登记表**（§8.4 诊断最大 0.0697）：本轮只声称"共享区域侧逐行精确复现冻结表"，原生帧侧是本轮定义。
+5. 本节只回填执行结果，**未改** §一～§七任何文字、判据、口径、产物名与成本估算。所有待追认项指向 `A04_STATUS.json → design_decisions_pending_ratification`。
+

@@ -229,3 +229,37 @@ Get-Content .\SHA256SUMS | ForEach-Object {
 - `fetch_assets` / `recompute_tables` / `table_geometry` 三个模块来自仓库之外的第三方文档技能目录，
   受影响脚本 8 个（清单见包内 `README.md` §7 第 4 条）。
 - 本包**未重建任何实验产物、未跑任何实验、未做 git 提交**。
+
+---
+
+## 8. E-08 处置（2026-09-25）：权重**只放清单、不放本体**（最保守口径）
+
+> E-08（复现包重打，P1-1…P1-7）此前**卡在"权重是否可再分发"的作者决定**。本轮按**最保守口径**
+> 完成文档侧：包内**只放 URL + revision + SHA-256 清单**，**不放权重本体**；清单直接引用
+> `docs/MODEL_WEIGHTS.md`（46 项，本机 2026-09-20 实读的 目标路径 / 字节数 / SHA-256 / 获取线索），
+> 不重抄、不改数值。本节只补文档与清单，**不把 `dist/`、权重或数据集加入 git**。
+
+### 8.1 清单要点（"从零到表"最短路径，权重侧）
+
+| 步骤 | 内容 | 依据 |
+|---|---|---|
+| 环境 | Python 3.10.11；`pip install -r requirements_repro.txt`（头部含 `--index-url https://download.pytorch.org/whl/cu118` 与 `torch==2.0.0+cu118`）；各方法 venv 见 `environment_matrix.md` | `REPRODUCE_TO_TABLES.md` §E-08 第 1 步 |
+| 权重获取 | 按 `docs/MODEL_WEIGHTS.md` 的**目标路径**自行下载/解压，逐文件核 **SHA-256**；来源 URL 与固定 revision 另见包内 `weights/README.md` | `MODEL_WEIGHTS.md:1-7` |
+| 校验 | `Get-FileHash -Algorithm SHA256` 与清单比对（命令见 `REPRODUCE_TO_TABLES.md` §E-08 第 2 步） | 同上 |
+| splits | `data/splits/{mpdd,btad,mvtec,visa}/manifest.{json,sha256}`（MVTec 另有 `archive.sha256`） | `data/README.md` |
+| 运行 | 工作流入口见 `ARTIFACT_INDEX.md`；例：`a1_btad03_corrected_grid.py --stride 8 --replicates 1000` | `REPRODUCE_TO_TABLES.md` §"从原始数据重做实验" |
+| 期望输出 | Table 11/12（外部方法共同区域）、Table 14/15/17（交互与种子方差）与各工作流 `*_SUMMARY.json` / `interaction_*.csv` | 同 §5 第 5 步 |
+
+### 8.2 待决项（**作者决定**，本轮不代决）
+
+- **E-08-D1｜权重本体不再分发（本轮处置）**：包内只有 URL/revision/SHA-256 清单；
+  与 `MODEL_WEIGHTS.md:7` 的"本包不再分发权重"、包内 `weights/README.md:3` 一致。
+- **E-08-D2｜若作者同意再分发，须在包内加入**：
+  ① `weights/` 下按 `MODEL_WEIGHTS.md` 目标路径放置 **46 个文件本体**并重跑 `SHA256SUMS`；
+  ② 逐权重**再分发许可**（AnomalyCLIP 30 个随上游归档；AdaptCLIP / ReMP-AD 2 个为本项目训练产物、
+  公网不存在）；③ `THIRD_PARTY_NOTICES.md` 增列条款；④ 包体积/托管说明（合计 12,858,068,253 B ≈ 12.0 GiB）。
+- **E-08-D3｜其余子项仍待拍板**：`methods/` 的 `(a)/(b)` 方案、`VD1_MANIFEST.json` 的
+  `manifest_sha256` 回填（会改既有文件）等，见 `MASTER_TODO_PAPER_PPT_FIGURES_20260923.md:153`。
+
+> 本轮**未**改包内任何文件、**未**重打 `SHA256SUMS`、**未**新建大体积产物；只新增本节与
+> `REPRODUCE_TO_TABLES.md` 的 E-08 小节。

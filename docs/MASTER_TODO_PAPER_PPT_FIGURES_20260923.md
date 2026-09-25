@@ -649,3 +649,54 @@
 - **红线**：`3C83AB00…` / `1C770129…` / `9DB99E60…` ✓；A1 parity `k2 0.343706` / `k4 0.388328` ✓；`0 target-trainable parameters` ✓；新增文本禁用词 0 命中；**未 git add / commit**。
 - **命名轮是否仍在写**：最后写盘 **17:18:50**（`scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`）；17:53 / 17:57 / 18:09 / 18:23 四次抽查**无**计算进程；`results.md` 未被再次覆盖（mtime 17:59:34）。
 - **未做 / 不确定**：未重出 `paper.pdf` 与 `.tmp_revision_20260925/preflight/`（Word COM `Fields.Update()`+`ExportAsFixedFormat` 本机两次 >10 min 无输出，改跑等价 `Repaginate`+`ComputeStatistics` 写 `word_review.json`）。详见 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §七`。
+
+---
+
+## 十七、2026-09-25 第三轮追加（**只追加，本表其余内容一字未改**）：paper.pdf 重出 + 措辞订正 + E-08 处置
+
+> 完整记录见 [`docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md`](PROJECT_CLOSURE_AUDIT_20260924_CN.md) **§八**。与本节冲突处**以本节为准**（尤其 §十六 末行"未重出 `paper.pdf`"与 §十五/A08 相关的"60 页"口径）。
+
+### 17.1 paper.pdf（已产出；口径刷新）
+
+| 项 | 值（实读） |
+|---|---|
+| 产物 | `docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.pdf` |
+| 页数 / 体积 / SHA-256 | **61 页 / 10,875,228 B / `89497729A950EF0DFB4AC9379B5E5664CAC106A561ADD9E2138C7B5B3C26718E`** |
+| 生成引擎 | **WPS Office Writer COM**（`KWPS.Application` → `ExportAsFixedFormat(path,17)`，**11.5 s**；PDF 元数据 `Creator = WPS 文字`） |
+| docx 自身页数 | **61**（Word COM `ComputeStatistics(2)`，**4.9 s**）⇒ PDF 与 docx **页数一致**；23 表仍全部单页 |
+| Word 路径 | `ExportAsFixedFormat`（5 次尝试，2/12 参数、打印/屏幕优化、两种打印机）**11–45 分钟无输出**；同一 docx 的 Word 统计 4.9 s、一页对照文档导出 4.9 s ⇒ 仅该文档导出停滞 |
+| 配方 | `scripts/paper_complete_review_20260920/export_review.ps1` 已改为 `-Engine wps`（默认）+ Word 统计；写 `.tmp_revision_20260925/pdf_export.json` |
+
+> **口径刷新**：§十五（A08 追加）与 §十六 中沿用的"**60 页**"为**订正前**口径；措辞订正后 docx = **61 页 / 20,505 词**，判断请用本节。
+
+### 17.2 措辞订正（过度概括 → 限定表述）
+
+- **落点** `scripts/paper_complete_review_20260920/results.md:57`：原 `… so the zero-exclusion judgements are unchanged, and these per-pixel intervals are narrower than on the sparse grid.` → 新（限定）`… The zero-exclusion judgements for the two primary MPDD interactions and the two BTAD interactions are unchanged. At the 98.75% level their per-pixel intervals are narrower than the stride-eight intervals for the two MPDD interactions, whereas the two BTAD intervals are of comparable width to their stride-eight counterparts, one marginally narrower and the other wider by about 1%.`
+- **原句不准确之处**：98.75% 区间宽实读（`prereg_20260924/out/A08/interaction_by_grid.csv` 与 `limitation_closure_20260915/A_btad03_corrected/interaction_dataset_stride8.csv`）—— MPDD 两项 stride-1 更窄；BTAD `I_TRI` 略窄（0.004726 < 0.004788）、`I_BAL` **略宽约 1.4%**（0.004789 > 0.004724）⇒ 不能写"全部更窄"。
+- **`unchanged` 限定**：`E_BAL_J` 在 stride 1/4 排除零、stride 8 跨零，故该判断只限定在两项主交互及其 BTAD 对应项。
+- **数值/表格/图件/文献一字未动**；docx 内新句命中、旧断言消失（空白归一化实读）。
+
+### 17.3 复测与门禁
+
+- **docx**（`build.py`）：**61 页 / 23 表 / 28 内嵌图 / 154 原生数学对象 / 12 编号公式 / 37 文献 / 20,505 词**；SHA-256 `E0D5462B347C4C44B5999D476DE26CFDCF35034438831D6A0861D004D8BA72F4`（23,673,208 B）。
+- **交付验收** `check_delivery.py`：**146/146 全过** → `{"passed":146,"pages":61,"words":20505,"references":37,"math_objects":154}`。
+- **门禁**：`qa_layout.py` **0 problem**；`figure_font_gate.py --self-test` **4/4**；`pytest tests -q` **260 passed**。
+- **红线**：未改任何实验数值/冻结产物；未 `git add / commit`；新增文本禁用词 0 命中；未把"跨零"写成"零效应"。
+
+### 17.4 E-08（复现包）状态刷新
+
+- **处置**：包内**只放 URL + revision + SHA-256 清单，不放权重本体**（引用 `docs/MODEL_WEIGHTS.md` 46 项）。
+- **已补**：`docs/REPRODUCE_TO_TABLES.md` 的"E-08 复现包"小节；`docs/REPRODUCIBILITY_PACKAGE.md` **§8**。
+- **仍待作者拍板**（对应 §十一 的"需作者信息 7/8/11"与 §九 9.2）：`methods/` 的 (a)/(b) 方案、`VD1_MANIFEST.json` 的 `manifest_sha256` 回填、以及"是否再分发权重本体"。
+- **§十一 检查清单**：`E-08` 仍为**部分闭环**（文档/清单侧完成，权重本体侧待作者决定）；`E-14 / E-18 / E-05 / E-17` 状态不变。
+
+---
+
+## 十七、2026-09-25 A22 / A04 / A11 执行结果（**只追加，本表其余内容一字未改**）
+
+> 作者批准执行 `docs/PREREGISTRATION_20260924_CN.md` 的 **A22 / A04 / A11**（§4.1 表内 A22/A04/A11 三行、§4.2 的 D-01/D-05/D-11 原登记为"不补（结论不变）"）。本轮按**预注册登记的口径**执行；三项**全部纯 CPU**（复用既有冻结 dump / canonical 特征），**未动 GPU**，全部新产物落 `experiments/prereg_20260924/out/A{22,11,04}/`，**未覆盖**任何既有目录。完整记录见 `docs/PREREGISTRATION_20260924_CN.md §七 / §八`（A11 见其追加节）与 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §九`。
+
+- **A22（§4.1 / D-11「统一几何下 PatchCore 塌缩为一列」）→ 已完成**：新脚本 `scripts/prereg_20260924/a22_patchcore_second_column.py`，**零重跑、零 GPU**（复用盘上既有原生 dump，在同一冻结区域网格上重采样重算），墙钟 **2078 s**；产物 `out/A22/` 六件（`A22_second_column.csv` 46,606 B、`A22_second_column_macro.csv` 1,849 B、`A22_collapse_vs_parallel.csv` 9,041 B、`A22_checks.json` 4,163 B、`A22_geometry.json` 16,840 B、`A22_STATUS.json` 2,411 B）。**契约核对逐行精确**：448 列 vs `harmonised_common_region.csv` **36 行 max|Δ|=0.0**；原生 224/128 列 vs `baseline_common_region.csv` **72 行 max|Δ|=0.0**。**结论**：36/36 单元上 448 ≠ 224、448 ≠ 128 ⇒「塌缩」是子表**单一输入几何前提**所致而非数值巧合；与 Figure S6 契约的 **128−224 差值符号 4/4 一致**。**⚠ 待作者追认**：把两张原生几何列并入"单一输入几何子表"属**前提变更**（区域未重裁、单元集不变，每行带 `geometry` 与 `NATIVE geometry - admitted only by the premise change`）。
+- **A04（§4.1 / D-01「跨方法稳定性」）→ 已完成（口径待追认）**：新脚本 `scripts/prereg_20260924/a04_cross_method_stability.py`，墙钟 **520 s**、零 GPU；产物 `out/A04/` 五件（`A04_point_values.csv` 131,079 B / 432 行、`A04_stability.csv` 16,398 B / 64 行、`A04_cross_config.csv` 4,395 B / 8 行、`A04_checks.json` 18,611 B、`A04_STATUS.json` 2,569 B）。**契约核对**：六配置的**共同区域**读数 vs `baseline_common_region.csv` **216 行 max|Δ|=0.0**。**结论**：输入几何扰动下四个画布帧配置 Δ 一致为正（32/32 配置-组为正），两个 PatchCore 列 Δ≈0 且区间跨零 ⇒ **§2.1 成功判据判为"扰动下方向不一致"**（按 §2.1 如实报告，未改口径/未缩范围/未把跨零写成零效应）。**⚠ 待作者追认 4 项**：纵横轴定义、原生帧实现、区间网格、样本范围（MVTec AD / VisA 未纳入，因登记的原生帧产物只覆盖 MPDD/BTAD）。
+- **A11（§4.1 / D-05「共享操作多条件消融」）→ 已启动，产物待回填**：新脚本 `scripts/prereg_20260924/a11_shared_op_ablation_multi.py`（**不改**既有 `e2_shared_op_ablation.py` / `e2_abl_s_addendum.py`，**不写**既有 `E2_shared_op_ablation/`），队列 `experiments/prereg_20260924/run_queue_a11.ps1`。口径 = 3 消融（ABL-S/ABL-N/ABL-C）+ baseline × seed 0、1 × K 1、2、4、8 ×（MPDD development / BTAD holdout），区间实现与抽样流**直接 import** 既有 `e1_fullpixel_ci`（`default_rng([20260913, dataset_id, category_id, replicate])`）。**门禁已过**：`--mode check` **21/21 pass、max|d|=9.5e-07**；单元级抽查与归档单条件交互 **max|Δ|=1.7e-18**。**一次失败已登记**：首版队列的 RAM 停止规则（单点 93%）在 19:12:42 因一次瞬时 95.4% 误杀两 shard（无 checkpoint 损失），已改为"连续 3 次 ≥96%"并重启；`sum_peak_ws`≈8.0 GB、`system_used` 峰值 82.8%、**显存 0 MiB**。**最终产物与结论见 `PREREGISTRATION_20260924_CN.md` 的 A11 追加节与 `PROJECT_CLOSURE_AUDIT_20260924_CN.md §九`。**
+- **纪律**：三项均**不构成排名**（无 `SOTA / outperforms / state-of-the-art / 全面领先`）、`0 target-trainable parameters` 未受影响、**未在 KSDD2 上做任何新探索**；三个冻结哈希实读未变；**未 git add / commit**；本节新增文本禁用词自查 **0 命中**。

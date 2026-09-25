@@ -17,3 +17,44 @@
 主分析的入口是 `scripts/unified_fusion_paper_support_v1/`；D 扩展和四数据集比较见 `scripts/representation_matching_interaction_20260914/` 与 `scripts/limitation_closure_20260915/`。先导出 frozen patch features，再运行配对矩阵，再对已存逐图结果做 image bootstrap。具体工作流、配置、原始输出和验证记录见 `ARTIFACT_INDEX.md`；BTAD corrected 和 historical canonical 不能混用。外部扩展入口为 `scripts/baseline_expansion_20260921/`，统一几何子集为 `scripts/harmonised_20260922/`。
 
 轻量复现包不含原图、权重、特征缓存或完整预测缓存。要从零复跑实验，需要自行获取这些输入及 GPU/CPU 时间。当前交付证明的是已存证据到论文/图件的重建与一致性，不是新机器从零训练或推理全部通过。
+
+## E-08 复现包：环境 → 权重获取 → splits → 运行 → 期望输出（2026-09-25，最保守口径）
+
+> 本节补齐 E-08（复现包重打）的清单与说明，处置口径为**最保守**：**权重本体不再分发**，
+> 包内只保留 **URL + revision + SHA-256 清单**，清单直接引用 `docs/MODEL_WEIGHTS.md`（46 项，
+> 不重抄）。本节只写文档与清单，不含任何大体积产物。
+
+1. **环境**：Python 3.10.11；`python -m venv .venv-anomalyclip` →
+   `pip install -r requirements_repro.txt`（其头部给出 `--index-url https://download.pytorch.org/whl/cu118`
+   与 `torch==2.0.0+cu118 / torchvision==0.15.1+cu118`）；各方法 venv 见 `docs/environment_matrix.md`。
+   离线加载设 `HF_HUB_OFFLINE=1`、`HF_ENDPOINT=https://hf-mirror.com`。
+2. **权重获取（URL + revision + SHA-256 校验；权重本体不入包）**：
+   - 清单：`docs/MODEL_WEIGHTS.md`（46 项，每条给出 *目标路径 / 字节数 / SHA-256 / 获取线索*；
+     来源 URL 与固定 revision 另见复现包 `dist/replication_package_20260920/weights/README.md`）。
+   - 校验（放到目标路径后逐文件核 SHA-256）：
+
+     ```powershell
+     $want = '415c5dcb52668b8c33fb9c1a351c686d632b919df5b384d63fa9ce7a2338ced4'
+     $got  = (Get-FileHash -LiteralPath '<目标路径>/epoch_15.pth' -Algorithm SHA256).Hash.ToLower()
+     if ($got -ne $want) { "MISMATCH: $got" } else { 'ok' }
+     ```
+   - 例外说明：AnomalyCLIP 的 30 个检查点随上游源码归档提供（归档 commit
+     `3911738c0867544f545a076ad78f3f11d9ecbfdf`）；AdaptCLIP / ReMP-AD 两个为本项目训练产物，
+     公网不存在（见 `docs/reproduction_notes.md:13-23`）。
+3. **splits**：`data/splits/{mpdd,btad,mvtec,visa}/manifest.json` 与同名 `manifest.sha256`
+   （MVTec 另有 `archive.sha256`）；按 `data/README.md` 取得数据后逐一核对。数据本体不再分发。
+4. **运行命令**：入口与工作流见上文"从原始数据重做实验"及 `docs/ARTIFACT_INDEX.md`；例如工作流 A
+   （BTAD-03 细网格）为 `.venv-anomalyclip\Scripts\python.exe scripts\limitation_closure_20260915\a1_btad03_corrected_grid.py --stride 8 --replicates 1000`。
+5. **期望输出**：审稿关注的表为 Table 11/12（外部方法共同区域）、Table 14/15/17（交互与种子方差）
+   以及各工作流的 `*_SUMMARY.json` / `interaction_*.csv`；重现判据见 §5 第 5 步（看 `DONE.json` 计数）。
+
+### E-08 待决项（作者决定）
+
+- **权重本体不再分发**（本轮处置）：包内只有 URL/revision/SHA-256 清单，不含 `.pth/.pt`。
+- **若作者同意再分发**，需在复现包内加入：
+  ① `weights/` 下按 `docs/MODEL_WEIGHTS.md` 的目标路径放置 46 个**文件本体**，并重跑 `SHA256SUMS`；
+  ② 每条权重对应的**再分发许可**（含 AnomalyCLIP 上游归档许可与 AdaptCLIP / ReMP-AD 两个本项目
+  训练权重的发布许可）；③ `THIRD_PARTY_NOTICES.md` 增列相应条款；④ 包体积与托管方式说明
+  （本机实读合计 12,858,068,253 B ≈ 12.0 GiB）。
+- 其余 E-08 子项（`src/`+`configs/`+`methods/` 的 `(a)/(b)` 方案、`VD1_MANIFEST.json` 的
+  `manifest_sha256` 回填等）仍待作者拍板，不改既有文件。

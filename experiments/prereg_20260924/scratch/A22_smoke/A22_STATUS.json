@@ -1,0 +1,29 @@
+{
+  "id": "A22",
+  "state": "completed",
+  "question": "under the unified geometry, do PatchCore's two native configurations still show protocol sensitivity, or does the single 448 column hide it",
+  "answer_shape": "the second (native 224) and third (native 128) columns are computed on the same frozen region grid with the same metric and the same paired-bootstrap convention as the 448 column, then differenced unit by unit (A22_collapse_vs_parallel.csv)",
+  "premise_change_pending_ratification": {
+    "table": "05_baselines_harmonised_20260922 (unified subset)",
+    "previous_premise": "every column computed from the same input short side (448); under that geometry PatchCore's two native configurations collapse into one column",
+    "change": "admit TWO further PatchCore columns computed at their native input geometries (Resize(256)+CenterCrop(224) and Resize(144)+CenterCrop(128)) alongside the 448 column",
+    "why_it_was_needed": "the registered A22 question cannot be answered inside a single-geometry subset; the second column exists only if the single-geometry premise is relaxed",
+    "what_is_kept_constant": "the region grid (frozen table's region), the metric primitive (s8_common_region.pooled_ap_auroc), the interval convention and the unit set (4 datasets x all categories x seed 0 x K = 1)",
+    "labelling": "the new columns carry the geometry in every row and the note 'NATIVE geometry - admitted only by the premise change'",
+    "status": "DESIGN DECISION OF THIS ROUND - PENDING AUTHOR RATIFICATION"
+  },
+  "provenance": {
+    "native_224": "outputs/patchcore/closeout_official224 (pre-existing dump)",
+    "native_128": "outputs/patchcore/closeout (pre-existing dump)",
+    "harmonised_448": "05_baselines_harmonised_20260922/patchcore_raw/harmonised448 (pre-existing dump)",
+    "no_gpu": "no CUDA context is created; only pre-existing dumps are re-evaluated",
+    "no_new_protocol": "the geometry rules and loaders are imported from scripts/representation_matching_interaction_20260914/s8_common_region.py and scripts/harmonised_20260922/harmonised_common_region.py without modification"
+  },
+  "products": {
+    "second_column": "A22_second_column.csv",
+    "macro_with_intervals": "A22_second_column_macro.csv",
+    "collapse_vs_parallel": "A22_collapse_vs_parallel.csv",
+    "checks": "A22_checks.json",
+    "geometry": "A22_geometry.json"
+  }
+}

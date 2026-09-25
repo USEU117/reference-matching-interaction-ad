@@ -1,0 +1,88 @@
+{
+  "created_utc": "2026-09-25T11:37:13.178637+00:00",
+  "rows": 108,
+  "units": 36,
+  "columns": [
+    "PatchCore_harmonised448",
+    "PatchCore_native_official224",
+    "PatchCore_native_local128"
+  ],
+  "parity_vs_harmonised_table": {
+    "reference": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_harmonised_20260922\\harmonised_common_region.csv",
+    "reference_label": "harmonised 448 column",
+    "rows_compared": 36,
+    "max_abs_delta": 0.0,
+    "max_abs_delta_per_method": {
+      "PatchCore_harmonised448": 0.0
+    },
+    "pass_1e_9": true
+  },
+  "parity_vs_frozen_common_region_table": {
+    "reference": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "reference_label": "frozen native-protocol columns",
+    "rows_compared": 72,
+    "max_abs_delta": 0.0,
+    "max_abs_delta_per_method": {
+      "PatchCore_native_local128": 0.0,
+      "PatchCore_native_official224": 0.0
+    },
+    "pass_1e_9": true
+  },
+  "region": "imposed from 05_baselines_multi_dataset/common_region_geometry.json (the harmonised subset's own region) - no re-cut",
+  "interval": "image-level paired bootstrap, B=1000, stride-8 subsample of the same region grid, percentiles 2.5/97.5, default_rng([seed, shot, replicate]) - the harmonised table's own convention",
+  "skipped": [],
+  "collapse_vs_parallel_summary": {
+    "btad": {
+      "n_units": 3,
+      "n_units_identical_448_vs_224": 0,
+      "n_units_identical_448_vs_128": 0,
+      "mean_delta_native224_minus_448": -0.036599573376057716,
+      "median_delta_native224_minus_448": -0.03186384719831252,
+      "mean_abs_delta_native224_minus_448": 0.07235016534864613,
+      "max_abs_delta_native224_minus_448": 0.13156076088874324,
+      "mean_delta_native128_minus_448": -0.16164023252422047,
+      "mean_abs_delta_native128_minus_448": 0.16164023252422047,
+      "max_abs_delta_native128_minus_448": 0.21667567313459968,
+      "n_units_native224_and_native128_same_side_of_448": 2
+    },
+    "mpdd": {
+      "n_units": 6,
+      "n_units_identical_448_vs_224": 0,
+      "n_units_identical_448_vs_128": 0,
+      "mean_delta_native224_minus_448": -0.03457767085134192,
+      "median_delta_native224_minus_448": -0.006866096733465332,
+      "mean_abs_delta_native224_minus_448": 0.03457767085134192,
+      "max_abs_delta_native224_minus_448": 0.15399416966842538,
+      "mean_delta_native128_minus_448": -0.05723249133174513,
+      "mean_abs_delta_native128_minus_448": 0.05723249133174513,
+      "max_abs_delta_native128_minus_448": 0.15444811970840913,
+      "n_units_native224_and_native128_same_side_of_448": 6
+    },
+    "mvtec": {
+      "n_units": 15,
+      "n_units_identical_448_vs_224": 0,
+      "n_units_identical_448_vs_128": 0,
+      "mean_delta_native224_minus_448": -0.031642432770345036,
+      "median_delta_native224_minus_448": -0.026254762342327043,
+      "mean_abs_delta_native224_minus_448": 0.07639599945900487,
+      "max_abs_delta_native224_minus_448": 0.18666079887134934,
+      "mean_delta_native128_minus_448": -0.13688995325534434,
+      "mean_abs_delta_native128_minus_448": 0.19362161547289183,
+      "max_abs_delta_native128_minus_448": 0.48338773967354176,
+      "n_units_native224_and_native128_same_side_of_448": 13
+    },
+    "visa": {
+      "n_units": 12,
+      "n_units_identical_448_vs_224": 0,
+      "n_units_identical_448_vs_128": 0,
+      "mean_delta_native224_minus_448": -0.05111045907065168,
+      "median_delta_native224_minus_448": -0.0614026917695328,
+      "mean_abs_delta_native224_minus_448": 0.09786286025157791,
+      "max_abs_delta_native224_minus_448": 0.2485017277929571,
+      "mean_delta_native128_minus_448": -0.10764467287522023,
+      "mean_abs_delta_native128_minus_448": 0.18744139543601815,
+      "max_abs_delta_native128_minus_448": 0.32133404376321156,
+      "n_units_native224_and_native128_same_side_of_448": 11
+    }
+  }
+}

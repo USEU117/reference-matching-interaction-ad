@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-09-25T11:14:24.815381+00:00",
+  "rows": 24,
+  "parity_common_region_vs_frozen_table": {
+    "reference": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "rows_compared": 12,
+    "max_abs_delta": 0.0,
+    "max_abs_delta_per_method": {
+      "PatchCore_native_local128": 0.0,
+      "PatchCore_native_official224": 0.0,
+      "anomalydino_canvas": 0.0,
+      "anomalydino_canvas_rotation": 0.0,
+      "controlled_A1_J": 0.0,
+      "controlled_A1_L": 0.0
+    },
+    "pass_1e_6": true
+  },
+  "native_frame_vs_registered_artifact": {
+    "definition": "my native frame is each configuration's own rectangle and its own natural grid, evaluated by the shared s8 path; the registered artifact is assembled from several historical protocols, so this is a diagnostic, not a gate",
+    "full_category_scope_per_dataset": {
+      "mpdd": false
+    },
+    "rows": [],
+    "max_abs_delta": null
+  },
+  "stability_rows": 8,
+  "cross_config_rows": 1,
+  "missing": [],
+  "missing_reason": "MVTec AD and VisA are excluded: the perturbation needs BOTH levels for the same six configurations on the same units, and the repository's registered native-frame artifact (05_baselines/baseline_native_frame.csv) exists only for MPDD and BTAD, seed 0/1, K = 1/4.  No native-frame reading is fabricated.",
+  "pairing": "the two levels of a perturbation share the same replicate draw of query images, so the interval describes the CHANGE, i.e. the two levels are paired on the image",
+  "sampling_stream": "default_rng([20260913, dataset_id, category_id, replicate])",
+  "bootstrap_grid": "stride-8 subsample of the region grid (the registered affordability convention of the shared-region table)"
+}
