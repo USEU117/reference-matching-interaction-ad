@@ -1,11 +1,11 @@
-# 投稿元数据（2026-09-23）
+# 投稿元数据（2026-09-25）
 
-权威稿：`paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx`。用户本轮只确认姓名，其余不确定，均不代填。
+权威稿：`paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.docx`。用户已确认姓名、学校和目标分区方向；其余不确定项不代填。
 
 | 项目 | 当前内容 | 状态 |
 |---|---|---|
 | 作者 | 李越宁 / Yuening Li；英文稿署名 Yuening Li | 用户已确认；未添加其他作者 |
-| 单位、城市、邮编、国家 | `[[AFFILIATIONS]]` | 待作者 |
+| 单位、城市、邮编、国家 | Hefei University of Technology（合肥工业大学） | 学校已确认；学院、详细地址和邮编未提供 |
 | 通讯作者、邮箱 | `[[CORRESPONDING_AUTHOR]]` | 待作者 |
 | ORCID | 未填 | 待作者，按投稿系统要求 |
 | 资助与基金号 | `[[FUNDING]]` | 待作者；不擅自声明无资助 |
@@ -13,10 +13,10 @@
 | 伦理 | Not applicable; the study analyses industrial image data only, with no human or animal subjects. | 保留研究范围说明 |
 | 仓库 | https://github.com/USEU117/reference-matching-interaction-ad | 摘要与可得性节一致 |
 | 永久归档 DOI | 未建立 | 未虚构；**获取步骤与回填清单见下节「归档 DOI 获取步骤（作者执行）」** |
-| 目标期刊 | 未确定 | 当前延续已审阅版式；投稿时再套期刊模板 |
+| 目标期刊 | 中科院四区 SCI；具体期刊待选 | 分区方向已确认；选定期刊后核对其模板和投稿要求 |
 | 数据与权重许可 | 数据分别由提供方分发，权重许可单独核对 | 根 MIT 不代替第三方许可 |
 
-正文为审阅稿；单位、通讯、资助和 COI 四项占位尚未清除，因此不能称为可直接投稿的定稿。
+正文为审阅稿；通讯作者、资助和 COI 三项占位尚未清除，因此不能称为可直接投稿的定稿。
 
 ---
 

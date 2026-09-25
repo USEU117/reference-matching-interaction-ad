@@ -9,7 +9,7 @@ param(
   [int]$Height = 2120
 )
 $root = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
-if (-not $DeckPath) { $DeckPath = Join-Path $root 'docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260920.pptx' }
+if (-not $DeckPath) { $DeckPath = Join-Path $root 'docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260924.pptx' }
 if (-not $OutPath)  { $OutPath  = Join-Path $root 'docs/paper_complete_review_20260920/figures/fig1_framework.png' }
 $dir = Split-Path -Parent $OutPath
 if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }

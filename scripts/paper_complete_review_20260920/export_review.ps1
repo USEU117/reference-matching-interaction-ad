@@ -1,6 +1,6 @@
 $taskRoot=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
-$taskTemp=Join-Path $taskRoot '.tmp_revision_20260923'
-$taskDoc=Join-Path $taskRoot 'docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx'
+$taskTemp=Join-Path $taskRoot '.tmp_revision_20260925'
+$taskDoc=Join-Path $taskRoot 'docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.docx'
 $taskWord=New-Object -ComObject Word.Application
 $taskWord.Visible=$false
 $taskWord.DisplayAlerts=$false

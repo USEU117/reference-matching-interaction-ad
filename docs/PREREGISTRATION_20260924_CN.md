@@ -200,3 +200,18 @@
 2. **未做 stride-1 与 stride-4/8 的逐行同号同判对照**：本次 `--strides 1`，A08 目录内只有 stride-1 产物 ⇒ `E1_REPORT_SUMMARY.json` 的 `comparison_rows=0`；跨网格逐行对照需把 stride-4/8 点表放入同一目录或另跑 `--strides 1 4 8`（`scratch/E1_stride8_regress_new/` 只有 `point_stride8.csv`，未生成同目录交互表）。本条即 §4.1"期望输出"尚未闭环处。
 3. BTAD 实为 3 类（01/02/03）、8 单元（seed0/1 × K=1/2/4/8）= 24 类别实例；MPDD 6 类 × 12 单元 = 72，合计 96 类别实例（与 `E1_STATUS_stride1.json` 一致）。§2.3 原记"BTAD 仅 01/02"为启动前登记，实际运行含 03。
 4. 本节只回填执行结果，**未改** §一～§四任何文字、判据、口径、产物名与成本估算。
+
+---
+
+## 六、2026-09-25 接手"命名修订轮"收尾（**只追加**）
+
+> 并行流程"2026-09-25 命名修订轮"改方法名并重建 docx，但在 **17:18:50** 后停写，遗留"deck 未生成 + `results.md` 两句被覆盖"。本节只记录接手后的盘上实测。
+
+- **deck 补出**：`docs/paper_complete_review_20260920/All_Figures_Complete_20260925.pptx`，**64 页 / 76,633,287 B / SHA-256 `0D9E5CB7667773C1…77EA6F`**，`finalize_deck.mjs` **`finding_count = 0`**；`FIGURE_SLIDE_INDEX.json` 与 `图件与PPT页码索引.md` 均 **64 条**；60 个位图页与盘上 PNG**逐字节相同（60/60）**，原生页 `[1,2,3,16]` 除外。缺失的 slide-1 原生源 `docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260925.pptx`（707,997 B / `9054C77F…`）已由 `finalize_figure.mjs` 从命名轮的 `candidate_math.pptx` 补出。
+- **`check_delivery.py`（命名轮自带验收）146 项全过**：`{"passed":146,"pages":60,"words":20465,"references":37,"math_objects":154}`。
+- **docx 复测**（`build.py` 输出同名）：**60 页 / 23 表 / 28 内嵌图 / 154 原生数学对象 / 12 编号公式 / 37 文献 / 20,465 词**；SHA-256 `BCB9A086D8E5963C…C02139`（23,673,134 B）；改前已备份 `.bak_pre_handover_1755`。
+- **两句落地**（`scripts/paper_complete_review_20260920/results.md` :56 与 :174）：docx 空白归一化文本命中 `per-pixel (stride-one) resolution`、`zero-exclusion judgements are unchanged`、`full-pixel intervals are computed only for` **3/3**，且**无** `full-pixel intervals remain unavailable`。
+- **门禁**：`qa_layout.py` **TOTAL PROBLEMS: 0**；`figure_font_gate.py --self-test` **4/4**；`pytest tests -q` **260 passed**。
+- **红线**：三个冻结哈希 `3C83AB00…` / `1C770129…` / `9DB99E60…` ✓；A1 parity `k2 0.343706` / `k4 0.388328` ✓；`0 target-trainable parameters` ✓；新增文本禁用词 0 命中；**未 git add / commit**。
+- **命名轮是否仍在写**：最后写盘 **17:18:50**；17:53 / 17:57 / 18:09 / 18:23 四次进程抽查**均无**计算进程；`results.md` 未被再次覆盖。
+- **未做**：未重出 `paper.pdf`/`preflight/`（Word COM `Fields.Update()`+`ExportAsFixedFormat` 本机两次 >10 min 无输出，改跑等价 `Repaginate`+`ComputeStatistics` 写 `word_review.json`）。详见 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §七`。

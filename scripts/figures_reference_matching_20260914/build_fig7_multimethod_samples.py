@@ -53,6 +53,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / "scripts" / "representation_matching_interaction_20260914"))
+sys.path.insert(0, str(ROOT / "scripts" / "paper_complete_review_20260920" / "figure_sources"))
 
 from figure_font_gate import (  # noqa: E402
     DEFAULT_PT,
@@ -63,6 +64,7 @@ from figure_font_gate import (  # noqa: E402
     assert_text_inside_page,
 )
 import s8_common_region as s8  # noqa: E402
+from display_labels import FIG7_METHOD_LABELS  # noqa: E402
 
 DEFAULT_REGION_TABLE = (
     ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
@@ -70,28 +72,23 @@ DEFAULT_REGION_TABLE = (
 )
 DEFAULT_OUT = ROOT / "docs" / "figures_reference_matching_20260914"
 
-# Column order and the short labels that fit a 17 cm column at 11.5 pt.  The labels are
-# expanded in the figure footnote and in the JSON summary.
+# Column order is a data-key order; reader-facing labels are expanded in each
+# column title and in the method-definition note.
 METHOD_ORDER = [
     "controlled_A1_J", "controlled_A1_L",
     "anomalydino_canvas", "anomalydino_canvas_rotation",
     "PatchCore_native_local128", "PatchCore_native_official224",
 ]
 METHOD_LABELS = {
-    "controlled_A1_J": "A1 J",
-    "controlled_A1_L": "A1 L",
-    "anomalydino_canvas": "ADino",
-    "anomalydino_canvas_rotation": "ADino-rot",
-    "PatchCore_native_local128": "PC-128",
-    "PatchCore_native_official224": "PC-224",
+    **FIG7_METHOD_LABELS,
 }
 METHOD_LEGEND = {
-    "controlled_A1_J": "A1 J = controlled A1, shared support row",
-    "controlled_A1_L": "A1 L = controlled A1, independent support rows",
-    "anomalydino_canvas": "ADino = AnomalyDINO, controlled canvas frame",
-    "anomalydino_canvas_rotation": "ADino-rot = AnomalyDINO, canvas frame + rotation",
-    "PatchCore_native_local128": "PC-128 = PatchCore native Resize(144) + CenterCrop(128)",
-    "PatchCore_native_official224": "PC-224 = PatchCore native Resize(256) + CenterCrop(224)",
+    "controlled_A1_J": "Dual-encoder baseline, Joint matching, shared support row",
+    "controlled_A1_L": "Dual-encoder baseline, Independent matching, independent support rows",
+    "anomalydino_canvas": "AnomalyDINO, controlled canvas frame",
+    "anomalydino_canvas_rotation": "AnomalyDINO, controlled canvas frame plus rotation",
+    "PatchCore_native_local128": "PatchCore native Resize(144) plus CenterCrop(128)",
+    "PatchCore_native_official224": "PatchCore native Resize(256) plus CenterCrop(224)",
 }
 # A sample whose ground truth covers almost none of the region carries almost no ranking
 # information (the per-sample AP is then dominated by ties), so the selection ignores it.
@@ -561,20 +558,20 @@ def build_sample(unit: dict, index: int, spread: float, rank: int) -> dict:
 # -------------------------------------------------------------------------- main --
 # The terse form of `METHOD_LEGEND` used in the figure notes; the long form stays in the JSON.
 COMPACT_LEGEND = {
-    "controlled_A1_J": "A1 J/L = controlled A1, shared/independent support rows",
-    "controlled_A1_L": "A1 J/L = controlled A1, shared/independent support rows",
-    "anomalydino_canvas": "ADino(-rot) = AnomalyDINO, canvas frame (with rotation)",
-    "anomalydino_canvas_rotation": "ADino(-rot) = AnomalyDINO, canvas frame (with rotation)",
-    "PatchCore_native_local128": "PC-128/224 = PatchCore native Resize(144/256) + Crop(128/224)",
-    "PatchCore_native_official224": "PC-128/224 = PatchCore native Resize(144/256) + Crop(128/224)",
+    "controlled_A1_J": "Dual-encoder baseline, Joint matching, shared support row",
+    "controlled_A1_L": "Dual-encoder baseline, Independent matching, independent support rows",
+    "anomalydino_canvas": "AnomalyDINO, canvas frame",
+    "anomalydino_canvas_rotation": "AnomalyDINO, canvas frame plus rotation",
+    "PatchCore_native_local128": "PatchCore native Resize(144) plus CenterCrop(128)",
+    "PatchCore_native_official224": "PatchCore native Resize(256) plus CenterCrop(224)",
 }
 
 
 def note_legend(columns) -> str:
     entries = [COMPACT_LEGEND[m] for m in columns if m in COMPACT_LEGEND]
-    entries += [f"{label_for(m).replace(chr(10), ' ')} = {m}" for m in columns
+    entries += [label_for(m).replace(chr(10), ' ') for m in columns
                 if m not in COMPACT_LEGEND]
-    return "Abbreviations: " + "; ".join(dict.fromkeys(entries)) + "."
+    return "Method definitions: " + "; ".join(dict.fromkeys(entries)) + "."
 
 
 def note_lines(record: dict, region_table: Path, geometry_path: Path) -> list:
@@ -767,11 +764,9 @@ def main() -> int:
             "shown_methods": unit["shown_methods"], "grid": list(unit["grid"]),
             "n_candidates": len(unit["candidates"]),
             "min_pt": args.min_pt, "name": stem,
-            "title": (f"Figure 7 - {dataset} {category}: multi-method per-sample comparison on "
-                      f"the S8 common region (seed {args.seed}, K {args.shot}; region "
-                      f"{unit['grid'][0]} x {unit['grid'][1]}, "
-                      f"{100 * geometry[(dataset, category)]['region_fraction_of_canvas']:.1f}% "
-                      f"of the canvas)"),
+            "title": (f"Figure 7 · {dataset.upper()} {category} · common-region comparison "
+                      f"(seed {args.seed}, K {args.shot}; {unit['grid'][0]} × {unit['grid'][1]} grid; "
+                      f"{100 * geometry[(dataset, category)]['region_fraction_of_canvas']:.1f}% canvas)"),
             "notes": note_lines(note_record, region_table, geometry_path)})
         result = render_category(render_record, args.out_dir)
         figure_record.update({

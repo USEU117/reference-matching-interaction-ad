@@ -4,7 +4,7 @@
     "part": 1,
     "key": "framework",
     "image": "docs/paper_complete_review_20260920/figures/fig1_framework.png",
-    "caption": "Controlled framework and representation comparisons. (a) K normal support images $x_i^c$ form a fixed, aligned reference bank. (b) The query follows the same frozen feature path. J (joint matching) selects one shared reference row; L (independent matching) selects a row independently in each branch. For t = J or L, shared resizing and Gaussian smoothing produce the continuous map $A_t$, whose maximum is the image score. The second image panel is a thresholded display of the same map, not another learned output. (c) The duplicate-weight control DUP isolates reweighting; the equal-weight replacement TRI and the balanced replacement BAL define the representation effects and their matching interactions. B and C denote DINOv2-B and AnomalyCLIP visual features; S and D denote DINOv2-S and WideResNet50-2. The displayed map is the archived A1 (dual-encoder anchor) J result for MPDD metal_plate/test/scratches/026.png at seed 0 and K = 1. Multiple support thumbnails illustrate the general input, not that example's support count. The contour uses 256-bin Otsu thresholding solely for visualization.",
+    "caption": "Controlled framework and representation comparisons. (a) K normal support images $x_i^c$ form a fixed, aligned reference bank. (b) The query follows the same frozen feature path. Joint matching selects one shared reference row; independent matching selects a row independently in each branch. For either matching rule, shared resizing and Gaussian smoothing produce the continuous map $A_t$, whose maximum is the image score. The second image panel is a thresholded display of the same map, not another learned output. (c) The duplicate-branch control isolates reweighting; the equal-weight replacement and the balanced replacement define the representation effects and their matching interactions. DINOv2-B/14 and AnomalyCLIP visual provide the baseline features; DINOv2-S/14 and WideResNet50-2 are the replacement features. The displayed map is the archived Dual-encoder baseline result under joint matching for MPDD metal_plate/test/scratches/026.png at seed 0 and K = 1. Multiple support thumbnails illustrate the general input, not that example's support count. The contour uses 256-bin Otsu thresholding solely for visualization.",
     "native": 1,
     "slide": 1
   },
@@ -13,7 +13,7 @@
     "part": 1,
     "key": "matching",
     "image": "docs/paper_complete_review_20260920/figures/fig2_matching.png",
-    "caption": "Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) J (joint matching) requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas L (independent matching) lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization. (c) The ordering constraint $L(p)$ less than or equal to $J(p)$ follows from minimizing over a less restricted reference assignment. The gap is a raw-score difference, not an AP improvement.",
+    "caption": "Joint and independent matching on the same fixed bank. (a) One query patch and the candidate reference rows r = 1, ..., 8; the shaded cell in each branch row marks the candidate that branch finds closest. The cells are ordering indicators only and carry no measured value. (b) Joint matching requires a single shared reference row for all branches and then minimizes the weighted sum of distances over candidates, whereas independent matching lets each branch take its own nearest row before the weighted sum is formed. Both panels use the same aligned candidate set, the same branch descriptors and the same nonnegative weights that sum to one, so the two panels differ only in the order of combination and candidate minimization. (c) The ordering constraint $L(p)$ less than or equal to $J(p)$ follows from minimizing over a less restricted reference assignment. The gap is a raw-score difference, not an AP improvement.",
     "native": 2,
     "slide": 2
   },
@@ -22,7 +22,7 @@
     "part": 1,
     "key": "constructions",
     "image": "docs/paper_complete_review_20260920/figures/fig3_constructions.png",
-    "caption": "Fixed representation constructions and the contrasts built from them. (a) A1 (dual-encoder anchor), DUP (duplicate-weight control), TRI (equal-weight replacement) and BAL (balanced replacement) with their distance weights; a slot keeps the same colour across panels. (b) A1 to DUP changes only how the fixed weights are split, raising the effective B (DINOv2-B) weight from 1/2 to 2/3 and lowering the C (AnomalyCLIP visual) weight from 1/2 to 1/3, with no new representation added, and is therefore the weight-confounding control; DUP to TRI puts a real encoder into the slot at an unchanged weight; A1 to BAL keeps the non-C family total and the C weight equal. (c) The four contrasts estimated in this paper. The TRI-to-A1 difference moves both factors at once and is never attributed to S (DINOv2-S) alone. The extra slot is instantiated by five frozen encoders: S and D (WideResNet50-2) were pre-specified, while E1, E2 and E3 were added after the S and D results were known and are exploratory transfer checks. These are analysis configurations in one frozen pipeline, not trained networks.",
+    "caption": "Fixed representation constructions and the contrasts built from them. (a) The Dual-encoder baseline, Duplicate-branch control, Equal-weight replacement and Balanced replacement with their distance weights; a slot keeps the same colour across panels. (b) Moving from the Dual-encoder baseline to Duplicate-branch control changes only how the fixed weights are split, raising the effective DINOv2-B/14 weight from 1/2 to 2/3 and lowering the AnomalyCLIP visual weight from 1/2 to 1/3, with no new representation added, and is therefore the weight-confounding control; moving from Duplicate-branch control to Equal-weight replacement puts a real encoder into the slot at an unchanged weight; moving from the Dual-encoder baseline to Balanced replacement keeps the combined weight of the non-AnomalyCLIP visual branches and the AnomalyCLIP visual weight equal. (c) The four contrasts estimated in this paper. The Equal-weight replacement-to-Dual-encoder baseline difference moves both factors at once and is never attributed to DINOv2-S/14 alone. The extra slot is instantiated by five frozen encoders: DINOv2-S/14 and WideResNet50-2 were pre-specified, while DINO ViT-S/8, ConvNeXt-Tiny and Swin-Tiny were added after those results were known and are exploratory transfer checks. These are analysis configurations in one frozen pipeline, not trained networks.",
     "native": 3,
     "slide": 3
   },
@@ -31,7 +31,7 @@
     "part": 1,
     "key": "effects",
     "image": "docs/paper_complete_review_20260920/figures/fig4a_representation_effects.png",
-    "caption": "Absolute representation effects for S (DINOv2-S). Panels show observed effects in MPDD and corrected-geometry BTAD with individual 95% paired image-bootstrap intervals. MPDD uses seeds 0–2 and BTAD seeds 0, 1, with K = 1, 2, 4, 8. Units are AP percentage points. These absolute effects differ from the matching interactions shown on the continuation page.",
+    "caption": "Absolute representation effects for DINOv2-S/14. Panels show observed effects in MPDD and corrected-geometry BTAD with individual 95% paired image-bootstrap intervals. MPDD uses seeds 0–2 and BTAD seeds 0, 1, with K = 1, 2, 4, 8. Units are AP percentage points. These absolute effects differ from the matching interactions shown on the continuation page.",
     "native": null,
     "slide": 4
   },
@@ -40,7 +40,7 @@
     "part": 2,
     "key": "effects",
     "image": "docs/paper_complete_review_20260920/figures/fig4b_matched_encoders.png",
-    "caption": "Figure 4 continued. Encoder interactions under the shared four-condition scope and the wider twelve-condition scope. Rows marked (4) pool seeds 0 and 1 with K = 1 and 4; rows marked (12) pool seeds 0, 1 and 2 with support budgets 1, 2, 4 and 8. Points are bootstrap replicate means and bars are 98.75% paired intervals, a separate four-comparison family for each encoder and scope. E1–E3 are exploratory substitutions; no family adjustment covers these additional encoders as a group. Comparisons across encoders use the shared four-condition scope, while the twelve-condition rows describe the wider evaluation scope.",
+    "caption": "Figure 4 continued. Encoder interactions under the shared four-condition scope and the wider twelve-condition scope. Rows marked (4) pool seeds 0 and 1 with K = 1 and 4; rows marked (12) pool seeds 0, 1 and 2 with support budgets 1, 2, 4 and 8. Points are bootstrap replicate means and bars are 98.75% paired intervals, a separate four-comparison family for each encoder and scope. DINO ViT-S/8, ConvNeXt-Tiny and Swin-Tiny are exploratory substitutions; no family adjustment covers these additional encoders as a group. Comparisons across encoders use the shared four-condition scope, while the twelve-condition rows describe the wider evaluation scope.",
     "native": null,
     "slide": 5
   },
@@ -58,7 +58,7 @@
     "part": 2,
     "key": "budget_category",
     "image": "docs/paper_complete_review_20260920/figures/fig5b_categories.png",
-    "caption": "Figure 5 continued. (c) Category-level TRI interactions as bootstrap means with individual 95% intervals. MPDD uses the study revision and BTAD the corrected revision. This exploratory comparison has no multiplicity adjustment across categories.",
+    "caption": "Figure 5 continued. (c) Category-level Equal-weight replacement interactions as bootstrap means with individual 95% intervals. MPDD uses the study revision and BTAD the corrected revision. This exploratory comparison has no multiplicity adjustment across categories.",
     "native": null,
     "slide": 7
   },
@@ -67,7 +67,7 @@
     "part": 1,
     "key": "cases_good",
     "image": "docs/paper_complete_review_20260920/figures/qualitative_improvements_part1.png",
-    "caption": "Three selected MPDD improvements for A1 L (the dual-encoder anchor under independent matching) relative to A1 J (joint matching) at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. J/L heatmaps share one full-map min-max range per row. The cyan L contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.",
+    "caption": "Three selected MPDD improvements for the Dual-encoder baseline under independent matching relative to the same baseline under joint matching at seed 0 and K = 4. Values are stored stride-eight per-image AP, rather than the category-pooled AP used in the main tables. Joint and independent heatmaps share one full-map min-max range per row. The cyan independent-matching contour uses 256-bin Otsu thresholding on that normalized score. Red hollow rectangles define identical GT-centered visual crops, enlarged below. GT is used for evaluation and crop placement, never to generate the predicted contour. These are selected extremes, not a random test sample.",
     "native": null,
     "slide": 8
   },
@@ -85,7 +85,7 @@
     "part": 1,
     "key": "cases_bad",
     "image": "docs/paper_complete_review_20260920/figures/qualitative_mpdd_matching_degradations.png",
-    "caption": "Two selected MPDD degradations under the A1 comparison and display protocol of Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. These cases illustrate matching behaviour at the anchor, rather than the representation interaction. Only these two cases and the three Figure 6 cases include the thresholded L contour; the continuation pages and category appendix compare continuous maps.",
+    "caption": "Two selected MPDD degradations under the Dual-encoder baseline comparison and display protocol of Figure 6. Lower raw scores under independent matching do not guarantee improved pixel ordering or a complete contour. These cases illustrate matching behaviour at the baseline, rather than the representation interaction. Only these two cases and the three Figure 6 cases include the thresholded independent-matching contour; the continuation pages and category appendix compare continuous maps.",
     "native": null,
     "slide": 10
   },
@@ -94,7 +94,7 @@
     "part": 2,
     "key": "cases_bad",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_metal_plate.png",
-    "caption": "Figure 7 continued. MPDD metal plates with scratches. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two A1 columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
+    "caption": "Figure 7 continued. MPDD metal plates with scratches. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two Dual-encoder baseline columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
     "native": null,
     "slide": 11
   },
@@ -103,7 +103,7 @@
     "part": 3,
     "key": "cases_bad",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_grid.png",
-    "caption": "Figure 7 continued. MVTec AD grid textures with glue defects. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two A1 columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
+    "caption": "Figure 7 continued. MVTec AD grid textures with glue defects. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two Dual-encoder baseline columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
     "native": null,
     "slide": 12
   },
@@ -112,7 +112,7 @@
     "part": 4,
     "key": "cases_bad",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pcb1.png",
-    "caption": "Figure 7 continued. VisA printed circuit boards. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two A1 columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
+    "caption": "Figure 7 continued. VisA printed circuit boards. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two Dual-encoder baseline columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. Categories were selected to illustrate distinct surface, texture and circuit examples; within each category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
     "native": null,
     "slide": 13
   },
@@ -121,7 +121,7 @@
     "part": 5,
     "key": "cases_bad",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_btad_s0_k4_01.png",
-    "caption": "Figure 7 continued. BTAD category 01. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two A1 columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. This page extends the four-dataset comparison of Table 11 to BTAD, whose aggregate interaction direction remains unresolved; within the category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
+    "caption": "Figure 7 continued. BTAD category 01. Six configurations share the original-image common valid region of Table 11 at seed 0 and K = 4. Query and GT are followed immediately by the two Dual-encoder baseline columns, then AnomalyDINO without/with reference rotation and the local 128-pixel/official 224-pixel PatchCore configurations. P-AP denotes per-image pixel AP, not category-pooled AP. Each row uses a shared score range across all six maps. This page extends the four-dataset comparison of Table 11 to BTAD, whose aggregate interaction direction remains unresolved; within the category the three archived samples have the largest AP spread across configurations, with ties broken by sample identity. These selected extremes show contrasting responses, not representative performance or a method ranking. No method-specific thresholded contours are supplied on this page.",
     "native": null,
     "slide": 14
   },
@@ -139,7 +139,7 @@
     "part": 1,
     "key": "encoders_geo",
     "image": "docs/paper_complete_review_20260920/figures/figS1_encoders.png",
-    "caption": "Frozen encoder branches and their shared scoring path. (a) B and S are DINOv2-B and DINOv2-S; C is the AnomalyCLIP visual branch; D concatenates WRN50-2 layer2 and layer3. The 448-pixel square input and 32 by 32 grid illustrate the square primary canvas; the BTAD-03 canvas is 32 by 42, and KSDD2 uses its separately specified geometry. (b) E1 is original DINO ViT-S/8, E2 ConvNeXt-Tiny and E3 Swin-Tiny; these substitutions were selected after S and D and are exploratory. (c) Bilinear mapping to the B grid with align_corners = False and per-position unit normalization define the common distance path. Encoders, weights and reference identities remain frozen; no target training, coreset, PCA or weight search is introduced.",
+    "caption": "Frozen encoder branches and their shared scoring path. (a) DINOv2-B/14 and DINOv2-S/14 provide the DINOv2 branches; AnomalyCLIP visual provides the visual branch; WideResNet50-2 concatenates layer2 and layer3. The 448-pixel square input and 32 by 32 grid illustrate the square primary canvas; the BTAD-03 canvas is 32 by 42, and KSDD2 uses its separately specified geometry. (b) DINO ViT-S/8, ConvNeXt-Tiny and Swin-Tiny are exploratory substitutions selected after DINOv2-S/14 and WideResNet50-2. (c) Bilinear mapping to the DINOv2-B/14 grid with align_corners = False and per-position unit normalization define the common distance path. Encoders, weights and reference identities remain frozen; no target training, coreset, PCA or weight search is introduced.",
     "native": 4,
     "slide": 16
   },
@@ -148,7 +148,7 @@
     "part": 1,
     "key": "shared_op_ablation",
     "image": "docs/paper_complete_review_20260920/figures/figS2_shared_op_ablation.png",
-    "caption": "Exploratory shared-operation ablations. (a) The interaction under each ablation, shown as dataset means. (b) The absolute mean pixel AP that the same ablations move, over the four constructions under the joint rule. The operations every construction shares are removed one at a time: ABL-S drops the Gaussian smoothing of the patch scores, ABL-N drops the per-branch normalization and scores with squared Euclidean distance, and ABL-C replaces score-level fusion with naive concatenation, which can move only the BAL contrast because the coefficients equal the weights for equal slots. The scope is a single condition, seed 0 with K = 1, and one run per ablation, so no interval exists and none is drawn; the panel is therefore exploratory and does not show that a shared operation has been validated.",
+    "caption": "Exploratory shared-operation ablations. (a) The interaction under each ablation, shown as dataset means. (b) The absolute mean pixel AP that the same ablations move, over the four constructions under the joint rule. The operations every construction shares are removed one at a time: the no-smoothing ablation drops the Gaussian smoothing of the patch scores, the no-normalization ablation drops the per-branch normalization and scores with squared Euclidean distance, and the naive-concatenation ablation replaces score-level fusion with naive concatenation, which can move only the Balanced replacement contrast because the coefficients equal the weights for equal slots. The scope is a single condition, seed 0 with K = 1, and one run per ablation, so no interval exists and none is drawn; the panel is therefore exploratory and does not show that a shared operation has been validated.",
     "native": null,
     "slide": 17
   },
@@ -157,7 +157,7 @@
     "part": 1,
     "key": "extra_cases",
     "image": "docs/paper_complete_review_20260920/figures/panel_c_to_b_shift.png",
-    "caption": "Supporting geometry audit. Approximate minus coordinate-corrected C-grid positions for BTAD category 03 and the square MPDD bracket-black example. The non-square canvas introduces a horizontal displacement; the square example has zero displacement. These are coordinate diagnostics, not additional performance measurements.",
+    "caption": "Supporting geometry audit. Approximate minus coordinate-corrected AnomalyCLIP visual-grid positions for BTAD category 03 and the square MPDD bracket-black example. The non-square canvas introduces a horizontal displacement; the square example has zero displacement. These are coordinate diagnostics, not additional performance measurements.",
     "native": null,
     "slide": 18
   },
@@ -166,7 +166,7 @@
     "part": 2,
     "key": "extra_cases",
     "image": "docs/paper_complete_review_20260920/figures/panel_canvas_coverage.png",
-    "caption": "Figure S3 continued. The B/S (DINOv2-B / DINOv2-S) canvas and PatchCore-224 center crop in original image coordinates for the same two geometry examples. Rectangles are computed from the frozen preprocessing transforms.",
+    "caption": "Figure S3 continued. The DINOv2-B/14 and DINOv2-S/14 canvas and PatchCore-224 center crop in original image coordinates for the same two geometry examples. Rectangles are computed from the frozen preprocessing transforms.",
     "native": null,
     "slide": 19
   },
@@ -229,7 +229,7 @@
     "part": 1,
     "key": "speed_vram",
     "image": "docs/paper_complete_review_20260920/figures/figS5_speed_vram.png",
-    "caption": "Timed inference stages and in-process GPU allocation on three MPDD categories (bracket_black, bracket_brown and bracket_white), seed 0 and K = 1, 4: six units, 216 unique queries and 432 query visits. One warm-up and three timed repeats are run per unit. (a) Bars stack the medians of repeat-level stage sums across six units; circles and whiskers show the median and observed min–max of their total across three repeats, not confidence intervals. Stage medians need not sum exactly to the median total. (b) Bars show the median PyTorch allocated-memory peak across 18 timed unit runs, with observed min–max. MiB denotes 2^20 bytes. A1 (dual-encoder anchor) holds B (DINOv2-B) and C (AnomalyCLIP visual) in the same process. ADino denotes AnomalyDINO, rot. reference rotation, and PC PatchCore at the indicated native input resolution. All six configurations use the same instrumentation, but retain their native preprocessing and model protocols. Timing includes reference/query preprocessing, encoding and scoring; model loading, dataset setup, metric evaluation and result writes are excluded. PatchCore score time is the fit-plus-predict residual after measured preprocessing and encoding. These are timed-stage sums, not independently timed complete-process wall-clock or query-only latency.",
+    "caption": "Timed inference stages and in-process GPU allocation on three MPDD categories (bracket_black, bracket_brown and bracket_white), seed 0 and K = 1, 4: six units, 216 unique queries and 432 query visits. One warm-up and three timed repeats are run per unit. (a) Bars stack the medians of repeat-level stage sums across six units; circles and whiskers show the median and observed min–max of their total across three repeats, not confidence intervals. Stage medians need not sum exactly to the median total. (b) Bars show the median PyTorch allocated-memory peak across 18 timed unit runs, with observed min–max. MiB denotes 2^20 bytes. The Dual-encoder baseline holds DINOv2-B/14 and AnomalyCLIP visual in the same process. The AnomalyDINO entries use the method's no-rotation or reference-rotation protocol, and the PatchCore entries use the indicated native input resolution. All six configurations use the same instrumentation, but retain their native preprocessing and model protocols. Timing includes reference/query preprocessing, encoding and scoring; model loading, dataset setup, metric evaluation and result writes are excluded. PatchCore score time is the fit-plus-predict residual after measured preprocessing and encoding. These are timed-stage sums, not independently timed complete-process wall-clock or query-only latency.",
     "native": null,
     "slide": 26
   },
@@ -238,7 +238,7 @@
     "part": 1,
     "key": "protocol_sensitivity",
     "image": "docs/paper_complete_review_20260920/figures/figS6_protocol_paper_part1.png",
-    "caption": "Sensitivity of the external-method context to the evaluated configuration. Each point is a dataset macro pixel AP from Table 12. Connectors link A1 joint/independent matching, AnomalyDINO without/with reference rotation, and the two PatchCore configurations. Eight configurations average seeds 0 and 1 with K = 1 and 4; AnomalyCLIP has one support-free evaluation and is not paired with those four conditions. SubspaceAD uses the local 256-pixel fp16 setting. Fixed family grouping is not a performance ordering. These native or documented local configurations retain different input geometries and implementations. Lines describe configuration changes; no confidence interval or cross-method significance test is shown. The harmonised 448-pixel subset is reported separately in Table S1.",
+    "caption": "Sensitivity of the external-method context to the evaluated configuration. Each point is a dataset macro pixel AP from Table 12. Connectors link the Dual-encoder baseline under joint and independent matching, AnomalyDINO without/with reference rotation, and the two PatchCore configurations. Eight configurations average seeds 0 and 1 with K = 1 and 4; AnomalyCLIP has one support-free evaluation and is not paired with those four conditions. SubspaceAD uses the local 256-pixel fp16 setting. Fixed family grouping is not a performance ordering. These native or documented local configurations retain different input geometries and implementations. Lines describe configuration changes; no confidence interval or cross-method significance test is shown. The harmonised 448-pixel subset is reported separately in Table S1.",
     "native": null,
     "slide": 27
   },
@@ -256,7 +256,7 @@
     "part": 1,
     "key": "fig7_multimethod_btad_s0_k4_01",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_btad_s0_k4_01.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 29
   },
   {
@@ -264,7 +264,7 @@
     "part": 1,
     "key": "fig7_multimethod_btad_s0_k4_02",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_btad_s0_k4_02.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 30
   },
   {
@@ -272,7 +272,7 @@
     "part": 1,
     "key": "fig7_multimethod_btad_s0_k4_03",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_btad_s0_k4_03.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 31
   },
   {
@@ -280,7 +280,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_bracket_black",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_bracket_black.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 32
   },
   {
@@ -288,7 +288,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_bracket_brown",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_bracket_brown.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 33
   },
   {
@@ -296,7 +296,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_bracket_white",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_bracket_white.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 34
   },
   {
@@ -304,7 +304,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_connector",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_connector.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 35
   },
   {
@@ -312,7 +312,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_metal_plate",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_metal_plate.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 36
   },
   {
@@ -320,7 +320,7 @@
     "part": 1,
     "key": "fig7_multimethod_mpdd_s0_k4_tubes",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mpdd_s0_k4_tubes.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 37
   },
   {
@@ -328,7 +328,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_bottle",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_bottle.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 38
   },
   {
@@ -336,7 +336,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_cable",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_cable.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 39
   },
   {
@@ -344,7 +344,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_capsule",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_capsule.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 40
   },
   {
@@ -352,7 +352,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_carpet",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_carpet.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 41
   },
   {
@@ -360,7 +360,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_grid",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_grid.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 42
   },
   {
@@ -368,7 +368,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_hazelnut",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_hazelnut.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 43
   },
   {
@@ -376,7 +376,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_leather",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_leather.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 44
   },
   {
@@ -384,7 +384,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_metal_nut",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_metal_nut.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 45
   },
   {
@@ -392,7 +392,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_pill",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_pill.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 46
   },
   {
@@ -400,7 +400,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_screw",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_screw.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 47
   },
   {
@@ -408,7 +408,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_tile",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_tile.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 48
   },
   {
@@ -416,7 +416,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_toothbrush",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_toothbrush.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 49
   },
   {
@@ -424,7 +424,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_transistor",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_transistor.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 50
   },
   {
@@ -432,7 +432,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_wood",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_wood.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 51
   },
   {
@@ -440,7 +440,7 @@
     "part": 1,
     "key": "fig7_multimethod_mvtec_s0_k4_zipper",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_mvtec_s0_k4_zipper.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 52
   },
   {
@@ -448,7 +448,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_candle",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_candle.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 53
   },
   {
@@ -456,7 +456,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_capsules",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_capsules.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 54
   },
   {
@@ -464,7 +464,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_cashew",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_cashew.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 55
   },
   {
@@ -472,7 +472,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_chewinggum",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_chewinggum.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 56
   },
   {
@@ -480,7 +480,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_fryum",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_fryum.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 57
   },
   {
@@ -488,7 +488,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_macaroni1",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_macaroni1.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 58
   },
   {
@@ -496,7 +496,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_macaroni2",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_macaroni2.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 59
   },
   {
@@ -504,7 +504,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_pcb1",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pcb1.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 60
   },
   {
@@ -512,7 +512,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_pcb2",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pcb2.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 61
   },
   {
@@ -520,7 +520,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_pcb3",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pcb3.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 62
   },
   {
@@ -528,7 +528,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_pcb4",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pcb4.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 63
   },
   {
@@ -536,7 +536,7 @@
     "part": 1,
     "key": "fig7_multimethod_visa_s0_k4_pipe_fryum",
     "image": "docs/paper_complete_review_20260920/figures/multimethod/fig7_multimethod_visa_s0_k4_pipe_fryum.png",
-    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. A1 J / A1 L, AnomalyDINO / reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed manuscript cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
+    "caption": "Seed 0; K = 4. Three samples per category selected by largest per-image AP spread across six configurations, ties by sample identity. Each row uses the common valid evaluation region and one shared score range. AP labels are per-image pixel AP. Dual-encoder baseline with joint / independent matching, AnomalyDINO without / with reference rotation, and PatchCore 128 / 224 are six configurations from the study and two external method families. These pages contain continuous anomaly maps only; displayed predicted contours are confined to the five detailed baseline cases. Full sample identities, AP values, geometry and selection records are retained in the adjacent dataset JSON. Selected extremes are illustrative, not a representative performance estimate.",
     "slide": 64
   }
 ]

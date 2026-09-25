@@ -48,6 +48,8 @@ from figure_font_gate import (  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
+sys.path.insert(0, str(ROOT / "scripts" / "paper_complete_review_20260920" / "figure_sources"))
+from display_labels import BASELINE_RULE_LABELS  # noqa: E402
 STUDY = ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
 CLOSEOUT = ROOT / "experiments/dynamic_fusion/paper_evidence_closeout_20260914"
 SELECTION = CLOSEOUT / "03_paper" / "fig5_selection.csv"
@@ -308,8 +310,9 @@ def load_maps(record: dict):
 
 # -------------------------------------------------------------------- drawing --
 FULL_TITLES = ["Query", "GT mask", "{m}\nP-AP {v:.3f}", "{m}\nP-AP {v:.3f}",
-               "L contour\nvisual only"]
-ZOOM_TITLES = ["Query", "GT mask", "A1 J", "A1 L", "L contour"]
+               "Independent contour\nvisual only"]
+ZOOM_TITLES = ["Query", "GT mask", BASELINE_RULE_LABELS["J"],
+               BASELINE_RULE_LABELS["L"], "Independent contour\nvisual only"]
 
 
 def draw_panel(fig, rect, array, interpolation="bilinear"):
@@ -358,8 +361,8 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
 
         full = [image_boxed, gt_rgb, j_rgb, l_rgb, contour_rgb]
         titles = [FULL_TITLES[0], FULL_TITLES[1],
-                  FULL_TITLES[2].format(m="A1 J", v=record["ap_j"]),
-                  FULL_TITLES[3].format(m="A1 L", v=record["ap_l"]),
+                  FULL_TITLES[2].format(m=BASELINE_RULE_LABELS["J"], v=record["ap_j"]),
+                  FULL_TITLES[3].format(m=BASELINE_RULE_LABELS["L"], v=record["ap_l"]),
                   FULL_TITLES[4]]
         x_full = [left + j * (colw + gap) for j in range(5)]
         for j, (array, title) in enumerate(zip(full, titles)):
@@ -434,7 +437,7 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
     for path in (png, pdf):
         print(f"[fig6/7] wrote {path} ({path.stat().st_size} bytes)")
     for row in manifest_rows:
-        row["figure_path"] = f"docs/figures_reference_matching_20260914/{figure_name}.png"
+        row["figure_path"] = str((out_dir.resolve() / f"{figure_name}.png").relative_to(ROOT.resolve())).replace("\\", "/")
         row["figure_sha256"] = sha256_file(png)
     return png, pdf, manifest_rows
 
@@ -446,8 +449,8 @@ def write_manifest(rows, out_dir: Path, figures: dict) -> None:
     manifest = {
         "schema_version": 2,
         "kind": "mpdd_a1_j_vs_a1_l_qualitative",
-        "scope": ("five MPDD examples comparing normal-reference matching A1_J (shared row) "
-                  "and A1_L (independent rows)"),
+        "scope": ("five MPDD examples comparing the Dual-encoder baseline with Joint matching "
+                  "and Independent matching support rows"),
         "rendering": ("matplotlib figure built at the manuscript width 17 cm, so every label "
                       "is set in printed points; the run fails if any text artist prints "
                       "below 11.5 pt or overlaps an image panel"),
@@ -474,15 +477,19 @@ def write_manifest(rows, out_dir: Path, figures: dict) -> None:
 
 def write_captions(out_dir: Path) -> None:
     lines = [
-        "# Qualitative A1 matching captions (rebuilt 2026-09-18)",
+        "# Qualitative Dual-encoder baseline matching captions (rebuilt 2026-09-18)",
         "",
-        "**Figure 6 (part 1 / part 2).** Qualitative MPDD improvements of A1 L over A1 J at "
+        "**Figure 6 (part 1 / part 2).** Qualitative MPDD improvements of the Dual-encoder "
+        "baseline with Independent matching over the Joint matching baseline at "
         "seed 0, K = 4. Each row shows the query, the ground-truth mask for visual reference, "
-        "the two continuous anomaly heatmaps on one shared per-case min-max range, an L "
+        "the two continuous anomaly heatmaps on one shared per-case min-max range, an "
+        "Independent-matching "
         "contour obtained only for visualization by 256-bin Otsu thresholding, and the same "
         "GT-defined crop enlarged below.",
         "",
-        "**Figure 7.** The two selected degradations under the identical display protocol.",
+        "**Figure 7.** The two selected degradations under the identical display protocol; "
+        "the two heatmaps are the Joint and Independent matching forms of the Dual-encoder "
+        "baseline.",
         "",
         "Values are stored stride-8 per-image Pixel-AP, not the category-pooled AP of the main "
         "tables. The selected examples are extremes of a frozen closeout ranking, not a random "
@@ -529,11 +536,12 @@ def main() -> int:
     ):
         png, pdf, rows = render_figure(cases, name, letter, args.out_dir)
         rendered[name] = {
-            "png": str(png.relative_to(ROOT)).replace("\\", "/"),
-            "pdf": str(pdf.relative_to(ROOT)).replace("\\", "/"),
+            "png": str(png.resolve().relative_to(ROOT.resolve())).replace("\\", "/"),
+            "pdf": str(pdf.resolve().relative_to(ROOT.resolve())).replace("\\", "/"),
             "n_cases": len(cases),
-            "contains": ("query, GT mask, A1 J and A1 L heatmaps on one shared colour range, "
-                         "the L Otsu contour and identical ROI zooms"),
+            "contains": ("query, GT mask, Joint and Independent matching heatmaps on one shared "
+                         "colour range, the Independent-matching Otsu contour and identical ROI "
+                         "zooms"),
         }
         manifest.extend(rows)
     write_manifest(manifest, args.out_dir, rendered)

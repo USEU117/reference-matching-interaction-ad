@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[2]
 SKILL=Path('C:/Users/lynle/.codex/plugins/cache/openai-primary-runtime/documents/26.909.12148/skills/documents')
 spec=importlib.util.spec_from_file_location('skill_renderer',SKILL/'render_docx.py')
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-TEMP=ROOT/'.tmp_revision_20260923'
+TEMP=ROOT/'.tmp_revision_20260925'
 module.convert_to_pdf=lambda *args,**kwargs:(str(TEMP/'paper.pdf'),'Native Word export; render layout follows installed Microsoft Word')
-pages=module.rasterize(str(ROOT/'docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260923.docx'),str(TEMP/'render'),120,False,False)
+pages=module.rasterize(str(ROOT/'docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.docx'),str(TEMP/'render'),120,False,False)
 print('Rendered',len(pages),'pages')

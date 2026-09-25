@@ -27,13 +27,15 @@ for row in json.loads((T / 'math_baselines.json').read_text()):
     pr.set('baseline', str(row['base']))
 # Upright encoder/construction labels must not be auto-italicized.
 sp = byname['support-description']
-para = sp.find('p:txBody/a:p', ns)
+paras = sp.findall('p:txBody/a:p', ns)
+assert len(paras) == 2
+para = paras[0]
 r = para.find('a:r', ns)
-assert r.find('a:t', ns).text == 'K normal images'
+assert r.find('a:t', ns).text == 'K normal'
 r.find('a:t', ns).text = 'K'
 r.find('a:rPr', ns).set('i', '1')
 r2 = copy.deepcopy(r)
-r2.find('a:t', ns).text = ' normal images'
+r2.find('a:t', ns).text = ' normal'
 r2.find('a:rPr', ns).set('i', '0')
 para.insert(list(para).index(r) + 1, r2)
 parts['ppt/slides/slide1.xml'] = E.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)

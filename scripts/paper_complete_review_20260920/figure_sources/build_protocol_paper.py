@@ -9,18 +9,19 @@ ROOT = Path(__file__).resolve().parents[3]
 SOURCE = ROOT / 'experiments/dynamic_fusion/representation_matching_interaction_20260914/05_baselines_harmonised_20260922/protocol_leverage.json'
 OUT = ROOT / 'docs/paper_complete_review_20260920/figures'
 sys.path.insert(0, str(ROOT / 'scripts/figures_reference_matching_20260914'))
+sys.path.insert(0, str(ROOT / 'scripts/paper_complete_review_20260920/figure_sources'))
 from figure_font_gate import assert_min_font_pt, assert_no_text_text_overlap, assert_text_inside_page
 
 METHODS = [
- ('controlled_A1_J','A1 J','#9A4935','o'),
- ('controlled_A1_L','A1 L','#9A4935','o'),
- ('anomalydino_canvas','AnomalyDINO','#28618A','^'),
- ('anomalydino_canvas_rotation','AnomalyDINO + rot.','#28618A','^'),
- ('PatchCore_native_local128','PatchCore 128','#28618A','D'),
- ('PatchCore_native_official224','PatchCore 224','#28618A','D'),
- ('SubspaceAD_native_fp16','SubspaceAD 256','#28618A','s'),
- ('WinCLIP_native_240','WinCLIP+ 240','#3D866B','v'),
- ('AnomalyCLIP_zeroshot_518','AnomalyCLIP 518','#3D866B','v'),
+ ('controlled_A1_J','Dual-encoder baseline · Joint matching','#9A4935','o'),
+ ('controlled_A1_L','Dual-encoder baseline · Independent matching','#9A4935','o'),
+ ('anomalydino_canvas','AnomalyDINO canvas','#28618A','^'),
+ ('anomalydino_canvas_rotation','AnomalyDINO canvas + rotation','#28618A','^'),
+ ('PatchCore_native_local128','PatchCore native 128','#28618A','D'),
+ ('PatchCore_native_official224','PatchCore official 224','#28618A','D'),
+ ('SubspaceAD_native_fp16','SubspaceAD native 256','#28618A','s'),
+ ('WinCLIP_native_240','WinCLIP+ native 240','#3D866B','v'),
+ ('AnomalyCLIP_zeroshot_518','AnomalyCLIP visual zero-shot 518','#3D866B','v'),
 ]
 
 def main():
@@ -31,7 +32,7 @@ def main():
     outputs=[]
     for part,datasets in enumerate([[('mpdd','MPDD'),('btad','BTAD')],[('mvtec','MVTec AD'),('visa','VisA')]],1):
         fig,axes=plt.subplots(2,1,figsize=(17/2.54,7.6))
-        fig.subplots_adjust(left=.31,right=.965,bottom=.09,top=.955,hspace=.38)
+        fig.subplots_adjust(left=.47,right=.965,bottom=.09,top=.955,hspace=.38)
         for ax,(dataset,title) in zip(axes,datasets):
             for i,(key,label,color,marker) in enumerate(METHODS):
                 ax.plot(macro[key+'|'+dataset],8-i,marker=marker,color=color,ms=6,linestyle='none')

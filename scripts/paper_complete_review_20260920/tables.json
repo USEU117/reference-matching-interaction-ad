@@ -3,43 +3,43 @@
     "caption": "Fixed representation constructions and the purpose of each control.",
     "headers": [
       "Construction",
-      "Full name",
+      "Description",
       "Distance weights",
       "Controlled comparison"
     ],
     "rows": [
       [
-        "A1",
-        "Dual-encoder anchor (DINOv2-B + AnomalyCLIP visual)",
-        "B 1/2; C 1/2",
-        "Dual-visual anchor"
+        "Dual-encoder baseline",
+        "Dual-encoder baseline (DINOv2-B/14 + AnomalyCLIP visual)",
+        "DINOv2-B/14 1/2; AnomalyCLIP visual 1/2",
+        "Fixed dual-encoder baseline"
       ],
       [
-        "DUP",
-        "Duplicate-weight control (copy of B, no new encoder)",
-        "B 1/3; B copy 1/3; C 1/3",
+        "Duplicate-branch control",
+        "Exact duplicate of the DINOv2-B/14 descriptor; no new encoder",
+        "DINOv2-B/14 1/3; DINOv2-B/14 copy 1/3; AnomalyCLIP visual 1/3",
         "Reweight existing information; no new encoder"
       ],
       [
-        "TRI",
-        "Equal-weight replacement (S or D in the copied slot)",
-        "B 1/3; S or D 1/3; C 1/3",
+        "Equal-weight replacement",
+        "Equal-weight replacement (DINOv2-S/14 or WideResNet50-2 in the copied slot)",
+        "DINOv2-B/14 1/3; DINOv2-S/14 or WideResNet50-2 1/3; AnomalyCLIP visual 1/3",
         "Replace the duplicate at fixed slot weights"
       ],
       [
-        "BAL",
-        "Balanced replacement (S or D in a quarter slot)",
-        "B 1/4; S or D 1/4; C 1/2",
-        "Preserve C and total non-C weights"
+        "Balanced replacement",
+        "Balanced replacement (DINOv2-S/14 or WideResNet50-2 in a quarter slot)",
+        "DINOv2-B/14 1/4; DINOv2-S/14 or WideResNet50-2 1/4; AnomalyCLIP visual 1/2",
+        "Preserve AnomalyCLIP visual and total non-AnomalyCLIP visual weights"
       ]
     ],
     "widths": [
-      2.5,
+      4.7,
       4.4,
-      3.4,
-      6.7
+      3.2,
+      4.7
     ],
-    "note": "Each construction is evaluated under J and L. Bold identifies the study anchor, not a claim of best performance. For S, BAL also preserves the combined DINO-family weight. B, S, C and D denote the frozen DINOv2-B, DINOv2-S, AnomalyCLIP visual and WideResNet50-2 branches; J and L denote joint and independent reference matching.",
+    "note": "Each construction is evaluated under joint and independent matching. Bold identifies the dual-encoder baseline, not a claim of best performance. All encoder parameters are frozen. For DINOv2-S/14, balanced replacement also preserves the combined DINO-family weight.",
     "bold_rows": [
       0
     ],
@@ -53,98 +53,83 @@
   "models": {
     "caption": "Frozen feature paths and shared model configuration.",
     "headers": [
-      "Item",
-      "Full name",
+      "Encoder or component",
       "Input and retained feature path",
       "Descriptor / target training"
     ],
     "rows": [
       [
-        "B",
-        "DINOv2-B visual encoder (frozen)",
+        "DINOv2-B/14 visual encoder (frozen)",
         "DINOv2 ViT-B/14; final patch features; short side 448",
         "768 dimensions; frozen"
       ],
       [
-        "S",
-        "DINOv2-S visual encoder (frozen)",
+        "DINOv2-S/14 visual encoder (frozen)",
         "DINOv2 ViT-S/14; final patch features; short side 448",
         "384 dimensions; frozen"
       ],
       [
-        "C",
         "AnomalyCLIP visual branch (frozen)",
         "CLIP ViT-L/14 visual + DPAM; 518 × 518; retain layer 24 after projection",
         "768 dimensions; frozen"
       ],
       [
-        "D",
         "WideResNet50-2 branch (frozen)",
-        "WideResNet50-2; ImageNet1K V1; layer2 + layer3 on B canvas",
+        "WideResNet50-2; ImageNet1K V1; layer2 + layer3 on DINOv2-B/14 canvas",
         "512 + 1024 = 1536; frozen"
       ],
       [
-        "E1",
-        "Original DINO ViT-S/8 encoder (frozen, exploratory)",
+        "DINO ViT-S/8 encoder (frozen, exploratory)",
         "Original DINO ViT-S/8; final patch features",
         "384 dimensions; frozen"
       ],
       [
-        "E2",
         "ConvNeXt-Tiny encoder (frozen, exploratory)",
         "ConvNeXt-Tiny; two retained stages",
         "576 dimensions; frozen"
       ],
       [
-        "E3",
         "Swin-Tiny encoder (frozen, exploratory)",
         "Swin-Tiny; two retained stages",
         "576 dimensions; frozen"
       ],
       [
-        "Alignment",
-        "Shared canvas alignment",
-        "Common B grid; bilinear mapping; align_corners false",
+        "Shared spatial alignment",
+        "Shared canvas alignment; common DINOv2-B/14 grid; bilinear mapping; align_corners false",
         "32 × 32 for a 448 × 448 canvas"
       ],
       [
-        "Normalization",
-        "Shared per-branch normalization",
-        "Per-branch unit normalization; joint coefficients are square roots of distance weights",
+        "Per-branch normalization",
+        "Shared per-branch normalization; per-branch unit normalization; joint coefficients are square roots of distance weights",
         "No learned scale or fusion parameter"
       ],
       [
-        "Memory and scoring",
-        "Shared memory and scoring",
-        "All aligned support patches; exact nearest-neighbor matching",
+        "Normal reference memory and scoring",
+        "Shared memory and scoring; all aligned support patches; exact nearest-neighbor matching",
         "Fixed bank per category, seed and K"
       ],
       [
-        "Output",
-        "Shared output mapping",
-        "Resize to retained H × W canvas; Gaussian standard deviation 4 pixels",
+        "Anomaly map and image score",
+        "Shared output mapping; resize to retained H × W canvas; Gaussian standard deviation 4 pixels",
         "Continuous map; maximum image score"
       ],
       [
-        "Optimization",
-        "No target optimization",
-        "No target loss, optimizer, learning rate or training epochs",
+        "Target-domain optimization",
+        "No target optimization; no target loss, optimizer, learning rate or training epochs",
         "0 target-trainable parameters"
       ]
     ],
     "widths": [
-      1.7,
-      4.6,
-      6.5,
-      4.2
+      5.0,
+      7.0,
+      5.0
     ],
-    "note": "C requests layers 6, 12, 18 and 24, uses a DPAM layer setting of 20 and retains the final patch tensor. No text scores enter the model. The fixed KolektorSDD2 canvas is 630 high × 224 wide; other inputs follow the B canvas. D is prespecified; E1–E3 are exploratory.",
+    "note": "AnomalyCLIP visual requests layers 6, 12, 18 and 24, uses a DPAM layer setting of 20 and retains the final patch tensor. No text scores enter the model. The fixed KolektorSDD2 canvas is 630 high × 224 wide; other inputs follow the DINOv2-B/14 canvas. WideResNet50-2 is prespecified; DINO ViT-S/8, ConvNeXt-Tiny and Swin-Tiny are exploratory.",
     "bold_rows": [],
     "left_cols": [
       0,
       1,
-      2,
-      3
+      2
     ]
   },
   "protocol": {
@@ -153,8 +138,8 @@
       "Dataset",
       "Classes",
       "Role",
-      "S conditions",
-      "D conditions"
+      "DINOv2-S/14 conditions",
+      "WideResNet50-2 conditions"
     ],
     "rows": [
       [
@@ -200,7 +185,7 @@
       3.6,
       4.7
     ],
-    "note": "All S studies use K = 1, 2, 4 and 8. KolektorSDD2 uses the same four budgets for D. Supports are nested within seed and shared across paired methods. Extra-encoder comparisons on MPDD/BTAD use the four D conditions; their wider twelve-condition runs are exploratory. VisA retains the conservative in-domain role; the loaded prompt learner does not enter the visual-only C path (Section 4.1.1).",
+    "note": "All DINOv2-S/14 studies use K = 1, 2, 4 and 8. KolektorSDD2 uses the same four budgets for WideResNet50-2. Supports are nested within seed and shared across paired methods. Extra-encoder comparisons on MPDD/BTAD use the four WideResNet50-2 conditions; their wider twelve-condition runs are exploratory. VisA retains the conservative in-domain role; the loaded prompt learner does not enter the visual-only AnomalyCLIP visual path (Section 4.1.1).",
     "bold_rows": [],
     "left_cols": [
       0
@@ -208,7 +193,7 @@
     "dedupe_cols": []
   },
   "matching": {
-    "caption": "Matching effect (AP under L minus AP under J) for the four constructions under identical support conditions.",
+    "caption": "Matching effect (AP under Independent matching minus AP under Joint matching) for the four constructions under identical support conditions.",
     "headers": [
       "Dataset / construction",
       "Point",
@@ -217,49 +202,49 @@
     ],
     "rows": [
       [
-        "MPDD / A1",
+        "MPDD / Dual-encoder baseline",
         "+0.618",
         "+0.637",
         "[+0.337, +0.977]"
       ],
       [
-        "MPDD / DUP",
+        "MPDD / Duplicate-branch control",
         "+0.321",
         "+0.349",
         "[+0.137, +0.580]"
       ],
       [
-        "MPDD / TRI",
+        "MPDD / Equal-weight replacement",
         "+1.093",
         "+1.111",
         "[+0.701, +1.544]"
       ],
       [
-        "MPDD / BAL",
+        "MPDD / Balanced replacement",
         "+1.213",
         "+1.253",
         "[+0.839, +1.722]"
       ],
       [
-        "BTAD / A1",
+        "BTAD / Dual-encoder baseline",
         "+0.900",
         "+0.916",
         "[+0.732, +1.172]"
       ],
       [
-        "BTAD / DUP",
+        "BTAD / Duplicate-branch control",
         "+0.631",
         "+0.638",
         "[+0.518, +0.785]"
       ],
       [
-        "BTAD / TRI",
+        "BTAD / Equal-weight replacement",
         "+0.582",
         "+0.617",
         "[+0.373, +0.889]"
       ],
       [
-        "BTAD / BAL",
+        "BTAD / Balanced replacement",
         "+0.780",
         "+0.826",
         "[+0.541, +1.171]"
@@ -271,7 +256,7 @@
       3,
       7.2
     ],
-    "note": "Pixel AP percentage points, stride eight. The matching difference is formed within one construction, so it changes only the selection rule: a positive value means independent matching scores higher than joint matching. Values are condition-averaged observed differences and are shown next to, never replaced by, the bootstrap means. MPDD uses 12 support conditions (seeds 0, 1, 2) and corrected BTAD uses 8 (seeds 0, 1). Bold identifies the A1 anchor, not a claim of best performance. These are descriptive summaries of the matching rule and are not part of the three adjusted families defined in Section 4.1.3, so no family-adjusted interval is claimed for them.",
+    "note": "Pixel AP percentage points, stride eight. The matching difference is formed within one construction, so it changes only the selection rule: a positive value means independent matching scores higher than joint matching. Values are condition-averaged observed differences and are shown next to, never replaced by, the bootstrap means. MPDD uses 12 support conditions (seeds 0, 1, 2) and corrected BTAD uses 8 (seeds 0, 1). Bold identifies the Dual-encoder baseline, not a claim of best performance. These are descriptive summaries of the matching rule and are not part of the three adjusted families defined in Section 4.1.3, so no family-adjusted interval is claimed for them.",
     "bold_rows": [
       0,
       4
@@ -281,7 +266,7 @@
     ]
   },
   "effects": {
-    "caption": "Absolute effects of replacing or adding S under each matching rule.",
+    "caption": "Absolute effects of replacing or adding DINOv2-S/14 under each matching rule.",
     "headers": [
       "Dataset",
       "Effect",
@@ -291,49 +276,49 @@
     "rows": [
       [
         "MPDD",
-        "$E_{TRI,J}$",
+        "$E_{Equal,J}$",
         "−0.224",
         "[−0.968, +0.478]"
       ],
       [
         "MPDD",
-        "$E_{TRI,L}$",
+        "$E_{Equal,L}$",
         "+0.548",
         "[−0.092, +1.160]"
       ],
       [
         "MPDD",
-        "$E_{BAL,J}$",
+        "$E_{Balanced,J}$",
         "−0.510",
         "[−1.135, +0.123]"
       ],
       [
         "MPDD",
-        "$E_{BAL,L}$",
+        "$E_{Balanced,L}$",
         "+0.085",
         "[−0.434, +0.708]"
       ],
       [
         "BTAD",
-        "$E_{TRI,J}$",
+        "$E_{Equal,J}$",
         "+1.553",
         "[+0.637, +2.465]"
       ],
       [
         "BTAD",
-        "$E_{TRI,L}$",
+        "$E_{Equal,L}$",
         "+1.503",
         "[+0.585, +2.495]"
       ],
       [
         "BTAD",
-        "$E_{BAL,J}$",
+        "$E_{Balanced,J}$",
         "+0.974",
         "[+0.177, +1.803]"
       ],
       [
         "BTAD",
-        "$E_{BAL,L}$",
+        "$E_{Balanced,L}$",
         "+0.854",
         "[+0.057, +1.753]"
       ]
@@ -354,7 +339,7 @@
     ]
   },
   "s_interaction": {
-    "caption": "Direct representation-by-matching interactions for S.",
+    "caption": "Direct representation-by-matching interactions for DINOv2-S/14.",
     "headers": [
       "Dataset / contrast",
       "Point",
@@ -364,28 +349,28 @@
     ],
     "rows": [
       [
-        "MPDD / $I_{TRI}$",
+        "MPDD / $I_{Equal}$",
         "+0.772",
         "[+0.426, +1.118]",
         "[+0.346, +1.211]",
         "+0.787"
       ],
       [
-        "MPDD / $I_{BAL}$",
+        "MPDD / $I_{Balanced}$",
         "+0.595",
         "[+0.322, +0.927]",
         "[+0.189, +1.030]",
         "+0.601"
       ],
       [
-        "BTAD / $I_{TRI}$",
+        "BTAD / $I_{Equal}$",
         "−0.050",
         "[−0.192, +0.186]",
         "[−0.235, +0.244]",
         "−0.044"
       ],
       [
-        "BTAD / $I_{BAL}$",
+        "BTAD / $I_{Balanced}$",
         "−0.119",
         "[−0.265, +0.110]",
         "[−0.306, +0.167]",
@@ -416,14 +401,14 @@
     ],
     "rows": [
       [
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.3698",
         "0.6474",
         "0.5570",
         "0.3763"
       ],
       [
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.3611",
         "0.6380",
         "0.5530",
@@ -465,7 +450,7 @@
       2.7,
       2.7
     ],
-    "note": "Category-macro pixel AP, averaged over seeds 0 and 1 and K = 1 and 4. All 864 method-category-condition rows are included. Average retained coverage is 76.56%, 70.49%, 76.56% and 59.07%, respectively. Methods differ in backbone, resolution and augmentation. Each configuration is reported under its own native protocol, keeping its own input resolution, evaluation canvas, rotation setting and reference-bank construction, so the table provides context and is not a ranking. Bold identifies A1, not a statistical superiority claim. Per-method protocol (input geometry, canvas, rotation and reference-bank construction) is detailed in Table S2.",
+    "note": "Category-macro pixel AP, averaged over seeds 0 and 1 and K = 1 and 4. All 864 method-category-condition rows are included. Average retained coverage is 76.56%, 70.49%, 76.56% and 59.07%, respectively. Methods differ in backbone, resolution and augmentation. Each configuration is reported under its own native protocol, keeping its own input resolution, evaluation canvas, rotation setting and reference-bank construction, so the table provides context and is not a ranking. Bold identifies Dual-encoder baseline, not a statistical superiority claim. Per-method protocol (input geometry, canvas, rotation and reference-bank construction) is detailed in Table S2.",
     "bold_rows": [
       0,
       1
@@ -487,7 +472,7 @@
     ],
     "rows": [
       [
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "controlled, frozen",
         "0.3698",
         "0.6474",
@@ -495,7 +480,7 @@
         "0.3763"
       ],
       [
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "controlled, frozen",
         "0.3611",
         "0.6380",
@@ -578,66 +563,66 @@
     "dedupe_cols": []
   },
   "main": {
-    "caption": "Primary controlled matrix with the S representation.",
+    "caption": "Primary controlled matrix with the DINOv2-S/14 representation.",
     "headers": [
-      "Configuration",
-      "MPDD AP",
+      "Configuration / matching rule",
+      "MPDD pixel AP",
       "MPDD SD",
-      "BTAD AP",
+      "BTAD pixel AP",
       "BTAD SD"
     ],
     "rows": [
       [
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.3729",
         "0.0424",
         "0.6408",
         "0.0134"
       ],
       [
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.3791",
         "0.0434",
         "0.6498",
         "0.0129"
       ],
       [
-        "DUP J",
+        "Duplicate-branch control / Joint matching",
         "0.3649",
         "0.0438",
         "0.6316",
         "0.0136"
       ],
       [
-        "DUP L",
+        "Duplicate-branch control / Independent matching",
         "0.3681",
         "0.0445",
         "0.6379",
         "0.0133"
       ],
       [
-        "TRI J",
+        "Equal-weight replacement / Joint matching",
         "0.3626",
         "0.0433",
         "0.6471",
         "0.0108"
       ],
       [
-        "TRI L",
+        "Equal-weight replacement / Independent matching",
         "0.3736",
         "0.0463",
         "0.6529",
         "0.0086"
       ],
       [
-        "BAL J",
+        "Balanced replacement / Joint matching",
         "0.3678",
         "0.0409",
         "0.6505",
         "0.0113"
       ],
       [
-        "BAL L",
+        "Balanced replacement / Independent matching",
         "0.3799",
         "0.0437",
         "0.6583",
@@ -645,13 +630,13 @@
       ]
     ],
     "widths": [
-      5,
-      3,
-      3,
-      3,
-      3
+      7.2,
+      2.45,
+      2.45,
+      2.45,
+      2.45
     ],
-    "note": "Pixel AP on the stride-eight canvas grid. SD is the sample standard deviation across the 12 MPDD or 8 BTAD fixed support conditions; it is not a confidence interval or variation across independent test datasets. BTAD uses corrected coordinates. The table contains the eight configurations required by the interaction; single-branch diagnostics are retained in the archive. Bold identifies the A1 anchor, not a claim of best performance.",
+    "note": "Pixel AP on the stride-eight canvas grid. SD is the sample standard deviation across the 12 MPDD or 8 BTAD fixed support conditions; it is not a confidence interval or variation across independent test datasets. BTAD uses corrected coordinates. The table contains the eight configurations required by the interaction; single-branch diagnostics are retained in the archive. Bold identifies the Dual-encoder baseline, not a claim of best performance.",
     "bold_rows": [
       0,
       1
@@ -661,73 +646,73 @@
     ]
   },
   "d_full": {
-    "caption": "Full-pixel localization for the prespecified D extension.",
+    "caption": "Full-pixel localization for the prespecified WideResNet50-2 extension.",
     "headers": [
-      "Configuration",
-      "MPDD AP",
-      "MPDD AUROC",
-      "BTAD AP",
-      "BTAD AUROC"
+      "Configuration / matching rule",
+      "MPDD pixel AP",
+      "MPDD pixel AUROC",
+      "BTAD pixel AP",
+      "BTAD pixel AUROC"
     ],
     "rows": [
       [
-        "D",
+        "WideResNet50-2 only",
         "0.3452",
         "0.9708",
         "0.4449",
         "0.9542"
       ],
       [
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.3622",
         "0.9658",
         "0.6361",
         "0.9745"
       ],
       [
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.3687",
         "0.9688",
         "0.6455",
         "0.9755"
       ],
       [
-        "DUP J",
+        "Duplicate-branch control / Joint matching",
         "0.3510",
         "0.9626",
         "0.6270",
         "0.9734"
       ],
       [
-        "DUP L",
+        "Duplicate-branch control / Independent matching",
         "0.3554",
         "0.9647",
         "0.6335",
         "0.9742"
       ],
       [
-        "TRI D J",
+        "Equal-weight replacement / WideResNet50-2 / Joint matching",
         "0.3960",
         "0.9731",
         "0.6464",
         "0.9743"
       ],
       [
-        "TRI D L",
+        "Equal-weight replacement / WideResNet50-2 / Independent matching",
         "0.4107",
         "0.9768",
         "0.6591",
         "0.9758"
       ],
       [
-        "BAL D J",
+        "Balanced replacement / WideResNet50-2 / Joint matching",
         "0.3942",
         "0.9736",
         "0.6401",
         "0.9749"
       ],
       [
-        "BAL D L",
+        "Balanced replacement / WideResNet50-2 / Independent matching",
         "0.4076",
         "0.9773",
         "0.6545",
@@ -735,13 +720,13 @@
       ]
     ],
     "widths": [
-      4.6,
-      3.1,
-      3.1,
-      3.1,
-      3.1
+      8.0,
+      2.25,
+      2.25,
+      2.25,
+      2.25
     ],
-    "note": "All output-canvas pixels, seeds 0 and 1, K = 1 and 4. Each number averages category metrics and the four support conditions. No full-pixel confidence intervals were computed. The D-only row does not use the C branch. Bold identifies A1, not a claim of best performance.",
+    "note": "All output-canvas pixels, seeds 0 and 1, K = 1 and 4. Each number averages category metrics and the four support conditions. No full-pixel confidence intervals were computed. The WideResNet50-2-only row does not use the AnomalyCLIP visual branch. Bold identifies Dual-encoder baseline, not a claim of best performance.",
     "bold_rows": [
       1,
       2
@@ -751,7 +736,7 @@
     ]
   },
   "d_interaction": {
-    "caption": "Direct matching interactions with D replacing S.",
+    "caption": "Direct matching interactions with WideResNet50-2 replacing DINOv2-S/14.",
     "headers": [
       "Dataset / contrast",
       "Point",
@@ -761,28 +746,28 @@
     ],
     "rows": [
       [
-        "MPDD / TRI",
+        "MPDD / Equal-weight replacement",
         "+0.974",
         "[+0.602, +1.472]",
         "[+0.514, +1.689]",
         "+1.033"
       ],
       [
-        "MPDD / BAL",
+        "MPDD / Balanced replacement",
         "+0.628",
         "[+0.279, +1.218]",
         "[+0.162, +1.394]",
         "+0.694"
       ],
       [
-        "BTAD / TRI",
+        "BTAD / Equal-weight replacement",
         "+0.622",
         "[+0.373, +0.917]",
         "[+0.298, +1.003]",
         "+0.624"
       ],
       [
-        "BTAD / BAL",
+        "BTAD / Balanced replacement",
         "+0.501",
         "[+0.239, +0.883]",
         "[+0.188, +0.995]",
@@ -796,14 +781,14 @@
       4,
       4
     ],
-    "note": "AP percentage points. All four support conditions use seeds 0 and 1 and K = 1 and 4. Intervals are stride-eight paired percentile intervals, with the four D contrasts forming their own adjustment family. The final column has no interval.",
+    "note": "AP percentage points. All four support conditions use seeds 0 and 1 and K = 1 and 4. Intervals are stride-eight paired percentile intervals, with the four WideResNet50-2 contrasts forming their own adjustment family. The final column has no interval.",
     "bold_rows": [],
     "left_cols": [
       0
     ]
   },
   "encoder_diff": {
-    "caption": "Matched difference between D and S interactions.",
+    "caption": "Matched difference between WideResNet50-2 and DINOv2-S/14 interactions.",
     "headers": [
       "Dataset / contrast",
       "Observed difference",
@@ -813,28 +798,28 @@
     ],
     "rows": [
       [
-        "MPDD / TRI",
+        "MPDD / Equal-weight replacement",
         "+0.207",
         "+0.326",
         "[−0.296, +1.118]",
         "+0.264"
       ],
       [
-        "MPDD / BAL",
+        "MPDD / Balanced replacement",
         "+0.081",
         "+0.139",
         "[−0.372, +0.806]",
         "+0.075"
       ],
       [
-        "BTAD / TRI",
+        "BTAD / Equal-weight replacement",
         "+0.623",
         "+0.603",
         "[+0.255, +0.945]",
         "+0.616"
       ],
       [
-        "BTAD / BAL",
+        "BTAD / Balanced replacement",
         "+0.585",
         "+0.576",
         "[+0.204, +1.060]",
@@ -848,7 +833,7 @@
       4.7,
       3.4
     ],
-    "note": "AP percentage points; D interaction minus S interaction. S is restricted to the identical seeds 0 and 1 and K = 1 and 4. Intervals come from within-replicate differences, not differences of interval endpoints. Four encoder comparisons form a separate exploratory adjustment family. Full-pixel differences have no intervals.",
+    "note": "AP percentage points; WideResNet50-2 interaction minus DINOv2-S/14 interaction. DINOv2-S/14 is restricted to the identical seeds 0 and 1 and K = 1 and 4. Intervals come from within-replicate differences, not differences of interval endpoints. Four encoder comparisons form a separate exploratory adjustment family. Full-pixel differences have no intervals.",
     "bold_rows": [],
     "left_cols": [
       0
@@ -914,7 +899,7 @@
       3,
       3.4
     ],
-    "note": "Mean seconds per complete dataset condition over seeds 0 and 1 and K = 1 and 4; MPDD has 458 queries and BTAD 741. Processing is bank plus retrieval for AnomalyDINO and the combined native stage for PatchCore. GPU cells report the range of process peaks across conditions; each dataset name is printed once for its group. Cached feature extraction and other unrecorded stages are not added; these are not end-to-end per-image latencies. A1 has no comparable complete historical timing.",
+    "note": "Mean seconds per complete dataset condition over seeds 0 and 1 and K = 1 and 4; MPDD has 458 queries and BTAD 741. Processing is bank plus retrieval for AnomalyDINO and the combined native stage for PatchCore. GPU cells report the range of process peaks across conditions; each dataset name is printed once for its group. Cached feature extraction and other unrecorded stages are not added; these are not end-to-end per-image latencies. Dual-encoder baseline has no comparable complete historical timing.",
     "bold_rows": [],
     "left_cols": [
       0,
@@ -935,29 +920,29 @@
     ],
     "rows": [
       [
-        "S",
-        "$I_{TRI}$",
+        "DINOv2-S/14",
+        "$I_{Equal}$",
         "+0.539",
         "[+0.299, +0.823]",
         "Yes"
       ],
       [
-        "S",
-        "$I_{BAL}$",
+        "DINOv2-S/14",
+        "$I_{Balanced}$",
         "+0.343",
         "[+0.129, +0.579]",
         "Yes"
       ],
       [
-        "D",
-        "$I_{TRI}$",
+        "WideResNet50-2",
+        "$I_{Equal}$",
         "+0.499",
         "[+0.212, +0.851]",
         "Yes"
       ],
       [
-        "D",
-        "$I_{BAL}$",
+        "WideResNet50-2",
+        "$I_{Balanced}$",
         "+0.367",
         "[+0.128, +0.653]",
         "Yes"
@@ -993,7 +978,7 @@
     "rows": [
       [
         "MPDD (development)",
-        "$I_{TRI}$",
+        "$I_{Equal}$",
         "+0.762",
         "[+0.426, +1.118]",
         "[+0.346, +1.211]",
@@ -1001,7 +986,7 @@
       ],
       [
         "MPDD (development)",
-        "$I_{BAL}$",
+        "$I_{Balanced}$",
         "+0.615",
         "[+0.322, +0.927]",
         "[+0.189, +1.030]",
@@ -1009,7 +994,7 @@
       ],
       [
         "BTAD (external frozen validation)",
-        "$I_{TRI}$",
+        "$I_{Equal}$",
         "−0.020",
         "[−0.192, +0.192]",
         "[−0.237, +0.238]",
@@ -1017,7 +1002,7 @@
       ],
       [
         "BTAD (external frozen validation)",
-        "$I_{BAL}$",
+        "$I_{Balanced}$",
         "−0.087",
         "[−0.258, +0.109]",
         "[−0.300, +0.179]",
@@ -1025,7 +1010,7 @@
       ],
       [
         "MVTec AD (external frozen validation)",
-        "$I_{TRI}$",
+        "$I_{Equal}$",
         "+0.432",
         "[+0.342, +0.530]",
         "[+0.324, +0.553]",
@@ -1033,7 +1018,7 @@
       ],
       [
         "MVTec AD (external frozen validation)",
-        "$I_{BAL}$",
+        "$I_{Balanced}$",
         "+0.402",
         "[+0.313, +0.503]",
         "[+0.297, +0.529]",
@@ -1041,7 +1026,7 @@
       ],
       [
         "VisA (in-domain frozen validation)",
-        "$I_{TRI}$",
+        "$I_{Equal}$",
         "+0.927",
         "[+0.788, +1.064]",
         "[+0.754, +1.112]",
@@ -1049,7 +1034,7 @@
       ],
       [
         "VisA (in-domain frozen validation)",
-        "$I_{BAL}$",
+        "$I_{Balanced}$",
         "+0.810",
         "[+0.673, +0.959]",
         "[+0.631, +1.011]",
@@ -1064,7 +1049,7 @@
       2.7,
       2.7
     ],
-    "note": "AP percentage points, stride eight, 1000 paired bootstrap replicates. The estimate is the mean of the replicate distribution, not the condition-averaged observed difference used in Table 7; on MPDD the two differ by 0.01 point. The 98.75% level is a Bonferroni adjustment over the four MPDD and BTAD cells and the 99.375% level over the eight cells this table covers. The BTAD row pools the study's canonical-mask series rather than the corrected geometry used in Section 4.2.1, which moves the point estimate by about 0.03 point without changing the judgement. Stride-one point estimates are now available for all four datasets (+0.787 and +0.601 points on MPDD, −0.045 and −0.115 on BTAD, +0.423 and +0.386 on MVTec AD, +0.896 and +0.760 on VisA, each pair ordered as $I_{TRI}$ then $I_{BAL}$). KolektorSDD2 is reported separately in Table 14 and is not part of this family. Each dataset name is printed once for its two rows.",
+    "note": "AP percentage points, stride eight, 1000 paired bootstrap replicates. The estimate is the mean of the replicate distribution, not the condition-averaged observed difference used in Table 7; on MPDD the two differ by 0.01 point. The 98.75% level is a Bonferroni adjustment over the four MPDD and BTAD cells and the 99.375% level over the eight cells this table covers. The BTAD row pools the study's canonical-mask series rather than the corrected geometry used in Section 4.2.1, which moves the point estimate by about 0.03 point without changing the judgement. Stride-one point estimates are now available for all four datasets (+0.787 and +0.601 points on MPDD, −0.045 and −0.115 on BTAD, +0.423 and +0.386 on MVTec AD, +0.896 and +0.760 on VisA, each pair ordered as $I_{Equal}$ then $I_{Balanced}$). KolektorSDD2 is reported separately in Table 14 and is not part of this family. Each dataset name is printed once for its two rows.",
     "bold_rows": [],
     "left_cols": [
       0,
@@ -1075,66 +1060,66 @@
     ]
   },
   "encoders": {
-    "caption": "Interactions of the five frozen encoders, in the four-condition scope shared with S and D and in the wider twelve-condition scope.",
+    "caption": "Interactions of the five frozen encoders, in the four-condition scope shared with DINOv2-S/14 and WideResNet50-2 and in the wider twelve-condition scope.",
     "headers": [
       "Encoder (conditions)",
-      "MPDD $I_{TRI}$",
-      "MPDD $I_{BAL}$",
-      "BTAD $I_{TRI}$",
-      "BTAD $I_{BAL}$"
+      "MPDD $I_{Equal}$",
+      "MPDD $I_{Balanced}$",
+      "BTAD $I_{Equal}$",
+      "BTAD $I_{Balanced}$"
     ],
     "rows": [
       [
-        "S (4)",
+        "DINOv2-S/14 (4)",
         "+0.695 [+0.193, +1.160]",
         "+0.547 [+0.078, +0.962]",
         "+0.029 [−0.189, +0.293]",
         "−0.052 [−0.273, +0.208]"
       ],
       [
-        "D (4)",
+        "WideResNet50-2 (4)",
         "+1.020 [+0.514, +1.689]",
         "+0.686 [+0.162, +1.394]",
         "+0.631 [+0.298, +1.003]",
         "+0.524 [+0.188, +0.995]"
       ],
       [
-        "E1 (4)",
+        "DINO ViT-S/8 (4)",
         "+0.811 [+0.246, +1.362]",
         "+0.488 [−0.136, +1.091]",
         "+0.583 [+0.172, +1.056]",
         "+0.224 [−0.158, +0.649]"
       ],
       [
-        "E1 (12)",
+        "DINO ViT-S/8 (12)",
         "+0.995 [+0.529, +1.504]",
         "+0.747 [+0.290, +1.309]",
         "+0.441 [+0.067, +0.829]",
         "+0.174 [−0.138, +0.516]"
       ],
       [
-        "E2 (4)",
+        "ConvNeXt-Tiny (4)",
         "−0.018 [−0.358, +0.298]",
         "+0.076 [−0.315, +0.588]",
         "+0.278 [+0.152, +0.494]",
         "+0.422 [+0.158, +0.872]"
       ],
       [
-        "E2 (12)",
+        "ConvNeXt-Tiny (12)",
         "−0.038 [−0.266, +0.170]",
         "+0.036 [−0.235, +0.443]",
         "+0.178 [+0.090, +0.315]",
         "+0.226 [+0.063, +0.491]"
       ],
       [
-        "E3 (4)",
+        "Swin-Tiny (4)",
         "+1.253 [+0.644, +2.056]",
         "+0.745 [+0.055, +1.425]",
         "+0.488 [+0.217, +0.906]",
         "+0.465 [+0.171, +0.955]"
       ],
       [
-        "E3 (12)",
+        "Swin-Tiny (12)",
         "+1.397 [+0.803, +2.215]",
         "+0.939 [+0.355, +1.620]",
         "+0.298 [+0.073, +0.578]",
@@ -1148,7 +1133,7 @@
       3.4,
       3.4
     ],
-    "note": "AP percentage points, stride eight; each cell gives the replicate mean followed by the 98.75% paired interval, the Bonferroni level for that encoder's four cells in that scope. Cells marked (4) pool seeds 0 and 1 with K = 1 and 4, the primary scope shared with S and D, so their paired differences against S are same-condition pairs; cells marked (12) pool seeds 0, 1, 2 with K = 1, 2, 4 and 8, the wider scope recorded for the three additional encoders. Both scopes are given because they change some of the zero-exclusion decisions. No family adjustment covers the additional encoders as a group, because E1, E2 and E3 were added after the S and D results were known.",
+    "note": "AP percentage points, stride eight; each cell gives the replicate mean followed by the 98.75% paired interval, the Bonferroni level for that encoder's four cells in that scope. Cells marked (4) pool seeds 0 and 1 with K = 1 and 4, the primary scope shared with DINOv2-S/14 and WideResNet50-2, so their paired differences against DINOv2-S/14 are same-condition pairs; cells marked (12) pool seeds 0, 1, 2 with K = 1, 2, 4 and 8, the wider scope recorded for the three additional encoders. Both scopes are given because they change some of the zero-exclusion decisions. No family adjustment covers the additional encoders as a group, because DINO ViT-S/8, ConvNeXt-Tiny and Swin-Tiny were added after the DINOv2-S/14 and WideResNet50-2 results were known.",
     "bold_rows": [],
     "left_cols": [
       0
@@ -1166,7 +1151,7 @@
     ],
     "rows": [
       [
-        "MPDD $I_{TRI}$",
+        "MPDD $I_{Equal}$",
         "+0.679",
         "0.221",
         "Yes",
@@ -1174,7 +1159,7 @@
         "0.48"
       ],
       [
-        "MPDD $I_{BAL}$",
+        "MPDD $I_{Balanced}$",
         "+0.548",
         "0.159",
         "Yes",
@@ -1182,7 +1167,7 @@
         "0.37"
       ],
       [
-        "BTAD $I_{TRI}$",
+        "BTAD $I_{Equal}$",
         "+0.125",
         "0.136",
         "No",
@@ -1190,7 +1175,7 @@
         "0.68"
       ],
       [
-        "BTAD $I_{BAL}$",
+        "BTAD $I_{Balanced}$",
         "+0.036",
         "0.129",
         "No",
@@ -1216,10 +1201,10 @@
     "caption": "The same interaction under five correspondence conventions on MPDD.",
     "headers": [
       "Correspondence",
-      "$I_{TRI}$ point",
-      "$I_{TRI}$ 98.75%",
-      "$I_{BAL}$ point",
-      "$I_{BAL}$ 98.75%"
+      "$I_{Equal}$ point",
+      "$I_{Equal}$ 98.75%",
+      "$I_{Balanced}$ point",
+      "$I_{Balanced}$ 98.75%"
     ],
     "rows": [
       [
@@ -1265,7 +1250,7 @@
       2.2,
       4
     ],
-    "note": "AP percentage points; six MPDD categories, seeds 0 and 1, K = 1 and 4, four support conditions, 1000 paired replicates, the same bootstrap stream for every row. Intervals use a four-comparison adjustment within each setting across two datasets and two contrasts, not a simultaneous guarantee over all settings; the 98.75% bounds, and are percentile bounds of the image-level bootstrap series, formed inside each replicate and aggregated over categories and support conditions before the percentile is taken. The exact assignment is the limit of the transport rule as its regulariser tends to zero and uses the same cost matrix; the soft-mixing row fixes that regulariser a priori at 0.1 times the interquartile range of the support cost matrix. The canvas row reproduces the S branch's MPDD interaction of Table 16 - its replicate mean is +0.695 with the same interval - and the point column of this table differs from that row only because it reports the condition-averaged difference rather than the replicate mean. On BTAD this harness scores through its own path, so its numbers belong to that chain and are not mixed with the D, E1 or E2 rows.",
+    "note": "AP percentage points; six MPDD categories, seeds 0 and 1, K = 1 and 4, four support conditions, 1000 paired replicates, the same bootstrap stream for every row. Intervals use a four-comparison adjustment within each setting across two datasets and two contrasts, not a simultaneous guarantee over all settings; the 98.75% bounds, and are percentile bounds of the image-level bootstrap series, formed inside each replicate and aggregated over categories and support conditions before the percentile is taken. The exact assignment is the limit of the transport rule as its regulariser tends to zero and uses the same cost matrix; the soft-mixing row fixes that regulariser a priori at 0.1 times the interquartile range of the support cost matrix. The canvas row reproduces the DINOv2-S/14 branch's MPDD interaction of Table 16 - its replicate mean is +0.695 with the same interval - and the point column of this table differs from that row only because it reports the condition-averaged difference rather than the replicate mean. On BTAD this harness scores through its own path, so its numbers belong to that chain and are not mixed with the WideResNet50-2, DINO ViT-S/8 or ConvNeXt-Tiny rows.",
     "bold_rows": [],
     "left_cols": [
       0
@@ -1275,10 +1260,10 @@
     "caption": "Sensitivity to the transport regularizer on MPDD and BTAD.",
     "headers": [
       "Setting",
-      "MPDD $I_{TRI}$",
-      "MPDD $I_{BAL}$",
-      "BTAD $I_{TRI}$",
-      "BTAD $I_{BAL}$"
+      "MPDD $I_{Equal}$",
+      "MPDD $I_{Balanced}$",
+      "BTAD $I_{Equal}$",
+      "BTAD $I_{Balanced}$"
     ],
     "rows": [
       [
@@ -1333,13 +1318,13 @@
     ],
     "rows": [
       [
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "197.118",
         "196.823–197.424",
         "2376.8"
       ],
       [
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "195.300",
         "195.162–195.491",
         "2376.8"
@@ -1382,13 +1367,13 @@
     "left_cols": [
       0
     ],
-    "note": "Time: median and observed min–max across three repeat-level sums of six units. Memory: median of 18 timed unit peaks. Seed 0; K = 1, 4; three MPDD categories; one warm-up per unit. Timing boundaries and native-protocol differences are specified in Section 4.2.4 and Figure S5. Bold marks the study anchors, not the fastest or best result."
+    "note": "Time: median and observed min–max across three repeat-level sums of six units. Memory: median of 18 timed unit peaks. Seed 0; K = 1, 4; three MPDD categories; one warm-up per unit. Timing boundaries and native-protocol differences are specified in Section 4.2.4 and Figure S5. Bold marks the Dual-encoder baseline configurations, not the fastest or best result."
   },
   "image_metrics": {
-    "caption": "Image-level and pixel-level point estimates for the dual-encoder anchors under matched support conditions.",
+    "caption": "Image-level and pixel-level point estimates for the Dual-encoder baseline configurations under matched support conditions.",
     "headers": [
       "Dataset",
-      "Anchor",
+      "Configuration",
       "Image AUROC",
       "Image AP",
       "Pixel AUROC",
@@ -1397,7 +1382,7 @@
     "rows": [
       [
         "MPDD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.7809",
         "0.7999",
         "0.9665",
@@ -1405,7 +1390,7 @@
       ],
       [
         "MPDD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.7848",
         "0.8093",
         "0.9696",
@@ -1413,7 +1398,7 @@
       ],
       [
         "BTAD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.9324",
         "0.9414",
         "0.9725",
@@ -1421,7 +1406,7 @@
       ],
       [
         "BTAD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.9321",
         "0.9468",
         "0.9736",
@@ -1429,7 +1414,7 @@
       ],
       [
         "MVTec AD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.9572",
         "0.9773",
         "0.9663",
@@ -1437,7 +1422,7 @@
       ],
       [
         "MVTec AD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.9582",
         "0.9771",
         "0.9677",
@@ -1445,7 +1430,7 @@
       ],
       [
         "VisA",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.9029",
         "0.9049",
         "0.9736",
@@ -1453,7 +1438,7 @@
       ],
       [
         "VisA",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.9041",
         "0.9038",
         "0.9761",
@@ -1461,12 +1446,12 @@
       ]
     ],
     "widths": [
-      3.0,
-      2.0,
-      3.0,
-      3.0,
-      3.0,
-      3.0
+      2,
+      5.4,
+      2.4,
+      2.4,
+      2.4,
+      2.4
     ],
     "left_cols": [
       0,
@@ -1482,7 +1467,7 @@
       6,
       7
     ],
-    "note": "Seeds 0 and 1; K = 1 and 4; equal category means followed by equal condition means. Categories: MPDD 6, BTAD 3, MVTec AD 15, VisA 12. Pixel metrics use the retained output canvas at stride eight; BTAD uses corrected coordinates. These are current controlled-pipeline point estimates, not the common-original-region metrics of Tables 11 and 12. No image-level confidence interval is available. Bold identifies the study anchors, not statistically optimal results."
+    "note": "Seeds 0 and 1; K = 1 and 4; equal category means followed by equal condition means. Categories: MPDD 6, BTAD 3, MVTec AD 15, VisA 12. Pixel metrics use the retained output canvas at stride eight; BTAD uses corrected coordinates. These are current controlled-pipeline point estimates, not the common-original-region metrics of Tables 11 and 12. No image-level confidence interval is available. Bold identifies the Dual-encoder baseline configurations, not statistically optimal results."
   },
   "harmonised": {
     "label": "S1",
@@ -1497,14 +1482,14 @@
     "rows": [
       [
         "MPDD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.3123",
         "0.9497",
         "[0.2935, 0.3366]"
       ],
       [
         "MPDD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.3167",
         "0.9527",
         "[0.2980, 0.3409]"
@@ -1532,14 +1517,14 @@
       ],
       [
         "BTAD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.6174",
         "0.9722",
         "[0.5594, 0.6642]"
       ],
       [
         "BTAD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.6278",
         "0.9738",
         "[0.5701, 0.6735]"
@@ -1567,14 +1552,14 @@
       ],
       [
         "MVTec AD",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.5582",
         "0.9553",
         "[0.5413, 0.5783]"
       ],
       [
         "MVTec AD",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.5612",
         "0.9570",
         "[0.5446, 0.5817]"
@@ -1602,14 +1587,14 @@
       ],
       [
         "VisA",
-        "A1 J",
+        "Dual-encoder baseline / Joint matching",
         "0.3439",
         "0.9544",
         "[0.3166, 0.3671]"
       ],
       [
         "VisA",
-        "A1 L",
+        "Dual-encoder baseline / Independent matching",
         "0.3493",
         "0.9579",
         "[0.3215, 0.3721]"
@@ -1657,7 +1642,7 @@
       15,
       16
     ],
-    "note": "Short side 448; frozen common valid region and the same rank-based pooling. This covers 36 of the 144 category-condition units. PatchCore 448 was recomputed; the other four configurations reuse compatible predictions. Additional crops may be required to respect the frozen intersection. SubspaceAD, WinCLIP+ and zero-shot AnomalyCLIP are excluded because their square-stretch input paths are outside this subset. Points use full-grid common-region pixels; intervals use stride-eight pixels and 1000 image-bootstrap replicates. Intervals apply only to pixel AP, are individual marginal 95% intervals, and are neither family-adjusted nor paired cross-method difference intervals. Pixel AUROC has point values only. This is not a ranking or a significance comparison. Bold identifies the study anchors, not optimal results; Tables 11 and 12 remain unchanged."
+    "note": "Short side 448; frozen common valid region and the same rank-based pooling. This covers 36 of the 144 category-condition units. PatchCore 448 was recomputed; the other four configurations reuse compatible predictions. Additional crops may be required to respect the frozen intersection. SubspaceAD, WinCLIP+ and zero-shot AnomalyCLIP are excluded because their square-stretch input paths are outside this subset. Points use full-grid common-region pixels; intervals use stride-eight pixels and 1000 image-bootstrap replicates. Intervals apply only to pixel AP, are individual marginal 95% intervals, and are neither family-adjusted nor paired cross-method difference intervals. Pixel AUROC has point values only. This is not a ranking or a significance comparison. Bold identifies the Dual-encoder baseline configurations, not optimal results; Tables 11 and 12 remain unchanged."
   },
   "method_protocols": {
     "label": "S2",
@@ -1670,14 +1655,14 @@
     ],
     "rows": [
       [
-        "A1 J",
-        "B: short side 448; C: square 518, mapped to B",
+        "Dual-encoder baseline / Joint matching",
+        "DINOv2-B/14: short side 448; AnomalyCLIP visual: square 518, mapped to DINOv2-B/14",
         "None",
         "All normal support descriptors; shared neighbor across branches"
       ],
       [
-        "A1 L",
-        "Same as A1 J",
+        "Dual-encoder baseline / Independent matching",
+        "Same as Dual-encoder baseline / Joint matching",
         "None",
         "Same bank; independent branch neighbors"
       ],
@@ -1740,6 +1725,6 @@
       0,
       1
     ],
-    "note": "These are the evaluated configurations, not interchangeable official recipes. SubspaceAD uses 256-pixel fp16 inputs without augmentation; its upstream few-shot script specifies 672 pixels and aug_count = 30. On the recorded 6 GB GPU, the 672-pixel attempt did not complete 12 query images in at least 15 minutes and reached 5797/6144 MiB. The local 256 setting is therefore explicitly a deviation. AnomalyCLIP uses inherited auxiliary-domain-trained prompt checkpoints, with MVTec-trained prompts for MPDD, BTAD and VisA and VisA-trained prompts for MVTec AD; target-domain evaluation is zero-shot. It has 36 units rather than the 144 support-conditioned units of the other configurations. Encoders are frozen and no target-domain gradient optimization is used. Memory, coreset or subspace construction remains preparation computation. Bold marks the study anchors, not optimal results."
+    "note": "These are the evaluated configurations, not interchangeable official recipes. SubspaceAD uses 256-pixel fp16 inputs without augmentation; its upstream few-shot script specifies 672 pixels and aug_count = 30. On the recorded 6 GB GPU, the 672-pixel attempt did not complete 12 query images in at least 15 minutes and reached 5797/6144 MiB. The local 256 setting is therefore explicitly a deviation. AnomalyCLIP uses inherited auxiliary-domain-trained prompt checkpoints, with MVTec-trained prompts for MPDD, BTAD and VisA and VisA-trained prompts for MVTec AD; target-domain evaluation is zero-shot. It has 36 units rather than the 144 support-conditioned units of the other configurations. Encoders are frozen and no target-domain gradient optimization is used. Memory, coreset or subspace construction remains preparation computation. Bold marks the Dual-encoder baseline configurations, not optimal results."
   }
 }

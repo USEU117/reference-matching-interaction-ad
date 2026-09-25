@@ -1,17 +1,25 @@
 from pathlib import Path
 import json
+import os
 import zipfile
 from lxml import etree
 
-ROOT = Path(__file__).resolve().parents[3] / ".tmp_complete_figures_20260920/methods"
-SOURCE = ROOT / "candidate.pptx"
-TARGET = ROOT / "methods.pptx"
+ROOT = Path(os.environ.get(
+    "METHODS_SCRATCH",
+    Path(__file__).resolve().parents[3] / ".tmp_complete_figures_20260920/methods",
+)).resolve()
+SOURCE = Path(os.environ.get("METHODS_SOURCE", ROOT / "candidate.pptx")).resolve()
+TARGET = Path(os.environ.get("METHODS_TARGET", ROOT / "methods.pptx")).resolve()
 NS = {
     "p": "http://schemas.openxmlformats.org/presentationml/2006/main",
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
 }
 
 baselines = json.loads((ROOT / "math_baselines.json").read_text(encoding="utf-8"))
+if not SOURCE.is_file():
+    raise FileNotFoundError(f"Editable candidate deck not found: {SOURCE}")
+if not baselines:
+    raise ValueError("No native math baseline records were generated")
 with zipfile.ZipFile(SOURCE) as archive:
     parts = {name: archive.read(name) for name in archive.namelist()}
 
@@ -25,6 +33,8 @@ for item in baselines:
     }
     shape = named_shapes[item["shape"]]
     runs = shape.findall("p:txBody/a:p/a:r", NS)
+    if item["run"] >= len(runs):
+        raise IndexError(f"Math run {item['run']} missing in {item['shape']} on slide {item['slide']}")
     run = runs[item["run"]]
     properties = run.find("a:rPr", NS)
     if properties is None:

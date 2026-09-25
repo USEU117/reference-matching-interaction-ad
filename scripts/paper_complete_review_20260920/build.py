@@ -26,8 +26,8 @@ for n in ['Normal','Title','Heading 1','Heading 2','Heading 3','Caption']:
 d.core_properties.title='Disentangling Representation Effects and Normal Reference Matching in Few-Shot Industrial Anomaly Localization'
 d.core_properties.subject='English manuscript based on the current representation and matching study'
 d.core_properties.author='Yuening Li'
-d.core_properties.created=datetime(2026,9,23,tzinfo=timezone.utc)
-d.core_properties.modified=datetime(2026,9,23,tzinfo=timezone.utc)
+d.core_properties.created=datetime(2026,9,25,tzinfo=timezone.utc)
+d.core_properties.modified=datetime(2026,9,25,tzinfo=timezone.utc)
 d.core_properties.keywords='few-shot anomaly localization; frozen visual encoders; reference matching'
 
 def mr(t,roman=False,bold=False):
@@ -47,7 +47,11 @@ def sub(base,index,roman=False,bold=False):
 def sup(base,index,roman=False,bold=False):return obj('sSup',e=[mr(base,roman,bold)],sup=[mr(index)])
 def sub_sup(base,index,upper,bold=False):return obj('sSubSup',e=[mr(base,False,bold)],sub=[mr(index)],sup=[mr(upper)])
 def labelindex(t):
-    return [mr(part,part in ['TRI','BAL','DUP','A1','J','L','S','D','img','vis']) for part in re.split(r'(TRI|BAL|DUP|A1|img|vis|J|L|S|D)',t) if part]
+    # Descriptive labels are upright; only genuine scalar indices are italic.
+    t=re.sub(r'\\mathrm\{([^}]+)\}',r'\1',t)
+    labels=['WideResNet50-2','DINOv2-S/14','Baseline','Duplicate','Balanced','Equal','img','vis','J','L']
+    pattern='('+'|'.join(re.escape(x) for x in labels)+')'
+    return [mr(part,part in labels or bool(re.fullmatch(r'[ ,]+',part))) for part in re.split(pattern,t) if part]
 def sym(t):
     t=t.replace(r'\mathrm{img}','img').replace(r'\mathrm{vis}','vis')
     if t==r'\mathcal{R}_c':return [sub('ℛ','c',True)]
@@ -57,7 +61,7 @@ def sym(t):
     m=re.fullmatch(r'([A-Za-z]+)_\{([^}]+)\}',t) or re.fullmatch(r'([A-Za-z]+)_([A-Za-z]+)',t)
     if t=='x_i^c':return [sub_sup('x','i','c',True)]
     if m:
-        b,ix=m.groups();return [sub(b,labelindex(ix),b in ['TRI','BAL','DUP','A1','R'],b in ['F','g','A','a','M'])]
+        b,ix=m.groups();return [sub(b,labelindex(ix),b in ['Equal','Balanced','Duplicate','Baseline','R'],b in ['F','g','A','a','M'])]
     return [mr(t,t in ['J','L'] and False or t in ['P'] and False,t in ['x','F','g','A','a','M'])]
 def mathrun(p,items):
     om=OxmlElement('m:oMath')
@@ -91,11 +95,11 @@ def eq(n):
         nd += [mi(),summation(term)] if n==3 else [summation([sub('w','b'),mi()]+distance())]
     elif n==5:nd=[mr('G')]+parg('p')+[mr(' = ',True),mr('J')]+parg('p')+[mr(' − ',True),mr('L')]+parg('p')+[mr(' ≥ 0',True)]
     elif n in [6,7]:
-        name,control=('TRI','DUP') if n==6 else ('BAL','A1')
+        name,control=('Equal','Duplicate') if n==6 else ('Balanced','Baseline')
         nd=[effect(name,'t'),mr(' = ',True)]+performance(name,'t')+[mr(' − ',True)]+performance(control,'t')
     elif n in [8,9]:
-        name='TRI' if n==8 else 'BAL';nd=[sub('I',[mr(name,True)]),mr(' = ',True),effect(name,'L'),mr(' − ',True),effect(name,'J')]
-    elif n==10:nd=[sub('ΔI','q'),mr(' = ',True),sub('I',labelindex('q,D')),mr(' − ',True),sub('I',labelindex('q,S')),mr(',    ',True),mr('q'),mr(' ∈ {TRI, BAL}',True)]
+        name='Equal' if n==8 else 'Balanced';nd=[sub('I',[mr(name,True)]),mr(' = ',True),effect(name,'L'),mr(' − ',True),effect(name,'J')]
+    elif n==10:nd=[sub('ΔI','q'),mr(' = ',True),sub('I',labelindex('q,WideResNet50-2')),mr(' − ',True),sub('I',labelindex('q,DINOv2-S/14')),mr(',    ',True),mr('q'),mr(' ∈ {Equal, Balanced}',True)]
     elif n==11:
         nd=[sub('A','t',False,True),mr(' = ',True),sub('Gauss',[mr('σ'),mr('=4',True)],True),mr('(',True),sub('Resize',[mr('H'),mr('×',True),mr('W')],True),mr('(',True),sub('a','t',False,True),mr(')),   ',True),sub('s',labelindex('img,t')),mr(' = ',True),limit('max',[mr('u')]),sub('A',labelindex('t,u'),False,True)]
     elif n==12:nd=[sub('M',labelindex('vis,t'),False,True)]+parg('u')+[mr(' = ',True),mr('1',True),mr('[',True),sub('A',labelindex('t,u'),False,True),mr(' ≥ ',True),sub('τ',[mr('vis',True)]),mr(']',True)]
@@ -228,7 +232,7 @@ for i,p0 in enumerate(paragraphs[:-1]):
     nxt=paragraphs[i+1]
     if nxt._p.xpath('.//m:oMath') and re.search(r'\(\d+\)$',nxt.text) and '\t' in nxt.text:
         p0.paragraph_format.keep_with_next=True
-dest=OUT/'Reference_Matching_Complete_English_20260923.docx' 
+dest=OUT/'Reference_Matching_Complete_English_20260925.docx'
 d.save(dest)
 # Fix package timestamps; this affects packaging only, never numerical content.
 with zipfile.ZipFile(dest) as zin:
@@ -236,7 +240,7 @@ with zipfile.ZipFile(dest) as zin:
 # Drop image parts that no part of the rebuilt package references. The layout master carries
 # eight unused template images (word/media/image1..8.png) whose relationships survive the
 # body reset; they are not referenced by any w:drawing, so they are removed here. Numerical
-# content and the 27 embedded figures are unaffected.
+# content and the 28 embedded figures are unaffected.
 rels_name='word/_rels/document.xml.rels'
 pruned_media=0
 if rels_name in members:
@@ -254,7 +258,7 @@ if rels_name in members:
     members[rels_name]=rels_data
 with zipfile.ZipFile(dest,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as zout:
     for name in sorted(members):
-        zi=zipfile.ZipInfo(name,date_time=(2026,9,23,0,0,0))
+        zi=zipfile.ZipInfo(name,date_time=(2026,9,25,0,0,0))
         zi.compress_type=zipfile.ZIP_DEFLATED
         zout.writestr(zi,members[name])
 # Record preserved package structures; body, metadata and image relations are editable.
@@ -267,7 +271,7 @@ assert all(fidelity.values()),fidelity
 assert all(page.values()),page
 assert SOURCE_SHA==hashlib.sha256(REF.read_bytes()).hexdigest()
 resolved=re.sub(r'\[@([^\]]+)\]',lambda m:'['+', '.join(str(n) for n in sorted({numbers[k.strip().lstrip('@')] for k in m[1].split(';')}))+']',text)
-equations={1:r'\mathcal{X}_c=\{\boldsymbol{x}_i^c:i=1,\ldots,K\}',2:r'd_b(p,r)=1-\boldsymbol{g}_{b,p}^{\mathsf{T}}\boldsymbol{g}_{b,r}',3:r'J(p)=\min_{r\in\mathcal{R}_c}\sum_b w_b d_b(p,r)',4:r'L(p)=\sum_b w_b\min_{r\in\mathcal{R}_c}d_b(p,r)',5:r'G(p)=J(p)-L(p)\geq0',6:r'E_{\mathrm{TRI},t}=P(\mathrm{TRI}_t)-P(\mathrm{DUP}_t)',7:r'E_{\mathrm{BAL},t}=P(\mathrm{BAL}_t)-P(\mathrm{A1}_t)',8:r'I_{\mathrm{TRI}}=E_{\mathrm{TRI},\mathrm{L}}-E_{\mathrm{TRI},\mathrm{J}}',9:r'I_{\mathrm{BAL}}=E_{\mathrm{BAL},\mathrm{L}}-E_{\mathrm{BAL},\mathrm{J}}',10:r'\Delta I_q=I_{q,\mathrm{D}}-I_{q,\mathrm{S}},\quad q\in\{\mathrm{TRI},\mathrm{BAL}\}',11:r'\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u \boldsymbol{A}_{t,u}',12:r'\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[\boldsymbol{A}_{t,u}\geq\tau_{\mathrm{vis}}]'}
+equations={1:r'\mathcal{X}_c=\{\boldsymbol{x}_i^c:i=1,\ldots,K\}',2:r'd_b(p,r)=1-\boldsymbol{g}_{b,p}^{\mathsf{T}}\boldsymbol{g}_{b,r}',3:r'J(p)=\min_{r\in\mathcal{R}_c}\sum_b w_b d_b(p,r)',4:r'L(p)=\sum_b w_b\min_{r\in\mathcal{R}_c}d_b(p,r)',5:r'G(p)=J(p)-L(p)\geq0',6:r'E_{\mathrm{Equal},t}=P(\mathrm{Equal}_t)-P(\mathrm{Duplicate}_t)',7:r'E_{\mathrm{Balanced},t}=P(\mathrm{Balanced}_t)-P(\mathrm{Baseline}_t)',8:r'I_{\mathrm{Equal}}=E_{\mathrm{Equal},\mathrm{L}}-E_{\mathrm{Equal},\mathrm{J}}',9:r'I_{\mathrm{Balanced}}=E_{\mathrm{Balanced},\mathrm{L}}-E_{\mathrm{Balanced},\mathrm{J}}',10:r'\Delta I_q=I_{q,\mathrm{WideResNet50-2}}-I_{q,\mathrm{DINOv2-S/14}},\quad q\in\{\mathrm{Equal},\mathrm{Balanced}\}',11:r'\boldsymbol{A}_t=\operatorname{Gauss}_{\sigma=4}(\operatorname{Resize}_{H\times W}(\boldsymbol{a}_t)),\quad s_{\mathrm{img},t}=\max_u \boldsymbol{A}_{t,u}',12:r'\boldsymbol{M}_{\mathrm{vis},t}(u)=\mathbf{1}[\boldsymbol{A}_{t,u}\geq\tau_{\mathrm{vis}}]'}
 for num,latex in equations.items():resolved=resolved.replace('{{eq:'+str(num)+'}}','$$\n'+latex+'\\tag{'+str(num)+'}\n$$')
 tn=0
 for match in list(re.finditer(r'\{\{table:([^}]+)\}\}',resolved)):

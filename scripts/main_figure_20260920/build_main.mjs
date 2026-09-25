@@ -60,33 +60,32 @@ for(const [i,xy]of [[0,[27,90]],[1,[64,114]],[2,[101,138]]]){
  await image(s,'support-'+i,path.join(A,['support_000_224.png','support_001_224.png','support_029_224.png'][i]),xy[0],xy[1],100,100,{fit:'contain'});
  frame(s,'support-border-'+i,xy[0],xy[1],100,100,C.grayLine,1.5);
 }
-math('support-set',[u('𝒳'),sub('c',true)],24,245,80,40);
-text('support-description','K normal images',100,235,200,60);
+math('support-set',[v('x',true),sub('i',true),sup('c',true)],24,245,72,40);
+text('support-description','K normal\nsupport images',100,235,200,60);
 // K in this descriptive line is changed to an italic run by the OOXML audit patch.
-rect('frozen-box',270,80,316,160,C.white,C.grayLine,2);
-text('frozen-title','Frozen encoders',280,83,296,42,{bold:true,align:'center'});
-for(const [i,label,fill,line]of [[0,'B  DINOv2-B',C.blueFill,C.blueLine],[1,'C  AnomalyCLIP visual',C.amberFill,C.amberLine],[2,'Extra descriptor slot',C.greenFill,C.greenLine]]){
- rect('branch-'+i,279,127+i*35,298,33,fill,line,1.5);
- // Box width 298 matches the branch rectangle; the label stays centred on the same point.
- const bw=i===1?298:290,bx=i===1?279:283;
- text('branch-label-'+i,label,bx,125+i*35,bw,35,{size:30,color:line,align:'center'});
+rect('frozen-box',300,80,286,220,C.white,C.grayLine,2);
+text('frozen-title','Frozen encoders',306,83,274,42,{bold:true,align:'center'});
+for(const [i,label,fill,line,y,h]of [[0,'DINOv2-B/14',C.blueFill,C.blueLine,127,33],[1,'AnomalyCLIP visual',C.amberFill,C.amberLine,162,33],[2,'DINOv2-S/14 or\nWideResNet50-2',C.greenFill,C.greenLine,197,60]]){
+ rect('branch-'+i,307,y,272,h,fill,line,1.5);
+ // Long encoder names reflow over two lines inside the editable branch rows.
+ text('branch-label-'+i,label,307,y-2,272,h+4,{size:30,color:line,align:'center'});
 }
-text('frozen-note','Frozen parameters',280,246,306,40,{align:'center'});
+text('frozen-note','Replacement options',304,263,278,35,{align:'center'});
 arrow([211,167],[262,167]);arrow([592,167],[628,167]);
-rect('alignment-box',635,80,223,160,C.tealFill,C.tealLine,2);
+rect('alignment-box',635,80,223,220,C.tealFill,C.tealLine,2);
 text('alignment-title','Align grids',646,85,200,39,{bold:true,align:'center'});
 grid('feature-grid',653,136,3,3,23,23,'#D3E7EA',C.tealLine);
 math('unit-norm',[u('ℓ'),sub('2'),u(' unit')],736,148,110,52);
-text('aligned-note','Unit descriptors',621,246,252,40,{align:'center'});
+text('aligned-note','Unit descriptors',621,263,252,35,{align:'center'});
 arrow([865,167],[896,167]);
-rect('bank-box',905,80,350,160,C.bankFill,C.bankLine,2);
+rect('bank-box',905,80,350,220,C.bankFill,C.bankLine,2);
 text('bank-title','Fixed reference bank',914,84,332,41,{bold:true,align:'center'});
 grid('bank',923,139,3,8,37,25,C.bankFill,C.bankLine);
 rect('bank-accent',920,164,313,29,'none',C.blueLine,2.5);
-math('candidate-set',[v('r'),u(' ∈ ℛ'),sub('c',true)],917,244,143,40,{color:C.blueLine});
-text('bank-note','All patches',1070,244,184,40,{size:30,align:'center'});
-route([[1219,284],[1219,325],[844,325],[844,414]],{dash:true,color:C.bankLine,width:1.8});
-text('read-only','Read only',1040,285,170,36,{color:C.bankLine});
+math('candidate-set',[v('r'),u(' ∈ ℛ'),sub('c',true)],917,263,143,40,{color:C.blueLine});
+text('bank-note','All patches',1070,263,184,35,{size:30,align:'center'});
+route([[1219,300],[1219,325],[844,325],[844,414]],{dash:true,color:C.bankLine,width:1.8});
+text('read-only','Read only',1040,297,170,36,{color:C.bankLine});
 
 section('b','Score the query using the fixed bank',358);
 await image(s,'query-image',path.join(A,'query_026_448.png'),28,433,150,150,{fit:'contain'});
@@ -117,26 +116,26 @@ if(!polys) throw Error('Inspect contour object keys: '+Object.keys(contours));
 await contourOverlay(s,'threshold-display',path.join(A,'query_026_448.png'),polys,1108,478,130);
 frame(s,'contour-frame',1108,478,130,130,C.grayLine,1.2);
 math('map-label',[v('A',true),sub('t',true)],950,613,130,42);
-text('display-label','Display',1106,613,135,42,{align:'center'});
-math('image-score',[v('s'),sub('img,'),sub('t',true),u(' = max'),sub('u',true),v(' A'),sub('t,u',true)],944,660,304,42);
+text('display-label','Contour',1106,613,135,42,{align:'center'});
+math('image-score',[v('s'),sub('img,'),sub('t',true),u(' = max'),sub('u',true),v(' A',true),sub('t,u',true)],944,660,304,42);
 math('display-only',[u('Contour uses '),v('τ'),sub('vis'),u(' for display only')],31,694.5,400,60,{align:'left'});
 
-section('c','Separate representation effects from matching effects',762);
-const controls=[['A1','B ½   C ½'],['DUP','B ⅓   B copy ⅓   C ⅓'],['TRI','B ⅓   S or D ⅓   C ⅓'],['BAL','B ¼   S or D ¼   C ½']];
+section('c','Representation effects and matching interactions',762);
+const controls=[['Dual-encoder\nbaseline','Original encoder pair'],['Duplicate-branch\ncontrol','Duplicate existing features'],['Equal-weight\nreplacement','Replace the duplicate'],['Balanced\nreplacement','Preserve group weights']];
 for(let i=0;i<4;i++){
  const x=26+i*314;
- text('control-label-'+i,controls[i][0],x,812,302,39,{bold:true,align:'center'});
- text('control-weights-'+i,controls[i][1],x,853,302,40,{align:'center'});
+ text('control-label-'+i,controls[i][0],x,806,302,60,{size:30,bold:true,align:'center'});
+ text('control-weights-'+i,controls[i][1],x,868,302,34,{size:30,align:'center'});
 }
-function E(name,mode){return[v('E'),sub(name+','),sub(mode,true)]}
-function perf(name){return[v('P'),u('('+name),sub('t',true),u(')')]}
-math('tri-effect',[...E('TRI','t'),u(' = '),...perf('TRI'),u(' − '),...perf('DUP')],24,911,610,48);
-math('bal-effect',[...E('BAL','t'),u(' = '),...perf('BAL'),u(' − '),...perf('A1')],649,911,610,48);
-function interaction(q){return[v('I'),sub(q),u(' = '),v('E'),sub(q+',L'),u(' − '),v('E'),sub(q+',J')]}
-math('tri-interaction',interaction('TRI'),24,966,610,48);
-math('bal-interaction',interaction('BAL'),649,966,610,48);
+function E(label){return[v('E'),sub(label),sub(','),sub('t',true)]}
+function perf(label){return[v('P'),u('('),u(label),sub('t',true),u(')')]}
+math('tri-effect',[...E('Equal'),u(' = '),...perf('Equal'),u(' − '),...perf('Duplicate')],24,911,610,48);
+math('bal-effect',[...E('Balanced'),u(' = '),...perf('Balanced'),u(' − '),...perf('Baseline')],649,911,610,48);
+function interaction(label){return[v('I'),sub(label),u(' = '),v('E'),sub(label),sub(','),sub('L'),u(' − '),v('E'),sub(label),sub(','),sub('J')]}
+math('tri-interaction',interaction('Equal'),24,966,610,48);
+math('bal-interaction',interaction('Balanced'),649,966,610,48);
 text('matched-condition-note','Identical supports and query images within every paired comparison',30,1015,1220,33,{align:'center'});
-s.speakerNotes.textFrame.setText(`Scientific sources: scripts/manuscript_build_20260914 and docs/manuscript_polished_20260919. Real image assets: ${A}. MPDD metal_plate/test/scratches/026.png, A1 joint matching, seed 0 K=1. Score map follows stored resize and Gaussian sigma=4 processing. Red contour uses archived 256-bin Otsu polygons without loading a test mask. Three support thumbnails illustrate the general K-image input; they do not claim the output example used all three. B/C/S/D are upright encoder labels. p is query-patch index, b branch index, r normal-bank candidate. Native model outputs are the continuous anomaly map and its spatial maximum. Contour is display only. Extra encoder is a fixed construction, never a runtime switch. All diagrams and labels are editable native shapes, with real images embedded.`);
+s.speakerNotes.textFrame.setText(`Scientific sources: scripts/manuscript_build_20260914 and docs/manuscript_polished_20260919. Real image assets: ${A}. MPDD metal_plate/test/scratches/026.png, A1 joint matching, seed 0 K=1. Score map follows stored resize and Gaussian sigma=4 processing. Red contour uses archived 256-bin Otsu polygons without loading a test mask. Three support thumbnails illustrate the general K-image input; they do not claim the output example used all three. A1, DUP, TRI, and BAL denote Dual-encoder baseline, Duplicate-branch control, Equal-weight replacement, and Balanced replacement. The frozen encoder names are DINOv2-B/14, AnomalyCLIP visual, and the replacement options DINOv2-S/14 or WideResNet50-2. p is query-patch index, b branch index, r normal-bank candidate. Native model outputs are the continuous anomaly map and its spatial maximum. Contour is display only. The replacement slot is a fixed construction, never a runtime switch. All diagrams and labels are editable native shapes, with real images embedded.`);
 await(await PresentationFile.exportPptx(p)).save(path.join(T,'candidate.pptx'));
 await fs.writeFile(path.join(T,'math_baselines.json'),JSON.stringify(scripts,null,2));
 await fs.writeFile(path.join(T,'figure_manifest.json'),JSON.stringify({W,H,font:'Times New Roman',mathFont:'Cambria Math',minBaseSizePx:30,embeddedWidthCm:17,minPrintedPt:30*.75*17/(1280/96*2.54),elements:manifest},null,2));
@@ -144,4 +143,3 @@ await fs.writeFile(path.join(T,'layout.json'),await(await s.export({format:'layo
 const shot=await p.export({slide:s,format:'png',scale:2});
 await fs.writeFile(path.join(T,'main_figure_export.png'),new Uint8Array(await shot.arrayBuffer()));
 console.log('Native editable candidate generated:',path.join(T,'candidate.pptx'));
-

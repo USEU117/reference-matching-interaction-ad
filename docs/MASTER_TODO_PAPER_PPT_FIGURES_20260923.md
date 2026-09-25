@@ -1,5 +1,8 @@
 # 论文 / PPT / 图件 待办总表（唯一交接入口）— 2026-09-23
 
+> **2026-09-24 本轮交付更新**：现役改为 `paper_complete_review_20260920/Reference_Matching_Complete_English_20260924.docx`（56 页 / 23 表 / 28 图 / 154 数学对象 / 37 文献）与 `All_Figures_Complete_20260924.pptx`（64 页，原生页 1/2/3/16）。旧表中的 20260923 计数为历史快照，不再代表当前交付；详见 [本轮修订与验收](paper_complete_review_20260920/修订说明与验收_20260924.md)。作者元数据与 DOI 仍待补齐。
+
+
 > **本表自 2026-09-23 起是交接的唯一入口**。其余文档按"历史登记"保留（**不删除**），只在顶部各加一行指针；本表不重复它们的论证，只做汇总、指派与去重。
 > 编辑纪律：本表**不改任何实验数值**；`experiments/**` 证据字段、`data/**`、`LICENSE`、`requirements_repro.txt`、版式母本、`figure_sources/**` 科学内容为**红线**；冻结表/扩展表哈希见 **E-13**。
 > **验收清单**：论文/PPT/图件**重新生成后**的完整核对清单见 [`docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md`](REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md)（可自动核查项 + 需人工判定项 + 防回归项 + 判定模板；使用方式见该文件 §0）。
@@ -522,3 +525,127 @@
 | 证据缺口-5 | **E-15 / E-19 / E-11 / E-12** 等红线区/历史提交层项 | 属"待作者拍板"，本轮**未重核**（不碰 `experiments/`、不重写历史）；状态沿用原登记 |
 
 > **计数（§十一）**：`论文与图件问题汇总` **68 项** = 已完成/闭环 22 + 仍待办 30 + 纪律/不补 10 + 未使用 1 + 计划/校验 5；`REMEDIATION_PLAN` **46 项** = 已完成 9 + 仍待办 14 + 待拍板 12 + 纪律/限制 4 + 作者信息 7。**仍待办/待拍板条目全部已在本表有对应编号，无遗漏**。新增登记 **N-4…N-6**（口径/凭据刷新，均已就地修正）+ **5 处证据缺口**（如实标注，见上表）。
+
+---
+
+## 十二、2026-09-24 执行追加（M1–M6；本表其余内容一字未改）
+
+> 完整记录见 [`docs/PAPER_REVISION_EXECUTION_20260924_CN.md`](PAPER_REVISION_EXECUTION_20260924_CN.md)。本节只做摘要与**口径刷新**，不改写本表任何既有行。本轮未跑实验、未用 GPU、未提交、未推送。
+
+### 12.1 本轮执行（对应来源：`docs/PAPER_REVISION_HANDOVER_20260924_CN.md` 的 M1–M6）
+
+| M | 内容 | 本轮结论 | 落地位置 |
+|---|---|---|---|
+| M1 | 表 11/12 表注**指向 Table S2** + 点名 SubspaceAD 256↔672 偏离 | **本轮执行**（原为未做） | `tables.json` 的 `baselines.note` / `baselines_ext.note` 各**追加一句**；**六列数值与其余字段一字未动** |
+| M2 | 复现性（权重清单 / 最短路径 / 正文引用） | **已达标，未改** | `docs/MODEL_WEIGHTS.md`、`docs/REPRODUCE_TO_TABLES.md`、`manuscript.md:224,226`（与 E-07 一致） |
+| M3 | Figure 7 续页补多方法对比图 | **本轮执行（+1 张 BTAD category 01）** | `figures.json` 的 `cases_bad.parts` / `part_captions`；`results.md:69` 描述同步（three→four / 33→32） |
+| M4 | S5 首轮离群（30.527 s）披露 | **已做，未改** | `results.md:159`（对应 A-16 可判"已落"） |
+| M5 | Discussion §5 点名同期 training-free 扩展并声明 scope | **本轮执行** | `results.md` §5 末追加一段（HyperFSAD / ReMem / DuoAD；**不同轴、不冲突、future work、不削弱 `0 target-trainable parameters`**；无 `SOTA/outperforms/state-of-the-art`） |
+| M6 | A01 状态回填 | **本轮执行** | `docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` §7.1 的 A01 行 = **部分满足（2026-09-24 回填）** + 追加"复核刷新"小结 |
+
+### 12.2 口径刷新（**新旧并存，判断以本节为准**）
+
+| 项 | 旧口径（本轮重建前，实测复核一致） | **新口径（2026-09-24 重建后，实测）** |
+|---|---|---|
+| 现役 docx | `Reference_Matching_Complete_English_20260923.docx`，SHA-256 `9B3E15F5…9245`，**55 页 / 23 表 / 27 内嵌图 / 152 数学对象 / 12 编号公式 / 34 文献 / 19,434 词** | 同名文件重出，SHA-256 **`820E8CD629B782B2575C26782B96E69A4390377E3EC41E27FEE1C7E3C0F9488A`**，**56 页 / 23 表 / 28 内嵌图 / 153 数学对象 / 12 编号公式 / 34 文献 / 19,729 词**（23 张表仍全部单页） |
+| 备份 | — | `.bak_preM_20260924`（重建前件，仍在盘） |
+| deck | `All_Figures_Complete_20260923.pptx`，63 页 | **未变、无需重出**：M3 新增的 BTAD 面板**本就在 deck 第 28 页**，未增删任何 slide；`FIGURE_SLIDE_INDEX.json` 仍 63 条、`图件与PPT页码索引.md` 仍 63 行 |
+| 门禁 | — | `qa_layout.py` **0 problem**、`figure_font_gate --self-test` **4/4**、`pytest tests -q` **260 passed** |
+| 红线 | — | 冻结共同区域表 `3C83AB00…`、扩展表 `1C770129…`、版式母本 `9DB99E60…` 未变；`0 target-trainable parameters` 仍在；`SOTA`/`outperforms` = 0；`state-of-the-art` 仅 2 处**否定语境**；`READONLY_PROOF.json` 的 `verdict` 未变 |
+| 校验脚本 | `validate_revision23.py` 期望 27 图、整键比对表 11 | 已同步为 **28 图**、`Table11_values_unchanged`（只比对 `headers`/`rows`）；**该脚本本轮仍无法跑完**：在第 4 个 check `no_experiment_data_changes` 处中止（并行流程改了 `experiments/**`，非本轮所为），故 `REVISION_VALIDATION_20260923.json` **未重生成**，其数值仍是旧时点快照 |
+
+### 12.3 本节新增的"登记过期"提示
+
+- **A-16（S5 离群）/ A-14（图像级并列）/ B-01（多方法图入正文）/ A-13（逐方法协议）** 四条在 §一 / §四 4.1 中的"待做（零 GPU）"状态**已过期**，现役稿已落地（证据见 §十二 12.1 与 `PAPER_REVISION_EXECUTION_20260924_CN.md` §三）。
+- **§现状 #1 / REVIEW_CHECKLIST A-22** 的"55 页 / 27 内嵌图 / 152 数学对象 / 19,434 词"为**重建前口径**；判断现役交付件请用 §12.2 的新口径。
+- **§三 C-01/C-03/C-05/C-06、§八 S5/S6** 中的"每次图改动后必重出 deck"**本轮不触发**（本轮未改任何 deck 侧图件；论文侧仅新增对**既有**面板的引用）。
+
+---
+
+## 十三、2026-09-24 第二轮追加（A-01/A-19/B-04/B-05 图件；A-12/B-09/B-10 核实；C 组预注册；重建）— 本表其余内容一字未改
+
+> 完整记录见 [`docs/PAPER_REVISION_EXECUTION_20260924_CN.md`](PAPER_REVISION_EXECUTION_20260924_CN.md) **§十三**；预注册见 [`docs/PREREGISTRATION_20260924_CN.md`](PREREGISTRATION_20260924_CN.md)。本轮未跑新实验、未用 GPU 计算、未改任何冻结数值、未提交/推送；未回退并行流程的任何改动。
+
+### 13.1 本节对 §一/§三/§四 相关编号的状态刷新（只追加状态，不改原文）
+
+| 编号 | 原状态 | 本轮（2026-09-24 第二轮） |
+|---|---|---|
+| A-01 图 2(c)/图 3(c) 压缩 | 待做 | **已执行**：`build_methods.mjs` 的 (c) 带高 232→176（图 2）、286→220（图 3），解释贴近公式；(b) 高亮几何与文字语义未动 |
+| A-19 图 2 类别下标 `c` 正斜体 | 待做 | **复核为"已一致"，未改字面量**：图 2 的独占 `c` run 全为 `i=1`（斜体，与图 1 及正文一致），评审所述"第 2 页 i=0"在现役产物不复现 |
+| B-04 图 S4 图内重复总标题/长说明 | 待做 | **复核为"已消除"**：S4 两页脚本均无 `suptitle`/`fig.text`；入稿用无图内标题版 |
+| B-05 图 S4 符号/术语（`L` 称 local） | 待做 | **复核为"已消除"**：S4 用 `$I_{\mathrm{TRI}}$` 数学排版并写 `L denotes independent matching`；图脚本全文无把 `L` 称 local 的描述 |
+| B-07 图件字号/版面门禁 | 待做 | **已过**：`qa_layout.py` **0 problem**（现役 layout，最小 11.29 pt）；`figure_font_gate.py --self-test` **4/4**。2026-09-22 记的 `fig2 ×2 / figS1 ×6 TEXT-OVERFLOW` 只在**过期 layout** 上复现，现役 layout 为 0 |
+| A-12 稳定性计划书数值逻辑 | 待核实 | **不成立**（现役文本已写明"加密不会收紧上界"；数据/计算/区间范围均未改）；仅在该段加一句复核原委 |
+| B-09 图 S3 第 5/6 页登记 + 两目录不一致 | 未核实 | **核实成立并补齐登记**（`FIGURE_BINDING.md §十四`）；`_p3`/`_p4` 只在现役入稿目录 |
+| B-10 Fig 5 分页记法 | 未核实 | **以 2 页为准**（3 面板：(a)(b) 第 1 页、(c) 第 2 页）；只改记法 |
+| A04/A08/A09/A11/A18/A22（D 组/§8.2） | 不补 / 待作者 | **分类完成**：A09/A18 属**文案限制句且已在稿**（零 GPU，无需新增）；A04/A08/A11/A22 **真需新计算且 > 2 h** → **只留预注册**（未跑） |
+
+### 13.2 口径刷新（**判断以本节为准**）
+
+| 项 | 改前（开工实读） | **改后（本轮实测）** |
+|---|---|---|
+| 现役 docx | `…_20260924.docx`，SHA `A8E3C129…7B92` | 同名文件重出，SHA **`77864633FD7672660243017B0A13C6F9A6860B519B99A1255B4A65205E2839F6`**，**56 页 / 23 表 / 28 内嵌图 / 154 数学对象 / 12 编号公式 / 37 文献 / 19,947 词**（23/23 表单页）。**23 表 / 28 图 / 56 页 三项不变**；数学对象/文献/词数的差异来自**并行流程**（references.json 34→37 等），非本轮图件改动 |
+| 对比起点 `…_20260923.docx` | — | 仍在盘：`820E8CD6…9488A`，**56 / 23 / 28 / 153 / 12 / 34 / 19,729** |
+| 图 2 / 图 3 PNG | `69D22086…` / `3F309ADB…` | **`F60EBC88…` / `F44656C4…`**；`figS1_encoders.png` 重渲染后**逐字节相同**（`FE182E11…`） |
+| deck | `All_Figures_Complete_20260924.pptx`，`724F24E5…`，**64 页**，索引 63 条（与 md 64 行不一致） | 重出为 **64 页**，`CF889CAC…`（72,418,403 B），`finding_count = 0`；**`FIGURE_SLIDE_INDEX.json` 与 `图件与PPT页码索引.md` 均 64 条/行**（不一致已消除）；位图页 **60/60 与盘上 PNG 逐字节相同**；native 页 [1,2,3,16] |
+| 本轮改动的 deck 页数注意 | 任务书基线 63 页 | 开工前已是 64 页（并行流程遗留）；本轮重出**保持 64**，未删页 |
+| 门禁 | — | `qa_layout.py` **0 problem**、`figure_font_gate.py --self-test` **4/4**、`pytest tests -q` **260 passed** |
+| 红线 | — | 冻结共同区域表 `3C83AB00…`（实为 `05_baselines_multi_dataset/baseline_common_region.csv`）、扩展表 `1C770129…`、版式母本 `9DB99E60…` 未变；表 11 六列与 HEAD 逐项相同；A1 parity `k2 0.343706` / `k4 0.388328` 未变；`0 target-trainable parameters` 仍在；`SOTA`/`outperforms`/`全面领先` = 0；`state-of-the-art` = 2 处**否定语境**；`READONLY_PROOF.json` 的 `verdict` 未变 |
+
+### 13.3 本节新增的"登记过期"提示
+
+- **§一 A-01/A-19/B-04/B-05/B-07** 与 **§四(4.1) A-12/B-09/B-10** 的"待做/未核实"状态**已过期**，按 §13.1 刷新。
+- **§12.3 的 `A-22`**（"55 页 / 27 内嵌图 / 152 数学对象 / 19,434 词"）为**更早口径**；现役判断用 §13.2。注意 **`A-22` 在 `EXPERIMENT_GAP_ANALYSIS_20260922.md §7.2` 另有一义**（"统一几何下 PatchCore 塌缩为一列"，≈3.5 GPU 卡时）——两者不是同一件事，见 `PREREGISTRATION_20260924_CN.md §2.4`。
+- **§三 C-01/C-03** 的"图件改动后必重出 deck 并复核索引"：**本轮已触发并执行**（图 2/3 原生页改动）：deck 重出 + 索引同步 + 逐页位图哈希核对全部完成。
+
+---
+
+## 十四、2026-09-24/25 收口清单追加（**本表其余内容一字未改**）
+
+> 本节只做指针与计数，不重复论证、不改写上文任何行。
+
+- **新增文档**：[`docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md`](PROJECT_CLOSURE_AUDIT_20260924_CN.md) —— 把上述 A–E 五组、`EXPERIMENT_GAP` A01–A23、`ISSUE_REGISTER` R-01–R-21、`REVIEW_CHECKLIST` §1/§2/§4、`PAPER_REVISION_*` M1–M6、`PREREGISTRATION`（A04/A11/A08/A22）、`REMAINING_REVIEW` 1–5 项**逐条清点、归类、给归属**，并**交叉核对**文档间状态冲突后统一为盘上实读。
+- **计数（该文件 §〇）**：**已完成 12 组（覆盖 43 项验收）/ 需作者决定 18 / 需新写脚本·新实验 6（其中 A08 本轮执行中）/ 已作废·不补 13 组 / 仍无法核实 6 / 并行流程进行中 1**。
+- **本轮之后仍开放的全部事项**：共 **22 条**（该文件 §四），其中**唯一可能被本轮执行闭环**的是 **#8 A08（full-pixel 区间）**；其余为**作者决策**（元数据、DOI、权重许可、表 A/B、命名修订的交付件重建等）或**超 2 h 的新计算**（A04/A11/A22）。
+- **交叉核对新增发现（该文件 §三）**：13 处状态不一致已统一，其中影响判断的 4 处为 —— **① A01**（`§4.1`"仍缺" vs `EXPERIMENT_GAP §7.1`"部分满足" → 以后者为准）；**② 图 S6**（`§4.1`"未入稿" vs `§13.1`"已入稿" → 已入稿，docx 命中 4）；**③ deck 页数**（`§三/§八` 63 vs `§13.2` 64 → 现役 **64**，需同步 §三/§八）；**④ 命名修订**（本表"待拍板" vs `PRE_SUBMISSION_REVIEW_20260925_CN.md`"本轮已改名" → 源与图表层已改、现役 docx 未改）。
+- **纪律**：本节未改任何实验数值、未动 `experiments/**`、未提交/推送；新增文本**不含**身份与称谓类禁用词。
+```
+
+---
+
+## 十五、2026-09-25 A08（full-pixel 区间）**已完成**追加（**本表其余内容一字未改**）
+
+> 本节**只追加**。本表内与 A08 相关的既有行——§4.1 登记表的 `A08` 行（"不补"）、§4.2 的 **D-03** 行（"不补"）、§九 9.2 的 `A08 → D-03` 映射、§十三 13.1 末行的 `A04/A08/A09/A11/A18/A22` 分类行——**一律未改动**；凡与 A08 现状冲突处，**以本节为准**（A08 已由"不补"转为 **已完成**）。
+
+- **结论**：A08（full-pixel / stride-1 区间）**已完成**；原判"不补（结论不变）"作废，改为"本轮已执行并验收"。终产物落盘 mtime = **2026-09-25 16:28**（实读）。
+- **命令**：
+  ```
+  .venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_fullpixel_ci.py --mode run --resume --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\prereg_20260924\out\A08
+  .venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_report.py --dir experiments\prereg_20260924\out\A08 --strides 1
+  ```
+- **并行度 / 加速 / 收尾**：**6 shard** 并行、**20/20 单元、96/96 类别实例**；makespan **6502 s** vs 串行估算 **31136 s** ⇒ **实测加速 4.79×**（`state/A08_parallel_progress.json` 末行 `rate=4.7886`）；收尾为单实例 **N=1 纯汇总 6.1 s**（20/20 skipped、只跳不重算）。
+- **产物**（`experiments/prereg_20260924/out/A08/`）：`point_stride1.csv` **56,941 B / `9A7F6F1846BCB9BE…`**；`replicate_stride1.npz` **1,963,505 B / `C96AFF40F09FAF8B…`**；`interaction_by_grid.csv` **2,271 B / `0DBFD0283D744350…`**；`E1_STATUS_stride1.json`（759 B）；`E1_REPORT_SUMMARY.json`（92 B）。
+- **结构完整性**：`point_stride1.csv` = 1 表头 + **1248 行**（= 12×6×13 + 8×3×13 = 936 + 312），列 `dataset,seed,shot,category,method,pixel_ap`；0 空/NaN、0 重复键。
+- **结论核对（98.75% 配对区间）**：MPDD `I_TRI` = **+0.007853 / +0.007741 / +0.007624**、`I_BAL` = **+0.006074 / +0.006172 / +0.006154**（stride 1/4/8 **三点均排除零**）；BTAD `I_TRI` = **−0.000169**、`I_BAL` = **−0.000864**（98.75% **均跨零**，与既有定位一致）。
+- **两项如实登记**：① **BTAD 无归档可比对象**（归档 `E1_fullpixel_ci/` 只有 MPDD 的 stride-4/8）；② **`E_BAL_J`（MPDD）在 stride 1/4 排除零、stride 8 跨零**（符号始终为负，区间随网格变粗而变宽，未平滑）。
+- **红线复核**：归档 `E1_fullpixel_ci/`、`p4_fullpixel/` **未改动**（`git status` 变更条目 **0 / 0**）；三个冻结哈希 `3C83AB00…` / `1C770129…` / `9DB99E60…` **未变**。
+- **出处（完整记录）**：`docs/PREREGISTRATION_20260924_CN.md` **§五**、`docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md` **§二.1 C13**（该文件已把 A08 从"需新写脚本/新实验"移入"已完成"）。
+- **纪律**：本节未改任何实验数值、未动 `experiments/**`、未提交/推送；新增文本**不含**身份与称谓类禁用词。
+
+---
+
+## 十六、2026-09-25 接手"命名修订轮"收尾（**只追加，本表其余内容一字未改**）
+
+> 并行流程"2026-09-25 命名修订轮"（新标签如 `Dual-encoder baseline`）在 **17:18:50** 后停写，遗留"`All_Figures_Complete_20260925.pptx` 未生成 + `results.md` 两句 full-pixel 说明被 17:13 重写覆盖"。本节只记录接手完成的盘上实测；与本节冲突处**以本节为准**。
+
+- **deck 补出**：`docs/paper_complete_review_20260920/All_Figures_Complete_20260925.pptx`，**64 页 / 76,633,287 B / SHA-256 `0D9E5CB7667773C129BC1D90A95959DB70B20D050E173B1E88585982A077EA6F`**，`finalize_deck.mjs` **`finding_count = 0`**。
+  - 前置补件：`docs/main_figure_revision_20260920/Main_Figure_Editable_Final_20260925.pptx`（**707,997 B / `9054C77F1D63E1FE5D0A127AE5BB063C716A5DAC3E3F05F50DFE89C17A24D71E`**），由 `finalize_figure.mjs` 从命名轮 `candidate_math.pptx` 产出。
+  - 链路：`build_deck.mjs`（Built 64 slides）→ `assemble_deck.ps1`（Assembled 64 slides with native diagrams）→ `finalize_deck.mjs`。
+  - 同步：`FIGURE_SLIDE_INDEX.json` **64 条**；`图件与PPT页码索引.md` **64 行**；deck 内 **61 个 `ppt/media/*`**，**60 个位图页与盘上 PNG 逐字节相同（60/60）**，原生页 `[1,2,3,16]` 非位图。
+- **命名轮自带验收**：`check_delivery.py` **146 项全过** → `{"passed":146,"pages":60,"words":20465,"references":37,"math_objects":154}`；接手前它自报的唯一缺口是 `all_Word_images_match_current_sources`（命名轮 17:17 重渲染的 5 张图未进 17:16 的 docx）。
+- **docx 复测**（`build.py`）：**60 页 / 23 表 / 28 内嵌图 / 154 原生数学对象 / 12 编号公式 / 37 文献 / 20,465 词**；SHA-256 `BCB9A086D8E5963C…C02139`（23,673,134 B）；改前备份 `…20260925.docx.bak_pre_handover_1755`（23,616,285 B）；23 张表全部单页。
+- **两句落地**（`scripts/paper_complete_review_20260920/results.md` :56 / :174）：docx 空白归一化命中 `per-pixel (stride-one) resolution`、`zero-exclusion judgements are unchanged`、`full-pixel intervals are computed only for` **3/3**；**无** `full-pixel intervals remain unavailable`。
+- **门禁**：`qa_layout.py` **TOTAL PROBLEMS: 0**；`figure_font_gate.py --self-test` **4/4**；`pytest tests -q` **260 passed**。
+- **红线**：`3C83AB00…` / `1C770129…` / `9DB99E60…` ✓；A1 parity `k2 0.343706` / `k4 0.388328` ✓；`0 target-trainable parameters` ✓；新增文本禁用词 0 命中；**未 git add / commit**。
+- **命名轮是否仍在写**：最后写盘 **17:18:50**（`scripts/paper_complete_review_20260920/figure_sources/build_methods.mjs`）；17:53 / 17:57 / 18:09 / 18:23 四次抽查**无**计算进程；`results.md` 未被再次覆盖（mtime 17:59:34）。
+- **未做 / 不确定**：未重出 `paper.pdf` 与 `.tmp_revision_20260925/preflight/`（Word COM `Fields.Update()`+`ExportAsFixedFormat` 本机两次 >10 min 无输出，改跑等价 `Repaginate`+`ComputeStatistics` 写 `word_review.json`）。详见 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §七`。
