@@ -1,0 +1,109 @@
+{
+  "id": "gpu_try_bounded_probe_20260925",
+  "scope": "bounded, decide-able GPU feasibility probe; standalone script only, production runner untouched",
+  "script": "experiments/prereg_20260924/scratch/gpu_try/gpu_e1_fullpixel.py",
+  "script_sha256": "73D381D92BE309AF0B786735E03A09B3E98A19951179AB1D36483EE1EA659E36",
+  "host": {
+    "cpu": "12th Gen Intel Core i9-12900H (14 physical / 20 logical)",
+    "ram_total_gib": 15.8,
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU, 6144 MiB total",
+    "torch": "2.0.0+cu118", "cuda": "11.8", "cupy_installed": false,
+    "note": "RTX 3060 (GA106) has 1/64-rate fp64 -> the fp64 GPU lane is ~5.8x slower than the fp32 lane"
+  },
+  "ported_stages": {
+    "stage3": "BlockwiseProfile.blocks - per-image threshold counting via searchsorted differences (torch.searchsorted, batched, +inf padding of the ragged sorted vectors)",
+    "stage4": "pooled_ap_auroc_multi - block-level (1000 x n_images) @ (n_images x chunk) GEMMs + cumsum + elementwise, on device",
+    "left_on_cpu": "np.load deserialise, cv2/gaussian grid rebuild, per-image np.sort, np.unique of the positive scores (+ the small-matrix h2d transfer)"
+  },
+
+  "correctness": {
+    "criterion": "max|delta| <= 1e-6 vs the shipped CPU code on the same real unit",
+    "searchsorted_selftest": {"lo_mismatch": 0, "hi_mismatch": 0, "pass": true,
+      "note": "+inf padding of ragged sorted vectors reproduces numpy searchsorted exactly"},
+    "heavy_case": {
+      "unit": "mpdd_s0_k1 / metal_plate / method B / stride 1",
+      "n_images": 97, "pixels_per_image": 200704, "n_grid_distinct_positives": 2133926,
+      "replicates": 1000, "chunk": 4096, "n_blocks": 521,
+      "float64": {"max_abs_delta_ap_1000": 3.3306690738754696e-16,
+                  "max_abs_delta_ap_point": 1.1102230246251565e-16,
+                  "max_abs_delta_auroc_1000": 0.0,
+                  "max_rel_delta_ap_1000": 4.5981138616660115e-16,
+                  "verdict": "PASS - exact to fp64 round-off, reproducible bit-for-bit across 4 runs"},
+      "float32": {"max_abs_delta_ap_1000": 9.291946817535646e-07,
+                  "max_abs_delta_ap_point": 3.0187064614661807e-07,
+                  "max_abs_delta_auroc_1000": 1.3372573294256895e-06,
+                  "verdict": "FAIL - auroc 1.34e-6 > 1e-6; ap 9.29e-7 passes with only 7% margin"},
+      "float32_with_float64_accumulator": {
+                  "max_abs_delta_ap_1000": 3.8496197229953566e-08,
+                  "max_abs_delta_ap_point": 2.712372881852332e-09,
+                  "max_abs_delta_auroc_1000": 6.060015245168415e-08,
+                  "verdict": "PASS - and free: 2.3405 s vs 2.3773 s for the all-fp32 lane"}
+    },
+    "light_case": {
+      "unit": "mpdd_s0_k1 / bracket_white / method B / stride 1",
+      "n_images": 60, "n_grid_distinct_positives": 3468, "n_blocks": 1,
+      "float64": {"max_abs_delta_ap_1000": 5.551115123125783e-17, "max_abs_delta_auroc_1000": 0.0, "verdict": "PASS"},
+      "float32": {"max_abs_delta_ap_1000": 2.2536519983518133e-08, "max_abs_delta_auroc_1000": 1.928826321995203e-07, "verdict": "PASS (grid too small to expose the fp32 loss)"}
+    },
+    "localisation": {
+      "method": "third lane: fp32 compute with only the cross-block accumulators (ap[r] += ..., auroc[r] += ...) widened to fp64",
+      "result": "fp32 ap error 9.29e-7 -> 3.85e-8 (-24x); auroc 1.34e-6 -> 6.06e-8 (-22x)",
+      "conclusion": "the fp32 loss is fp32 accumulation across the 521 grid blocks, NOT the searchsorted boundaries (integer-exact in both dtypes) and NOT GEMM associativity (every block-level mass is an exact integer <= 4e5 < 2^24)"
+    }
+  },
+
+  "speed": {
+    "heavy_case": "mpdd_s0_k1 / metal_plate / method B (97 images, 521 blocks); all timings taken back-to-back inside one process while the A08 CPU sweep was running",
+    "cpu_prefix_cpu_only_s": {"npz_read": 0.007, "dists_to_maps": 0.37, "sort_plus_unique": 1.04, "total": 1.67},
+    "cpu_pool_s": [100.18, 106.66, 118.65, 126.01, 133.43, 152.88],
+    "gpu_pool_float64_s": [10.19, 10.31, 10.18, 11.01, 13.73, 19.96, 20.00],
+    "gpu_pool_float32_s": [1.76, 1.79, 2.32, 2.38, 3.58, 3.61],
+    "gpu_pool_float32_acc64_s": [2.33, 2.34],
+    "end_to_end_s": {
+      "cpu_reference": [108.07, 120.31, 135.11, 154.62],
+      "gpu_float64": [11.89, 11.92, 15.55, 21.44],
+      "gpu_float32": [3.48, 4.12, 5.03],
+      "gpu_float32_acc64": [4.12]
+    },
+    "end_to_end_speedup": {"float64": "5.0x - 11.3x", "float32": "21.5x - 38.8x",
+                           "float32_acc64": "37.5x", "pool_only_float64": "5.0x - 13.7x"},
+    "caveat": "the spread is environmental (laptop GPU power state + CPU contention from the concurrent A08 sweep); the CPU and GPU passes are back-to-back in the same process, so the ratios are more robust than the absolutes"
+  },
+
+  "resources": {
+    "gpu_peak_allocated_mib": {"float64": 382.0, "float32": 247.0},
+    "gpu_peak_reserved_mib": 446.0,
+    "nvidia_smi_observed": {"memory_used_mib": [1124, 1418], "memory_free_mib": [4577, 4871], "util_pct": [5, 28]},
+    "headroom_with_desktop_coexisting_mib": "4577 - 446 = 4131 (4.0 GiB) at the tightest reading",
+    "cpu_side_tree_peak_ws_mib": 924.9,
+    "cpu_side_note": "the probe process peak (924.9 MiB) includes the CPU reference pass and the 6 x 1000 x 4096 fp64 pooling buffers (~197 MiB) that the GPU path moves to VRAM, so the GPU-only path is lighter on host RAM than the CPU path"
+  },
+
+  "verdict": {
+    "usable": "float64: YES (<=3.4e-16, contract intact). float32: NO as-is (auroc 1.34e-6 > 1e-6); the same fp32 lane with a float64 cross-block accumulator IS within contract (6.1e-8) and costs nothing",
+    "worth_switching_for_the_remaining_9_units": "NO",
+    "reasoning": [
+      "remaining CPU work is ~9.6-14.2e3 s single-stream (~2.7-3.9 h); the live N=6 run finishes in ~1.4-2.2 h",
+      "a completed GPU port would be ~0.25-0.79 h single-stream (fp64), i.e. faster than the live run, but only after the port exists",
+      "the port is not just the two stages: it needs runner integration with --shard/--resume semantics plus a fresh 1e-6 revalidation of the products, which is more than the ~1-2 h the CPU run has left",
+      "the port also breaks the bitwise-identical claim (3.3e-16 instead of 0) and must be re-validated, and a single GPU stream cannot be sharded like the CPU workers"
+    ],
+    "threshold_for_a_future_port": [
+      "do it when the portable CPU wall for one run exceeds ~10 h (e.g. >=3-4x the current grid: more datasets/seeds/shots/replicates/methods), so the port+revalidation amortises",
+      "or when free RAM caps N at 3 while the GPU sits idle",
+      "preferred lane: float32 compute + float64 cross-block accumulator (65x pool, 37x end-to-end, 6.1e-8 error) - but only after a fresh 1e-6 revalidation",
+      "failing that, float64 is the safe lane (exact to 3.4e-16) at 5-11x"
+    ]
+  },
+
+  "raw_files": [
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_e1_fullpixel.py",
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_try_report.json (bracket_white)",
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_try_report_metal_plate.json",
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_try_report_metal_plate_mem.json",
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_try_report_metal_plate2.json",
+    "experiments/prereg_20260924/scratch/gpu_try/gpu_try_report_localise.json",
+    "experiments/prereg_20260924/scratch/gpu_try/probe_*.log"
+  ],
+  "production_touch": "none - scripts/limitation_closure_20260915/e1_fullpixel_ci.py mtime stayed 2026-09-25 10:19:07; E1_fullpixel_ci/ and p4_fullpixel/ untouched"
+}

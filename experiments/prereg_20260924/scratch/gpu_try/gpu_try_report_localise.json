@@ -1,0 +1,144 @@
+{
+  "unit": "mpdd_s0_k1",
+  "category": "metal_plate",
+  "replicates": 1000,
+  "chunk": 4096,
+  "strictness": "probe-only; never touches e1_fullpixel_ci.py's run path",
+  "gpu": {
+    "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "torch": "2.0.0+cu118",
+    "cuda": "11.8"
+  },
+  "searchsorted_selftest": {
+    "lo_mismatch": 0,
+    "hi_mismatch": 0,
+    "neg_ge_mismatch": 0,
+    "neg_eq_mismatch": 0,
+    "pass": true
+  },
+  "rows": [
+    {
+      "method": "B",
+      "n_images": 97,
+      "map_hw": [
+        448,
+        448
+      ],
+      "pixels_per_image": 200704,
+      "n_pos": 2298740,
+      "n_neg": 17169548,
+      "t_io_npz_read_cpu_s": 0.0095,
+      "t_rebuild_cpu_s": 0.4801,
+      "t_profile_sort_cpu_s": 1.2545,
+      "n_grid_distinct_positives": 2133926,
+      "t_cpu_pool_s": 152.8765,
+      "t_cpu_pool_s_2nd": 152.8765,
+      "t_gpu_h2d_float64_s": 0.0713,
+      "t_gpu_pool_float64_s": 13.7484,
+      "t_gpu_pool_float64_s_2nd": 13.7311,
+      "delta_float64": {
+        "ap_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 3.3306690738754696e-16,
+          "max_rel_delta": 4.5981138616660115e-16,
+          "mean_abs_delta": 2.9309887850104134e-17
+        },
+        "ap_point": {
+          "n_finite": 1,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 1.1102230246251565e-16,
+          "max_rel_delta": 1.468587326516282e-16,
+          "mean_abs_delta": 1.1102230246251565e-16
+        },
+        "auroc_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 0.0,
+          "max_rel_delta": 0.0,
+          "mean_abs_delta": 0.0
+        },
+        "cpu_ap_point": 0.7559802570670268,
+        "gpu_ap_point": 0.7559802570670269,
+        "cpu_ap_1000_mean": 0.755886907604734,
+        "gpu_ap_1000_mean": 0.755886907604734
+      },
+      "gpu_peak_alloc_float64_mib": 382.0,
+      "gpu_peak_reserved_float64_mib": 446.0,
+      "t_gpu_h2d_float32_s": 0.0525,
+      "t_gpu_pool_float32_s": 2.3773,
+      "t_gpu_pool_float32_s_2nd": 2.324,
+      "delta_float32": {
+        "ap_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 9.291946817535646e-07,
+          "max_rel_delta": 1.2189457204251037e-06,
+          "mean_abs_delta": 2.3053812600493106e-07
+        },
+        "ap_point": {
+          "n_finite": 1,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 3.0187064614661807e-07,
+          "max_rel_delta": 3.993102244730362e-07,
+          "mean_abs_delta": 3.0187064614661807e-07
+        },
+        "auroc_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 1.3372573294256895e-06,
+          "max_rel_delta": 1.396242939430239e-06,
+          "mean_abs_delta": 2.6242124913833374e-07
+        },
+        "cpu_ap_point": 0.7559802570670268,
+        "gpu_ap_point": 0.7559799551963806,
+        "cpu_ap_1000_mean": 0.755886907604734,
+        "gpu_ap_1000_mean": 0.7558869282007218
+      },
+      "gpu_peak_alloc_float32_mib": 247.0,
+      "gpu_peak_reserved_float32_mib": 446.0,
+      "t_gpu_h2d_float32_acc64_s": 0.0483,
+      "t_gpu_pool_float32_acc64_s": 2.3405,
+      "t_gpu_pool_float32_acc64_s_2nd": 2.3273,
+      "delta_float32_acc64": {
+        "ap_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 3.8496197229953566e-08,
+          "max_rel_delta": 5.0459703059616996e-08,
+          "mean_abs_delta": 1.1114480319096565e-08
+        },
+        "ap_point": {
+          "n_finite": 1,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 2.712372881852332e-09,
+          "max_rel_delta": 3.5878885149402087e-09,
+          "mean_abs_delta": 2.712372881852332e-09
+        },
+        "auroc_1000": {
+          "n_finite": 1000,
+          "n_nan_mismatch": 0,
+          "max_abs_delta": 6.060015245168415e-08,
+          "max_rel_delta": 6.358935645914633e-08,
+          "mean_abs_delta": 2.4192795585409323e-08
+        },
+        "cpu_ap_point": 0.7559802570670268,
+        "gpu_ap_point": 0.7559802543546539,
+        "cpu_ap_1000_mean": 0.755886907604734,
+        "gpu_ap_1000_mean": 0.7558869082015384
+      },
+      "gpu_peak_alloc_float32_acc64_mib": 247.0,
+      "gpu_peak_reserved_float32_acc64_mib": 446.0,
+      "cpu_only_prefix_s": 1.7441,
+      "cpu_end_to_end_f64_dtype_s": 154.6206,
+      "gpu_end_to_end_float64_dtype_s": 15.5465,
+      "gpu_end_to_end_float32_dtype_s": 4.1206,
+      "gpu_end_to_end_float32_acc64_dtype_s": 4.1197
+    }
+  ],
+  "gpu_vram": {
+    "total_mib": 6143.5,
+    "peak_alloc_mib": 110.5,
+    "peak_reserved_mib": 446.0
+  }
+}
