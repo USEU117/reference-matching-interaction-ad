@@ -139,3 +139,64 @@
 1. 本节只补命令与预检结论，**未改** §一～§三的任何文字、判据或成本估算。
 2. A22/A11/A04 的"不可运行"是**盘上能力判定**（无脚本 / 脚本口径不符 / 会覆盖既有产物），不是"判定结果不重要"；若作者要执行，需先补脚本或改口径。
 3. A08 的**期望输出**（fullpixel 与 stride-8 的零排除判断逐行同号同判）需要 stride-8 侧可比产物；本轮**未**跑 `--mode validate`，该对照待 stride-8 侧产物齐备后进行。
+
+---
+
+## 五、A08 执行结果与验收（2026-09-25 回填；本节为**追加**，上文各节一字未改）
+
+> **回填说明**：§4.1 给的是"启动前"的命令与可运行性预检；本节记录 A08 **实际执行完毕**后的产物、结构、结论核对、GPU 试验与红线复核。数值一律取自盘上实读产物，不重算、不改写。本文件新增文本**不含**身份与称谓类禁用词，也不含排名/领先类禁用措辞，不把"区间跨零"写成"零效应"。
+
+### 5.1 执行命令、并行度与收尾
+
+- **分片执行（6 路，每路单线程）**：
+  ```
+  .venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_fullpixel_ci.py --mode run --resume --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\prereg_20260924\out\A08
+  ```
+  分片清单与 PID 见 `experiments/prereg_20260924/state/A08_parallel_workers.json`、启动记录 `.../state/A08_parallel_launch.out`（6 shard，shard 1/2 各 4 单元、shard 3–6 各 3 单元）。
+- **并行度与实测加速比**：6 shard、makespan **6502 s**，串行估算 **31136 s** ⇒ **实测加速 4.79×**。实读 `.../state/A08_parallel_progress.json` 末行：`units_done=20/20`、`category_instances_done=96/96`、`shards=6`、`effective_rate=4.7886`、`any_shard_alive=false`。各 shard 只写自己的检查点 `units/<dataset>_s<seed>_k<shot>.json`，不写终产物。
+- **收尾方式**：全部 shard 退出后，由**单实例 N=1 纯汇总**再跑同一条 `--mode run --resume` 命令（20/20 单元已在盘、**全部 skipped、只跳不重算**，实测 **6.1 s**），随后 `e1_report.py --dir experiments\prereg_20260924\out\A08 --strides 1`。终产物落盘 mtime = **2026-09-25 16:28**（实读）。
+- **检查点补丁三项独立验证**（`experiments/prereg_20260924/scratch/A08_patch_verification.json`）：①一次跑 vs 逐单元检查点+汇总 → `point_stride1.csv` / `replicate_stride1.npz` / `V1` 状态**逐字节相同**（312/312 行、156/156 数组）；②`--resume` 对已完成单元跳过、对不完整单元重算，终产物与一次跑相同；③stride-8 回归对归档 `point_stride8.csv` 936 行 max|Δ| = **9.66e-10**（容差 1e-6）⇒ **PASS**。估计量、判据、产物名/格式**未变**。
+
+### 5.2 产物清单（`experiments/prereg_20260924/out/A08/`，2026-09-25 实读）
+
+| 文件 | 字节 | SHA-256（前 16） |
+|---|---:|---|
+| `point_stride1.csv` | 56,941 | **`9A7F6F1846BCB9BE`** |
+| `replicate_stride1.npz` | 1,963,505 | **`C96AFF40F09FAF8B`** |
+| `interaction_by_grid.csv` | 2,271 | **`0DBFD0283D744350`** |
+| `E1_STATUS_stride1.json` | 759 | `C1E2A40B23F711AA` |
+| `E1_REPORT_SUMMARY.json` | 92 | `D04D877FF02DEC6D` |
+
+- **结构完整性（实读）**：`point_stride1.csv` = **1 表头 + 1248 行**（= MPDD 12 单元 × 6 类别 × 13 方法 + BTAD 8 单元 × 3 类别 × 13 方法 = 936 + 312），列 `dataset,seed,shot,category,method,pixel_ap`；**0 空 / 0 NaN、0 重复键**（1248 个 `dataset|seed|shot|category|method` 全唯一）。`E1_STATUS_stride1.json` 记 `state=completed`、`stride=1`、`replicates=1000`、20 单元、`categories=all`、抽样流 `default_rng([20260913, dataset_id, category_id, replicate])`。
+
+### 5.3 结论核对表（98.75% 配对区间；取自 `interaction_by_grid.csv`）
+
+| 数据集 | 量 | bootstrap 均值 | 98.75% 区间 | 跨零？ | 与现有定位 |
+|---|---|---:|---|---|---|
+| MPDD | I_TRI | +0.007853 | [+0.004818, +0.011434] | **排除零** | 一致（正） |
+| MPDD | I_BAL | +0.006074 | [+0.003421, +0.009024] | **排除零** | 一致（正） |
+| BTAD | I_TRI | −0.000169 | [−0.002324, +0.002401] | **跨零** | 一致（居中于零、方向未定） |
+| BTAD | I_BAL | −0.000864 | [−0.002984, +0.001805] | **跨零** | 一致（居中于零、方向未定） |
+
+- **MPDD 三点核对（stride 1 / 4 / 8，实读）**：I_TRI = **+0.007853 / +0.007741 / +0.007624**（stride-4/8 取自归档 `experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/interaction_by_grid.csv` 第 9 / 2 行）；I_BAL = **+0.006074 / +0.006172 / +0.006154**（同文件第 10 / 3 行）。**三点均排除零** ⇒ 方向与零排除判断随网格变粗**不变**。
+- **BTAD（首次 full-pixel 测量）**：I_TRI / I_BAL 的 98.75% 区间**均跨零**，与论文既有定位一致。**如实记录：归档 `E1_fullpixel_ci/`（实读 15 行）只有 MPDD 的 stride-4/8 两组交互，**没有** BTAD 行；BTAD 的 full-pixel 属首次测量、无粗网格可比对象。**
+- **一处不一致（如实记录、不平滑）**：`E_BAL_J`（MPDD，属**绝对表示效应**、非交互）在 stride **1 / 4 排除零**（−0.007355 / −0.007497）、在 stride **8 跨零**（−0.005188，98.75% = [−0.013493, +0.003230]）；符号始终一致（均负），区间随网格变粗而**变宽**。该差异**不改变** I_TRI / I_BAL 的零排除判断。
+- **网格敏感性**：逐像素（stride 1）下区间**更窄**；本次只跑 `--strides 1`，`E1_REPORT_SUMMARY.json` 记 `comparison_rows=0`、`grids=[1]`（未与 stride-4/8 在同一目录逐行对照，见 §5.6）。
+
+### 5.4 GPU 试验（独立探针，一句话结论）
+
+- 探针 `experiments/prereg_20260924/scratch/gpu_try/gpu_e1_fullpixel.py`（SHA-256 `73D381D92BE309AF…`，见 `.../scratch/gpu_try/gpu_try_summary.json`）：**f64 max|Δ| ≤ 3.3e-16（达标）**、**f32 原样 1.34e-6（越界、不可用）**、**f32 计算 + f64 跨块累加 6.1e-8（达标且零速度代价）**；端到端 f64 **5–11×**、f32 **21–39×**、f32+acc64 **≈37×**；显存峰值 ≤ **446 MiB**。
+- **结论：未接入主链路，本次不切换**（原因：port 只覆盖两段热点，需 runner 集成 + 1e-6 全量重校验，成本超剩余工作量；prod 脚本 mtime 未变、归档未动，`gpu_try_summary.json` 的 `production_touch = "none - … E1_fullpixel_ci/ and p4_fullpixel/ untouched"`）。
+
+### 5.5 红线复核（实读）
+
+- 归档 `experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/` 与 `experiments/dynamic_fusion/unified_fusion_paper_support_20260913/p4_fullpixel/`：`git status` 变更条目 **0 / 0**。
+- 三个冻结哈希（实读一致）：共同区域表 `3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、扩展表 `1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、版式母本 `9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837`。
+- 本文件**未 git add / commit**；新增文本禁用词自查 **0 命中**。
+
+### 5.6 限制 / 未做
+
+1. **未跑 `--mode verify` 与 `--mode validate`**：二者输出目录在脚本内**硬编码**为既有归档目录（会覆盖 `V1_CHECKS.json` / `V1_3_END_TO_END.json`），与"不覆盖既有产物"冲突；故只跑 `run` + `report`。
+2. **未做 stride-1 与 stride-4/8 的逐行同号同判对照**：本次 `--strides 1`，A08 目录内只有 stride-1 产物 ⇒ `E1_REPORT_SUMMARY.json` 的 `comparison_rows=0`；跨网格逐行对照需把 stride-4/8 点表放入同一目录或另跑 `--strides 1 4 8`（`scratch/E1_stride8_regress_new/` 只有 `point_stride8.csv`，未生成同目录交互表）。本条即 §4.1"期望输出"尚未闭环处。
+3. BTAD 实为 3 类（01/02/03）、8 单元（seed0/1 × K=1/2/4/8）= 24 类别实例；MPDD 6 类 × 12 单元 = 72，合计 96 类别实例（与 `E1_STATUS_stride1.json` 一致）。§2.3 原记"BTAD 仅 01/02"为启动前登记，实际运行含 03。
+4. 本节只回填执行结果，**未改** §一～§四任何文字、判据、口径、产物名与成本估算。
