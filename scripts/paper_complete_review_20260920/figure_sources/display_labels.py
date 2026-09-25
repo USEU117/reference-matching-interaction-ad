@@ -32,11 +32,11 @@ INTERACTION_LABELS = {
     "I_BAL": "Balanced replacement interaction",
 }
 
-# These are intentionally two-line labels.  "Baseline" is a reader-facing name;
-# the nearby legend/caption expands it to Dual-encoder baseline.
+# These are intentionally compact line-broken labels so the complete construction
+# name remains visible in narrow image panels.
 BASELINE_RULE_LABELS = {
-    "J": "Baseline\nJoint matching",
-    "L": "Baseline\nIndependent matching",
+    "J": "Dual-encoder\nbaseline\nJoint matching",
+    "L": "Dual-encoder\nbaseline\nIndependent matching",
 }
 
 FIG7_METHOD_LABELS = {

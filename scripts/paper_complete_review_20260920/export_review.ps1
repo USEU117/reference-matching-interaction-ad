@@ -72,6 +72,7 @@ for($i=0;$i -lt 240;$i++){
 }
 
 # --- Word statistics record -----------------------------------------------------------------
+Copy-Item -LiteralPath $taskPdf -Destination (Join-Path $taskTemp 'paper.pdf') -Force
 $taskStatsWord=New-Object -ComObject Word.Application
 $taskStatsWord.Visible=$false
 $taskStatsWord.DisplayAlerts=0

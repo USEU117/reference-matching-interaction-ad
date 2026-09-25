@@ -6,9 +6,11 @@
 
 1. 使用 Python 3，安装 `python-docx`、`lxml`。保留 `docs/manuscript_polished_20260919/Reference_Matching_English_Polished_20260919.docx`，它是版式输入，SHA-256 为 `9db99e60cd3024d1d49429641edd6e49777bf014a3f4b7fb674c9c20338fb837`。
 2. 表 1–20 来自现役 `tables.json`，逐项证据索引沿用 `docs/ARTIFACT_INDEX.md`。Table 11/12 不重新计算。新增 Table 21 / S1 从已存指标读取，输入清单与哈希在 `docs/paper_complete_review_20260920/additional_table_sources.json`。
-3. 仓库根执行 `python scripts/paper_complete_review_20260920/build_additional_tables.py` 可重新产生新增三表；执行 `python scripts/paper_complete_review_20260920/build.py` 可生成 20260923 英文稿。新增表格脚本会规范化 JSON；布局修订以现役 `tables.json` 为准。
+3. 仓库根执行 `python scripts/paper_complete_review_20260920/build_additional_tables.py` 可重新产生新增三表；执行 `python scripts/paper_complete_review_20260920/build.py` 可生成 20260925 英文稿。新增表格脚本会规范化 JSON；布局修订以现役 `tables.json` 为准。
 4. 所有入稿图片位置由 `figures.json` 指定。现成科学图是可重建输入，不依赖重新推理即可装配论文。新增 S6 的生成器是 `figure_sources/build_protocol_paper.py`；S4 第一页是 `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`。绘图需要 numpy、matplotlib、scipy、Pillow；S4 还需要已存 bootstrap 数组，这些大缓存不在轻量包内。
-5. Word 渲染检查使用 Microsoft Word PDF 导出和文档技能 rasterizer。PPT 装配需要 Node、`@oai/artifact-tool` 与 Microsoft PowerPoint；当前脚本记录了本机 runtime 路径，其他机器须替换为自己的安装路径。不能把本机可执行性写成跨平台开箱即用。
+逐类别附录由 `figure_sources/build_multimethod_labels.py` 从完整的原始六配置 PDF 面板及相邻 JSON 重排标签，不重新计算预测；证据见 `figures/multimethod/NAMING_RENDER_AUDIT_20260925.json`。
+
+5. Word 页数、表格分页由 Microsoft Word 核查；PDF 使用本机 WPS Writer 导出，再用文档技能 rasterizer 检查版面。Microsoft Word 对当前稿的 PDF 导出会停滞，不能据此宣称 PDF 是 Word 原生导出。PPT 装配需要 Node、`@oai/artifact-tool` 与 Microsoft PowerPoint；当前脚本记录了本机 runtime 路径，其他机器须替换为自己的安装路径。不能把本机可执行性写成跨平台开箱即用。
 
 ## 从原始数据重做实验（本轮未执行）
 

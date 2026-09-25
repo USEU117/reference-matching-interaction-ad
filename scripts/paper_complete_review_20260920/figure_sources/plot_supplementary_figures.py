@@ -56,8 +56,8 @@ METHOD_ORDER = [
     "patchcore_official224",
 ]
 METHOD_LABEL = {
-    "a1_j": "Baseline\nJoint matching",
-    "a1_l": "Baseline\nIndependent matching",
+    "a1_j": "Dual-encoder\nbaseline\nJoint matching",
+    "a1_l": "Dual-encoder\nbaseline\nIndependent matching",
     "adino_canvas": "AnomalyDINO\ncanvas",
     "adino_canvas_rotation": "AnomalyDINO\ncanvas + rotation",
     "patchcore_local128": "PatchCore\nnative 128",

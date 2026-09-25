@@ -78,8 +78,12 @@ SCORING = {"baseline": (True, "cosine", False), "ABL_N": (False, "l2sq", False),
            "ABL_C": (True, "cosine", True), "ABL_S": None}
 RULES = ("J", "L")
 CONSTRUCTIONS = ("A1", "DUP", "TRI", "BAL")
-INTERACTIONS = {"I_TRI": ("TRI_L", "DUP_L", "TRI_J", "DUP_J"),
-                "I_BAL": ("BAL_L", "A1_L", "BAL_J", "A1_J")}
+# contrast -> (new, control) construction names, evaluated once under "L" and once
+# under "J": I_TRI = (TRI_L - DUP_L) - (TRI_J - DUP_J), I_BAL = (BAL_L - A1_L) -
+# (BAL_J - A1_J).  The names are the `construction` values of the point table
+# (SLOTS keys); the rule is carried by the zip below, not by a name suffix.
+INTERACTIONS = {"I_TRI": ("TRI", "DUP", "TRI", "DUP"),
+                "I_BAL": ("BAL", "A1", "BAL", "A1")}
 ARCHIVED_E2 = (ROOT / "experiments/dynamic_fusion/limitation_closure_20260915"
                / "E2_shared_op_ablation")
 
@@ -493,17 +497,23 @@ def assemble(out: Path, plan, args) -> int:
 
 
 def _archived_single_condition() -> dict:
-    """The shipped single-condition (seed 0, K = 1) exploratory conclusion, read-only."""
-    out = {}
+    """The shipped single-condition (seed 0, K = 1) exploratory conclusion, read-only.
+
+    The archived table holds one row per CATEGORY, so it has to be macro-averaged over
+    the categories of a dataset before it can be compared with the multi-condition
+    aggregate (which is also a dataset-level macro).  Taking the last category's row
+    would compare a single category against a six-category mean.
+    """
+    acc = {}
     path = ARCHIVED_E2 / "interaction_by_ablation.csv"
     if not path.exists():
-        return out
+        return {}
     with path.open(encoding="utf-8-sig") as fh:
         for row in csv.DictReader(fh):
             for name, field in (("I_TRI", "I_TRI_pp"), ("I_BAL", "I_BAL_pp")):
-                out[(row["ablation"], row["dataset"], name)] = {
-                    "point_delta": float(row[field]) / 100.0}
-    return out
+                acc.setdefault((row["ablation"], row["dataset"], name), []).append(
+                    float(row[field]) / 100.0)
+    return {key: {"point_delta": float(np.mean(vals))} for key, vals in acc.items()}
 
 
 def main() -> int:

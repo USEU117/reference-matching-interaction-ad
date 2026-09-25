@@ -105,7 +105,7 @@ rect('j-background',470,473,408,48,'#E4DBF1',C.violetLine,1.2);math('joint-equat
 rect('l-background',470,529,408,48,C.redFill,C.redLine,1.2);math('independent-equation',l,474,525,400,55);
 math('resize-smooth',[u('Resize '),v('H'),u(' × '),v('W'),u('   Gaussian '),v('σ'),u(' = 4')],466,597,420,48,{size:30});
 arrow([674,579],[674,595],{width:1.8});arrow([895,620],[930,620]);
-text('matching-explanation','J  one shared row\nL  one row per branch',454,663,440,67,{align:'center'});
+text('matching-explanation','Joint: one shared row\nIndependent: separate rows',454,663,440,67,{align:'center'});
 rect('outputs-box',938,420,316,288,C.white,C.grayLine,2);
 text('output-heading','Output and display',943,422,307,42,{bold:true,align:'center'});
 await image(s,'anomaly-map',path.join(A,'scoremap_concat_magma.png'),950,478,130,130,{fit:'contain'});
@@ -121,7 +121,7 @@ math('image-score',[v('s'),sub('img,'),sub('t',true),u(' = max'),sub('u',true),v
 math('display-only',[u('Contour uses '),v('τ'),sub('vis'),u(' for display only')],31,694.5,400,60,{align:'left'});
 
 section('c','Representation effects and matching interactions',762);
-const controls=[['Dual-encoder\nbaseline','Original encoder pair'],['Duplicate-branch\ncontrol','Duplicate existing features'],['Equal-weight\nreplacement','Replace the duplicate'],['Balanced\nreplacement','Preserve group weights']];
+const controls=[['Dual-encoder\nbaseline','Original encoder pair'],['Duplicate-branch\ncontrol','Copy existing features'],['Equal-weight\nreplacement','Replace the duplicate'],['Balanced\nreplacement','Preserve group weights']];
 for(let i=0;i<4;i++){
  const x=26+i*314;
  text('control-label-'+i,controls[i][0],x,806,302,60,{size:30,bold:true,align:'center'});
@@ -135,7 +135,7 @@ function interaction(label){return[v('I'),sub(label),u(' = '),v('E'),sub(label),
 math('tri-interaction',interaction('Equal'),24,966,610,48);
 math('bal-interaction',interaction('Balanced'),649,966,610,48);
 text('matched-condition-note','Identical supports and query images within every paired comparison',30,1015,1220,33,{align:'center'});
-s.speakerNotes.textFrame.setText(`Scientific sources: scripts/manuscript_build_20260914 and docs/manuscript_polished_20260919. Real image assets: ${A}. MPDD metal_plate/test/scratches/026.png, A1 joint matching, seed 0 K=1. Score map follows stored resize and Gaussian sigma=4 processing. Red contour uses archived 256-bin Otsu polygons without loading a test mask. Three support thumbnails illustrate the general K-image input; they do not claim the output example used all three. A1, DUP, TRI, and BAL denote Dual-encoder baseline, Duplicate-branch control, Equal-weight replacement, and Balanced replacement. The frozen encoder names are DINOv2-B/14, AnomalyCLIP visual, and the replacement options DINOv2-S/14 or WideResNet50-2. p is query-patch index, b branch index, r normal-bank candidate. Native model outputs are the continuous anomaly map and its spatial maximum. Contour is display only. The replacement slot is a fixed construction, never a runtime switch. All diagrams and labels are editable native shapes, with real images embedded.`);
+s.speakerNotes.textFrame.setText(`Scientific sources: scripts/manuscript_build_20260914 and docs/manuscript_polished_20260919. Real image assets: ${A}. MPDD metal_plate/test/scratches/026.png, A1 joint matching, seed 0 K=1. Score map follows stored resize and Gaussian sigma=4 processing. Red contour uses archived 256-bin Otsu polygons without loading a test mask. Three support thumbnails illustrate the general K-image input; they do not claim the output example used all three. The four constructions are the dual-encoder baseline, duplicate-branch control, equal-weight replacement, and balanced replacement. The frozen encoder names are DINOv2-B/14, AnomalyCLIP visual, and the replacement options DINOv2-S/14 or WideResNet50-2. p is query-patch index, b branch index, r normal-bank candidate. Native model outputs are the continuous anomaly map and its spatial maximum. Contour is display only. The replacement slot is a fixed construction, never a runtime switch. All diagrams and labels are editable native shapes, with real images embedded.`);
 await(await PresentationFile.exportPptx(p)).save(path.join(T,'candidate.pptx'));
 await fs.writeFile(path.join(T,'math_baselines.json'),JSON.stringify(scripts,null,2));
 await fs.writeFile(path.join(T,'figure_manifest.json'),JSON.stringify({W,H,font:'Times New Roman',mathFont:'Cambria Math',minBaseSizePx:30,embeddedWidthCm:17,minPrintedPt:30*.75*17/(1280/96*2.54),elements:manifest},null,2));

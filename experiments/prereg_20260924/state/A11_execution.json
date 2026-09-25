@@ -3,27 +3,28 @@
     "status":  "completed",
     "executed":  true,
     "script":  "D:\\STUDY\\My_github\\sci_project\\scripts\\prereg_20260924\\a11_shared_op_ablation_multi.py",
-    "base_vram_mib":  1366,
+    "base_vram_mib":  1340,
+    "peak_working_set_mib":  6758,
+    "stopped_by_ram_rule":  false,
+    "ram_stop_rule_percent":  96,
     "shards":  [
                    {
                        "id":  "A11_mpdd",
                        "command":  "\"D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe\" --mode run --datasets mpdd --output D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11 --seeds 0 1 --shots 1 2 4 8 --resume",
-                       "start":  "2026-09-25T19:00:41",
-                       "seconds":  722,
+                       "start":  "2026-09-25T19:56:29",
+                       "seconds":  20995,
                        "exit_code":  null,
-                       "peak_working_set_mib":  4,
-                       "peak_device_vram_mib":  1368,
+                       "peak_device_vram_mib":  1473,
                        "stdout":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\logs\\A11_mpdd.out",
                        "stderr":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\logs\\A11_mpdd.err"
                    },
                    {
                        "id":  "A11_btad",
                        "command":  "\"D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe\" --mode run --datasets btad --output D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11 --seeds 0 1 --shots 1 2 4 8 --resume",
-                       "start":  "2026-09-25T19:00:41",
-                       "seconds":  722,
+                       "start":  "2026-09-25T19:56:29",
+                       "seconds":  20995,
                        "exit_code":  null,
-                       "peak_working_set_mib":  4,
-                       "peak_device_vram_mib":  1368,
+                       "peak_device_vram_mib":  1851,
                        "stdout":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\logs\\A11_btad.out",
                        "stderr":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\logs\\A11_btad.err"
                    }
@@ -41,13 +42,13 @@
                       },
                       {
                           "path":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11\\A11_STATUS.json",
-                          "bytes":  1052,
-                          "sha256":  "F0A1A37EC3A470BD318B4CE7F5AA93A00E4F9CF8F31B3E4225A2C8C765BB2302"
+                          "bytes":  1054,
+                          "sha256":  "869F595B13E646EDCA15F490A07F144561AF7E57AF98905AAF78D74D1A0E8203"
                       },
                       {
                           "path":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11\\ablation_metrics_multi.csv",
-                          "bytes":  67,
-                          "sha256":  "B8138534F2FDCF44347653C7997B5ABA59542702EFB24B1834AC5E8C2A3726DC"
+                          "bytes":  116666,
+                          "sha256":  "F96C998046FCDFD32977E8F8831AD20794E8907CB702554242C78E6938CDEC01"
                       },
                       {
                           "path":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11\\interaction_by_ablation_condition.csv",
@@ -56,11 +57,90 @@
                       },
                       {
                           "path":  "D:\\STUDY\\My_github\\sci_project\\experiments\\prereg_20260924\\out\\A11\\replicate_multi.npz",
-                          "bytes":  22,
-                          "sha256":  "8739C76E681F900923B900C9DF0EF75CF421D39CABB54650C4B9AD19B6A76D85"
+                          "bytes":  3873040,
+                          "sha256":  "7FC433A2E6FE79AACFD3816F086709F9C46FDB425B6F68FD02BD69D36ADC168A"
                       }
                   ],
     "unit_checkpoints":  [
-
+                             {
+                                 "name":  "btad_s0_k1.npz",
+                                 "bytes":  750744,
+                                 "sha256":  "052DEBAB6E19168060102E0A42A33D51D114B444AABC54043B7ECBA5912FDE7D"
+                             },
+                             {
+                                 "name":  "btad_s0_k2.npz",
+                                 "bytes":  750148,
+                                 "sha256":  "C751CB64CC017F704E91DCFDA2260A96B46367451AA88FE79BD52D55EFBF6FDE"
+                             },
+                             {
+                                 "name":  "btad_s0_k4.npz",
+                                 "bytes":  750123,
+                                 "sha256":  "3F0344E3290915FAD768E48910ED7211E247E47F60D0057DAFF8E529DA6648E8"
+                             },
+                             {
+                                 "name":  "btad_s0_k8.npz",
+                                 "bytes":  749496,
+                                 "sha256":  "8E7EB852B8567D9294C7D25FB984399769A5D6A9D94ED68E69BF1C97ED8D58C4"
+                             },
+                             {
+                                 "name":  "btad_s1_k1.npz",
+                                 "bytes":  750819,
+                                 "sha256":  "19B868F0AF5186814C941C2FE9A292532DD19D220B9829704385C02B5185DB7F"
+                             },
+                             {
+                                 "name":  "btad_s1_k2.npz",
+                                 "bytes":  750260,
+                                 "sha256":  "9764B28FB5CF250609B52299FD158A1367F22F0207EF27C3E9B3A78183BF261C"
+                             },
+                             {
+                                 "name":  "btad_s1_k4.npz",
+                                 "bytes":  749923,
+                                 "sha256":  "4F34525F3336F7BD9E3E559FF43A351D9A5B2CB7C73EEEB44591C5513E630E96"
+                             },
+                             {
+                                 "name":  "btad_s1_k8.npz",
+                                 "bytes":  749817,
+                                 "sha256":  "B8E77CEA2EBA4F7282F2DAD4AB0C0D9C968CEF3C25CD335063C5A056D45114F8"
+                             },
+                             {
+                                 "name":  "mpdd_s0_k1.npz",
+                                 "bytes":  1522107,
+                                 "sha256":  "3155E56B27741E77C0060CC9E67A80236D73069963D40F3EEBA07F1E23622A08"
+                             },
+                             {
+                                 "name":  "mpdd_s0_k2.npz",
+                                 "bytes":  1521845,
+                                 "sha256":  "10B7CD32C569CCBF5D3B8CF31F942D6510DBCFA56544921281A289F28C2B9AE8"
+                             },
+                             {
+                                 "name":  "mpdd_s0_k4.npz",
+                                 "bytes":  1520657,
+                                 "sha256":  "397EA05FAA49CE53F9CA79360E5FB4E1D1D1D7568671A983D0E254E25397EA6E"
+                             },
+                             {
+                                 "name":  "mpdd_s0_k8.npz",
+                                 "bytes":  1518186,
+                                 "sha256":  "9CA5E090603FE2E7AB6173AC796E1FE261FA19BFAA4F99CDA003CBCAE81D504B"
+                             },
+                             {
+                                 "name":  "mpdd_s1_k1.npz",
+                                 "bytes":  1522498,
+                                 "sha256":  "930232721AA52E69D654EBFA58D8CCB0DC8CC2F51B4BDE570FD073F7EA8D2E1B"
+                             },
+                             {
+                                 "name":  "mpdd_s1_k2.npz",
+                                 "bytes":  1522226,
+                                 "sha256":  "A3FF13028EBD01162C578B5F56D3537AB28BAF745D3118349E733B0CD723994B"
+                             },
+                             {
+                                 "name":  "mpdd_s1_k4.npz",
+                                 "bytes":  1520722,
+                                 "sha256":  "7B2EF2C075E4CAC3278CCDA438A0A7226901121C66CD46FAC3E8060AAC788B6D"
+                             },
+                             {
+                                 "name":  "mpdd_s1_k8.npz",
+                                 "bytes":  1519511,
+                                 "sha256":  "34C797A5F01D44858083F1AD617E2162A54DE7637B32AEBCF5B89909BB385615"
+                             }
                          ]
 }

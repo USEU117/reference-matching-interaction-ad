@@ -1,5 +1,7 @@
 # 论文 / PPT / 图件 待办总表（唯一交接入口）— 2026-09-23
 
+> **2026-09-25 修订（9 月 26 日完成导出）**：现役源与交付使用 `20260925` 文件名；当前修订说明以 [投稿前复核](PRE_SUBMISSION_REVIEW_20260925_CN.md) 和 [修订与验收](paper_complete_review_20260920/修订说明与验收_20260925.md) 为准。老师已要求执行整批描述性命名，A-21、B-06、C-02 不再“待拍板”。下文 23/24 日统计及状态是历史快照。作者单位已确认合肥工业大学，具体期刊、通讯作者、资助及利益冲突待定。A08 全像素区间已完成，但须保留 DINOv2-S/14、MPDD/canonical BTAD 的适用范围。
+
 > **2026-09-24 本轮交付更新**：现役改为 `paper_complete_review_20260920/Reference_Matching_Complete_English_20260924.docx`（56 页 / 23 表 / 28 图 / 154 数学对象 / 37 文献）与 `All_Figures_Complete_20260924.pptx`（64 页，原生页 1/2/3/16）。旧表中的 20260923 计数为历史快照，不再代表当前交付；详见 [本轮修订与验收](paper_complete_review_20260920/修订说明与验收_20260924.md)。作者元数据与 DOI 仍待补齐。
 
 
@@ -656,6 +658,8 @@
 
 > 完整记录见 [`docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md`](PROJECT_CLOSURE_AUDIT_20260924_CN.md) **§八**。与本节冲突处**以本节为准**（尤其 §十六 末行"未重出 `paper.pdf`"与 §十五/A08 相关的"60 页"口径）。
 
+> **编号说明（2026-09-26 订正）**：本节与下文另一节（A22 / A04 / A11 执行结果）此前**同用「十七」**；现**本节保留 §十七**、那一节改为 **§十八**，**两节内容均一字未改**。两节主题不同：本节 = paper.pdf 重出 + 措辞订正 + E-08 处置；§十八 = A22 / A04 / A11 执行结果。
+
 ### 17.1 paper.pdf（已产出；口径刷新）
 
 | 项 | 值（实读） |
@@ -692,7 +696,9 @@
 
 ---
 
-## 十七、2026-09-25 A22 / A04 / A11 执行结果（**只追加，本表其余内容一字未改**）
+## 十八、2026-09-25 A22 / A04 / A11 执行结果（**只追加，本表其余内容一字未改**）
+
+> **编号说明（2026-09-26 订正）**：本节**原编号为「十七」**，与上文 **§十七**（paper.pdf 重出 + 措辞订正 + E-08 处置）重复；现**本节改为 §十八**，上文 §十七 与其内容**一字未改**。两节主题不同，互指见各自首行。
 
 > 作者批准执行 `docs/PREREGISTRATION_20260924_CN.md` 的 **A22 / A04 / A11**（§4.1 表内 A22/A04/A11 三行、§4.2 的 D-01/D-05/D-11 原登记为"不补（结论不变）"）。本轮按**预注册登记的口径**执行；三项**全部纯 CPU**（复用既有冻结 dump / canonical 特征），**未动 GPU**，全部新产物落 `experiments/prereg_20260924/out/A{22,11,04}/`，**未覆盖**任何既有目录。完整记录见 `docs/PREREGISTRATION_20260924_CN.md §七 / §八`（A11 见其追加节）与 `docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md §九`。
 
@@ -700,3 +706,17 @@
 - **A04（§4.1 / D-01「跨方法稳定性」）→ 已完成（口径待追认）**：新脚本 `scripts/prereg_20260924/a04_cross_method_stability.py`，墙钟 **520 s**、零 GPU；产物 `out/A04/` 五件（`A04_point_values.csv` 131,079 B / 432 行、`A04_stability.csv` 16,398 B / 64 行、`A04_cross_config.csv` 4,395 B / 8 行、`A04_checks.json` 18,611 B、`A04_STATUS.json` 2,569 B）。**契约核对**：六配置的**共同区域**读数 vs `baseline_common_region.csv` **216 行 max|Δ|=0.0**。**结论**：输入几何扰动下四个画布帧配置 Δ 一致为正（32/32 配置-组为正），两个 PatchCore 列 Δ≈0 且区间跨零 ⇒ **§2.1 成功判据判为"扰动下方向不一致"**（按 §2.1 如实报告，未改口径/未缩范围/未把跨零写成零效应）。**⚠ 待作者追认 4 项**：纵横轴定义、原生帧实现、区间网格、样本范围（MVTec AD / VisA 未纳入，因登记的原生帧产物只覆盖 MPDD/BTAD）。
 - **A11（§4.1 / D-05「共享操作多条件消融」）→ 已启动，产物待回填**：新脚本 `scripts/prereg_20260924/a11_shared_op_ablation_multi.py`（**不改**既有 `e2_shared_op_ablation.py` / `e2_abl_s_addendum.py`，**不写**既有 `E2_shared_op_ablation/`），队列 `experiments/prereg_20260924/run_queue_a11.ps1`。口径 = 3 消融（ABL-S/ABL-N/ABL-C）+ baseline × seed 0、1 × K 1、2、4、8 ×（MPDD development / BTAD holdout），区间实现与抽样流**直接 import** 既有 `e1_fullpixel_ci`（`default_rng([20260913, dataset_id, category_id, replicate])`）。**门禁已过**：`--mode check` **21/21 pass、max|d|=9.5e-07**；单元级抽查与归档单条件交互 **max|Δ|=1.7e-18**。**一次失败已登记**：首版队列的 RAM 停止规则（单点 93%）在 19:12:42 因一次瞬时 95.4% 误杀两 shard（无 checkpoint 损失），已改为"连续 3 次 ≥96%"并重启；`sum_peak_ws`≈8.0 GB、`system_used` 峰值 82.8%、**显存 0 MiB**。**最终产物与结论见 `PREREGISTRATION_20260924_CN.md` 的 A11 追加节与 `PROJECT_CLOSURE_AUDIT_20260924_CN.md §九`。**
 - **纪律**：三项均**不构成排名**（无 `SOTA / outperforms / state-of-the-art / 全面领先`）、`0 target-trainable parameters` 未受影响、**未在 KSDD2 上做任何新探索**；三个冻结哈希实读未变；**未 git add / commit**；本节新增文本禁用词自查 **0 命中**。
+
+---
+
+## 十九、2026-09-26 A11（共享操作多条件消融）**已完成**追加（**只追加，本表其余内容一字未改**）
+
+> **摘要＋指向**：上文 **§十八** 记 A11 时状态为"已启动，产物待回填"。全量运行已于 **2026-09-26 01:46:24** 结束、收尾产出于 **01:46:41** 落盘 ⇒ A11 转为**已完成（含证据）**。完整数值见 [`docs/PREREGISTRATION_20260924_CN.md`](PREREGISTRATION_20260924_CN.md) **§九**；分类与计数刷新见 [`docs/PROJECT_CLOSURE_AUDIT_20260924_CN.md`](PROJECT_CLOSURE_AUDIT_20260924_CN.md) **§九 / §十**。
+
+- **规模与耗时**：4 变体（baseline / ABL-S / ABL-N / ABL-C）× seed 0、1 × K = 1、2、4、8 × 2 数据集 ⇒ **16 单元 / 2,304 点单元格 / 128 条件行 / 16 汇总行**；2 路 shard **并行 20,995 s（≈5.83 h，纯 CPU，显存 0 MiB）**，收尾 `--mode assemble` 约 **17 s**。对比 §2.2 的 GPU 估算 ≈4–8 卡时：**成本估算未改，只登记实际值**。
+- **产物**（`experiments/prereg_20260924/out/A11/`）：`ablation_metrics_multi.csv` **116,666 B**、`replicate_multi.npz` **3,873,040 B**、`interaction_by_ablation_condition.csv` **15,450 B**、`A11_multi_vs_single_condition.csv` **3,298 B**、`A11_STATUS.json` **1,054 B**（SHA-256 见预注册 §9.2）；单元检查点 **16 件**。
+- **结构 / 口径**：三张 CSV **0 空 / 0 NaN / 0 重复键**；`replicate_multi.npz` = **512** 条长度 **1,000** 的宏平均数组。`stride = 8`、`replicates = 1000`、区间 = 逐单元**配对**宏平均后的 **2.5/97.5 百分位**、抽样流 `default_rng([20260913, dataset_id, category_id, replicate])`；**独立复算 128 + 16 行 max|Δ| ≤ 5.2e-18**。
+- **多条件 vs 原单条件（探索性）**：**MPDD 8/8 行**区间排除零、与单条件同号；**BTAD 8/8 行**区间**全部跨零**（方向未定，**不得**读作"零效应"），其中 4 行反号 —— 但 `baseline`（**未消融**参考）在 BTAD `I_TRI` 上同样反号，故**反号不能单归于消融**。按 §2.2 判据：MPDD 三个消融均 ≥6/8 且无"反号且排除零" ⇒ 成立；BTAD 上 **ABL_C 触发**"反号且区间排除零"（I_TRI 3 + I_BAL 2）⇒ 按登记口径如实报告"该共享操作在部分条件下改变方向"，**不升格为"模块已验证"，也不降级为"模块无效"**。
+- **装配缺陷已登记并订正（未改任何实验数值）**：首轮 `assemble` 因两处记账缺陷产出**空派生表**（日志 `0 condition rows; 0 aggregate rows`）—— ① `INTERACTIONS` 使用带 `_L` / `_J` 后缀的构造名，与点表 `construction` 列（无后缀）不匹配；② `_archived_single_condition()` 逐行覆盖、只留最后一个类别。订正后 `ablation_metrics_multi.csv` / `replicate_multi.npz` / `A11_STATUS.json` **逐字节未变**（SHA-256 与首轮清单相同），改变的只有两张派生表；**未重跑任何单元**。
+- **需与结论同读的口径事实**：`I_TRI` 上 **ABL_C 与 baseline 逐格相同**（`naive_alpha` 在 `TRI` / `DUP` 槽位上与 `branch_weights` 数值一致）⇒ ABL_C 的可分辨信息只在 `I_BAL`；BTAD 每单元仅 3 类、区间宽约 3.0e-3–4.4e-3，可分辨程度低于 MPDD（6 类），**本轮不据此给跨数据集结论**。
+- **红线**：`E2_shared_op_ablation/` 变更 **0** 项（`git status --porcelain`）；三个冻结哈希未变；**不构成排名**、不含领先或最优类措辞；`0 target-trainable parameters` 未受影响；**未在 KSDD2 上做任何新探索**；本节新增文本禁用词自查 **0 命中**。

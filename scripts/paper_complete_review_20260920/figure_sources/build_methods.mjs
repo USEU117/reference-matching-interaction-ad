@@ -238,34 +238,22 @@ function createSlide() {
   addText(slide, "f2-query-label", "Query\npatch", 30, 228, 124, 64, { size: BASE, align: "center" });
   addMath(slide, "f2-query-index", [variable("p")], 158, 238, 28, 40, { size: BASE, align: "left" });
 
-  addText(slide, "f2-branch-b-id", "B", 140, 116, 18, 42, {
-    size: BASE,
-    bold: true,
-    color: C.blueLine,
-    align: "center",
-  });
-  addText(slide, "f2-branch-b", "DINOv2-B/\n14 branch", 160, 108, 158, 54, {
+  addText(slide, "f2-branch-b", "DINOv2-B/14", 172, 112, 230, 48, {
     size: BASE,
     bold: true,
     color: C.blueLine,
     align: "right",
     lineSpacing: 0.78,
   });
-  addText(slide, "f2-branch-c-id", "C", 128, 178, 18, 42, {
-    size: BASE,
-    bold: true,
-    color: C.amberLine,
-    align: "center",
-  });
-  addText(slide, "f2-branch-c", "Anomaly\nCLIP visual\nbranch", 148, 171, 170, 78, {
+  addText(slide, "f2-branch-c", "AnomalyCLIP\nvisual", 172, 178, 230, 70, {
     size: BASE,
     bold: true,
     color: C.amberLine,
     align: "right",
     lineSpacing: 0.70,
   });
-  const rowX = 332;
-  const cellW = 70;
+  const rowX = 416;
+  const cellW = 60;
   const gap = 5;
   addCells(slide, "f2-candidate-b", rowX, 116, 8, cellW, gap, 42, C.blueFill, C.blueLine, 2, C.blueFill);
   addCells(slide, "f2-candidate-c", rowX, 178, 8, cellW, gap, 42, C.amberFill, C.amberLine, 5, C.amberFill);
@@ -293,13 +281,13 @@ function createSlide() {
   section(slide, "b", "Joint and independent matching", 314);
   addBox(slide, "f2-joint-box", 32, 370, 600, 400, C.violetFill, C.violetLine, 1.8);
   addBox(slide, "f2-independent-box", 648, 370, 600, 400, C.redFill, C.redLine, 1.8);
-  addText(slide, "f2-joint-title", "J: one shared reference row", 46, 382, 572, 42, {
+  addText(slide, "f2-joint-title", "Joint matching", 46, 382, 572, 42, {
     size: 32,
     bold: true,
     color: C.violetLine,
     align: "center",
   });
-  addText(slide, "f2-independent-title", "L: one row per branch", 662, 382, 572, 42, {
+  addText(slide, "f2-independent-title", "Independent matching", 662, 382, 572, 42, {
     size: 32,
     bold: true,
     color: C.redLine,
@@ -332,22 +320,20 @@ function createSlide() {
     { size: 30 },
   );
 
-  addText(slide, "f2-j-row-b", "DINOv2-B/\n14", 34, 510, 174, 54, { size: BASE, bold: true, color: C.blueLine, align: "center", lineSpacing: 0.78 });
-  addText(slide, "f2-j-row-c", "Anomaly\nCLIP visual", 28, 564, 180, 58, { size: BASE, bold: true, color: C.amberLine, align: "center", lineSpacing: 0.78 });
-  addCells(slide, "f2-j-b", 220, 516, 8, 38, 4, 44, C.blueFill, C.blueLine, 2, C.blueFill);
-  addCells(slide, "f2-j-c", 220, 570, 8, 38, 4, 44, C.amberFill, C.amberLine, 2, C.amberFill);
+  addText(slide, "f2-j-row-b", "DINOv2-B/14", 44, 510, 202, 54, { size: BASE, bold: true, color: C.blueLine, align: "center", lineSpacing: 0.78 });
+  addText(slide, "f2-j-row-c", "AnomalyCLIP\nvisual", 44, 564, 202, 66, { size: BASE, bold: true, color: C.amberLine, align: "center", lineSpacing: 0.78 });
+  addCells(slide, "f2-j-b", 252, 516, 8, 38, 4, 44, C.blueFill, C.blueLine, 2, C.blueFill);
+  addCells(slide, "f2-j-c", 252, 570, 8, 38, 4, 44, C.amberFill, C.amberLine, 2, C.amberFill);
   // The violet bracket marks the one shared reference row J minimises over, so it must wrap the
   // same cell that both branch rows shade (index 2, the third candidate).
-  addRect(slide, "f2-j-shared-highlight", 217 + 2 * 42, 512, 42, 102, "none", C.violetLine, 3);
-  addText(slide, "f2-j-note", "same\nrow for\nboth", 558, 516, 62, 98, { size: BASE, align: "center", lineSpacing: 0.78 });
+  addRect(slide, "f2-j-shared-highlight", 249 + 2 * 42, 512, 42, 102, "none", C.violetLine, 3);
 
-  addText(slide, "f2-l-row-b", "DINOv2-B/\n14", 648, 510, 174, 54, { size: BASE, bold: true, color: C.blueLine, align: "center", lineSpacing: 0.78 });
-  addText(slide, "f2-l-row-c", "Anomaly\nCLIP visual", 648, 564, 180, 58, { size: BASE, bold: true, color: C.amberLine, align: "center", lineSpacing: 0.78 });
-  addCells(slide, "f2-l-b", 840, 516, 8, 38, 4, 44, C.blueFill, C.blueLine, 2, C.blueFill);
-  addCells(slide, "f2-l-c", 840, 570, 8, 38, 4, 44, C.amberFill, C.amberLine, 5, C.amberFill);
-  addRect(slide, "f2-l-b-highlight", 837 + 2 * 42, 512, 42, 52, "none", C.blueLine, 3);
-  addRect(slide, "f2-l-c-highlight", 837 + 5 * 42, 566, 42, 52, "none", C.amberLine, 3);
-  addText(slide, "f2-l-note", "own row\nper\nbranch", 1168, 516, 70, 98, { size: BASE, align: "center", lineSpacing: 0.72 });
+  addText(slide, "f2-l-row-b", "DINOv2-B/14", 662, 510, 202, 54, { size: BASE, bold: true, color: C.blueLine, align: "center", lineSpacing: 0.78 });
+  addText(slide, "f2-l-row-c", "AnomalyCLIP\nvisual", 662, 564, 202, 66, { size: BASE, bold: true, color: C.amberLine, align: "center", lineSpacing: 0.78 });
+  addCells(slide, "f2-l-b", 868, 516, 8, 38, 4, 44, C.blueFill, C.blueLine, 2, C.blueFill);
+  addCells(slide, "f2-l-c", 868, 570, 8, 38, 4, 44, C.amberFill, C.amberLine, 5, C.amberFill);
+  addRect(slide, "f2-l-b-highlight", 865 + 2 * 42, 512, 42, 52, "none", C.blueLine, 3);
+  addRect(slide, "f2-l-c-highlight", 865 + 5 * 42, 566, 42, 52, "none", C.amberLine, 3);
   addText(slide, "f2-j-foot", "Both branches use the same highlighted row.", 44, 714, 576, 38, {
     size: BASE,
     color: C.muted,
@@ -395,7 +381,7 @@ function createSlide() {
   );
   setNotes(
     slide,
-    "Figure 2 method diagram. Source: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and docs/main_figure_revision_20260920/English_Manuscript_Source.md. The grid cells are schematic row identifiers, not measured distances. The symbols p, r, b, and w follow the manuscript notation. B and C are upright branch labels for DINOv2-B/14 and AnomalyCLIP visual. The minimization operator min is upright. The candidate set is shared across branches.",
+    "Figure 2 method diagram. Source: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and docs/main_figure_revision_20260920/English_Manuscript_Source.md. The grid cells are schematic row identifiers, not measured distances. The symbols p, r, b, and w follow the manuscript notation. Branch names are written in full. The minimization operator min is upright. The candidate set is shared across branches.",
   );
 }
 
@@ -417,27 +403,21 @@ function createSlide() {
   ];
   for (const card of cards) {
     addBox(slide, `f3-card-${card.id}`, card.x, 88, 286, 270, C.white, C.faint, 1.7);
-    addText(slide, `f3-card-${card.id}-id`, card.id, card.x + 10, 92, 266, 30, {
-      size: 30,
-      bold: true,
-      color: C.muted,
-      align: "center",
-    });
-    addText(slide, `f3-card-${card.id}-title`, card.title, card.x + 10, 122, 266, 54, {
+    addText(slide, `f3-card-${card.id}-title`, card.title, card.x + 10, 100, 266, 74, {
       size: 32,
       bold: true,
       align: "center",
       lineSpacing: 0.82,
     });
-    const rowsY = card.rows.length === 2 ? [196, 252] : [194, 246, 298];
+    const rowsY = card.rows.length === 2 ? [190, 252] : [180, 238, 296];
     for (let i = 0; i < card.rows.length; i += 1) {
       const [label, weight, fill, stroke] = card.rows[i];
       const y = rowsY[i];
-      addRect(slide, `f3-${card.id}-row-${i}`, card.x + 12, y, 262, 48, fill, stroke, 1.4);
-      addText(slide, `f3-${card.id}-label-${i}`, label, card.x + 20, y, 194, 48, {
+      addRect(slide, `f3-${card.id}-row-${i}`, card.x + 12, y, 262, 56, fill, stroke, 1.4);
+      addText(slide, `f3-${card.id}-label-${i}`, label, card.x + 20, y, 194, 56, {
         size: BASE,
         color: stroke,
-        lineSpacing: 0.68,
+        lineSpacing: 0.84,
       });
       addText(slide, `f3-${card.id}-weight-${i}`, weight, card.x + 214, y, 52, 48, {
         size: BASE,
@@ -452,19 +432,19 @@ function createSlide() {
 
   section(slide, "b", "What the paired comparisons isolate", 384);
   const comparisons = [
-    { x: 32, title: "A1 → DUP", body: "Dual-encoder baseline vs.\nDuplicate-branch control\nWeight split: B 1/2 → 2/3;\nC 1/2 → 1/3." },
-    { x: 448, title: "DUP → TRI", body: "Duplicate-branch control vs.\nEqual-weight replacement\nReplace the B copy at the same\n1/3 slot weight." },
-    { x: 864, title: "A1 → BAL", body: "Dual-encoder baseline vs.\nBalanced replacement\nKeep the non-C total and C\nweight at 1/2." },
+    { x: 32, title: "Weight redistribution", body: "DINOv2-B/14:\n1/2 → 2/3\nAnomalyCLIP visual:\n1/2 → 1/3" },
+    { x: 448, title: "Representation change", body: "A new encoder replaces\nthe exact duplicate\nat the same 1/3 weight." },
+    { x: 864, title: "Group-weight control", body: "AnomalyCLIP visual: 1/2\nRemaining branches:\ncombined weight 1/2" },
   ];
   for (let i = 0; i < comparisons.length; i += 1) {
     const item = comparisons[i];
-    addBox(slide, `f3-comparison-${i}`, item.x, 440, 384, 200, C.white, C.faint, 1.5);
+    addBox(slide, `f3-comparison-${i}`, item.x, 440, 384, 216, C.white, C.faint, 1.5);
     addText(slide, `f3-comparison-${i}-title`, item.title, item.x + 12, 452, 360, 44, {
-      size: 34,
+      size: 30,
       bold: true,
       align: "center",
     });
-    addText(slide, `f3-comparison-${i}-body`, item.body, item.x + 16, 506, 352, 122, {
+    addText(slide, `f3-comparison-${i}-body`, item.body, item.x + 16, 506, 352, 142, {
       size: BASE,
       align: "center",
       lineSpacing: 0.72,
@@ -473,7 +453,7 @@ function createSlide() {
   addText(
     slide,
     "f3-family-note",
-    "Balanced replacement preserves the AnomalyCLIP visual weight and total extra-branch weight.",
+    "Extra encoder: DINOv2-S/14 or WideResNet50-2.\nBalanced replacement preserves the combined weight of the other branches.",
     42,
     662,
     1196,
@@ -523,7 +503,7 @@ function createSlide() {
   );
   setNotes(
     slide,
-    "Figure 3 method diagram. Sources: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and the fixed-weight protocol in experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/PROTOCOL.json. A1, DUP, TRI, and BAL are upright construction labels for Dual-encoder baseline, Duplicate-branch control, Equal-weight replacement, and Balanced replacement. The encoder labels use B = DINOv2-B/14, C = AnomalyCLIP visual, S = DINOv2-S/14, and D = WideResNet50-2. Balanced replacement preserves the AnomalyCLIP visual weight and the combined extra-branch weight. The E and I equations are paired contrasts under matching rules J and L. The DINO-family description applies to the two DINOv2 branches, not WideResNet50-2.",
+    "Figure 3 method diagram. Sources: scripts/figures_reference_matching_20260914/figs_methods.mjs, scripts/manuscript_build_20260914/figures.json, and the fixed-weight protocol in experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/PROTOCOL.json. Construction and encoder names are written in full. Balanced replacement preserves the AnomalyCLIP visual weight and the combined extra-branch weight. The E and I equations are paired contrasts under matching rules J and L. The DINO-family description applies to the two DINOv2 branches, not WideResNet50-2.",
   );
 }
 
@@ -536,24 +516,24 @@ function createSlide() {
 
   section(slide, "a", "Primary branches and native feature widths", 18);
   const primary = [
-    { id: "B", title: "B · DINOv2-B/14", rows: ["ViT-B/14; 448", "32 × 32 native grid", "768 dimensions"], fill: C.blueFill, line: C.blueLine },
-    { id: "C", title: "C · AnomalyCLIP visual", rows: ["ViT-L/14; 518", "37 × 37 native grid", "768 dimensions"], fill: C.amberFill, line: C.amberLine },
-    { id: "S", title: "S · DINOv2-S/14", rows: ["ViT-S/14; 448", "32 × 32 native grid", "384 dimensions"], fill: C.greenFill, line: C.greenLine },
-    { id: "D", title: "D · WideResNet50-2", rows: ["layer2 + layer3", "aligned to base grid", "1536 dimensions"], fill: C.greenFill, line: C.greenLine },
+    { id: "B", title: "DINOv2-B/14", rows: ["ViT-B/14; 448", "32 × 32 native grid", "768 dimensions"], fill: C.blueFill, line: C.blueLine },
+    { id: "C", title: "AnomalyCLIP\nvisual", rows: ["ViT-L/14; 518", "37 × 37 native grid", "768 dimensions"], fill: C.amberFill, line: C.amberLine },
+    { id: "S", title: "DINOv2-S/14", rows: ["ViT-S/14; 448", "32 × 32 native grid", "384 dimensions"], fill: C.greenFill, line: C.greenLine },
+    { id: "D", title: "WideResNet50-2", rows: ["layer2 + layer3", "aligned to base grid", "1536 dimensions"], fill: C.greenFill, line: C.greenLine },
   ];
   const starts = [24, 336, 648, 960];
   for (let i = 0; i < primary.length; i += 1) {
     const enc = primary[i];
     const x = starts[i];
     addBox(slide, `fs1-primary-${enc.id}`, x, 80, 296, 238, C.white, C.faint, 1.6);
-    addText(slide, `fs1-primary-${enc.id}-title`, enc.title, x + 10, 88, 276, 42, {
+    addText(slide, `fs1-primary-${enc.id}-title`, enc.title, x + 10, 84, 276, 60, {
       size: 32,
       bold: true,
       color: C.ink,
       align: "center",
     });
     for (let row = 0; row < enc.rows.length; row += 1) {
-      const y = 144 + row * 50;
+      const y = 154 + row * 50;
       addRect(slide, `fs1-primary-${enc.id}-row-${row}`, x + 12, y, 272, 42, enc.fill, enc.line, 1.2);
       addText(slide, `fs1-primary-${enc.id}-row-${row}-text`, enc.rows[row], x + 18, y, 260, 42, {
         size: BASE,
@@ -565,9 +545,9 @@ function createSlide() {
 
   section(slide, "b", "Exploratory extra-slot branches", 354);
   const extra = [
-    { id: "E1", title: "E1 · DINO ViT-S/8", dim: "384 dimensions", line: C.greenLine, fill: C.greenFill },
-    { id: "E2", title: "E2 · ConvNeXt-Tiny", dim: "576 dimensions", line: C.violetLine, fill: C.violetFill },
-    { id: "E3", title: "E3 · Swin-Tiny", dim: "576 dimensions", line: C.redLine, fill: C.redFill },
+    { id: "E1", title: "DINO ViT-S/8", dim: "384 dimensions", line: C.greenLine, fill: C.greenFill },
+    { id: "E2", title: "ConvNeXt-Tiny", dim: "576 dimensions", line: C.violetLine, fill: C.violetFill },
+    { id: "E3", title: "Swin-Tiny", dim: "576 dimensions", line: C.redLine, fill: C.redFill },
   ];
   const extraStarts = [32, 448, 864];
   for (let i = 0; i < extra.length; i += 1) {
@@ -636,7 +616,7 @@ function createSlide() {
   });
   setNotes(
     slide,
-    "Supplementary Figure S1. Sources: scripts/manuscript_build_20260914/figures.json, docs/figures_reference_matching_20260914/FIGURE_BINDING.md, experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/INPUT_FREEZE.json, 04_new_encoder/D_BRANCH_SPEC.json, and the extra-encoder implementation. B, C, S, D, E1, E2, and E3 are upright branch labels for DINOv2-B/14, AnomalyCLIP visual, DINOv2-S/14, WideResNet50-2, DINO ViT-S/8, ConvNeXt-Tiny, and Swin-Tiny, respectively. The dimensions shown are descriptor widths. AnomalyCLIP visual is projected to 768 dimensions. WideResNet50-2 concatenates layer2 and layer3. DINO ViT-S/8 is the original checkpoint; the older architecture alias is deiT-small/8. All branches are aligned to the DINOv2-B/14 canvas and normalized per position; the distance is one minus cosine similarity.",
+    "Supplementary Figure S1. Sources: scripts/manuscript_build_20260914/figures.json, docs/figures_reference_matching_20260914/FIGURE_BINDING.md, experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/INPUT_FREEZE.json, 04_new_encoder/D_BRANCH_SPEC.json, and the extra-encoder implementation. Encoder names are written in full. The dimensions shown are descriptor widths. AnomalyCLIP visual is projected to 768 dimensions. WideResNet50-2 concatenates layer2 and layer3. DINO ViT-S/8 is the original checkpoint; the older architecture alias is deiT-small/8. All branches are aligned to the DINOv2-B/14 canvas and normalized per position; the distance is one minus cosine similarity.",
   );
 }
 

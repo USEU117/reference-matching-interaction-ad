@@ -199,7 +199,7 @@ The primary four DINOv2-S/14 interactions, four WideResNet50-2 interactions and 
 
 KolektorSDD2 retains its specified conjunction criterion: all four DINOv2-S/14 interactions and all four WideResNet50-2 interactions must be positive and their individual 95% intervals must exclude zero. This conjunction uses individual intervals and does not imply simultaneous 95% coverage. Excluding zero supports an interaction direction under the stated protocol; practical value also depends on the effect size and absolute representation gain. An interval spanning zero leaves the direction unresolved.
 
-Observed condition-averaged point estimates and bootstrap means are labelled separately. Full-pixel estimates provide resolution checks; full-pixel bootstrap intervals are unavailable. The eight-seed study describes support sensitivity separately rather than treating its between-seed variation as part of the primary conditional interval.
+Observed condition-averaged point estimates and bootstrap means are labelled separately. Full-pixel estimates and bootstrap intervals provide resolution checks for the DINOv2-S/14 analysis on MPDD and canonical-mask BTAD. They are supplied with the reproduction materials rather than entering the main tables; the canonical BTAD masks differ from the corrected geometry used for the primary BTAD results. The eight-seed study describes support sensitivity separately rather than treating its between-seed variation as part of the primary conditional interval.
 
 #### 4.1.4 Implementation and Reproducibility
 

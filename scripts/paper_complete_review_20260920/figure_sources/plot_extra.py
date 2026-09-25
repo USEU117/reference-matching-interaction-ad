@@ -10,7 +10,7 @@ import sys
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from plot_fonts import configure_math
 configure_math()
-from display_labels import CONSTRUCTION_LABELS, INTERACTION_LABELS, MATCHING_RULE_LABELS
+from display_labels import BASELINE_RULE_LABELS, CONSTRUCTION_LABELS, INTERACTION_LABELS, MATCHING_RULE_LABELS
 def save(fig,name):
     for ext in ['png','pdf']:fig.savefig(O/f'{name}.{ext}',dpi=350)
     plt.close(fig)
@@ -69,10 +69,10 @@ def case_row(*args):
         'TRI_L': 'Equal-weight\nreplacement\nIndependent matching',
         'BAL_J': 'Balanced\nreplacement\nJoint matching',
         'BAL_L': 'Balanced\nreplacement\nIndependent matching',
-        'DUP_J': 'Duplicate\nbranch control\nJoint matching',
-        'DUP_L': 'Duplicate\nbranch control\nIndependent matching',
-        'A1_J': 'Baseline\nJoint matching',
-        'A1_L': 'Baseline\nIndependent matching',
+        'DUP_J': 'Duplicate-\nbranch\ncontrol\nJoint matching',
+        'DUP_L': 'Duplicate-\nbranch\ncontrol\nIndependent matching',
+        'A1_J': BASELINE_RULE_LABELS['J'],
+        'A1_L': BASELINE_RULE_LABELS['L'],
     }
     row['titles']=[None if t is None else method_titles.get(t, t.replace('_',' ')) for t in row['titles']]
     row['titles'][1]='GT mask'

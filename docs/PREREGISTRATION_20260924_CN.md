@@ -130,6 +130,8 @@
 
 §2.2 要求"3 消融 × seed 0、1 × K = 1、2、4、8 = 8 条件 × 2 数据集 + 图像级配对 95% 区间"。既有脚本 `scripts/limitation_closure_20260915/e2_shared_op_ablation.py` 的 `run_ablations` **硬编码 `SEEDS[dataset][:1]`**（只跑首个 seed = 0），**无法产出预注册的 seed 1 半边**；脚本也**不含任何 bootstrap 区间**；其强制配套 `e2_abl_s_addendum.py` **无命令行参数**，输出目录写死在既有 `E2_shared_op_ablation/`（同理 `--mode check` 写 `V2_2_RESCALER_CHECK.json` 到该既有目录），会**覆盖既有产物**。→ **不执行**。
 
+> **2026-09-26 复核**：已补写多 seed＋区间脚本（`scripts/prereg_20260924/a11_shared_op_ablation_multi.py`）并完成全量运行，见 **§九**。本行只作订正，上文原判定一字未删。
+
 ### 4.4 A04（**不可运行**）
 
 §2.1 未给脚本；盘上检索（`scripts/**` 语义检索 + `stability|perturbation` 关键词）**无**任何"共同指标 × 共同扰动 × 六配置 + 图像级配对区间"的实现；且 `docs/EXPERIMENT_GAP_ANALYSIS_20260922.md` §7.2 的 D-01 自述"**须先定义纵/横轴再评估**"。无口径即无从执行。→ **不执行**。
@@ -438,4 +440,131 @@
 3. **未做跨配置显著性检验**（§2.1 明确不要求；只报方向一致性）。
 4. **原生帧侧不复现登记表**（§8.4 诊断最大 0.0697）：本轮只声称"共享区域侧逐行精确复现冻结表"，原生帧侧是本轮定义。
 5. 本节只回填执行结果，**未改** §一～§七任何文字、判据、口径、产物名与成本估算。所有待追认项指向 `A04_STATUS.json → design_decisions_pending_ratification`。
+
+---
+
+## 九、A11 执行结果与验收（2026-09-26 回填；本节为**追加**，上文各节一字未改）
+
+> §2.2 只登记了"问题 / 指标与区间口径 / 条件 / 样本与配对单位 / 成功判据 / 停止规则 / 成本"；§4.3 判"不可运行"，理由是既有 `e2_shared_op_ablation.py` 硬编码 `SEEDS[ds][:1]`、不含 bootstrap 区间，配套脚本无参数且会覆盖既有 `E2_shared_op_ablation/`。本节记录按 §2.2 的登记口径**新写脚本**后**实际跑完**的盘上实读结果。数值一律取自本目录产物，不重算、不改写。本文件新增文本**不含**身份与称谓类禁用词，也不含排名、领先或最优类措辞，不把"区间跨零"写成"零效应"。
+
+### 9.1 命令与耗时（实测）
+
+- **分片执行**（2 路不相交 shard，均为**纯 CPU**）：
+
+```
+.venv-anomalyclip\Scripts\python.exe -u scripts\prereg_20260924\a11_shared_op_ablation_multi.py --mode run --datasets mpdd --output experiments\prereg_20260924\out\A11 --seeds 0 1 --shots 1 2 4 8 --resume
+.venv-anomalyclip\Scripts\python.exe -u scripts\prereg_20260924\a11_shared_op_ablation_multi.py --mode run --datasets btad --output experiments\prereg_20260924\out\A11 --seeds 0 1 --shots 1 2 4 8 --resume
+```
+
+- **收尾**（单实例纯汇总，不再分片）：
+
+```
+.venv-anomalyclip\Scripts\python.exe -u scripts\prereg_20260924\a11_shared_op_ablation_multi.py --mode assemble --output experiments\prereg_20260924\out\A11 --datasets mpdd btad --seeds 0 1 --shots 1 2 4 8
+```
+
+- **耗时**：两 shard 同起于 **2026-09-25 19:56:29**、同止于 **2026-09-26 01:46:24**，各 **20,995 s ≈ 5.83 h**（`state/progress.txt`、`state/A11_execution.json`）；收尾 `assemble` 于 **01:46:41** 结束（约 17 s）。**显存 0 MiB**（未创建 CUDA 上下文；`state/A11_ram_samples.txt` 中 `gpu_used` 1.3–1.4 GB 为桌面程序基线）。`sum_peak_ws` ≈ 8.0 GB、`system_used` 峰值 82.8%，均低于 96% 停止规则 ⇒ **未被 RAM 规则终止**。
+- **成本对照**：§2.2 按 GPU 估 **≈4–8 GPU 卡时**；实测因**复用冻结 canonical 特征与 `patch_scores.npz`**、全部走 CPU 指标路径，为 **0 GPU / 20,995 s 墙钟（2 路并行，单路即整程）**。成本估算**未改**，只登记实际值。
+- **启动前门禁**：`--mode check` 用既有 `e2_shared_op_ablation` 模块重算归档 map，**21/21 pass、max|d| = 9.537e-07**（脚本容差 1e-6）⇒ 消融实现未被重写。
+
+### 9.2 产物清单（`experiments/prereg_20260924/out/A11/`，2026-09-26 实读）
+
+| 文件 | 字节 | SHA-256 |
+|---|---:|---|
+| `ablation_metrics_multi.csv` | 116,666 | `F96C998046FCDFD32977E8F8831AD20794E8907CB702554242C78E6938CDEC01` |
+| `replicate_multi.npz` | 3,873,040 | `7FC433A2E6FE79AACFD3816F086709F9C46FDB425B6F68FD02BD69D36ADC168A` |
+| `interaction_by_ablation_condition.csv` | 15,450 | `AF38B29A242928AFA7B74422F8F1CD88B39EB7B311E10AB7FF3CB0FCFD851CBD` |
+| `A11_multi_vs_single_condition.csv` | 3,298 | `2527D1AD7FBDF1D05B84EFF2DCAF74668155E06851718B72CF8DEF982880C3CB` |
+| `A11_STATUS.json` | 1,054 | `869F595B13E646EDCA15F490A07F144561AF7E57AF98905AAF78D74D1A0E8203` |
+| `units/*.npz`（16 件） | 749,496–1,522,498 | 逐件 SHA-256 见 `state/A11_execution.json → unit_checkpoints` |
+
+### 9.3 结构核验（实读）
+
+- `ablation_metrics_multi.csv`：1 表头 + **2,304 行**（MPDD 8 单元 × 6 类别 × 32 单元格 + BTAD 8 单元 × 3 类别 × 32 单元格；每单元格 = 4 变体 × 4 构造 × 2 规则）；列 `ablation,rule,dataset,seed,shot,category,construction,pixel_ap`；**0 空 / 0 NaN / 0 重复键**（键 = `dataset|seed|shot|category|ablation|construction|rule`）。
+- `interaction_by_ablation_condition.csv`：1 + **128 行**（= 4 变体 × 2 数据集 × 8 条件 × 2 交互）；列 `ablation,dataset,seed,shot,interaction,point_delta,bootstrap_mean,ci95_low,ci95_high,ci95_excludes_zero,n_replicates`；**0 空 / 0 NaN / 0 重复键**。
+- `A11_multi_vs_single_condition.csv`：1 + **16 行**（= 4 变体 × 2 数据集 × 2 交互）；**0 空 / 0 NaN / 0 重复键**。
+- `replicate_multi.npz`：**512** 条宏平均 replicate 数组（= 16 单元 × 4 变体 × 4 构造 × 2 规则），每条长度 **1,000**。
+- `units/`：**16** 件单元检查点，逐件 `__meta__` 记 `complete = True`。
+
+### 9.4 装配缺陷与订正（**自查发现、已登记；未改任何实验数值**）
+
+首轮收尾由队列在 **2026-09-26 01:46:41** 自动调用 `--mode assemble`，日志末行为 `assembled 2304 point cells from 16 units (0 missing); 0 condition rows; 0 aggregate rows`，产出 `interaction_by_ablation_condition.csv` = **仅表头（121 B）**、`A11_multi_vs_single_condition.csv` = **空（5 B）**。本轮审计定位到装配代码两处缺陷并订正：
+
+1. `INTERACTIONS` 使用**带规则后缀**的构造名（`TRI_L / DUP_L / TRI_J / DUP_J`、`BAL_L / A1_L / BAL_J / A1_J`），而点表的 `construction` 列是**无后缀**的 `A1 / BAL / DUP / TRI`（即既有 `E2.SLOTS` 的键）。键不匹配 ⇒ 每条交互均被 `if any(k not in macro): continue` 跳过 ⇒ **0 行**。订正为无后缀构造名（规则由紧随的 `("L","L","J","J")` 携带）。
+2. `_archived_single_condition()` 对同一键**逐行覆盖**，实际只留下**最后一个类别**（BTAD `03` / MPDD `tubes`）的读数，使"原单条件"参照不是数据集宏平均。订正为**按类别取均值**。
+
+**订正不影响任何实验数值（逐字节证明）**：订正后再跑一次同一条 `--mode assemble`，以下三件的 SHA-256 与首轮 01:46:41 清单**逐字节相同**——
+
+| 文件 | 字节 | SHA-256（订正前 = 订正后） |
+|---|---:|---|
+| `ablation_metrics_multi.csv` | 116,666 | `F96C998046FCDFD32977E8F8831AD20794E8907CB702554242C78E6938CDEC01` |
+| `replicate_multi.npz` | 3,873,040 | `7FC433A2E6FE79AACFD3816F086709F9C46FDB425B6F68FD02BD69D36ADC168A` |
+| `A11_STATUS.json` | 1,054 | `869F595B13E646EDCA15F490A07F144561AF7E57AF98905AAF78D74D1A0E8203` |
+
+改变的只有上面两张派生表。`--mode assemble` 只读 `units/*.npz` 检查点、**不重算任何单元**，故 2,304 个点值与 512 条 1,000 长 replicate 数组未被触碰。
+
+**订正的内证**：订正后 `archived_vs_recomputed_abs_delta` 最大值降到 **3.98e-08**（逐行 ≤1.24e-08，其余量级 1e-10–1e-9），即归档 `E2_shared_op_ablation/interaction_by_ablation.csv` 的**逐类别宏平均 == 本轮 seed 0 / K = 1 的重算值**（残差来自归档表保留位数）。订正前该列量级 **1e-3–1e-2**，正是"最后一个类别 vs 六类别均值"的错位。
+
+**登记为缺陷而非"重跑"**：本轮**未重跑任何单元**，也未写入 `E2_shared_op_ablation/`（该既有目录 `git status` 变更 **0** 项）。
+
+### 9.5 多条件 vs 原单条件（探索性结论）逐条对照
+
+**（a）`A11_multi_vs_single_condition.csv` 全表**（16 行；区间 = 8 个条件配对宏平均后的 **2.5/97.5 百分位**）
+
+| 变体 | 数据集 | 交互 | n | 点差 | 95% 区间 | 跨零？ | 与单条件同号？ | 8 条件中区间排除零者 |
+|---|---|---|---:|---:|---|---|---|---:|
+| baseline | BTAD | I_TRI | 8 | −0.000478 | [−0.001923, +0.001922] | **跨零（方向未定）** | **否（反号）** | 5 |
+| baseline | BTAD | I_BAL | 8 | −0.001169 | [−0.002578, +0.001095] | **跨零** | 是 | 4 |
+| baseline | MPDD | I_TRI | 8 | +0.007872 | [+0.003262, +0.011670] | **排除零** | 是 | 5 |
+| baseline | MPDD | I_BAL | 8 | +0.006147 | [+0.002515, +0.009805] | **排除零** | 是 | 4 |
+| ABL_S | BTAD | I_TRI | 8 | +0.000878 | [−0.000744, +0.003507] | **跨零** | 是 | 3 |
+| ABL_S | BTAD | I_BAL | 8 | +0.0000973 | [−0.001558, +0.002835] | **跨零** | **否（反号）** | 2 |
+| ABL_S | MPDD | I_TRI | 8 | +0.008542 | [+0.005297, +0.012672] | **排除零** | 是 | 7 |
+| ABL_S | MPDD | I_BAL | 8 | +0.006824 | [+0.003393, +0.010473] | **排除零** | 是 | 4 |
+| ABL_N | BTAD | I_TRI | 8 | +0.000991 | [−0.001002, +0.003762] | **跨零** | 是 | 2 |
+| ABL_N | BTAD | I_BAL | 8 | +0.000949 | [−0.001014, +0.003769] | **跨零** | 是 | 2 |
+| ABL_N | MPDD | I_TRI | 8 | +0.010716 | [+0.008034, +0.015822] | **排除零** | 是 | 8 |
+| ABL_N | MPDD | I_BAL | 8 | +0.010741 | [+0.007555, +0.015818] | **排除零** | 是 | 8 |
+| ABL_C | BTAD | I_TRI | 8 | −0.000478 | [−0.001923, +0.001922] | **跨零** | **否（反号）** | 5 |
+| ABL_C | BTAD | I_BAL | 8 | +0.000398 | [−0.001415, +0.003621] | **跨零** | **否（反号）** | 3 |
+| ABL_C | MPDD | I_TRI | 8 | +0.007872 | [+0.003262, +0.011670] | **排除零** | 是 | 5 |
+| ABL_C | MPDD | I_BAL | 8 | +0.005041 | [+0.001650, +0.008430] | **排除零** | 是 | 3 |
+
+**（b）逐条读法（只报方向与零排除；不构成排名，不作显著性判决）**
+
+- **MPDD 侧 8/8 行**：区间**排除零**，方向与单条件**同号**（含消融后）⇒ 在多条件下，三个消融都**没有**改变 MPDD 两项交互的方向。
+- **BTAD 侧 8/8 行**：区间**全部跨零** ⇒ **方向未定**（**不是**"零效应"）。其中 **4 行与单条件反号**（`baseline/BTAD/I_TRI`、`ABL_S/BTAD/I_BAL`、`ABL_C/BTAD/I_TRI`、`ABL_C/BTAD/I_BAL`），4 行同号。
+- **反号不能单归于消融**：`baseline`（**未消融**参考）在 BTAD `I_TRI` 上同样反号且区间跨零 —— BTAD 该交互的符号不稳定在**未消融时就已存在**，**如实记录、不平滑**。
+- **128 个条件行**：区间排除零者 **70**；其中点差符号与其"数据集 × 变体 × 交互"单条件参照**相反者 9 个**，**全部在 BTAD**（`baseline/I_TRI`：s0k4、s0k8、s1k8；`baseline/I_BAL`：s1k1；`ABL_C/I_TRI`：s0k4、s0k8、s1k8；`ABL_C/I_BAL`：s1k1、s1k2）；**MPDD 上 0 个**。
+- **§2.2 成功判据的裁定（按登记口径，用现存产物可复算）**：判据写"三个消融在 **≥ 6/8 条件**上区间方向与主分析不冲突（即消融后的交互未被反号）；失败 = 出现反号且区间排除零"。
+  - **MPDD**：同号条件数 = ABL_S **8/8**（I_TRI）、**8/8**（I_BAL）；ABL_N **8/8**、**8/8**；ABL_C **8/8**、**7/8** ⇒ 三者均 ≥6/8，且**没有任何**条件出现"反号且区间排除零"⇒ **判据两半都成立**。
+  - **BTAD**：同号条件数 = ABL_S **5/8**、**3/8**；ABL_N **4/8**、**4/8**；ABL_C **3/8**、**3/8**（I_TRI / I_BAL）。ABL_S 与 ABL_N **不触发**"反号且区间排除零"；**ABL_C 在 BTAD 上触发**（I_TRI 3 个 + I_BAL 2 个）。按 §2.2 的"结果不利时的处理"，**如实报告为"该共享操作在部分条件下改变方向"**，**不升格为"模块已验证"、也不降级为"模块无效"**。
+
+**（c）两条必须与 (a)(b) 同读的口径事实（如实登记）**
+
+1. **两个数据集的可分辨程度不同**：BTAD 每单元 3 个类别、8 个条件的区间宽约 **3.0e-3–4.4e-3**、点差量级 **1e-3** ⇒ 8/8 行跨零；MPDD 每单元 6 个类别、点差量级 **1e-2**、区间宽约 **6.8e-3–8.4e-3** ⇒ 8/8 行排除零。故同一条"≥6/8 条件"在 BTAD 上更接近噪声判定，**本轮不据此给出跨数据集的一般结论**。
+2. **ABL_C 在 `I_TRI` 上与原权重重合（登记的设计事实）**：ABL_C 定义 = 朴素拼接（`alpha = w²/Σw²`）。对 `TRI`（槽位各 1/3）与 `DUP`（B、B、C 各 1/3），`naive_alpha` 与 `branch_weights` **数值相同**（`TRI`：{B,S,C} 各 1/3；`DUP`：{B 2/3, C 1/3}），只有 `BAL` 两者不同（{1/4, 1/4, 1/2} vs {1/6, 1/6, 2/3}）。因此 **ABL_C 与 baseline 的 `I_TRI` 逐格完全相同**（见 (a) 中两行数值一致）⇒ **`I_TRI` 无法区分 ABL_C 与 baseline**，ABL_C 一列的可分辨信息只在 `I_BAL` 上。**如实登记，不改口径。**
+
+### 9.6 口径与随机流（核对）
+
+- `A11_STATUS.json`：`state = completed`、`stride = 8`、`replicates = 1000`、`level = 0.95`、`units_done` 16 / `units_missing` **空**、`datasets = ["btad","mpdd"]`；抽样流 `default_rng([20260913, dataset_id, category_id, replicate])`；聚合 = "同一 replicate 索引上按单元类别**配对**宏平均，区间取该宏平均 replicate 数组的 2.5/97.5 百分位"。
+- **单元元数据**（逐件 `__meta__` 实读）：`stride = 8`、`replicates = 1000`、`stream` 同上、`complete = True`，16 件齐全。
+- **独立复算**（只读 `replicate_multi.npz`，不调用装配代码）：128 个条件行的 `bootstrap_mean / ci95_low / ci95_high` 与本表逐格一致，**max|Δ| = 5.2e-18**；16 个汇总行的 `point_delta / bootstrap_mean / ci95_low / ci95_high` **max|Δ| = 3.0e-18**；`ci95_excludes_zero` 与各自区间自洽（**0 处不一致**）。
+- **估计量身份**：`--mode check` 21/21、max|d| = 9.537e-07 ⇒ 点估计仍由既有 `e2_shared_op_ablation` 的 `score_j` / `compose_l` / `SLOTS` / 权重组产出，区间机制与抽样流由既有 `e1_fullpixel_ci` 提供；本轮新增的只有逐单元格记账与配对宏平均装配。
+- **口径纪律**：本项只作**探索性**一致性与否报告，**不进入确认性主张**、**不构成排名**、`0 target-trainable parameters` 未受影响（无任何目标域训练）；**未在 KSDD2 上做任何新探索**。
+
+### 9.7 红线复核（实读）
+
+- `experiments/dynamic_fusion/limitation_closure_20260915/E2_shared_op_ablation/`：`git status --porcelain` 变更条目 **0**；新脚本**只读**既有 `e2_shared_op_ablation.py` / `e2_abl_s_addendum.py`，本轮全部写盘只在 `experiments/prereg_20260924/out/A11/`。
+- `git status --porcelain` 中与本项相关的条目**只有** `experiments/prereg_20260924/**`（`logs/A11_*`、`out/A11/*`、`state/A11_*`、`state/progress.txt`）与 `scripts/prereg_20260924/a11_shared_op_ablation_multi.py`；**未覆盖** `E1_fullpixel_ci/`、`05_baselines*`、`p4_fullpixel/`。
+- 三个冻结哈希未变：`3C83AB004420A4F836102CABC5F8248DEBFEBC742D8E9602FED0881823A0B8BB`、`1C77012971A4C2EBA52512A8D7850C0DA072B8107FFFE316A74E3C39DF73EC4B`、`9DB99E60CD3024D1D49429641EDD6E49777BF014A3F4B7FB674C9C20338FB837`。
+- 本节新增文本**未改任何实验数值**；禁用词自查 **0 命中**；未把"区间跨零"写成"零效应"。
+
+### 9.8 限制 / 未做（如实列出，不补造）
+
+1. **BTAD 无可比的"单条件 + 区间"归档**：归档 `E2_shared_op_ablation/interaction_by_ablation.csv` 本身是**逐类别**表（对应 seed 0 / K = 1），故本轮"原单条件"参照 = 该表的**类别宏平均**（残差 ≤3.98e-08）；不存在独立的单条件区间产物可作第二参照。
+2. **未计算"消融后 vs 未消融"之差的配对区间**：§2.2 未登记该量；本轮只报各变体自身的交互区间与其相对单条件的**符号一致性**。
+3. **未把 A11 产物并入正文 / 补充材料**：本轮只落盘 `experiments/prereg_20260924/out/A11/`；是否进图件或表格属作者决定。
+4. **ABL_C 一列的可分辨性受限**：`I_TRI` 上 ABL_C 与 baseline 逐格相同（§9.5(c)2），进一步结论需另立口径。
+5. **未做 BTAD 的稳定性外推**：BTAD 8/8 行跨零、且部分条件反号（含未消融参考），故本轮不对 BTAD 给出方向性主张。
+6. 本节只回填执行结果，**未改** §一～§八任何文字、判据、口径、产物名与成本估算（§4.3 处另起一行订正，原判定位未删，见该节）。
 
