@@ -1,0 +1,43 @@
+{
+  "id": "A08_stride1_progress",
+  "note": "Curated progress summary for the live A08 run. The raw 30 s samples are written by scratch/_run_monitor.ps1 to state/A08_stride1.json (field `samples`); this file adds the parsed per-unit / per-category timings and the ETA.",
+  "status": "running",
+  "launcher_pid": 38060,
+  "worker_pid": 26468,
+  "command": ".venv-anomalyclip\\Scripts\\python.exe -u scripts\\limitation_closure_20260915\\e1_fullpixel_ci.py --mode run --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\\prereg_20260924\\out\\A08",
+  "start_local": "2026-09-24T14:19:57",
+  "stdout": "experiments/prereg_20260924/logs/A08_stride1.out",
+  "stderr": "experiments/prereg_20260924/logs/A08_stride1.err",
+  "chunk": 4096,
+  "units_total": 96,
+  "units_done": 1,
+  "missing_units": [],
+  "first_unit": {
+    "unit": "mpdd_s0_k1",
+    "methods": 13,
+    "seconds": 1460,
+    "per_category_seconds": {
+      "bracket_black": 22,
+      "bracket_brown": 53,
+      "bracket_white": 12,
+      "connector": 32,
+      "metal_plate": 1234,
+      "tubes": 107
+    },
+    "note": "metal_plate is the unit that crashed before the fix (97 images, ~2.13M distinct positive scores)"
+  },
+  "memory": {
+    "peak_working_set_mib_observed": 760.4,
+    "current_working_set_mib": 680.2,
+    "machine_total_ram_mib": 16176.5,
+    "machine_avail_ram_mib_range": [4800, 5300]
+  },
+  "projection": {
+    "mpdd_seconds": 17520,
+    "mpdd_hours": 4.9,
+    "btad_hours_range": [9.0, 12.0],
+    "total_hours_range": [14, 17],
+    "eta_local": "2026-09-25 ~04:30-07:30",
+    "method": "mpdd extrapolated from the measured 12 units x 1460 s; btad from per-category scaling of the observed metal_plate cost by n_images x n_grid (btad-02: 230 images, ~2.5M distinct positives is the dominant cost)"
+  }
+}

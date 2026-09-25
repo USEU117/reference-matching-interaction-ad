@@ -52,11 +52,6 @@ Usage
 (`<output>/units/<dataset>_s<seed>_k<shot>.json`) and assembles the final
 `replicate_*.npz` / `point_*.csv` / `E1_STATUS_*.json` from those checkpoints, so
 an interrupted sweep is not lost; `--resume` skips units that are already done.
-
-`--shard i/N` runs only the plan positions congruent to `i-1` modulo `N`, which
-lets several processes share one `--output`: the unit sets are disjoint, so each
-checkpoint is written by a single process, and the final products are written by
-one closing `--resume` call without `--shard` once every shard has finished.
 """
 
 from __future__ import annotations
@@ -73,7 +68,7 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 STUDY = ROOT / "experiments/dynamic_fusion/unified_fusion_paper_support_20260913"
 NEWTHEME = ROOT / "experiments/dynamic_fusion/representation_matching_interaction_20260914"
 CANONICAL = ROOT / "outputs/dynamic_fusion/unified_fusion_paper_support_20260913/canonical"
@@ -257,68 +252,6 @@ def stride_profiles(unit: Path, names, masks: np.ndarray, grid: tuple, stride: i
             yield name, prof
 
 
-def pooled_ap_auroc_multi(prof: BlockwiseProfile, weight_mats,
-                          column_chunk: int = DEFAULT_GRID_CHUNK):
-    """Exact weighted pooled AP/AUROC for several weight matrices in one sweep.
-
-    Equivalence note (this is a *cost*-only change)
-    ----------------------------------------------
-    ``prof.blocks`` (the per-image ``searchsorted`` differences) depends on the
-    profile but not on the weights, and a run needs it twice per method - once
-    for the 1000-replicate weights and once for the all-ones point estimate.
-    This entry point derives the counts once per grid-column block and applies
-    every matrix to them, instead of sweeping the profile once per matrix.
-
-    Each matrix is still accumulated exactly as a standalone call would, term by
-    term and block by block, with the same operand shapes and the same addition
-    order, so the results are bitwise identical to separate
-    ``pooled_ap_auroc`` calls.
-    """
-    ws = [np.asarray(w, dtype=np.float64) for w in weight_mats]
-    n_grid = prof.n_grid
-    n_neg_vec = np.asarray(prof.n_neg, dtype=np.float64)
-    n_pos_vec = np.asarray(prof.n_pos, dtype=np.float64)
-
-    ap = [np.zeros(w.shape[0], dtype=np.float64) for w in ws]
-    auroc = [np.zeros(w.shape[0], dtype=np.float64) for w in ws]
-    # descending value order, so the "strictly higher" positive mass is already known
-    higher = [np.zeros(w.shape[0], dtype=np.float64) for w in ws]
-    n_neg = [w @ n_neg_vec for w in ws]
-    n_pos_total = [w @ n_pos_vec for w in ws]
-
-    starts = list(range(0, n_grid, column_chunk))
-    for start in reversed(starts):
-        stop = min(start + column_chunk, n_grid)
-        pos_block, neg_ge_block, neg_eq_block = prof.blocks(start, stop)
-        for r, w in enumerate(ws):
-            block_pos = w @ pos_block
-            block_neg_ge = w @ neg_ge_block
-            block_neg_eq = w @ neg_eq_block
-            pos_ge = np.cumsum(block_pos[:, ::-1], axis=1)[:, ::-1] + higher[r][:, None]
-            denom = pos_ge + block_neg_ge
-            with np.errstate(invalid="ignore", divide="ignore"):
-                precision = np.where(denom > 0, pos_ge / np.where(denom > 0, denom, 1.0), 0.0)
-                safe = np.where(n_pos_total[r] > 0, n_pos_total[r], 1.0)[:, None]
-                ap[r] += (block_pos / safe * precision).sum(axis=1)
-                neg_lt = n_neg[r][:, None] - block_neg_ge
-                auroc[r] += ((block_pos * neg_lt).sum(axis=1)
-                             + 0.5 * (block_pos * block_neg_eq).sum(axis=1))
-            higher[r] += block_pos.sum(axis=1)
-            del (block_pos, block_neg_ge, block_neg_eq, pos_ge, denom, precision, neg_lt)
-        del pos_block, neg_ge_block, neg_eq_block
-
-    results = []
-    for r in range(len(ws)):
-        with np.errstate(invalid="ignore", divide="ignore"):
-            ap_r = np.where(n_pos_total[r] > 0, ap[r], np.nan)
-            auroc_r = np.where((n_pos_total[r] > 0) & (n_neg[r] > 0),
-                               auroc[r] / np.where((n_pos_total[r] * n_neg[r]) > 0,
-                                                   n_pos_total[r] * n_neg[r], 1.0),
-                               np.nan)
-        results.append((ap_r, auroc_r))
-    return results
-
-
 def pooled_ap_auroc(prof: BlockwiseProfile, weights: np.ndarray,
                     column_chunk: int = DEFAULT_GRID_CHUNK):
     """Exact weighted pooled AP/AUROC, evaluated in grid-column blocks.
@@ -337,7 +270,41 @@ def pooled_ap_auroc(prof: BlockwiseProfile, weights: np.ndarray,
     ``column_chunk`` up to the order in which the final float64 partial sums of
     precision/AP terms are added.
     """
-    return pooled_ap_auroc_multi(prof, (weights,), column_chunk)[0]
+    w = np.asarray(weights, dtype=np.float64)
+    n_rows = w.shape[0]
+    n_grid = prof.n_grid
+    n_neg = w @ np.asarray(prof.n_neg, dtype=np.float64)
+    n_pos_total = w @ np.asarray(prof.n_pos, dtype=np.float64)
+
+    ap = np.zeros(n_rows, dtype=np.float64)
+    auroc = np.zeros(n_rows, dtype=np.float64)
+    # descending value order, so the "strictly higher" positive mass is already known
+    higher = np.zeros(n_rows, dtype=np.float64)
+    starts = list(range(0, n_grid, column_chunk))
+    for start in reversed(starts):
+        stop = min(start + column_chunk, n_grid)
+        pos_block, neg_ge_block, neg_eq_block = prof.blocks(start, stop)
+        block_pos = w @ pos_block
+        block_neg_ge = w @ neg_ge_block
+        block_neg_eq = w @ neg_eq_block
+        pos_ge = np.cumsum(block_pos[:, ::-1], axis=1)[:, ::-1] + higher[:, None]
+        denom = pos_ge + block_neg_ge
+        with np.errstate(invalid="ignore", divide="ignore"):
+            precision = np.where(denom > 0, pos_ge / np.where(denom > 0, denom, 1.0), 0.0)
+            safe = np.where(n_pos_total > 0, n_pos_total, 1.0)[:, None]
+            ap += (block_pos / safe * precision).sum(axis=1)
+            neg_lt = n_neg[:, None] - block_neg_ge
+            auroc += ((block_pos * neg_lt).sum(axis=1)
+                      + 0.5 * (block_pos * block_neg_eq).sum(axis=1))
+        higher += block_pos.sum(axis=1)
+        del (pos_block, neg_ge_block, neg_eq_block, block_pos, block_neg_ge,
+             block_neg_eq, pos_ge, denom, precision, neg_lt)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        ap = np.where(n_pos_total > 0, ap, np.nan)
+        auroc = np.where((n_pos_total > 0) & (n_neg > 0),
+                         auroc / np.where((n_pos_total * n_neg) > 0, n_pos_total * n_neg, 1.0),
+                         np.nan)
+    return ap, auroc
 
 
 def replicate_weights(dataset: str, category: str, n_images: int, replicates: int) -> np.ndarray:
@@ -550,18 +517,6 @@ def _expected_categories(args, dataset: str) -> list:
     return list(cats)
 
 
-def parse_shard(text) -> tuple:
-    """`"i/N"` -> `(i, N)`; `N == 1` means "the whole plan" (no sharding)."""
-    try:
-        index_s, count_s = str(text).split("/")
-        index, count = int(index_s), int(count_s)
-    except Exception:
-        raise SystemExit(f"--shard must look like i/N (e.g. 2/4), got {text!r}")
-    if count < 1 or count > 64 or not 1 <= index <= count:
-        raise SystemExit(f"--shard out of range: {text!r} (need 1 <= i <= N <= 64)")
-    return index, count
-
-
 def mode_run(args) -> int:
     """One unit (dataset, seed, shot) at a time, checkpointed after every category
     and at the end of every unit, so an interrupted sweep only loses the category
@@ -578,20 +533,9 @@ def mode_run(args) -> int:
     tag = f"stride{args.stride}"
     t0 = time.time()
 
-    plan_all = [(d, s, k) for d in args.datasets
-                for s in args.seeds.get(d, SEEDS[d]) for k in SHOTS]
-    shard_index, shard_count = parse_shard(args.shard)
-    # A shard owns exactly the units whose position in the plan is congruent to
-    # its index, so the shards' unit sets are disjoint and every
-    # `<output>/units/<dataset>_s<seed>_k<shot>.json` is written by one process
-    # only.  The plan order itself is untouched.
-    plan = [unit_plan for position, unit_plan in enumerate(plan_all)
-            if position % shard_count == shard_index - 1]
+    plan = [(d, s, k) for d in args.datasets
+            for s in args.seeds.get(d, SEEDS[d]) for k in SHOTS]
     total = len(plan)
-    if shard_count > 1:
-        print(f"[E1:{tag}] shard {shard_index}/{shard_count}: "
-              f"{len(plan)} of {len(plan_all)} units; final products are assembled "
-              f"afterwards by one ordinary --resume run (no --shard)", flush=True)
 
     for idx, (dataset, seed, shot) in enumerate(plan, 1):
         unit_id = f"{dataset}_s{seed}_k{shot}"
@@ -640,9 +584,8 @@ def mode_run(args) -> int:
             # is live, so peak memory is independent of n_methods
             for name, prof in stride_profiles(
                     unit, unit_methods(unit), masks, grid, args.stride):
-                # one sweep of the profile's `searchsorted` counts feeds both the
-                # 1000-replicate weights and the all-ones point estimate
-                (ap, _), (ap1, _) = pooled_ap_auroc_multi(prof, (w, one), args.chunk)
+                ap, _ = pooled_ap_auroc(prof, w, args.chunk)
+                ap1, _ = pooled_ap_auroc(prof, one, args.chunk)
                 methods.setdefault(name, {})[category] = [float(v) for v in ap]
                 state["points"][f"{name}|{category}"] = float(ap1[0])
                 del prof
@@ -665,13 +608,6 @@ def mode_run(args) -> int:
         print(f"[E1:{tag}] unit {idx}/{total} done: {unit_id} "
               f"unit_ts={time.time() - t_unit:.0f}s wall={time.time() - t0:.0f}s",
               flush=True)
-
-    if shard_count > 1:
-        # several shards share one output directory, so the three final products
-        # are deliberately left to a single closing run instead of being raced on
-        print(f"[E1:{tag}] shard {shard_index}/{shard_count}: done, no final products "
-              f"written here ({time.time() - t0:.0f}s)", flush=True)
-        return 0
 
     series, points, done = assemble_from_units(out, args)
     np.savez_compressed(out / f"replicate_{tag}.npz", **series)
@@ -815,14 +751,6 @@ def main() -> int:
     ap.add_argument("--resume", action="store_true",
                     help="reuse the per-unit checkpoints under <output>/units and "
                          "only compute the units/categories still missing")
-    ap.add_argument("--shard", default="1/1", metavar="I/N",
-                    help="run only the units whose position in the sweep plan is "
-                         "I-1 (mod N), so N processes can share one --output; the "
-                         "shards' unit sets are disjoint, hence each unit "
-                         "checkpoint is written by a single process.  A sharded "
-                         "run never writes the final products: once every shard is "
-                         "done, one ordinary --resume run without --shard (= 1/1) "
-                         "assembles them")
     ap.add_argument("--chunk", type=int,
                     default=int(os.environ.get("E1_CHUNK", DEFAULT_GRID_CHUNK)),
                     help="grid-column block width for the exact pooled estimator; "

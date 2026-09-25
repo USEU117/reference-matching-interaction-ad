@@ -1,0 +1,50 @@
+{
+  "gpu_backend": "torch",
+  "notes": [],
+  "torch_version": "2.0.0+cu118",
+  "cuda_available": true,
+  "cuda_version": "11.8",
+  "vram_total_mib": 6143.5,
+  "vram_reserved_after_init_mib": 0.0,
+  "fp64_throughput_note": "RTX 3060 (GA106) has 1/64-rate FP64; the E1 pooling is float64 by contract",
+  "stage3_searchsorted": {
+    "per_image_seconds_numpy": 0.17232070000318345,
+    "per_image_seconds_torch": 0.0013212000048952177,
+    "per_image_seconds_h2d_transfer": 0.001348999998299405,
+    "speedup_compute_only": 130.4274139908514,
+    "speedup_including_transfer": 64.53475387499785,
+    "implied_method_total_numpy_s": 16.715107900308794,
+    "implied_method_total_torch_s": 0.12815640047483612
+  },
+  "stage4_pooling": {
+    "block_shape": [
+      1000,
+      4096
+    ],
+    "n_blocks_per_method": 521,
+    "per_block_seconds_numpy_f64": 0.13138959999923827,
+    "per_block_seconds_torch_f64": 0.02558679999492597,
+    "per_block_seconds_torch_f32": 0.0030907999971532263,
+    "per_method_seconds_numpy_f64": 68.45398159960314,
+    "speedup_torch_f64": 5.1350540132135984,
+    "speedup_torch_f32": 42.50990038833129,
+    "matmul_only_numpy_f32_vs_f64": {
+      "numpy_f64_s": 0.011279350001132116,
+      "numpy_f32_s": 0.007784149995131884,
+      "torch_f64_s": 0.005094100000860635,
+      "torch_f32_s": 0.00016184999913093634,
+      "numpy_f32_speedup": 1.4490149866313071,
+      "torch_f32_speedup_over_numpy_f64": 69.69014557736972,
+      "torch_f64_vs_f32": 31.474204684669278
+    }
+  },
+  "vram_reserved_after_bench_mib": 350.0,
+  "vram_peak_allocated_mib": 281.42529296875,
+  "stage1_transfer": {
+    "bytes": 77873152,
+    "h2d_seconds": 0.010976300000038464,
+    "h2d_gib_per_s": 6.607420024398782
+  },
+  "stage2_gaussian_cpu_one_image_s": 0.0025804999968386255,
+  "stage2_conv2d_probe_gpu_8images_s": 0.0002638000005390495
+}

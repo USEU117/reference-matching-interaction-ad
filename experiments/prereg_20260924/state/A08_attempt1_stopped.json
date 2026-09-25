@@ -1,0 +1,35 @@
+{
+  "id": "A08_attempt1_stopped",
+  "note": "Live A08 (stride-1 full-pixel paired bootstrap CI) was deliberately terminated so the incremental-checkpoint + resume patch could be applied without risking a total loss on the next kill.",
+  "status": "stopped_by_operator",
+  "stop_reason": "为应用增量落盘补丁，避免中途被杀导致全丢 (apply per-unit checkpointing + resume; the pre-patch script wrote every product exactly once, at the very end, so any kill lost the whole run)",
+  "pids": {
+    "launcher": 38060,
+    "worker": 26468,
+    "launcher_cmd": "\"D:\\STUDY\\My_github\\sci_project\\.venv-anomalyclip\\Scripts\\python.exe\" -u scripts\\limitation_closure_20260915\\e1_fullpixel_ci.py --mode run --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\\prereg_20260924\\out\\A08",
+    "worker_cmd": "\"D:\\Program Files\\python\\python.exe\" -u scripts\\limitation_closure_20260915\\e1_fullpixel_ci.py --mode run --stride 1 --replicates 1000 --datasets mpdd btad --output experiments\\prereg_20260924\\out\\A08"
+  },
+  "start_local": "2026-09-24T14:19:57",
+  "stopped_local": "2026-09-24T16:07:11",
+  "elapsed_s": 6434,
+  "units_done": 4,
+  "units_done_ids": ["mpdd_s0_k1", "mpdd_s0_k2", "mpdd_s0_k4", "mpdd_s0_k8"],
+  "unit_in_progress_when_killed": "mpdd_s1_k1",
+  "last_log_line": "[E1:stride1] mpdd s1 K1 metal_plate: start (6100s)",
+  "per_unit_seconds": {
+    "mpdd_s0_k1": 1460,
+    "mpdd_s0_k2": 1462,
+    "mpdd_s0_k4": 1422,
+    "mpdd_s0_k8": 1599
+  },
+  "per_unit_seconds_note": "extracted from the 'start (Ts)' / '13 methods (Ts)' elapsed markers in logs/A08_stride1.out; mean 1485.8 s/shot unit; metal_plate dominates each unit (~1234 s of the 1460 s first unit).",
+  "products_in_out_dir_at_stop": [],
+  "products_note": "out/A08/ was empty at the stop: the pre-patch script only writes replicate_stride1.npz / point_stride1.csv / E1_STATUS_stride1.json after the full mpdd+btad sweep, so nothing was recoverable.",
+  "logs": {
+    "stdout": "experiments/prereg_20260924/logs/A08_stride1.out",
+    "stderr": "experiments/prereg_20260924/logs/A08_stride1.err"
+  },
+  "stderr_tail": "scipy UserWarning: A NumPy version >=1.18.5 and <1.25.0 is required for this version of SciPy (detected 1.26.4) -- benign, present in every prior run",
+  "killed_by": "Stop-Process -Id 38060,26468 -Force",
+  "archived_products_untouched": "nothing under experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci or the prereg out/A08 tree was modified by this stop"
+}

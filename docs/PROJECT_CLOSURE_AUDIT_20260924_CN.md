@@ -1,0 +1,216 @@
+# 项目收口清单（Project Closure Audit）— 2026-09-24（2026-09-25 盘上实读刷新）
+
+- **性质**：把本项目**所有仍开放的事项**逐条清点、归类、给出归属与理由的**唯一"有无遗漏"验收依据**。
+- **来源（逐份读完，不遗漏）**：
+  `docs/MASTER_TODO_PAPER_PPT_FIGURES_20260923.md`（含 §十一/§十二/§十三收口映射）、
+  `docs/REVIEW_CHECKLIST_FOR_REGENERATED_PAPER_20260923.md`、
+  `docs/EXPERIMENT_GAP_ANALYSIS_20260922.md`（A01–A23）、
+  `docs/PAPER_REVISION_EXECUTION_20260924_CN.md`（M1–M6 + §八 + §十三）、
+  `docs/PREREGISTRATION_20260924_CN.md`、
+  `docs/ISSUE_REGISTER_20260920.md`（R-01–R-21）、
+  `docs/FINAL_REPAIR_AND_ACCEPTANCE_20260923.md`、
+  `docs/GITHUB_COMPLIANCE_AUDIT_20260923.md`、
+  `docs/FOLDER_CONSOLIDATION_20260923.md`、
+  `docs/PAPER_REVISION_HANDOVER_20260924_CN.md`（M1–M6）、
+  `docs/REMAINING_REVIEW_AFTER_AI_20260923.md`（1–5 项）；
+  另**增读**盘上最新一份 `docs/PRE_SUBMISSION_REVIEW_20260925_CN.md`（2026-09-25，事实上的最新一轮记录）。
+- **编号口径**：总表以 `MASTER_TODO` 的 **A-/B-/C-/D-/E-** 为**主编号**（该表自称"唯一交接入口"）；括号内给出其他体系的别名（`EXPERIMENT_GAP` 的 A01–A23、`ISSUE_REGISTER` 的 R-xx、清单 §1/§2/§4 的 A-/M-/K-、`PAPER_REVISION_*` 的 Mx、Txx/Pxx/Fxx）。
+- **证据规则**：每条结论给 `文件:行` / 实测值 / 哈希 / 命令输出；凡文档间状态冲突，一律**统一为 2026-09-25 盘上实读**（见 §三）。
+- **边界**：本文件**不改任何判据/口径/最终产物名**，**不覆盖归档产物**，**不动 `experiments/**` 他人产物**，**未 git add/commit/push**，**未实现 GPU port**。
+- **新增文本禁用词自查**：本文件新增文本**不含**身份与称谓类禁用词（引用其他轮次记录时一律称"**外部评审（指导方）**"）。
+
+---
+
+## 〇、结论速览（一页看完）
+
+| 归类 | 条数 | 含义 |
+|---|---:|---|
+| **已完成（有凭据）** | **12 组 / 覆盖 43 项验收** | 见 §二.1 |
+| **需作者决定** | **18** | 见 §一、§二.2 |
+| **需新写脚本 / 新实验** | **6**（其中 **1 条本轮正在跑**） | 见 §二.3 |
+| **已作废 / 不补** | **13 组** | 见 §二.4 |
+| **仍无法核实** | **6** | 见 §二.5 |
+| **与本轮并行流程相关（进行中）** | **1** | 2026-09-25 命名修订轮，见 §二.6 |
+
+> **一句话**：项目当前**无阻断项**（三个冻结哈希与 `data/splits/*` 实测未变，见 §二.1 C7）；真正开放的是 **(a) 作者只能自己提供的信息（元数据/DOI/权重许可/若干拍板）**、**(b) 4 项超 2 h 的新计算（A04/A11/A22 未跑；A08 本轮正在跑）**、**(c) 复现包重打与若干发布策略**。上述之外的历史欠缺项**要么已在稿、要么已作废**。
+
+---
+
+## 一、开放事项总表（**本轮之后仍开放的全部事项**）
+
+> 只列**仍未闭环**者；已完成项见 §二.1，不再重复。
+
+| # | 编号（别名） | 事项（一句话） | 归属 | 依据（文件:行 / 实测） | 下一步 |
+|---|---|---|---|---|---|
+| 1 | **E-01…E-04**（R-16、§七A） | 作者元数据（作者/单位/通讯/ORCID/资助）与 COI/伦理是否保留现句 | **作者** | `PRE_SUBMISSION_REVIEW_20260925_CN.md:23`（已确认作者 Yuening Li、单位 Hefei University of Technology；学院/详细地址/邮编未给，不代填）；`FINAL_REPAIR…§五`（4 个占位仍在） | 作者补 4 处占位后我方可重建 |
+| 2 | **E-05**（R-16/R-17、P3-5/P3-6） | 归档 DOI（Zenodo/等效）取得并回填；审稿阶段是否公开代码 | **作者** | `SUBMISSION_METADATA.md`「归档 DOI 获取步骤（作者执行）」已备；稿件仍如实写 "a permanent archive DOI … has not yet been established" | 作者按步骤取 DOI → 8 条回填点 |
+| 3 | **A-21 / B-06 / C-02**（T09） | 命名：单字母/短代码 → **完整模型名或描述性配置名** | **已完成决策，交付件待重建**（进行中，见 §二.6） | 盘上实读：`scripts/paper_complete_review_20260920/figure_sources/display_labels.py`（**未跟踪**，1,830 B，映射 `A1→Dual-encoder baseline` 等）；`English_Manuscript_Source.md` 含新名 **5 处**；**但**现役 docx 内 `Dual-encoder baseline` = **0**、`Equal-weight replacement` = 1（属旧"温和版"） | 由进行中的命名轮重建 docx/deck 后复核 |
+| 4 | **E-08**（R-01/R-02/R-04/R-13/R-14/R-15、M2、P1-1…P1-7） | 复现包重打：补 `src/`+`configs/`+`methods/`、`requirements_repro.txt` 补 CUDA index、`SOURCE_COMMIT.txt`+`SHA256SUMS`、`paper_evidence_closeout` 台账、`seeds_extension/p0_support/`、回填 `VD1_MANIFEST.json` | **作者 + 我方** | `EXPERIMENT_GAP…§二 A13`；`ISSUE_REGISTER…R-01/02/04/13/14/15`；**权重再分发许可**未定（`docs/MODEL_WEIGHTS.md` 已声明本包不分发权重） | ① 作者定 `methods/` 方案 (a)/(b) 与权重许可；② 我方按方案补包 |
+| 5 | **D-01 / A04**（T03、PREREG §2.1） | 跨方法稳定性（共同指标 × 共同扰动）**是否补** | **作者**（阈值外） | `PREREGISTRATION_20260924_CN.md §2.1/§4.4`：**无脚本**，需先定纵横轴；估 **8–16 GPU 卡时**；盘上检索无该实现 | 作者点头后先立脚本再接预注册跑 |
+| 6 | **D-05 / A11**（PREREG §2.2/§4.3） | 共享操作多条件消融**是否新写脚本** | **作者** | `PREREGISTRATION…§4.3`：`e2_shared_op_ablation.py` 硬编码 `SEEDS[ds][:1]`（只 seed 0）、无区间；`e2_abl_s_addendum.py` 无参数且会覆盖既有 `E2_shared_op_ablation/` ⇒ **不可运行**；估 **≈4–8 GPU 卡时** | 作者定是否新写脚本 |
+| 7 | **A-22 / D-11 / gap A22**（PREREG §2.4/§4.2） | 统一几何子集内让 PatchCore 保留**两配置列** | **作者**（>2 h） | `PREREGISTRATION…§4.2`：现工具链假定短边 448；另立列**需新写代码**且破坏"单一输入几何"前提；估 **≈3.5 GPU 卡时** | 作者定是否执行（现由 图 S6 承担协议敏感度） |
+| 8 | **A08 / D-03 / gap A08**（R-18、PREREG §2.3） | full-pixel（stride-1）区间 | **本轮已启动执行**（原判"不补"） | 本轮实测：`out/A08/` 已 6 个单元 checkpoint（3 完成 + 3 部分）；shard 1/2 已起（PID 36264/34076），shard 3 于 10:30 起 | 跑完 → N=1 汇总 → `e1_report.py`（见 §五） |
+| 9 | **D-14 / A-17**（METHOD_COMPARISON_HANDOFF） | 表 A / 表 B（统一 448 子集）是否入正文；入稿须带 7 条限制 | **作者** | `MASTER_TODO…D-14`；`EXPERIMENT_GAP…§7.3`（子集已就绪、未入稿） | 作者拍板 |
+| 10 | **D-13**（T08） | 文献参照表是否纳入 | **作者**（可选、零重跑） | `MASTER_TODO…D-13`；`EXPERIMENT_GAP…§11.4 证据缺口-4`：`references.json` **无** `adaptclip/remp_ad/efficientad/glass` 键 ⇒ 该表**尚未做** | 作者拍板；若做须补 4 个引用键 |
+| 11 | **D-08** | 子集表 `pixel_auroc` 区间是否补 | **作者**（低成本可补） | `EXPERIMENT_GAP…§7.2 A19`：现仅 `pixel_ap` 有区间；CPU 级 | 作者要求则复用同一 stride-8 抽样流 |
+| 12 | **E-09**（F21） | `build.py` 非字节可复现是否接受 | **作者** | `MASTER_TODO…E-09`：连跑三次 docx SHA 三个值、内容度量一致 | 接受→只记内容口径；不接受→改固定 docProps |
+| 13 | **E-10**（F22、R-？） | `selfcheck.py` 2/69 两项如何处置 | **作者** | `FINAL_REPAIR…§8.4`：实跑 `checks=69, passed=67`；失败 = ①大纲 docx 不在盘 ②冻结快照 `_smoke` 3 处漂移 | 作者定"重建大纲 / 豁免 `_smoke`" |
+| 14 | **E-19 / E-20 / E-21 / E-22 / E-23** | 版式母本移出 `*.docx` 忽略；现役 docx 留 git 还是 Release；是否 LFS；是否出 PDF；是否打 `v1.0.0` | **作者** | 盘上实读：`.gitignore:83` 白名单**仍指向 `…20260923.docx`**，而**现役交付是 `…20260924.docx`**（`git ls-files` 显示两者均被跟踪、SHA `77864633…`）；`git check-attr filter` = **unspecified（未启用 LFS）**；`git tag` = **10** | 作者逐项拍板 |
+| 15 | **E-16 / E-24 / B-08 / E-12** | `experiments/**` 与日志内本机绝对路径是否脱敏；生成物溯源 JSON 旧路径；`PREFLIGHT.json`/`ext_run_anomalyclip.py` 的 09-21 留痕 | **作者**（红线区） | `GITHUB_COMPLIANCE…§4#5`：`git grep "My_github"` 命中 **1,503** tracked 文件；改动会使 `SHA256SUMS`/`VERSIONED_EVIDENCE.sha256` 失效 | 作者书面决定是否单开一轮 |
+| 16 | **E-18** | 清理第二轮改动是否提交；`.trae/` 是否纳入 | **作者** | 盘上实读：`git status` **R=0**（归档已落地并提交）；当前未提交 = **70 M / 35 ??**（见 §三 冲突 12） | 作者定提交范围 |
+| 17 | **E-06**（P3-6） | 数据集许可明细是否补入正文 | **作者** | `MASTER_TODO…E-06`：三段许可已入正文；明细待定 | 作者拍板 |
+| 18 | （§七2#18 / R-07） | BTAD 口径科研判断追认（已在稿） | **作者** | `ISSUE_REGISTER…R-07`：措辞已统一为"点估计接近零、区间跨零，方向未定"；"是否接受该定位"归作者 | 作者追认 |
+| 19 | （§七2#20 / B-09） | 三处重复图件集"留哪一处" | **作者**（低） | `FOLDER_CONSOLIDATION_20260923.md`：现役链只认 `docs/figures_reference_matching_20260914/`；历史图件已归档 | 作者拍板是否再删 |
+| 20 | **E-11** | 包内 `SHA256SUMS` 2 处既有漂移是否修 | **作者**（低） | `MASTER_TODO…E-11`：`VD1_MANIFEST.json`、`requirements_lock.txt` | 作者拍板 |
+| 21 | （GITHUB_COMPLIANCE §4#6） | 未跟踪并行产物 `docs/INNOVATION_DIRECTION_LIBRARY_20260922_CN.md` 的 **2 处非中性称谓**是否中性化后入库 | **作者** | 盘上实读：该文件 `git ls-files` = **未跟踪**；`GITHUB_COMPLIANCE…§3.5` 记其含 2 处非中性词（非本轮引入） | 入库前处理 |
+| 22 | （§2.6 见下） | 2026-09-25 命名修订轮的**完成度与验收**（重建 docx/deck、门禁复跑、索引同步） | **并行流程**（本轮不介入） | `PRE_SUBMISSION_REVIEW_20260925_CN.md`；盘上 `codex-runtimes` 进程正在渲染 `fig7_multimethod_mvtec` | 由该轮自行收口，我方只读登记 |
+
+---
+
+## 二、分类明细
+
+### 二.1 已完成（给凭据，防重复劳动）
+
+| # | 已闭环项 | 凭据（文件:行 / 实测值 / 哈希） |
+|---|---|---|
+| C1 | **清单全量验收通过**：§1 A-01…A-28 = **28/0/0/0**，§4 K-01…K-15 = **15/0/0/0**（合计 **43 通过**） | `FINAL_REPAIR_AND_ACCEPTANCE_20260923.md §10.5`；`REVIEW_CHECKLIST…§7 第三轮增补` |
+| C2 | **M1–M6 全部处置**（表注指向 Table S2 + SubspaceAD 点名；复现性文档；Figure 7 续页 +BTAD；S5 离群；Discussion 点名 HyperFSAD/ReMem/DuoAD；A01 回填） | `PAPER_REVISION_EXECUTION_20260924_CN.md §一/§二`；本轮实测 `results.md` 含 `30.527`×1、`covers MPDD and BTAD only`×1、`HyperFSAD|ReMem|DuoAD`×1；`manuscript.md` 含 `preparation computation`×1 |
+| C3 | **A-01 / A-12 / A-19 / B-04 / B-05 / B-07 / B-09 / B-10** 已执行或复核为"无需改" | `MASTER_TODO…§13.1/§13.4`；`PAPER_REVISION_EXECUTION…§13.1/§13.4`（fig2 `F60EBC88…`、fig3 `F44656C4…`；S1 逐字节未变 `FE182E11…`） |
+| C4 | **现役重建（2026-09-24）**：docx = **56 页 / 23 表 / 28 内嵌图 / 154 数学对象 / 12 编号公式 / 37 文献 / 19,947 词**；deck = **64 页** | 本轮实测：`Reference_Matching_Complete_English_20260924.docx` SHA-256 = **`77864633FD7672660243017B0A13C6F9A6860B519B99A1255B4A65205E2839F6`**，python-docx `tables=23 / inline=28`；`All_Figures_Complete_20260924.pptx` SHA-256 = **`CF889CACF7CE868DBC76AC05B0986D1E62F0A884113CCFC3F09F681EC8F9E137`**；`FIGURE_SLIDE_INDEX.json` = **64 条** |
+| C5 | **B-03 / A23 图 S6 已入稿** | 本轮实测 docx 内 `Figure S6` 命中 **4**；`SOTA` = **0**；`all cases` = **0**（A-15 口径成立） |
+| C6 | **E-07 复现性文档已在盘且达标**（原登记"过期/误记"） | 本轮实测 `Test-Path docs/MODEL_WEIGHTS.md` = **True**（159 行、19 处 SHA-256 提及）、`docs/REPRODUCE_TO_TABLES.md` = **True**；`FINAL_REPAIR…§10.6#4` 已更正；`REMAINING_REVIEW…§3` 同结论 |
+| C7 | **红线未破（实测复核）** | 冻结共同区域表 = **`3C83AB00…A0B8BB`** ✓；扩展表 = **`1C770129…73EC4B`** ✓；版式母本 = **`9DB99E60…8FB837`** ✓（三者本轮实算一致） |
+| C8 | **发布合规三件套已入库** | 盘上实读：`CITATION.cff`、`THIRD_PARTY_NOTICES.md`、`.gitattributes` **均已在跟踪**（不在 `git status` 的 `??` 列表中）；`GITHUB_COMPLIANCE_AUDIT_20260923.md §2.3/§2.4` |
+| C9 | **E-14（本地未推送提交）已不再成立** | 本轮实测 `git status -sb` = **`## main...origin/main`**（**无 `[ahead N]`**，已同步）；`MASTER_TODO…E-14` 记的 "ahead 2" 为旧值 |
+| C10 | **目录归并已落地并提交** | 盘上实读：`git status` **R=0**；`docs/archive_pre202609/figures/` 与 6 个历史稿件/评审目录已就位（`FOLDER_CONSOLIDATION_20260923.md §2` 的 52 条 `git mv` 已进入历史） |
+| C11 | **ISSUE_REGISTER 的复现/测试/措辞类大多已处置** | `ISSUE_REGISTER…§〇bis/§〇ter`：R-05/R-06/R-07(措辞)/R-08/R-09/R-10 已处置；R-11(推送)/R-12 已解决；R-20 口径刷新为 5 家族 |
+| C12 | **FOLDER_CONSOLIDATION 的引用更新与例外登记** | `FOLDER_CONSOLIDATION…§3.1/§3.2`：现役链与导航文档引用已更新；剩余命中全在"历史记录类 + 归档内部 + 红线区 `experiments/**`"（允许例外） |
+
+### 二.2 需作者决定
+
+即 §一 的 #1–#7、#9–#17、#19–#21（共 **18** 条）。其中**具体决策点**明确列出：
+
+- **作者元数据**：`[[AUTHORS]]`（已确认 Yuening Li / 李越宁）、`[[AFFILIATIONS]]`（Hefei University of Technology / 合肥工业大学；**学院、详细地址、邮编未提供**）、`[[CORRESPONDING_AUTHOR]]`、`[[FUNDING]]`、COI 与伦理句 —— **禁止代填**。
+- **归档 DOI**：作者执行步骤已备（GitHub Release → Zenodo 集成 → 取 DOI → 8 条回填点）。
+- **整批改名 A-21/B-06/C-02**：外部意见已提出、**已在源与图表层执行**（见 §二.6），交付件待重建。
+- **权重再分发许可**：决定复现包**是否打包权重本体**（否则只写 URL+revision+SHA-256）。
+- **deck 64 vs 63 页**：现役 `…20260924.pptx` = **64 页**（`CF889CAC…`）；`…20260923.pptx` = 63 页；`MASTER_TODO §三` 仍写 63 ⇒ 需以 64 为现役并同步 §三/§八。
+- **A04 的共同指标定义**：需先定"纵轴（共同指标）× 横轴（共同扰动）"，否则无从执行。
+- **A11/A22 是否新写脚本**：现成脚本均**不可运行**（硬编码 seed0 / 会覆盖既有产物 / 假定短边 448）。
+
+### 二.3 需新写脚本 / 新实验
+
+| # | 事项 | 缺什么 | 成本估算 | 为什么现在不做 |
+|---|---|---|---|---|
+| X1 | **A04 跨方法稳定性** | 无任何"共同指标 × 共同扰动 × 六配置 + 图像级配对区间"实现 | **8–16 GPU 卡时**（锚点 PatchCore@448 = 52.4 min/36 单元） | > 2 h 阈值；且口径未定义（`EXPERIMENT_GAP…§7.2 D-01` 自述"须先定义纵/横轴"） |
+| X2 | **A11 共享操作多条件消融** | `e2_shared_op_ablation.py` 只跑 seed 0、无 bootstrap 区间；配套脚本会覆盖既有产物 | **≈4–8 GPU 卡时** | > 2 h；需新写脚本或改口径 |
+| X3 | **A22 统一几何两列** | 无脚本；B 线工具链假定短边 448 | **≈3.5 GPU 卡时** | > 2 h；会破坏子集"单一输入几何"前提 |
+| X4 | **A08 full-pixel 区间** | 脚本已在盘（`e1_fullpixel_ci.py`） | 原估 **>1 天 CPU/内存密集** | **本轮已决定执行并已启动**（见 §五） |
+| X5 | **A06 附录为全部方法补轮廓** | 需按正文同规则做阈值化后处理 | 小时级 GPU/CPU | 仅在作者要求时做（正文 5 案例已满足） |
+| X6 | **E-08 复现包重打** | 需补 `src/`/`configs/`/`methods/`、CUDA index、`SOURCE_COMMIT.txt`+`SHA256SUMS`、台账、`p0_support/`、`VD1_MANIFEST` 回填 | 天级文档/打包 | 卡在**权重再分发许可**（作者决策） |
+
+### 二.4 已作废 / 不补（给理由与出处）
+
+| # | 事项 | 理由 / 出处 |
+|---|---|---|
+| N1 | gap **A09**（同机证据范围受限）→ D-04 | 保留为限制、已在稿；不得改写为端到端（`EXPERIMENT_GAP…§7.1 A09`） |
+| N2 | gap **A11** → D-05 | "不补（结论不变）"（`MASTER_TODO…D-05`）；与 §一#6 的"是否新写脚本"并存（见 §三 冲突 8） |
+| N3 | gap **A12**（权重最优性）→ D-06 | 已在正文限定（`results.md:7`） |
+| N4 | gap **A18**（子集只覆盖 36/144）→ D-07 | 子集定位本身即"1/4 子集"；补满只提高分辨率 |
+| N5 | gap **A20**（WinCLIP+/AnomalyCLIP@448）→ D-09 | 代码级绑定（检查点 240 / 网格 518），改了就不再是"原生配置" |
+| N6 | gap **A21**（SubspaceAD@448 仅 2 图冒烟）→ D-10 | 排除依据是**输入规则**（方形拉伸），非显存/成本 |
+| N7 | gap **A22**（子集内 PatchCore 塌缩一列）→ D-11 | 协议敏感度已由 **图 S6** + `protocol_leverage.json`（0.1000 / 0.0265 / 3.8× / 33.3%）承担 |
+| N8 | gap **A15/A16/A17** | 已满足（3–4 个近期方法口径 / 统计口径 / 共同区域口径） |
+| N9 | **D-12**（P2 训练类基线 AdaptCLIP 等） | 已结案不做（外部口径 3–4 个近期方法已达标） |
+| N10 | **D-13**（文献参照表） | 降级为可选、零重跑（只剩"补 4 个引用键"，见 §一#10） |
+| N11 | **R-05 / R-06 / R-07(措辞) / R-08 / R-09 / R-10 / R-12** | 已处置（`ISSUE_REGISTER…§〇bis`） |
+| N12 | **F16** | 编号保留、未使用（`MASTER_TODO…§九 9.2`） |
+| N13 | **A-12**（稳定性计划书"加密 N 网格却使最大值变小"） | **矛盾不成立**：现役文本写的是"加密不会改变或收紧 N≥500 上界"；数据侧仅 11 点网格，`max_abs_estimate_deviation_N_ge_500 = 1.265e−04` 与表逐值一致（`PAPER_REVISION_EXECUTION…§13.4`） |
+
+### 二.5 仍无法核实（说明已尝试的检索范围）
+
+| # | 项 | 已尝试的范围 | 缺什么 |
+|---|---|---|---|
+| U1 | **M-13 文献 DOI/卷期/大小写逐条统一** | 只对 `references.json` 做**年份分布**统计（2024–2026 = 20/34 = 58.8%，低于 70–80% 参考区间，非硬指标） | 未逐条比对 34 条文献的 DOI/期刊缩写/作者大小写 |
+| U2 | **A-05 位图内嵌标题（是否 100% 无图内标题）** | 核了原生页 XML 无 `Figure N` + 绘图脚本无生效 `suptitle`（机器旁证） | **未做 OCR**，无法 100% 排除整页位图内的标题像素 |
+| U3 | **2026-09-25 命名修订轮的完成度与验收** | 读 `PRE_SUBMISSION_REVIEW_20260925_CN.md`；实测源/图表已含新名、交付 docx 未含 | 该轮**仍在进行**（盘上有活动渲染进程），无最终计数/门禁记录 |
+| U4 | **旧版验收 JSON 是否最新** | 已按"旧版验收 JSON 与早期待办状态**不作为最新文件凭证**"口径处理（`FINAL_REPAIR…§11` 提示） | `REVISION_VALIDATION_20260923.json` 数值仍为旧时点，脚本因并行流程卡在 `no_experiment_data_changes` 未重生成 |
+| U5 | **全新克隆能否复现 deck 链** | 本机可跑通（`FINAL_REPAIR…§11.7#1`） | deck 链依赖 artifact-tool + PowerPoint COM + 本机插件缓存（跨机路径未验证） |
+| U6 | **`docs/requirements_notes_20260912/`、`docs/submission_reproducibility_20260826/` 是否归档** | `FOLDER_CONSOLIDATION…§6`：二者**不在该轮任务清单内**，被 `docs/README.md` 与 `REVIEW_CHECKLIST` 引用 ⇒ **保守未动** | 归档判定需作者/后续轮确认 |
+
+### 二.6 与本轮并行流程相关（进行中，本轮只读登记）
+
+- **2026-09-25 命名修订轮**：`PRE_SUBMISSION_REVIEW_20260925_CN.md`（未跟踪）记"本轮把阅读层名称改为完整模型名称或描述性配置名称"；盘上证据 = `scripts/…/figure_sources/display_labels.py`（未跟踪）、`scripts/…/.tmp_revision_20260925/`（未跟踪）、一批图件 `M`（`fig1_framework.png`、`figS6_protocol_paper_part*`、`multimethod/*`、`qualitative_*`）；**且本轮观察期内有 `codex-runtimes` 的 pwsh/python 正在渲染 `fig7_multimethod_mvtec`**（实测命令行，非我方进程）。
+- **对我方的影响**：该轮**正在写 `docs/**` 与图件**，故本项目现役 docx/deck 可能在本轮观察期内被其重建；本清单的"交付件哈希"以**实测时点**为准。
+- **我方纪律**：不介入、不覆盖、不回退其改动。
+
+---
+
+## 三、交叉核对：文档间状态不一致 → 统一为盘上实读
+
+| # | 事项 | 文档 A 的说法 | 文档 B 的说法 | **盘上实读（统一口径）** |
+|---|---|---|---|---|
+| 1 | **A01 图像级并列**（gap A01 / MASTER A-14） | `MASTER_TODO…§4.1`：**"仍缺"** | `EXPERIMENT_GAP…§7.1`：**"部分满足（2026-09-24 回填）"**；`PAPER_REVISION_EXECUTION…§3.1`："已做（部分满足）" | **以 B 为准**：`results.md:165` 有 "Image-level metrics…Table 21"、`tables.json` 有 `image_metrics`（two anchors，无区间）⇒ **部分满足** |
+| 2 | **图 S6 是否入稿**（gap A23 / B-03） | `MASTER_TODO…§4.1 A23`：**"未入稿，登记待作者"** | `MASTER_TODO…§13.1` / `PAPER_REVISION_EXECUTION…§3.3`：**"已入稿"** | **已入稿**：本轮实测 docx 内 `Figure S6` 命中 **4** |
+| 3 | **S5 首轮离群**（gap A10 / A-16） | `MASTER_TODO…§4.1 A10`：**"仍缺"** | `MASTER_TODO…§12.1 M4` / `PAPER_REVISION_EXECUTION…§3.1`：**"已做"** | **已披露**：本轮实测 `results.md` 含 `30.527`×1 |
+| 4 | **A-01/A-19/B-04/B-05/B-07** | `MASTER_TODO…§一/§二`：**"待做 / 待核实"** | `MASTER_TODO…§13.1`：**"已执行 / 复核为无需改 / 已过"** | **以 §13.1 为准**（fig2 `F60EBC88…`、fig3 `F44656C4…`；S1 逐字节未变） |
+| 5 | **E-07 / A13 复现性文档** | `FINAL_REPAIR…§10.6#4`（旧）：**"`MODEL_WEIGHTS.md` 不在盘"** | `REMAINING_REVIEW…§3` / `FINAL_REPAIR…§11.5`：**"在盘且达标"** | **在盘且达标**：本轮实测 `Test-Path` = **True**（159 行、19 处 SHA-256） |
+| 6 | **deck 页数** | `MASTER_TODO…§三/§八`：**63 页** | `MASTER_TODO…§13.2/§13.3` / `PAPER_REVISION_EXECUTION…§13.3`：**64 页** | **64 页为现役**（`…20260924.pptx`，`CF889CAC…`，索引 64 条）；`…20260923.pptx` = 63 页为上一快照 ⇒ **需同步 §三/§八** |
+| 7 | **docx 规模口径** | `MASTER_TODO…§现状`：**55 页 / 27 内嵌图 / 152 对象 / 19,434 词**（20260923） | `PAPER_REVISION_EXECUTION…§13.2`：**56 / 28 / 154 / 19,947**（20260924） | **以 20260924 为准**（SHA `77864633…`，实测 23 表 / 28 图） |
+| 8 | **A04 / A11 / A22 处置** | `MASTER_TODO…D-01/D-05/D-11`：**"不补（结论不变）"** | `PREREGISTRATION…§二/§4.2–4.4`：**"真需新计算、只预注册（>2 h）"** | **统一为"未跑、已预注册、待作者点头"**（不补 = 现在不跑；预注册 = 已备好跑法） |
+| 9 | **A08 full-pixel** | `MASTER_TODO…D-03`：**"不补"** | `PREREGISTRATION…§2.3`："已登记脚本，>2 h 不当场跑" | **本轮已启动执行**（`out/A08/` 6 个单元 checkpoint；日志在 `logs/A08_shard*_of3.out`） |
+| 10 | **命名整批改名** | `MASTER_TODO…A-21/B-06/C-02` + `§七/§13`：**"待拍板（未执行，温和版在位）"** | `PRE_SUBMISSION_REVIEW_20260925_CN.md`：**"本轮把阅读层名称改为完整/描述性名称"** | **源与图表层已改、交付 docx 未改**：`manuscript.md` 有描述性名、`English_Manuscript_Source.md` 新名 5 处、`display_labels.py` 在位；docx 内 `Dual-encoder baseline` = **0** |
+| 11 | **本地未推送提交**（E-14 / R-11） | `MASTER_TODO…E-14`：**"ahead 2"** | `ISSUE_REGISTER…§〇ter`：09-23 又超前 2 | **已同步**：本轮实测 `## main...origin/main`（无 ahead） |
+| 12 | **清理第二轮归档是否提交**（E-18 / FOLDER_CONSOLIDATION §8） | `FOLDER_CONSOLIDATION…§8`：**"52 R 未提交"** | `GITHUB_COMPLIANCE…§3.1`：`git status` 无 `D/R` | **已提交**：本轮实测 `git status` **R=0**；未提交项 = **70 M / 35 ??**（当前为并行流程与历史轮次的累积） |
+| 13 | **`plot_primary.py` 数据来源**（K-12 / N-1） | `FINAL_REPAIR…§8.1`：**"需作者裁决"** | `FINAL_REPAIR…§九` / `MASTER_TODO…§7.3`：**已按选项 (a) 结清** | **已结清**：fig4b 已按现行表 8 行重渲染（`FA2DE6E4…FCC13`），32/32 与 Table 16 一致 |
+
+---
+
+## 四、"本轮之后仍开放的全部事项"（汇总，去重后共 22 条）
+
+> 与 §一 逐行对应；此处只给 **编号 + 归属**，便于验收勾选。
+
+1. E-01…E-04 作者元数据/COI/伦理 —— **作者**
+2. E-05 归档 DOI + 审稿期公开 —— **作者**
+3. A-21/B-06/C-02 命名修订的重建与验收 —— **并行流程（进行中）**
+4. E-08 复现包重打（含权重许可）—— **作者 + 我方**
+5. D-01/A04 跨方法稳定性 —— **作者**
+6. D-05/A11 共享操作多条件消融 —— **作者**
+7. A-22/D-11 统一几何两列 —— **作者**
+8. A08/D-03 full-pixel 区间 —— **本轮执行中**
+9. D-14/A-17 表 A/表 B 是否入稿 —— **作者**
+10. D-13 文献参照表 —— **作者**
+11. D-08 `pixel_auroc` 区间 —— **作者**
+12. E-09 `build.py` 非字节可复现 —— **作者**
+13. E-10 `selfcheck` 2/69 —— **作者**
+14. E-19/E-20/E-21/E-22/E-23 版式母本 + git/Release + LFS + PDF + tag —— **作者**
+15. E-16/E-24/B-08/E-12 绝对路径与留痕 —— **作者**
+16. E-18 第二轮改动提交范围 —— **作者**
+17. E-06 数据集许可明细 —— **作者**
+18. BTAD 口径追认 —— **作者**
+19. 三处重复图件集留哪一处 —— **作者**
+20. E-11 包内 SHA256SUMS 漂移 —— **作者**
+21. `INNOVATION_DIRECTION_LIBRARY` 非中性称谓是否中性化后入库 —— **作者**
+22. 仍无法核实 6 项（U1–U6）—— **需补工具/后续轮**
+
+---
+
+## 五、本轮对 A08 执行与观察（与本清单 #8 对应；详见启动/监控记录）
+
+- **决定路数 N**：`N = clamp(floor(free_GiB), 3, 6)`；启动前实测可用内存 = **2.797 GiB** ⇒ `floor = 2` ⇒ **N = 3**（且 free < 3 GB，已按要求提示）；启动前确认**无其它 python 计算进程**。
+- **启动**：`powershell -File experiments\prereg_20260924\state\A08_parallel_launch.ps1 -Shards 3 -StaggerSec 300 -Resume`（2026-09-25T10:20:01 起，错峰 300 s；shard 1/2 已起，shard 3 于 10:30:01 起）。
+- **监控**：单一实例 `A08_parallel_monitor.ps1 -IntervalSec 60 -MaxMinutes 1440`（输出 `state/A08_parallel_progress.json`）。
+- **观察期健康度 / 进度 / ETA**：见 `experiments/prereg_20260924/state/A08_parallel_progress.json` 与下方交付报告（N、各 PID、日志路径、units_done/20、ETA）。
+- **收尾（仅当 20/20 `complete:true`）**：N=1 纯汇总 → `e1_report.py --dir … --strides 1` → 记录三产物路径/字节/SHA-256 并对 `point_stride1.csv` 做结构抽查。
+
+---
+
+## 六、本轮未做 / 不确定
+
+1. 本文件为**只读清点 + 文档增量**，**未跑新实验**（A08 是被任务明确要求启动者除外）、**未用 GPU 训练**、**未改任何冻结数值**、**未改判据/口径/产物名**、**未提交/推送**、**未实现 GPU port**。
+2. 交付件计数（docx/deck 页表图）为**实测时点值**；若 §二.6 的并行命名轮在同一时段重建，数值可能随之刷新。
+3. §三 的"统一口径"以**本文件写作时的盘上实读**为准；若后续轮次再改，需按 `FINAL_REPAIR…§11` 的"旧版验收 JSON 不作凭证"原则重新核。
+4. §一 的"需作者决定"条数为**去重后**计数，与方法论文档中的分项编号不是一一映射。
+5. 本轮**未复核** `experiments/**` 内与本文无关的历史工作流的失败登记。
+
+*本文件写于 2026-09-24（标题日期），盘上实读时点为 2026-09-25；所有 `文件:行` 与哈希均可按 §一/§二 的引用复跑核验。*

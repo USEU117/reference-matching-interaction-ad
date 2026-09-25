@@ -1,0 +1,57 @@
+# ============================================================================
+# A08 复跑命令（增量落盘 + 可续跑版本）
+# 生成时间: 2026-09-24
+# 产物目录: experiments\prereg_20260924\out\A08
+# 脚本    : scripts\limitation_closure_20260915\e1_fullpixel_ci.py
+# 说明    : 只改落盘时机与续跑；判据/口径/最终产物名一律未改。
+#           最终 replicate_stride1.npz / point_stride1.csv / E1_STATUS_stride1.json
+#           由 <output>\units\*.json 汇总生成，与"一次跑完"逐位相同（已实测）。
+# 不要把下面任何一条直接粘到 git 相关命令里；本文件不涉及提交。
+# ============================================================================
+
+# --- 0. 先释放内存 -----------------------------------------------------------
+# 关闭浏览器/桌面应用，使可用物理内存 >= 6 GiB（15.8 GiB 机器）
+# 查看: Get-CimInstance Win32_OperatingSystem | Select-Object FreePhysicalMemory
+
+# --- 1. 前置检查（只读，不会启动运行） ---------------------------------------
+powershell -ExecutionPolicy Bypass -File experiments\prereg_20260924\state\A08_preflight.ps1
+# 可用内存紧张时放宽阈值:  ... A08_preflight.ps1 -MinFreeMiB 3000
+# 必须看到 "=== PRE-FLIGHT OK ===" 才继续。
+
+# --- 2. 主命令（单进程，可随时被杀，最多丢当前一个类别） ---------------------
+.venv-anomalyclip\Scripts\python.exe -u ^
+  scripts\limitation_closure_20260915\e1_fullpixel_ci.py ^
+  --mode run --resume --stride 1 --replicates 1000 ^
+  --datasets mpdd btad ^
+  --output experiments\prereg_20260924\out\A08
+#   --resume : 扫描 out\A08\units\，跳过已完成的单元/类别，只跑剩余
+#   重复执行同一条命令即可断点续跑；全部完成后再执行一次只会做汇总。
+#   建议设置 E1_CHUNK 保持默认 4096（改 chunk 会使已有断点失效并重算）。
+
+# --- 3. 只看进度 -------------------------------------------------------------
+Get-Content experiments\prereg_20260924\logs\A08_stride1.out -Tail 5 -Wait
+
+# --- 4. 产物 -----------------------------------------------------------------
+#   experiments\prereg_20260924\out\A08\replicate_stride1.npz
+#   experiments\prereg_20260924\out\A08\point_stride1.csv
+#   experiments\prereg_20260924\out\A08\E1_STATUS_stride1.json
+#   experiments\prereg_20260924\out\A08\units\<dataset>_s<seed>_k<shot>.json  (断点)
+
+# ============================================================================
+# 并行（可选，需要空闲内存约为 worker 数 x 1 GiB；详细评估见任务报告）
+# ----------------------------------------------------------------------------
+# 立即可用、零改码的 2 路切分（按数据集，分到两个输出目录）:
+#   .venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_fullpixel_ci.py ^
+#     --mode run --resume --stride 1 --replicates 1000 --datasets mpdd ^
+#     --output experiments\prereg_20260924\out\A08_mpdd
+#   .venv-anomalyclip\Scripts\python.exe -u scripts\limitation_closure_20260915\e1_fullpixel_ci.py ^
+#     --mode run --resume --stride 1 --replicates 1000 --datasets btad ^
+#     --output experiments\prereg_20260924\out\A08_btad
+#   合并（把 btad 的断点搬进主目录，再跑一次主命令只做汇总）:
+#     Copy-Item experiments\prereg_20260924\out\A08_btad\units\*.json experiments\prereg_20260924\out\A08\units\
+#     然后执行上面第 2 节的主命令（--resume，会全部跳过并汇总）
+#
+# N 路按单元切分（worker 数 3~10）需要给脚本加一个极小的 --shard i/N 开关
+# （本任务按"不要现在实现"的要求未实现，仅评估）。
+# 每个 worker 建议设 OMP_NUM_THREADS=1 以避免 BLAS 线程超订:
+#   $env:OMP_NUM_THREADS=1; $env:OPENBLAS_NUM_THREADS=1

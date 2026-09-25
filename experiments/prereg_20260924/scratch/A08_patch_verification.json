@@ -1,0 +1,63 @@
+{
+  "id": "A08_patch_verification",
+  "patch": "scripts/limitation_closure_20260915/e1_fullpixel_ci.py --mode run: per-category + per-unit checkpointing under <output>/units/<dataset>_s<seed>_k<shot>.json, --resume flag, final products assembled from the checkpoints (assemble_from_units). No change to the estimator, the criteria, or the product names/formats.",
+  "pre_patch_reference": "a byte copy of the pre-patch script was made with Copy-Item before editing and used only for the tests below; it has been deleted again to keep the scripts tree clean",
+  "hashes": {
+    "pre_patch_script_sha256": "C0EBDE2D8F33C88CF85E79E4810C63CEC6E9C185B008EA5DD1FC0EA36AB2E622",
+    "patched_script_sha256": "E6A3EC3937BCE4D4AB7447345261B84EF1F61CED27BA3AFDFC574AA39086E672",
+    "patched_script": "scripts/limitation_closure_20260915/e1_fullpixel_ci.py"
+  },
+  "test1_once_vs_incremental": {
+    "what": "pre-patch script (single write at the very end) vs patched script (checkpoint + assemble), same config",
+    "config": "--mode run --stride 1 --replicates 100 --datasets mpdd --categories bracket_black bracket_white",
+    "dirs": {"A_prepatch": "experiments/prereg_20260924/scratch/_t1_old",
+             "B_patched": "experiments/prereg_20260924/scratch/_t1_new"},
+    "point_rows": 312,
+    "point_exact_matches": 312,
+    "point_max_abs_diff": 0.0,
+    "point_csv_bytes_identical": true,
+    "npz_arrays": 156,
+    "npz_bitwise_equal_arrays": 156,
+    "npz_max_abs_diff": 0.0,
+    "npz_bytes_identical": true,
+    "status_json_bytes_identical": true,
+    "external_archive_check": {
+      "reference": "experiments/dynamic_fusion/unified_fusion_paper_support_20260913/p4_fullpixel/fullpixel_metrics.csv",
+      "compared": 312,
+      "max_abs_diff": 5.551e-17,
+      "note": "the stride-1 point values reproduce the archived p4 table to 1e-16"
+    },
+    "verdict": "PASS"
+  },
+  "test2_resume_correctness": {
+    "what": "run 1 unit, then a second pass with --resume over a dir seeded with (i) one complete unit and (ii) one incomplete unit; final products must equal the one-shot run",
+    "dir": "experiments/prereg_20260924/scratch/_t2_resume",
+    "seeded_with": {"mpdd_s0_k1": "complete -> must be skipped",
+                    "mpdd_s0_k2": "incomplete checkpoint (categories_done=[]) -> must be recomputed"},
+    "stdout_evidence": [
+      "[E1:stride1] mpdd_s0_k1: already complete, skipped (1/12, wall 0s)",
+      "[E1:stride1] mpdd_s0_k2: resuming, categories already done: []",
+      "[E1:stride1] unit 2/12 done: mpdd_s0_k2 unit_ts=30s wall=30s",
+      "... unit 12/12 done (wall 300s)"
+    ],
+    "vs_one_shot": {"point_rows": 312, "point_exact_matches": 312, "point_csv_bytes_identical": true,
+                    "npz_bitwise_equal_arrays": 156, "npz_bytes_identical": true,
+                    "status_json_bytes_identical": true},
+    "verdict": "PASS"
+  },
+  "test3_stride8_regression": {
+    "what": "patched script at --stride 8 --datasets mpdd --replicates 1000 vs the archived stride-8 point table",
+    "new_dir": "experiments/prereg_20260924/scratch/E1_stride8_regress_new",
+    "archive": "experiments/dynamic_fusion/limitation_closure_20260915/E1_fullpixel_ci/point_stride8.csv",
+    "rows": 936,
+    "common_rows": 936,
+    "bitwise_identical": 568,
+    "differing": 368,
+    "max_abs_diff": 9.66e-10,
+    "tolerance": 1e-06,
+    "status_json_identical_to_archive": true,
+    "verdict": "PASS"
+  },
+  "overall": "ALL THREE PASS - the checkpoint/resume patch is usable; final products are identical whether the sweep runs in one go or in several --resume chunks.",
+  "caveat": "The 4 shot-units finished by the pre-patch process (mpdd_s0_k1..k8) were never written to disk and could not be recovered - the patched relaunch starts from zero."
+}

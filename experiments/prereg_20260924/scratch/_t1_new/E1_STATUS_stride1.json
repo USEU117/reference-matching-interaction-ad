@@ -1,0 +1,26 @@
+{
+  "state": "completed",
+  "stride": 1,
+  "replicates": 100,
+  "units": [
+    "mpdd_s0_k1",
+    "mpdd_s0_k2",
+    "mpdd_s0_k4",
+    "mpdd_s0_k8",
+    "mpdd_s1_k1",
+    "mpdd_s1_k2",
+    "mpdd_s1_k4",
+    "mpdd_s1_k8",
+    "mpdd_s2_k1",
+    "mpdd_s2_k2",
+    "mpdd_s2_k4",
+    "mpdd_s2_k8"
+  ],
+  "categories": [
+    "bracket_black",
+    "bracket_white"
+  ],
+  "stream": "default_rng([20260913, dataset_id, category_id, replicate])",
+  "grid_derivation": "patch scores -> cv2 INTER_LINEAR to grid*14 -> gaussian sigma=4 -> take every stride-th pixel",
+  "aggregation_scope": "macro over the categories present in each unit"
+}
