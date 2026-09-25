@@ -353,6 +353,7 @@
 - 首轮队列在 01:46:41 自动装配，日志末行 `assembled 2304 point cells from 16 units (0 missing); 0 condition rows; 0 aggregate rows` ⇒ 产出**仅表头（121 B）**与**空表（5 B）**两张派生表。
 - 两处起因：① `INTERACTIONS` 用**带 `_L` / `_J` 后缀**的构造名，与点表 `construction` 列的**无后缀** `A1 / BAL / DUP / TRI` 不匹配 ⇒ 每条交互被键检查跳过；② `_archived_single_condition()` 逐行覆盖、**只留最后一个类别**（BTAD `03` / MPDD `tubes`），使"原单条件"参照不是数据集宏平均。
 - **订正后逐字节证明未改数值**：`ablation_metrics_multi.csv`、`replicate_multi.npz`、`A11_STATUS.json` 三件的 SHA-256 与首轮清单**完全相同**；改变的只有上述两张派生表；**未重跑任何单元**。订正的内证：`archived_vs_recomputed_abs_delta` 由 **1e-3–1e-2** 降到 **≤3.98e-08**。
+- **清单口径提示**：`state/A11_execution.json → artifacts` 记的是 **01:46:41 首轮装配**的字节/SHA，其两张派生表条目（121 B / 5 B）**不是**订正后的现役值；现役值以 `PREREGISTRATION_20260924_CN.md §9.2` 为准（该状态文件未改动，以保留首轮记录）。
 
 ### 10.3 第五节的红线复核（实读）
 

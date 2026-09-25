@@ -502,6 +502,8 @@
 
 改变的只有上面两张派生表。`--mode assemble` 只读 `units/*.npz` 检查点、**不重算任何单元**，故 2,304 个点值与 512 条 1,000 长 replicate 数组未被触碰。
 
+**清单口径提示**：`state/A11_execution.json → artifacts` 由队列在 **2026-09-26 01:46:41** 写就，其中 `interaction_by_ablation_condition.csv`（121 B）与 `A11_multi_vs_single_condition.csv`（5 B）两条仍是**首轮装配**的字节/SHA；订正后的**现役值以 §9.2 为准**。该状态文件**未改动**，以保留首轮记录本身。
+
 **订正的内证**：订正后 `archived_vs_recomputed_abs_delta` 最大值降到 **3.98e-08**（逐行 ≤1.24e-08，其余量级 1e-10–1e-9），即归档 `E2_shared_op_ablation/interaction_by_ablation.csv` 的**逐类别宏平均 == 本轮 seed 0 / K = 1 的重算值**（残差来自归档表保留位数）。订正前该列量级 **1e-3–1e-2**，正是"最后一个类别 vs 六类别均值"的错位。
 
 **登记为缺陷而非"重跑"**：本轮**未重跑任何单元**，也未写入 `E2_shared_op_ablation/`（该既有目录 `git status` 变更 **0** 项）。
