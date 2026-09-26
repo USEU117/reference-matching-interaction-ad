@@ -21,7 +21,7 @@ for ax,ds,rows in zip(axs,['MPDD','BTAD'],[tables['effects']['rows'][:4],tables[
  assert len(rows)==len(EFFECT_ROW_SPECS)
  for i,(row,(construction,rule)) in enumerate(zip(rows,EFFECT_ROW_SPECS)):
   val=float(row[2].replace('−','-'));lo,hi=nums(row[3]);ax.errorbar(val,3-i,xerr=[[val-lo],[hi-val]],fmt='o',color='#2e6f9e' if ds=='MPDD' else '#b27c20',capsize=3)
- ax.axvline(0,color='#89939a',lw=1);ax.set_yticks(range(4),[rf'$E_{{\mathrm{{{formula_subscript(c, r)}}}}}$' for c,r in EFFECT_ROW_SPECS[::-1]]);ax.set_title(('(a) ' if ds=='MPDD' else '(b) ')+ds+' · representation effects',loc='left',fontweight='bold');ax.set_xlabel('Effect (AP points)');ax.grid(axis='x',alpha=.2);ax.set_ylim(-.6,3.6)
+ ax.axvline(0,color='#89939a',lw=1);ax.set_yticks(range(4),[rf'$𝐸_{{\mathrm{{{formula_subscript(c, r)}}}}}$' for c,r in EFFECT_ROW_SPECS[::-1]]);ax.set_title(('(a) ' if ds=='MPDD' else '(b) ')+ds+' · representation effects',loc='left',fontweight='bold');ax.set_xlabel('Effect (AP points)');ax.grid(axis='x',alpha=.2);ax.set_ylim(-.6,3.6)
 save(fig,'fig4a_representation_effects')
 fig,axs=plt.subplots(2,2,figsize=(17/2.54,7.0));fig.subplots_adjust(left=.27,right=.98,top=.9,bottom=.135,hspace=.55,wspace=.9)
 enc=tables['encoders']['rows']
@@ -62,6 +62,6 @@ assert len(rr)==9
 fig,ax=plt.subplots(figsize=(17/2.54,4.8));fig.subplots_adjust(left=.34,right=.97,top=.9,bottom=.17)
 for i,x in enumerate(rr):
  v,lo,hi=[float(x[k])*100 for k in ['mean_delta','ci95_low','ci95_high']];ax.errorbar(v,len(rr)-1-i,xerr=[[v-lo],[hi-v]],fmt='o',color='#2e6f9e' if x['dataset']=='mpdd' else '#b27c20',capsize=3)
-ax.set_yticks(range(len(rr)),[x['dataset'].upper()+' '+x['category'].replace('_',' ') for x in rr[::-1]]);ax.axvline(0,color='#89939a',lw=1);ax.grid(axis='x',alpha=.2);ax.set_xlabel(INTERACTION_LABELS['I_TRI']+' (AP points)');ax.set_title('(c) Category-level sensitivity · '+INTERACTION_LABELS['I_TRI'],loc='left',fontweight='bold');save(fig,'fig5b_categories')
+ax.set_yticks(range(len(rr)),[x['dataset'].upper()+' '+x['category'].replace('_',' ') for x in rr[::-1]]);ax.axvline(0,color='#89939a',lw=1);ax.grid(axis='x',alpha=.2);ax.set_xlabel(INTERACTION_LABELS['I_TRI']+' (AP points)');ax.set_title('(c) Category-level sensitivity\n'+INTERACTION_LABELS['I_TRI'],loc='left',fontweight='bold');save(fig,'fig5b_categories')
 (O/'primary_sources.json').write_text(json.dumps({'fig4a':'polished effects table; S, observed means and individual 95% intervals','fig4b':'polished encoders table; shared four-condition scope (4) and wider twelve-condition scope (12), bootstrap replicate means and 98.75% intervals, separate four-comparison family per encoder and scope','fig5a':{'budget':str(D/'03_robustness/interaction_K_curve.csv'),'seed':str(R/'experiments/dynamic_fusion/seeds_extension_20260917/interaction_by_seed.csv')},'fig5b':str(D/'03_robustness/interaction_per_category.csv')},indent=2),encoding='utf-8')
 print('Primary plots written')

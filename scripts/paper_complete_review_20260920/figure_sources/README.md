@@ -7,6 +7,8 @@ The manuscript reads `../figures.json`; its 28 panels occupy deck slides 1–28.
 - `plot_primary.py` preserves the primary plots; `plot_extra.py` preserves S2 and the S3 geometry/case-panel pagination. These scripts read frozen data and write private plot outputs.
 - `plot_supplementary_figures.py` preserves the absolute-scale S4 page and S5. Its first relative-width diagnostic output is historical; the current first S4 page comes from `scripts/figures_reference_matching_20260914/build_figS4_bootstrap_convergence.py`.
 - `build_protocol_paper.py` generates two S6 pages from existing protocol summaries.
+- `scripts/figures_reference_matching_20260914/build_qualitative_figures.py --out-dir docs/paper_complete_review_20260920/figures` generates the five detailed matching examples. It puts the shared dual-encoder configuration name above the panels and checks text-to-text as well as text-to-image overlap.
+- Figure S4's first page is `figS4_bootstrap_convergence.png`, not the historical `figS4_bootstrap_stability.png`. Rebuild its own generator and inspect that exact bound image when changing mathematical labels.
 - `build_multimethod_labels.py` rebuilds the 36 category appendix panels from losslessly extracted image objects in the original complete six-configuration PDF archive and its adjacent JSON. It preserves sample identities, per-image AP and colour endpoints; it does not recompute predictions. `NAMING_RENDER_AUDIT_20260925.json` records source and panel hashes.
 - Once the reviewed PNGs are copied to the paths in `figures.json`, run `build_deck.mjs`, `assemble_deck.ps1`, then `finalize_deck.mjs`.
 

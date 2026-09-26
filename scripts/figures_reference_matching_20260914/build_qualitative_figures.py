@@ -44,6 +44,8 @@ from figure_font_gate import (  # noqa: E402
     MANUSCRIPT_WIDTH_CM,
     assert_min_font_pt,
     assert_no_text_axes_overlap,
+    assert_no_text_text_overlap,
+    assert_text_inside_page,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -82,11 +84,11 @@ MAGMA_ANCHORS = np.asarray(
 
 LAYOUT = {
     # inches; the figure is built at the manuscript width, so a font size is a printed size
-    "head_in": 0.56,
+    "head_in": 0.90,
     "bar_in": 0.28,
-    "zoom_head_in": 0.20,
+    "zoom_head_in": 0.62,
     "foot_in": 0.22,
-    "top_in": 0.10,
+    "top_in": 0.32,
     "case_gap_in": 0.12,
     "zoom_scale": 0.70,
     "h_gap": 0.012,
@@ -310,9 +312,9 @@ def load_maps(record: dict):
 
 # -------------------------------------------------------------------- drawing --
 FULL_TITLES = ["Query", "GT mask", "{m}\nP-AP {v:.3f}", "{m}\nP-AP {v:.3f}",
-               "Independent contour\nvisual only"]
-ZOOM_TITLES = ["Query", "GT mask", BASELINE_RULE_LABELS["J"],
-               BASELINE_RULE_LABELS["L"], "Independent contour\nvisual only"]
+               "Independent\ncontour\nvisual only"]
+ZOOM_TITLES = ["Query", "GT mask", "Joint\nmatching",
+               "Independent\nmatching", "Independent\ncontour\nvisual only"]
 
 
 def draw_panel(fig, rect, array, interpolation="bilinear"):
@@ -338,6 +340,7 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
     fig.patch.set_facecolor("white")
     to_y = lambda inch: 1.0 - inch / height_in  # noqa: E731
 
+    fig.text(left, to_y(0.02), "Dual-encoder baseline", ha="left", va="top", fontsize=DEFAULT_PT, fontweight="bold")
     manifest_rows = []
     for i, record in enumerate(records):
         top = LAYOUT["top_in"] + i * (block_in + LAYOUT["case_gap_in"])
@@ -353,7 +356,7 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
         image_boxed = add_roi_rectangle(image, roi)
 
         sign = "+" if record["delta_ap"] >= 0 else "−"
-        heading = (f"{letter}{i + 1}  {record['category'].replace('_', ' ')} / "
+        heading = (f"{letter}{i + 1 + (2 if figure_name.endswith("part2") else 0)}  {record['category'].replace('_', ' ')} / "
                    f"{Path(record['sample_id']).name}    AP change {sign}"
                    f"{abs(record['delta_ap']):.3f} ({record['role']})")
         fig.text(left, to_y(top + 0.02), heading, ha="left", va="top",
@@ -361,8 +364,8 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
 
         full = [image_boxed, gt_rgb, j_rgb, l_rgb, contour_rgb]
         titles = [FULL_TITLES[0], FULL_TITLES[1],
-                  FULL_TITLES[2].format(m=BASELINE_RULE_LABELS["J"], v=record["ap_j"]),
-                  FULL_TITLES[3].format(m=BASELINE_RULE_LABELS["L"], v=record["ap_l"]),
+                  FULL_TITLES[2].format(m="Joint\nmatching", v=record["ap_j"]),
+                  FULL_TITLES[3].format(m="Independent\nmatching", v=record["ap_l"]),
                   FULL_TITLES[4]]
         x_full = [left + j * (colw + gap) for j in range(5)]
         for j, (array, title) in enumerate(zip(full, titles)):
@@ -428,6 +431,8 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
 
     assert_min_font_pt(fig, BODY_PT_FLOOR, figure_name)
     assert_no_text_axes_overlap(fig, figure_name)
+    assert_no_text_text_overlap(fig, figure_name)
+    assert_text_inside_page(fig, figure_name)
     out_dir.mkdir(parents=True, exist_ok=True)
     png = out_dir / f"{figure_name}.png"
     pdf = out_dir / f"{figure_name}.pdf"

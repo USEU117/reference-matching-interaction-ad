@@ -44,8 +44,8 @@ DATASET_STYLE = {
     "ksdd2": {"label": "KSDD2", "color": "#6E6E6E", "marker": "D", "linestyle": "--"},
 }
 CONTRAST_LABEL = {
-    "I_TRI": r"$I_{\mathrm{Equal}}$",
-    "I_BAL": r"$I_{\mathrm{Balanced}}$",
+    "I_TRI": r"$𝐼_{\mathrm{Equal}}$",
+    "I_BAL": r"$𝐼_{\mathrm{Balanced}}$",
 }
 METHOD_ORDER = [
     "a1_j",
@@ -56,10 +56,10 @@ METHOD_ORDER = [
     "patchcore_official224",
 ]
 METHOD_LABEL = {
-    "a1_j": "Dual-encoder\nbaseline\nJoint matching",
-    "a1_l": "Dual-encoder\nbaseline\nIndependent matching",
-    "adino_canvas": "AnomalyDINO\ncanvas",
-    "adino_canvas_rotation": "AnomalyDINO\ncanvas + rotation",
+    "a1_j": "Dual-encoder\nbaseline\nJoint\nmatching",
+    "a1_l": "Dual-encoder\nbaseline\nIndependent\nmatching",
+    "adino_canvas": "Anomaly\nDINO\ncanvas",
+    "adino_canvas_rotation": "Anomaly\nDINO\ncanvas + rotation",
     "patchcore_local128": "PatchCore\nnative 128",
     "patchcore_official224": "PatchCore\nofficial 224",
 }
@@ -349,8 +349,8 @@ def build_s5(bench, summary_rows, measurements_by_method):
     configure_matplotlib()
     configure_math()
     rows=summary_rows; x=np.arange(len(rows)); labels=[METHOD_LABEL[r['method']] for r in rows]
-    fig,axs=plt.subplots(2,1,figsize=(17/2.54,6.3))
-    fig.subplots_adjust(left=.14,right=.98,top=.90,bottom=.11,hspace=.70)
+    fig,axs=plt.subplots(2,1,figsize=(17/2.54,7.0))
+    fig.subplots_adjust(left=.14,right=.98,top=.90,bottom=.14,hspace=.88)
     ax=axs[0];bottom=np.zeros(len(rows))
     for key,label in [('preprocess_s','Preprocess'),('encode_s','Encode'),('score_s','Score / residual')]:
         vals=np.array([r[key] for r in rows]);ax.bar(x,vals,.60,bottom=bottom,color=STAGE_COLOUR[key],label=label);bottom+=vals

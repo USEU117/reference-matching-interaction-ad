@@ -314,6 +314,9 @@ def main() -> int:
     matplotlib.rcParams["xtick.labelsize"] = DEFAULT_PT
     matplotlib.rcParams["ytick.labelsize"] = DEFAULT_PT
     matplotlib.rcParams["legend.fontsize"] = DEFAULT_PT
+    sys.path.insert(0, str(ROOT / "scripts/paper_complete_review_20260920/figure_sources"))
+    from plot_fonts import configure_math
+    configure_math()
 
     # ---- read the frozen replicate arrays and rebuild the two interaction series ----------
     archives = {}
@@ -507,7 +510,7 @@ def main() -> int:
     ax_a.text(
         0.0, 1.045,
         "(a) Difference from N = 1000 (10^-3 pixel AP)\n"
-        r"solid $I_{\mathrm{TRI}}$, dashed $I_{\mathrm{BAL}}$, grey band = "
+        r"solid $𝐼_{\mathrm{Equal}}$, dashed $𝐼_{\mathrm{Balanced}}$, grey band = "
         f"+/-{est_bound:.1e}",
         transform=ax_a.transAxes, ha="left", va="bottom", fontsize=DEFAULT_PT,
         fontweight="bold", linespacing=1.35,
