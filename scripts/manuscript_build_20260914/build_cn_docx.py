@@ -7,8 +7,15 @@ the command line, exactly as in the English `build.py` next to this file.
 
 The Chinese source lives with the manuscript outputs (docs/manuscript_reference_matching_20260914/
 中文对照内容.md) and embeds the figure files from that directory's `figures/` folder, so the
-default --out-dir is the manuscript directory itself and a default run overwrites the
-checked-in 中文对照 docx; pass --out-dir for a verification run.
+default --out-dir is the manuscript directory itself; pass --out-dir for a verification run.
+
+The default --reference-docx is the current authoritative paper DOCX
+(docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.docx). It is used
+only as a style/page-system/footer package: the loaded body is dropped before the Chinese content is
+written, and only `w:sectPr` is kept. The previous default
+(docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx) was removed from
+the tree during the 2026-09 document consolidation and made the default invocation fail with
+FileNotFoundError; this path was updated on 2026-09-26.
 
 Usage:
     python scripts/manuscript_build_20260914/build_cn_docx.py --out-dir <tmp dir>
@@ -58,7 +65,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 FIGS = Path(under(ROOT, ARGS.figures_dir)).resolve() if ARGS.figures_dir is not None else OUT / 'figures'
 DEST = OUT / 'Reference_Matching_Interaction_中文对照_20260914.docx'
 REF = under(ROOT, ARGS.reference_docx) if ARGS.reference_docx is not None \
-    else ROOT / 'docs/manuscript_english_polished_20260906/DCFnet_English_Polished_20260906.docx'
+    else ROOT / 'docs/paper_complete_review_20260920/Reference_Matching_Complete_English_20260925.docx'
 REF = Path(REF).resolve()
 
 LATIN = 'Times New Roman'
@@ -129,12 +136,14 @@ def sub_sup(base, index, upper, bold=False):
 
 
 def labelindex(t):
-    return [mr(part, part in ['TRI', 'BAL', 'DUP', 'A1', 'J', 'L', 'S', 'D', 'img', 'vis'])
-            for part in re.split(r'(TRI|BAL|DUP|A1|img|vis|J|L|S|D)', t) if part]
+    return [mr(part, part in ['Equal', 'Balanced', 'Duplicate', 'Baseline', 'J', 'L', 'img', 'vis',
+                              'WideResNet50-2', 'DINOv2-S/14'])
+            for part in re.split(r'(WideResNet50-2|DINOv2-S/14|Equal|Balanced|Duplicate|Baseline|img|vis|J|L)', t) if part]
 
 
 def sym(t):
     t = t.replace(r'\mathrm{img}', 'img').replace(r'\mathrm{vis}', 'vis')
+    t = re.sub(r'\\mathrm\{([^}]*)\}', r'\1', t)
     if t == r'\mathcal{R}_c':
         return [sub('ℛ', 'c', True)]
     if t == r'\tau_{vis}':
@@ -144,7 +153,8 @@ def sym(t):
         return [sub_sup('x', 'i', 'c', True)]
     if m:
         b, ix = m.groups()
-        return [sub(b, labelindex(ix), b in ['TRI', 'BAL', 'DUP', 'A1', 'R'], b in ['F', 'g', 'A', 'a', 'M'])]
+        return [sub(b, labelindex(ix), b in ['Equal', 'Balanced', 'Duplicate', 'Baseline', 'R'],
+                    b in ['F', 'g', 'A', 'a', 'M'])]
     return [mr(t, t in ['J', 'L'] and False or t in ['P'] and False, t in ['x', 'F', 'g', 'A', 'a', 'M'])]
 
 
@@ -206,14 +216,15 @@ def eq(n):
     elif n == 5:
         nd = [mr('G')] + parg('p') + [mr(' = ', True), mr('J')] + parg('p') + [mr(' − ', True), mr('L')] + parg('p') + [mr(' ≥ 0', True)]
     elif n in [6, 7]:
-        name, control = ('TRI', 'DUP') if n == 6 else ('BAL', 'A1')
+        name, control = ('Equal', 'Duplicate') if n == 6 else ('Balanced', 'Baseline')
         nd = [effect(name, 't'), mr(' = ', True)] + performance(name, 't') + [mr(' − ', True)] + performance(control, 't')
     elif n in [8, 9]:
-        name = 'TRI' if n == 8 else 'BAL'
+        name = 'Equal' if n == 8 else 'Balanced'
         nd = [sub('I', [mr(name, True)]), mr(' = ', True), effect(name, 'L'), mr(' − ', True), effect(name, 'J')]
     elif n == 10:
-        nd = [sub('ΔI', 'q'), mr(' = ', True), sub('I', labelindex('q,D')), mr(' − ', True), sub('I', labelindex('q,S')),
-              mr(',    ', True), mr('q'), mr(' ∈ {TRI, BAL}', True)]
+        nd = [sub('ΔI', 'q'), mr(' = ', True), sub('I', labelindex('q,WideResNet50-2')), mr(' − ', True),
+              sub('I', labelindex('q,DINOv2-S/14')),
+              mr(',    ', True), mr('q'), mr(' ∈ {Equal, Balanced}', True)]
     elif n == 11:
         nd = [sub('A', 't', False, True), mr(' = ', True), sub('Gauss', [mr('σ'), mr('=4', True)], True), mr('(', True),
               sub('Resize', [mr('H'), mr('×', True), mr('W')], True), mr('(', True), sub('a', 't', False, True),
@@ -233,7 +244,11 @@ def eq(n):
 LATEX = [(r'\mathcal{X}', '𝒳'), (r'\mathcal{R}', 'ℛ'), (r'\mathbf{1}', '1'), (r'\mathsf{T}', 'T'),
          (r'\mathrm{img}', 'img'), (r'\mathrm{vis}', 'vis'), (r'\mathrm{Gauss}', 'Gauss'),
          (r'\mathrm{Resize}', 'Resize'), (r'\text{new}', 'new'), (r'\text{control}', 'control'),
-         (r'\text{TRI}', 'TRI'), (r'\text{BAL}', 'BAL'), (r'\text{DUP}', 'DUP'),
+         (r'\mathrm{DINOv2-S/14}', 'DINOv2-S/14'), (r'\mathrm{WideResNet50-2}', 'WideResNet50-2'),
+         (r'\mathrm{Baseline}', 'Baseline'), (r'\mathrm{Duplicate}', 'Duplicate'),
+         (r'\mathrm{Equal}', 'Equal'), (r'\mathrm{Balanced}', 'Balanced'),
+         (r'\text{Baseline}', 'Baseline'), (r'\text{Duplicate}', 'Duplicate'),
+         (r'\text{Equal}', 'Equal'), (r'\text{Balanced}', 'Balanced'),
          (r'\Delta', 'Δ'), (r'\tau', 'τ'), (r'\sigma', 'σ'), (r'\ge', '≥'), (r'\le', '≤'),
          (r'\times', '×'), (r'\dots', '…'), (r'\quad', ' '), (r'\,', ' '), (r'\in', '∈'),
          (r'\min', 'min'), (r'\max', 'max'), (r'\sum_b', 'Σ'), (r'\sqrt{1/3}', '√(1/3)'),
