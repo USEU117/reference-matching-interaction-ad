@@ -13,8 +13,9 @@
 #   * Versions were read from the working interpreter .venv-anomalyclip
 #     (`python -m pip list`, 2026-09-19) — that is the environment the frozen
 #     results were produced with. Do not treat them as upstream requirements.
-#   * Install with:
-#         .venv-anomalyclip\Scripts\python.exe -m pip install -r requirements_repro.txt
+#   * Install with (the CUDA 11.8 index is required for the `+cu118` wheels below;
+#     without it pip cannot resolve torch==2.0.0+cu118 / torchvision==0.15.1+cu118):
+#         .venv-anomalyclip\Scripts\python.exe -m pip install --extra-index-url https://download.pytorch.org/whl/cu118 -r requirements_repro.txt
 #
 # Groups: core numerics/statistics | encoding | evaluation/retrieval |
 #         plotting/documents | utilities | development/test
@@ -25,6 +26,9 @@ scipy==1.9.1
 pandas==2.3.3
 
 # --- encoding (frozen branches B/S/C/D and the E1-E3 extra encoders) -------- #
+# CUDA 11.8 index, so a bare `pip install -r requirements_repro.txt` can resolve the
+# `+cu118` local version labels below (the same URL as the documented install command).
+--extra-index-url https://download.pytorch.org/whl/cu118
 # CUDA 11.8 wheels; the GPU encoding path requires these.
 torch==2.0.0+cu118
 torchvision==0.15.1+cu118

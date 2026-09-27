@@ -95,6 +95,10 @@ METHOD_LEGEND = {
 MIN_GT_FRACTION = 0.0005
 MIN_GT_PIXELS = 16
 COLOR_MAP = "magma"
+# The contour colour and width of the body quantitative figures, so an appendix panel and a body
+# panel mark the same thing the same way.
+CONTOUR_RGB = (15 / 255, 240 / 255, 1.0)
+CONTOUR_LW = 1.1
 # Wrapping width for a method key that has no hand-written short label.  This only keeps the JSON
 # summary and the legend readable: what reaches the figure is wrapped again, by measurement
 # against the real column width, in `render_category`.
@@ -307,11 +311,43 @@ def wrap_lines(lines, max_in: float, fontsize: float, weight: str = "normal",
 
 
 # ------------------------------------------------------------------------ layout --
-def draw_panel(fig, rect, array, interpolation="bilinear", cmap=None, vmin=None, vmax=None):
+def draw_panel(fig, rect, array, interpolation="bilinear", cmap=None, vmin=None, vmax=None,
+               overlay=None):
     ax = fig.add_axes(rect)
     ax.imshow(array, interpolation=interpolation, cmap=cmap, vmin=vmin, vmax=vmax)
+    if overlay is not None:
+        ax.contour(np.asarray(overlay, dtype=np.float64), levels=[0.5],
+                   colors=[CONTOUR_RGB], linewidths=CONTOUR_LW)
     ax.set_axis_off()
     return ax
+
+
+def otsu_threshold_256(norm_map: np.ndarray):
+    """A 256-bin between-class-variance split of one map, applied to every method column.
+
+    The body quantitative figures threshold a single tightly cropped branch map, where the
+    histogram is close to two-mode, and record the split as "256-bin Otsu".  These appendix
+    panels are full common-region maps: their histograms are broad and single-mode, and the
+    criterion has to be the textbook one -- maximise the between-class variance over every
+    256-bin split and keep the first maximum on ties -- otherwise the split collapses onto the
+    single brightest pixel and the contour is empty.  The criterion is applied per method column,
+    on that column's own score map resampled to the region grid, so every compared method is
+    treated by one identical display rule.  It is display only: no reported metric uses it.
+    """
+    quantized = np.rint(np.clip(np.asarray(norm_map, dtype=np.float64), 0.0, 1.0)
+                        * 255.0).astype(np.int32)
+    hist = np.bincount(quantized.reshape(-1), minlength=256).astype(np.float64)
+    total = float(quantized.size)
+    bins = np.arange(256, dtype=np.float64)
+    weight = np.cumsum(hist) / total
+    moment = np.cumsum(hist * bins) / total
+    denom = weight * (1.0 - weight)
+    numerator = (moment[-1] * weight - moment) ** 2
+    scores = np.full(256, -np.inf, dtype=np.float64)
+    valid = denom > 0.0
+    scores[valid] = numerator[valid] / denom[valid]
+    threshold_bin = int(np.argmax(scores))
+    return threshold_bin / 255.0, threshold_bin
 
 
 def draw_na_panel(fig, rect, centre_x, centre_y):
@@ -384,12 +420,13 @@ def render_category(record: dict, out_dir: Path) -> dict:
             fig.text(left, to_y(top + 0.02 + k * line_in), line, ha="left", va="top",
                      fontsize=FONT_PT, color="#0F0F0F", fontweight="bold")
 
-        panels = [(sample["query"], ["Query"]), (sample["gt_rgb"], ["GT mask"])]
+        panels = [(sample["query"], ["Query"], None), (sample["gt_rgb"], ["GT mask"], None)]
         for method, block in zip(columns, titles):
             ap = sample["method_ap"].get(method)
             panels.append((sample["method_maps"].get(method),
-                           block + ["n/a" if ap is None else f"P-AP {ap:.2f}"]))
-        for j, (array, title_block_of_column) in enumerate(panels):
+                           block + ["n/a" if ap is None else f"P-AP {ap:.2f}"],
+                           sample["method_contour"].get(method)))
+        for j, (array, title_block_of_column, overlay) in enumerate(panels):
             fig.text(x_col[j] + colw / 2, to_y(top + head_in + title_in - 0.02),
                      "\n".join(title_block_of_column), ha="center", va="bottom",
                      fontsize=FONT_PT, color="#1A1A1A", linespacing=1.15)
@@ -399,7 +436,8 @@ def render_category(record: dict, out_dir: Path) -> dict:
                 draw_na_panel(fig, rect, x_col[j] + colw / 2,
                               to_y(top + head_in + title_in + panel_h_in / 2))
             elif j > 1:
-                draw_panel(fig, rect, array, cmap=COLOR_MAP, vmin=0.0, vmax=1.0)
+                draw_panel(fig, rect, array, cmap=COLOR_MAP, vmin=0.0, vmax=1.0,
+                           overlay=overlay)
             else:
                 draw_panel(fig, rect, array)
 
@@ -549,9 +587,21 @@ def build_sample(unit: dict, index: int, spread: float, rank: int) -> dict:
     if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
         hi = lo + 1.0
     method_maps = {m: np.clip((v - lo) / (hi - lo), 0.0, 1.0) for m, v in maps.items()}
+    # One threshold per method column, computed on that column's own score map (rescaled to its
+    # own range so the 256 bins are used in full), then re-applied to the shared-range panel.  The
+    # panel colours stay on the shared per-row range; only the contour threshold is per column.
+    method_threshold = {}
+    method_contour = {}
+    for m, v in maps.items():
+        own = (v - v.min()) / (v.max() - v.min() + 1e-12)
+        thr, _ = otsu_threshold_256(own)
+        raw_cut = v.min() + thr * (v.max() - v.min())
+        method_threshold[m] = float(raw_cut)
+        method_contour[m] = (v >= raw_cut).astype(np.float32)
     return {"sample_id": sample_id, "canonical_index": index, "selection_rank": rank,
             "spread": spread, "query": query, "gt_rgb": gt_rgb,
             "method_maps": method_maps, "lo": lo, "hi": hi,
+            "method_threshold": method_threshold, "method_contour": method_contour,
             "method_ap": {m: unit["aps_by_method"][m][index] for m in unit["shown_methods"]}}
 
 
@@ -582,6 +632,12 @@ def note_lines(record: dict, region_table: Path, geometry_path: Path) -> list:
         "the region grid (two decimals; the JSON summary holds it in full).",
         f"Colour: {COLOR_MAP} with one shared min-max range per row across the method columns; "
         "the bar under the columns gives that row's actual range.",
+        "Contour (display only): each method column's score map on the region grid is quantised "
+        "to 256 bins and split at the threshold that maximises the between-class variance "
+        "(first maximum on ties); the contour at or above it is drawn in cyan. The identical "
+        "criterion is applied to every method column, so all compared methods are treated "
+        "alike. It is a display choice and is not the detection threshold behind any reported "
+        "metric.",
         f"Selection (a display choice): per category the {record['samples_per_category']} test "
         f"images whose ground truth covers at least {record['gt_floor']} region pixels and whose "
         "per-sample Pixel-AP spread across the columns with data is largest; ties by sample id.",
@@ -683,6 +739,12 @@ def main() -> int:
                                 "on the region grid",
             "colour_rule": "one cmap (magma) with one shared min-max range per row across the "
                            "method columns",
+            "contour_rule": "display only: each method column's score map on the region grid is "
+                            "quantised to 256 bins and split at the threshold maximising the "
+                            "between-class variance (first maximum on ties); the contour of the "
+                            "map at or above that threshold is drawn in cyan on every method "
+                            "column, so all compared methods are treated alike; it is not the "
+                            "detection threshold behind any reported metric",
             "degradation": "a method with no per-sample dump for a unit keeps its column and "
                            "is drawn as an n/a panel; the run does not abort",
         },

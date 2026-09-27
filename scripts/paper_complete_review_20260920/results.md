@@ -162,11 +162,13 @@ The timer covers measured preprocessing, encoding and scoring stages, including 
 
 {{table:benchmark}}
 
-**Image-level metrics.** Table 21 reports image AUROC and image AP alongside stride-eight pixel metrics for the two Dual-encoder baseline configurations on all four datasets, using the matched four conditions (seeds 0 and 1; K = 1 and 4). Image-level pooling and pixel ranking answer different questions, and no image-level interval is claimed.
+**Image-level metrics.** Table 21 reports image AUROC and image AP alongside stride-eight pixel metrics for the two Dual-encoder baseline configurations on all four datasets, using the matched four conditions (seeds 0 and 1; K = 1 and 4). Image-level pooling and pixel ranking answer different questions, and Table S3 reports individual marginal 95% image-bootstrap intervals for these anchors.
 
 {{table:image_metrics}}
 
-Table S1 gives the restricted harmonised-geometry subset, Table S2 records each evaluated input and reference protocol, and Figure S6 shows configuration sensitivity in the external-method context. These supplement the controlled attribution study; they do not define a cross-method ranking.
+Table S1 gives the restricted harmonised-geometry subset, Table S2 records each evaluated input and reference protocol, Table S3 gives the image-level intervals of Table 21, and Figure S6 shows configuration sensitivity in the external-method context. These supplement the controlled attribution study; they do not define a cross-method ranking.
+
+{{table:image_intervals}}
 
 ## 5 Discussion
 

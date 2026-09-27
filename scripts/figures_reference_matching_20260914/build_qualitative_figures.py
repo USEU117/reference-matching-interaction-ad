@@ -159,15 +159,22 @@ def normalize_shared(j_map: np.ndarray, l_map: np.ndarray):
 
 
 def otsu_threshold(norm_map: np.ndarray):
+    """256-bin between-class-variance split (the textbook Otsu criterion).
+
+    The criterion is the one this file's own `contour_rule` string records: maximise the
+    between-class variance over every split of the 256-bin histogram and keep the first maximum
+    on ties (smallest bin).  The class probabilities and moments are normalised by the pixel
+    count, which is what the criterion is defined on; an unnormalised form makes the split
+    collapse onto the brightest bin whenever the histogram is not close to two-mode.
+    """
     quantized = np.rint(np.clip(norm_map, 0.0, 1.0) * 255.0).astype(np.int32)
     hist = np.bincount(quantized.reshape(-1), minlength=256).astype(np.float64)
     total = float(quantized.size)
     bins = np.arange(256, dtype=np.float64)
-    weight_left = np.cumsum(hist)
-    moment_left = np.cumsum(hist * bins)
-    total_moment = float(moment_left[-1])
-    denom = weight_left * (total - weight_left)
-    numerator = (total_moment * weight_left - moment_left) ** 2
+    weight = np.cumsum(hist) / total
+    moment = np.cumsum(hist * bins) / total
+    denom = weight * (1.0 - weight)
+    numerator = (moment[-1] * weight - moment) ** 2
     scores = np.full(256, -np.inf, dtype=np.float64)
     valid = denom > 0.0
     scores[valid] = numerator[valid] / denom[valid]
@@ -356,7 +363,10 @@ def render_figure(records, figure_name: str, letter: str, out_dir: Path):
         image_boxed = add_roi_rectangle(image, roi)
 
         sign = "+" if record["delta_ap"] >= 0 else "−"
-        heading = (f"{letter}{i + 1 + (2 if figure_name.endswith("part2") else 0)}  {record['category'].replace('_', ' ')} / "
+        # Hoisted out of the f-string: nested same-type quotes need Python 3.12, and this
+        # repository's interpreter is 3.10.
+        part_offset = 2 if figure_name.endswith("part2") else 0
+        heading = (f"{letter}{i + 1 + part_offset}  {record['category'].replace('_', ' ')} / "
                    f"{Path(record['sample_id']).name}    AP change {sign}"
                    f"{abs(record['delta_ap']):.3f} ({record['role']})")
         fig.text(left, to_y(top + 0.02), heading, ha="left", va="top",

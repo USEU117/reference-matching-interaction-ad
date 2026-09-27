@@ -1,7 +1,7 @@
 {
   "kind": "fig7_multimethod_per_sample_common_region",
   "schema_version": 1,
-  "created_local": "2026-09-19T16:19:58",
+  "created_local": "2026-09-27T00:47:13",
   "dataset": "mvtec",
   "seed": 0,
   "shot": 4,
@@ -39,8 +39,8 @@
   "columns": [
     {
       "method": "controlled_A1_J",
-      "label": "A1 J",
-      "legend": "A1 J = controlled A1, shared support row",
+      "label": "Dual-encoder\nbaseline\nJoint matching",
+      "legend": "Dual-encoder baseline, Joint matching, shared support row",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -61,8 +61,8 @@
     },
     {
       "method": "controlled_A1_L",
-      "label": "A1 L",
-      "legend": "A1 L = controlled A1, independent support rows",
+      "label": "Dual-encoder\nbaseline\nIndependent matching",
+      "legend": "Dual-encoder baseline, Independent matching, independent support rows",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -83,8 +83,8 @@
     },
     {
       "method": "anomalydino_canvas",
-      "label": "ADino",
-      "legend": "ADino = AnomalyDINO, controlled canvas frame",
+      "label": "AnomalyDINO\ncanvas",
+      "legend": "AnomalyDINO, controlled canvas frame",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -105,8 +105,8 @@
     },
     {
       "method": "anomalydino_canvas_rotation",
-      "label": "ADino-rot",
-      "legend": "ADino-rot = AnomalyDINO, canvas frame + rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "legend": "AnomalyDINO, controlled canvas frame plus rotation",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -127,8 +127,8 @@
     },
     {
       "method": "PatchCore_native_local128",
-      "label": "PC-128",
-      "legend": "PC-128 = PatchCore native Resize(144) + CenterCrop(128)",
+      "label": "PatchCore\nnative 128",
+      "legend": "PatchCore native Resize(144) plus CenterCrop(128)",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -149,8 +149,8 @@
     },
     {
       "method": "PatchCore_native_official224",
-      "label": "PC-224",
-      "legend": "PC-224 = PatchCore native Resize(256) + CenterCrop(224)",
+      "label": "PatchCore\nofficial 224",
+      "legend": "PatchCore native Resize(256) plus CenterCrop(224)",
       "in_region_table_for": [
         "bottle",
         "cable",
@@ -202,29 +202,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 63,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_bottle.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_bottle.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_cable",
@@ -257,29 +258,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 92,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_cable.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_cable.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_capsule",
@@ -312,29 +314,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 108,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_capsule.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_capsule.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_carpet",
@@ -367,29 +370,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 89,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_carpet.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_carpet.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_grid",
@@ -422,29 +426,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 56,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_grid.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_grid.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_hazelnut",
@@ -477,29 +482,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 70,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_hazelnut.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_hazelnut.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_leather",
@@ -532,29 +538,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 92,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_leather.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_leather.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_metal_nut",
@@ -587,29 +594,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 93,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_metal_nut.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_metal_nut.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_pill",
@@ -642,29 +650,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 141,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_pill.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_pill.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_screw",
@@ -697,29 +706,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 119,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_screw.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_screw.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_tile",
@@ -752,29 +762,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 84,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_tile.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_tile.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_toothbrush",
@@ -807,29 +818,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 30,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_toothbrush.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_toothbrush.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_transistor",
@@ -862,29 +874,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 40,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_transistor.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_transistor.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_wood",
@@ -917,29 +930,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 60,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_wood.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_wood.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     },
     {
       "name": "fig7_multimethod_mvtec_s0_k4_zipper",
@@ -972,29 +986,30 @@
         "PatchCore_native_official224"
       ],
       "labels": [
-        "A1 J",
-        "A1 L",
-        "ADino",
-        "ADino-rot",
-        "PC-128",
-        "PC-224"
+        "Dual-encoder\nbaseline\nJoint matching",
+        "Dual-encoder\nbaseline\nIndependent matching",
+        "AnomalyDINO\ncanvas",
+        "AnomalyDINO\ncanvas + rotation",
+        "PatchCore\nnative 128",
+        "PatchCore\nofficial 224"
       ],
       "columns_with_data": [
         "controlled_A1_J",
-        "controlled_A1_L",
+        "controlled_A1_L"
+      ],
+      "columns_na": [
         "anomalydino_canvas",
         "anomalydino_canvas_rotation",
         "PatchCore_native_local128",
         "PatchCore_native_official224"
       ],
-      "columns_na": [],
       "selection_fallback_lt2_methods": false,
       "selection_gt_pixel_floor": 76,
       "n_candidate_samples": 119,
       "png": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_zipper.png",
       "pdf": "docs/figures_reference_matching_20260914/fig7_multimethod_mvtec_s0_k4_zipper.pdf",
       "min_font_pt_measured": 11.5,
-      "figure_height_in": 9.979
+      "figure_height_in": 14.159
     }
   ],
   "samples": [
@@ -1003,32 +1018,33 @@
       "seed": 0,
       "shot": 4,
       "category": "bottle",
-      "sample_id": "bottle/test/contamination/014.png",
-      "canonical_index": 56,
+      "sample_id": "bottle/test/broken_small/000.png",
+      "canonical_index": 20,
       "selection_rank": 1,
-      "selection_spread": 0.4427554070375118,
+      "selection_spread": 0.05492282939517201,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1158,
+      "gt_positive_pixels": 1770,
       "shared_colour_range": [
-        0.00013429386308416724,
-        0.5852526426315308
+        0.0016186400316655636,
+        0.26390209794044495
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.645315,
-        "controlled_A1_L": 0.653427,
-        "anomalydino_canvas": 0.628042,
-        "anomalydino_canvas_rotation": 0.564702,
-        "PatchCore_native_local128": 0.210672,
-        "PatchCore_native_official224": 0.363884
+        "controlled_A1_J": 0.84895,
+        "controlled_A1_L": 0.903873
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\contamination\\014.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\bottle\\test\\broken_small\\000.png",
         "exists": true,
-        "size_bytes": 538973,
+        "size_bytes": 542362,
         "mtime": "2019-03-04T23:40:20"
       }
     },
@@ -1037,32 +1053,33 @@
       "seed": 0,
       "shot": 4,
       "category": "bottle",
-      "sample_id": "bottle/test/broken_small/014.png",
-      "canonical_index": 34,
+      "sample_id": "bottle/test/broken_small/020.png",
+      "canonical_index": 40,
       "selection_rank": 2,
-      "selection_spread": 0.3570268967413346,
+      "selection_spread": 0.03055760235899896,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 3563,
+      "gt_positive_pixels": 7011,
       "shared_colour_range": [
-        0.0006673136376775801,
-        0.6078962683677673
+        0.0047804974019527435,
+        0.37028375267982483
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.949435,
-        "controlled_A1_L": 0.962194,
-        "anomalydino_canvas": 0.945181,
-        "anomalydino_canvas_rotation": 0.944496,
-        "PatchCore_native_local128": 0.605167,
-        "PatchCore_native_official224": 0.909276
+        "controlled_A1_J": 0.877651,
+        "controlled_A1_L": 0.908208
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\broken_small\\014.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\bottle\\test\\broken_small\\020.png",
         "exists": true,
-        "size_bytes": 543679,
+        "size_bytes": 543533,
         "mtime": "2019-03-04T23:40:20"
       }
     },
@@ -1071,32 +1088,33 @@
       "seed": 0,
       "shot": 4,
       "category": "bottle",
-      "sample_id": "bottle/test/contamination/018.png",
-      "canonical_index": 60,
+      "sample_id": "bottle/test/broken_large/019.png",
+      "canonical_index": 19,
       "selection_rank": 3,
-      "selection_spread": 0.3455047600138835,
+      "selection_spread": 0.025571645883265104,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1156,
+      "gt_positive_pixels": 25233,
       "shared_colour_range": [
-        0.0003842675650957972,
-        0.7909921407699585
+        0.005623228847980499,
+        0.387677937746048
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.7465,
-        "controlled_A1_L": 0.731123,
-        "anomalydino_canvas": 0.717697,
-        "anomalydino_canvas_rotation": 0.715003,
-        "PatchCore_native_local128": 0.400995,
-        "PatchCore_native_official224": 0.488457
+        "controlled_A1_J": 0.909357,
+        "controlled_A1_L": 0.883785
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\bottle\\test\\contamination\\018.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\bottle\\test\\broken_large\\019.png",
         "exists": true,
-        "size_bytes": 538498,
+        "size_bytes": 533750,
         "mtime": "2019-03-04T23:40:20"
       }
     },
@@ -1105,32 +1123,68 @@
       "seed": 0,
       "shot": 4,
       "category": "cable",
-      "sample_id": "cable/test/poke_insulation/006.png",
-      "canonical_index": 146,
+      "sample_id": "cable/test/cable_swap/002.png",
+      "canonical_index": 15,
       "selection_rank": 1,
-      "selection_spread": 0.8836219407412121,
+      "selection_spread": 0.15731577947983577,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 5309,
+      "gt_positive_pixels": 10924,
       "shared_colour_range": [
-        0.01027671992778778,
-        0.46315693855285645
+        0.009149480611085892,
+        0.2563202977180481
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.942483,
-        "controlled_A1_L": 0.954262,
-        "anomalydino_canvas": 0.961529,
-        "anomalydino_canvas_rotation": 0.958955,
-        "PatchCore_native_local128": 0.077907,
-        "PatchCore_native_official224": 0.159543
+        "controlled_A1_J": 0.511934,
+        "controlled_A1_L": 0.354618
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\006.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\cable\\test\\cable_swap\\002.png",
         "exists": true,
-        "size_bytes": 1327939,
+        "size_bytes": 1346429,
+        "mtime": "2019-03-04T23:40:23"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "sample_id": "cable/test/missing_wire/006.png",
+      "canonical_index": 136,
+      "selection_rank": 2,
+      "selection_spread": 0.11129561871176108,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3530,
+      "shared_colour_range": [
+        0.01449317205697298,
+        0.282670259475708
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.578073,
+        "controlled_A1_L": 0.689369
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\cable\\test\\missing_wire\\006.png",
+        "exists": true,
+        "size_bytes": 1340990,
         "mtime": "2019-03-04T23:40:25"
       }
     },
@@ -1139,67 +1193,34 @@
       "seed": 0,
       "shot": 4,
       "category": "cable",
-      "sample_id": "cable/test/poke_insulation/004.png",
-      "canonical_index": 144,
-      "selection_rank": 2,
-      "selection_spread": 0.8526852531665311,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 6039,
-      "shared_colour_range": [
-        0.008053459227085114,
-        0.5202212333679199
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.889386,
-        "controlled_A1_L": 0.891066,
-        "anomalydino_canvas": 0.913268,
-        "anomalydino_canvas_rotation": 0.931331,
-        "PatchCore_native_local128": 0.444673,
-        "PatchCore_native_official224": 0.078646
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\004.png",
-        "exists": true,
-        "size_bytes": 1344766,
-        "mtime": "2019-03-04T23:40:25"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "cable",
-      "sample_id": "cable/test/poke_insulation/000.png",
-      "canonical_index": 140,
+      "sample_id": "cable/test/bent_wire/008.png",
+      "canonical_index": 8,
       "selection_rank": 3,
-      "selection_spread": 0.8343940997775511,
+      "selection_spread": 0.10686966340800286,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1654,
+      "gt_positive_pixels": 3754,
       "shared_colour_range": [
-        0.0064331721514463425,
-        0.5403758883476257
+        0.009136933833360672,
+        0.2893490195274353
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.894775,
-        "controlled_A1_L": 0.893353,
-        "anomalydino_canvas": 0.861279,
-        "anomalydino_canvas_rotation": 0.88637,
-        "PatchCore_native_local128": 0.060381,
-        "PatchCore_native_official224": 0.434956
+        "controlled_A1_J": 0.597673,
+        "controlled_A1_L": 0.704543
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\cable\\test\\poke_insulation\\000.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\cable\\test\\bent_wire\\008.png",
         "exists": true,
-        "size_bytes": 1348056,
-        "mtime": "2019-03-04T23:40:25"
+        "size_bytes": 1335270,
+        "mtime": "2019-03-04T23:40:23"
       }
     },
     {
@@ -1207,33 +1228,34 @@
       "seed": 0,
       "shot": 4,
       "category": "capsule",
-      "sample_id": "capsule/test/faulty_imprint/015.png",
-      "canonical_index": 38,
+      "sample_id": "capsule/test/scratch/002.png",
+      "canonical_index": 91,
       "selection_rank": 1,
-      "selection_spread": 0.961976275082429,
+      "selection_spread": 0.19134226377054353,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 394,
+      "gt_positive_pixels": 1153,
       "shared_colour_range": [
-        0.0037051187828183174,
-        0.3976736068725586
+        0.004968848079442978,
+        0.2461075484752655
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.973428,
-        "controlled_A1_L": 0.959269,
-        "anomalydino_canvas": 0.947695,
-        "anomalydino_canvas_rotation": 0.916605,
-        "PatchCore_native_local128": 0.011452,
-        "PatchCore_native_official224": 0.029589
+        "controlled_A1_J": 0.529618,
+        "controlled_A1_L": 0.720961
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\015.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\capsule\\test\\scratch\\002.png",
         "exists": true,
-        "size_bytes": 1130212,
-        "mtime": "2019-03-04T23:40:29"
+        "size_bytes": 1145405,
+        "mtime": "2019-03-04T23:40:30"
       }
     },
     {
@@ -1241,236 +1263,208 @@
       "seed": 0,
       "shot": 4,
       "category": "capsule",
-      "sample_id": "capsule/test/faulty_imprint/021.png",
-      "canonical_index": 44,
-      "selection_rank": 2,
-      "selection_spread": 0.9419279550231132,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 641,
-      "shared_colour_range": [
-        0.003966858144849539,
-        0.39163535833358765
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.934361,
-        "controlled_A1_L": 0.972966,
-        "anomalydino_canvas": 0.930474,
-        "anomalydino_canvas_rotation": 0.937678,
-        "PatchCore_native_local128": 0.031038,
-        "PatchCore_native_official224": 0.360859
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\021.png",
-        "exists": true,
-        "size_bytes": 1134882,
-        "mtime": "2019-03-04T23:40:29"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "capsule",
-      "sample_id": "capsule/test/faulty_imprint/007.png",
-      "canonical_index": 30,
-      "selection_rank": 3,
-      "selection_spread": 0.8974497333702302,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 554,
-      "shared_colour_range": [
-        0.002703019417822361,
-        0.3944457769393921
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.927215,
-        "controlled_A1_L": 0.929145,
-        "anomalydino_canvas": 0.930672,
-        "anomalydino_canvas_rotation": 0.924257,
-        "PatchCore_native_local128": 0.033222,
-        "PatchCore_native_official224": 0.678437
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\capsule\\test\\faulty_imprint\\007.png",
-        "exists": true,
-        "size_bytes": 1173518,
-        "mtime": "2019-03-04T23:40:29"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "carpet",
-      "sample_id": "carpet/test/metal_contamination/000.png",
-      "canonical_index": 81,
-      "selection_rank": 1,
-      "selection_spread": 0.7162761553075462,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 330,
-      "shared_colour_range": [
-        0.009908974170684814,
-        0.5512160658836365
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.696268,
-        "controlled_A1_L": 0.720602,
-        "anomalydino_canvas": 0.663559,
-        "anomalydino_canvas_rotation": 0.671142,
-        "PatchCore_native_local128": 0.004326,
-        "PatchCore_native_official224": 0.552809
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\metal_contamination\\000.png",
-        "exists": true,
-        "size_bytes": 1859166,
-        "mtime": "2019-03-04T23:40:35"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "carpet",
-      "sample_id": "carpet/test/metal_contamination/016.png",
-      "canonical_index": 97,
-      "selection_rank": 2,
-      "selection_spread": 0.6826985317458695,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 637,
-      "shared_colour_range": [
-        0.013710426166653633,
-        0.6073267459869385
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.429547,
-        "controlled_A1_L": 0.426902,
-        "anomalydino_canvas": 0.595968,
-        "anomalydino_canvas_rotation": 0.68747,
-        "PatchCore_native_local128": 0.004772,
-        "PatchCore_native_official224": 0.571018
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\metal_contamination\\016.png",
-        "exists": true,
-        "size_bytes": 1825545,
-        "mtime": "2019-03-04T23:40:35"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "carpet",
-      "sample_id": "carpet/test/thread/004.png",
+      "sample_id": "capsule/test/scratch/013.png",
       "canonical_index": 102,
-      "selection_rank": 3,
-      "selection_spread": 0.6482881236378323,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 2871,
-      "shared_colour_range": [
-        0.025311879813671112,
-        0.6158595085144043
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.65391,
-        "controlled_A1_L": 0.674058,
-        "anomalydino_canvas": 0.798072,
-        "anomalydino_canvas_rotation": 0.726134,
-        "PatchCore_native_local128": 0.149783,
-        "PatchCore_native_official224": 0.417683
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\carpet\\test\\thread\\004.png",
-        "exists": true,
-        "size_bytes": 1861917,
-        "mtime": "2019-03-04T23:40:35"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "grid",
-      "sample_id": "grid/test/glue/010.png",
-      "canonical_index": 34,
-      "selection_rank": 1,
-      "selection_spread": 0.9115446270763683,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 1302,
-      "shared_colour_range": [
-        0.041956666857004166,
-        0.8739274144172668
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.890212,
-        "controlled_A1_L": 0.820232,
-        "anomalydino_canvas": 0.91703,
-        "anomalydino_canvas_rotation": 0.536649,
-        "PatchCore_native_local128": 0.005978,
-        "PatchCore_native_official224": 0.005485
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\010.png",
-        "exists": true,
-        "size_bytes": 494103,
-        "mtime": "2019-03-04T23:40:40"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "grid",
-      "sample_id": "grid/test/glue/001.png",
-      "canonical_index": 25,
       "selection_rank": 2,
-      "selection_spread": 0.9110697795427017,
+      "selection_spread": 0.15045386569085356,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 957,
+      "gt_positive_pixels": 624,
       "shared_colour_range": [
-        0.046932220458984375,
-        0.8695971965789795
+        0.006298123858869076,
+        0.19621366262435913
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.904458,
-        "controlled_A1_L": 0.915798,
-        "anomalydino_canvas": 0.557532,
-        "anomalydino_canvas_rotation": 0.791517,
-        "PatchCore_native_local128": 0.004728,
-        "PatchCore_native_official224": 0.442811
+        "controlled_A1_J": 0.360994,
+        "controlled_A1_L": 0.511448
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\001.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\capsule\\test\\scratch\\013.png",
         "exists": true,
-        "size_bytes": 492565,
+        "size_bytes": 1133024,
+        "mtime": "2019-03-04T23:40:30"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "sample_id": "capsule/test/faulty_imprint/010.png",
+      "canonical_index": 33,
+      "selection_rank": 3,
+      "selection_spread": 0.12353424131100688,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 560,
+      "shared_colour_range": [
+        0.008272197097539902,
+        0.2708866000175476
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.655366,
+        "controlled_A1_L": 0.7789
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\capsule\\test\\faulty_imprint\\010.png",
+        "exists": true,
+        "size_bytes": 1131319,
+        "mtime": "2019-03-04T23:40:29"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/color/002.png",
+      "canonical_index": 2,
+      "selection_rank": 1,
+      "selection_spread": 0.20070314478012463,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 4834,
+      "shared_colour_range": [
+        0.015065543353557587,
+        0.30745580792427063
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.808171,
+        "controlled_A1_L": 0.607468
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\carpet\\test\\color\\002.png",
+        "exists": true,
+        "size_bytes": 1911681,
+        "mtime": "2019-03-04T23:40:34"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/color/007.png",
+      "canonical_index": 7,
+      "selection_rank": 2,
+      "selection_spread": 0.12295310416295235,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 3155,
+      "shared_colour_range": [
+        0.01701151393353939,
+        0.35789042711257935
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.5512,
+        "controlled_A1_L": 0.428247
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\carpet\\test\\color\\007.png",
+        "exists": true,
+        "size_bytes": 1857716,
+        "mtime": "2019-03-04T23:40:34"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "sample_id": "carpet/test/color/001.png",
+      "canonical_index": 1,
+      "selection_rank": 3,
+      "selection_spread": 0.11438155359307711,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 4163,
+      "shared_colour_range": [
+        0.018362566828727722,
+        0.373346745967865
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.760209,
+        "controlled_A1_L": 0.645828
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\carpet\\test\\color\\001.png",
+        "exists": true,
+        "size_bytes": 1837195,
+        "mtime": "2019-03-04T23:40:34"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "sample_id": "grid/test/metal_contamination/007.png",
+      "canonical_index": 63,
+      "selection_rank": 1,
+      "selection_spread": 0.12500777528419504,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 377,
+      "shared_colour_range": [
+        0.037827521562576294,
+        0.37306445837020874
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.527812,
+        "controlled_A1_L": 0.402805
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\grid\\test\\metal_contamination\\007.png",
+        "exists": true,
+        "size_bytes": 467806,
         "mtime": "2019-03-04T23:40:40"
       }
     },
@@ -1479,32 +1473,33 @@
       "seed": 0,
       "shot": 4,
       "category": "grid",
-      "sample_id": "grid/test/glue/004.png",
-      "canonical_index": 28,
-      "selection_rank": 3,
-      "selection_spread": 0.9050581113716855,
+      "sample_id": "grid/test/bent/000.png",
+      "canonical_index": 0,
+      "selection_rank": 2,
+      "selection_spread": 0.12368583705646419,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1473,
+      "gt_positive_pixels": 1050,
       "shared_colour_range": [
-        0.04724173992872238,
-        0.8725523352622986
+        0.0303726214915514,
+        0.33754774928092957
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.886962,
-        "controlled_A1_L": 0.876837,
-        "anomalydino_canvas": 0.911989,
-        "anomalydino_canvas_rotation": 0.899604,
-        "PatchCore_native_local128": 0.006931,
-        "PatchCore_native_official224": 0.036817
+        "controlled_A1_J": 0.472467,
+        "controlled_A1_L": 0.348781
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\grid\\test\\glue\\004.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\grid\\test\\bent\\000.png",
         "exists": true,
-        "size_bytes": 507112,
+        "size_bytes": 505732,
         "mtime": "2019-03-04T23:40:40"
       }
     },
@@ -1512,68 +1507,35 @@
       "dataset": "mvtec",
       "seed": 0,
       "shot": 4,
-      "category": "hazelnut",
-      "sample_id": "hazelnut/test/hole/008.png",
-      "canonical_index": 83,
-      "selection_rank": 1,
-      "selection_spread": 0.7654895255964838,
+      "category": "grid",
+      "sample_id": "grid/test/broken/002.png",
+      "canonical_index": 14,
+      "selection_rank": 3,
+      "selection_spread": 0.11864447632209896,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1052,
+      "gt_positive_pixels": 282,
       "shared_colour_range": [
-        0.006566314026713371,
-        0.46577271819114685
+        0.042383067309856415,
+        0.3667423725128174
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.474378,
-        "controlled_A1_L": 0.568119,
-        "anomalydino_canvas": 0.738045,
-        "anomalydino_canvas_rotation": 0.836612,
-        "PatchCore_native_local128": 0.071123,
-        "PatchCore_native_official224": 0.521055
+        "controlled_A1_J": 0.424228,
+        "controlled_A1_L": 0.542872
       },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\hole\\008.png",
-        "exists": true,
-        "size_bytes": 1228616,
-        "mtime": "2019-03-04T23:40:44"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "hazelnut",
-      "sample_id": "hazelnut/test/cut/006.png",
-      "canonical_index": 24,
-      "selection_rank": 2,
-      "selection_spread": 0.7636790070747661,
-      "region_grid": [
-        392,
-        392
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
       ],
-      "gt_positive_pixels": 2058,
-      "shared_colour_range": [
-        0.0036962400190532207,
-        0.4230678975582123
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.828729,
-        "controlled_A1_L": 0.844516,
-        "anomalydino_canvas": 0.773037,
-        "anomalydino_canvas_rotation": 0.795179,
-        "PatchCore_native_local128": 0.080837,
-        "PatchCore_native_official224": 0.186562
-      },
-      "per_sample_pixel_ap_na": [],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\cut\\006.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\grid\\test\\broken\\002.png",
         "exists": true,
-        "size_bytes": 1243859,
-        "mtime": "2019-03-04T23:40:43"
+        "size_bytes": 484637,
+        "mtime": "2019-03-04T23:40:40"
       }
     },
     {
@@ -1583,28 +1545,29 @@
       "category": "hazelnut",
       "sample_id": "hazelnut/test/cut/000.png",
       "canonical_index": 18,
-      "selection_rank": 3,
-      "selection_spread": 0.758274989810748,
+      "selection_rank": 1,
+      "selection_spread": 0.21455443718729272,
       "region_grid": [
         392,
         392
       ],
       "gt_positive_pixels": 807,
       "shared_colour_range": [
-        0.0034428054932504892,
-        0.43336543440818787
+        0.006050995551049709,
+        0.2607668936252594
       ],
       "per_sample_pixel_ap_by_method": {
         "controlled_A1_J": 0.586477,
-        "controlled_A1_L": 0.801031,
-        "anomalydino_canvas": 0.042756,
-        "anomalydino_canvas_rotation": 0.308156,
-        "PatchCore_native_local128": 0.553846,
-        "PatchCore_native_official224": 0.718339
+        "controlled_A1_L": 0.801031
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\hazelnut\\test\\cut\\000.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\hazelnut\\test\\cut\\000.png",
         "exists": true,
         "size_bytes": 1244473,
         "mtime": "2019-03-04T23:40:43"
@@ -1614,68 +1577,70 @@
       "dataset": "mvtec",
       "seed": 0,
       "shot": 4,
-      "category": "leather",
-      "sample_id": "leather/test/poke/007.png",
-      "canonical_index": 113,
-      "selection_rank": 1,
-      "selection_spread": 0.8974877067163713,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 440,
-      "shared_colour_range": [
-        0.008068747818470001,
-        0.6076652407646179
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.059304,
-        "controlled_A1_L": 0.05831,
-        "anomalydino_canvas": 0.040592,
-        "anomalydino_canvas_rotation": 0.060104,
-        "PatchCore_native_local128": 0.719288,
-        "PatchCore_native_official224": 0.93808
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\007.png",
-        "exists": true,
-        "size_bytes": 1481058,
-        "mtime": "2019-03-04T23:40:51"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "leather",
-      "sample_id": "leather/test/poke/017.png",
-      "canonical_index": 123,
+      "category": "hazelnut",
+      "sample_id": "hazelnut/test/hole/016.png",
+      "canonical_index": 91,
       "selection_rank": 2,
-      "selection_spread": 0.8865405720364572,
+      "selection_spread": 0.14191710978416472,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 330,
+      "gt_positive_pixels": 5903,
       "shared_colour_range": [
-        0.00799101684242487,
-        0.5605028867721558
+        0.006870793644338846,
+        0.33130282163619995
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.062235,
-        "controlled_A1_L": 0.051745,
-        "anomalydino_canvas": 0.032237,
-        "anomalydino_canvas_rotation": 0.047269,
-        "PatchCore_native_local128": 0.918778,
-        "PatchCore_native_official224": 0.786613
+        "controlled_A1_J": 0.551768,
+        "controlled_A1_L": 0.693685
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\017.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\hazelnut\\test\\hole\\016.png",
         "exists": true,
-        "size_bytes": 1482914,
-        "mtime": "2019-03-04T23:40:51"
+        "size_bytes": 1244739,
+        "mtime": "2019-03-04T23:40:44"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "sample_id": "hazelnut/test/cut/002.png",
+      "canonical_index": 20,
+      "selection_rank": 3,
+      "selection_spread": 0.1238808090605239,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1235,
+      "shared_colour_range": [
+        0.007253296673297882,
+        0.2848254144191742
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.554316,
+        "controlled_A1_L": 0.678197
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\hazelnut\\test\\cut\\002.png",
+        "exists": true,
+        "size_bytes": 1257546,
+        "mtime": "2019-03-04T23:40:43"
       }
     },
     {
@@ -1683,32 +1648,33 @@
       "seed": 0,
       "shot": 4,
       "category": "leather",
-      "sample_id": "leather/test/poke/002.png",
-      "canonical_index": 108,
-      "selection_rank": 3,
-      "selection_spread": 0.880697826683432,
+      "sample_id": "leather/test/glue/014.png",
+      "canonical_index": 69,
+      "selection_rank": 1,
+      "selection_spread": 0.1949200898320559,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 807,
+      "gt_positive_pixels": 962,
       "shared_colour_range": [
-        0.002320889150723815,
-        0.5315696001052856
+        0.022011127322912216,
+        0.4868186116218567
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.18863,
-        "controlled_A1_L": 0.193473,
-        "anomalydino_canvas": 0.080585,
-        "anomalydino_canvas_rotation": 0.355992,
-        "PatchCore_native_local128": 0.75668,
-        "PatchCore_native_official224": 0.961282
+        "controlled_A1_J": 0.608908,
+        "controlled_A1_L": 0.803828
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\leather\\test\\poke\\002.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\leather\\test\\glue\\014.png",
         "exists": true,
-        "size_bytes": 1470612,
+        "size_bytes": 1441655,
         "mtime": "2019-03-04T23:40:50"
       }
     },
@@ -1716,33 +1682,104 @@
       "dataset": "mvtec",
       "seed": 0,
       "shot": 4,
-      "category": "metal_nut",
-      "sample_id": "metal_nut/test/bent/024.png",
-      "canonical_index": 24,
-      "selection_rank": 1,
-      "selection_spread": 0.8721965776191265,
+      "category": "leather",
+      "sample_id": "leather/test/cut/017.png",
+      "canonical_index": 36,
+      "selection_rank": 2,
+      "selection_spread": 0.16167100117205957,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 3448,
+      "gt_positive_pixels": 1424,
       "shared_colour_range": [
-        0.007161905523389578,
-        0.6994732022285461
+        0.01701325550675392,
+        0.4748343527317047
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.918173,
-        "controlled_A1_L": 0.930164,
-        "anomalydino_canvas": 0.845407,
-        "anomalydino_canvas_rotation": 0.847353,
-        "PatchCore_native_local128": 0.057967,
-        "PatchCore_native_official224": 0.70166
+        "controlled_A1_J": 0.448279,
+        "controlled_A1_L": 0.60995
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\bent\\024.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\leather\\test\\cut\\017.png",
         "exists": true,
-        "size_bytes": 500574,
+        "size_bytes": 1380128,
+        "mtime": "2019-03-04T23:40:50"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "sample_id": "leather/test/cut/006.png",
+      "canonical_index": 25,
+      "selection_rank": 3,
+      "selection_spread": 0.12275918732119906,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 908,
+      "shared_colour_range": [
+        0.01705273985862732,
+        0.49369359016418457
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.262981,
+        "controlled_A1_L": 0.38574
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\leather\\test\\cut\\006.png",
+        "exists": true,
+        "size_bytes": 1423771,
+        "mtime": "2019-03-04T23:40:49"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "sample_id": "metal_nut/test/bent/022.png",
+      "canonical_index": 22,
+      "selection_rank": 1,
+      "selection_spread": 0.09718844183402653,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2643,
+      "shared_colour_range": [
+        0.005330778658390045,
+        0.25970926880836487
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.516589,
+        "controlled_A1_L": 0.613778
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\metal_nut\\test\\bent\\022.png",
+        "exists": true,
+        "size_bytes": 495232,
         "mtime": "2019-03-04T23:40:54"
       }
     },
@@ -1751,33 +1788,34 @@
       "seed": 0,
       "shot": 4,
       "category": "metal_nut",
-      "sample_id": "metal_nut/test/scratch/000.png",
-      "canonical_index": 92,
+      "sample_id": "metal_nut/test/bent/004.png",
+      "canonical_index": 4,
       "selection_rank": 2,
-      "selection_spread": 0.8686177768748394,
+      "selection_spread": 0.08453590394919008,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 3822,
+      "gt_positive_pixels": 3151,
       "shared_colour_range": [
-        0.0050977673381567,
-        0.7092834711074829
+        0.0060158418491482735,
+        0.30314645171165466
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.907906,
-        "controlled_A1_L": 0.910879,
-        "anomalydino_canvas": 0.87623,
-        "anomalydino_canvas_rotation": 0.907305,
-        "PatchCore_native_local128": 0.042261,
-        "PatchCore_native_official224": 0.114043
+        "controlled_A1_J": 0.858657,
+        "controlled_A1_L": 0.774121
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\scratch\\000.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\metal_nut\\test\\bent\\004.png",
         "exists": true,
-        "size_bytes": 500460,
-        "mtime": "2019-03-04T23:40:55"
+        "size_bytes": 504877,
+        "mtime": "2019-03-04T23:40:54"
       }
     },
     {
@@ -1785,32 +1823,33 @@
       "seed": 0,
       "shot": 4,
       "category": "metal_nut",
-      "sample_id": "metal_nut/test/bent/006.png",
-      "canonical_index": 6,
+      "sample_id": "metal_nut/test/bent/020.png",
+      "canonical_index": 20,
       "selection_rank": 3,
-      "selection_spread": 0.8342390671047523,
+      "selection_spread": 0.07546185169018926,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 2784,
+      "gt_positive_pixels": 3880,
       "shared_colour_range": [
-        0.002512724604457617,
-        0.5618205666542053
+        0.004613742232322693,
+        0.28577882051467896
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.83385,
-        "controlled_A1_L": 0.844599,
-        "anomalydino_canvas": 0.880402,
-        "anomalydino_canvas_rotation": 0.890814,
-        "PatchCore_native_local128": 0.056574,
-        "PatchCore_native_official224": 0.533859
+        "controlled_A1_J": 0.755786,
+        "controlled_A1_L": 0.831248
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\metal_nut\\test\\bent\\006.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\metal_nut\\test\\bent\\020.png",
         "exists": true,
-        "size_bytes": 500710,
+        "size_bytes": 486550,
         "mtime": "2019-03-04T23:40:54"
       }
     },
@@ -1819,32 +1858,33 @@
       "seed": 0,
       "shot": 4,
       "category": "pill",
-      "sample_id": "pill/test/scratch/019.png",
-      "canonical_index": 162,
+      "sample_id": "pill/test/scratch/022.png",
+      "canonical_index": 165,
       "selection_rank": 1,
-      "selection_spread": 0.9779195935795333,
+      "selection_spread": 0.2609020297229653,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 672,
+      "gt_positive_pixels": 1380,
       "shared_colour_range": [
-        0.0037952589336782694,
-        0.5290146470069885
+        0.0054128170013427734,
+        0.3155980706214905
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.987992,
-        "controlled_A1_L": 0.98396,
-        "anomalydino_canvas": 0.930858,
-        "anomalydino_canvas_rotation": 0.882898,
-        "PatchCore_native_local128": 0.010072,
-        "PatchCore_native_official224": 0.891472
+        "controlled_A1_J": 0.628988,
+        "controlled_A1_L": 0.368086
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\scratch\\019.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\pill\\test\\scratch\\022.png",
         "exists": true,
-        "size_bytes": 629482,
+        "size_bytes": 637254,
         "mtime": "2019-03-06T20:57:52"
       }
     },
@@ -1853,32 +1893,33 @@
       "seed": 0,
       "shot": 4,
       "category": "pill",
-      "sample_id": "pill/test/scratch/001.png",
-      "canonical_index": 144,
+      "sample_id": "pill/test/crack/025.png",
+      "canonical_index": 88,
       "selection_rank": 2,
-      "selection_spread": 0.9018422790076372,
+      "selection_spread": 0.15852169262408372,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 819,
+      "gt_positive_pixels": 372,
       "shared_colour_range": [
-        0.004552190192043781,
-        0.45006340742111206
+        0.005037645343691111,
+        0.23832152783870697
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.890385,
-        "controlled_A1_L": 0.919207,
-        "anomalydino_canvas": 0.77085,
-        "anomalydino_canvas_rotation": 0.879366,
-        "PatchCore_native_local128": 0.017364,
-        "PatchCore_native_official224": 0.080897
+        "controlled_A1_J": 0.441987,
+        "controlled_A1_L": 0.600509
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\scratch\\001.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\pill\\test\\crack\\025.png",
         "exists": true,
-        "size_bytes": 625183,
+        "size_bytes": 621641,
         "mtime": "2019-03-06T20:57:52"
       }
     },
@@ -1887,32 +1928,33 @@
       "seed": 0,
       "shot": 4,
       "category": "pill",
-      "sample_id": "pill/test/faulty_imprint/000.png",
-      "canonical_index": 89,
+      "sample_id": "pill/test/crack/000.png",
+      "canonical_index": 63,
       "selection_rank": 3,
-      "selection_spread": 0.8914715980939701,
+      "selection_spread": 0.15571723645788538,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1776,
+      "gt_positive_pixels": 2054,
       "shared_colour_range": [
-        0.005274161696434021,
-        0.5016211867332458
+        0.00441215792670846,
+        0.261994868516922
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.860861,
-        "controlled_A1_L": 0.938207,
-        "anomalydino_canvas": 0.93348,
-        "anomalydino_canvas_rotation": 0.93108,
-        "PatchCore_native_local128": 0.046735,
-        "PatchCore_native_official224": 0.541381
+        "controlled_A1_J": 0.438212,
+        "controlled_A1_L": 0.282495
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\pill\\test\\faulty_imprint\\000.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\pill\\test\\crack\\000.png",
         "exists": true,
-        "size_bytes": 637179,
+        "size_bytes": 627834,
         "mtime": "2019-03-06T20:57:52"
       }
     },
@@ -1921,66 +1963,33 @@
       "seed": 0,
       "shot": 4,
       "category": "screw",
-      "sample_id": "screw/test/scratch_neck/001.png",
-      "canonical_index": 90,
+      "sample_id": "screw/test/scratch_neck/014.png",
+      "canonical_index": 103,
       "selection_rank": 1,
-      "selection_spread": 0.9501761945165743,
+      "selection_spread": 0.28431354316740354,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1427,
+      "gt_positive_pixels": 573,
       "shared_colour_range": [
-        0.0037137395702302456,
-        0.7820562124252319
+        0.010521438904106617,
+        0.2663281559944153
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.943052,
-        "controlled_A1_L": 0.95558,
-        "anomalydino_canvas": 0.830257,
-        "anomalydino_canvas_rotation": 0.977181,
-        "PatchCore_native_local128": 0.027005,
-        "PatchCore_native_official224": 0.05252
+        "controlled_A1_J": 0.717073,
+        "controlled_A1_L": 0.43276
       },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_neck\\001.png",
-        "exists": true,
-        "size_bytes": 409478,
-        "mtime": "2019-03-04T23:41:09"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "screw",
-      "sample_id": "screw/test/scratch_neck/010.png",
-      "canonical_index": 99,
-      "selection_rank": 2,
-      "selection_spread": 0.9468320196090786,
-      "region_grid": [
-        392,
-        392
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
       ],
-      "gt_positive_pixels": 883,
-      "shared_colour_range": [
-        0.008176187053322792,
-        0.9408876299858093
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.840776,
-        "controlled_A1_L": 0.877296,
-        "anomalydino_canvas": 0.948166,
-        "anomalydino_canvas_rotation": 0.962766,
-        "PatchCore_native_local128": 0.015934,
-        "PatchCore_native_official224": 0.026171
-      },
-      "per_sample_pixel_ap_na": [],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_neck\\010.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\screw\\test\\scratch_neck\\014.png",
         "exists": true,
-        "size_bytes": 414743,
+        "size_bytes": 411108,
         "mtime": "2019-03-04T23:41:10"
       }
     },
@@ -1989,32 +1998,68 @@
       "seed": 0,
       "shot": 4,
       "category": "screw",
-      "sample_id": "screw/test/scratch_head/001.png",
-      "canonical_index": 66,
+      "sample_id": "screw/test/manipulated_front/019.png",
+      "canonical_index": 60,
+      "selection_rank": 2,
+      "selection_spread": 0.24454833889527905,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 212,
+      "shared_colour_range": [
+        0.007623348850756884,
+        0.2836826741695404
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.738427,
+        "controlled_A1_L": 0.493879
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\screw\\test\\manipulated_front\\019.png",
+        "exists": true,
+        "size_bytes": 399148,
+        "mtime": "2019-03-04T23:41:09"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "sample_id": "screw/test/scratch_head/002.png",
+      "canonical_index": 67,
       "selection_rank": 3,
-      "selection_spread": 0.927107700695337,
+      "selection_spread": 0.2130717037084755,
       "region_grid": [
         392,
         392
       ],
       "gt_positive_pixels": 574,
       "shared_colour_range": [
-        0.0,
-        0.6790210604667664
+        0.007811487186700106,
+        0.27579957246780396
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.687244,
-        "controlled_A1_L": 0.681453,
-        "anomalydino_canvas": 0.945483,
-        "anomalydino_canvas_rotation": 0.906053,
-        "PatchCore_native_local128": 0.018375,
-        "PatchCore_native_official224": 0.026834
+        "controlled_A1_J": 0.368653,
+        "controlled_A1_L": 0.581725
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\screw\\test\\scratch_head\\001.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\screw\\test\\scratch_head\\002.png",
         "exists": true,
-        "size_bytes": 407204,
+        "size_bytes": 414023,
         "mtime": "2019-03-04T23:41:09"
       }
     },
@@ -2023,32 +2068,33 @@
       "seed": 0,
       "shot": 4,
       "category": "tile",
-      "sample_id": "tile/test/gray_stroke/002.png",
-      "canonical_index": 70,
+      "sample_id": "tile/test/rough/006.png",
+      "canonical_index": 108,
       "selection_rank": 1,
-      "selection_spread": 0.8798555189834386,
+      "selection_spread": 0.0337631932542688,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 1335,
+      "gt_positive_pixels": 8726,
       "shared_colour_range": [
-        0.019951019436120987,
-        0.29045021533966064
+        0.022961117327213287,
+        0.2583392262458801
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.899392,
-        "controlled_A1_L": 0.900652,
-        "anomalydino_canvas": 0.881623,
-        "anomalydino_canvas_rotation": 0.906495,
-        "PatchCore_native_local128": 0.045908,
-        "PatchCore_native_official224": 0.02664
+        "controlled_A1_J": 0.790804,
+        "controlled_A1_L": 0.824567
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\gray_stroke\\002.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\tile\\test\\rough\\006.png",
         "exists": true,
-        "size_bytes": 995529,
+        "size_bytes": 1053015,
         "mtime": "2019-03-04T23:41:13"
       }
     },
@@ -2057,33 +2103,34 @@
       "seed": 0,
       "shot": 4,
       "category": "tile",
-      "sample_id": "tile/test/crack/005.png",
-      "canonical_index": 5,
+      "sample_id": "tile/test/gray_stroke/005.png",
+      "canonical_index": 73,
       "selection_rank": 2,
-      "selection_spread": 0.6986230691734454,
+      "selection_spread": 0.03201076384549961,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 2208,
+      "gt_positive_pixels": 8557,
       "shared_colour_range": [
-        0.020046807825565338,
-        0.6607101559638977
+        0.02623867243528366,
+        0.30301910638809204
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.757661,
-        "controlled_A1_L": 0.75872,
-        "anomalydino_canvas": 0.940839,
-        "anomalydino_canvas_rotation": 0.8651,
-        "PatchCore_native_local128": 0.242216,
-        "PatchCore_native_official224": 0.572335
+        "controlled_A1_J": 0.629792,
+        "controlled_A1_L": 0.661802
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\crack\\005.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\tile\\test\\gray_stroke\\005.png",
         "exists": true,
-        "size_bytes": 908983,
-        "mtime": "2019-03-04T23:41:12"
+        "size_bytes": 1012549,
+        "mtime": "2019-03-04T23:41:13"
       }
     },
     {
@@ -2091,33 +2138,34 @@
       "seed": 0,
       "shot": 4,
       "category": "tile",
-      "sample_id": "tile/test/rough/014.png",
-      "canonical_index": 116,
+      "sample_id": "tile/test/gray_stroke/006.png",
+      "canonical_index": 74,
       "selection_rank": 3,
-      "selection_spread": 0.5588945922928319,
+      "selection_spread": 0.02957991135451632,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 13882,
+      "gt_positive_pixels": 9493,
       "shared_colour_range": [
-        0.02603016421198845,
-        0.3851701021194458
+        0.019947614520788193,
+        0.3156089186668396
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.921108,
-        "controlled_A1_L": 0.923976,
-        "anomalydino_canvas": 0.906334,
-        "anomalydino_canvas_rotation": 0.926089,
-        "PatchCore_native_local128": 0.367194,
-        "PatchCore_native_official224": 0.594192
+        "controlled_A1_J": 0.725732,
+        "controlled_A1_L": 0.755311
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\tile\\test\\rough\\014.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\tile\\test\\gray_stroke\\006.png",
         "exists": true,
-        "size_bytes": 1054988,
-        "mtime": "2019-03-04T23:41:14"
+        "size_bytes": 1023994,
+        "mtime": "2019-03-04T23:41:13"
       }
     },
     {
@@ -2125,32 +2173,33 @@
       "seed": 0,
       "shot": 4,
       "category": "toothbrush",
-      "sample_id": "toothbrush/test/defective/021.png",
-      "canonical_index": 21,
+      "sample_id": "toothbrush/test/defective/023.png",
+      "canonical_index": 23,
       "selection_rank": 1,
-      "selection_spread": 0.7931576570771374,
+      "selection_spread": 0.06991848394194955,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 509,
+      "gt_positive_pixels": 5348,
       "shared_colour_range": [
-        0.0037143435329198837,
-        0.5701021552085876
+        0.008797051385045052,
+        0.36468204855918884
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.807118,
-        "controlled_A1_L": 0.788693,
-        "anomalydino_canvas": 0.654929,
-        "anomalydino_canvas_rotation": 0.635745,
-        "PatchCore_native_local128": 0.01396,
-        "PatchCore_native_official224": 0.621846
+        "controlled_A1_J": 0.586247,
+        "controlled_A1_L": 0.656165
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\021.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\toothbrush\\test\\defective\\023.png",
         "exists": true,
-        "size_bytes": 1062085,
+        "size_bytes": 1118901,
         "mtime": "2019-03-04T23:41:16"
       }
     },
@@ -2159,32 +2208,33 @@
       "seed": 0,
       "shot": 4,
       "category": "toothbrush",
-      "sample_id": "toothbrush/test/defective/024.png",
-      "canonical_index": 24,
+      "sample_id": "toothbrush/test/defective/025.png",
+      "canonical_index": 25,
       "selection_rank": 2,
-      "selection_spread": 0.7852399680719568,
+      "selection_spread": 0.0641273293688065,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 968,
+      "gt_positive_pixels": 7600,
       "shared_colour_range": [
-        0.004892599768936634,
-        0.5369532704353333
+        0.00831720232963562,
+        0.36068421602249146
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.679315,
-        "controlled_A1_L": 0.664044,
-        "anomalydino_canvas": 0.797885,
-        "anomalydino_canvas_rotation": 0.794415,
-        "PatchCore_native_local128": 0.012645,
-        "PatchCore_native_official224": 0.421507
+        "controlled_A1_J": 0.497326,
+        "controlled_A1_L": 0.561453
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\024.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\toothbrush\\test\\defective\\025.png",
         "exists": true,
-        "size_bytes": 1069673,
+        "size_bytes": 1091268,
         "mtime": "2019-03-04T23:41:16"
       }
     },
@@ -2193,32 +2243,33 @@
       "seed": 0,
       "shot": 4,
       "category": "toothbrush",
-      "sample_id": "toothbrush/test/defective/007.png",
-      "canonical_index": 7,
+      "sample_id": "toothbrush/test/defective/026.png",
+      "canonical_index": 26,
       "selection_rank": 3,
-      "selection_spread": 0.6208760430015855,
+      "selection_spread": 0.06138770458461218,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 480,
+      "gt_positive_pixels": 1657,
       "shared_colour_range": [
-        0.005025888793170452,
-        0.5507431030273438
+        0.004786055069416761,
+        0.333559513092041
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.63082,
-        "controlled_A1_L": 0.656026,
-        "anomalydino_canvas": 0.514254,
-        "anomalydino_canvas_rotation": 0.540523,
-        "PatchCore_native_local128": 0.03515,
-        "PatchCore_native_official224": 0.145309
+        "controlled_A1_J": 0.588269,
+        "controlled_A1_L": 0.649657
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\toothbrush\\test\\defective\\007.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\toothbrush\\test\\defective\\026.png",
         "exists": true,
-        "size_bytes": 1079451,
+        "size_bytes": 1079184,
         "mtime": "2019-03-04T23:41:16"
       }
     },
@@ -2227,135 +2278,104 @@
       "seed": 0,
       "shot": 4,
       "category": "transistor",
-      "sample_id": "transistor/test/damaged_case/004.png",
-      "canonical_index": 24,
-      "selection_rank": 1,
-      "selection_spread": 0.6748874438121655,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 5099,
-      "shared_colour_range": [
-        0.009048198349773884,
-        0.5413991212844849
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.73618,
-        "controlled_A1_L": 0.723803,
-        "anomalydino_canvas": 0.816811,
-        "anomalydino_canvas_rotation": 0.823474,
-        "PatchCore_native_local128": 0.148586,
-        "PatchCore_native_official224": 0.446423
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\damaged_case\\004.png",
-        "exists": true,
-        "size_bytes": 1297586,
-        "mtime": "2019-03-04T23:41:18"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "transistor",
-      "sample_id": "transistor/test/damaged_case/007.png",
-      "canonical_index": 27,
-      "selection_rank": 2,
-      "selection_spread": 0.6382857264985924,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 2593,
-      "shared_colour_range": [
-        0.007227403111755848,
-        0.456218957901001
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.921312,
-        "controlled_A1_L": 0.916266,
-        "anomalydino_canvas": 0.928024,
-        "anomalydino_canvas_rotation": 0.927746,
-        "PatchCore_native_local128": 0.289739,
-        "PatchCore_native_official224": 0.863214
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\damaged_case\\007.png",
-        "exists": true,
-        "size_bytes": 1294864,
-        "mtime": "2019-03-04T23:41:18"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "transistor",
-      "sample_id": "transistor/test/bent_lead/001.png",
-      "canonical_index": 1,
-      "selection_rank": 3,
-      "selection_spread": 0.6205355392539905,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 452,
-      "shared_colour_range": [
-        0.01283402368426323,
-        0.3609546422958374
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.012507,
-        "controlled_A1_L": 0.016531,
-        "anomalydino_canvas": 0.02725,
-        "anomalydino_canvas_rotation": 0.03286,
-        "PatchCore_native_local128": 0.633042,
-        "PatchCore_native_official224": 0.551339
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\transistor\\test\\bent_lead\\001.png",
-        "exists": true,
-        "size_bytes": 1285834,
-        "mtime": "2019-03-04T23:41:18"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "wood",
-      "sample_id": "wood/test/color/000.png",
+      "sample_id": "transistor/test/bent_lead/000.png",
       "canonical_index": 0,
       "selection_rank": 1,
-      "selection_spread": 0.6758559812401289,
+      "selection_spread": 0.07312934805095156,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 4268,
+      "gt_positive_pixels": 855,
       "shared_colour_range": [
-        0.019575372338294983,
-        0.5685964822769165
+        0.009929504245519638,
+        0.2721722722053528
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.912765,
-        "controlled_A1_L": 0.906766,
-        "anomalydino_canvas": 0.876653,
-        "anomalydino_canvas_rotation": 0.886975,
-        "PatchCore_native_local128": 0.236909,
-        "PatchCore_native_official224": 0.511939
+        "controlled_A1_J": 0.475911,
+        "controlled_A1_L": 0.549041
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\color\\000.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\transistor\\test\\bent_lead\\000.png",
         "exists": true,
-        "size_bytes": 1559500,
-        "mtime": "2019-03-04T23:41:22"
+        "size_bytes": 1296700,
+        "mtime": "2019-03-04T23:41:18"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "sample_id": "transistor/test/bent_lead/004.png",
+      "canonical_index": 4,
+      "selection_rank": 2,
+      "selection_spread": 0.07078271218126819,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 534,
+      "shared_colour_range": [
+        0.015780914574861526,
+        0.2350478619337082
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.323467,
+        "controlled_A1_L": 0.39425
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\transistor\\test\\bent_lead\\004.png",
+        "exists": true,
+        "size_bytes": 1284517,
+        "mtime": "2019-03-04T23:41:18"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "sample_id": "transistor/test/bent_lead/009.png",
+      "canonical_index": 9,
+      "selection_rank": 3,
+      "selection_spread": 0.05977101219178316,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1092,
+      "shared_colour_range": [
+        0.010806201957166195,
+        0.20267514884471893
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.29607,
+        "controlled_A1_L": 0.355841
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\transistor\\test\\bent_lead\\009.png",
+        "exists": true,
+        "size_bytes": 1296154,
+        "mtime": "2019-03-04T23:41:18"
       }
     },
     {
@@ -2363,32 +2383,33 @@
       "seed": 0,
       "shot": 4,
       "category": "wood",
-      "sample_id": "wood/test/hole/006.png",
-      "canonical_index": 44,
-      "selection_rank": 2,
-      "selection_spread": 0.6279153314043442,
+      "sample_id": "wood/test/hole/008.png",
+      "canonical_index": 46,
+      "selection_rank": 1,
+      "selection_spread": 0.15814154838358335,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 524,
+      "gt_positive_pixels": 703,
       "shared_colour_range": [
-        0.01933743618428707,
-        0.3797376751899719
+        0.0177054014056921,
+        0.3981092870235443
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.565773,
-        "controlled_A1_L": 0.561344,
-        "anomalydino_canvas": 0.651344,
-        "anomalydino_canvas_rotation": 0.593401,
-        "PatchCore_native_local128": 0.023428,
-        "PatchCore_native_official224": 0.381212
+        "controlled_A1_J": 0.461407,
+        "controlled_A1_L": 0.619548
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\hole\\006.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\wood\\test\\hole\\008.png",
         "exists": true,
-        "size_bytes": 1613596,
+        "size_bytes": 1456036,
         "mtime": "2019-03-04T23:41:23"
       }
     },
@@ -2397,100 +2418,138 @@
       "seed": 0,
       "shot": 4,
       "category": "wood",
-      "sample_id": "wood/test/combined/008.png",
-      "canonical_index": 16,
-      "selection_rank": 3,
-      "selection_spread": 0.5598969006548049,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 7595,
-      "shared_colour_range": [
-        0.018222926184535027,
-        0.5491487383842468
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.875955,
-        "controlled_A1_L": 0.874038,
-        "anomalydino_canvas": 0.854763,
-        "anomalydino_canvas_rotation": 0.846931,
-        "PatchCore_native_local128": 0.316058,
-        "PatchCore_native_official224": 0.705476
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\wood\\test\\combined\\008.png",
-        "exists": true,
-        "size_bytes": 1471040,
-        "mtime": "2019-03-04T23:41:22"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "zipper",
-      "sample_id": "zipper/test/squeezed_teeth/006.png",
-      "canonical_index": 141,
-      "selection_rank": 1,
-      "selection_spread": 0.9252594210819052,
-      "region_grid": [
-        392,
-        392
-      ],
-      "gt_positive_pixels": 1309,
-      "shared_colour_range": [
-        0.014010373502969742,
-        0.3735915720462799
-      ],
-      "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.178317,
-        "controlled_A1_L": 0.166925,
-        "anomalydino_canvas": 0.211014,
-        "anomalydino_canvas_rotation": 0.215837,
-        "PatchCore_native_local128": 0.036277,
-        "PatchCore_native_official224": 0.961536
-      },
-      "per_sample_pixel_ap_na": [],
-      "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\squeezed_teeth\\006.png",
-        "exists": true,
-        "size_bytes": 410417,
-        "mtime": "2019-03-06T21:03:01"
-      }
-    },
-    {
-      "dataset": "mvtec",
-      "seed": 0,
-      "shot": 4,
-      "category": "zipper",
-      "sample_id": "zipper/test/fabric_interior/001.png",
-      "canonical_index": 53,
+      "sample_id": "wood/test/scratch/008.png",
+      "canonical_index": 66,
       "selection_rank": 2,
-      "selection_spread": 0.8623148401868598,
+      "selection_spread": 0.10337900729196892,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 3856,
+      "gt_positive_pixels": 4569,
       "shared_colour_range": [
-        0.008661096915602684,
-        0.5771698951721191
+        0.028729552403092384,
+        0.47017326951026917
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.896794,
-        "controlled_A1_L": 0.898938,
-        "anomalydino_canvas": 0.903617,
-        "anomalydino_canvas_rotation": 0.899537,
-        "PatchCore_native_local128": 0.041302,
-        "PatchCore_native_official224": 0.31981
+        "controlled_A1_J": 0.559708,
+        "controlled_A1_L": 0.456329
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\fabric_interior\\001.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\wood\\test\\scratch\\008.png",
         "exists": true,
-        "size_bytes": 400816,
+        "size_bytes": 1635815,
+        "mtime": "2019-03-04T23:41:23"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "sample_id": "wood/test/hole/007.png",
+      "canonical_index": 45,
+      "selection_rank": 3,
+      "selection_spread": 0.10325712918755559,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 1679,
+      "shared_colour_range": [
+        0.017931628972291946,
+        0.4357375204563141
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.565946,
+        "controlled_A1_L": 0.669203
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\wood\\test\\hole\\007.png",
+        "exists": true,
+        "size_bytes": 1547801,
+        "mtime": "2019-03-04T23:41:23"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "sample_id": "zipper/test/split_teeth/002.png",
+      "canonical_index": 119,
+      "selection_rank": 1,
+      "selection_spread": 0.1470771885557911,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 2250,
+      "shared_colour_range": [
+        0.009897531941533089,
+        0.23140060901641846
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.556412,
+        "controlled_A1_L": 0.409335
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\zipper\\test\\split_teeth\\002.png",
+        "exists": true,
+        "size_bytes": 396395,
+        "mtime": "2019-03-06T21:03:00"
+      }
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "sample_id": "zipper/test/fabric_interior/007.png",
+      "canonical_index": 59,
+      "selection_rank": 2,
+      "selection_spread": 0.11361675459671505,
+      "region_grid": [
+        392,
+        392
+      ],
+      "gt_positive_pixels": 318,
+      "shared_colour_range": [
+        0.005154509097337723,
+        0.33520257472991943
+      ],
+      "per_sample_pixel_ap_by_method": {
+        "controlled_A1_J": 0.598251,
+        "controlled_A1_L": 0.711867
+      },
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
+      "image": {
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\zipper\\test\\fabric_interior\\007.png",
+        "exists": true,
+        "size_bytes": 403904,
         "mtime": "2019-03-06T21:03:01"
       }
     },
@@ -2499,37 +2558,639 @@
       "seed": 0,
       "shot": 4,
       "category": "zipper",
-      "sample_id": "zipper/test/fabric_interior/005.png",
-      "canonical_index": 57,
+      "sample_id": "zipper/test/broken_teeth/009.png",
+      "canonical_index": 9,
       "selection_rank": 3,
-      "selection_spread": 0.8408334442822393,
+      "selection_spread": 0.08517047830490891,
       "region_grid": [
         392,
         392
       ],
-      "gt_positive_pixels": 2063,
+      "gt_positive_pixels": 1686,
       "shared_colour_range": [
-        0.008431114256381989,
-        0.63704514503479
+        0.012994406744837761,
+        0.18022394180297852
       ],
       "per_sample_pixel_ap_by_method": {
-        "controlled_A1_J": 0.897971,
-        "controlled_A1_L": 0.867425,
-        "anomalydino_canvas": 0.92167,
-        "anomalydino_canvas_rotation": 0.890267,
-        "PatchCore_native_local128": 0.080837,
-        "PatchCore_native_official224": 0.327962
+        "controlled_A1_J": 0.153042,
+        "controlled_A1_L": 0.067872
       },
-      "per_sample_pixel_ap_na": [],
+      "per_sample_pixel_ap_na": [
+        "anomalydino_canvas",
+        "anomalydino_canvas_rotation",
+        "PatchCore_native_local128",
+        "PatchCore_native_official224"
+      ],
       "image": {
-        "path": "D:\\STUDY\\My_github\\sci_project\\data\\mvtec\\zipper\\test\\fabric_interior\\005.png",
+        "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\data\\mvtec\\zipper\\test\\broken_teeth\\009.png",
         "exists": true,
-        "size_bytes": 409794,
-        "mtime": "2019-03-06T21:03:01"
+        "size_bytes": 401937,
+        "mtime": "2019-03-06T21:03:00"
       }
     }
   ],
-  "missing": [],
+  "missing": [
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\bottle\\\\test\\\\broken_large\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_bottle.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\bottle\\\\test\\\\broken_large\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_bottle.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\bottle\\\\test\\\\broken_large\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "bottle",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\bottle\\\\test\\\\broken_large\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\cable\\\\test\\\\bent_wire\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_cable.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\cable\\\\test\\\\bent_wire\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_cable.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\cable\\\\test\\\\bent_wire\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_cable.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "cable",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\cable\\\\test\\\\bent_wire\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_cable.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\capsule\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_capsule.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\capsule\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_capsule.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\capsule\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "capsule",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\capsule\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\carpet\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_carpet.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\carpet\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_carpet.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\carpet\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "carpet",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\carpet\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\grid\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_grid.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\grid\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_grid.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\grid\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_grid.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "grid",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\grid\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_grid.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\hazelnut\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_hazelnut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\hazelnut\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_hazelnut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\hazelnut\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "hazelnut",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\hazelnut\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\leather\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_leather.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\leather\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_leather.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\leather\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_leather.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "leather",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\leather\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_leather.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\metal_nut\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_metal_nut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\metal_nut\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_metal_nut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\metal_nut\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "metal_nut",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\metal_nut\\\\test\\\\bent\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\pill\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_pill.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\pill\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_pill.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\pill\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_pill.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "pill",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\pill\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_pill.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\screw\\\\test\\\\good\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_screw.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\screw\\\\test\\\\good\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_screw.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\screw\\\\test\\\\good\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_screw.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "screw",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\screw\\\\test\\\\good\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_screw.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\tile\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_tile.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\tile\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_tile.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\tile\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_tile.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "tile",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\tile\\\\test\\\\crack\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_tile.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\toothbrush\\\\test\\\\defective\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_toothbrush.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\toothbrush\\\\test\\\\defective\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_toothbrush.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\toothbrush\\\\test\\\\defective\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "toothbrush",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\toothbrush\\\\test\\\\defective\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\transistor\\\\test\\\\bent_lead\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_transistor.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\transistor\\\\test\\\\bent_lead\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_transistor.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\transistor\\\\test\\\\bent_lead\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "transistor",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\transistor\\\\test\\\\bent_lead\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\wood\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_wood.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\wood\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_wood.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\wood\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_wood.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "wood",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\wood\\\\test\\\\color\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_wood.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "method": "anomalydino_canvas",
+      "label": "AnomalyDINO\ncanvas",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\zipper\\\\test\\\\broken_teeth\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_zipper.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "method": "anomalydino_canvas_rotation",
+      "label": "AnomalyDINO\ncanvas + rotation",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\mvtec\\\\zipper\\\\test\\\\broken_teeth\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\mvtec' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_zipper.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "method": "PatchCore_native_local128",
+      "label": "PatchCore\nnative 128",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\zipper\\\\test\\\\broken_teeth\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz"
+    },
+    {
+      "dataset": "mvtec",
+      "seed": 0,
+      "shot": 4,
+      "category": "zipper",
+      "method": "PatchCore_native_official224",
+      "label": "PatchCore\nofficial 224",
+      "reason": "unreadable source npz: ValueError: 'D:\\\\STUDY\\\\My_github\\\\sci_project\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4\\\\zipper\\\\test\\\\broken_teeth\\\\000.png' is not in the subpath of 'D:\\\\STUDY\\\\My_github\\\\reference-matching-interaction-ad\\\\data\\\\patchcore_closeout\\\\mvtec_s0_k4' OR one path is relative and the other is absolute.",
+      "expected_source": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz"
+    }
+  ],
   "sources": [
     {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\bottle\\patch_scores.npz",
@@ -2548,38 +3209,6 @@
       "category": "bottle"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_bottle.npz",
-      "exists": true,
-      "size_bytes": 349183,
-      "mtime": "2026-09-19T04:50:40",
-      "method": "anomalydino_canvas",
-      "category": "bottle"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_bottle.npz",
-      "exists": true,
-      "size_bytes": 348196,
-      "mtime": "2026-09-19T07:01:55",
-      "method": "anomalydino_canvas_rotation",
-      "category": "bottle"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz",
-      "exists": true,
-      "size_bytes": 4748804,
-      "mtime": "2026-09-19T10:25:51",
-      "method": "PatchCore_native_local128",
-      "category": "bottle"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_bottle.npz",
-      "exists": true,
-      "size_bytes": 14648455,
-      "mtime": "2026-09-18T20:07:43",
-      "method": "PatchCore_native_official224",
-      "category": "bottle"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\cable\\patch_scores.npz",
       "exists": true,
       "size_bytes": 11182440,
@@ -2593,38 +3222,6 @@
       "size_bytes": 11182440,
       "mtime": "2026-09-17T12:03:26",
       "method": "controlled_A1_L",
-      "category": "cable"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_cable.npz",
-      "exists": true,
-      "size_bytes": 610492,
-      "mtime": "2026-09-19T04:50:53",
-      "method": "anomalydino_canvas",
-      "category": "cable"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_cable.npz",
-      "exists": true,
-      "size_bytes": 607912,
-      "mtime": "2026-09-19T07:02:13",
-      "method": "anomalydino_canvas_rotation",
-      "category": "cable"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_cable.npz",
-      "exists": true,
-      "size_bytes": 8543167,
-      "mtime": "2026-09-19T10:26:05",
-      "method": "PatchCore_native_local128",
-      "category": "cable"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_cable.npz",
-      "exists": true,
-      "size_bytes": 25890397,
-      "mtime": "2026-09-18T20:08:21",
-      "method": "PatchCore_native_official224",
       "category": "cable"
     },
     {
@@ -2644,38 +3241,6 @@
       "category": "capsule"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_capsule.npz",
-      "exists": true,
-      "size_bytes": 497265,
-      "mtime": "2026-09-19T04:51:04",
-      "method": "anomalydino_canvas",
-      "category": "capsule"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_capsule.npz",
-      "exists": true,
-      "size_bytes": 496751,
-      "mtime": "2026-09-19T07:02:29",
-      "method": "anomalydino_canvas_rotation",
-      "category": "capsule"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz",
-      "exists": true,
-      "size_bytes": 7490412,
-      "mtime": "2026-09-19T10:26:20",
-      "method": "PatchCore_native_local128",
-      "category": "capsule"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_capsule.npz",
-      "exists": true,
-      "size_bytes": 23258853,
-      "mtime": "2026-09-18T20:08:57",
-      "method": "PatchCore_native_official224",
-      "category": "capsule"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\carpet\\patch_scores.npz",
       "exists": true,
       "size_bytes": 8627515,
@@ -2689,38 +3254,6 @@
       "size_bytes": 8627515,
       "mtime": "2026-09-17T12:04:31",
       "method": "controlled_A1_L",
-      "category": "carpet"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_carpet.npz",
-      "exists": true,
-      "size_bytes": 451232,
-      "mtime": "2026-09-19T04:51:14",
-      "method": "anomalydino_canvas",
-      "category": "carpet"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_carpet.npz",
-      "exists": true,
-      "size_bytes": 449504,
-      "mtime": "2026-09-19T07:02:44",
-      "method": "anomalydino_canvas_rotation",
-      "category": "carpet"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz",
-      "exists": true,
-      "size_bytes": 6687602,
-      "mtime": "2026-09-19T10:26:33",
-      "method": "PatchCore_native_local128",
-      "category": "carpet"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_carpet.npz",
-      "exists": true,
-      "size_bytes": 20439769,
-      "mtime": "2026-09-18T20:09:30",
-      "method": "PatchCore_native_official224",
       "category": "carpet"
     },
     {
@@ -2740,38 +3273,6 @@
       "category": "grid"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_grid.npz",
-      "exists": true,
-      "size_bytes": 307235,
-      "mtime": "2026-09-19T04:51:20",
-      "method": "anomalydino_canvas",
-      "category": "grid"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_grid.npz",
-      "exists": true,
-      "size_bytes": 307632,
-      "mtime": "2026-09-19T07:02:54",
-      "method": "anomalydino_canvas_rotation",
-      "category": "grid"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_grid.npz",
-      "exists": true,
-      "size_bytes": 4359634,
-      "mtime": "2026-09-19T10:26:41",
-      "method": "PatchCore_native_local128",
-      "category": "grid"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_grid.npz",
-      "exists": true,
-      "size_bytes": 13009617,
-      "mtime": "2026-09-18T20:09:52",
-      "method": "PatchCore_native_official224",
-      "category": "grid"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\hazelnut\\patch_scores.npz",
       "exists": true,
       "size_bytes": 8209503,
@@ -2785,38 +3286,6 @@
       "size_bytes": 8209503,
       "mtime": "2026-09-17T12:05:25",
       "method": "controlled_A1_L",
-      "category": "hazelnut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_hazelnut.npz",
-      "exists": true,
-      "size_bytes": 443889,
-      "mtime": "2026-09-19T04:51:29",
-      "method": "anomalydino_canvas",
-      "category": "hazelnut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_hazelnut.npz",
-      "exists": true,
-      "size_bytes": 441120,
-      "mtime": "2026-09-19T07:03:07",
-      "method": "anomalydino_canvas_rotation",
-      "category": "hazelnut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz",
-      "exists": true,
-      "size_bytes": 6336983,
-      "mtime": "2026-09-19T10:26:52",
-      "method": "PatchCore_native_local128",
-      "category": "hazelnut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_hazelnut.npz",
-      "exists": true,
-      "size_bytes": 19357701,
-      "mtime": "2026-09-18T20:10:15",
-      "method": "PatchCore_native_official224",
       "category": "hazelnut"
     },
     {
@@ -2836,38 +3305,6 @@
       "category": "leather"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_leather.npz",
-      "exists": true,
-      "size_bytes": 470191,
-      "mtime": "2026-09-19T04:51:39",
-      "method": "anomalydino_canvas",
-      "category": "leather"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_leather.npz",
-      "exists": true,
-      "size_bytes": 469011,
-      "mtime": "2026-09-19T07:03:21",
-      "method": "anomalydino_canvas_rotation",
-      "category": "leather"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_leather.npz",
-      "exists": true,
-      "size_bytes": 7111994,
-      "mtime": "2026-09-19T10:27:04",
-      "method": "PatchCore_native_local128",
-      "category": "leather"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_leather.npz",
-      "exists": true,
-      "size_bytes": 21321190,
-      "mtime": "2026-09-18T20:10:46",
-      "method": "PatchCore_native_official224",
-      "category": "leather"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\metal_nut\\patch_scores.npz",
       "exists": true,
       "size_bytes": 8535588,
@@ -2881,38 +3318,6 @@
       "size_bytes": 8535588,
       "mtime": "2026-09-17T12:06:26",
       "method": "controlled_A1_L",
-      "category": "metal_nut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_metal_nut.npz",
-      "exists": true,
-      "size_bytes": 504624,
-      "mtime": "2026-09-19T04:51:48",
-      "method": "anomalydino_canvas",
-      "category": "metal_nut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_metal_nut.npz",
-      "exists": true,
-      "size_bytes": 502382,
-      "mtime": "2026-09-19T07:03:33",
-      "method": "anomalydino_canvas_rotation",
-      "category": "metal_nut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz",
-      "exists": true,
-      "size_bytes": 6611362,
-      "mtime": "2026-09-19T10:27:15",
-      "method": "PatchCore_native_local128",
-      "category": "metal_nut"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_metal_nut.npz",
-      "exists": true,
-      "size_bytes": 20108182,
-      "mtime": "2026-09-18T20:11:11",
-      "method": "PatchCore_native_official224",
       "category": "metal_nut"
     },
     {
@@ -2932,38 +3337,6 @@
       "category": "pill"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_pill.npz",
-      "exists": true,
-      "size_bytes": 652074,
-      "mtime": "2026-09-19T04:52:00",
-      "method": "anomalydino_canvas",
-      "category": "pill"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_pill.npz",
-      "exists": true,
-      "size_bytes": 649059,
-      "mtime": "2026-09-19T07:03:50",
-      "method": "anomalydino_canvas_rotation",
-      "category": "pill"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_pill.npz",
-      "exists": true,
-      "size_bytes": 9395678,
-      "mtime": "2026-09-19T10:27:29",
-      "method": "PatchCore_native_local128",
-      "category": "pill"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_pill.npz",
-      "exists": true,
-      "size_bytes": 28693470,
-      "mtime": "2026-09-18T20:11:48",
-      "method": "PatchCore_native_official224",
-      "category": "pill"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\screw\\patch_scores.npz",
       "exists": true,
       "size_bytes": 11888560,
@@ -2977,38 +3350,6 @@
       "size_bytes": 11888560,
       "mtime": "2026-09-17T12:07:39",
       "method": "controlled_A1_L",
-      "category": "screw"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_screw.npz",
-      "exists": true,
-      "size_bytes": 609278,
-      "mtime": "2026-09-19T04:52:12",
-      "method": "anomalydino_canvas",
-      "category": "screw"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_screw.npz",
-      "exists": true,
-      "size_bytes": 592863,
-      "mtime": "2026-09-19T07:04:07",
-      "method": "anomalydino_canvas_rotation",
-      "category": "screw"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_screw.npz",
-      "exists": true,
-      "size_bytes": 9199773,
-      "mtime": "2026-09-19T10:27:44",
-      "method": "PatchCore_native_local128",
-      "category": "screw"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_screw.npz",
-      "exists": true,
-      "size_bytes": 28312555,
-      "mtime": "2026-09-18T20:12:31",
-      "method": "PatchCore_native_official224",
       "category": "screw"
     },
     {
@@ -3028,38 +3369,6 @@
       "category": "tile"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_tile.npz",
-      "exists": true,
-      "size_bytes": 508023,
-      "mtime": "2026-09-19T04:52:21",
-      "method": "anomalydino_canvas",
-      "category": "tile"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_tile.npz",
-      "exists": true,
-      "size_bytes": 505960,
-      "mtime": "2026-09-19T07:04:20",
-      "method": "anomalydino_canvas_rotation",
-      "category": "tile"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_tile.npz",
-      "exists": true,
-      "size_bytes": 6705111,
-      "mtime": "2026-09-19T10:27:57",
-      "method": "PatchCore_native_local128",
-      "category": "tile"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_tile.npz",
-      "exists": true,
-      "size_bytes": 20293126,
-      "mtime": "2026-09-18T20:13:05",
-      "method": "PatchCore_native_official224",
-      "category": "tile"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\toothbrush\\patch_scores.npz",
       "exists": true,
       "size_bytes": 3114749,
@@ -3073,38 +3382,6 @@
       "size_bytes": 3114749,
       "mtime": "2026-09-17T12:08:32",
       "method": "controlled_A1_L",
-      "category": "toothbrush"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_toothbrush.npz",
-      "exists": true,
-      "size_bytes": 171783,
-      "mtime": "2026-09-19T04:52:24",
-      "method": "anomalydino_canvas",
-      "category": "toothbrush"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_toothbrush.npz",
-      "exists": true,
-      "size_bytes": 171606,
-      "mtime": "2026-09-19T07:04:25",
-      "method": "anomalydino_canvas_rotation",
-      "category": "toothbrush"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz",
-      "exists": true,
-      "size_bytes": 2416441,
-      "mtime": "2026-09-19T10:28:04",
-      "method": "PatchCore_native_local128",
-      "category": "toothbrush"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_toothbrush.npz",
-      "exists": true,
-      "size_bytes": 7426984,
-      "mtime": "2026-09-18T20:13:22",
-      "method": "PatchCore_native_official224",
       "category": "toothbrush"
     },
     {
@@ -3124,38 +3401,6 @@
       "category": "transistor"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_transistor.npz",
-      "exists": true,
-      "size_bytes": 402165,
-      "mtime": "2026-09-19T04:52:33",
-      "method": "anomalydino_canvas",
-      "category": "transistor"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_transistor.npz",
-      "exists": true,
-      "size_bytes": 401038,
-      "mtime": "2026-09-19T07:04:36",
-      "method": "anomalydino_canvas_rotation",
-      "category": "transistor"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz",
-      "exists": true,
-      "size_bytes": 5650621,
-      "mtime": "2026-09-19T10:28:13",
-      "method": "PatchCore_native_local128",
-      "category": "transistor"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_transistor.npz",
-      "exists": true,
-      "size_bytes": 17196685,
-      "mtime": "2026-09-18T20:13:44",
-      "method": "PatchCore_native_official224",
-      "category": "transistor"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\wood\\patch_scores.npz",
       "exists": true,
       "size_bytes": 5864801,
@@ -3172,38 +3417,6 @@
       "category": "wood"
     },
     {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_wood.npz",
-      "exists": true,
-      "size_bytes": 333883,
-      "mtime": "2026-09-19T04:52:40",
-      "method": "anomalydino_canvas",
-      "category": "wood"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_wood.npz",
-      "exists": true,
-      "size_bytes": 333739,
-      "mtime": "2026-09-19T07:04:46",
-      "method": "anomalydino_canvas_rotation",
-      "category": "wood"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_wood.npz",
-      "exists": true,
-      "size_bytes": 4520532,
-      "mtime": "2026-09-19T10:28:22",
-      "method": "PatchCore_native_local128",
-      "category": "wood"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_wood.npz",
-      "exists": true,
-      "size_bytes": 13740767,
-      "mtime": "2026-09-18T20:14:06",
-      "method": "PatchCore_native_official224",
-      "category": "wood"
-    },
-    {
       "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\generalization_mvtec_visa_20260915\\p1_matrix\\units\\mvtec_s0_k1\\zipper\\patch_scores.npz",
       "exists": true,
       "size_bytes": 11059816,
@@ -3217,38 +3430,6 @@
       "size_bytes": 11059816,
       "mtime": "2026-09-17T12:09:43",
       "method": "controlled_A1_L",
-      "category": "zipper"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas\\mvtec_s0_k1_zipper.npz",
-      "exists": true,
-      "size_bytes": 588211,
-      "mtime": "2026-09-19T04:52:51",
-      "method": "anomalydino_canvas",
-      "category": "zipper"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines\\region_maps\\anomalydino_canvas_rotation\\mvtec_s0_k1_zipper.npz",
-      "exists": true,
-      "size_bytes": 586753,
-      "mtime": "2026-09-19T07:05:02",
-      "method": "anomalydino_canvas_rotation",
-      "category": "zipper"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout\\mvtec_closeout\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz",
-      "exists": true,
-      "size_bytes": 8666356,
-      "mtime": "2026-09-19T10:28:33",
-      "method": "PatchCore_native_local128",
-      "category": "zipper"
-    },
-    {
-      "path": "D:\\STUDY\\My_github\\sci_project\\outputs\\patchcore\\closeout_official224\\mvtec_official224\\mvtec_s0_k1\\predictions\\mvtec_zipper.npz",
-      "exists": true,
-      "size_bytes": 26497423,
-      "mtime": "2026-09-18T20:14:35",
-      "method": "PatchCore_native_official224",
       "category": "zipper"
     }
   ],
@@ -3257,6 +3438,7 @@
     "resampling": "s8_common_region.remap_to_region, linear for the score maps, nearest for the ground truth; identical to the S8 evaluation",
     "sample_selection": "per category, the --samples-per-category test images among those whose ground truth covers at least max(16, 0.0005 * region pixels) region pixels, ranked by the per-sample Pixel-AP spread (max - min) across the method columns that have data; ties broken by sample id; the spread is computed on the region grid",
     "colour_rule": "one cmap (magma) with one shared min-max range per row across the method columns",
+    "contour_rule": "display only: each method column's score map on the region grid is quantised to 256 bins and split at the threshold maximising the between-class variance (first maximum on ties); the contour of the map at or above that threshold is drawn in cyan on every method column, so all compared methods are treated alike; it is not the detection threshold behind any reported metric",
     "degradation": "a method with no per-sample dump for a unit keeps its column and is drawn as an n/a panel; the run does not abort"
   },
   "interpretation_limit": "the rows are display examples selected by the rule above, not a random sample, and the per-sample numbers are region-grid values; the category-level numbers stay in the S8 table",
