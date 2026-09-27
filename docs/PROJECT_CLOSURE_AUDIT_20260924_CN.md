@@ -42,7 +42,7 @@
 
 | # | 编号（别名） | 事项（一句话） | 归属 | 依据（文件:行 / 实测） | 下一步 |
 |---|---|---|---|---|---|
-| 1 | **E-01…E-04**（R-16、§七A） | 作者元数据（作者/单位/通讯/ORCID/资助）与 COI/伦理是否保留现句 | **作者** | `PRE_SUBMISSION_REVIEW_20260925_CN.md:23`（已确认作者 Yuening Li、单位 Hefei University of Technology；学院/详细地址/邮编未给，不代填）；`FINAL_REPAIR…§五`（4 个占位仍在） | 作者补 4 处占位后我方可重建 |
+| 1 | **E-01…E-04**（R-16、§七A） | 作者元数据（作者/单位/通讯/ORCID/资助）与 COI/伦理是否保留现句 | **作者** | `PRE_SUBMISSION_REVIEW_20260925_CN.md:23`（已确认作者 Yuening Li、单位 Hefei University of Technology；学院/详细地址/邮编未给，不代填）；`FINAL_REPAIR…§五`（当时 4 个占位；**2026-09-26 复核实读：现役 `English_Manuscript_Source.md` 与现役 docx 均为 3 处占位** = `[[CORRESPONDING_AUTHOR]]` / `[[FUNDING]]` / `[[COMPETING_INTERESTS_TO_BE_CONFIRMED]]`，见 `FINAL_SUBMISSION_20260926/README.md` §提交前仍需作者确认-1） | 作者补 3 处占位后我方可重建 |
 | 2 | **E-05**（R-16/R-17、P3-5/P3-6） | 归档 DOI（Zenodo/等效）取得并回填；审稿阶段是否公开代码 | **作者** | `SUBMISSION_METADATA.md`「归档 DOI 获取步骤（作者执行）」已备；稿件仍如实写 "a permanent archive DOI … has not yet been established" | 作者按步骤取 DOI → 8 条回填点 |
 | 3 | **A-21 / B-06 / C-02**（T09） | 命名：单字母/短代码 → **完整模型名或描述性配置名** | **已完成决策，交付件待重建**（进行中，见 §二.6） | 盘上实读：`scripts/paper_complete_review_20260920/figure_sources/display_labels.py`（**未跟踪**，1,830 B，映射 `A1→Dual-encoder baseline` 等）；`English_Manuscript_Source.md` 含新名 **5 处**；**但**现役 docx 内 `Dual-encoder baseline` = **0**、`Equal-weight replacement` = 1（属旧"温和版"） | 由进行中的命名轮重建 docx/deck 后复核 |
 | 4 | **E-08**（R-01/R-02/R-04/R-13/R-14/R-15、M2、P1-1…P1-7） | 复现包重打：补 `src/`+`configs/`+`methods/`、`requirements_repro.txt` 补 CUDA index、`SOURCE_COMMIT.txt`+`SHA256SUMS`、`paper_evidence_closeout` 台账、`seeds_extension/p0_support/`、回填 `VD1_MANIFEST.json` | **作者 + 我方** | `EXPERIMENT_GAP…§二 A13`；`ISSUE_REGISTER…R-01/02/04/13/14/15`；**权重再分发许可**未定（`docs/MODEL_WEIGHTS.md` 已声明本包不分发权重） | ① 作者定 `methods/` 方案 (a)/(b) 与权重许可；② 我方按方案补包 |
@@ -105,6 +105,22 @@
 ### 二.3 需新写脚本 / 新实验
 
 > **2026-09-26 刷新**：原 X1（A04）、X2（A11）、X3（A22）**均已新写脚本并执行完毕**，移出本表（A04 / A22 见 §九.2 / §九.1；**A11 见 §二.1 C14 与 §十**）。本表只剩 **2** 项。
+
+> **2026-09-26 第二次刷新（A01 / A06 收口轮）**：
+> **A06 已执行完毕**——`scripts/figures_reference_matching_20260914/build_fig7_multimethod_samples.py` 增加"全方法列同规则显示轮廓"（每列按自身分值图做 256 箱、最大化类间方差的切分，首峰并列取最小箱；青色描线；仅显示用，不进任何已报指标），36 张附录面板全部重生成并同步 `docs/paper_complete_review_20260920/figures/multimethod/`；正文句与 5 条图注同步改写（`manuscript.md`、`figures.json`）。生成过程跑过项目自带字体/版面门（11.5 pt 底），`qa_layout.py` **TOTAL PROBLEMS: 0**。
+> **A01 的图像级区间已闭合**——新增 `scripts/prereg_20260924/a01_image_level_interval.py`（图像级自助 1000 次；逐类均值→逐条件均值；单元级 parity 与 Table 21 汇总 parity 双通过），产物 `experiments/prereg_20260924/out/A01/A01_IMAGE_LEVEL_INTERVALS.json`，并以 **Table S3** 入稿（`tables.json` 的 `image_intervals` 键 + `results.md` 引用）。
+> 处置后：本表只剩 **X2（E-08 复现包重打）**，仍卡在**权重再分发许可**（作者决策）。上述改动全部为文本/图件层，未触碰任何冻结产物与已报数字。
+
+> **X2（E-08）本轮处置与未决清单（2026-09-26 追加）**
+> **本轮已完成（安全、确定、可逆）**：P1-2 —— `requirements_repro.txt` 补齐 CUDA 11.8 索引（文件内加 `--extra-index-url https://download.pytorch.org/whl/cu118`，并在安装命令中同步），使裸 `pip install -r` 能解析 `torch==2.0.0+cu118` / `torchvision==0.15.1+cu118`。P1-3 经实读已在盘（`docs/MODEL_WEIGHTS.md`，46 项 SHA-256）。
+> **本轮刻意未动（需作者决策或触碰纪律红线）**：
+> 1. **P1-1 `src/` + `configs/` + `methods/` 的纳入方案**——`MASTER_TODO` §十六 已记"`methods/` 处置方案 (a)/(b)"**待拍板**；方案未定前打包只会返工；
+> 2. **P1-4 `SOURCE_COMMIT.txt` + `SHA256SUMS`**——需要一个稳定 commit 才能定值；在"不提交、不推送"的现行要求下生成即为过期值；
+> 3. **P1-7 `VD1_MANIFEST.json` 的 `manifest_sha256` 回填**——该文件属 `seeds_extension_20260917` 冻结产物族，回填需作者授权（与 `E-11` 的"包内 SHA256SUMS 两处漂移"同源）；
+> 4. **P1-5 / P1-6 台账与 `p0_support/`**——与 P1-1 的目录方案绑定，一并等方案；
+> 5. **权重本体是否入包**——**权重再分发许可**（本表 X2 的原始卡点）；
+> 6. `git push` / tag / DOI 回填——按要求不执行。
+> **结论**：E-08 是**多决策点耦合**项，不是单点执行项；在上述 6 项落定前无法"重打"出一个自洽的包。建议作者按 (1)→(5) 的顺序一次性拍板，之后本轮可**一次性**完成打包并出校验清单。
 
 | # | 事项 | 缺什么 | 成本估算 | 为什么现在不做 |
 |---|---|---|---|---|
@@ -382,4 +398,4 @@
 4. 本轮**未**触发 RAM 停止规则以外的任何中断；§九.3 记的 2026-09-25 19:12:42 一次 RAM 规则误杀属前一轮已登记事项，其修正版在本次运行中未再触发。
 # 2026-09-26 最终图文复核更正
 
-本文件保留历次记录。§8.2 中对 BTAD stride-one 与 stride-eight 区间宽度的比较混用了 canonical-mask 和 corrected geometry，不能解释为同口径分辨率效应；现役稿已删除这一推断，保留 MPDD 同口径比较。最新导出、验收及限制见 [20260925 修订与验收](paper_complete_review_20260920/修订说明与验收_20260925.md) 和 [投稿前复核](PRE_SUBMISSION_REVIEW_20260925_CN.md)。
+本文件保留历次记录。§8.2 中对 BTAD stride-one 与 stride-eight 区间宽度的比较混用了 canonical-mask 和 corrected geometry，不能解释为同口径分辨率效应；现役稿已删除这一推断，保留 MPDD 同口径比较。最新导出、验收及限制见 [投稿前复核与命名修订记录](PRE_SUBMISSION_REVIEW_20260925_CN.md) 与本文件 §八（09-25 收尾）、§九（A22/A04）、§十（A11）。

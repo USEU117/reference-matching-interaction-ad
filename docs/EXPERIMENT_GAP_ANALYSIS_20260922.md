@@ -161,6 +161,7 @@
 - **A07**：方差覆盖范围已写明 —— `results.md:133`（"covers MPDD and BTAD only; no corresponding cross-seed table is available for MVTec AD, VisA or KolektorSDD2"）。
 - **A10**：首轮离群已披露 —— `results.md:159`（首轮 30.527 s / 重测 24.190 s，并指向 `_bench_speed_vram/recheck/`）。
 - **A13**：`docs/MODEL_WEIGHTS.md`（逐权重 目标路径 / 字节数 / SHA-256 / 获取方式）与 `docs/REPRODUCE_TO_TABLES.md`（重建路径）**均在盘**，`manuscript.md:224` 已引用两者，`manuscript.md:226` 已给公开仓库 URL。
+- **A01（2026-09-26 二次回填，图像级区间）**：上条"仍未覆盖"的两半中，**"无图像级区间"已闭合**——新增 `scripts/prereg_20260924/a01_image_level_interval.py`（图像级自助 1000 次，逐类均值→逐条件均值），产物 `experiments/prereg_20260924/out/A01/A01_IMAGE_LEVEL_INTERVALS.json`；单元级重算与 `metrics.csv` **逐值精确相等**，汇总点估计与 Table 21 最大偏差 `4.9e-05`（4 位小数舍入内），0 次退化重采样。已以 **Table S3**（`tables.json` 的 `image_intervals`）入稿，`results.md` 原句 "no image-level interval is claimed" 改写为指向 S3。**仍保留的一半**：Table 21 依旧只列 two anchors，未扩到全部外部方法。故 A01 由"部分满足"细化为"**区间已闭合、覆盖面仍限 two anchors**"。
 
 ### 7.2 B 线带来的新增欠缺（A18–A23）
 
