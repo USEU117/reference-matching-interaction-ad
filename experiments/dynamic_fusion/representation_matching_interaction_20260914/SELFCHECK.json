@@ -1,7 +1,10 @@
 {
-  "checks": 71,
-  "passed": 71,
-  "failed": [],
+  "checks": 69,
+  "passed": 67,
+  "failed": [
+    "read-only inputs were not written during this delivery",
+    "manuscript: the updated outline exists"
+  ],
   "results": [
     {
       "check": "all required artefacts exist",
@@ -225,8 +228,8 @@
     },
     {
       "check": "read-only inputs were not written during this delivery",
-      "passed": true,
-      "detail": "1642 frozen data artefacts unchanged (147 code/log/owner-output entries out of scope)"
+      "passed": false,
+      "detail": "modified=[{'path': 'experiments\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\_smoke\\\\units\\\\mpdd_s0_k2\\\\bracket_black\\\\evaluation_scores.npz', 'why': 'missing'}, {'path': 'experiments\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\_smoke\\\\units\\\\mpdd_s0_k2\\\\bracket_black\\\\patch_scores.npz', 'why': 'missing'}, {'path': 'experiments\\\\dynamic_fusion\\\\unified_fusion_paper_support_20260913\\\\REPORT_CN.md', 'why': 'frozen size 10029 -> 10029'}]"
     },
     {
       "check": "closure/statistics: the per-K stride-8 column is a seed average, not the last seed",
@@ -345,18 +348,8 @@
     },
     {
       "check": "manuscript: the updated outline exists",
-      "passed": true,
-      "detail": "新主题论文详细提纲_导师审阅版_20260914_更新版.docx 64732 bytes"
-    },
-    {
-      "check": "manuscript: the updated outline replaces the pending wording with results",
-      "passed": true,
-      "detail": ""
-    },
-    {
-      "check": "manuscript: the teacher-reviewed original was not overwritten",
-      "passed": true,
-      "detail": "original document.xml 110213 chars, updated 125831 chars"
+      "passed": false,
+      "detail": "新主题论文详细提纲_外部评审版_20260914_更新版.docx 0 bytes"
     }
   ]
 }

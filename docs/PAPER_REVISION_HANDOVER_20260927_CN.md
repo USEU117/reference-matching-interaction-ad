@@ -138,7 +138,10 @@ python scripts/paper_complete_review_20260920/build.py
 - [ ] 28 张内嵌图与 `figures.json` 绑定路径**逐张哈希一致**
 - [ ] control parity 两值未变；全文无 `SOTA|outperforms`；`0 target-trainable parameters` 仍在
 - [ ] `Read-only proof` verdict 未变
-- [ ] 门禁自检 `python scripts/representation_matching_interaction_20260914/selfcheck.py`——**已知 2/69 失败项**（`read-only inputs were not written`、`manuscript: the updated outline exists`），先确认是否仍失败再决定是否一并修
+- [ ] 门禁自检 `python scripts/representation_matching_interaction_20260914/selfcheck.py`：**2026-09-27 实测 67/69**，两处失败均为**既有状态、与本次修改无关**：
+  1. `read-only inputs were not written during this delivery` —— 2 个 `experiments/dynamic_fusion/unified_fusion_paper_support_20260913/_smoke/units/mpdd_s0_k2/bracket_black/{evaluation,patch}_scores.npz` **已缺失**（提交 `3cdc9f0` 的 scratch-tree 清理所致），另有 `…/unified_fusion_paper_support_20260913/REPORT_CN.md` 被标记；**`READONLY_PROOF.json` 的 `verdict` 仍为 `no frozen read-only input was written`**（硬声明未被推翻，是该检查比 verdict 更严）。
+  2. `manuscript: the updated outline exists` —— `新主题论文详细提纲_外部评审版_20260914_更新版.docx` 为 **0 字节**。
+  若本轮要动这两项，先判断是"补回文件"还是"更新冻结清单"，**不要**直接改 `verdict` 文本或删检查项。
 
 ---
 
