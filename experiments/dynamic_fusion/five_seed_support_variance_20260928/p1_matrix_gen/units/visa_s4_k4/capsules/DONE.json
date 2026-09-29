@@ -1,0 +1,233 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-29T08:30:29.578931+00:00",
+  "dataset": "visa",
+  "seed": 4,
+  "shot": 4,
+  "category": "capsules",
+  "grid": [
+    32,
+    48
+  ],
+  "n_images": 160,
+  "configurations": 45,
+  "reference_images": 4,
+  "timing": {
+    "load_s": 10.140999999999622,
+    "score_s": 24.59400000000096,
+    "metric_s": 22.5,
+    "total_s": 58.875
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\B\\visa_s4_k8\\capsules.npz",
+    "S": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\S\\visa_s4_k8\\capsules.npz",
+    "C": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\C\\visa_s4_k8\\capsules.npz"
+  },
+  "engine": {
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 160,
+    "grid": [
+      32,
+      48
+    ],
+    "query_rows": 245760,
+    "reference_rows": 6144,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_cross_p01",
+      "TRI_J__perm_C_cross_p01",
+      "TRI_J__perm_S_cross_p01",
+      "BAL_J__perm_C_cross_p01",
+      "BAL_J__perm_S_cross_p01",
+      "A1_J__perm_C_cross_p02",
+      "TRI_J__perm_C_cross_p02",
+      "TRI_J__perm_S_cross_p02",
+      "BAL_J__perm_C_cross_p02",
+      "BAL_J__perm_S_cross_p02",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      48
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.977956449631412,
+        "pixel_ap": 0.39722671467209103,
+        "image_auroc": 0.9626666666666668,
+        "image_ap": 0.973647531575911,
+        "image_f1_max": 0.9411764705882353
+      },
+      "S": {
+        "pixel_auroc": 0.9710285804058592,
+        "pixel_ap": 0.3005673404096695,
+        "image_auroc": 0.9671666666666667,
+        "image_ap": 0.9775809166634033,
+        "image_f1_max": 0.9428571428571428
+      },
+      "C": {
+        "pixel_auroc": 0.9310281754507674,
+        "pixel_ap": 0.16559933609629687,
+        "image_auroc": 0.8674999999999999,
+        "image_ap": 0.9109867841747209,
+        "image_f1_max": 0.8508771929824562
+      },
+      "A1_J": {
+        "pixel_auroc": 0.978268973169776,
+        "pixel_ap": 0.3937752634138158,
+        "image_auroc": 0.9818333333333333,
+        "image_ap": 0.9875102390551111,
+        "image_f1_max": 0.97
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9756869737798938,
+        "pixel_ap": 0.37058966185562336,
+        "image_auroc": 0.9796666666666667,
+        "image_ap": 0.9867887460812601,
+        "image_f1_max": 0.9514563106796116
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9747078779815758,
+        "pixel_ap": 0.3580131125152743,
+        "image_auroc": 0.9830000000000001,
+        "image_ap": 0.9895946132488779,
+        "image_f1_max": 0.96
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9791450865550985,
+        "pixel_ap": 0.4059019030794867,
+        "image_auroc": 0.9763333333333333,
+        "image_ap": 0.9830909826810901,
+        "image_f1_max": 0.9651741293532338
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.978268973169776,
+        "pixel_ap": 0.3937752634138158,
+        "image_auroc": 0.9818333333333333,
+        "image_ap": 0.9875102390551111,
+        "image_f1_max": 0.97
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9791450865550985,
+        "pixel_ap": 0.4059019030794867,
+        "image_auroc": 0.9763333333333333,
+        "image_ap": 0.9830909826810901,
+        "image_f1_max": 0.9651741293532338
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9787625190455798,
+        "pixel_ap": 0.38478223936572764,
+        "image_auroc": 0.9776666666666667,
+        "image_ap": 0.984137458105365,
+        "image_f1_max": 0.96
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.978605752402296,
+        "pixel_ap": 0.39442292698768594,
+        "image_auroc": 0.97,
+        "image_ap": 0.9788159572737472,
+        "image_f1_max": 0.9509803921568627
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9787006361274977,
+        "pixel_ap": 0.3656773945003827,
+        "image_auroc": 0.9791666666666667,
+        "image_ap": 0.9847272722309733,
+        "image_f1_max": 0.9560975609756097
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.978566451925709,
+        "pixel_ap": 0.35552559739891487,
+        "image_auroc": 0.9804999999999999,
+        "image_ap": 0.986810257940155,
+        "image_f1_max": 0.9552238805970149
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\capsules\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "613f664497e720bcf32e3ec7c3ff7fd1fdb4a85b6e656fd16d0214c96ade4199"
+}

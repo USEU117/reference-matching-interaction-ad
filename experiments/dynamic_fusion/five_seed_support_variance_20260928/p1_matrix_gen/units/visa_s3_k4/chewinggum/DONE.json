@@ -1,0 +1,233 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-29T08:19:50.375634+00:00",
+  "dataset": "visa",
+  "seed": 3,
+  "shot": 4,
+  "category": "chewinggum",
+  "grid": [
+    32,
+    38
+  ],
+  "n_images": 150,
+  "configurations": 45,
+  "reference_images": 4,
+  "timing": {
+    "load_s": 7.938000000001921,
+    "score_s": 15.56300000000192,
+    "metric_s": 16.187999999998283,
+    "total_s": 40.98500000000058
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\B\\visa_s3_k8\\chewinggum.npz",
+    "S": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\S\\visa_s3_k8\\chewinggum.npz",
+    "C": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\C\\visa_s3_k8\\chewinggum.npz"
+  },
+  "engine": {
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 150,
+    "grid": [
+      32,
+      38
+    ],
+    "query_rows": 182400,
+    "reference_rows": 4864,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_cross_p01",
+      "TRI_J__perm_C_cross_p01",
+      "TRI_J__perm_S_cross_p01",
+      "BAL_J__perm_C_cross_p01",
+      "BAL_J__perm_S_cross_p01",
+      "A1_J__perm_C_cross_p02",
+      "TRI_J__perm_C_cross_p02",
+      "TRI_J__perm_S_cross_p02",
+      "BAL_J__perm_C_cross_p02",
+      "BAL_J__perm_S_cross_p02",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      38
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.994025719178423,
+        "pixel_ap": 0.7507890783748534,
+        "image_auroc": 0.9695999999999999,
+        "image_ap": 0.984392192282753,
+        "image_f1_max": 0.9509803921568627
+      },
+      "S": {
+        "pixel_auroc": 0.9941671315714714,
+        "pixel_ap": 0.6828233341839698,
+        "image_auroc": 0.9682,
+        "image_ap": 0.9868397267694842,
+        "image_f1_max": 0.9543147208121826
+      },
+      "C": {
+        "pixel_auroc": 0.9917228452241902,
+        "pixel_ap": 0.49663645555672054,
+        "image_auroc": 0.9603999999999999,
+        "image_ap": 0.9837088639349243,
+        "image_f1_max": 0.9312169312169312
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9939965183879509,
+        "pixel_ap": 0.7215561834997054,
+        "image_auroc": 0.9754,
+        "image_ap": 0.9894544692792979,
+        "image_f1_max": 0.9543147208121826
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9939333061307947,
+        "pixel_ap": 0.7195477548240916,
+        "image_auroc": 0.9722000000000001,
+        "image_ap": 0.9889691962753652,
+        "image_f1_max": 0.9591836734693877
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9939752340790508,
+        "pixel_ap": 0.6889052911802416,
+        "image_auroc": 0.9732000000000001,
+        "image_ap": 0.9893237676141201,
+        "image_f1_max": 0.9591836734693877
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9940564300377549,
+        "pixel_ap": 0.753108707193595,
+        "image_auroc": 0.9738,
+        "image_ap": 0.9882946508693342,
+        "image_f1_max": 0.9543147208121826
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9939965183879509,
+        "pixel_ap": 0.7215561834997054,
+        "image_auroc": 0.9754,
+        "image_ap": 0.9894544692792979,
+        "image_f1_max": 0.9543147208121826
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9940564300377549,
+        "pixel_ap": 0.753108707193595,
+        "image_auroc": 0.9738,
+        "image_ap": 0.9882946508693342,
+        "image_f1_max": 0.9543147208121826
+      },
+      "A1_L": {
+        "pixel_auroc": 0.994600666940954,
+        "pixel_ap": 0.7185235393895678,
+        "image_auroc": 0.9786,
+        "image_ap": 0.9904467959434691,
+        "image_f1_max": 0.9543147208121826
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.9944161105715337,
+        "pixel_ap": 0.7401595483418418,
+        "image_auroc": 0.975,
+        "image_ap": 0.9884776917596587,
+        "image_f1_max": 0.9494949494949495
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9949233896632464,
+        "pixel_ap": 0.7227582660216392,
+        "image_auroc": 0.9775999999999999,
+        "image_ap": 0.990631454003224,
+        "image_f1_max": 0.9595959595959594
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9950525038021729,
+        "pixel_ap": 0.7006056870608135,
+        "image_auroc": 0.9788,
+        "image_ap": 0.9911785280799852,
+        "image_f1_max": 0.9591836734693877
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s3_k4\\chewinggum\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "613f664497e720bcf32e3ec7c3ff7fd1fdb4a85b6e656fd16d0214c96ade4199"
+}

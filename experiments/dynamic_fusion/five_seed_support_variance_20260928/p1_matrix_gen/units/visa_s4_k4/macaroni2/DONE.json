@@ -1,0 +1,233 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-29T08:35:24.959249+00:00",
+  "dataset": "visa",
+  "seed": 4,
+  "shot": 4,
+  "category": "macaroni2",
+  "grid": [
+    32,
+    48
+  ],
+  "n_images": 200,
+  "configurations": 45,
+  "reference_images": 4,
+  "timing": {
+    "load_s": 12.218000000000757,
+    "score_s": 30.812000000001717,
+    "metric_s": 27.125,
+    "total_s": 72.10900000000038
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\B\\visa_s4_k8\\macaroni2.npz",
+    "S": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\S\\visa_s4_k8\\macaroni2.npz",
+    "C": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\C\\visa_s4_k8\\macaroni2.npz"
+  },
+  "engine": {
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 200,
+    "grid": [
+      32,
+      48
+    ],
+    "query_rows": 307200,
+    "reference_rows": 6144,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_cross_p01",
+      "TRI_J__perm_C_cross_p01",
+      "TRI_J__perm_S_cross_p01",
+      "BAL_J__perm_C_cross_p01",
+      "BAL_J__perm_S_cross_p01",
+      "A1_J__perm_C_cross_p02",
+      "TRI_J__perm_C_cross_p02",
+      "TRI_J__perm_S_cross_p02",
+      "BAL_J__perm_C_cross_p02",
+      "BAL_J__perm_S_cross_p02",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      48
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.980282774439534,
+        "pixel_ap": 0.11794352040679719,
+        "image_auroc": 0.7363999999999999,
+        "image_ap": 0.761036092822219,
+        "image_f1_max": 0.7257383966244725
+      },
+      "S": {
+        "pixel_auroc": 0.9838643359926674,
+        "pixel_ap": 0.07201148987598432,
+        "image_auroc": 0.6596,
+        "image_ap": 0.6463662148820367,
+        "image_f1_max": 0.712
+      },
+      "C": {
+        "pixel_auroc": 0.9433943772522749,
+        "pixel_ap": 0.016724940435258347,
+        "image_auroc": 0.6275999999999999,
+        "image_ap": 0.6084061626084303,
+        "image_f1_max": 0.6756756756756758
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9818867801691032,
+        "pixel_ap": 0.1910482681224325,
+        "image_auroc": 0.7666000000000001,
+        "image_ap": 0.7910586848277332,
+        "image_f1_max": 0.7327586206896552
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9848962206408645,
+        "pixel_ap": 0.18067886117171547,
+        "image_auroc": 0.7322,
+        "image_ap": 0.7576566818802786,
+        "image_f1_max": 0.7091633466135459
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9838964848964156,
+        "pixel_ap": 0.17564208183565377,
+        "image_auroc": 0.7327,
+        "image_ap": 0.7456342843103695,
+        "image_f1_max": 0.7244094488188978
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9825654430920909,
+        "pixel_ap": 0.17887688349453731,
+        "image_auroc": 0.7660000000000001,
+        "image_ap": 0.7956384696869823,
+        "image_f1_max": 0.7112970711297072
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9818867801691032,
+        "pixel_ap": 0.1910482681224325,
+        "image_auroc": 0.7666000000000001,
+        "image_ap": 0.7910586848277332,
+        "image_f1_max": 0.7327586206896552
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9825654430920909,
+        "pixel_ap": 0.17887688349453731,
+        "image_auroc": 0.7660000000000001,
+        "image_ap": 0.7956384696869823,
+        "image_f1_max": 0.7112970711297072
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9842359885199903,
+        "pixel_ap": 0.18026102188552232,
+        "image_auroc": 0.7858999999999999,
+        "image_ap": 0.7998286550514804,
+        "image_f1_max": 0.7325102880658436
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.9833360632689819,
+        "pixel_ap": 0.1705886580351381,
+        "image_auroc": 0.7764,
+        "image_ap": 0.8015081916472179,
+        "image_f1_max": 0.7272727272727272
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9878634927541464,
+        "pixel_ap": 0.17105679871069768,
+        "image_auroc": 0.7607,
+        "image_ap": 0.7752717411209932,
+        "image_f1_max": 0.7410714285714286
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9877815322522824,
+        "pixel_ap": 0.15188152409048988,
+        "image_auroc": 0.7641000000000001,
+        "image_ap": 0.7531187041830665,
+        "image_f1_max": 0.7391304347826088
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\macaroni2\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "613f664497e720bcf32e3ec7c3ff7fd1fdb4a85b6e656fd16d0214c96ade4199"
+}

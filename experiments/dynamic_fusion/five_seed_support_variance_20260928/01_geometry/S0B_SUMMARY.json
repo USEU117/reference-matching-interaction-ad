@@ -1,0 +1,26 @@
+{
+  "created_utc": "2026-09-29T09:15:51.717908+00:00",
+  "rows": 68,
+  "study_revision_reproduced": true,
+  "replay_tolerance": 1e-05,
+  "all_units_bit_identical": false,
+  "max_abs_patch_score_diff_vs_study": 7.748603820800781e-07,
+  "verification": [
+    {
+      "seed": 2,
+      "shot": 4,
+      "n_keys_compared": 21,
+      "max_abs_patch_score_diff": 7.748603820800781e-07,
+      "all_keys_bit_identical": false,
+      "within_tolerance": true,
+      "tolerance": 1e-05
+    }
+  ],
+  "revisions": [
+    "rev_c_regrid_only",
+    "rev_correct",
+    "rev_gt_only",
+    "rev_study"
+  ],
+  "note": "rev_study replays R's stored patch scores.  The replay agrees to float32 round-off (max abs difference 7.749e-07, tolerance 1e-05) but is not bit-identical, because torch.mm on CUDA is not bitwise deterministic; all other revisions differ only by the named geometry change"
+}

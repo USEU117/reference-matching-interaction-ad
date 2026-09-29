@@ -1,0 +1,78 @@
+[PASS] all required artefacts exist -- 41 present
+[PASS] FAILURES.json is an empty array (no hidden failures) -- value=[]
+[PASS] only BTAD-03 differs from the canonical ground truth -- differing units=[('s0', '03'), ('s1', '03')]
+[PASS] every square-geometry unit is bit-identical to the canonical ground truth -- checked=6
+[PASS] the GT audit covers every image and only normal images lack a mask -- rows=1482/1482 no-mask=902/902
+[PASS] BTAD-03 canvas is 448x588 and the x extent ratio is recorded -- ratio = 588/597
+[PASS] S0b: the study revision replays within tolerance -- max score diff=7.748603820800781e-07
+[PASS] S0b: stride-8 metric replay agrees to <=1e-5 -- rows=208 max=5.51e-07
+[PASS] S0b: stride-1 metric replay agrees to <=1e-5 -- rows=64 max=3.09e-08
+[PASS] S0b: four geometry revisions x 8 BTAD-03 units x 13 methods -- revisions=4 rows=544 methods=13
+[PASS] S0c: category-03 column reproduces within the documented tolerance -- max=1.793497603241878e-05 tol=0.0001
+[PASS] S0c: the replay residue is far below the practical scale -- residue/scale=0.36%
+[PASS] S1: six interaction rows (2 datasets x 2 contrasts, BTAD twice) -- rows=6
+[PASS] S1: both algebraic forms agree exactly
+[PASS] S1: the family interval contains the exploratory interval
+[PASS] S1: the point estimate lies inside the exploratory interval
+[PASS] S1: MPDD uses 12 conditions and BTAD 8 -- {('mpdd', 'study'): 12, ('btad', 'study'): 8, ('btad', 'corrected'): 8}
+[PASS] S1: MPDD interactions are positive and exclude zero
+[PASS] S1: BTAD interactions include zero
+[PASS] S1: MPDD reaches the practical scale, BTAD does not
+[PASS] S1: unchanged-revision contrasts reproduce the CLOSE aggregates -- rows=16 max=0.00e+00
+[PASS] S2: no sign flip between stride-1 and stride-8 -- rows=6
+[PASS] S2: mpdd per-category I_TRI averages to the macro interaction -- percat mean=0.007624 macro=0.007624
+[PASS] S2: btad per-category I_TRI averages to the macro interaction -- percat mean=-0.000207 macro=-0.000207
+[PASS] S2: the leave-one-out flip is confined to BTAD (MPDD has none) -- [('btad', 'I_TRI')]
+[PASS] S2: mpdd seed-averaged K curve averages to the macro interaction -- K mean=0.007624 macro=0.007624
+[PASS] S2: btad seed-averaged K curve averages to the macro interaction -- K mean=-0.000207 macro=-0.000207
+[PASS] S2: the BTAD K curve changes sign (K1/K2 positive, K4/K8 negative) -- [0.00199, 0.00092, -0.00142, -0.00232]
+[PASS] S2: the pre-fixed case rule yields 8 cases (2 datasets x 2 interactions x 2 roles) -- rows=8
+[PASS] S3: six new-encoder interaction rows -- rows=6
+[PASS] S3: every primary new-encoder interaction is positive and excludes zero -- {"mpdd|study|I_TRI_D": 0.0102, "mpdd|study|I_BAL_D": 0.00686, "btad|corrected|I_TRI_D": 0.00631, "btad|corrected|I_BAL_D": 0.00524}
+[PASS] S3: the point estimates were rebuilt (no nulls left) -- {"mpdd|study|I_TRI_D": 0.009736654303729997, "mpdd|study|I_BAL_D": 0.006284159533464229, "btad|corrected|I_TRI_D": 0.0062192514187020265, "btad|corrected|I_BAL_D": 0.005012147241435255, "btad|study|I_TRI_D": 0.006042209414347438, "btad|study|I_BAL_D": 0.004511515937853761}
+[PASS] S3: 36 in-scope units recorded plus 12 sensitivity rows, none failed -- rows=48
+[PASS] S3: 240 new D method conditions -- rows=240
+[PASS] S4: 72 baseline conditions with no duplicates, no gaps -- {"target_conditions": "72", "duplicate_keys": "0", "missing_keys": "0", "baseline_rows_matched": "72"}
+[PASS] S4: category-level metrics reproduce every macro -- 16/16
+[PASS] S4: the common frame carries PatchCore (two configs), AnomalyDINO canvas and controls -- methods=['AnomalyDINO_native_canvas', 'PatchCore_native_local128', 'PatchCore_native_official224', 'controlled_A1_J', 'controlled_A1_L']
+[PASS] S4: BTAD-03 common-frame rows use the 448x588 canvas -- rows=12
+[PASS] S4: the official PatchCore configuration completed every unit -- units=16, statuses=['completed']
+[PASS] S5: five sources verified, none left at abstract level -- rows=5
+[PASS] S5: the Sea-CLIP correction is recorded as refuted, with a quote
+[PASS] S5: every claim separates run status from hypothesis support -- rows=15
+[PASS] S5: fig2_effects_and_interaction.png rendered
+[PASS] S5: fig3_interaction_conditioned.png rendered
+[FAIL] read-only inputs were not written during this delivery -- modified=[{'path': 'experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\_smoke\\units\\mpdd_s0_k2\\bracket_black\\evaluation_scores.npz', 'why': 'missing'}, {'path': 'experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\_smoke\\units\\mpdd_s0_k2\\bracket_black\\patch_scores.npz', 'why': 'missing'}, {'path': 'experiments\\dynamic_fusion\\unified_fusion_paper_support_20260913\\REPORT_CN.md', 'why': 'size 10029 -> 10029; mtime delta 760387.799s'}]
+[PASS] closure/statistics: the per-K stride-8 column is a seed average, not the last seed -- rows=24
+[PASS] closure/statistics: MPDD per-K rows declare all three seeds -- seed counts={'3'}
+[PASS] closure/statistics: the stride comparison is point versus point -- rows=6
+[PASS] closure/fullpixel-new-branch: every unit evaluated at stride 1 -- units=48
+[PASS] closure/fullpixel-new-branch: the A1 controls reproduce the study full-pixel table -- max diff=2.31e-07
+[PASS] closure/fullpixel-new-branch: all four D interactions stay positive at stride 1 -- {"mpdd/study/I_TRI_D": 0.01033, "mpdd/study/I_BAL_D": 0.00694, "btad/corrected/I_TRI_D": 0.00624, "btad/corrected/I_BAL_D": 0.00496, "btad/study/I_TRI_D": 0.00598, "btad/study/I_BAL_D": 0.00437}
+[PASS] closure/encoder-difference: the S-vs-D interaction difference is tested, paired -- rows=4
+[PASS] closure/encoder-difference: the reportable direction matches the intervals
+[PASS] closure/baseline-region: anomalydino_canvas completed with no failures -- failures=0 maps=144
+[PASS] closure/baseline-region: anomalydino_canvas_rotation completed with no failures -- failures=0 maps=144
+[PASS] closure/baseline-region: the instrumented canvas run has synchronised stage timings -- rows=36
+[PASS] closure/baseline-cost: PatchCore re-run carries a measured peak RAM per unit -- units=16
+[PASS] closure/baseline-cost: the instrumented re-run reproduces the recorded metrics -- {"created_utc": "2026-09-14T09:53:10.489157+00:00", "units_compared": 8, "identical": true, "per_unit": {"btad_s0_k1": {"before_md5": "8e9f50c9b401e0cd82311f009
+[PASS] closure/common-region: every unit evaluated on the shared region -- units=36
+[PASS] closure/common-region: PatchCore is no longer stretched across the canvas -- {"btad": {"mean": 0.7049425708699902, "min": 0.5835777126099707, "max": 0.765625}, "mpdd": {"mean": 0.765625, "min": 0.765625, "max": 0.765625}}
+[PASS] closure/common-region: the rotation-enabled AnomalyDINO is in the same coordinate system -- ['PatchCore_native_local128', 'PatchCore_native_official224', 'anomalydino_canvas', 'anomalydino_canvas_rotation', 'controlled_A1_J', 'controlled_A1_L']
+[PASS] closure/common-region: the rectangle rules are recorded per unit -- units=36
+[PASS] closure/cost: every row states how it was measured -- rows=75
+[PASS] closure/cost: the remaining gaps are written down, not hidden -- gaps=4
+[PASS] closure/claims: the new closure results have their own claims -- ids=['B1', 'B2', 'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9', 'L1', 'L2', 'L3', 'L4']
+[PASS] manuscript: the multi-view neighbourhood line is in the delivery as its own table -- sources=['SCoNE (AAAI-26 / arXiv)', 'MUVAD (AAAI-19)', 'Neighborhood Consensus Networks (AAAI-21)', 'ECMOD (DASFAA-23)']
+[PASS] manuscript: encoder comparison is revision- and scope-matched -- rows=8
+[PASS] manuscript: the encoder difference table carries its own point estimates -- {"mpdd|I_TRI_D - I_TRI": 0.00264, "mpdd|I_BAL_D - I_BAL": 0.00075, "btad|I_TRI_D - I_TRI": 0.00616, "btad|I_BAL_D - I_BAL": 0.00575}
+[FAIL] manuscript: the updated outline exists -- 新主题论文详细提纲_外部评审版_20260914_更新版.docx: path absent
+
+{
+  "checks": 69,
+  "passed": 67,
+  "failed": [
+    "read-only inputs were not written during this delivery",
+    "manuscript: the updated outline exists"
+  ]
+}

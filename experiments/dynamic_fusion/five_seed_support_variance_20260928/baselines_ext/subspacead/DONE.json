@@ -1,0 +1,41 @@
+{
+  "method": "subspacead",
+  "status": "completed",
+  "finished_utc": "2026-09-29T15:39:39.926035+00:00",
+  "units_expected": 36,
+  "units_done": 36,
+  "protocol": {
+    "method": "subspacead_native_fp16",
+    "family": "frozen normal modelling (subspace reconstruction)",
+    "source": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\methods\\SubspaceAD\\main.py",
+    "modules": [
+      "src.subspacead.core.extractor.FeatureExtractor",
+      "src.subspacead.core.pca.PCAModel",
+      "src.subspacead.post_process.scoring.calculate_anomaly_scores"
+    ],
+    "model_ckpt": "checkpoints/dinov2-with-registers-giant",
+    "image_res": 672,
+    "fp16": true,
+    "layers": [
+      -12,
+      -13,
+      -14,
+      -15,
+      -16,
+      -17,
+      -18
+    ],
+    "agg_method": "mean",
+    "pca_ev": 0.99,
+    "score_method": "reconstruction",
+    "drop_k": 0,
+    "batch_size": 1,
+    "support": "frozen project manifest (same support sets as every other compared method)",
+    "augmentation": "off (upstream few-shot script uses aug_count=30 rotate)",
+    "dumped_map": "per-image token-grid reconstruction residual (pre post_process_map)",
+    "rect": "whole original image, [0,1]x[0,1]: the HF processor resizes each image to a square image_res x image_res before patch embedding"
+  },
+  "failures": [],
+  "units_csv": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\baselines_ext\\subspacead\\subspacead_units.csv",
+  "limit_images": null
+}

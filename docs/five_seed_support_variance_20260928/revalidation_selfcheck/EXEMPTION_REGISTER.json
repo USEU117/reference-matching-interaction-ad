@@ -1,0 +1,66 @@
+{
+  "kind": "historical_selfcheck_exemption_register",
+  "created_utc": "2026-09-29T16:15:49+00:00",
+  "verified_by": "five-seed revalidation 2026-09-29",
+  "scope": "The two long-standing failures of scripts/representation_matching_interaction_20260914/selfcheck.py, recorded as explicit exemptions. No result, no archived report and no archived file was changed; nothing was repaired or back-filled.",
+  "historical_run": {
+    "report": "docs/paper_evidence_completion_20260927/legacy_selfcheck/SELFCHECK.json",
+    "checks": 69,
+    "passed": 67,
+    "failed": 2
+  },
+  "new_run": {
+    "report": "docs/five_seed_support_variance_20260928/revalidation_selfcheck/SELFCHECK.json",
+    "console": "docs/five_seed_support_variance_20260928/revalidation_selfcheck/selfcheck_console.txt",
+    "summary": "docs/five_seed_support_variance_20260928/revalidation_selfcheck/selfcheck_summary.json",
+    "checks": 69,
+    "passed": 67,
+    "failed": 2,
+    "same_two_checks_still_fail": true,
+    "statement": "The 2026-09-29 re-run reproduces exactly the historical result: 69 checks, 67 pass, the same two checks fail with the same messages. No new failure appeared and no historical failure disappeared."
+  },
+  "entries": [
+    {
+      "check": "read-only inputs were not written during this delivery",
+      "historical_status": "FAIL (2026-09-14 delivery self-check, 67/69; source docs/paper_evidence_completion_20260927/legacy_selfcheck/SELFCHECK.json)",
+      "reason_it_cannot_pass": "Two irreducible causes. (a) The frozen INPUT_FREEZE.json (created 2026-09-14) lists two _smoke NPZ files that no longer exist on disk: experiments/dynamic_fusion/unified_fusion_paper_support_20260913/_smoke/units/mpdd_s0_k2/bracket_black/{evaluation_scores,patch_scores}.npz. They were never committed to git (.gitignore ignores *.npz) and a four-way search (git history, this disk, the mirror worktree, the release/replication packages and the external disk) found no copy, so the size+mtime integrity loop records them as 'missing'. (b) experiments/dynamic_fusion/unified_fusion_paper_support_20260913/REPORT_CN.md has an unchanged size (10029 B) and an identical sha256 to the frozen value, but its mtime drifted by ~760387.8 s, which the same size+mtime criterion flags. Neither cause can be cleared without editing data or faking timestamps, which this revision is forbidden to do.",
+      "evidence_paths": [
+        "docs/paper_evidence_completion_20260927/legacy_selfcheck/SELFCHECK.json",
+        "docs/paper_evidence_completion_20260927/legacy_selfcheck/READONLY_PROOF.json",
+        "docs/HISTORICAL_GAP_IMPACT_20260928_CN.md",
+        "experiments/dynamic_fusion/representation_matching_interaction_20260914/00_protocol/INPUT_FREEZE.json",
+        "docs/five_seed_support_variance_20260928/revalidation_selfcheck/SELFCHECK.json",
+        "docs/five_seed_support_variance_20260928/revalidation_selfcheck/selfcheck_console.txt"
+      ],
+      "impact": "None on any manuscript number, figure or text. The _smoke tree is a smoke-test fixture that is explicitly not a result (docs/ARTIFACT_INDEX.md:131-133: its figures must not be cited); the real result trees (p1_matrix, p4_fullpixel, EXT, NEW) are intact and on disk; no paper table/figure/statistics script reads the missing _smoke NPZ; and REPORT_CN.md's content bytes are unchanged (sha256 identical to the frozen value), so only its timestamp moved. The only substantive effect is that this check must keep failing on re-run, which is exactly why it is registered as an exemption.",
+      "decision": "recorded exemption; not repaired",
+      "verified_by": "five-seed revalidation 2026-09-29",
+      "still_fails_in_new_run": true,
+      "new_run_detail": "FAIL in the 2026-09-29 re-run with the identical message: three 'modified' entries (the two missing _smoke NPZ plus the REPORT_CN.md mtime drift). See selfcheck_console.txt line 45."
+    },
+    {
+      "check": "manuscript: the updated outline exists",
+      "historical_status": "FAIL (2026-09-14 delivery self-check, 67/69; source docs/paper_evidence_completion_20260927/legacy_selfcheck/SELFCHECK.json)",
+      "reason_it_cannot_pass": "The check (scripts/representation_matching_interaction_20260914/selfcheck.py:494-499) requires docs/paper_outline_review_20260914/新主题论文详细提纲_外部评审版_20260914_更新版.docx to exist and to be larger than 40,000 bytes. Both docs/paper_outline_review_20260914/ and docs/paper_outline_teacher_review_20260914/ are absent from disk, and no *提纲*.docx exists anywhere in the repository. The file was never committed under that name (*.docx is git-ignored); only old-name git blobs exist (e.g. blob 3022c4fe, whose body satisfies the script's own text predicates), and the surviving rebuild source .tmp_outline_20260914/build.py is documented as not byte-reproducible, so byte-identity with the missing file cannot be proven. Rebuilding cannot make this check pass (the required path still would not exist), and fabricating it back into the old path at an old timestamp is forbidden.",
+      "evidence_paths": [
+        "docs/paper_evidence_completion_20260927/legacy_selfcheck/SELFCHECK.json",
+        "docs/paper_evidence_completion_20260927/legacy_selfcheck/READONLY_PROOF.json",
+        "docs/HISTORICAL_GAP_IMPACT_20260928_CN.md",
+        "docs/PAPER_COMPLETION_20260928_CN.md",
+        "scripts/representation_matching_interaction_20260914/selfcheck.py",
+        "docs/five_seed_support_variance_20260928/revalidation_selfcheck/SELFCHECK.json",
+        "docs/five_seed_support_variance_20260928/OUTLINE_STATUS_20260929_CN.md"
+      ],
+      "impact": "None on results or manuscript text. The outline is a planning document: it generates no statistic, figure or conclusion, and the authoritative manuscript is intact on disk. Only pointers and checks are affected (selfcheck.py:494-499; the dangling index line docs/README.md:88; historical path mentions inside the frozen delivery tree).",
+      "decision": "recorded exemption; not repaired",
+      "verified_by": "five-seed revalidation 2026-09-29",
+      "still_fails_in_new_run": true,
+      "new_run_detail": "FAIL in the 2026-09-29 re-run with the identical message: '新主题论文详细提纲_外部评审版_20260914_更新版.docx: path absent'. See selfcheck_console.txt line 69."
+    }
+  ],
+  "rebuild_decision": {
+    "outline_rebuilt": false,
+    "reason": "The historical gap analysis (docs/HISTORICAL_GAP_IMPACT_20260928_CN.md section 5) and docs/PAPER_COMPLETION_20260928_CN.md section 6.4 treat rebuilding/restoring the missing outline as an author decision ('待作者决定', marked non-blocking) and require that the failure status be kept until then. No concretely required rebuilt outline was specified, so none was produced; the reasoning and the evidence checked are recorded in docs/five_seed_support_variance_20260928/OUTLINE_STATUS_20260929_CN.md.",
+    "reference": "docs/five_seed_support_variance_20260928/OUTLINE_STATUS_20260929_CN.md"
+  }
+}

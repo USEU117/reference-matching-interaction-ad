@@ -1,0 +1,129 @@
+{
+  "kind": "five_seed_step3",
+  "created_utc": "2026-09-29T16:08:25.260962+00:00",
+  "sources": {
+    "frozen_table": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_multi_dataset\\baseline_common_region.csv",
+    "frozen_table_sha256": "3c83ab004420a4f836102cabc5f8248debfebc742d8e9602fed0881823a0b8bb",
+    "frozen_table_rows": 864,
+    "archived_ext_table": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\representation_matching_interaction_20260914\\05_baselines_ext_20260921\\baseline_common_region_ext.csv",
+    "archived_ext_table_sha256": "1c77012971a4c2eba52512a8d7850c0da072b8107fffe316a74e3c39df73ec4b",
+    "archived_ext_table_rows": 1188,
+    "new_eval_rows": 864,
+    "verify_eval_rows": 576
+  },
+  "checks": {
+    "frozen_rows_untouched": true,
+    "replay_frozen_six_vs_frozen_table": {
+      "rows": 432,
+      "cells_compared": 1296,
+      "missing": [],
+      "n_missing": 0,
+      "max_abs_diff": {
+        "pixel_ap": 0.0,
+        "pixel_auroc": 0.0,
+        "region_fraction_of_canvas": 0.0
+      },
+      "max_abs_diff_at": {
+        "pixel_ap": [
+          "controlled_A1_J",
+          "btad",
+          0,
+          4,
+          "01"
+        ],
+        "pixel_auroc": [
+          "controlled_A1_J",
+          "btad",
+          0,
+          4,
+          "01"
+        ],
+        "region_fraction_of_canvas": [
+          "controlled_A1_J",
+          "btad",
+          0,
+          4,
+          "01"
+        ]
+      },
+      "exact_string_mismatches": [],
+      "exact_string_mismatch_count": 0
+    },
+    "replay_expanded_two_vs_archived_table": {
+      "rows": 144,
+      "cells_compared": 432,
+      "missing": [],
+      "n_missing": 0,
+      "max_abs_diff": {
+        "pixel_ap": 0.0,
+        "pixel_auroc": 0.0,
+        "region_fraction_of_canvas": 0.0
+      },
+      "max_abs_diff_at": {
+        "pixel_ap": [
+          "SubspaceAD_native_fp16",
+          "btad",
+          0,
+          4,
+          "01"
+        ],
+        "pixel_auroc": [
+          "SubspaceAD_native_fp16",
+          "btad",
+          0,
+          4,
+          "01"
+        ],
+        "region_fraction_of_canvas": [
+          "SubspaceAD_native_fp16",
+          "btad",
+          0,
+          4,
+          "01"
+        ]
+      },
+      "exact_string_mismatches": [],
+      "exact_string_mismatch_count": 0
+    },
+    "coverage": {
+      "units": 160,
+      "problems": []
+    },
+    "excluded_method_rows": {
+      "method": "AnomalyCLIP_zeroshot_518",
+      "rows": 36,
+      "seeds": [
+        0
+      ],
+      "reason": "zero-shot: no support set, so it carries no seed-driven variance"
+    }
+  },
+  "checks_pass": {
+    "replay_frozen_six_vs_frozen_table": true,
+    "replay_expanded_two_vs_archived_table": true,
+    "coverage": true,
+    "excluded_method_rows": true
+  },
+  "table": {
+    "path": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\five_seed\\baseline_common_region_five_seed.csv",
+    "rows": 2052,
+    "sha256": "da6cb1cb4b51cd1cc4fdb02ec984657173aec8f3b8aba642fde3bfd3a6b6e43a"
+  },
+  "seed_spread_pp": {
+    "max": 15.267704293784195,
+    "max_at": {
+      "dataset": "mpdd",
+      "method": "SubspaceAD_native_fp16",
+      "n_seeds": 5,
+      "min_macro_pixel_ap": 0.32689338915894334,
+      "max_macro_pixel_ap": 0.4795704320967853,
+      "range_pp": 15.267704293784195,
+      "mean_macro_pixel_ap": 0.42348682118986936,
+      "seed_min": 0,
+      "seed_max": 3
+    },
+    "min": 0.2646381792974106,
+    "median": 2.4482301821933117
+  },
+  "all_pass": true
+}

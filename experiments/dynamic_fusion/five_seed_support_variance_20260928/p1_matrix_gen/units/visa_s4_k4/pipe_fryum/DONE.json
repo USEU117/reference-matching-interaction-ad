@@ -1,0 +1,233 @@
+{
+  "status": "completed",
+  "scientific_status": "exploratory_only",
+  "finished_utc": "2026-09-29T08:40:38.190538+00:00",
+  "dataset": "visa",
+  "seed": 4,
+  "shot": 4,
+  "category": "pipe_fryum",
+  "grid": [
+    32,
+    36
+  ],
+  "n_images": 150,
+  "configurations": 45,
+  "reference_images": 4,
+  "timing": {
+    "load_s": 7.65599999999904,
+    "score_s": 14.312000000001717,
+    "metric_s": 15.25,
+    "total_s": 38.40599999999904
+  },
+  "inputs": {
+    "B": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\B\\visa_s4_k8\\pipe_fryum.npz",
+    "S": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\S\\visa_s4_k8\\pipe_fryum.npz",
+    "C": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\canonical\\C\\visa_s4_k8\\pipe_fryum.npz"
+  },
+  "engine": {
+    "device": "cuda",
+    "fallback": null,
+    "chunk": 256,
+    "n": 150,
+    "grid": [
+      32,
+      36
+    ],
+    "query_rows": 172800,
+    "reference_rows": 4608,
+    "branches": [
+      "B",
+      "S",
+      "C",
+      "Bcopy"
+    ],
+    "physical_distance_branches": [
+      "B",
+      "S",
+      "C"
+    ],
+    "distance_blocks": 3,
+    "configs": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "INV_COMMON_A1_J",
+      "INV_COMMON_TRI_J",
+      "INV_COMMON_BAL_J",
+      "INV_SINGLE_B",
+      "INV_SINGLE_C",
+      "INV_SINGLE_S",
+      "A1_J__perm_C_cross_p00",
+      "TRI_J__perm_C_cross_p00",
+      "TRI_J__perm_S_cross_p00",
+      "BAL_J__perm_C_cross_p00",
+      "BAL_J__perm_S_cross_p00",
+      "A1_J__perm_C_cross_p01",
+      "TRI_J__perm_C_cross_p01",
+      "TRI_J__perm_S_cross_p01",
+      "BAL_J__perm_C_cross_p01",
+      "BAL_J__perm_S_cross_p01",
+      "A1_J__perm_C_cross_p02",
+      "TRI_J__perm_C_cross_p02",
+      "TRI_J__perm_S_cross_p02",
+      "BAL_J__perm_C_cross_p02",
+      "BAL_J__perm_S_cross_p02",
+      "A1_J__perm_C_within_p00",
+      "TRI_J__perm_C_within_p00",
+      "TRI_J__perm_S_within_p00",
+      "BAL_J__perm_C_within_p00",
+      "BAL_J__perm_S_within_p00",
+      "A1_J__perm_C_within_p01",
+      "TRI_J__perm_C_within_p01",
+      "TRI_J__perm_S_within_p01",
+      "BAL_J__perm_C_within_p01",
+      "BAL_J__perm_S_within_p01",
+      "A1_J__perm_C_within_p02",
+      "TRI_J__perm_C_within_p02",
+      "TRI_J__perm_S_within_p02",
+      "BAL_J__perm_C_within_p02",
+      "BAL_J__perm_S_within_p02"
+    ],
+    "tf32_disabled": true,
+    "dtype": "float32"
+  },
+  "invariants_pass": true,
+  "diagnostics": {
+    "output_dir": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum",
+    "detector_methods": [
+      "B",
+      "S",
+      "C",
+      "A1_J",
+      "TRI_J",
+      "BAL_J",
+      "DUP_J",
+      "DUP_BAL_J",
+      "DUP_EXPECTED_J",
+      "A1_L",
+      "DUP_L",
+      "TRI_L",
+      "BAL_L"
+    ],
+    "diagnostic_g_methods": [
+      "A1_G",
+      "DUP_G",
+      "TRI_G",
+      "BAL_G"
+    ],
+    "stride": 8,
+    "grid": [
+      32,
+      36
+    ],
+    "metrics": {
+      "B": {
+        "pixel_auroc": 0.9881941696751806,
+        "pixel_ap": 0.428993848750941,
+        "image_auroc": 0.9780000000000001,
+        "image_ap": 0.990247943417347,
+        "image_f1_max": 0.964824120603015
+      },
+      "S": {
+        "pixel_auroc": 0.9887446011472911,
+        "pixel_ap": 0.4036692992168785,
+        "image_auroc": 0.9882,
+        "image_ap": 0.994245412081534,
+        "image_f1_max": 0.964824120603015
+      },
+      "C": {
+        "pixel_auroc": 0.9895361869876146,
+        "pixel_ap": 0.5456795974737336,
+        "image_auroc": 0.942,
+        "image_ap": 0.9701108513060906,
+        "image_f1_max": 0.9238095238095237
+      },
+      "A1_J": {
+        "pixel_auroc": 0.9915452336753026,
+        "pixel_ap": 0.4834445768413994,
+        "image_auroc": 0.996,
+        "image_ap": 0.9981004168878503,
+        "image_f1_max": 0.9753694581280788
+      },
+      "TRI_J": {
+        "pixel_auroc": 0.9908088625626024,
+        "pixel_ap": 0.4572938676775086,
+        "image_auroc": 0.9952,
+        "image_ap": 0.9976988218947681,
+        "image_f1_max": 0.9751243781094527
+      },
+      "BAL_J": {
+        "pixel_auroc": 0.9915547357642841,
+        "pixel_ap": 0.47569762129746374,
+        "image_auroc": 0.9965999999999999,
+        "image_ap": 0.9983559025708049,
+        "image_f1_max": 0.9797979797979798
+      },
+      "DUP_J": {
+        "pixel_auroc": 0.9906204934815444,
+        "pixel_ap": 0.4638350651789143,
+        "image_auroc": 0.9907999999999999,
+        "image_ap": 0.9957332314178275,
+        "image_f1_max": 0.9693877551020408
+      },
+      "DUP_BAL_J": {
+        "pixel_auroc": 0.9915452336753026,
+        "pixel_ap": 0.4834445768413994,
+        "image_auroc": 0.996,
+        "image_ap": 0.9981004168878503,
+        "image_f1_max": 0.9753694581280788
+      },
+      "DUP_EXPECTED_J": {
+        "pixel_auroc": 0.9906204934815444,
+        "pixel_ap": 0.4638350651789143,
+        "image_auroc": 0.9907999999999999,
+        "image_ap": 0.9957332314178275,
+        "image_f1_max": 0.9693877551020408
+      },
+      "A1_L": {
+        "pixel_auroc": 0.9918323806505345,
+        "pixel_ap": 0.49019301368156026,
+        "image_auroc": 0.9978,
+        "image_ap": 0.9989733018255954,
+        "image_f1_max": 0.99
+      },
+      "DUP_L": {
+        "pixel_auroc": 0.9907552594310696,
+        "pixel_ap": 0.4666911928806324,
+        "image_auroc": 0.9924,
+        "image_ap": 0.9964396449897114,
+        "image_f1_max": 0.9693877551020408
+      },
+      "TRI_L": {
+        "pixel_auroc": 0.9912924914609559,
+        "pixel_ap": 0.4629311294660793,
+        "image_auroc": 0.9974000000000001,
+        "image_ap": 0.9987460105900701,
+        "image_f1_max": 0.9847715736040609
+      },
+      "BAL_L": {
+        "pixel_auroc": 0.9920148166951565,
+        "pixel_ap": 0.48379934037685385,
+        "image_auroc": 0.998,
+        "image_ap": 0.9990237489055027,
+        "image_f1_max": 0.9850746268656716
+      }
+    },
+    "paths": {
+      "metrics": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\metrics.csv",
+      "per_image": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\per_image.csv",
+      "evaluation_scores": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\evaluation_scores.npz",
+      "region_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\region_stats.csv",
+      "flip_stats": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\flip_stats.csv",
+      "sample_pairs": "D:\\STUDY\\My_github\\reference-matching-interaction-ad\\experiments\\dynamic_fusion\\five_seed_support_variance_20260928\\p1_matrix_gen\\units\\visa_s4_k4\\pipe_fryum\\sample_pairs.npz"
+    }
+  },
+  "stride": 8,
+  "protocol_hash": "613f664497e720bcf32e3ec7c3ff7fd1fdb4a85b6e656fd16d0214c96ade4199"
+}
